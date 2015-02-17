@@ -32,7 +32,7 @@
 
   <!-- Load the URDF into the ROS Parameter Server -->
   <param name="robot_description"
-	 command="$(find xacro)/xacro.py '$(find vizzy-description)/robots/vizzy-no-collisions.urdf.xacro'" />
+	 command="$(find xacro)/xacro.py '$(find vizzy_description)/robots/vizzy-no-collisions.urdf.xacro'" />
 	 
   <!-- launch the tf tree from the urdf (for all fixed joints + the hokuyo internal link) -->
   <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">

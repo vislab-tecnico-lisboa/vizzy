@@ -25,7 +25,7 @@
 
   <!-- Load the URDF into the ROS Parameter Server -->
   <param name="robot_description"
-	 command="$(find xacro)/xacro.py '$(find vizzy-description)/robots/vizzy-no-collisions.urdf.xacro'" />
+	 command="$(find xacro)/xacro.py '$(find vizzy_description)/robots/vizzy-no-collisions.urdf.xacro'" />
 	 
   <!-- launch the tf tree from the urdf (for all fixed joints + the hokuyo internal link) -->
   <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
@@ -42,12 +42,12 @@
   <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
 	args="-urdf -model vizzy -param robot_description -x $(arg x) -y $(arg y) -z $(arg z) -Y $(arg yaw) -gazebo_namespace /$(arg world)"/>
 
-  <include file="$(find vizzy-navigation)/launch/gmapping.launch">
+  <include file="$(find vizzy_navigation)/launch/gmapping.launch">
     <arg name="scan_topic" value="scan" />
   </include>
   
   <!-- launch vizualization -->
-  <include file="$(find vizzy-navigation)/launch/rviz.launch">
+  <include file="$(find vizzy_navigation)/launch/rviz.launch">
     <arg name="config" value="nav_eband" />
   </include>
 

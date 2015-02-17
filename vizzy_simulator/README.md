@@ -14,8 +14,8 @@ All the functionality was tested on machines configured with:
 
 You need to download and setup two repositories to be able to correctly simulate Vizzy:
 
-+ [vizzy-description](https://github.com/vislab-tecnico-lisboa/vizzy-description)
-+ [vizzy-navigation](https://github.com/vislab-tecnico-lisboa/vizzy-navigation)
++ [vizzy_description](https://github.com/vislab-tecnico-lisboa/vizzy-description)
++ [vizzy_navigation](https://github.com/vislab-tecnico-lisboa/vizzy-navigation)
 + [gazebo-yarp-plugins](https://github.com/robotology/gazebo-yarp-plugins)
 
 For this last step (the gazebo-yarp-plugins one) you will need to do a little hack because in order for the GAZEBO to find the plugin, the setup of the variable $GAZEBO_PLUGIN_PATH is not enough.

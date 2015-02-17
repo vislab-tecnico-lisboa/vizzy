@@ -27,7 +27,7 @@
   <arg name="odom_frame_id" default="$(arg tf_prefix)/odom" />
 
   <!-- Load the URDF into the ROS Parameter Server -->
-  <param command="$(find xacro)/xacro.py '$(find vizzy-description)/robots/vizzy-with-collisions.urdf.xacro'" name="robot_description" />
+  <param command="$(find xacro)/xacro.py '$(find vizzy_description)/robots/vizzy-with-collisions.urdf.xacro'" name="robot_description" />
 	 
   <!-- launch the tf tree from the urdf (for all fixed joints + the hokuyo internal link) -->
   <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
@@ -51,12 +51,12 @@
     <param name="odom_frame_id" value="$(arg odom_frame_id)" />
   </node>
   
-  <!--<include file="$(find vizzy-navigation)/launch/move_base_eband.launch">
+  <!--<include file="$(find vizzy_navigation)/launch/move_base_eband.launch">
     <arg name="map_topic" value="$(arg map_topic)" />
   </include>-->
   
   <!-- launch vizualization -->
-  <!--<include file="$(find vizzy-navigation)/launch/rviz.launch">
+  <!--<include file="$(find vizzy_navigation)/launch/rviz.launch">
     <arg name="config" value="nav_eband" />
   </include>-->
 </launch>
