@@ -1,0 +1,44 @@
+vizzy:
+  # Publish all joint states -----------------------------------
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50  
+
+  # Torso Position Controllers ---------------------------------------
+  waist_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: waist_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+
+  # Head Position Controllers ---------------------------------------
+  neck_pan_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: neck_pan_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+
+  neck_tilt_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: neck_tilt_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+
+  eyes_tilt_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: eyes_tilt_joint
+    pid: {p: 1.0, i: 0.01, d: 0.1}
+
+  r_eye_pan_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: r_eye_pan_joint
+    pid: {p: 1.0, i: 0.01, d: 0.1}
+
+  l_eye_pan_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: l_eye_pan_joint
+    pid: {p: 1.0, i: 0.01, d: 0.1}
+
+  gaze_controller:
+    type: effort_controllers/JointTrajectoryController
+    joints:
+    - r_eye_pan_joint
+    - l_eye_pan_joint
+

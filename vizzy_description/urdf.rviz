@@ -6,7 +6,6 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
-        - /RobotModel1/Links1
         - /TF1
         - /TF1/Frames1
       Splitter Ratio: 0.617834
@@ -56,7 +55,7 @@ Visualization Manager:
       Collision Enabled: false
       Enabled: false
       Links:
-        All Links Enabled: false
+        All Links Enabled: true
         Expand Joint Details: false
         Expand Link Details: false
         Expand Tree: false
@@ -73,77 +72,77 @@ Visualization Manager:
       Frames:
         All Enabled: false
         b_wheel_base_link:
-          Value: false
+          Value: true
         b_wheel_link:
-          Value: false
+          Value: true
         base_footprint:
-          Value: false
+          Value: true
         base_link:
-          Value: false
+          Value: true
         eyes_tilt_link:
-          Value: false
+          Value: true
         f_wheel_base_link:
-          Value: false
+          Value: true
         f_wheel_link:
-          Value: false
+          Value: true
         l_camera_link:
-          Value: false
+          Value: true
         l_elbow_flection_link:
-          Value: false
+          Value: true
         l_eye_pan_link:
-          Value: false
+          Value: true
         l_forearm_pronation_link:
-          Value: false
+          Value: true
         l_palm_link:
           Value: true
         l_shoulder_abduction_link:
-          Value: false
+          Value: true
         l_shoulder_flection_link:
-          Value: false
+          Value: true
         l_shoulder_rotation_link:
-          Value: false
+          Value: true
         l_shoulder_scapula_link:
-          Value: false
+          Value: true
         l_wheel_link:
-          Value: false
+          Value: true
         l_wrist_abduction_link:
-          Value: false
+          Value: true
         l_wrist_flection_link:
           Value: true
         nav_hokuyo_laser_link:
-          Value: false
+          Value: true
         nav_hokuyo_link:
-          Value: false
+          Value: true
         neck_pan_link:
-          Value: false
+          Value: true
         neck_tilt_link:
-          Value: false
+          Value: true
         r_camera_link:
-          Value: false
+          Value: true
         r_elbow_flection_link:
-          Value: false
+          Value: true
         r_eye_pan_link:
-          Value: false
+          Value: true
         r_forearm_pronation_link:
-          Value: false
+          Value: true
         r_palm_link:
-          Value: false
+          Value: true
         r_shoulder_abduction_link:
-          Value: false
+          Value: true
         r_shoulder_flection_link:
-          Value: false
+          Value: true
         r_shoulder_rotation_link:
-          Value: false
+          Value: true
         r_shoulder_scapula_link:
-          Value: false
+          Value: true
         r_wheel_link:
-          Value: false
+          Value: true
         r_wrist_abduction_link:
-          Value: false
+          Value: true
         r_wrist_flection_link:
-          Value: false
+          Value: true
         waist_link:
-          Value: false
+          Value: true
       Marker Scale: 1
       Name: TF
       Show Arrows: true
@@ -254,5 +253,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1301
-  X: 65
-  Y: 24
+  X: 55
+  Y: 14
