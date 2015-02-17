@@ -1,6 +1,9 @@
 <package>
-  <description brief="vizzy_simulator">vizzy_simulator</description>
-  <depend package="gazebo" />
+  <name>vizzy_simulator</name>
+  <version>1.11.4</version>
+  <description>vizzy_simulator</description>
   <author>Miguel Aragão</author>
+  <maintainer email="miguelaragao91@gmail.com">Miguel Aragão</maintainer>
   <license>BSD</license>
+  <buildtool_depend>catkin</buildtool_depend>
 </package>
