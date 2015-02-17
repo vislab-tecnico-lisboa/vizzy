@@ -4,7 +4,7 @@
     name="gui"
     default="True" />
   <param name="robot_description" 
-         command="$(find xacro)/xacro.py '$(find vizzy-description)/robots/vizzy-with-collisions.urdf.xacro'" />
+         command="$(find xacro)/xacro.py '$(find vizzy_description)/robots/vizzy-with-collisions.urdf.xacro'" />
   <param
     name="use_gui"
     value="$(arg gui)" />
@@ -20,5 +20,5 @@
     name="rviz"
     pkg="rviz"
     type="rviz"
-    args="-d $(find vizzy-description)/urdf.rviz" />
+    args="-d $(find vizzy_description)/urdf.rviz" />
 </launch>

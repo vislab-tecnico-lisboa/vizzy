@@ -1,5 +1,5 @@
 <robot
-  name="vizzy-description" >
+  name="vizzy_description" >
   
   <link name="base_footprint">
    <!--<visual>
@@ -38,7 +38,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://vizzy-description/meshes/Segway.dae" />
+          filename="package://vizzy_description/meshes/Segway.dae" />
       </geometry>
       <material
         name="">
@@ -52,7 +52,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://vizzy-description/meshes/Segway.dae" />
+          filename="package://vizzy_description/meshes/Segway.dae" />
       </geometry>
     </collision>
   </link>
@@ -78,7 +78,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://vizzy-description/meshes/Front.dae" />
+          filename="package://vizzy_description/meshes/Front.dae" />
       </geometry>
       <material
         name="">
@@ -92,7 +92,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://vizzy-description/meshes/Front.dae" />
+          filename="package://vizzy_description/meshes/Front.dae" />
       </geometry>
     </collision>
   </link>
@@ -132,7 +132,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://vizzy-description/meshes/F_W.dae" />
+          filename="package://vizzy_description/meshes/F_W.dae" />
       </geometry>
       <material
         name="">
@@ -146,7 +146,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://vizzy-description/meshes/F_W.dae" />
+          filename="package://vizzy_description/meshes/F_W.dae" />
       </geometry>
     </collision>
   </link>
@@ -185,7 +185,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://vizzy-description/meshes/Back.dae" />
+          filename="package://vizzy_description/meshes/Back.dae" />
       </geometry>
       <material
         name="">
@@ -199,7 +199,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://vizzy-description/meshes/Back.dae" />
+          filename="package://vizzy_description/meshes/Back.dae" />
       </geometry>
     </collision>
   </link>
@@ -239,7 +239,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://vizzy-description/meshes/B_W.dae" />
+          filename="package://vizzy_description/meshes/B_W.dae" />
       </geometry>
       <material
         name="">
@@ -253,7 +253,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://vizzy-description/meshes/B_W.dae" />
+          filename="package://vizzy_description/meshes/B_W.dae" />
       </geometry>
     </collision>
   </link>
@@ -292,7 +292,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://vizzy-description/meshes/Left.dae" />
+          filename="package://vizzy_description/meshes/Left.dae" />
       </geometry>
       <material
         name="">
@@ -306,7 +306,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://vizzy-description/meshes/Left.dae" />
+          filename="package://vizzy_description/meshes/Left.dae" />
       </geometry>
     </collision>
   </link>
@@ -345,7 +345,7 @@
         rpy="3.15 0 0" />
       <geometry>
         <mesh
-          filename="package://vizzy-description/meshes/Right.dae" />
+          filename="package://vizzy_description/meshes/Right.dae" />
       </geometry>
       <material
         name="">
@@ -359,7 +359,7 @@
         rpy="3.15 0 0" />
       <geometry>
         <mesh
-          filename="package://vizzy-description/meshes/Right.dae" />
+          filename="package://vizzy_description/meshes/Right.dae" />
       </geometry>
     </collision>
   </link>
@@ -399,7 +399,7 @@
         rpy="0.0 3.14159265358979 0.0" />
       <geometry>
         <mesh
-          filename="package://vizzy-description/meshes/M0.dae" />
+          filename="package://vizzy_description/meshes/M0.dae" />
       </geometry>
       <material
         name="">
@@ -413,7 +413,7 @@
         rpy="0.0 3.14159265358979 0.0" />
       <geometry>
         <mesh
-          filename="package://vizzy-description/meshes/M0.dae" />
+          filename="package://vizzy_description/meshes/M0.dae" />
       </geometry>
     </collision>
   </link>
@@ -454,7 +454,7 @@
         rpy="0 -3.1416 0" />
       <geometry>
         <mesh
-          filename="package://vizzy-description/meshes/M0R.dae" />
+          filename="package://vizzy_description/meshes/M0R.dae" />
       </geometry>
       <material
         name="">
@@ -468,7 +468,7 @@
         rpy="0 -3.1416 0" />
       <geometry>
         <mesh
-          filename="package://vizzy-description/meshes/M0R.dae" />
+          filename="package://vizzy_description/meshes/M0R.dae" />
       </geometry>
     </collision>
   </link>
@@ -508,7 +508,7 @@
         rpy="0.0 3.1416 -4.1963" />
       <geometry>
         <mesh
-          filename="package://vizzy-description/meshes/M1R.dae" />
+          filename="package://vizzy_description/meshes/M1R.dae" />
       </geometry>
       <material
         name="">
@@ -522,7 +522,7 @@
         rpy="0.0 3.1416 -4.1963" />
       <geometry>
         <mesh
-          filename="package://vizzy-description/meshes/M1R.dae" />
+          filename="package://vizzy_description/meshes/M1R.dae" />
       </geometry>
     </collision>
   </link>
@@ -562,7 +562,7 @@
         rpy="0 3.1416 -1.2217" />
       <geometry>
         <mesh
-          filename="package://vizzy-description/meshes/M2R.dae" />
+          filename="package://vizzy_description/meshes/M2R.dae" />
       </geometry>
       <material
         name="">
@@ -576,7 +576,7 @@
         rpy="0 3.1416 -1.2217" />
       <geometry>
         <mesh
-          filename="package://vizzy-description/meshes/M2R.dae" />
+          filename="package://vizzy_description/meshes/M2R.dae" />
       </geometry>
     </collision>
   </link>
@@ -616,7 +616,7 @@
         rpy="3.1416 0 -1.5707" />
       <geometry>
         <mesh
-          filename="package://vizzy-description/meshes/M3R.dae" />
+          filename="package://vizzy_description/meshes/M3R.dae" />
       </geometry>
       <material
         name="">
@@ -630,7 +630,7 @@
         rpy="3.1416 0 -1.5707" />
       <geometry>
         <mesh
-          filename="package://vizzy-description/meshes/M3R.dae" />
+          filename="package://vizzy_description/meshes/M3R.dae" />
       </geometry>
     </collision>
   </link>
@@ -670,7 +670,7 @@
         rpy="0 0 3.1416" />
       <geometry>
         <mesh
-          filename="package://vizzy-description/meshes/M4R.dae" />
+          filename="package://vizzy_description/meshes/M4R.dae" />
       </geometry>
       <material
         name="">
@@ -684,7 +684,7 @@
         rpy="0 0 3.1416" />
       <geometry>
         <mesh
-          filename="package://vizzy-description/meshes/M4R.dae" />
+          filename="package://vizzy_description/meshes/M4R.dae" />
       </geometry>
     </collision>
   </link>
@@ -724,7 +724,7 @@
         rpy="0.0 0.0 1.5707" />
       <geometry>
         <mesh
-          filename="package://vizzy-description/meshes/M5R.dae" />
+          filename="package://vizzy_description/meshes/M5R.dae" />
       </geometry>
       <material
         name="">
@@ -738,7 +738,7 @@
         rpy="0.0 0.0 1.5707" />
       <geometry>
         <mesh
-          filename="package://vizzy-description/meshes/M5R.dae" />
+          filename="package://vizzy_description/meshes/M5R.dae" />
       </geometry>
     </collision>
   </link>
@@ -778,7 +778,7 @@
         rpy="3.1416 3.1416 0" />
       <geometry>
         <mesh
-          filename="package://vizzy-description/meshes/M6R.dae" />
+          filename="package://vizzy_description/meshes/M6R.dae" />
       </geometry>
       <material
         name="">
@@ -792,7 +792,7 @@
         rpy="3.1416 3.1416 0" />
       <geometry>
         <mesh
-          filename="package://vizzy-description/meshes/M6R.dae" />
+          filename="package://vizzy_description/meshes/M6R.dae" />
       </geometry>
     </collision>
   </link>
@@ -832,7 +832,7 @@
         rpy="0.0 3.1416 1.5707" />
       <geometry>
         <mesh
-          filename="package://vizzy-description/meshes/M7R.dae" />
+          filename="package://vizzy_description/meshes/M7R.dae" />
       </geometry>
       <material
         name="">
@@ -846,7 +846,7 @@
         rpy="0 3.1416 -1.5708" />
       <geometry>
         <mesh
-          filename="package://vizzy-description/meshes/M7R.dae" />
+          filename="package://vizzy_description/meshes/M7R.dae" />
       </geometry>
     </collision>
   </link>

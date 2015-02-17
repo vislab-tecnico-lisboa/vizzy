@@ -5,18 +5,18 @@
   
   <!-- The following included files set up definitions of parts of the robot body -->
   <!-- misc common stuff -->
-  <xacro:include filename="$(find vizzy-description)/urdf/common.urdf.xacro" />
-  <xacro:include filename="$(find vizzy-description)/urdf/mounts/hokuyo_mount.urdf.xacro" />
+  <xacro:include filename="$(find vizzy_description)/urdf/common.urdf.xacro" />
+  <xacro:include filename="$(find vizzy_description)/urdf/mounts/hokuyo_mount.urdf.xacro" />
   <!-- Vizzy base -->
-  <xacro:include filename="$(find vizzy-description)/urdf/base/base.urdf.xacro" />
+  <xacro:include filename="$(find vizzy_description)/urdf/base/base.urdf.xacro" />
   <!-- Vizzy torso -->
-  <xacro:include filename="$(find vizzy-description)/urdf/torso/torso.urdf.xacro" />
+  <xacro:include filename="$(find vizzy_description)/urdf/torso/torso.urdf.xacro" />
   <!-- Vizzy head -->
-  <xacro:include filename="$(find vizzy-description)/urdf/head/head.urdf.xacro" />
+  <xacro:include filename="$(find vizzy_description)/urdf/head/head.urdf.xacro" />
   <!-- Vizzy left arm -->
-  <xacro:include filename="$(find vizzy-description)/urdf/arm/left_arm.urdf.xacro" />
+  <xacro:include filename="$(find vizzy_description)/urdf/arm/left_arm.urdf.xacro" />
   <!-- Vizzy right arm -->
-  <xacro:include filename="$(find vizzy-description)/urdf/arm/right_arm.urdf.xacro" />
+  <xacro:include filename="$(find vizzy_description)/urdf/arm/right_arm.urdf.xacro" />
 
   <xacro:base name="base"/>
   <xacro:torso name="torso"/>

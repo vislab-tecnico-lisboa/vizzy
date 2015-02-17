@@ -4,7 +4,7 @@
     default="True" />
   <param
     name="robot_description"
-    textfile="$(find vizzy-description)/robots/vizzy-no-collisions.urdf.xacro" />
+    textfile="$(find vizzy_description)/robots/vizzy-no-collisions.urdf.xacro" />
   <param
     name="use_gui"
     value="$(arg gui)" />
@@ -20,5 +20,5 @@
     name="rviz"
     pkg="rviz"
     type="rviz"
-    args="-d $(find vizzy-description)/urdf.rviz" />
+    args="-d $(find vizzy_description)/urdf.rviz" />
 </launch>
