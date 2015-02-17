@@ -1,8 +1,9 @@
+<?xml version="1.0"?>
 <launch>
 
   <arg name="use_sim_time" default="true" />
   <arg name="gui" default="true" />
-  <arg name="world" default="gazebo" />
+  <arg name="world" default="vizzy_test_world.world" />
   <arg name="debug" default="false" />
   <arg name="extra_gazebo_args" default="" />
 
@@ -15,7 +16,7 @@
   </group>
 
   <!-- start world -->
-  <node name="$(arg world)" pkg="gazebo_ros" type="$(arg gazebo_binary)" args="$(find vizzy_gazebo)/worlds/vizzy_test_world.world $(arg extra_gazebo_args)" respawn="false" output="screen" launch-prefix="$(optenv OPTIRUN_LAUNCH_PREFIX)" />
+  <node name="gazebo" pkg="gazebo_ros" type="$(arg gazebo_binary)" args="$(find vizzy_gazebo)/worlds/$(arg world) $(arg extra_gazebo_args)" respawn="false" output="screen" launch-prefix="$(optenv OPTIRUN_LAUNCH_PREFIX)" />
 
   <!-- start gui -->
   <group if="$(arg gui)">
