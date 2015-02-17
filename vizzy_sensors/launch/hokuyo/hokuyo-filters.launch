@@ -1,0 +1,5 @@
+<launch>
+  <node name="hokuyo_laser_filters" pkg="laser_filters" type="scan_to_scan_filter_chain">
+    <rosparam command="load" file="$(find vizzy_sensors)/config/hokuyo_filters.yaml" />
+  </node>
+</launch>

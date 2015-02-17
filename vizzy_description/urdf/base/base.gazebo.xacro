@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="base_gazebo" params="name">
+
+    <!--<gazebo reference="b_wheel_link">
+      <turnGravityOff>false</turnGravityOff>
+    </gazebo>
+
+    <gazebo reference="b_wheel_joint">
+      <stopKd value="1.0" />
+      <stopKp value="1000.0" />
+    </gazebo>
+
+    <gazebo reference="b_wheel_base_link">
+      <turnGravityOff>false</turnGravityOff>
+    </gazebo>
+
+    <gazebo reference="b_wheel_base_joint">
+      <stopKd value="1.0" />
+      <stopKp value="1000.0" />
+    </gazebo>
+
+    <gazebo reference="f_wheel_link">
+      <turnGravityOff>false</turnGravityOff>
+    </gazebo>
+
+    <gazebo reference="f_wheel_joint">
+      <stopKd value="1.0" />
+      <stopKp value="1000.0" />
+    </gazebo>
+
+    <gazebo reference="f_wheel_base_link">
+      <turnGravityOff>false</turnGravityOff>
+    </gazebo>
+
+    <gazebo reference="f_wheel_base_joint">
+      <stopKd value="1.0" />
+      <stopKp value="1000.0" />
+    </gazebo>-->
+
+
+    <gazebo>
+      <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
+        <leftJoint>l_wheel_joint</leftJoint>
+        <rightJoint>r_wheel_joint</rightJoint>
+        <wheelSeparation>0.4580</wheelSeparation>
+        <wheelDiameter>0.2410</wheelDiameter>
+        <torque>20</torque>
+        <commandTopic>cmd_vel</commandTopic>
+        <odometryTopic>odom</odometryTopic>
+        <odometryFrame>odom</odometryFrame>
+        <robotBaseFrame>base_footprint</robotBaseFrame>
+        <updateRate>100.0</updateRate>
+      </plugin>
+    </gazebo>
+  </xacro:macro>
+</robot>

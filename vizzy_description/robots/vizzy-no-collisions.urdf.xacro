@@ -1,0 +1,1467 @@
+<robot
+  name="vizzy-description"
+  xmlns:xacro="http://ros.org/wiki/xacro" >
+  
+  <xacro:include filename="$(find vizzy-description)/urdf/common.urdf.xacro" />
+  <xacro:include filename="$(find vizzy-description)/urdf/mounts/hokuyo_mount.urdf.xacro" />
+  
+  <!-- root link, on the ground just below the robot origin -->
+    <link name="base_footprint">
+     <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <box size="0.001 0.001 0.001" />
+        </geometry>
+      </visual>
+    </link>
+
+    <joint name="base_footprint_joint" type="fixed">
+      <origin xyz="0.0 0 0.0" rpy="0 0 3.15" />
+      <parent link="base_footprint"/>
+      <child link="base_link" />
+    </joint>
+  
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <mass
+        value="11.7973473742999" />
+      <inertia
+        ixx="0.438925207385402"
+        ixy="0.000141568676799447"
+        ixz="7.95805262167885E-07"
+        iyy="0.326554522375815"
+        iyz="0.00194386671838748"
+        izz="0.296176192213331" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://vizzy-description/meshes/Segway.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.866666666666667 0.866666666666667 0.890196078431373 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://vizzy-description/meshes/Segway.dae" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="Front">
+    <inertial>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <mass
+        value="0.0522202580480446" />
+      <inertia
+        ixx="0.000109063640814005"
+        ixy="1.29634203029402E-06"
+        ixz="-2.56834920297101E-05"
+        iyy="0.000107815897797672"
+        iyz="1.74895161672912E-05"
+        izz="3.21409232257602E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://vizzy-description/meshes/Front.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.796078431372549 0.823529411764706 0.937254901960784 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://vizzy-description/meshes/Front.dae" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Front"
+    type="continuous">
+    <origin
+      xyz="0.43986 0.001 0.14806"
+      rpy="3.1416 0.0 -3.848883" />
+    <parent
+      link="base_link" />
+    <child
+      link="Front" />
+    <axis
+      xyz="0 0 1" />
+  </joint>
+  <link
+    name="F_W">
+    <inertial>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <mass
+        value="0.146715525294139" />
+      <inertia
+        ixx="0.000105012932391273"
+        ixy="-1.06408513998821E-20"
+        ixz="-6.7762635780344E-21"
+        iyy="0.000105012932391273"
+        iyz="4.99749438880037E-20"
+        izz="0.00019960379578771" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://vizzy-description/meshes/F_W.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.796078431372549 0.823529411764706 0.937254901960784 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://vizzy-description/meshes/F_W.dae" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="F_W"
+    type="continuous">
+    <origin
+      xyz="-0.030027 0.020142 0.138923486"
+      rpy="-1.5708 0.83904 2.5507" />
+    <parent
+      link="Front" />
+    <child
+      link="F_W" />
+    <axis
+      xyz="0 0 1" />
+  </joint>
+  <link
+    name="Back">
+    <inertial>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <mass
+        value="0.0522202580480446" />
+      <inertia
+        ixx="0.000109063640814005"
+        ixy="1.29634203029405E-06"
+        ixz="-2.568349202971E-05"
+        iyy="0.000107815897797672"
+        iyz="1.74895161672911E-05"
+        izz="3.21409232257601E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://vizzy-description/meshes/Back.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.796078431372549 0.823529411764706 0.937254901960784 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://vizzy-description/meshes/Back.dae" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Back"
+    type="continuous">
+    <origin
+      xyz="-0.060139 0.001 0.14806"
+      rpy="3.1416 -3.9786E-17 -3.848883" />
+    <parent
+      link="base_link" />
+    <child
+      link="Back" />
+    <axis
+      xyz="0 0 1" />
+  </joint>
+  <link
+    name="B_W">
+    <inertial>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <mass
+        value="0.146715525294139" />
+      <inertia
+        ixx="0.000105012932391273"
+        ixy="1.07996700774923E-20"
+        ixz="-1.6940658945086E-21"
+        iyy="0.000105012932391273"
+        iyz="-1.18584612615602E-20"
+        izz="0.00019960379578771" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://vizzy-description/meshes/B_W.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.796078431372549 0.823529411764706 0.937254901960784 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://vizzy-description/meshes/B_W.dae" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="B_W"
+    type="continuous">
+    <origin
+      xyz="-0.0300271872634975 0.0201420335543447 0.138923486"
+      rpy="-1.5707963267949 0.83904346430428 2.5507386456365" />
+    <parent
+      link="Back" />
+    <child
+      link="B_W" />
+    <axis
+      xyz="0 0 1" />
+  </joint>
+  <link
+    name="Right">
+    <inertial>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <mass
+        value="1.22861917507719" />
+      <inertia
+        ixx="0.0106873251772162"
+        ixy="4.79944507056635E-17"
+        ixz="3.53158602954754E-16"
+        iyy="0.0106873821917694"
+        iyz="1.38940097207607E-06"
+        izz="0.0205152843016012" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://vizzy-description/meshes/Left.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.494117647058824 0.494117647058824 0.494117647058824 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://vizzy-description/meshes/Left.dae" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Right"
+    type="continuous">
+    <origin
+      xyz="0.18986 0.246 0.15814"
+      rpy="1.5708 1.5708 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="Right" />
+    <axis
+      xyz="0 0 1" />
+  </joint>
+  <link
+    name="Left">
+    <inertial>
+      <origin
+        xyz="0 0 0"
+        rpy="3.15 0 0" />
+      <mass
+        value="1.22861917507742" />
+      <inertia
+        ixx="0.0106873471854323"
+        ixy="7.49808591987845E-18"
+        ixz="-1.93571153328442E-16"
+        iyy="0.0106874041999854"
+        iyz="1.38940098137139E-06"
+        izz="0.0205152843016018" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="3.15 0 0" />
+      <geometry>
+        <mesh
+          filename="package://vizzy-description/meshes/Right.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.494117647058824 0.494117647058824 0.494117647058824 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="3.15 0 0" />
+      <geometry>
+        <mesh
+          filename="package://vizzy-description/meshes/Right.dae" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Left"
+    type="continuous">
+    <origin
+      xyz="0.18986 -0.244 0.15814"
+      rpy="1.5708 1.5708 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="Left" />
+    <axis
+      xyz="0 0 1" />
+  </joint>
+  <link
+    name="M0">
+    <inertial>
+      <origin
+        xyz="0.0 0.0 -0.0652499999999994"
+        rpy="0.0 3.14159265358979 0.0" />
+      <mass
+        value="1.52801214308198" />
+      <inertia
+        ixx="0.0152197122703999"
+        ixy="-0.000217387828540953"
+        ixz="-2.16469131237159E-06"
+        iyy="0.00325229915840824"
+        iyz="0.000261589513226157"
+        izz="0.0128988018329273" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0.0 0.0 -0.0652499999999994"
+        rpy="0.0 3.14159265358979 0.0" />
+      <geometry>
+        <mesh
+          filename="package://vizzy-description/meshes/M0.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+      </material>
+    </visual>
+  </link>
+  <joint
+    name="M0"
+    type="revolute">
+    <origin
+      xyz="0.189861451370331 0.0 0.535796910356883"
+      rpy="1.5708 0.0 0.0" />
+    <parent
+      link="base_link" />
+    <child
+      link="M0" />
+    <axis
+      xyz="0 0 1" />
+    <limit lower="-0.34906585" upper="0.34906585" effort="10" velocity="3" />
+  </joint>
+  <link
+    name="M0L">
+    <inertial>
+      <origin
+        xyz="0 0 -0.0619999999999821"
+        rpy="0.0 0.0 -3.1416" />
+      <mass
+        value="0.328838093974495" />
+      <inertia
+        ixx="0.00123108428695023"
+        ixy="-7.89159441144304E-11"
+        ixz="6.34904994947113E-10"
+        iyy="0.000919898935947314"
+        iyz="7.50425183645029E-05"
+        izz="0.000480033534091429" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 -0.0619999999999821"
+        rpy="0.0 0.0 -3.1416" />
+      <geometry>
+        <mesh
+          filename="package://vizzy-description/meshes/M0L.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+      </material>
+    </visual>
+  </link>
+  <joint
+    name="M0L"
+    type="revolute">
+    <origin
+      xyz="0 0.0 0.0805"
+      rpy="1.5708 3.1416 0" />
+    <parent
+      link="M0" />
+    <child
+      link="M0L" />
+    <axis
+      xyz="0 0 1" />
+    <limit lower="-0.314159265" upper="0.314159265" effort="10" velocity="3" />
+  </joint>
+  <link
+    name="M1L">
+    <inertial>
+      <origin
+        xyz="0 0 0.0479999999999997"
+        rpy="0 0 -1.0547" />
+      <mass
+        value="0.329707501986262" />
+      <inertia
+        ixx="0.00116793344879787"
+        ixy="0.000134890277431864"
+        ixz="-3.78918978637635E-05"
+        iyy="0.0010123206932222"
+        iyz="-6.56607930808342E-05"
+        izz="0.000480378945367471" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0.0479999999999997"
+        rpy="0 0 -1.0547" />
+      <geometry>
+        <mesh
+          filename="package://vizzy-description/meshes/M1L.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+      </material>
+    </visual>
+  </link>
+  <joint
+    name="M1L"
+    type="revolute">
+    <origin
+      xyz="0 0.0 -0.212"
+      rpy="-1.5708 0.0 0.0" />
+    <parent
+      link="M0L" />
+    <child
+      link="M1L" />
+    <axis
+      xyz="0 0 1" />
+    <limit lower="-1.30899694" upper="2.35619449" effort="10" velocity="3" />
+  </joint>
+  <link
+    name="M2L">
+    <inertial>
+      <origin
+        xyz="0 0 0.0479999999999997"
+        rpy="0 0 -4.3633" />
+      <mass
+        value="0.337952134412867" />
+      <inertia
+        ixx="0.000722844157573501"
+        ixy="4.62401523525089E-05"
+        ixz="1.45397456168781E-06"
+        iyy="0.000316566987264746"
+        iyz="1.40155768711965E-05"
+        izz="0.000577759873964217" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0.0479999999999997"
+        rpy="0 0 -4.3633" />
+      <geometry>
+        <mesh
+          filename="package://vizzy-description/meshes/M2L.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+      </material>
+    </visual>
+  </link>
+  <joint
+    name="M2L"
+    type="revolute">
+    <origin
+      xyz="0.0 0.0 -0.10256"
+      rpy="1.5708 0.0 1.5708" />
+    <parent
+      link="M1L" />
+    <child
+      link="M2L" />
+    <axis
+      xyz="0 0 1" />
+    <limit lower="0" upper="1.30899694" effort="10" velocity="3" />
+  </joint>
+  <link
+    name="M3L">
+    <inertial>
+      <origin
+        xyz="0 0 -0.0519999999999999"
+        rpy="0 0 -1.5708" />
+      <mass
+        value="0.302328099651438" />
+      <inertia
+        ixx="0.00061524641225989"
+        ixy="4.12484077822449E-06"
+        ixz="6.13276820445825E-05"
+        iyy="0.000574848729857274"
+        iyz="-2.49114687077784E-05"
+        izz="0.000240227009768201" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 -0.0519999999999999"
+        rpy="0 0 -1.5708" />
+      <geometry>
+        <mesh
+          filename="package://vizzy-description/meshes/M3L.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+      </material>
+    </visual>
+  </link>
+  <joint
+    name="M3L"
+    type="revolute">
+    <origin
+      xyz="0.0 0.0 0.0"
+      rpy="-1.5708 0.0 -1.2217" />
+    <parent
+      link="M2L" />
+    <child
+      link="M3L" />
+    <axis
+      xyz="0 0 1" />
+    <limit lower="-1.48352986" upper="1.48352986" effort="10" velocity="3" />
+  </joint>
+  <link
+    name="M4L">
+    <inertial>
+      <origin
+        xyz="0 0 -0.0229999999999996"
+        rpy="0 3.1416 0" />
+      <mass
+        value="0.224019872188573" />
+      <inertia
+        ixx="0.000224266883987209"
+        ixy="-7.91977708288826E-06"
+        ixz="-2.45971183993369E-07"
+        iyy="9.89759646705347E-05"
+        iyz="9.59757272005961E-06"
+        izz="0.000213841891548227" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 -0.0229999999999996"
+        rpy="0 3.1416 0" />
+      <geometry>
+        <mesh
+          filename="package://vizzy-description/meshes/M4L.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+      </material>
+    </visual>
+  </link>
+  <joint
+    name="M4L"
+    type="revolute">
+    <origin
+      xyz="0.0 0.0 -0.16296"
+      rpy="-1.5708 0.0 1.5708" />
+    <parent
+      link="M3L" />
+    <child
+      link="M4L" />
+    <axis
+      xyz="0 0 1" />
+    <limit lower="0" upper="1.91986218" effort="10" velocity="3" />
+  </joint>
+  <link
+    name="M5L">
+    <inertial>
+      <origin
+        xyz="0 0 -0.0525000000000014"
+        rpy="0 0 1.5708" />
+      <mass
+        value="0.192525480880953" />
+      <inertia
+        ixx="0.000215803121531384"
+        ixy="6.01824209118801E-08"
+        ixz="-9.78525879865635E-06"
+        iyy="0.000229047941469006"
+        iyz="-3.21836442544262E-07"
+        izz="0.000102658857339667" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 -0.0525000000000014"
+        rpy="0 0 1.5708" />
+      <geometry>
+        <mesh
+          filename="package://vizzy-description/meshes/M5L.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+      </material>
+    </visual>
+  </link>
+  <joint
+    name="M5L"
+    type="revolute">
+    <origin
+      xyz="0.0 0.0 0.0"
+      rpy="1.5708 0.0 0.0" />
+    <parent
+      link="M4L" />
+    <child
+      link="M5L" />
+    <axis
+      xyz="0 0 1" />
+    <limit lower="-1.48352986" upper="1.48352986" effort="10" velocity="3" />
+  </joint>
+  <link
+    name="M6L">
+    <inertial>
+      <origin
+        xyz="0 0.0682999999999999 0.0240000000000001"
+        rpy="1.5708 0 2.3562" />
+      <mass
+        value="0.151302636921624" />
+      <inertia
+        ixx="0.000116373512947626"
+        ixy="1.31009871908069E-05"
+        ixz="6.69703789973942E-05"
+        iyy="0.00020031628400595"
+        iyz="1.00268924727662E-05"
+        izz="0.000162164313365602" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0.0682999999999999 0.0240000000000001"
+        rpy="1.5708 0 2.3562" />
+      <geometry>
+        <mesh
+          filename="package://vizzy-description/meshes/M6L.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+      </material>
+    </visual>
+  </link>
+  <joint
+    name="M6L"
+    type="revolute">
+    <origin
+      xyz="0.0 0.0 -0.18925"
+      rpy="1.5708 0.0 0.0" />
+    <parent
+      link="M5L" />
+    <child
+      link="M6L" />
+    <axis
+      xyz="0 0 1" />
+    <limit lower="-0.610865238" upper="0.610865238" effort="10" velocity="3" />
+  </joint>
+  <link
+    name="M7L">
+    <inertial>
+      <origin
+        xyz="0 0 -0.0075"
+        rpy="0 3.1416 -1.5708" />
+      <mass
+        value="0.263177712190575" />
+      <inertia
+        ixx="0.00141536691437145"
+        ixy="-5.47006881402205E-06"
+        ixz="4.93141952833896E-05"
+        iyy="0.000423837541639676"
+        iyz="0.000132116163317958"
+        izz="0.0010337584021873" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 -0.0075"
+        rpy="0 3.1416 -1.5708" />
+      <geometry>
+        <mesh
+          filename="package://vizzy-description/meshes/M7L.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+      </material>
+    </visual>
+  </link>
+  <joint
+    name="M7L"
+    type="revolute">
+    <origin
+      xyz="0.0 0.0 0.0"
+      rpy="1.5708 0.0 -1.5708" />
+    <parent
+      link="M6L" />
+    <child
+      link="M7L" />
+    <axis
+      xyz="0 0 1" />
+    <limit lower="-0.610865238" upper="0.610865238" effort="10" velocity="3" />
+  </joint>
+  <link name="M8L">
+   <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.001 0.001 0.001" />
+      </geometry>
+    </visual>
+  </link>
+  <joint name="M8L" type="fixed">
+    <origin xyz="0.1 0 0.0" rpy="-1.5708 0.0 0.0" />
+    <parent link="M7L"/>
+    <child link="M8L" />
+  </joint>
+
+  <link
+    name="M0R">
+    <inertial>
+      <origin
+        xyz="0 0 0.0619999999999821"
+        rpy="0 3.1416 0" />
+      <mass
+        value="0.328838093982794" />
+      <inertia
+        ixx="0.00123108428695986"
+        ixy="-7.89100940163704E-11"
+        ixz="6.34844936183615E-10"
+        iyy="0.000919898935949979"
+        iyz="7.50425183699034E-05"
+        izz="0.000480033534097503" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0.0619999999999821"
+        rpy="0 3.1416 0" />
+      <geometry>
+        <mesh
+          filename="package://vizzy-description/meshes/M0R.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+      </material>
+    </visual>
+  </link>
+  <joint
+    name="M0R"
+    type="revolute">
+    <origin
+      xyz="0.0 0.0 -0.0805"
+      rpy="-1.5708 0.0 0.0" />
+    <parent
+      link="M0" />
+    <child
+      link="M0R" />
+    <axis
+      xyz="0 0 1" />
+    <limit lower="-0.314159265" upper="0.314159265" effort="10" velocity="3" />
+  </joint>
+  <link
+    name="M1R">
+    <inertial>
+      <origin
+        xyz="0 0 -0.0479999999999997"
+        rpy="0 3.1416 -4.1963" />
+      <mass
+        value="0.32970750458976" />
+      <inertia
+        ixx="0.00116793345082586"
+        ixy="-0.000134890089770505"
+        ixz="3.78931445548874E-05"
+        iyy="0.00101232051019094"
+        iyz="-6.56607928268466E-05"
+        izz="0.000480378760663095" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 -0.0479999999999997"
+        rpy="0 3.1416 -4.1963" />
+      <geometry>
+        <mesh
+          filename="package://vizzy-description/meshes/M1R.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+      </material>
+    </visual>
+  </link>
+  <joint
+    name="M1R"
+    type="revolute">
+    <origin
+      xyz="0.0 0.0 0.212"
+      rpy="-1.5708 0.0 0.0" />
+    <parent
+      link="M0R" />
+    <child
+      link="M1R" />
+    <axis
+      xyz="0 0 1" />
+    <limit lower="-1.30899694" upper="2.35619449" effort="10" velocity="3" />
+  </joint>
+  <link
+    name="M2R">
+    <inertial>
+      <origin
+        xyz="0 0 -0.0479999999999997"
+        rpy="0 3.1416 -1.2217" />
+      <mass
+        value="0.337952134649786" />
+      <inertia
+        ixx="0.000722844158320218"
+        ixy="-4.62401500200836E-05"
+        ixz="-1.45396813798355E-06"
+        iyy="0.000316566986726189"
+        iyz="1.40155770580819E-05"
+        izz="0.00057775987279214" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 -0.0479999999999997"
+        rpy="0 3.1416 -1.2217" />
+      <geometry>
+        <mesh
+          filename="package://vizzy-description/meshes/M2R.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+      </material>
+    </visual>
+  </link>
+  <joint
+    name="M2R"
+    type="revolute">
+    <origin
+      xyz="0.0 0.0 0.10256"
+      rpy="1.5708 0.0 1.5708" />
+    <parent
+      link="M1R" />
+    <child
+      link="M2R" />
+    <axis
+      xyz="0 0 1" />
+    <limit lower="0" upper="1.30899694" effort="10" velocity="3" />
+  </joint>
+  <link
+    name="M3R">
+    <inertial>
+      <origin
+        xyz="0 0 0.0519999999999999"
+        rpy="3.1416 0 -1.5708" />
+      <mass
+        value="0.302328098083101" />
+      <inertia
+        ixx="0.000615246412768918"
+        ixy="-4.12473635541355E-06"
+        ixz="-6.13280078197927E-05"
+        iyy="0.000574849538917934"
+        iyz="-2.49114717380023E-05"
+        izz="0.000240227819685505" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0.0519999999999999"
+        rpy="3.1416 0 -1.5708" />
+      <geometry>
+        <mesh
+          filename="package://vizzy-description/meshes/M3R.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+      </material>
+    </visual>
+  </link>
+  <joint
+    name="M3R"
+    type="revolute">
+    <origin
+      xyz="0.0 0.0 0.0"
+      rpy="-1.5708 0.0 -1.2217" />
+    <parent
+      link="M2R" />
+    <child
+      link="M3R" />
+    <axis
+      xyz="0 0 1" />
+    <limit lower="-1.48352986" upper="1.48352986" effort="10" velocity="3" />
+  </joint>
+  <link
+    name="M4R">
+    <inertial>
+      <origin
+        xyz="0 0 0.0229999999999996"
+        rpy="0 0 3.1416" />
+      <mass
+        value="0.224019872068973" />
+      <inertia
+        ixx="0.000224266812490421"
+        ixy="7.91977782063514E-06"
+        ixz="2.45606472556753E-07"
+        iyy="9.89758932648508E-05"
+        iyz="9.59616898464483E-06"
+        izz="0.000213841891572994" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0.0229999999999996"
+        rpy="0 0 3.1416" />
+      <geometry>
+        <mesh
+          filename="package://vizzy-description/meshes/M4R.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+      </material>
+    </visual>
+  </link>
+  <joint
+    name="M4R"
+    type="revolute">
+    <origin
+      xyz="0.0 0.0 0.16296"
+      rpy="-1.5708 0.0 1.5708" />
+    <parent
+      link="M3R" />
+    <child
+      link="M4R" />
+    <axis
+      xyz="0 0 1" />
+    <limit lower="0" upper="1.91986218" effort="10" velocity="3" />
+  </joint>
+  <link
+    name="M5R">
+    <inertial>
+      <origin
+        xyz="0 0 0.0525000000000014"
+        rpy="0 3.1416 -1.5708" />
+      <mass
+        value="0.19252548105039" />
+      <inertia
+        ixx="0.000215803119910502"
+        ixy="-6.086463167521E-08"
+        ixz="9.78455040630467E-06"
+        iyy="0.000229047404557263"
+        iyz="-3.19642916101682E-07"
+        izz="0.000102658318305363" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0.0525000000000014"
+        rpy="0 3.1416 -1.5708" />
+      <geometry>
+        <mesh
+          filename="package://vizzy-description/meshes/M5R.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+      </material>
+    </visual>
+  </link>
+  <joint
+    name="M5R"
+    type="revolute">
+    <origin
+      xyz="0.0 0.0 0.0"
+      rpy="1.5708 0.0 0.0" />
+    <parent
+      link="M4R" />
+    <child
+      link="M5R" />
+    <axis
+      xyz="0 0 1" />
+    <limit lower="-1.48352986" upper="1.48352986" effort="10" velocity="3" />
+  </joint>
+  <link
+    name="M6R">
+    <inertial>
+      <origin
+        xyz="0 -0.0682999999999999 0.0130"
+        rpy="0 0 0" />
+      <mass
+        value="0.15130263687109" />
+      <inertia
+        ixx="0.000206280948481805"
+        ixy="-2.10167871847464E-05"
+        ixz="-1.95502541303483E-06"
+        iyy="7.18084114032176E-05"
+        iyz="1.63557763545568E-05"
+        izz="0.000199867817507994" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 -0.0682999999999999 0.0130"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://vizzy-description/meshes/M6R.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+      </material>
+    </visual>
+  </link>
+  <joint
+    name="M6R"
+    type="revolute">
+    <origin
+      xyz="0.0 0.0 0.18925"
+      rpy="1.5708 0.0 0.0" />
+    <parent
+      link="M5R" />
+    <child
+      link="M6R" />
+    <axis
+      xyz="0 0 1" />
+    <limit lower="-0.610865238" upper="0.610865238" effort="10" velocity="3" />
+  </joint>
+  <link
+    name="M7R">
+    <inertial>
+      <origin
+        xyz="0 0 -0.0068"
+        rpy="0 3.1416 -1.5708" />
+      <mass
+        value="0.263247942991542" />
+      <inertia
+        ixx="0.00142191847625323"
+        ixy="7.01996302951171E-06"
+        ixz="-4.24188980462336E-05"
+        iyy="0.000427941498537125"
+        iyz="0.000132013848915951"
+        izz="0.00103049250587026" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 -0.0068"
+        rpy="0 3.1416 -1.5708" />
+      <geometry>
+        <mesh
+          filename="package://vizzy-description/meshes/M7R.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+      </material>
+    </visual>
+  </link>
+  <joint
+    name="M7R"
+    type="revolute">
+    <origin
+      xyz="0.0 0.0 0.0"
+      rpy="1.5708 0.0 1.5708" />
+    <parent
+      link="M6R" />
+    <child
+      link="M7R" />
+    <axis
+      xyz="0 0 1" />
+    <limit lower="-0.610865238" upper="0.610865238" effort="10" velocity="3" />
+  </joint>
+  <link name="M8R">
+   <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.001 0.001 0.001" />
+      </geometry>
+    </visual>
+  </link>
+  <joint name="M8R" type="fixed">
+    <origin xyz="0.1 0 0.0" rpy="-1.5708 0.0 0.0" />
+    <parent link="M7R"/>
+    <child link="M8R" />
+  </joint>
+
+  <link
+    name="M1">
+    <inertial>
+      <origin
+        xyz="0 0 -0.2675"
+        rpy="0 0 -1.5708" />
+      <mass
+        value="0.223143594366725" />
+      <inertia
+        ixx="0.000359045077001746"
+        ixy="3.18553746848725E-08"
+        ixz="-1.33740307483815E-05"
+        iyy="0.000368715218013968"
+        iyz="-4.52681716726929E-07"
+        izz="8.59048961267353E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 -0.2675"
+        rpy="0 0 -1.5708" />
+      <geometry>
+        <mesh
+          filename="package://vizzy-description/meshes/M1.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+      </material>
+    </visual>
+  </link>
+  <joint
+    name="M1"
+    type="revolute">
+    <origin
+      xyz="0.0 0.0 0.0"
+      rpy="1.5708 0.0 0.0" />
+    <parent
+      link="M0" />
+    <child
+      link="M1" />
+    <axis
+      xyz="0 0 1" />
+    <limit lower="-0.925024504" upper="0.925024504" effort="10" velocity="3" />
+  </joint>
+  <link
+    name="M2">
+    <inertial>
+      <origin
+        xyz="0.0 0.0 -0.0404999999999999"
+        rpy="3.1416 3.1416 0" />
+      <mass
+        value="0.298440723794245" />
+      <inertia
+        ixx="0.000294229505972848"
+        ixy="0.000128560854269813"
+        ixz="-4.90947453912942E-05"
+        iyy="0.000820635051594153"
+        iyz="-2.69741258639831E-05"
+        izz="0.000854308458364833" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0.0 0.0 -0.0404999999999999"
+        rpy="3.1416 3.1416 0" />
+      <geometry>
+        <mesh
+          filename="package://vizzy-description/meshes/M2.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+      </material>
+    </visual>
+  </link>
+  <joint
+    name="M2"
+    type="revolute">
+    <origin
+      xyz="0.0 0.0 -0.370"
+      rpy="1.5708 0.0 0.0" />
+    <parent
+      link="M1" />
+    <child
+      link="M2" />
+    <axis
+      xyz="0 0 1" />
+    <limit lower="-0.314159265" upper="0.645771823" effort="10" velocity="3" />
+  </joint>
+  <link
+    name="M3">
+    <inertial>
+      <origin
+        xyz="0 0 -0.0164999999999995"
+        rpy="0 0 -1.2012" />
+      <mass
+        value="0.229222715932625" />
+      <inertia
+        ixx="0.00135649319186769"
+        ixy="-9.97604007968145E-07"
+        ixz="-4.83114556833996E-07"
+        iyy="0.0012860948285637"
+        iyz="-2.16886651449361E-06"
+        izz="0.000132176408116226" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 -0.0164999999999995"
+        rpy="0 0 -1.2012" />
+      <geometry>
+        <mesh
+          filename="package://vizzy-description/meshes/M3.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0 0 0 1" />
+      </material>
+    </visual>
+  </link>
+  <joint
+    name="M3"
+    type="revolute">
+    <origin
+      xyz="-0.124 -0.0469999999999995 0.0"
+      rpy="3.1416 0.0 -2.7720" />
+    <parent
+      link="M2" />
+    <child
+      link="M3" />
+    <axis
+      xyz="0 0 1" />
+    <limit lower="-0.663225116" upper="0.663225116" effort="10" velocity="3" />
+  </joint>
+  <link
+    name="M4">
+    <inertial>
+      <origin
+        xyz="0 0 -0.0200000000000069"
+        rpy="0 0 1.5708" />
+      <mass
+        value="0.158520637460366" />
+      <inertia
+        ixx="0.000147614970454271"
+        ixy="-1.56210652664748E-09"
+        ixz="8.85544640354075E-10"
+        iyy="0.000177840459249179"
+        iyz="8.21234366300574E-06"
+        izz="0.000144884726537935" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 -0.0200000000000069"
+        rpy="0 0 1.5708" />
+      <geometry>
+        <mesh
+          filename="package://vizzy-description/meshes/M4.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0 0 0 1" />
+      </material>
+    </visual>
+  </link>
+  <joint
+    name="M4"
+    type="revolute">
+    <origin
+      xyz="0.0 0.0 -0.111"
+      rpy="1.5708 0.0 -2.7720" />
+    <parent
+      link="M3" />
+    <child
+      link="M4" />
+    <axis
+      xyz="0 0 1" />
+    <limit lower="-0.698131" upper="0.698131" effort="10" velocity="3" />
+  </joint>
+  <link name="M4RE">
+   <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.001 0.001 0.001" />
+      </geometry>
+    </visual>
+  </link>
+  <joint name="M4RE" type="fixed">
+    <origin xyz="0.0 0.0 0.0" rpy="1.5708 0.0 -1.5708" />
+    <parent link="M4"/>
+    <child link="M4RE" />
+  </joint>
+  <link
+    name="M5">
+    <inertial>
+      <origin
+        xyz="0 0 -0.0200000000000069"
+        rpy="0 0 1.5708" />
+      <mass
+        value="0.158520637460366" />
+      <inertia
+        ixx="0.000147614970454271"
+        ixy="-1.56210652664748E-09"
+        ixz="8.85544640354075E-10"
+        iyy="0.000177840459249179"
+        iyz="8.21234366300574E-06"
+        izz="0.000144884726537935" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 -0.0200000000000069"
+        rpy="0 0 1.5708" />
+      <geometry>
+        <mesh
+          filename="package://vizzy-description/meshes/M4.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0 0 0 1" />
+      </material>
+    </visual>
+  </link>
+  <joint
+    name="M5"
+    type="revolute">
+    <origin
+      xyz="0.0 0.0 0.111"
+      rpy="1.5708 0.0 -2.7720" />
+    <parent
+      link="M3" />
+    <child
+      link="M5" />
+    <axis
+      xyz="0 0 1" />
+    <limit lower="-0.698131" upper="0.698131" effort="10" velocity="3" />
+  </joint>
+  <link name="M5RE">
+   <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.001 0.001 0.001" />
+      </geometry>
+    </visual>
+  </link>
+  <joint name="M5RE" type="fixed">
+    <origin xyz="0.0 0.0 0.0" rpy="1.5708 0.0 -1.5708" />
+    <parent link="M5"/>
+    <child link="M5RE" />
+  </joint>
+  
+  <!-- Add the hokuyo -->
+  <xacro:hokuyo_mount name="nav_hokuyo" parent="base" length="${SENSOR_BEAM_LENGTH*INCH_TO_M}" ros_topic="scan" update_rate="10" min_angle="${-(5 * M_PI)/12}" max_angle="${(5 * M_PI)/12}">
+    <origin xyz="-0.05 0.14
+ 0.15" rpy="${-M_PI/2} ${-M_PI/2} 3.14" />
+  </xacro:hokuyo_mount>
+  
+  <gazebo>
+    <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
+      <leftJoint>Right</leftJoint>
+      <rightJoint>Left</rightJoint>
+      <wheelSeparation>0.4580</wheelSeparation>
+      <wheelDiameter>0.2410</wheelDiameter>
+      <torque>20</torque>
+      <commandTopic>cmd_vel</commandTopic>
+      <odometryTopic>odom</odometryTopic>
+      <odometryFrame>odom</odometryFrame>
+      <robotBaseFrame>base_footprint</robotBaseFrame>
+      <updateRate>100.0</updateRate>
+    </plugin>
+    
+    <plugin name="controlboard_head" filename="libgazebo_yarp_controlboard.so">
+        <yarpConfigurationFile>model://media/conf/gazebo_vizzy_head.ini</yarpConfigurationFile>
+        <initialConfiguration>0 0 0</initialConfiguration>
+    </plugin>
+    
+    <plugin name="controlboard_torso" filename="libgazebo_yarp_controlboard.so">
+        <yarpConfigurationFile>model://media/conf/gazebo_vizzy_torso.ini</yarpConfigurationFile>
+        <initialConfiguration>0</initialConfiguration>
+    </plugin>
+    
+    <plugin name="controlboard_right_arm" filename="libgazebo_yarp_controlboard.so">
+        <yarpConfigurationFile>model://media/conf/gazebo_vizzy_right_arm.ini</yarpConfigurationFile>
+        <initialConfiguration>0 0 0 0 0 0 0 0</initialConfiguration>
+    </plugin>
+    
+    <plugin name="controlboard_left_arm" filename="libgazebo_yarp_controlboard.so">
+        <yarpConfigurationFile>model://media/conf/gazebo_vizzy_left_arm.ini</yarpConfigurationFile>
+        <initialConfiguration>0 0 0 0 0 0 0 0</initialConfiguration>
+    </plugin>
+  </gazebo>
+</robot>

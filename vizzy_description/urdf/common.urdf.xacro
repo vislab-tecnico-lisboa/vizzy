@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+
+<root xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- generic constants -->
+  <xacro:property name="M_PI" value="3.14159265359" />
+  <xacro:property name="INCH_TO_M" value="0.0254"/>
+
+  <!-- 80/20 constants -->
+  <xacro:property name="BEAM_WIDTH" value="1" /> <!-- inches -->
+
+  <!-- robot constants -->
+  <!-- distance between the robot origin and the base plate center along the x axis (robot forward) -->
+  <xacro:property name="BASE_PLATE_X_OFFSET" value="-2" /> <!-- inches -->
+  <!-- distance between the robot origin and the bottom of the base plate along the z axis (robot up) -->
+  <xacro:property name="BASE_PLATE_Z_OFFSET" value="4.25" /> <!-- inches -->
+
+  <xacro:property name="SENSOR_BEAM_LENGTH" value="10.75" /> <!-- inches -->
+
+  <!-- colors -->
+  <material name="light_grey">
+    <color rgba="0.7 0.7 0.7 1" />
+  </material>
+  <material name="dark_grey">
+    <color rgba="0.5 0.5 0.5 1" />
+  </material>
+  <material name="black">
+    <color rgba="0 0 0 1" />
+  </material>
+  <material name="almost_black">
+    <color rgba="0.02 0.02 0.02 1" />
+  </material>
+
+</root>
+

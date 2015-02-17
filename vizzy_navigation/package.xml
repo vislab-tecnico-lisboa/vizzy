@@ -1,0 +1,29 @@
+<package>
+  <name>vizzy_navigation</name>
+  <version>0.2.1</version>
+  <description>
+    Contains launch files for running the ROS navigation stack on the segbot
+    using the eband_local_planner approach, as well as launch files for amcl
+    and gmapping.
+  </description>
+
+  <license>BSD</license>
+
+  <author email="piyushk@gmail.com">Piyush Khandelwal</author>
+  <maintainer email="piyushk@gmail.com">Piyush Khandelwal</maintainer>
+  <maintainer email="jack.oquin@gmail.com">Jack O'Quin</maintainer>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <run_depend>amcl</run_depend>
+  <run_depend>eband_local_planner</run_depend>
+  <run_depend>gmapping</run_depend>
+  <run_depend>map_server</run_depend>
+  <run_depend>move_base</run_depend>
+  <run_depend>navfn</run_depend>
+  <run_depend>rviz</run_depend>
+
+  <!-- test dependencies -->
+  <build_depend>roslaunch</build_depend>
+
+</package>

@@ -1,0 +1,451 @@
+<?xml version="1.0"?>
+<robot xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
+       xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
+       xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
+       xmlns:xacro="http://ros.org/wiki/xacro">
+ <xacro:macro name="arm" params="sufix reflect *origin">
+  <link
+    name="M0${sufix}">
+    <inertial>
+      <origin
+        xyz="0 0 ${-reflect*0.0619999999999821}"
+        rpy="0.0 0.0 ${-reflect*3.1416}" />
+      <mass
+        value="0.328838093974495" />
+      <inertia
+        ixx="0.00123108428695023"
+        ixy="-7.89159441144304E-11"
+        ixz="6.34904994947113E-10"
+        iyy="0.000919898935947314"
+        iyz="7.50425183645029E-05"
+        izz="0.000480033534091429" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 ${-reflect*0.0619999999999821}"
+        rpy="0.0 0.0 ${-reflect*3.1416}" />
+      <geometry>
+        <mesh
+          filename="package://vizzy_description/meshes/M0${sufix}.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 ${-reflect*0.0619999999999821}"
+        rpy="0.0 0.0 ${-reflect*3.1416}" />
+      <geometry>
+        <mesh
+          filename="package://vizzy_description/meshes/M0${sufix}.dae" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="M0${sufix}"
+    type="revolute">
+    <insert_block name="origin" />
+    <parent
+      link="M0" />
+    <child
+      link="M0${sufix}" />
+    <axis
+      xyz="0 0 1" />
+    <limit lower="-0.314159265" upper="0.314159265" effort="10" velocity="3" />
+  </joint>
+  <link
+    name="M1${sufix}">
+    <inertial>
+      <origin
+        xyz="0 0 ${reflect*0.0479999999999997}"
+        rpy="0 0 ${-reflect*1.0547}" />
+      <mass
+        value="0.329707501986262" />
+      <inertia
+        ixx="0.00116793344879787"
+        ixy="0.000134890277431864"
+        ixz="-3.78918978637635E-05"
+        iyy="0.0010123206932222"
+        iyz="-6.56607930808342E-05"
+        izz="0.000480378945367471" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0.0479999999999997"
+        rpy="0 0 -1.0547" />
+      <geometry>
+        <mesh
+          filename="package://vizzy_description/meshes/M1${sufix}.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0.0479999999999997"
+        rpy="0 0 -1.0547" />
+      <geometry>
+        <mesh
+          filename="package://vizzy_description/meshes/M1${sufix}.dae" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="M1${sufix}"
+    type="revolute">
+    <origin
+      xyz="0 0.0 ${-reflect*0.212}"
+      rpy="-1.5708 0.0 0.0" />
+    <parent
+      link="M0${sufix}" />
+    <child
+      link="M1${sufix}" />
+    <axis
+      xyz="0 0 1" />
+    <limit lower="-1.30899694" upper="2.35619449" effort="10" velocity="3" />
+  </joint>
+  <link
+    name="M2${sufix}">
+    <inertial>
+      <origin
+        xyz="0 0 0.0479999999999997"
+        rpy="0 0 -4.3633" />
+      <mass
+        value="0.337952134412867" />
+      <inertia
+        ixx="0.000722844157573501"
+        ixy="4.62401523525089E-05"
+        ixz="1.45397456168781E-06"
+        iyy="0.000316566987264746"
+        iyz="1.40155768711965E-05"
+        izz="0.000577759873964217" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0.0479999999999997"
+        rpy="0 0 -4.3633" />
+      <geometry>
+        <mesh
+          filename="package://vizzy_description/meshes/M2${sufix}.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0.0479999999999997"
+        rpy="0 0 -4.3633" />
+      <geometry>
+        <mesh
+          filename="package://vizzy_description/meshes/M2${sufix}.dae" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="M2${sufix}"
+    type="revolute">
+    <origin
+      xyz="0.0 0.0 ${-reflect*0.10256}"
+      rpy="1.5708 0.0 1.5708" />
+    <parent
+      link="M1${sufix}" />
+    <child
+      link="M2${sufix}" />
+    <axis
+      xyz="0 0 1" />
+    <limit lower="0" upper="1.30899694" effort="10" velocity="3" />
+  </joint>
+  <link
+    name="M3${sufix}">
+    <inertial>
+      <origin
+        xyz="0 0 -0.0519999999999999"
+        rpy="0 0 -1.5708" />
+      <mass
+        value="0.302328099651438" />
+      <inertia
+        ixx="0.00061524641225989"
+        ixy="4.12484077822449E-06"
+        ixz="6.13276820445825E-05"
+        iyy="0.000574848729857274"
+        iyz="-2.49114687077784E-05"
+        izz="0.000240227009768201" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 -0.0519999999999999"
+        rpy="0 0 -1.5708" />
+      <geometry>
+        <mesh
+          filename="package://vizzy_description/meshes/M3${sufix}.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 -0.0519999999999999"
+        rpy="0 0 -1.5708" />
+      <geometry>
+        <mesh
+          filename="package://vizzy_description/meshes/M3${sufix}.dae" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="M3${sufix}"
+    type="revolute">
+    <origin
+      xyz="0.0 0.0 0.0"
+      rpy="-1.5708 0.0 -1.2217" />
+    <parent
+      link="M2${sufix}" />
+    <child
+      link="M3${sufix}" />
+    <axis
+      xyz="0 0 1" />
+    <limit lower="-1.48352986" upper="1.48352986" effort="10" velocity="3" />
+  </joint>
+  <link
+    name="M4${sufix}">
+    <inertial>
+      <origin
+        xyz="0 0 -0.0229999999999996"
+        rpy="0 3.1416 0" />
+      <mass
+        value="0.224019872188573" />
+      <inertia
+        ixx="0.000224266883987209"
+        ixy="-7.91977708288826E-06"
+        ixz="-2.45971183993369E-07"
+        iyy="9.89759646705347E-05"
+        iyz="9.59757272005961E-06"
+        izz="0.000213841891548227" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 -0.0229999999999996"
+        rpy="0 3.1416 0" />
+      <geometry>
+        <mesh
+          filename="package://vizzy_description/meshes/M4${sufix}.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 -0.0229999999999996"
+        rpy="0 3.1416 0" />
+      <geometry>
+        <mesh
+          filename="package://vizzy_description/meshes/M4${sufix}.dae" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="M4${sufix}"
+    type="revolute">
+    <origin
+      xyz="0.0 0.0 ${-reflect*0.16296}"
+      rpy="-1.5708 0.0 1.5708" />
+    <parent
+      link="M3${sufix}" />
+    <child
+      link="M4${sufix}" />
+    <axis
+      xyz="0 0 1" />
+    <limit lower="0" upper="1.91986218" effort="10" velocity="3" />
+  </joint>
+  <link
+    name="M5${sufix}">
+    <inertial>
+      <origin
+        xyz="0 0 -0.0525000000000014"
+        rpy="0 0 1.5708" />
+      <mass
+        value="0.192525480880953" />
+      <inertia
+        ixx="0.000215803121531384"
+        ixy="6.01824209118801E-08"
+        ixz="-9.78525879865635E-06"
+        iyy="0.000229047941469006"
+        iyz="-3.21836442544262E-07"
+        izz="0.000102658857339667" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 -0.0525000000000014"
+        rpy="0 0 1.5708" />
+      <geometry>
+        <mesh
+          filename="package://vizzy_description/meshes/M5${sufix}.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 -0.0525000000000014"
+        rpy="0 0 1.5708" />
+      <geometry>
+        <mesh
+          filename="package://vizzy_description/meshes/M5${sufix}.dae" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="M5${sufix}"
+    type="revolute">
+    <origin
+      xyz="0.0 0.0 0.0"
+      rpy="1.5708 0.0 0.0" />
+    <parent
+      link="M4${sufix}" />
+    <child
+      link="M5${sufix}" />
+    <axis
+      xyz="0 0 1" />
+    <limit lower="-1.48352986" upper="1.48352986" effort="10" velocity="3" />
+  </joint>
+  <link
+    name="M6${sufix}">
+    <inertial>
+      <origin
+        xyz="0 0.0682999999999999 0.0240000000000001"
+        rpy="1.5708 0 2.3562" />
+      <mass
+        value="0.151302636921624" />
+      <inertia
+        ixx="0.000116373512947626"
+        ixy="1.31009871908069E-05"
+        ixz="6.69703789973942E-05"
+        iyy="0.00020031628400595"
+        iyz="1.00268924727662E-05"
+        izz="0.000162164313365602" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0.0682999999999999 0.0240000000000001"
+        rpy="1.5708 0 2.3562" />
+      <geometry>
+        <mesh
+          filename="package://vizzy_description/meshes/M6${sufix}.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0.0682999999999999 0.0240000000000001"
+        rpy="1.5708 0 2.3562" />
+      <geometry>
+        <mesh
+          filename="package://vizzy_description/meshes/M6${sufix}.dae" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="M6${sufix}"
+    type="revolute">
+    <origin
+      xyz="0.0 0.0 ${-reflect*0.18925}"
+      rpy="1.5708 0.0 0.0" />
+    <parent
+      link="M5${sufix}" />
+    <child
+      link="M6${sufix}" />
+    <axis
+      xyz="0 0 1" />
+    <limit lower="-0.610865238" upper="0.610865238" effort="10" velocity="3" />
+  </joint>
+  <link
+    name="M7${sufix}">
+    <inertial>
+      <origin
+        xyz="0 0 -0.0075"
+        rpy="0 3.1416 -1.5708" />
+      <mass
+        value="0.263177712190575" />
+      <inertia
+        ixx="0.00141536691437145"
+        ixy="-5.47006881402205E-06"
+        ixz="4.93141952833896E-05"
+        iyy="0.000423837541639676"
+        iyz="0.000132116163317958"
+        izz="0.0010337584021873" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 -0.0075"
+        rpy="0 3.1416 -1.5708" />
+      <geometry>
+        <mesh
+          filename="package://vizzy_description/meshes/M7${sufix}.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 -0.0075"
+        rpy="0 3.1416 -1.5708" />
+      <geometry>
+        <mesh
+          filename="package://vizzy_description/meshes/M7${sufix}.dae" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="M7${sufix}"
+    type="revolute">
+    <origin
+      xyz="0.0 0.0 0.0"
+      rpy="1.5708 0.0 -1.5708" />
+    <parent
+      link="M6${sufix}" />
+    <child
+      link="M7${sufix}" />
+    <axis
+      xyz="0 0 1" />
+    <limit lower="-0.610865238" upper="0.610865238" effort="10" velocity="3" />
+  </joint>
+  <link name="M8${sufix}">
+   <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.001 0.001 0.001" />
+      </geometry>
+    </visual>
+  </link>
+  <joint name="M8${sufix}" type="fixed">
+    <origin xyz="0 0 0" rpy="-1.5708 0.0 0.0" />
+    <parent link="M7${sufix}"/>
+    <child link="M8${sufix}" />
+  </joint>
+ </xacro:macro>
+</robot>

@@ -1,0 +1,6 @@
+<package>
+  <description brief="vizzy_simulator">vizzy_simulator</description>
+  <depend package="gazebo" />
+  <author>Miguel Aragão</author>
+  <license>BSD</license>
+</package>

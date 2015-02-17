@@ -1,0 +1,16 @@
+<launch>
+
+  <arg name="map_file" default="$(find utexas_gdc)/maps/3ne-real-new.yaml" />
+  <arg name="robot_configuration" 
+       default="$(find vizzy-bringup)/launch/vizzy_navigation.launch"/>
+
+  <include file="$(arg robot_configuration)" />
+
+  <!-- <node name="map_server" pkg="map_server" type="map_server" 
+        args="$(arg map_file)" /> -->
+
+  <include file="$(find vizzy_navigation)/launch/amcl.launch" />
+  <include file="$(find vizzy_navigation)/launch/move_base_eband.launch" />
+  <include file="$(find vizzy_navigation)/launch/rviz.launch" />
+
+</launch>

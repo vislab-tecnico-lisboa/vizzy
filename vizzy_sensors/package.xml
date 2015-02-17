@@ -1,0 +1,52 @@
+<package>
+  <name>vizzy_sensors</name>
+  <version>0.2.1</version>
+  <description>
+    Contains sensor specific launch files and all the relevant filters that are
+    applied on sensor data before being used by Vizzy robot.
+  </description>
+
+  <license>BSD</license>
+  
+  <author email="piyushk@gmail.com">Piyush Khandelwal</author>
+  <maintainer email="miguelaragao91@gmail.com">Miguel Aragao</maintainer>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>laser_filters</build_depend>
+  <build_depend>message_generation</build_depend>
+  <build_depend>nodelet</build_depend>
+  <build_depend>pcl_ros</build_depend>
+  <build_depend>pluginlib</build_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>roslint</build_depend>
+  <build_depend>sensor_msgs</build_depend>
+  <build_depend>tf</build_depend>
+
+  <run_depend>camera1394</run_depend>
+  <run_depend>depthimage_to_laserscan</run_depend>
+  <run_depend>filters</run_depend>
+  <run_depend>freenect_launch</run_depend>
+  <run_depend>hokuyo_node</run_depend>
+  <run_depend>laser_filters</run_depend>
+  <run_depend>message_runtime</run_depend>
+  <run_depend>nodelet</run_depend>
+  <run_depend>openni_launch</run_depend>
+  <run_depend>pcl_ros</run_depend>
+  <run_depend>pluginlib</run_depend>
+  <run_depend>python-serial</run_depend>
+  <run_depend>roscpp</run_depend>
+  <run_depend>rospy</run_depend>
+  <run_depend>rviz</run_depend>
+  <run_depend>sensor_msgs</run_depend>
+  <run_depend>tf</run_depend>
+  <run_depend>tf2_ros</run_depend>
+
+  <!-- test dependencies -->
+  <build_depend>roslaunch</build_depend>
+
+  <export>
+    <filters plugin="${prefix}/vizzy_sensors_plugins.xml"/>
+  </export>
+
+</package>

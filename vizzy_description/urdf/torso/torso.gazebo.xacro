@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="torso_gazebo" params="name">
+    
+    <!-- yarp plugin -->
+    <gazebo>
+      <plugin name="controlboard_torso" filename="libgazebo_yarp_controlboard.so">
+        <yarpConfigurationFile>model://media/conf/gazebo_vizzy_torso.ini</yarpConfigurationFile>
+        <initialConfiguration>0</initialConfiguration>
+      </plugin>
+    </gazebo>
+
+    <gazebo reference="waist_link">
+      <gravity>false</gravity>
+    </gazebo>
+    <!--<gazebo reference="waist_joint">
+      <kd>1.0</kd>
+      <kp>100000000.0</kp>
+      <stopKd value="1.0" />
+      <stopKp value="100000000.0" />
+    </gazebo>-->
+    
+  </xacro:macro>
+</robot>

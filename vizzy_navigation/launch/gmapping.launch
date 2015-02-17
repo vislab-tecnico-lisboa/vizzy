@@ -1,0 +1,17 @@
+<launch>
+    
+    <arg name="scan_topic" default="scan" />
+
+    <node name="slam_gmapping" pkg="gmapping" type="slam_gmapping" output="log">
+      <param name="scan" value="$(arg scan_topic)"/>
+      <param name="map_update_interval" value="1.0"/>
+      <param name="maxUrange" value="3.0"/>
+      <param name="maxRange" value="5.0"/>
+      <param name="minimumScore" value="100"/>
+      <param name="srr" value="0.00"/>
+      <param name="srt" value="0.00"/>
+      <param name="str" value="0.00"/>
+      <param name="stt" value="0.00"/>
+      <param name="particles" value="30"/>
+    </node>
+</launch>

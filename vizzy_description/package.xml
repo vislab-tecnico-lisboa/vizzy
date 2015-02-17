@@ -1,0 +1,14 @@
+<package>
+  <name>vizzy_description</name>
+  <version>0.2.1</version>
+  <description>
+    Contains vizzy kinematics and other properties
+  </description>
+
+  <license>BSD</license>
+
+  <author email="piyushk@gmail.com">Piyush Khandelwal</author>
+  <maintainer email="piyushk@gmail.com">Piyush Khandelwal</maintainer>
+  <maintainer email="jack.oquin@gmail.com">Jack O'Quin</maintainer>
+
+</package>

@@ -1,0 +1,8 @@
+scan_filter_chain:
+- name: nan_to_inf_filter
+  type: vizzy_sensors/NanToInfFilter
+- name: footprint_filter
+  type: vizzy_sensors/VizzyFootprintFilter
+  params:
+    footprint_frame: base_footprint
+    footprint: [0.2,0.3,0.2,-0.3,-0.35,-0.25,-0.35,0.25]

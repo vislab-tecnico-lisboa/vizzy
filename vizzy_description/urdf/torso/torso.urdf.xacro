@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<robot xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
+       xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
+       xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
+       xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- Things that are needed only for Gazebo (not the physical robot).  These include
+       sensor and controller plugin specifications -->
+ <xacro:include filename="$(find vizzy_description)/urdf/torso/torso.gazebo.xacro" />
+ <xacro:include filename="$(find vizzy_description)/urdf/torso/torso.transmission.xacro" />
+
+ <xacro:macro name="torso" params="name">
+  <link
+    name="waist_link">
+    <inertial>
+      <origin
+        xyz="0.0 0.113 0.0"
+        rpy="0.0 3.14159265358979 0.0" />
+      <mass
+        value="1.52801214308198" />
+      <inertia
+        ixx="0.0152197122703999"
+        ixy="-0.000217387828540953"
+        ixz="-2.16469131237159E-06"
+        iyy="0.00325229915840824"
+        iyz="0.000261589513226157"
+        izz="0.0128988018329273" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0.0 0.113 0.0"
+        rpy="0.0 3.14159265358979 0.0" />
+      <geometry>
+        <mesh
+          filename="package://vizzy_description/meshes/M0.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0.0 0.113 0.0"
+        rpy="0.0 3.14159265358979 0.0" />
+      <geometry>
+        <mesh
+          filename="package://vizzy_description/meshes/M0.dae" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="waist_joint"
+    type="revolute">
+    <origin
+      xyz="0.189861451370331 0.0 0.535796910356883"
+      rpy="1.5708 0.0 0.0" />
+    <parent
+      link="base_link" />
+    <child
+      link="waist_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit lower="-0.34906585" upper="0.34906585" effort="10" velocity="3" />
+    <dynamics damping="0.1"/>
+  </joint>
+
+  <!-- gazebo extensions -->
+  <xacro:torso_gazebo name="${name}" />
+  <xacro:torso_transmissions/>
+
+ </xacro:macro>
+</robot>
