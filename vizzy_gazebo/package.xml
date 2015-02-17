@@ -1,7 +1,7 @@
 <package>
-  <name>vizzy_simulator</name>
+  <name>vizzy_gazebo</name>
   <version>1.11.4</version>
-  <description>vizzy_simulator</description>
+  <description>vizzy_gazebo</description>
   <author>Miguel Aragão</author>
   <maintainer email="miguelaragao91@gmail.com">Miguel Aragão</maintainer>
   <license>BSD</license>

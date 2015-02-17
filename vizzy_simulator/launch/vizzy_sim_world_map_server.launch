@@ -1,3 +1,0 @@
-<launch>
-  <node name="map_server" pkg="map_server" type="map_server" args="$(find vizzy_simulator)/maps/perfectMap.yaml" />
-</launch>

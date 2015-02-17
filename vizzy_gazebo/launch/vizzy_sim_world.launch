@@ -15,7 +15,7 @@
   </group>
 
   <!-- start world -->
-  <node name="$(arg world)" pkg="gazebo_ros" type="$(arg gazebo_binary)" args="$(find vizzy_simulator)/worlds/vizzy_test_world.world $(arg extra_gazebo_args)" respawn="false" output="screen" launch-prefix="$(optenv OPTIRUN_LAUNCH_PREFIX)" />
+  <node name="$(arg world)" pkg="gazebo_ros" type="$(arg gazebo_binary)" args="$(find vizzy_gazebo)/worlds/vizzy_test_world.world $(arg extra_gazebo_args)" respawn="false" output="screen" launch-prefix="$(optenv OPTIRUN_LAUNCH_PREFIX)" />
 
   <!-- start gui -->
   <group if="$(arg gui)">

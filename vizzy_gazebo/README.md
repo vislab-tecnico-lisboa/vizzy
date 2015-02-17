@@ -1,4 +1,4 @@
-# vizzy_simulator
+# vizzy_gazebo
 
 ROS package to simulate Vizzy on Gazebo
 
@@ -40,7 +40,7 @@ Open a terminal and navigate to the folder where you want to download the packag
 
 Now, run:
 
-    git clone https://github.com/vislab-tecnico-lisboa/vizzy_simulator.git
+    git clone https://github.com/vislab-tecnico-lisboa/vizzy_gazebo.git
 
 After completing the download, you should execute some instructions to setup your environment:
 
@@ -65,8 +65,8 @@ Open a terminal to run yarpserver for upperbody simulation:
 
 Open another terminal:
 
-    roslaunch vizzy_simulator gazebo.launch
+    roslaunch vizzy_gazebo gazebo.launch
 
 In case you want you to perform SLAM in simulation you can run instead:
 
-    roslaunch vizzy_simulator gmapping_gazebo.launch
+    roslaunch vizzy_gazebo gmapping_gazebo.launch
