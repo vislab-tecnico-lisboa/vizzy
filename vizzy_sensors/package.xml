@@ -1,18 +1,24 @@
 <package>
   <name>vizzy_sensors</name>
-  <version>0.2.1</version>
+  <version>1.0.0</version>
   <description>
-    Contains sensor specific launch files and all the relevant filters that are
-    applied on sensor data before being used by Vizzy robot.
+
+    Contain the launch files for the hokuyo sensor
+    and also the filters applied on the data before
+    Vizzy using it.
+
   </description>
+  
+  <maintainer email="miguelaragao91@gmail.com">Miguel Aragão</maintainer>
+  <author>Miguel Aragão</author>
+  <author>Piyush Khandelwal</author>
 
   <license>BSD</license>
-  
-  <author email="piyushk@gmail.com">Piyush Khandelwal</author>
-  <maintainer email="miguelaragao91@gmail.com">Miguel Aragao</maintainer>
+
+  <url type="website">https://github.com/vislab-tecnico-lisboa/vizzy/vizzy_sensors</url>
+  <url type="bugtracker">https://github.com/vislab-tecnico-lisboa/vizzy/issues</url>
 
   <buildtool_depend>catkin</buildtool_depend>
-
   <build_depend>laser_filters</build_depend>
   <build_depend>message_generation</build_depend>
   <build_depend>nodelet</build_depend>
@@ -22,6 +28,7 @@
   <build_depend>roslint</build_depend>
   <build_depend>sensor_msgs</build_depend>
   <build_depend>tf</build_depend>
+  <build_depend>roslaunch</build_depend>
 
   <run_depend>camera1394</run_depend>
   <run_depend>depthimage_to_laserscan</run_depend>
@@ -42,11 +49,7 @@
   <run_depend>tf</run_depend>
   <run_depend>tf2_ros</run_depend>
 
-  <!-- test dependencies -->
-  <build_depend>roslaunch</build_depend>
-
   <export>
     <filters plugin="${prefix}/vizzy_sensors_plugins.xml"/>
   </export>
-
 </package>

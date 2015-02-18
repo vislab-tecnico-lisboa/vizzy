@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <launch>
   <arg name="config" default="nav_eband" />
   <arg name="config_file" default="$(find vizzy_navigation)/rviz/$(arg config).rviz" />

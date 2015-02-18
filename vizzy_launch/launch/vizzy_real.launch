@@ -1,10 +1,6 @@
 <?xml version="1.0"?>
+<!-- ROS head file to simulate vizzy in gazebo   -->
 <launch>
-
-  <!-- - - - - - - - - - - - - - - - - - - - - - - -->
-  <!-- ROS head file to simulate vizzy in gazebo   -->
-  <!-- - - - - - - - - - - - - - - - - - - - - - - -->
-
   <!-- robot configuration parameters -->
 	<arg name="robot" value="vizzy"/> <!-- full, lower_body, foot -->
 
@@ -16,8 +12,8 @@
   </include>
 
 	<!-- Launch navigation stuff -->
-
+  <!-- TO DO -->
 
 	<!-- Launch rviz -->
- <node name="rviz" pkg="rviz" type="rviz" args="-d $(find vizzy_launch)/rviz/vizzy.rviz" />
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find vizzy_launch)/rviz/vizzy.rviz" />
 </launch>

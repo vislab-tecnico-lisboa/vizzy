@@ -1,19 +1,25 @@
+<?xml version="1.0"?>
 <package>
   <name>vizzy_navigation</name>
-  <version>0.2.1</version>
+  <version>1.0.0</version>
   <description>
-    Contains launch files for running the ROS navigation stack on the segbot
-    using the eband_local_planner approach, as well as launch files for amcl
-    and gmapping.
+
+    Contains the launch files for running the ROS navigation
+    stack on Vizzy as well as launch files for packages like
+    amcl, gmapping and so on.
+
   </description>
+
+  <maintainer email="miguelaragao91@gmail.com">Miguel Aragão</maintainer>
+  <author>Miguel Aragão</author>
 
   <license>BSD</license>
 
-  <author email="piyushk@gmail.com">Piyush Khandelwal</author>
-  <maintainer email="piyushk@gmail.com">Piyush Khandelwal</maintainer>
-  <maintainer email="jack.oquin@gmail.com">Jack O'Quin</maintainer>
+  <url type="website">https://github.com/vislab-tecnico-lisboa/vizzy/vizzy_navigation</url>
+  <url type="bugtracker">https://github.com/vislab-tecnico-lisboa/vizzy/issues</url>
 
   <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roslaunch</build_depend>
 
   <run_depend>amcl</run_depend>
   <run_depend>eband_local_planner</run_depend>
@@ -22,8 +28,4 @@
   <run_depend>move_base</run_depend>
   <run_depend>navfn</run_depend>
   <run_depend>rviz</run_depend>
-
-  <!-- test dependencies -->
-  <build_depend>roslaunch</build_depend>
-
 </package>

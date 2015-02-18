@@ -1,11 +1,6 @@
 <?xml version="1.0"?>
 <robot  name="vizzy" xmlns:xacro="http://ros.org/wiki/xacro" >
-  
-
-  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-  <!--  The following include files set up definitions of parts of the robot body  -->
-  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
+  <!-- The following include files set up definitions of parts of the robot body  -->
   <!-- misc common stuff -->
   <xacro:include filename="$(find vizzy_description)/urdf/common.urdf.xacro" />
   <!-- sensors -->
@@ -20,11 +15,7 @@
   <xacro:include filename="$(find vizzy_description)/urdf/arm/left_arm.urdf.xacro" />
   <!-- right arm -->
   <xacro:include filename="$(find vizzy_description)/urdf/arm/right_arm.urdf.xacro" />
-
-  <!-- - - - - - - - - - - - - - - - - - - - - - - - - -  -->
 	<!-- The following include files contain gazebo plugins -->
-  <!-- - - - - - - - - - - - - - - - - - - - - - - - - -  -->
-
   <!-- ROS -->
   <xacro:include filename="$(find vizzy_description)/plugins/ros.gazebo.xacro" />
   <!-- Yarp -->
@@ -44,11 +35,9 @@
   <xacro:rightarm name="right_arm" parent="M0" sufix="r" reflect="1">
     <origin xyz="-0.01707 0.0 0.38145" rpy="0.0 0.0 0.0" />
   </xacro:rightarm>
-
   <!-- instantiate hokuyo -->
   <xacro:hokuyo_mount name="nav_hokuyo" parent="base" length="${SENSOR_BEAM_LENGTH*INCH_TO_M}" ros_topic="scan" update_rate="10" min_angle="${-(5 * M_PI)/12}" max_angle="${(5 * M_PI)/12}">
-    <origin xyz="-0.05 0.14
- 0.15" rpy="${-M_PI/2} ${-M_PI/2} 3.14" />
+    <origin xyz="-0.05 0.14 0.15" rpy="${-M_PI/2} ${-M_PI/2} 3.14" />
   </xacro:hokuyo_mount>
 
   <!-- instantiate common ROS and Yarp plugins -->
@@ -67,6 +56,5 @@
   <!-- instantiate ROS plugins -->
   <xacro:unless value="$(arg use_yarp)">
 		<xacro:ros_control_gazebo/>
-
   </xacro:unless>
 </robot>

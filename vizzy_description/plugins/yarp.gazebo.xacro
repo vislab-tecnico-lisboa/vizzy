@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
 <root xmlns:xacro="http://ros.org/wiki/xacro">
-    
   <!-- torso controller plugin -->
   <xacro:macro name="torso_gazebo_control">
     <gazebo>
@@ -40,5 +39,4 @@
       </plugin>
     </gazebo>
   </xacro:macro>
-
 </root>
