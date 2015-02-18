@@ -1,19 +1,19 @@
 <?xml version="1.0"?>
 <root xmlns:xacro="http://ros.org/wiki/xacro">
-	<!-- head, torso and arms controllers plugin -->
-	<xacro:macro name="ros_control_gazebo">
+  <!-- head, torso and arms controllers plugin -->
+  <xacro:macro name="ros_control_gazebo">
     <gazebo>
-	    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
-		    <robotNamespace>/vizzy</robotNamespace>
-		  </plugin>
+      <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+        <robotNamespace>/vizzy</robotNamespace>
+      </plugin>
     </gazebo>
   </xacro:macro>
 
   <!-- base controller plugin -->
   <xacro:macro name="ros_differential_drive_gazebo">
-	  <gazebo>
+    <gazebo>
       <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
-      	<leftJoint>l_wheel_joint</leftJoint>
+        <leftJoint>l_wheel_joint</leftJoint>
         <rightJoint>r_wheel_joint</rightJoint>
         <wheelSeparation>0.4580</wheelSeparation>
         <wheelDiameter>0.2410</wheelDiameter>
@@ -30,46 +30,46 @@
   <!-- camera plugin -->
   <xacro:macro name="camera_plugin" params="name prefix">
     <gazebo reference="${prefix}_camera_link">
-		  <sensor type="camera" name="${prefix}_camera">
-				<update_rate>30.0</update_rate>
-				<camera name="head">
-				  <horizontal_fov>1.4912</horizontal_fov>
-				  <image>
-				    <width>320</width>
-				    <height>240</height>
-				    <format>R8G8B8</format>
-				  </image>
-				  <clip>
-				    <near>0.02</near>
-				    <far>300</far>
-				  </clip>
-				  <noise>
-				    <type>gaussian</type>
-				    <!-- Noise is sampled independently per pixel on each frame.
-				         That pixel's noise value is added to each of its color
-				         channels, which at that point lie in the range [0,1]. -->
-				    <mean>0.0</mean>
-				    <stddev>0.007</stddev>
-				  </noise>
-				</camera>
+      <sensor type="camera" name="${prefix}_camera">
+        <update_rate>30.0</update_rate>
+        <camera name="head">
+          <horizontal_fov>1.4912</horizontal_fov>
+          <image>
+            <width>320</width>
+            <height>240</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.02</near>
+            <far>300</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <!-- Noise is sampled independently per pixel on each frame.
+                That pixel's noise value is added to each of its color
+                channels, which at that point lie in the range [0,1]. -->
+            <mean>0.0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+        </camera>
 
-				<plugin name="camera_controller" filename="libgazebo_ros_camera.so">
-				  <alwaysOn>true</alwaysOn>
-				  <updateRate>30.0</updateRate>
-				  <cameraName>vizzy/${prefix}_camera</cameraName>
-				  <imageTopicName>image_raw</imageTopicName>
-				  <cameraInfoTopicName>camera_info</cameraInfoTopicName>
-				  <frameName>${prefix}_camera_link</frameName>
-				  <distortion>
-				    <k1>-0.4738</k1>
-				    <k2>0.190309</k2>
-				    <k3>0.0</k3>
-				    <p1>-0.000375676</p1>
-				    <p2>-0.000663688</p2>
-				    <center> 0.4809  0.4887</center>
-				  </distortion>
-				</plugin>
-			</sensor>
+        <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+          <alwaysOn>true</alwaysOn>
+          <updateRate>30.0</updateRate>
+          <cameraName>vizzy/${prefix}_camera</cameraName>
+          <imageTopicName>image_raw</imageTopicName>
+          <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+          <frameName>${prefix}_camera_link</frameName>
+          <distortion>
+            <k1>-0.4738</k1>
+            <k2>0.190309</k2>
+            <k3>0.0</k3>
+            <p1>-0.000375676</p1>
+            <p2>-0.000663688</p2>
+            <center> 0.4809  0.4887</center>
+          </distortion>
+        </plugin>
+      </sensor>
     </gazebo>
   </xacro:macro>
 </root>
