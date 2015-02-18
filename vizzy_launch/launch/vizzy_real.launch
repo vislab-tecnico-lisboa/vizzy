@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - -->
+  <!-- ROS head file to simulate vizzy in gazebo   -->
+  <!-- - - - - - - - - - - - - - - - - - - - - - - -->
+
+  <!-- robot configuration parameters -->
+	<arg name="robot" value="vizzy"/> <!-- full, lower_body, foot -->
+
+	<!-- launch real robot -->
+
+	<!-- Bringup robot controllers -->
+  <include file="$(find vizzy_control)/launch/vizzy_control.launch">
+
+  </include>
+
+	<!-- Launch navigation stuff -->
+
+
+	<!-- Launch rviz -->
+ <node name="rviz" pkg="rviz" type="rviz" args="-d $(find vizzy_launch)/rviz/vizzy.rviz" />
+</launch>

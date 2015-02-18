@@ -5,15 +5,18 @@
   <!-- ROS head file to simulate vizzy in gazebo   -->
   <!-- - - - - - - - - - - - - - - - - - - - - - - -->
 
-  <!-- Simulator and robot configuration parameters -->
+  <!-- robot configuration parameters -->
 	<arg name="robot" value="vizzy"/> <!-- full, lower_body, foot -->
+
+  <!-- simulation parameters and robot configuration parameters -->
   <arg name="pose" value="-x 0.0 -y 0.0 -z 0.2 -R 0.0 -P 0.0 -Y 1.57"/>
   <arg name="paused" value="false"/>
   <arg name="use_sim_time" value="true"/>
   <arg name="gui" value="true"/>
   <arg name="world" value="vizzy_test_world.world" />
+  <arg name="yarp" value="false"/>
 
-	<!-- Launch gazebo simulator -->
+	<!-- Launch robot in gazebo simulator -->
   <include file="$(find vizzy_gazebo)/launch/gazebo.launch">
     <arg name="robot" default="$(arg robot)"/>
     <arg name="pose" value="$(arg pose)"/>
@@ -23,10 +26,11 @@
   	<arg name="world" default="$(arg world)" />
   </include>
 
-	<!-- Bringup robot ROS controllers -->
+	<!-- Bringup robot controllers -->
   <include file="$(find vizzy_control)/launch/vizzy_control.launch">
 
   </include>
+
 	<!-- Launch navigation stuff -->
 
 
