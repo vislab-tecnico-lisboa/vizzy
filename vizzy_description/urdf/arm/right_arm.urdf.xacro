@@ -385,8 +385,8 @@
     name="r_wrist_flection_link">
     <inertial>
       <origin
-        xyz="0 0 -0.0068"
-        rpy="0 3.1416 -1.5708" />
+        xyz="0.106 0.0077 0.017"
+        rpy="0.0 ${M_PI} ${-M_PI/2}" />
       <mass
         value="0.263247942991542" />
       <inertia
@@ -413,8 +413,8 @@
     </visual>
     <collision>
       <origin
-        xyz="0 0 -0.0068"
-        rpy="0 3.1416 -1.5708" />
+        xyz="0.106 0.0077 0.017"
+        rpy="0.0 ${M_PI} ${-M_PI/2}" />
       <geometry>
         <mesh
           filename="package://vizzy_description/meshes/M7R.dae" />
