@@ -14,8 +14,8 @@
 	<!-- start up world -->
   <include file="$(find vizzy_gazebo)/launch/vizzy_sim_world.launch">
   	<arg name="use_sim_time" value="$(arg use_sim_time)" />
-  	<arg name="gui" default="$(arg gui)" />
-  	<arg name="world" default="$(arg world)" />
+  	<arg name="gui" value="$(arg gui)" />
+  	<arg name="world" value="$(arg world)" />
   </include>
 
   <!-- spawn the robot in simulation -->
