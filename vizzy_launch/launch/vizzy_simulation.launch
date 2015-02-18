@@ -9,7 +9,7 @@
 	<arg name="robot" value="vizzy"/> <!-- full, lower_body, foot -->
 
   <!-- simulation parameters and robot configuration parameters -->
-	<arg name="use_yarp" value="false"/>
+	<arg name="use_yarp" value="true"/>
   <arg name="pose" value="-x 0.0 -y 0.0 -z 0.2 -R 0.0 -P 0.0 -Y 1.57"/>
   <arg name="paused" value="false"/>
   <arg name="use_sim_time" value="true"/>
