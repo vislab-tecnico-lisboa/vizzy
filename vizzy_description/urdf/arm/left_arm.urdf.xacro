@@ -8,7 +8,7 @@
     <inertial>
       <origin
         xyz="0.0 0.0 -0.16"
-        rpy="0.0 0.0 ${-M_PI}" />
+        rpy="0.0 0.0 0.0" />
       <mass
         value="0.328838093974495" />
       <inertia
@@ -22,7 +22,7 @@
     <visual>
       <origin
         xyz="0.0 0.0 -0.16"
-        rpy="0.0 0.0 ${-M_PI}" />
+        rpy="0.0 0.0 0.0" />
       <geometry>
         <mesh
           filename="package://vizzy_description/meshes/M0L.dae" />
@@ -36,7 +36,7 @@
     <collision>
       <origin
         xyz="0.0 0.0 -0.16"
-        rpy="0.0 0.0 ${-M_PI}" />
+        rpy="0.0 0.0 0.0" />
       <geometry>
         <mesh
           filename="package://vizzy_description/meshes/M0L.dae" />
@@ -62,7 +62,7 @@
     <inertial>
       <origin
         xyz="0.0 0.0 -0.0479999999999997"
-        rpy="0.0 0.0 -1.0547" />
+        rpy="0.0 0.0 -4.1963" />
       <mass
         value="0.329707501986262" />
       <inertia
@@ -76,7 +76,7 @@
     <visual>
       <origin
         xyz="0.0 0.0 -0.0479999999999997"
-        rpy="0.0 0.0 -1.0547" />
+        rpy="0.0 0.0 -4.1963" />
       <geometry>
         <mesh
           filename="package://vizzy_description/meshes/M1L.dae" />
@@ -90,7 +90,7 @@
     <collision>
       <origin
         xyz="0.0 0.0 -0.0479999999999997"
-        rpy="0.0 0.0 -1.0547" />
+        rpy="0.0 0.0 -4.1963" />
       <geometry>
         <mesh
           filename="package://vizzy_description/meshes/M1L.dae" />
@@ -169,8 +169,8 @@
     name="l_shoulder_rotation_link">
     <inertial>
       <origin
-        xyz="0.003 0.006 -0.127"
-        rpy="0.0 0.0 ${-M_PI/2}" />
+        xyz="0.003 -0.006 -0.127"
+        rpy="0.0 0.0 ${M_PI/2}" />
       <mass
         value="0.302328099651438" />
       <inertia
@@ -183,8 +183,8 @@
     </inertial>
     <visual>
       <origin
-        xyz="0.003 0.006 -0.127"
-        rpy="0.0 0.0 ${-M_PI/2}" />
+        xyz="0.003 -0.006 -0.127"
+        rpy="0.0 0.0 ${M_PI/2}" />
       <geometry>
         <mesh
           filename="package://vizzy_description/meshes/M3L.dae" />
@@ -197,8 +197,8 @@
     </visual>
     <collision>
       <origin
-        xyz="0.003 0.006 -0.127"
-        rpy="0.0 0.0 ${-M_PI/2}" />
+        xyz="0.003 -0.006 -0.127"
+        rpy="0.0 0.0 ${M_PI/2}" />
       <geometry>
         <mesh
           filename="package://vizzy_description/meshes/M3L.dae" />
@@ -223,8 +223,8 @@
     name="l_elbow_flection_link">
     <inertial>
       <origin
-        xyz="0.002 0.035 0.0"
-        rpy="0.0 ${M_PI} 0.0" />
+        xyz="0.002 -0.035 0.0"
+        rpy="0.0 ${M_PI} ${M_PI}" />
       <mass
         value="0.224019872188573" />
       <inertia
@@ -237,8 +237,8 @@
     </inertial>
     <visual>
       <origin
-        xyz="0.002 0.035 0.0"
-        rpy="0.0 ${M_PI} 0.0" />
+        xyz="0.002 -0.035 0.0"
+        rpy="0.0 ${M_PI} ${M_PI}" />
       <geometry>
         <mesh
           filename="package://vizzy_description/meshes/M4L.dae" />
@@ -251,8 +251,8 @@
     </visual>
     <collision>
       <origin
-        xyz="0.002 0.035 0.0"
-        rpy="0.0 ${M_PI} 0.0" />
+        xyz="0.002 -0.035 0.0"
+        rpy="0.0 ${M_PI} ${M_PI}" />
       <geometry>
         <mesh
           filename="package://vizzy_description/meshes/M4L.dae" />
@@ -399,8 +399,8 @@
     </inertial>
     <visual>
       <origin
-        xyz="0.106 0.0077 -0.015"
-        rpy="0.0 0.0 ${-M_PI/2.0}" />
+        xyz="-0.106 -0.0077 -0.015"
+        rpy="0.0 0.0 ${M_PI/2.0}" />
       <geometry>
         <mesh
           filename="package://vizzy_description/meshes/M7L.dae" />
