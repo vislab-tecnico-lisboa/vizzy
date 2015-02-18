@@ -30,13 +30,11 @@
 
 	<!-- Bringup robot controllers -->
 	<group unless="$(arg use_yarp)">
-	  <include file="$(find vizzy_control)/launch/vizzy_control.launch">
+	  <include file="$(find vizzy_control)/launch/vizzy_control.launch"/>
 	</group>
 
 
-  </include>
-
-	<!-- Launch navigation stuff -->
+  <!-- Launch navigation stuff -->
 
 
 	<!-- Launch rviz -->
