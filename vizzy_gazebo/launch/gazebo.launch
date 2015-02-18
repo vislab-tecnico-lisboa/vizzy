@@ -32,4 +32,9 @@
   <!-- launch the joint state publisher to default values -->
   <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher" />
 
+  <!-- convert joint states to TF transforms for rviz, etc -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
+    <!--<remap from="/joint_states" to="/vizzy/joint_states" />-->
+  </node>
+
 </launch>
