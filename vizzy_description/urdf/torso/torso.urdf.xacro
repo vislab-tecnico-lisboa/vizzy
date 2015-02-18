@@ -67,7 +67,7 @@
   </joint>
 
   <!-- gazebo extensions -->
-  <xacro:torso_gazebo name="${name}" />
+  <xacro:torso_gazebo/>
   <xacro:torso_transmissions/>
 
  </xacro:macro>

@@ -313,7 +313,7 @@
   </joint>
 
     <!-- gazebo extensions -->
-    <xacro:head_gazebo name="${name}" />
+    <xacro:head_gazebo/>
     <xacro:head_transmissions />
   </xacro:macro>
 </robot>

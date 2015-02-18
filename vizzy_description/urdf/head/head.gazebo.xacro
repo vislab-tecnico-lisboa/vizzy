@@ -1,13 +1,7 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
-  <xacro:macro name="head_gazebo" params="name">
-    <!-- yarp plugin -->
-    <gazebo>  
-      <plugin name="controlboard_head" filename="libgazebo_yarp_controlboard.so">
-        <yarpConfigurationFile>model://media/conf/gazebo_vizzy_head.ini</yarpConfigurationFile>
-        <initialConfiguration>0 0 0</initialConfiguration>
-      </plugin>
-    </gazebo>
+  <xacro:macro name="head_gazebo">
+
     <gazebo reference="neck_pan_link">
       <mu1>0.2</mu1>
       <mu2>0.2</mu2>

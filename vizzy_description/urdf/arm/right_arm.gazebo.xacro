@@ -1,12 +1,4 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
-  <xacro:macro name="right_arm_gazebo" params="name">
-  	<!-- yarp plugin -->
-    <gazebo>
-      <plugin name="controlboard_right_arm" filename="libgazebo_yarp_controlboard.so">
-        <yarpConfigurationFile>model://media/conf/gazebo_vizzy_right_arm.ini</yarpConfigurationFile>
-        <initialConfiguration>0 0 0 0 0 0 0 0</initialConfiguration>
-      </plugin>
-    </gazebo>
-  </xacro:macro>
+
 </robot>

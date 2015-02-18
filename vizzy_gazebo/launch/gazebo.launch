@@ -2,6 +2,7 @@
 <launch>
 
   <!-- these are the arguments you can pass this launch file, for example paused:=true -->
+	<arg name="use_yarp" default="false"/>
 	<arg name="robot" default="vizzy"/> <!-- full, lower_body, foot -->
   <arg name="pose" default="-x 0.0 -y 0.0 -z 0.2 -R 0.0 -P 0.0 -Y 1.57"/>
   <arg name="paused" default="false"/>
@@ -20,6 +21,7 @@
 
   <!-- spawn the robot in simulation -->
   <include file="$(find vizzy_gazebo)/launch/vizzy_spawn.launch">
+  	<arg name="use_yarp" value="$(arg use_yarp)"/>
   	<arg name="pose" value="$(arg pose)"/>
   	<arg name="robot" value="$(arg robot)"/>
   </include>

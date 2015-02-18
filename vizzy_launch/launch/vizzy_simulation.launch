@@ -9,6 +9,7 @@
 	<arg name="robot" value="vizzy"/> <!-- full, lower_body, foot -->
 
   <!-- simulation parameters and robot configuration parameters -->
+	<arg name="use_yarp" value="false"/>
   <arg name="pose" value="-x 0.0 -y 0.0 -z 0.2 -R 0.0 -P 0.0 -Y 1.57"/>
   <arg name="paused" value="false"/>
   <arg name="use_sim_time" value="true"/>
@@ -18,12 +19,13 @@
 
 	<!-- Launch robot in gazebo simulator -->
   <include file="$(find vizzy_gazebo)/launch/gazebo.launch">
-    <arg name="robot" default="$(arg robot)"/>
+	  <arg name="use_yarp" value="$(arg use_yarp)"/>
+    <arg name="robot" value="$(arg robot)"/>
     <arg name="pose" value="$(arg pose)"/>
     <arg name="paused" value="$(arg paused)"/>
   	<arg name="use_sim_time" value="$(arg use_sim_time)" />
-  	<arg name="gui" default="$(arg gui)" />
-  	<arg name="world" default="$(arg world)" />
+  	<arg name="gui" value="$(arg gui)" />
+  	<arg name="world" value="$(arg world)" />
   </include>
 
 	<!-- Bringup robot controllers -->

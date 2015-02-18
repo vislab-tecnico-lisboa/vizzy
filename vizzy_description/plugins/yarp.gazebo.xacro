@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<root xmlns:xacro="http://ros.org/wiki/xacro">
+    
+  <!-- torso controller plugin -->
+  <xacro:macro name="torso_gazebo_control">
+    <gazebo>
+      <plugin name="controlboard_torso" filename="libgazebo_yarp_controlboard.so">
+        <yarpConfigurationFile>model://media/conf/gazebo_vizzy_torso.ini</yarpConfigurationFile>
+        <initialConfiguration>0</initialConfiguration>
+      </plugin>
+    </gazebo>
+  </xacro:macro>
+
+  <!-- head controller plugin -->
+  <xacro:macro name="head_gazebo_control">
+    <gazebo>  
+      <plugin name="controlboard_head" filename="libgazebo_yarp_controlboard.so">
+        <yarpConfigurationFile>model://media/conf/gazebo_vizzy_head.ini</yarpConfigurationFile>
+        <initialConfiguration>0 0 0</initialConfiguration>
+      </plugin>
+    </gazebo>
+  </xacro:macro>
+
+  <!-- left arm controller plugin -->
+  <xacro:macro name="left_arm_gazebo_control">
+    <gazebo>
+      <plugin name="controlboard_left_arm" filename="libgazebo_yarp_controlboard.so">
+        <yarpConfigurationFile>model://media/conf/gazebo_vizzy_left_arm.ini</yarpConfigurationFile>
+        <initialConfiguration>0 0 0 0 0 0 0 0</initialConfiguration>
+      </plugin>
+    </gazebo>
+  </xacro:macro>
+
+  <!-- right arm controller plugin -->
+  <xacro:macro name="right_arm_gazebo_control">
+    <gazebo>
+      <plugin name="controlboard_right_arm" filename="libgazebo_yarp_controlboard.so">
+        <yarpConfigurationFile>model://media/conf/gazebo_vizzy_right_arm.ini</yarpConfigurationFile>
+        <initialConfiguration>0 0 0 0 0 0 0 0</initialConfiguration>
+      </plugin>
+    </gazebo>
+  </xacro:macro>
+
+</root>
