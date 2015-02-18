@@ -8,7 +8,7 @@
     <inertial>
       <origin
         xyz="0 0 0.166"
-        rpy="0 ${-M_PI} 0" />
+        rpy="0 ${-M_PI} ${M_PI}" />
       <mass
         value="0.328838093982794" />
       <inertia
@@ -22,7 +22,7 @@
     <visual>
       <origin
         xyz="0 0 0.166"
-        rpy="0 ${-M_PI} 0" />
+        rpy="0 ${-M_PI} ${M_PI}" />
       <geometry>
         <mesh
           filename="package://vizzy_description/meshes/M0R.dae" />
@@ -36,7 +36,7 @@
     <collision>
       <origin
         xyz="0 0 0.166"
-        rpy="0 ${-M_PI} 0" />
+        rpy="0 ${-M_PI} ${M_PI}" />
       <geometry>
         <mesh
           filename="package://vizzy_description/meshes/M0R.dae" />
@@ -62,7 +62,7 @@
     <inertial>
       <origin
         xyz="0.0 0.0 0.0479999999999997"
-        rpy="0.0 ${M_PI} -4.1963" />
+        rpy="0.0 ${M_PI} -1.0547" />
       <mass
         value="0.32970750458976" />
       <inertia
@@ -76,7 +76,7 @@
     <visual>
       <origin
         xyz="0.0 0.0 0.0479999999999997"
-        rpy="0.0 ${M_PI} -4.1963" />
+        rpy="0.0 ${M_PI} -1.0547" />
       <geometry>
         <mesh
           filename="package://vizzy_description/meshes/M1R.dae" />
@@ -90,7 +90,7 @@
     <collision>
       <origin
         xyz="0.0 0.0 0.0479999999999997"
-        rpy="0.0 ${M_PI} -4.1963" />
+        rpy="0.0 ${M_PI} -1.0547" />
       <geometry>
         <mesh
           filename="package://vizzy_description/meshes/M1R.dae" />
@@ -169,8 +169,8 @@
     name="r_shoulder_rotation_link">
     <inertial>
       <origin
-        xyz="-0.003 -0.006 0.127"
-        rpy="${M_PI} 0 ${-M_PI/2}" />
+        xyz="-0.003 0.006 0.127"
+        rpy="${M_PI} 0 ${M_PI/2}" />
       <mass
         value="0.302328098083101" />
       <inertia
@@ -183,8 +183,8 @@
     </inertial>
     <visual>
       <origin
-        xyz="-0.003 -0.006 0.127"
-        rpy="${M_PI} 0 ${-M_PI/2}" />
+        xyz="-0.003 0.006 0.127"
+        rpy="${M_PI} 0 ${M_PI/2}" />
       <geometry>
         <mesh
           filename="package://vizzy_description/meshes/M3R.dae" />
@@ -197,8 +197,8 @@
     </visual>
     <collision>
       <origin
-        xyz="-0.003 -0.006 0.127"
-        rpy="${M_PI} 0 ${-M_PI/2}" />
+        xyz="-0.003 0.006 0.127"
+        rpy="${M_PI} 0 ${M_PI/2}" />
       <geometry>
         <mesh
           filename="package://vizzy_description/meshes/M3R.dae" />
@@ -223,8 +223,8 @@
     name="r_elbow_flection_link">
     <inertial>
       <origin
-        xyz="-0.002 -0.035 0.0"
-        rpy="0 0 ${M_PI}" />
+        xyz="-0.002 0.035 0.0"
+        rpy="0.0 0.0 0.0" />
       <mass
         value="0.224019872068973" />
       <inertia
@@ -237,8 +237,8 @@
     </inertial>
     <visual>
       <origin
-        xyz="-0.002 -0.035 0.0"
-        rpy="0 0 ${M_PI}" />
+        xyz="-0.002 0.035 0.0"
+        rpy="0.0 0.0 0.0" />
       <geometry>
         <mesh
           filename="package://vizzy_description/meshes/M4R.dae" />
@@ -251,8 +251,8 @@
     </visual>
     <collision>
       <origin
-        xyz="-0.002 -0.035 0.0"
-        rpy="0 0 ${M_PI}" />
+        xyz="-0.002 0.035 0.0"
+        rpy="0.0 0.0 0.0" />
       <geometry>
         <mesh
           filename="package://vizzy_description/meshes/M4R.dae" />
@@ -385,8 +385,8 @@
     name="r_wrist_flection_link">
     <inertial>
       <origin
-        xyz="0 0 -0.0068"
-        rpy="0 3.1416 -1.5708" />
+        xyz="0.106 0.0077 0.017"
+        rpy="0.0 ${M_PI} ${-M_PI/2}" />
       <mass
         value="0.263247942991542" />
       <inertia
@@ -399,8 +399,8 @@
     </inertial>
     <visual>
       <origin
-        xyz="-0.106 -0.0077 0.017"
-        rpy="0.0 ${M_PI} ${M_PI/2}" />
+        xyz="0.106 0.0077 0.017"
+        rpy="0.0 ${M_PI} ${-M_PI/2}" />
       <geometry>
         <mesh
           filename="package://vizzy_description/meshes/M7R.dae" />
@@ -413,8 +413,8 @@
     </visual>
     <collision>
       <origin
-        xyz="0 0 -0.0068"
-        rpy="0 3.1416 -1.5708" />
+        xyz="0.106 0.0077 0.017"
+        rpy="0.0 ${M_PI} ${-M_PI/2}" />
       <geometry>
         <mesh
           filename="package://vizzy_description/meshes/M7R.dae" />
