@@ -36,6 +36,78 @@ vizzy:
     joint: l_eye_pan_joint
     pid: {p: 1.0, i: 0.01, d: 0.1}
 
+  # Left arm Position Controllers
+  l_shoulder_scapula_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: l_shoulder_scapula_joint
+    pid: {p: 1.0, i: 0.01, d: 0.1}
+
+  l_shoulder_flection_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: l_shoulder_flection_joint
+    pid: {p: 1.0, i: 0.01, d: 0.1}
+
+  l_shoulder_rotation_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: l_shoulder_rotation_joint
+    pid: {p: 1.0, i: 0.01, d: 0.1}
+
+  l_elbow_flection_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: l_elbow_flection_joint
+    pid: {p: 1.0, i: 0.01, d: 0.1}
+
+  l_forearm_pronation_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: l_forearm_pronation_joint
+    pid: {p: 1.0, i: 0.01, d: 0.1}
+
+  l_wrist_abduction_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: l_wrist_abduction_joint
+    pid: {p: 1.0, i: 0.01, d: 0.1}
+
+  l_wrist_flection_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: l_wrist_flection_joint
+    pid: {p: 1.0, i: 0.01, d: 0.1}
+
+  # Right arm Position Controllers
+  r_shoulder_scapula_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: r_shoulder_scapula_joint
+    pid: {p: 1.0, i: 0.01, d: 0.1}
+
+  r_shoulder_flection_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: r_shoulder_flection_joint
+    pid: {p: 1.0, i: 0.01, d: 0.1}
+
+  r_shoulder_rotation_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: r_shoulder_rotation_joint
+    pid: {p: 1.0, i: 0.01, d: 0.1}
+
+  r_elbow_flection_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: r_elbow_flection_joint
+    pid: {p: 1.0, i: 0.01, d: 0.1}
+
+  r_forearm_pronation_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: r_forearm_pronation_joint
+    pid: {p: 1.0, i: 0.01, d: 0.1}
+
+  r_wrist_abduction_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: r_wrist_abduction_joint
+    pid: {p: 1.0, i: 0.01, d: 0.1}
+
+  r_wrist_flection_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: r_wrist_flection_joint
+    pid: {p: 1.0, i: 0.01, d: 0.1}
+
   gaze_controller:
     type: effort_controllers/JointTrajectoryController
     joints:
