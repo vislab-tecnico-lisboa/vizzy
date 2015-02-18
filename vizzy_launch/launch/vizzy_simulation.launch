@@ -2,16 +2,16 @@
 <!-- ROS head file to simulate vizzy in gazebo   -->
 <launch>
   <!-- robot configuration parameters -->
-	<arg name="robot" value="vizzy"/> <!-- full, lower_body, foot -->
+	<arg name="robot" default="vizzy"/> <!-- full, lower_body, foot -->
 
   <!-- simulation parameters and robot configuration parameters -->
-	<arg name="use_yarp" value="true"/>
-  <arg name="pose" value="-x 0.0 -y 0.0 -z 0.2 -R 0.0 -P 0.0 -Y 1.57"/>
-  <arg name="paused" value="false"/>
-  <arg name="use_sim_time" value="true"/>
-  <arg name="gui" value="true"/>
-  <arg name="world" value="vizzy_test_world.world" />
-  <arg name="yarp" value="false"/>
+	<arg name="use_yarp" default="false"/>
+  <arg name="pose" default="-x 0.0 -y 0.0 -z 0.2 -R 0.0 -P 0.0 -Y 1.57"/>
+  <arg name="paused" default="false"/>
+  <arg name="use_sim_time" default="true"/>
+  <arg name="gui" default="true"/>
+  <arg name="world" default="vizzy_test_world.world" />
+  <arg name="yarp" default="false"/>
 
 	<!-- bringup robot in gazebo simulator -->
   <include file="$(find vizzy_gazebo)/launch/gazebo.launch">

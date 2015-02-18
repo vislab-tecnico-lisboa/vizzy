@@ -25,7 +25,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: ""
+    SyncSource: Left camera
 Visualization Manager:
   Class: ""
   Displays:
@@ -242,50 +242,19 @@ Visualization Manager:
       Value: true
       Visual Enabled: true
     - Class: rviz/TF
-      Enabled: true
+      Enabled: false
       Frame Timeout: 15
       Frames:
         All Enabled: true
-        base_footprint:
-          Value: true
-        base_link:
-          Value: true
-        l_camera_link:
-          Value: true
-        l_eye_pan_link:
-          Value: true
-        l_palm_link:
-          Value: true
-        l_wrist_flection_link:
-          Value: true
-        nav_hokuyo_laser_link:
-          Value: true
-        nav_hokuyo_link:
-          Value: true
-        odom:
-          Value: true
-        r_camera_link:
-          Value: true
-        r_eye_pan_link:
-          Value: true
-        r_palm_link:
-          Value: true
-        r_wrist_flection_link:
-          Value: true
       Marker Scale: 1
       Name: TF
       Show Arrows: true
       Show Axes: true
       Show Names: true
       Tree:
-        odom:
-          base_footprint:
-            base_link:
-              nav_hokuyo_link:
-                nav_hokuyo_laser_link:
-                  {}
+        {}
       Update Interval: 0
-      Value: true
+      Value: false
     - Class: rviz/Camera
       Enabled: true
       Image Rendering: background and overlay
@@ -342,7 +311,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 10
+      Distance: 2.78501
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
@@ -354,10 +323,10 @@ Visualization Manager:
         Z: 0
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.405398
+      Pitch: 0.480397
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 0.720398
+      Yaw: 2.0154
     Saved: ~
 Window Geometry:
   Displays:

@@ -2,16 +2,10 @@
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
   <xacro:macro name="torso_gazebo">
 
-
     <gazebo reference="waist_link">
-      <gravity>false</gravity>
+      <mu1>0.2</mu1>
+      <mu2>0.2</mu2>
     </gazebo>
-    <!--<gazebo reference="waist_joint">
-      <kd>1.0</kd>
-      <kp>100000000.0</kp>
-      <stopKd value="1.0" />
-      <stopKp value="100000000.0" />
-    </gazebo>-->
     
   </xacro:macro>
 </robot>
