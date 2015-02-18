@@ -17,7 +17,7 @@
   <arg name="world" value="vizzy_test_world.world" />
   <arg name="yarp" value="false"/>
 
-	<!-- Launch robot in gazebo simulator -->
+	<!-- bringup robot in gazebo simulator -->
   <include file="$(find vizzy_gazebo)/launch/gazebo.launch">
 	  <arg name="use_yarp" value="$(arg use_yarp)"/>
     <arg name="robot" value="$(arg robot)"/>
@@ -28,13 +28,13 @@
   	<arg name="world" value="$(arg world)" />
   </include>
 
-	<!-- Bringup robot controllers -->
+	<!-- bringup ROS controllers -->
 	<group unless="$(arg use_yarp)">
 	  <include file="$(find vizzy_control)/launch/vizzy_control.launch"/>
 	</group>
 
 
-  <!-- Launch navigation stuff -->
+  <!-- bringup navigation modules -->
 
 
 	<!-- Launch rviz -->
