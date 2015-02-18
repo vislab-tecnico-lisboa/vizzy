@@ -29,8 +29,8 @@
   </xacro:macro>
 
   <xacro:macro name="camera_plugin" params="name prefix">
-    <gazebo reference="$(arg prefix)_camera_link">
-		  <sensor type="camera" name="$(arg prefix)_camera">
+    <gazebo reference="${prefix}_camera_link">
+		  <sensor type="camera" name="${prefix}_camera">
 				<update_rate>30.0</update_rate>
 				<camera name="head">
 				  <horizontal_fov>1.4912</horizontal_fov>
@@ -56,10 +56,10 @@
 				<plugin name="camera_controller" filename="libgazebo_ros_camera.so">
 				  <alwaysOn>true</alwaysOn>
 				  <updateRate>30.0</updateRate>
-				  <cameraName>vizzy/l_camera</cameraName>
+				  <cameraName>vizzy/${prefix}_camera</cameraName>
 				  <imageTopicName>image_raw</imageTopicName>
 				  <cameraInfoTopicName>camera_info</cameraInfoTopicName>
-				  <frameName>r_camera_link</frameName>
+				  <frameName>${prefix}_camera_link</frameName>
 				  <distortion>
 				    <k1>-0.4738</k1>
 				    <k2>0.190309</k2>
