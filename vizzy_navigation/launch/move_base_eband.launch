@@ -1,5 +1,5 @@
+<?xml version="1.0"?>
 <launch>
-
   <arg name="map_topic" default="/map" />
   <arg name="debug" default="false" />
   <arg if="$(arg debug)" name="prefix" value="gdb -ex run --args" />
@@ -19,5 +19,4 @@
     <param name="recovery_behavior_enabled" value="false"/>
     <param name="clearing_rotation_allowed" value="false"/>
   </node>
-
 </launch>

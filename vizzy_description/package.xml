@@ -1,22 +1,27 @@
+<?xml version="1.0"?>
 <package>
   <name>vizzy_description</name>
-  <version>1.11.4</version>
-  <description>This package contains the description (mechanical, kinematic, visual,
-  etc.) of the vizzy robot.  The files in this package are parsed and used by
-  a variety of other components.  Most users will not interact directly
-  with this package.</description>
+  <version>1.0.0</version>
+  <description>
+
+    This package contains Vizzy's description (mechanical, kinematic, visual, etc.).
+    The files in this package are parsed and used by a variety of other components.
+    Most users will not interact directly with this package.
+
+  </description>
+
   <maintainer email="miguelaragao91@gmail.com">Miguel Aragão</maintainer>
+  <author>Miguel Aragão</author>
+  <author>Rui Figueiredo</author>
+  <author>Plinio Moreno</author>
 
   <license>BSD</license>
 
   <url type="website">https://github.com/vislab-tecnico-lisboa/vizzy/vizzy_description</url>
   <url type="bugtracker">https://github.com/vislab-tecnico-lisboa/vizzy/issues</url>
 
-  <author>Miguel Aragão</author>
-  <author>Rui Figueiredo</author>
-  <author>Plinio Moreno</author>
-
   <buildtool_depend>catkin</buildtool_depend>
+
   <run_depend>xacro</run_depend>
 
   <test_depend>urdfdom</test_depend>

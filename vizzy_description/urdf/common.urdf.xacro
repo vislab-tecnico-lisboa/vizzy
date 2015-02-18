@@ -1,7 +1,5 @@
 <?xml version="1.0"?>
-
 <root xmlns:xacro="http://ros.org/wiki/xacro">
-
   <!-- generic constants -->
   <xacro:property name="M_PI" value="3.14159265359" />
   <xacro:property name="INCH_TO_M" value="0.0254"/>
@@ -30,6 +28,5 @@
   <material name="almost_black">
     <color rgba="0.02 0.02 0.02 1" />
   </material>
-
 </root>
 

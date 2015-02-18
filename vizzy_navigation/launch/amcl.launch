@@ -1,5 +1,5 @@
+<?xml version="1.0"?>
 <launch>
-
   <arg name="use_map_topic" default="true"/>
   <arg name="map_service" default="static_map" />
   <arg name="map_topic" default="map" />
@@ -59,7 +59,5 @@
 
     <remap from="static_map" to="$(arg map_service)" />
     <remap from="map" to="$(arg map_topic)" />
-
   </node>
-
 </launch>

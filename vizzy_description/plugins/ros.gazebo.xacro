@@ -1,8 +1,7 @@
 <?xml version="1.0"?>
 <root xmlns:xacro="http://ros.org/wiki/xacro">
-
-  <!-- head, torso and arms controllers plugin -->
-  <xacro:macro name="ros_control_gazebo">
+	<!-- head, torso and arms controllers plugin -->
+	<xacro:macro name="ros_control_gazebo">
     <gazebo>
 	    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
 		    <robotNamespace>/vizzy</robotNamespace>
@@ -14,7 +13,7 @@
   <xacro:macro name="ros_differential_drive_gazebo">
 	  <gazebo>
       <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
-        <leftJoint>l_wheel_joint</leftJoint>
+      	<leftJoint>l_wheel_joint</leftJoint>
         <rightJoint>r_wheel_joint</rightJoint>
         <wheelSeparation>0.4580</wheelSeparation>
         <wheelDiameter>0.2410</wheelDiameter>
@@ -28,6 +27,7 @@
     </gazebo>
   </xacro:macro>
 
+  <!-- camera plugin -->
   <xacro:macro name="camera_plugin" params="name prefix">
     <gazebo reference="${prefix}_camera_link">
 		  <sensor type="camera" name="${prefix}_camera">
@@ -69,9 +69,7 @@
 				    <center> 0.4809  0.4887</center>
 				  </distortion>
 				</plugin>
-		   
 			</sensor>
     </gazebo>
   </xacro:macro>
-
 </root>

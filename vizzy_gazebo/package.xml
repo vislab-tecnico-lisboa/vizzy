@@ -1,9 +1,21 @@
+<?xml version="1.0"?>
 <package>
   <name>vizzy_gazebo</name>
-  <version>1.11.4</version>
-  <description>vizzy_gazebo</description>
-  <author>Miguel Aragão</author>
+  <version>1.0.0</version>
+  <description>
+
+    This package holds all the needed launches and elements for
+    Vizzy's simulation on GAZEBO.
+
+  </description>
+
   <maintainer email="miguelaragao91@gmail.com">Miguel Aragão</maintainer>
+  <author>Miguel Aragão</author>
+
   <license>BSD</license>
+
+  <url type="website">https://github.com/vislab-tecnico-lisboa/vizzy/vizzy_gazebo</url>
+  <url type="bugtracker">https://github.com/vislab-tecnico-lisboa/vizzy/issues</url>
+
   <buildtool_depend>catkin</buildtool_depend>
 </package>

@@ -1,16 +1,16 @@
 vizzy:
-  # Publish all joint states -----------------------------------
+  # Publish all joint states
   joint_state_controller:
     type: joint_state_controller/JointStateController
     publish_rate: 50  
 
-  # Torso Position Controllers ---------------------------------------
+  # Torso Position Controllers
   waist_position_controller:
     type: effort_controllers/JointPositionController
     joint: waist_joint
     pid: {p: 100.0, i: 0.01, d: 10.0}
 
-  # Head Position Controllers ---------------------------------------
+  # Head Position Controllers
   neck_pan_position_controller:
     type: effort_controllers/JointPositionController
     joint: neck_pan_joint
