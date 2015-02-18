@@ -1,8 +1,12 @@
+<?xml version="1.0"?>
 <launch>
-
+  <arg name="map_topic" default="/map" />
   <arg name="map_file" default="$(find utexas_gdc)/maps/3ne-real-new.yaml" />
-  <arg name="robot_configuration" 
-       default="$(find vizzy-bringup)/launch/vizzy_navigation.launch"/>
+  <arg name="map_frame" default="map" />
+  <arg name="map_service" default="/static_map" />
+  <arg name="tf_prefix" default="" />
+  <arg name="base_frame_id" default="$(arg tf_prefix)/base_footprint" />
+  <arg name="odom_frame_id" default="$(arg tf_prefix)/odom" />
 
   <include file="$(arg robot_configuration)" />
 
@@ -10,7 +14,21 @@
         args="$(arg map_file)" /> -->
 
   <include file="$(find vizzy_navigation)/launch/amcl.launch" />
-  <include file="$(find vizzy_navigation)/launch/move_base_eband.launch" />
+  <include file="$(find vizzy_navigation)/launch/move_base_eband.launch">
+    <arg name="map_topic" value="$(arg map_topic)" />
+  </include>
   <include file="$(find vizzy_navigation)/launch/rviz.launch" />
+  <node name="fake_localization" pkg="fake_localization" type="fake_localization">
+    <remap from="base_pose_ground_truth" to="odom"/>
+    <param name="global_frame_id" value="$(arg map_frame)" />
+    <param name="base_frame_id" value="$(arg base_frame_id)" />
+    <param name="odom_frame_id" value="$(arg odom_frame_id)" />
+  </node>
+    <!-- launch the map server for the simulated world -->
+  <!--<include file="$(find vizzy_gazebo)/launch/vizzy_sim_world_map_server.launch" />-->
+  <!-- launch the tf tree from the urdf (for all fixed joints + the hokuyo internal link) -->
+  <!--<node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+    <param name="publish_frequency" type="double" value="5.0" />
+  </node>-->
 
 </launch>

@@ -1,63 +1,33 @@
 <?xml version="1.0"?>
 <launch>
 
-  <!-- launch the simulated world -->
-  <include file="$(find vizzy_gazebo)/launch/vizzy_sim_world.launch" />
-
-  <!-- launch the map server for the simulated world -->
-  <include file="$(find vizzy_gazebo)/launch/vizzy_sim_world_map_server.launch" />
-
   <!-- these are the arguments you can pass this launch file, for example paused:=true -->
+	<arg name="robot" default="vizzy"/> <!-- full, lower_body, foot -->
+  <arg name="pose" default="-x 0.0 -y 0.0 -z 0.2 -R 0.0 -P 0.0 -Y 1.57"/>
   <arg name="paused" default="false"/>
   <arg name="use_sim_time" default="true"/>
   <arg name="gui" default="true"/>
-  <arg name="headless" default="false"/>
-  <arg name="debug" default="false"/>
-  <arg name="world" default="gazebo" />
-  <arg name="map_frame" default="map" />
-  <arg name="map_service" default="/static_map" />
-  <arg name="map_topic" default="/map" />
-  <arg name="tf_prefix" default="" />
-  <arg name="x" default="0.0"/>
-  <arg name="y" default="0.0"/>
-  <arg name="z" default="0.2"/>
-  <arg name="yaw" default="1.57"/>
-  
-  <param name="tf_prefix" value="$(arg tf_prefix)" />
-  <arg name="base_frame_id" default="$(arg tf_prefix)/base_footprint" />
-  <arg name="odom_frame_id" default="$(arg tf_prefix)/odom" />
+  <arg name="world" default="vizzy_test_world.world" />
 
-  <!-- Load the URDF into the ROS Parameter Server -->
-  <param command="$(find xacro)/xacro.py '$(find vizzy_description)/robots/vizzy-with-collisions.urdf.xacro'" name="robot_description" />
-	 
-  <!-- launch the tf tree from the urdf (for all fixed joints + the hokuyo internal link) -->
-  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
-    <param name="publish_frequency" type="double" value="5.0" />
-  </node>
+	<env name="GAZEBO_MODEL_PATH" value="$(find vizzy_gazebo)/media:$(optenv GAZEBO_MODEL_PATH)"/>
+
+	<!-- start up world -->
+  <include file="$(find vizzy_gazebo)/launch/vizzy_sim_world.launch">
+  	<arg name="use_sim_time" value="$(arg use_sim_time)" />
+  	<arg name="gui" value="$(arg gui)" />
+  	<arg name="world" value="$(arg world)" />
+  </include>
+
+  <!-- spawn the robot in simulation -->
+  <include file="$(find vizzy_gazebo)/launch/vizzy_spawn.launch">
+  	<arg name="pose" value="$(arg pose)"/>
+  	<arg name="robot" value="$(arg robot)"/>
+  </include>
+  
+  <!-- launch the laser filter to get rid of readings from the robot itself -->
+  <!-- <include file="$(find vizzy_sensors)/launch/hokuyo/hokuyo-filters.launch" />-->
 
   <!-- launch the joint state publisher to default values -->
   <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher" />
 
-  <!-- launch the laser filter to get rid of readings from the robot itself -->
-  <include file="$(find vizzy_sensors)/launch/hokuyo/hokuyo-filters.launch" />
-
-  <!-- Run a python script to the send a service call to gazebo_ros to spawn a URDF robot -->
-  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
-	args="-urdf -model vizzy -param robot_description -x $(arg x) -y $(arg y) -z $(arg z) -Y $(arg yaw) -gazebo_namespace /$(arg world)"/>
-  
-  <node name="fake_localization" pkg="fake_localization" type="fake_localization">
-    <remap from="base_pose_ground_truth" to="odom"/>
-    <param name="global_frame_id" value="$(arg map_frame)" />
-    <param name="base_frame_id" value="$(arg base_frame_id)" />
-    <param name="odom_frame_id" value="$(arg odom_frame_id)" />
-  </node>
-  
-  <!--<include file="$(find vizzy_navigation)/launch/move_base_eband.launch">
-    <arg name="map_topic" value="$(arg map_topic)" />
-  </include>-->
-  
-  <!-- launch vizualization -->
-  <!--<include file="$(find vizzy_navigation)/launch/rviz.launch">
-    <arg name="config" value="nav_eband" />
-  </include>-->
 </launch>
