@@ -5,55 +5,27 @@
     <gazebo reference="neck_pan_link">
       <mu1>0.2</mu1>
       <mu2>0.2</mu2>
-      <turnGravityOff>true</turnGravityOff>
-    </gazebo>
-
-    <gazebo reference="neck_pan_joint">
-      <stopKd value="1.0" />
-      <stopKp value="1000000.0" />
     </gazebo>
 
     <gazebo reference="neck_tilt_link">
       <mu1>0.2</mu1>
       <mu2>0.2</mu2>
-      <kp value="1.0" />
-      <turnGravityOff>true</turnGravityOff>
-    </gazebo>
-    <gazebo reference="neck_tilt_joint">
-
-      <kd value="1000000.0" />
     </gazebo>
 
     <gazebo reference="eyes_tilt_link">
       <mu1>0.2</mu1>
       <mu2>0.2</mu2>
-      <turnGravityOff>true</turnGravityOff>
-    </gazebo>
-    <gazebo reference="eyes_tilt_joint">
-      <stopKd value="1.0" />
-      <stopKp value="1000000.0" />
     </gazebo>
 
     <gazebo reference="r_eye_pan_link">
       <mu1>0.2</mu1>
       <mu2>0.2</mu2>
-      <turnGravityOff>true</turnGravityOff>
-    </gazebo>
-    <gazebo reference="r_eye_pan_joint">
-      <stopKd value="1.0" />
-      <stopKp value="1000000.0" />
     </gazebo>
 
     <gazebo reference="l_eye_pan_link">
       <mu1>0.2</mu1>
       <mu2>0.2</mu2>
-      <turnGravityOff>true</turnGravityOff>
     </gazebo>
-    <gazebo reference="l_eye_pan_joint">
-      <stopKd value="1.0" />
-      <stopKp value="1000000.0" />
-    </gazebo>
-
 
   </xacro:macro>
 
