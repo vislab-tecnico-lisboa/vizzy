@@ -29,7 +29,10 @@
   </include>
 
 	<!-- Bringup robot controllers -->
-  <include file="$(find vizzy_control)/launch/vizzy_control.launch">
+	<group unless="$(arg use_yarp)">
+	  <include file="$(find vizzy_control)/launch/vizzy_control.launch">
+	</group>
+
 
   </include>
 
