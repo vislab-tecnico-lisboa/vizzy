@@ -24,12 +24,9 @@
   	<arg name="pose" value="$(arg pose)"/>
   	<arg name="robot" value="$(arg robot)"/>
   </include>
-  
-  <!-- launch the laser filter to get rid of readings from the robot itself -->
-  <!-- <include file="$(find vizzy_sensors)/launch/hokuyo/hokuyo-filters.launch" />-->
 
-  <!-- convert joint states to TF transforms for rviz, etc -->
-  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
-    <remap from="/joint_states" to="/vizzy/joint_states" />
-  </node>
+  <!-- bringup robot and controllers -->
+  <include file="$(find vizzy_control)/launch/vizzy_control.launch">
+    <arg name="use_yarp" value="$(arg use_yarp)"/>
+  </include>
 </launch>

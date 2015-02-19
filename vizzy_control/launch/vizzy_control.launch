@@ -1,29 +1,49 @@
 <?xml version="1.0"?>
 <launch>
-  <!-- Load joint controller configurations from YAML file to parameter server -->
-  <rosparam file="$(find vizzy_control)/config/vizzy_control.yaml" command="load"/>
+	<arg name="use_yarp" default="false"/>
+	
+	<!-- Load joint controller configurations from YAML file to parameter server -->
+	<!-- <rosparam file="$(find vizzy_control)/config/vizzy_control.yaml" command="load"/> -->
 
-  <!-- Load the controllers -->
-  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
-    output="screen" ns="/vizzy" args="waist_position_controller 
-																			neck_tilt_position_controller 
-																			neck_pan_position_controller 
-																			eyes_tilt_position_controller 
-																			l_eye_pan_position_controller
-                                      r_eye_pan_position_controller 
-																			l_shoulder_scapula_position_controller
-																			l_shoulder_flection_position_controller
-																			l_shoulder_rotation_position_controller
-																			l_elbow_flection_position_controller
-																			l_forearm_pronation_position_controller
-																			l_wrist_abduction_position_controller
-																			l_wrist_flection_position_controller
-																			r_shoulder_scapula_position_controller
-																			r_shoulder_flection_position_controller
-																			r_shoulder_rotation_position_controller
-																			r_elbow_flection_position_controller
-																			r_forearm_pronation_position_controller
-																			r_wrist_abduction_position_controller
-																			r_wrist_flection_position_controller
-																			joint_state_controller"/>
+	<group if="$(arg use_yarp)">
+    <!-- launch the joint state publisher to default values -->
+    <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher">
+      <remap from="/joint_states" to="/vizzy/joint_states" />
+    </node>
+  </group>
+
+	<!-- bringup ROS controllers -->
+  <group unless="$(arg use_yarp)">
+    <!-- Load joint controller configurations from YAML file to parameter server -->
+    <rosparam file="$(find vizzy_control)/config/vizzy_control.yaml" command="load"/>
+
+	  <!-- Load the controllers -->
+	  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+	    output="screen" ns="/vizzy" args="waist_position_controller 
+		neck_tilt_position_controller 
+		neck_pan_position_controller 
+		eyes_tilt_position_controller 
+		l_eye_pan_position_controller
+	  r_eye_pan_position_controller 
+		l_shoulder_scapula_position_controller
+		l_shoulder_flection_position_controller
+		l_shoulder_rotation_position_controller
+		l_elbow_flection_position_controller
+		l_forearm_pronation_position_controller
+		l_wrist_abduction_position_controller
+		l_wrist_flection_position_controller
+		r_shoulder_scapula_position_controller
+		r_shoulder_flection_position_controller
+		r_shoulder_rotation_position_controller
+		r_elbow_flection_position_controller
+		r_forearm_pronation_position_controller
+		r_wrist_abduction_position_controller
+		r_wrist_flection_position_controller
+		joint_state_controller" />
+  </group>
+
+	<!-- convert joint states to TF transforms for rviz, etc -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
+    <remap from="/joint_states" to="/vizzy/joint_states" />
+  </node>
 </launch>
