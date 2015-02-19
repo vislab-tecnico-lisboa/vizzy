@@ -1,17 +1,21 @@
 <?xml version="1.0"?>
 <launch>
   <arg name="scan_topic" default="scan" />
-
+  
   <node name="slam_gmapping" pkg="gmapping" type="slam_gmapping" output="log">
     <param name="scan" value="$(arg scan_topic)"/>
-    <param name="map_update_interval" value="1.0"/>
-    <param name="maxUrange" value="3.0"/>
-    <param name="maxRange" value="5.0"/>
-    <param name="minimumScore" value="100"/>
-    <param name="srr" value="0.00"/>
-    <param name="srt" value="0.00"/>
-    <param name="str" value="0.00"/>
-    <param name="stt" value="0.00"/>
-    <param name="particles" value="30"/>
+    <param name="map_update_interval" value="0.5"/>
+    <param name="maxUrange" value="3.5"/>
+    <param name="maxRange" value="4.5"/>
+    <param name="minimumScore" value="70"/>
+    <param name="linearUpdate" value="0.2"/>
+    <param name="angularUpdate" value="0.1"/>
+    <param name="temporalUpdate" value="-1.0"/>
+    <param name="srr" value="0.15" />
+    <param name="srt" value="0.25" />
+    <param name="str" value="0.15" />
+    <param name="stt" value="0.25" />
+    <param name="resampleThreshold" value="0.5"/>
+    <param name="particles" value="160"/>
   </node>
 </launch>
