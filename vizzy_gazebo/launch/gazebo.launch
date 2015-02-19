@@ -9,7 +9,7 @@
   <arg name="gui" default="true"/>
   <arg name="world" default="vizzy_test_world.world" />
 
-	<env name="GAZEBO_MODEL_PATH" value="$(find vizzy_gazebo)/media:$(optenv GAZEBO_MODEL_PATH)"/>
+	<env name="GAZEBO_MODEL_PATH" value="$(find vizzy_gazebo):$(optenv GAZEBO_MODEL_PATH)"/>
 
 	<!-- start up world -->
   <include file="$(find vizzy_gazebo)/launch/vizzy_sim_world.launch">
@@ -28,11 +28,8 @@
   <!-- launch the laser filter to get rid of readings from the robot itself -->
   <!-- <include file="$(find vizzy_sensors)/launch/hokuyo/hokuyo-filters.launch" />-->
 
-  <!-- launch the joint state publisher to default values -->
-  <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher" />
-
   <!-- convert joint states to TF transforms for rviz, etc -->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
-    <!--<remap from="/joint_states" to="/vizzy/joint_states" />-->
+    <remap from="/joint_states" to="/vizzy/joint_states" />
   </node>
 </launch>

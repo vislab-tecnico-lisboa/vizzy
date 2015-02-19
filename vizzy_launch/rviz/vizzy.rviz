@@ -4,9 +4,13 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
+        - /TF1
+        - /Left camera1
+        - /Left camera1/Visibility1
         - /Right camera1
+        - /Right camera1/Visibility1
       Splitter Ratio: 0.5
-    Tree Height: 146
+    Tree Height: 298
   - Class: rviz/Selection
     Name: Selection
   - Class: rviz/Tool Properties
@@ -242,19 +246,139 @@ Visualization Manager:
       Value: true
       Visual Enabled: true
     - Class: rviz/TF
-      Enabled: false
+      Enabled: true
       Frame Timeout: 15
       Frames:
         All Enabled: true
+        b_wheel_base_link:
+          Value: true
+        b_wheel_link:
+          Value: true
+        base_footprint:
+          Value: true
+        base_link:
+          Value: true
+        eyes_tilt_link:
+          Value: true
+        f_wheel_base_link:
+          Value: true
+        f_wheel_link:
+          Value: true
+        l_camera_link:
+          Value: true
+        l_elbow_flection_link:
+          Value: true
+        l_eye_pan_link:
+          Value: true
+        l_forearm_pronation_link:
+          Value: true
+        l_palm_link:
+          Value: true
+        l_shoulder_abduction_link:
+          Value: true
+        l_shoulder_flection_link:
+          Value: true
+        l_shoulder_rotation_link:
+          Value: true
+        l_shoulder_scapula_link:
+          Value: true
+        l_wheel_link:
+          Value: true
+        l_wrist_abduction_link:
+          Value: true
+        l_wrist_flection_link:
+          Value: true
+        nav_hokuyo_laser_link:
+          Value: true
+        nav_hokuyo_link:
+          Value: true
+        neck_pan_link:
+          Value: true
+        neck_tilt_link:
+          Value: true
+        odom:
+          Value: true
+        r_camera_link:
+          Value: true
+        r_elbow_flection_link:
+          Value: true
+        r_eye_pan_link:
+          Value: true
+        r_forearm_pronation_link:
+          Value: true
+        r_palm_link:
+          Value: true
+        r_shoulder_abduction_link:
+          Value: true
+        r_shoulder_flection_link:
+          Value: true
+        r_shoulder_rotation_link:
+          Value: true
+        r_shoulder_scapula_link:
+          Value: true
+        r_wheel_link:
+          Value: true
+        r_wrist_abduction_link:
+          Value: true
+        r_wrist_flection_link:
+          Value: true
+        waist_link:
+          Value: true
       Marker Scale: 1
       Name: TF
       Show Arrows: true
       Show Axes: true
       Show Names: true
       Tree:
-        {}
+        base_footprint:
+          base_link:
+            b_wheel_base_link:
+              b_wheel_link:
+                {}
+            f_wheel_base_link:
+              f_wheel_link:
+                {}
+            l_wheel_link:
+              {}
+            nav_hokuyo_link:
+              nav_hokuyo_laser_link:
+                {}
+            r_wheel_link:
+              {}
+            waist_link:
+              l_shoulder_scapula_link:
+                l_shoulder_flection_link:
+                  l_shoulder_abduction_link:
+                    l_shoulder_rotation_link:
+                      l_elbow_flection_link:
+                        l_forearm_pronation_link:
+                          l_wrist_abduction_link:
+                            l_wrist_flection_link:
+                              l_palm_link:
+                                {}
+              neck_pan_link:
+                neck_tilt_link:
+                  eyes_tilt_link:
+                    l_eye_pan_link:
+                      l_camera_link:
+                        {}
+                    r_eye_pan_link:
+                      r_camera_link:
+                        {}
+              r_shoulder_scapula_link:
+                r_shoulder_flection_link:
+                  r_shoulder_abduction_link:
+                    r_shoulder_rotation_link:
+                      r_elbow_flection_link:
+                        r_forearm_pronation_link:
+                          r_wrist_abduction_link:
+                            r_wrist_flection_link:
+                              r_palm_link:
+                                {}
+        odom:
+          {}
       Update Interval: 0
-      Value: false
+      Value: true
     - Class: rviz/Camera
       Enabled: true
       Image Rendering: background and overlay
@@ -265,10 +389,10 @@ Visualization Manager:
       Transport Hint: raw
       Value: true
       Visibility:
-        Grid: true
+        Grid: false
         Right camera: true
-        RobotModel: true
-        TF: true
+        RobotModel: false
+        TF: false
         Value: true
       Zoom Factor: 1
     - Class: rviz/Camera
@@ -281,10 +405,10 @@ Visualization Manager:
       Transport Hint: raw
       Value: true
       Visibility:
-        Grid: true
+        Grid: false
         Left camera: true
-        RobotModel: true
-        TF: true
+        RobotModel: false
+        TF: false
         Value: true
       Zoom Factor: 1
   Enabled: true
@@ -311,7 +435,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 2.78501
+      Distance: 4.2081
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
@@ -323,20 +447,20 @@ Visualization Manager:
         Z: 0
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.480397
+      Pitch: 1.0654
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 2.0154
+      Yaw: 6.16041
     Saved: ~
 Window Geometry:
   Displays:
     collapsed: false
-  Height: 744
+  Height: 1056
   Hide Left Dock: false
   Hide Right Dock: false
   Left camera:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd00000004000000000000013c0000025efc020000000afb0000001200530065006c0065006300740069006f006e00000001e10000009b0000006400fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000002800000121000000dd00fffffffb00000016004c006500660074002000630061006d006500720061010000014f0000007c0000001600fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb0000001800520069006700680074002000630061006d00650072006101000001d1000000b50000001600ffffff000000010000010f0000025efc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a0056006900650077007300000000280000025e000000b000fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000005150000003efc0100000002fb0000000800540069006d0065010000000000000515000002f600fffffffb0000000800540069006d00650100000000000004500000000000000000000003d30000025e00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd00000004000000000000036c00000396fc020000000afb0000001200530065006c0065006300740069006f006e00000001e10000009b0000006400fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c0061007900730100000028000001b9000000dd00fffffffb00000016004c006500660074002000630061006d00650072006101000001e7000000e90000001600fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb0000001800520069006700680074002000630061006d00650072006101000002d6000000e80000001600ffffff000000010000010f0000025efc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a0056006900650077007300000000280000025e000000b000fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000073f0000003efc0100000002fb0000000800540069006d006501000000000000073f000002f600fffffffb0000000800540069006d00650100000000000004500000000000000000000003cd0000039600000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Right camera:
     collapsed: false
   Selection:
@@ -347,6 +471,6 @@ Window Geometry:
     collapsed: false
   Views:
     collapsed: false
-  Width: 1301
+  Width: 1855
   X: 65
   Y: 24

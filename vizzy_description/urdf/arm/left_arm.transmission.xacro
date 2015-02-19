@@ -27,6 +27,16 @@
       </actuator>
     </transmission>
 
+    <transmission name="l_shoulder_abduction_transmission">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="l_shoulder_abduction_joint">
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="l_shoulder_abduction_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
     <transmission name="l_shoulder_rotation_transmission">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="l_shoulder_rotation_joint">

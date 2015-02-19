@@ -7,7 +7,7 @@
   <!-- Things that are needed only for Gazebo (not the physical robot).  These include
        sensor and controller plugin specifications -->
  <xacro:include filename="$(find vizzy_description)/urdf/base/base.gazebo.xacro" />
- <!--<xacro:include filename="$(find vizzy_description)/urdf/base/base.transmission.xacro" />-->
+ <xacro:include filename="$(find vizzy_description)/urdf/base/base.transmission.xacro" />
 
  <xacro:macro name="base" params="name">
   <!-- root link, on the ground just below the robot origin -->
@@ -118,7 +118,6 @@
       link="f_wheel_base_link" />
     <axis
       xyz="0 0 1" />
-    <dynamics damping="0.1"/>
   </joint>
   <link
     name="f_wheel_link">
@@ -225,7 +224,6 @@
       link="b_wheel_base_link" />
     <axis
       xyz="0 0 1" />
-    <dynamics damping="0.1"/>
   </joint>
   <link
     name="b_wheel_link">
@@ -388,8 +386,8 @@
   </joint>
 
   <!-- gazebo extensions -->
-  <xacro:base_gazebo name="${name}" />
-  <!--<xacro:base_transmissions/>-->
+  <xacro:base_gazebo/>
+  <xacro:base_transmissions/>
 
  </xacro:macro>
 </robot>

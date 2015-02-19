@@ -1,42 +1,56 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
-  <xacro:macro name="base_gazebo" params="name">
+  <xacro:macro name="base_gazebo">
 
-    <!--<gazebo reference="b_wheel_link">
-      <turnGravityOff>false</turnGravityOff>
+    <gazebo reference="base_link">
+      <mu1>0.2</mu1>
+      <mu2>0.2</mu2>
     </gazebo>
 
-    <gazebo reference="b_wheel_joint">
-      <stopKd value="1.0" />
-      <stopKp value="1000.0" />
+    <gazebo reference="base_footprint">
+      <mu1>0.2</mu1>
+      <mu2>0.2</mu2>
     </gazebo>
 
     <gazebo reference="b_wheel_base_link">
-      <turnGravityOff>false</turnGravityOff>
+      <mu1>0.2</mu1>
+      <mu2>0.2</mu2>
     </gazebo>
 
-    <gazebo reference="b_wheel_base_joint">
-      <stopKd value="1.0" />
-      <stopKp value="1000.0" />
-    </gazebo>
-
-    <gazebo reference="f_wheel_link">
-      <turnGravityOff>false</turnGravityOff>
-    </gazebo>
-
-    <gazebo reference="f_wheel_joint">
-      <stopKd value="1.0" />
-      <stopKp value="1000.0" />
+    <gazebo reference="b_wheel_link">
+      <mu1>0.2</mu1>
+      <mu2>0.2</mu2>
     </gazebo>
 
     <gazebo reference="f_wheel_base_link">
-      <turnGravityOff>false</turnGravityOff>
+      <mu1>0.2</mu1>
+      <mu2>0.2</mu2>
     </gazebo>
 
-    <gazebo reference="f_wheel_base_joint">
-      <stopKd value="1.0" />
-      <stopKp value="1000.0" />
-    </gazebo>-->
+    <gazebo reference="f_wheel_link">
+      <mu1>0.2</mu1>
+      <mu2>0.2</mu2>
+    </gazebo>
+
+    <gazebo reference="l_wheel_base_link">
+      <mu1>0.2</mu1>
+      <mu2>0.2</mu2>
+    </gazebo>
+
+    <gazebo reference="l_wheel_link">
+      <mu1>0.2</mu1>
+      <mu2>0.2</mu2>
+    </gazebo>
+
+    <gazebo reference="r_wheel_base_link">
+      <mu1>0.2</mu1>
+      <mu2>0.2</mu2>
+    </gazebo>
+
+    <gazebo reference="r_wheel_link">
+      <mu1>0.2</mu1>
+      <mu2>0.2</mu2>
+    </gazebo>
 
   </xacro:macro>
 </robot>
