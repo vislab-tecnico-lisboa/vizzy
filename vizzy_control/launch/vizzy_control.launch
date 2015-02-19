@@ -1,19 +1,16 @@
 <?xml version="1.0"?>
 <launch>
 	<arg name="use_yarp" default="false"/>
-	
-	<!-- Load joint controller configurations from YAML file to parameter server -->
-	<!-- <rosparam file="$(find vizzy_control)/config/vizzy_control.yaml" command="load"/> -->
 
 	<group if="$(arg use_yarp)">
-    <!-- launch the joint state publisher to default values -->
-    <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher">
-      <remap from="/joint_states" to="/vizzy/joint_states" />
-    </node>
-  </group>
+ 		<!-- launch the joint state publisher to default values -->
+		<node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher">
+			<remap from="/joint_states" to="/vizzy/joint_states" />
+		</node>
+	</group>
 
 	<!-- bringup ROS controllers -->
-  <group unless="$(arg use_yarp)">
+ 	<group unless="$(arg use_yarp)">
     <!-- Load joint controller configurations from YAML file to parameter server -->
     <rosparam file="$(find vizzy_control)/config/vizzy_control.yaml" command="load"/>
 
@@ -44,6 +41,6 @@
 
 	<!-- convert joint states to TF transforms for rviz, etc -->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
-    <remap from="/joint_states" to="/vizzy/joint_states" />
+		<remap from="/joint_states" to="/vizzy/joint_states" />
   </node>
 </launch>
