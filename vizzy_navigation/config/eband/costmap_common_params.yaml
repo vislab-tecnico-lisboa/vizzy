@@ -15,6 +15,5 @@ publish_frequency: 1.0
 obstacle_range: 2.5
 raytrace_range: 3.0
 inflation_radius: 0.8
-observation_sources: scan kinect_scan
+observation_sources: scan
 scan: {data_type: LaserScan, topic: scan_filtered, marking: true, clearing: true}
-kinect_scan: {data_type: LaserScan, topic: nav_kinect/scan_filtered, marking: true, clearing: true}

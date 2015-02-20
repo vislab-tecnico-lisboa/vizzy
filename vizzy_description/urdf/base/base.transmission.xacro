@@ -5,7 +5,6 @@
        xmlns:xacro="http://ros.org/wiki/xacro">
 
   <xacro:macro name="base_transmissions">
-
     <transmission name="f_wheel_transmission">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="f_wheel_joint">
@@ -65,9 +64,5 @@
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
-
-
-
   </xacro:macro>
-
 </robot>
