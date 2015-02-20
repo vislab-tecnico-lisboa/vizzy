@@ -18,5 +18,6 @@
     <param name="global_costmap/map_topic" value="$(arg map_topic)"/>
     <param name="recovery_behavior_enabled" value="false"/>
     <param name="clearing_rotation_allowed" value="false"/>
+    <remap from="/cmd_vel" to="/vizzy/cmd_vel" />
   </node>
 </launch>
