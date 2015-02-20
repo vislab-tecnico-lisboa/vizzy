@@ -6,12 +6,19 @@
 
   <!-- simulation parameters and robot configuration parameters -->
 	<arg name="use_yarp" default="false"/>
+  <arg name="navigation" default="false"/>
+  <arg name="slam" default="false"/>
   <arg name="pose" default="-x 0.0 -y 0.0 -z 0.15 -R 0.0 -P 0.0 -Y 1.57"/>
   <arg name="paused" default="false"/>
   <arg name="use_sim_time" default="true"/>
   <arg name="gui" default="true"/>
   <arg name="world" default="vizzy_test_world.world" />
   <arg name="yarp" default="false"/>
+  <arg name="map_frame" default="map" />
+  <arg name="tf_prefix" default="" />
+  <arg name="base_frame_id" default="$(arg tf_prefix)/base_footprint" />
+  <arg name="odom_frame_id" default="$(arg tf_prefix)/odom" />
+  <arg name="map_topic" default="/map" />
 
 	<!-- bringup robot in gazebo simulator -->
   <include file="$(find vizzy_gazebo)/launch/gazebo.launch">
@@ -24,14 +31,37 @@
   	<arg name="world" value="$(arg world)" />
   </include>
 
-	<!-- bringup ROS controllers -->
-	<group unless="$(arg use_yarp)">
-	  <include file="$(find vizzy_control)/launch/vizzy_control.launch"/>
-	</group>
+  <group if="$(arg navigation)">
+    <!-- launch the laser filter to get rid of readings from the robot itself -->
+    <include file="$(find vizzy_sensors)/launch/hokuyo/hokuyo-filters.launch" />
 
-  <!-- bringup navigation modules -->
-  <!-- TO DO -->
+    <group if="$(arg slam)">
+      <!-- TO DO -->
+    </group>
+    <group unless="$(arg slam)">
+      <!-- launch pre obtained map to the environment -->
+      <node name="map_server" pkg="map_server" type="map_server" args="$(find vizzy_navigation)/maps/perfectMap.yaml" />
 
-	<!-- Launch rviz -->
- <node name="rviz" pkg="rviz" type="rviz" args="-d $(find vizzy_launch)/rviz/vizzy.rviz" />
+      <!-- move_base using local eband planner -->
+      <include file="$(find vizzy_navigation)/launch/move_base_eband.launch">
+        <arg name="map_topic" value="$(arg map_topic)" />
+      </include>
+
+      <!-- lighter localization package for simulation -->
+      <node name="fake_localization" pkg="fake_localization" type="fake_localization">
+        <remap from="base_pose_ground_truth" to="odom"/>
+        <param name="global_frame_id" value="$(arg map_frame)" />
+        <param name="base_frame_id" value="$(arg base_frame_id)" />
+        <param name="odom_frame_id" value="$(arg odom_frame_id)" />
+      </node>
+
+      <!-- launch vizualization on rviz -->
+      <node name="rviz" pkg="rviz" type="rviz" args="-d $(find vizzy_launch)/rviz/nav_eband.rviz" launch-prefix="$(optenv OPTIRUN_LAUNCH_PREFIX)" />
+    </group>
+  </group>
+
+  <!-- launch vizualization on rviz -->
+  <group unless="$(arg navigation)">
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find vizzy_launch)/rviz/vizzy.rviz" />
+  </group>
 </launch>
