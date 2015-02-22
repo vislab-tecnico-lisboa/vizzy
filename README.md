@@ -10,24 +10,26 @@ The real robot uses two different middlewares for distinct body parts (YARP for 
 
 ## Packages Description
 
-* [vizzy_launch](vizzy_launch):
-* [vizzy_description](vizzy_description):
-* [vizzy_gazebo](vizzy_gazebo):
-* [vizzy_navigation](vizzy_navigation):
-* [vizzy_control](vizzy_control):
-* [vizzy_sensors](vizzy_sensors):
+* [vizzy_launch](vizzy_launch): Contains the launch files to interact with Vizzy (both on simulation and real robot usage). For most users it is the only package they need to directly use.
+* [vizzy_description](vizzy_description): Contains all the description files of Vizzy's (regarding mechanical, kinematic, visual, etc). You can use its launcher called `display` to check the model with the Rviz graphical tool.
+* [vizzy_gazebo](vizzy_gazebo): Holds the launch files needed to simulate the robot on the GAZEBO simulator.
+* [vizzy_navigation](vizzy_navigation): Contains the launch files for several packages of the ROS navigation stack.
+* [vizzy_control](vizzy_control): Low-level controllers for Vizzy's simulation.
+* [vizzy_sensors](vizzy_sensors): Package holding the Hokuyo filters for better scannings.
 
 ## Environment
 
+Note that for simulation purposes one can ignore all YARP dependencies as explained on the repository description.
+
 * Operating System (one of the two)
-  * [Ubuntu 12.04](http://releases.ubuntu.com/precise/)
-  * [Ubuntu 14.04](http://releases.ubuntu.com/trusty/)
+  * [Ubuntu 12.04](http://releases.ubuntu.com/precise/) - forces the user to install ROS Hydro that currently is able to run everything
+  * [Ubuntu 14.04](http://releases.ubuntu.com/trusty/) - forces the user to install ROS Indigo that currently is missing support for the planner we have configured for navigation
 * Middleware
-  * [ROS](http://www.ros.org/)
-  * [YARP](http://wiki.icub.org/yarpdoc/)
+  * [ROS](http://www.ros.org/) - depending on the installed OS (Hydro for Ubuntu 12.04 or Indigo for Ubuntu 14.04)
+  * [YARP](http://wiki.icub.org/yarpdoc/) - we try to keep everything working with the most recent version of YARP
 * Other Dependencies
-  * [GAZEBO](http://gazebosim.org/)
-  * [gazebo-yarp-plugins](https://github.com/robotology/gazebo-yarp-plugins)
+  * [GAZEBO](http://gazebosim.org/) - the version that comes by default with the ROS installation
+  * [gazebo-yarp-plugins](https://github.com/robotology/gazebo-yarp-plugins) - we try to keep everything working with the most recent version of gazebo-yarp-plugins
 
 At any time you might need to install some more specific dependencies (like some missing ROS packages). Please open an issue in case you can't solve these or other dependencies.
 
