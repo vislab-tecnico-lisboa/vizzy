@@ -11,7 +11,7 @@ The real robot uses two different middlewares for distinct body parts (YARP for 
 ## Packages Description
 
 * [vizzy_launch](vizzy_launch): Contains the launch files to interact with Vizzy (both on simulation and real robot usage). For most users it is the only package they need to directly use.
-* [vizzy_description](vizzy_description): Contains all the description files of Vizzy's (regarding mechanical, kinematic, visual, etc). You can use its launcher called `display` to check the model with the Rviz graphical tool.
+* [vizzy_description](vizzy_description): Contains all of Vizzy's description files (regarding mechanical, kinematic, visual, etc). You can use its launcher called `display.launch` to check the model with the Rviz graphical tool.
 * [vizzy_gazebo](vizzy_gazebo): Holds the launch files needed to simulate the robot on the GAZEBO simulator.
 * [vizzy_navigation](vizzy_navigation): Contains the launch files for several packages of the ROS navigation stack.
 * [vizzy_control](vizzy_control): Low-level controllers for Vizzy's simulation.
@@ -81,7 +81,7 @@ Hmm... does this seems to easy? I hope it does because you should now be ready t
 
 For now let's focus on simulation. Open a terminal:
 
-    roslaunch vizzy_launch vizzy_simulation use_yarp:=true navigation:=true
+    roslaunch vizzy_launch vizzy_simulation.launch use_yarp:=true navigation:=true
 
 Don't forget you'll need to have `yarpserver` running when you have the `use_yarp` argument set as true.
 
