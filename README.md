@@ -1,2 +1,4 @@
 # vizzy
-The fantastic repository of Vizzy
+Vizzy's "oh so amazing" repository
+
+![alt tag](vizzy_images/vizzy_magazine.jpg)
