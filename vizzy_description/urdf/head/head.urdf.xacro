@@ -271,7 +271,7 @@
     <parent link="eyes_tilt_link" />
     <child link="vergence_link" />
     <axis  xyz="0 0 1" />
-    <limit lower="-0.698131" upper="0.698131" effort="10.0" velocity="0.2" />
+    <limit lower="0.0" upper="0.698131" effort="10.0" velocity="0.2" />
     <dynamics damping="1.0" friction="0.7" />
   </joint>
   
