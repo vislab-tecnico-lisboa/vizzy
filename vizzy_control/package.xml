@@ -24,5 +24,4 @@
   <run_depend>joint_state_controller</run_depend>
   <run_depend>effort_controllers</run_depend>
 
-  <export></export>  
 </package>
