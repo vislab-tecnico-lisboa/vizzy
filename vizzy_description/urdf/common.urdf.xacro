@@ -3,6 +3,7 @@
   <!-- generic constants -->
   <xacro:property name="M_PI" value="3.14159265359" />
   <xacro:property name="INCH_TO_M" value="0.0254"/>
+  <xacro:property name="DEG_TO_RAD" value="${M_PI/180.0}" />
 
   <!-- 80/20 constants -->
   <xacro:property name="BEAM_WIDTH" value="1" /> <!-- inches -->
@@ -14,6 +15,25 @@
   <xacro:property name="BASE_PLATE_Z_OFFSET" value="4.25" /> <!-- inches -->
 
   <xacro:property name="SENSOR_BEAM_LENGTH" value="10.75" /> <!-- inches -->
+
+	<!-- Motor transmissions -->
+  <xacro:property name="2232U024SR_motor_transmission_reduction" value="100" /> <!--small-->
+  <xacro:property name="3242G024CR_motor_transmission_reduction" value="100" /> <!--medium-->
+  <xacro:property name="3257G024CR_motor_transmission_reduction" value="371" /> <!-- large -->
+  <xacro:property name="3863H024C_motor_transmission_reduction" value="700" /> <!-- huge -->
+
+	<!-- Motor max efforts (N.m)-->
+  <xacro:property name="2232U024SR_motor_max_effort" value="2.8" /> 
+  <xacro:property name="3242G024CR_motor_max_effort" value="11.3" /> 
+  <xacro:property name="3257G024CR_motor_max_effort" value="105.6" /> 
+  <xacro:property name="3863H024C_motor_max_effort" value="525" /> 
+
+	<!-- Motor max velocities degrees per second-->
+  <xacro:property name="2232U024SR_motor_max_velocitiy" value="426" /> 
+  <xacro:property name="3242G024CR_motor_max_velocitiy" value="300" /> 
+  <xacro:property name="3257G024CR_motor_max_velocitiy" value="300" /> 
+  <xacro:property name="3863H024C_motor_max_velocitiy" value="34" /> 
+
 
   <!-- colors -->
   <material name="light_grey">
