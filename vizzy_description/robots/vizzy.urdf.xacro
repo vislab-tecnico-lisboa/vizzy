@@ -28,13 +28,13 @@
   <!-- instantiate head -->
   <xacro:head name="head"/>
   <!-- instantiate left arm -->
-  <xacro:left_arm name="left_arm" parent="waist_link" sufix="l" reflect="1">
+  <!--<xacro:left_arm name="left_arm" parent="waist_link" sufix="l" reflect="1">
     <origin xyz="-0.01707 0.0 0.38145" rpy="0.0 0.0 0.0" />
-  </xacro:left_arm>
+  </xacro:left_arm>-->
   <!-- instantiate right arm -->
-  <xacro:right_arm name="right_arm" parent="waist_link" sufix="r" reflect="1">
+  <!--<xacro:right_arm name="right_arm" parent="waist_link" sufix="r" reflect="1">
     <origin xyz="-0.01707 0.0 0.38145" rpy="0.0 0.0 0.0" />
-  </xacro:right_arm>
+  </xacro:right_arm>-->
 
   <!-- instantiate hokuyo -->
   <xacro:hokuyo_mount name="nav_hokuyo" parent="base" length="${SENSOR_BEAM_LENGTH*INCH_TO_M}" ros_topic="scan" update_rate="10" min_angle="${-(5 * M_PI)/12}" max_angle="${(5 * M_PI)/12}">

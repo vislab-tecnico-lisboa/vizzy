@@ -16,26 +16,13 @@
 
 	  <!-- Load the controllers -->
 	  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
-	    output="screen" ns="/vizzy" args="waist_position_controller 
+	    output="screen" ns="/vizzy" args="
+		waist_position_controller 
 		neck_tilt_position_controller 
 		neck_pan_position_controller 
 		eyes_tilt_position_controller 
-		l_eye_pan_position_controller
-	  r_eye_pan_position_controller 
-		l_shoulder_scapula_position_controller
-		l_shoulder_flection_position_controller
-		l_shoulder_rotation_position_controller
-		l_elbow_flection_position_controller
-		l_forearm_pronation_position_controller
-		l_wrist_abduction_position_controller
-		l_wrist_flection_position_controller
-		r_shoulder_scapula_position_controller
-		r_shoulder_flection_position_controller
-		r_shoulder_rotation_position_controller
-		r_elbow_flection_position_controller
-		r_forearm_pronation_position_controller
-		r_wrist_abduction_position_controller
-		r_wrist_flection_position_controller
+		version_position_controller
+	  vergence_position_controller 
 		joint_state_controller" />
   </group>
 
