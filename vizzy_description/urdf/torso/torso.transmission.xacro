@@ -11,7 +11,7 @@
         <hardwareInterface>EffortJointInterface</hardwareInterface>
       </joint>
       <actuator name="waist_motor">
-        <mechanicalReduction>100</mechanicalReduction>
+        <mechanicalReduction>${3863H024C_motor_transmission_reduction}</mechanicalReduction>
       </actuator>
     </transmission>
   </xacro:macro>
