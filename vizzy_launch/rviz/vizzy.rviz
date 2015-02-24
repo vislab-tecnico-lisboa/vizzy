@@ -99,6 +99,11 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        l_elbow_flection_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         l_eye_vergence_link:
           Alpha: 1
           Show Axes: false
@@ -108,7 +113,47 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+        l_forearm_pronation_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        l_palm_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        l_shoulder_abduction_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        l_shoulder_flection_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        l_shoulder_rotation_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        l_shoulder_scapula_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         l_wheel_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        l_wrist_abduction_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        l_wrist_flection_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -137,6 +182,11 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        r_elbow_flection_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         r_eye_vergence_link:
           Alpha: 1
           Show Axes: false
@@ -146,7 +196,47 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+        r_forearm_pronation_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r_palm_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r_shoulder_abduction_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r_shoulder_flection_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r_shoulder_rotation_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r_shoulder_scapula_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         r_wheel_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r_wrist_abduction_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r_wrist_flection_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -176,51 +266,87 @@ Visualization Manager:
       Frames:
         All Enabled: false
         b_wheel_base_link:
-          Value: false
+          Value: true
         b_wheel_link:
-          Value: false
+          Value: true
         base_footprint:
-          Value: false
+          Value: true
         base_link:
-          Value: false
+          Value: true
         eyes_tilt_link:
-          Value: false
+          Value: true
         f_wheel_base_link:
-          Value: false
+          Value: true
         f_wheel_link:
-          Value: false
+          Value: true
         l_camera_link:
-          Value: false
+          Value: true
+        l_elbow_flection_link:
+          Value: true
         l_eye_vergence_link:
           Value: true
         l_eye_version_link:
-          Value: false
+          Value: true
+        l_forearm_pronation_link:
+          Value: true
+        l_palm_link:
+          Value: true
+        l_shoulder_abduction_link:
+          Value: true
+        l_shoulder_flection_link:
+          Value: true
+        l_shoulder_rotation_link:
+          Value: true
+        l_shoulder_scapula_link:
+          Value: true
         l_wheel_link:
-          Value: false
+          Value: true
+        l_wrist_abduction_link:
+          Value: true
+        l_wrist_flection_link:
+          Value: true
         nav_hokuyo_laser_link:
-          Value: false
+          Value: true
         nav_hokuyo_link:
-          Value: false
+          Value: true
         neck_pan_link:
-          Value: false
+          Value: true
         neck_tilt_link:
-          Value: false
+          Value: true
         odom:
-          Value: false
+          Value: true
         r_camera_link:
           Value: true
+        r_elbow_flection_link:
+          Value: true
         r_eye_vergence_link:
-          Value: false
+          Value: true
         r_eye_version_link:
-          Value: false
+          Value: true
+        r_forearm_pronation_link:
+          Value: true
+        r_palm_link:
+          Value: true
+        r_shoulder_abduction_link:
+          Value: true
+        r_shoulder_flection_link:
+          Value: true
+        r_shoulder_rotation_link:
+          Value: true
+        r_shoulder_scapula_link:
+          Value: true
         r_wheel_link:
-          Value: false
+          Value: true
+        r_wrist_abduction_link:
+          Value: true
+        r_wrist_flection_link:
+          Value: true
         vergence_link:
-          Value: false
+          Value: true
         version_link:
-          Value: false
+          Value: true
         waist_link:
-          Value: false
+          Value: true
       Marker Scale: 1
       Name: TF
       Show Arrows: true
@@ -243,6 +369,16 @@ Visualization Manager:
             r_wheel_link:
               {}
             waist_link:
+              l_shoulder_scapula_link:
+                l_shoulder_flection_link:
+                  l_shoulder_abduction_link:
+                    l_shoulder_rotation_link:
+                      l_elbow_flection_link:
+                        l_forearm_pronation_link:
+                          l_wrist_abduction_link:
+                            l_wrist_flection_link:
+                              l_palm_link:
+                                {}
               neck_pan_link:
                 neck_tilt_link:
                   eyes_tilt_link:
@@ -258,6 +394,16 @@ Visualization Manager:
                       {}
                     version_link:
                       {}
+              r_shoulder_scapula_link:
+                r_shoulder_flection_link:
+                  r_shoulder_abduction_link:
+                    r_shoulder_rotation_link:
+                      r_elbow_flection_link:
+                        r_forearm_pronation_link:
+                          r_wrist_abduction_link:
+                            r_wrist_flection_link:
+                              r_palm_link:
+                                {}
         odom:
           {}
       Update Interval: 0
@@ -318,7 +464,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 3.46001
+      Distance: 2.07495
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
@@ -330,10 +476,10 @@ Visualization Manager:
         Z: 0
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.9054
+      Pitch: 1.5554
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 2.99541
+      Yaw: 3.03541
     Saved: ~
 Window Geometry:
   Displays:
