@@ -1,0 +1,43 @@
+//1Fase
+[POSITION0] 
+jointPositions -17 0  65 0  0   0  0  0  0  0  0
+jointVelocities 20 20 20 20 20 20 20 20 20 20 20
+timing 3.00
+//2Fase
+[POSITION1] 
+jointPositions 	0  0  36 45 41 54 19 -35 0 0  0 
+jointVelocities 20 20 20 20 20 20 20 20 20 20 20
+timing 0.20 
+//Dedos_1
+[POSITION2] 
+jointPositions 	0  0  36 45 41 54 19 -35 0 0  110 
+jointVelocities 20 20 20 20 20 20 20 20 20 20 20
+timing 0.50 
+[POSITION3] 
+jointPositions 	0  0  36 45 41 54 19 -35 0 110 110 
+jointVelocities 20 20 20 20 20 20 20 20 20 20 20
+timing 0.50 
+[POSITION4] 
+jointPositions 	0  0  36 45 41 54 19 -35 110 110 110 
+jointVelocities 20 20 20 20 20 20 20 20 20 20 20
+timing 0.50 
+[POSITION5] 
+jointPositions 	0  0  36 45 41 54 19 -35 110 110 0 
+jointVelocities 20 20 20 20 20 20 20 20 20 20 20
+timing 0.50 
+[POSITION6] 
+jointPositions  0  0  36 45 41 54 19 -35 110 0 0 
+jointVelocities 20 20 20 20 20 20 20 20 20 20 20
+timing 0.50 
+[POSITION7] 
+jointPositions 	0  0  36 45 41 54 19 -35 0 0  0 
+jointVelocities 20 20 20 20 20 20 20 20 20 20 20
+timing 0.50 
+[POSITION8] 
+jointPositions  
+jointVelocities 20 20 20 20 20 20 20 20 20 20 20
+timing 0.50 
+//3fase
+[DIMENSIONS]
+numberOfPoses 9
+numberOfJoints 11
