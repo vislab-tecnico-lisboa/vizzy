@@ -1,0 +1,14 @@
+//1Fase
+[POSITION0] 
+jointPositions 15
+jointVelocities 20
+timing 3.00
+//2Fase + Dedos_1
+[POSITION1]
+jointPositions 0
+jointVelocities 20
+timing 3.2
+//3Fase
+[DIMENSIONS]
+numberOfPoses 2
+numberOfJoints 1
