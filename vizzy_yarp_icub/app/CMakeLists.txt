@@ -1,0 +1,10 @@
+
+
+
+project(vizzyYarpIcub)
+
+add_subdirectory(yogaFiles)
+add_subdirectory(demoGraspManager_Vizzy_ISR)
+add_subdirectory(vizzyCartesianControllerServer)
+add_subdirectory(vizzyCartesianSolver)
+add_subdirectory(vizzy_iKinGazeCtrl)
