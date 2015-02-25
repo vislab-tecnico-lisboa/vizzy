@@ -1816,9 +1816,9 @@ int main(int argc, char *argv[])
     ResourceFinder rf;
     rf.setVerbose(true);
     rf.setMonitor(&rep);
-    rf.setDefaultContext("demoGrasp_IIT_ISR/conf");
-    rf.setDefaultConfigFile("config.ini");
-    rf.configure("ICUB_ROOT",argc,argv);
+    rf.setDefaultContext("demoGraspManager_Vizzy_ISR");
+    rf.setDefaultConfigFile("vizzyConfig_bothArms.ini");
+    rf.configure(argc,argv);
 
     managerModule mod;
     mod.setName("/demoGraspManager_IIT_ISR");

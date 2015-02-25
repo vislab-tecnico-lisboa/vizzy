@@ -180,8 +180,9 @@ int main(int argc, char *argv[])
 
     ResourceFinder rf;
     rf.setVerbose(true);
-    rf.setDefaultConfigFile("solver.ini");
-    rf.configure("ICUB_ROOT",argc,argv);
+    rf.setDefaultContext("vizzyCartesianSolver");
+    rf.setDefaultConfigFile("solver_left_arm.ini");
+    rf.configure(argc,argv);
 
     SolverModule solver;
     return solver.runModule(rf);

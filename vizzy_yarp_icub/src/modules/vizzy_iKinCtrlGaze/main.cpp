@@ -453,7 +453,7 @@ using namespace yarp::dev;
 using namespace yarp::sig;
 
 /************************************************************************/
-class CtrlModule: public Module//public RFModule
+class CtrlModule: public RFModule //public Module//
 {
 protected:
 	Localizer *loc;
@@ -661,12 +661,12 @@ public:
 		interrupting(false) {
 	}
 
-	bool open(Searchable &config) {
+	bool open(ResourceFinder &config) {
 		return configure(config);
 	}
 
 	/************************************************************************/
-	bool configure(Searchable &rf)//(ResourceFinder &rf)
+	bool configure(ResourceFinder &rf)//(Searchable &rf)//
 	{
 		string ctrlName;
 		string robotName;
@@ -683,12 +683,11 @@ public:
 		bool Robotable;
 		double ping_robot_tmo;
 		Vector counterRotGain(2);
-
+		ResourceFinder rf_cameras;
 		Time::turboBoost();
 
 		// get params from the command-line
-		ctrlName
-				= rf.check("ctrlName", Value("iKinGazeCtrl")).asString().c_str();
+		ctrlName = rf.check("ctrlName", Value("iKinGazeCtrl")).asString().c_str();
 		robotName = rf.check("robot", Value("vizzy")).asString().c_str();
 		partName = rf.check("part", Value("head")).asString().c_str();
 		torsoName = rf.check("torso", Value("torso")).asString().c_str();
@@ -716,6 +715,15 @@ public:
 			printf(
 					"Cameras file not defined.\n\tAdd the option 'camerasFile [PATH]' to your configuration file.");
 			return false;
+		}
+		else {
+			//rf_cameras.setVerbose(true);
+			rf_cameras.setQuiet();
+			//rf.check("camerasContext")?
+			//rf_cameras.setDefaultContext(rf.find("camerasContext").asString().c_str()):
+			//rf_cameras.setDefaultContext(rf.getContext().c_str());
+			rf_cameras.setDefaultConfigFile(rf.find("camerasFile").asString().c_str());
+			rf_cameras.configure(0,NULL);
 		}
 
 		if (headV2)
@@ -774,17 +782,17 @@ public:
 		// create and start threads
 		// creation order does matter (for the minimum allowed vergence computation) !!
 		ctrl = new Controller(drvTorso, drvHead, &commData, robotName,
-				localHeadName, camerasFile, neckTime, eyesTime, eyeTiltMin,
+				localHeadName, rf_cameras, neckTime, eyesTime, eyeTiltMin,
 				eyeTiltMax, minAbsVel, headV2, 10);
 
-		loc = new Localizer(&commData, localHeadName, camerasFile, headV2, 10);
+		loc = new Localizer(&commData, localHeadName, rf_cameras, headV2, 10);
 
 		eyesRefGen = new EyePinvRefGen(drvTorso, drvHead, &commData, robotName,
-				ctrl, localHeadName, camerasFile, eyeTiltMin, eyeTiltMax,
+				ctrl, localHeadName, rf_cameras, eyeTiltMin, eyeTiltMax,
 				saccadesOn, counterRotGain, headV2, 20);
 
 		slv = new Solver(drvTorso, drvHead, &commData, eyesRefGen, loc, ctrl,
-				localHeadName, camerasFile, eyeTiltMin, eyeTiltMax, headV2, 20);
+				localHeadName, rf_cameras, eyeTiltMin, eyeTiltMax, headV2, 20);
 
 		// this switch-on order does matter !!
 		eyesRefGen->start();
@@ -1213,7 +1221,7 @@ public:
 
 				//-----------------
 			default:
-				return Module::respond(command, reply);
+				return RFModule::respond(command, reply);
 			}
 		}
 
@@ -1265,7 +1273,7 @@ public:
 };
 
 /************************************************************************/
-int main(int argc, char *argv[]) {
+/*int main(int argc, char *argv[]) {
 	Property prop;
 	prop.fromCommand(argc, argv);
 
@@ -1284,5 +1292,24 @@ int main(int argc, char *argv[]) {
 
 	CtrlModule mod;
 	return mod.runModule(argc, argv);
+}*/
+
+int main(int argc, char *argv[])
+{
+    Network yarp;
+    if (!yarp.checkNetwork())
+    {
+        cout<<"Error: yarp server does not seem available"<<endl;
+        return -1;
+    }
+
+    ResourceFinder rf;
+    rf.setVerbose(true);
+    rf.setDefaultContext("vizzy_iKinGazeCtrl");
+    rf.setDefaultConfigFile("config.ini");
+    rf.configure(argc,argv);
+
+    CtrlModule ctrl_mod;
+    return ctrl_mod.runModule(rf);
 }
 

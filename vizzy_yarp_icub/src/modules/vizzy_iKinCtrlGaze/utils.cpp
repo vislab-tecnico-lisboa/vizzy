@@ -402,7 +402,7 @@ bool getCamPrj(const string &camerasFile, const string &type, Matrix **Prj)
 }
 
 
-/************************************************************************/
+/***********************************************************************
 bool getAlignHN(const string &camerasFile, const string &type, iKinChain *chain)
 {
     if (chain!=NULL)
@@ -445,6 +445,68 @@ bool getAlignHN(const string &camerasFile, const string &type, iKinChain *chain)
 
     return false;
 }
+***********************************************/
+
+/************************************************************************/
+bool getAlignHN(const ResourceFinder &rf, const string &type,
+                iKinChain *chain, const bool verbose)
+{
+    ResourceFinder &_rf=const_cast<ResourceFinder&>(rf);
+    if ((chain!=NULL) && _rf.isConfigured())
+    {
+        string message=_rf.findFile("from").c_str();
+        if (!message.empty())
+        {
+            message+=": aligning matrix for "+type;
+            Bottle &parType=_rf.findGroup(type.c_str());
+            if (!parType.isNull())
+            {
+                if (Bottle *bH=parType.find("HN").asList())
+                {
+                    int i=0;
+                    int j=0;
+
+                    Matrix HN(4,4); HN=0.0;
+                    for (int cnt=0; (cnt<bH->size()) && (cnt<HN.rows()*HN.cols()); cnt++)
+                    {
+                        HN(i,j)=bH->get(cnt).asDouble();
+                        if (++j>=HN.cols())
+                        {
+                            i++;
+                            j=0;
+                        }
+                    }
+
+                    // enforce the homogeneous property
+                    HN(3,0)=HN(3,1)=HN(3,2)=0.0;
+                    HN(3,3)=1.0;
+
+                    chain->setHN(HN);
+
+                    if (verbose)
+                    {
+                        fprintf(stdout,"%s found:",message.c_str());
+                        fprintf(stdout,"%s",HN.toString(3,3).c_str());
+                    }
+
+                    return true;
+                }
+            }
+        }
+        else
+        {
+            message=_rf.find("from").asString().c_str();
+            message+=": aligning matrix for "+type;
+        }
+
+        if (verbose)
+            fprintf(stdout,"%s not found!",message.c_str());
+    }
+
+    return false;
+}
+
+
 
 
 /************************************************************************/

@@ -235,8 +235,9 @@ int main(int argc, char *argv[])
 
   ResourceFinder rf;
   rf.setVerbose(true);
+  rf.setDefaultContext("vizzyCartesianControllerServer");
   rf.setDefaultConfigFile("testServer.ini");
-  rf.configure("ICUB_ROOT", argc, argv);
+  rf.configure(argc,argv);
 
   ServerModule server;
   return server.runModule(rf);

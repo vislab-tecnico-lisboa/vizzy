@@ -190,10 +190,13 @@ int main(int argc, char *argv[])
 
   ResourceFinder rf;
   rf.setVerbose(true);
+  rf.setDefaultContext("vizzyCartesianControllerClient");
+  rf.setDefaultConfigFile("client_left_arm.ini");
+  rf.configure(argc,argv);
   rf.setDefault("remote", "server");
   rf.setDefault("local", "client");
-  rf.configure("ICUB_ROOT", argc, argv);
-
+  //rf.configure("ICUB_ROOT", argc, argv);
+  
   ClientModule client;
   return client.runModule(rf);
 }
