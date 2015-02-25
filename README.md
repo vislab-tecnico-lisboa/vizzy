@@ -16,6 +16,7 @@ The real robot uses two different middlewares for distinct body parts (YARP for 
 * [vizzy_navigation](vizzy_navigation): Contains the launch files for several packages of the ROS navigation stack.
 * [vizzy_control](vizzy_control): Low-level controllers for Vizzy's simulation.
 * [vizzy_sensors](vizzy_sensors): Package holding the Hokuyo filters for better scannings.
+* [vizzy_yarp_icub](vizzy_yarp_icub): YARP based controllers, drivers, libraries and modules. Cartesian controllers, gaze controller, ball tracker grasping demo, yoga demo.
 
 ## Environment
 
