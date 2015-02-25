@@ -1,3 +1,7 @@
+# Copyright: (C) 2015 Vislab Laboratory - Instituto de Sistemas e Robotica - Instituto Superior Tecnico
+# Authors: Plinio Moreno
+# CopyPolicy: Released under the terms of the GNU GPL v2.0.
+
 SET(PROJECTNAME fKinLib)
 PROJECT(${PROJECTNAME})
 SET(folder_source vizzyFwd.cpp)

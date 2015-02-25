@@ -1,7 +1,7 @@
 // -*- mode:C++; tab-width:4; c-basic-offset:4; indent-tabs-mode:nil -*-
 
 /*
- * Copyright (C) 2014 Vislab
+ * Copyright (C) 2015 Vislab Laboratory - Instituto de Sistemas e Robotica - Instituto Superior Tecnico
  * Author: Plinio Moreno
  * CopyPolicy: Released under the terms of the GNU GPL v2.0.
  *
@@ -9,10 +9,10 @@
 
 /**
 *
-@ingroup icub_module
-\defgroup icubdemoy3 iCubDemoY3
+@ingroup modules
+\defgroup vizzyYogaDemo vizzyYogaDemo
 
-The year 3 demo application.
+The yoga demo for Vizzy
 
 \section intro_sec Description
 This modules move the robot into a series of positions. Repeat forever or until quit
@@ -60,9 +60,9 @@ TORSO torsoRemap
 Linux and Windows.
 
 \section example_sec Example Instantiation of the Module
-iCubDemoY3 --positions $ICUB_ROOT/app/demoy3/fullBody.txt
+vizzyYogaDemo --positions $ICUB_ROOT/app/demoy3/fullBody.txt
 
-\author Lorenzo Natale
+\authors Lorenzo Natale - Plinio Moreno
 
 Copyright (C) 2008 RobotCub Consortium
 
@@ -514,7 +514,7 @@ int main(int argc, char *argv[])
     // There is also the possibility of user overrides in 
     // standardized forms not anticipated in this program.
     ResourceFinder finder;
-    finder.setDefaultContext("yogaFiles");
+    finder.setDefaultContext("vizzyYogaDemo");
     finder.configure(argc,argv);
     finder.setVerbose(true);
     finder.setDefault("positions", "config.ini");

@@ -27,12 +27,12 @@ RateThread(_period), commData(_commData), period(_period)*/
 
 /************************************************************************/
 Localizer::Localizer(exchangeData *_commData, const string &_localName,
-                     const string &_camerasFile, const bool _headV2,
+                     ResourceFinder &_camerasFile, const bool _headV2,
                      const unsigned int _period) :
                      RateThread(_period), commData(_commData), localName(_localName),
-                      camerasFile(_camerasFile),
                      headV2(_headV2),     period(_period)
 {
+    this->rf_camera=_camerasFile;
     vizzyHeadCenter eyeC(headV2?"right_v2":"right");
     eyeL=new vizzyEye(headV2?"left_v2":"left");
     eyeR=new vizzyEye(headV2?"right_v2":"right");
@@ -48,8 +48,8 @@ Localizer::Localizer(exchangeData *_commData, const string &_localName,
     eyeL->releaseLink(2); /*eyeC.releaseLink(2);*/ eyeR->releaseLink(2);
 
     // add aligning matrices read from configuration file
-    getAlignHN(camerasFile,"ALIGN_KIN_LEFT",eyeL->asChain());
-    getAlignHN(camerasFile,"ALIGN_KIN_RIGHT",eyeR->asChain());
+    getAlignHN(rf_camera,"ALIGN_KIN_LEFT",eyeL->asChain(),true);
+    getAlignHN(rf_camera,"ALIGN_KIN_RIGHT",eyeR->asChain(),true);
 
     // get the absolute reference frame of the head
     Vector q(eyeC.getDOF(),0.0);
