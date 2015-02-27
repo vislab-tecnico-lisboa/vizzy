@@ -63,7 +63,7 @@ protected:
     string camerasFile;
     bool headV2;
     unsigned int period;
-
+    ResourceFinder rf_camera;
     
     vizzyEye  *eyeL;
     vizzyEye  *eyeR;
@@ -87,7 +87,7 @@ protected:
 
 public:
     Localizer(exchangeData *_commData, const string &_localName,
-              const string &_camerasFile, const bool _headV2,
+              ResourceFinder &_camerasFile, const bool _headV2,
               const unsigned int _period);
 
     void   set_xdport(xdPort *_port_xd) { port_xd=_port_xd; }

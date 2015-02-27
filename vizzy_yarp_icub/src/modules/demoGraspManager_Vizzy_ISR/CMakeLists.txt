@@ -1,3 +1,7 @@
+# Copyright: (C) 2015 Vislab Laboratory - Instituto de Sistemas e Robotica - Instituto Superior Tecnico
+# Authors: Plinio Moreno
+# CopyPolicy: Released under the terms of the GNU GPL v2.0.
+
 cmake_minimum_required(VERSION 2.8)
 
 SET(PROJECTNAME demoGraspManager_Vizzy_ISR)
@@ -45,7 +49,7 @@ ADD_EXECUTABLE(${PROJECTNAME} ${folder_source} ${folder_header})
 
 #MESSAGE("If the directory ${demoGraspManager_Vizzy_ISR_SOURCE_DIR}/../../../kinematicInterface/vizzy_iKinGazeCtrl/iKinGazeCtrl/src exists everything is OK!")
 
-TARGET_LINK_LIBRARIES(${PROJECTNAME} ${YARP_LIBRARIES} ${ICUB_LIBRARIES} fKinLib)
+TARGET_LINK_LIBRARIES(${PROJECTNAME} ${YARP_LIBRARIES} ${ICUB_LIBRARIES} ${OpenCV_LIBRARIES} fKinLib)
  
 set_target_properties(
   ${PROJECTNAME}

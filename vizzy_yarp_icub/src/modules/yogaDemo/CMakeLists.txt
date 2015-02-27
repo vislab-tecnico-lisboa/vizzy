@@ -1,5 +1,5 @@
 # Copyright (C) 2008 RobotCub Consortium
-# Author: Lorenzo Natale
+# Author: Lorenzo Natale - Plinio Moreno
 # CopyPolicy: Released under the terms of the GNU GPL v2.0.
 cmake_minimum_required(VERSION 2.8)
 if(COMMAND cmake_policy)
