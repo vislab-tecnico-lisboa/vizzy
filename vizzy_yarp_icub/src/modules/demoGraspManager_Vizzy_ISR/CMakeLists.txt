@@ -49,7 +49,7 @@ ADD_EXECUTABLE(${PROJECTNAME} ${folder_source} ${folder_header})
 
 #MESSAGE("If the directory ${demoGraspManager_Vizzy_ISR_SOURCE_DIR}/../../../kinematicInterface/vizzy_iKinGazeCtrl/iKinGazeCtrl/src exists everything is OK!")
 
-TARGET_LINK_LIBRARIES(${PROJECTNAME} ${YARP_LIBRARIES} ${ICUB_LIBRARIES} fKinLib)
+TARGET_LINK_LIBRARIES(${PROJECTNAME} ${YARP_LIBRARIES} ${ICUB_LIBRARIES} ${OpenCV_LIBRARIES} fKinLib)
  
 set_target_properties(
   ${PROJECTNAME}
