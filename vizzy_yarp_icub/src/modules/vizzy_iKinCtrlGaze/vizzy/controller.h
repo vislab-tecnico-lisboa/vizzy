@@ -31,6 +31,7 @@
 #include <yarp/dev/ControlBoardInterfaces.h>
 #include <yarp/dev/PolyDriver.h>
 
+
 #include <iCub/ctrl/minJerkCtrl.h>
 #include <iCub/ctrl/pids.h>
 
@@ -81,6 +82,7 @@ protected:
     string robotName;
     string localName;
     string camerasFile;
+    ResourceFinder rf_camera;
     bool tiltDone;
     bool panDone;
     bool verDone;
@@ -110,7 +112,7 @@ protected:
 
 public:
     Controller(PolyDriver *_drvTorso, PolyDriver *_drvHead, exchangeData *_commData,
-               const string &_robotName, const string &_localName, const string &_camerasFile,
+               const string &_robotName, const string &_localName, ResourceFinder &_camerasFile,
                const double _neckTime, const double _eyesTime, const double _eyeTiltMin,
                const double _eyeTiltMax, const double _minAbsVel, const bool _headV2,
                const unsigned int _period);

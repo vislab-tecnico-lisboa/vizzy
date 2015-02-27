@@ -29,6 +29,7 @@
 #include <yarp/sig/Matrix.h>
 #include <yarp/math/Math.h>
 #include <yarp/dev/PolyDriver.h>
+#include <yarp/os/ResourceFinder.h>
 
 #include <vizzy/gazeNlp.h>
 
@@ -151,7 +152,7 @@ bool getCamPrj(const string &camerasFile, const string &type, Matrix **Prj);
 // Allocates the two aligning matrices read from camerasFile
 // type is in {"ALIGN_KIN_LEFT","ALIGN_KIN_RIGHT"}
 // Returns true if correctly configured
-bool getAlignHN(const string &camerasFile, const string &type, iKinChain *chain);
+bool getAlignHN(const ResourceFinder &camerasFile, const string &type, iKinChain *chain, const bool verbose);
 
 
 // Aligns head joints bounds with current onboard bounds.

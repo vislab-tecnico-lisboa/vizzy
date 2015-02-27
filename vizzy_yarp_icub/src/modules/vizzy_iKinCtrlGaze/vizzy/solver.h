@@ -94,6 +94,7 @@ protected:
     double saccadesInhibitionPeriod;
     double eyesHalfBaseline;
     double Ts;
+    ResourceFinder rf_camera;
     
     Matrix lim;
     Vector fbTorso;
@@ -108,7 +109,7 @@ protected:
 public:
     EyePinvRefGen(PolyDriver *_drvTorso, PolyDriver *_drvHead, exchangeData *_commData,
                   const string &_robotName, Controller *_ctrl, const string &_localName,
-                  const string &_camerasFile, const double _eyeTiltMin, const double _eyeTiltMax,
+                  ResourceFinder &_camerasFile, const double _eyeTiltMin, const double _eyeTiltMax,
                   const bool _saccadesOn, const Vector &_counterRotGain, const bool _headV2,
                   const unsigned int _period);
 
@@ -162,6 +163,7 @@ protected:
     int nJointsTorso;
     int nJointsHead;
     double Ts;
+    ResourceFinder rf_camera;
 
     Vector fbTorso;
     Vector fbHead;
@@ -184,7 +186,7 @@ protected:
 public:
     Solver(PolyDriver *_drvTorso, PolyDriver *_drvHead, exchangeData *_commData,
            EyePinvRefGen *_eyesRefGen, Localizer *_loc, Controller *_ctrl,
-           const string &_localName, const string &_camerasFile, const double _eyeTiltMin,
+           const string &_localName, ResourceFinder &_camerasFile, const double _eyeTiltMin,
            const double _eyeTiltMax, const bool _headV2, const unsigned int _period);
 
     // Returns a measure of neck angle required to reach the target
