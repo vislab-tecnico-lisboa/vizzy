@@ -29,12 +29,12 @@ vizzy:
   version_position_controller:
     type: effort_controllers/JointPositionController
     joint: version_joint
-    pid: {p: 1.0, i: 0.1, d: 0.1}
+    pid: {p: 10.0, i: 0.1, d: 0.1}
 
   vergence_position_controller:
     type: effort_controllers/JointPositionController
     joint: vergence_joint
-    pid: {p: 1.0, i: 0.1, d: 0.1}
+    pid: {p: 10.0, i: 0.1, d: 0.1}
 
   # Left arm Position Controllers
   l_shoulder_scapula_position_controller:
