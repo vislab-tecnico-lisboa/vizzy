@@ -6,6 +6,15 @@
       <mu1>0.2</mu1>
       <mu2>0.2</mu2>
     </gazebo>
+ 		<gazebo reference="waist_joint">
+			<kd value="1.0" />
+			<kp value="1000000.0" />
+			<stopCfm value="1000000.0" />
+			<fudgeFactor value="1.0" />
+			<provideFeedback value="true"/>
+  		<dampingFactor>0.7</dampingFactor>
+		</gazebo>
+
     
   </xacro:macro>
 </robot>
