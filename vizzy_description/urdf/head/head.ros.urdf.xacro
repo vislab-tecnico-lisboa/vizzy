@@ -6,8 +6,8 @@
 
   <!-- Things that are needed only for Gazebo (not the physical robot).  These include
        sensor and controller plugin specifications -->
- <xacro:include filename="$(find vizzy_description)/urdf/head/head.gazebo.xacro" />
- <xacro:include filename="$(find vizzy_description)/urdf/head/head.transmission.xacro" />
+ <xacro:include filename="$(find vizzy_description)/urdf/head/head.ros.gazebo.xacro" />
+ <xacro:include filename="$(find vizzy_description)/urdf/head/head.ros.transmission.xacro" />
 
 
   <xacro:macro name="head" params="name">
@@ -175,6 +175,27 @@
     <limit lower="-0.663225116" upper="0.663225116" effort="10.0" velocity="3" />
     <dynamics damping="0.1" friction="0.1" />
   </joint>
+
+  <!-- eyes center virtual link and joint -->
+  <link name="eyes_center_link">
+		<inertial>
+			<origin xyz="0 0 0" 
+      rpy="0.0 0.0 0" />
+			<mass value="0.1"/> 
+			<inertia  
+				ixx="0.001" ixy="0.0" ixz="0.0" 
+				iyy="0.001" iyz="0.0" izz="0.001"/> 				
+		</inertial>
+  </link>
+
+
+  <joint name="eyes_center_joint" type="fixed">
+    <origin xyz="0 0 0"       rpy="${M_PI/2.0} 0.0 0.369599135716446" />
+    <parent link="eyes_tilt_link" />
+    <child link="eyes_center_link" />
+  </joint>
+
+
   <!-- version virtual link and joint -->
   <link name="version_link">
 		<inertial>
@@ -187,9 +208,10 @@
 		</inertial>
   </link>
 
+
   <joint name="version_joint" type="revolute">
-    <origin xyz="0 0 0"       rpy="${M_PI/2.0} 0.0 0.369599135716446" />
-    <parent link="eyes_tilt_link" />
+    <origin xyz="0 0 0"       rpy="0 0 0" />
+    <parent link="eyes_center_link" />
     <child link="version_link" />
     <axis  xyz="0 0 1" />
     <limit lower="-0.698131" upper="0.698131" effort="10.0" velocity="0.2" />
@@ -210,10 +232,10 @@
     name="l_eye_version_joint"
     type="revolute">
     <origin
-      xyz="0.0 0.0 0.102"
-      rpy="${M_PI/2.0} 0.0 0.369599135716446" />
+      xyz="0.0 0.102 0.0"
+      rpy="0 0 0" />
     <parent
-      link="eyes_tilt_link" />
+      link="eyes_center_link" />
     <child
       link="l_eye_version_link" />
     <axis
@@ -240,10 +262,10 @@
     name="r_eye_version_joint"
     type="revolute">
     <origin
-      xyz="0.0 0.0 -0.102"
-      rpy="${M_PI/2.0} 0.0 0.369599135716446" />
+      xyz="0.0 -0.102 0.0"
+      rpy="0 0.0 0" />
     <parent
-      link="eyes_tilt_link" />
+      link="eyes_center_link" />
     <child
       link="r_eye_version_link" />
     <axis
@@ -267,8 +289,8 @@
 		</inertial>
   </link>
   <joint name="vergence_joint" type="revolute">
-    <origin xyz="0.0 0.0 0.0" rpy="${M_PI/2.0} 0.0 0.369599135716446" />
-    <parent link="eyes_tilt_link" />
+    <origin xyz="0.0 0.0 0.0" rpy="0 0.0 0" />
+    <parent link="eyes_center_link" />
     <child link="vergence_link" />
     <axis  xyz="0 0 1" />
     <limit lower="0.0" upper="0.698131" effort="10.0" velocity="0.2" />

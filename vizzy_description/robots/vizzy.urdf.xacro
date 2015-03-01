@@ -10,7 +10,12 @@
   <!-- torso -->
   <xacro:include filename="$(find vizzy_description)/urdf/torso/torso.urdf.xacro" />
   <!-- head -->
-  <xacro:include filename="$(find vizzy_description)/urdf/head/head.urdf.xacro" />
+  <xacro:if value="$(arg use_yarp)">
+  	<xacro:include filename="$(find vizzy_description)/urdf/head/head.yarp.urdf.xacro" />
+  </xacro:if>
+  <xacro:unless value="$(arg use_yarp)">
+  	<xacro:include filename="$(find vizzy_description)/urdf/head/head.ros.urdf.xacro" />
+  </xacro:unless>
   <!-- left arm -->
   <xacro:include filename="$(find vizzy_description)/urdf/arm/left_arm.urdf.xacro" />
   <!-- right arm -->
