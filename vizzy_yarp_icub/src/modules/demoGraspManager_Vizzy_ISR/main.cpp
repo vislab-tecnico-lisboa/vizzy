@@ -306,9 +306,8 @@ public:
 class managerThread : public RateThread
 {
 protected:
-    ResourceFinder &rf;
-
     string name;
+    ResourceFinder &rf;
     string robot;
     string eyeUsed;
 
@@ -974,8 +973,8 @@ protected:
             if (state==STATE_REACH)
             {    
                 // handle the hysteresis thresholds
-                if ((armSel==LEFTARM) && (targetPos[1]>hystThres) ||
-                    (armSel==RIGHTARM) && (targetPos[1]<-hystThres))
+                if (((armSel==LEFTARM) && (targetPos[1]>hystThres)) ||
+                    ((armSel==RIGHTARM) && (targetPos[1]<-hystThres)))
                 {
                     fprintf(stdout,"*** Change arm event triggered\n");
                     state=STATE_CHECKMOTIONDONE;

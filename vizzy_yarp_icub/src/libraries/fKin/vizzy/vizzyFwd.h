@@ -40,8 +40,8 @@ namespace iKin
 class vizzyEye : public iKinLimb
 {
 protected:
-    virtual void allocate(const std::string &_type);
-
+    virtual void allocate(const std::string &_type, const std::string &_root_link);
+    std::string root_link;
 public:
     /**
     * Default constructor.
@@ -55,6 +55,14 @@ public:
     *              "left_v2" and "right_v2".
     */
     vizzyEye(const std::string &_type);
+
+    /**
+    * Constructor.
+    * @param _type is a string to discriminate between "left" and
+    *              "right" eye. Further available options are
+    *              "left_v2" and "right_v2".
+    */
+    vizzyEye(const std::string &_type,const std::string &_root_link);
 
     /**
     * Creates a new Eye from an already existing Eye object.
@@ -97,7 +105,7 @@ public:
     *              "left_v2" and "right_v2".
     */
     vizzyEyeNeckRef(const std::string &_type);
-
+    
     /**
     * Creates a new Eye from an already existing Eye object.
     * @param eye is the Eye to be copied.
@@ -114,8 +122,8 @@ public:
 class vizzyInertialSensor : public iKinLimb
 {
 protected:
-    virtual void allocate(const std::string &_type);
-
+    virtual void allocate(const std::string &_type, const std::string &_root_link);
+    std::string root_link;
 public:
     /**
     * Default constructor.
@@ -128,6 +136,13 @@ public:
     *              hardware versions.
     */
     vizzyInertialSensor(const std::string &_type);
+
+    /**
+    * Constructor.
+    * @param _type is a string to discriminate between "v1" and "v2"
+    *              hardware versions.
+    */
+    vizzyInertialSensor(const std::string &_type, const std::string &_root_link);
 
     /**
     * Creates a new Inertial Sensor from an already existing object.

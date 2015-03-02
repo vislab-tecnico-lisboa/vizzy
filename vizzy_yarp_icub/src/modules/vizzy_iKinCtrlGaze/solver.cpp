@@ -30,7 +30,7 @@ EyePinvRefGen::EyePinvRefGen(PolyDriver *_drvTorso, PolyDriver *_drvHead,
                              ResourceFinder &_camerasFile, const double _eyeTiltMin,
                              const double _eyeTiltMax, const bool _saccadesOn,
                              const Vector &_counterRotGain, const bool _headV2,
-                             const unsigned int _period) :
+                             const string &_root_link,const unsigned int _period) :
                              RateThread(_period),     drvTorso(_drvTorso),       drvHead(_drvHead),
                              commData(_commData),     robotName(_robotName),     ctrl(_ctrl),
                              localName(_localName),   eyeTiltMin(_eyeTiltMin),
@@ -42,9 +42,9 @@ EyePinvRefGen::EyePinvRefGen(PolyDriver *_drvTorso, PolyDriver *_drvHead,
     counterRotGain=_counterRotGain;
 
     // Instantiate objects
-    neck=new vizzyHeadCenter(headV2?"right_v2":"right");
-    eyeL=new vizzyEye(headV2?"left_v2":"left");
-    eyeR=new vizzyEye(headV2?"right_v2":"right");
+    neck=new vizzyHeadCenter(headV2?"right_v2":"right",_root_link);
+    eyeL=new vizzyEye(headV2?"left_v2":"left",_root_link);
+    eyeR=new vizzyEye(headV2?"right_v2":"right",_root_link);
 
     // remove constraints on the links: logging purpose
     inertialSensor.setAllConstraints(false);
@@ -444,7 +444,8 @@ void EyePinvRefGen::stopControl()
 Solver::Solver(PolyDriver *_drvTorso, PolyDriver *_drvHead, exchangeData *_commData,
                EyePinvRefGen *_eyesRefGen, Localizer *_loc, Controller *_ctrl,
                const string &_localName, ResourceFinder &_camerasFile, const double _eyeTiltMin,
-               const double _eyeTiltMax, const bool _headV2, const unsigned int _period) :
+               const double _eyeTiltMax, const bool _headV2,
+               const string &_root_link, const unsigned int _period) :
                RateThread(_period),     drvTorso(_drvTorso),     drvHead(_drvHead),
                commData(_commData),     eyesRefGen(_eyesRefGen), loc(_loc),
                ctrl(_ctrl),             localName(_localName),
@@ -455,9 +456,9 @@ Solver::Solver(PolyDriver *_drvTorso, PolyDriver *_drvHead, exchangeData *_commD
     Robotable=(drvHead!=NULL);
 
     // Instantiate objects
-    neck=new vizzyHeadCenter(headV2?"right_v2":"right");
-    eyeL=new vizzyEye(headV2?"left_v2":"left");
-    eyeR=new vizzyEye(headV2?"right_v2":"right");
+    neck=new vizzyHeadCenter(headV2?"right_v2":"right",_root_link);
+    eyeL=new vizzyEye(headV2?"left_v2":"left",_root_link);
+    eyeR=new vizzyEye(headV2?"right_v2":"right",_root_link);
 
     // remove constraints on the links: logging purpose
     inertialSensor.setAllConstraints(false);

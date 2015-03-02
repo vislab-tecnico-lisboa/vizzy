@@ -28,14 +28,14 @@ RateThread(_period), commData(_commData), period(_period)*/
 /************************************************************************/
 Localizer::Localizer(exchangeData *_commData, const string &_localName,
                      ResourceFinder &_camerasFile, const bool _headV2,
-                     const unsigned int _period) :
+                     const string &_root_link, const unsigned int _period) :
                      RateThread(_period), commData(_commData), localName(_localName),
-                     headV2(_headV2),     period(_period)
+                     headV2(_headV2),  period(_period)
 {
     this->rf_camera=_camerasFile;
-    vizzyHeadCenter eyeC(headV2?"right_v2":"right");
-    eyeL=new vizzyEye(headV2?"left_v2":"left");
-    eyeR=new vizzyEye(headV2?"right_v2":"right");
+    vizzyHeadCenter eyeC(headV2?"right_v2":"right",_root_link);
+    eyeL=new vizzyEye(headV2?"left_v2":"left",_root_link);
+    eyeR=new vizzyEye(headV2?"right_v2":"right",_root_link);
 
     // remove constraints on the links
     // we use the chains for logging purpose

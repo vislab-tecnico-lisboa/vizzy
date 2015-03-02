@@ -114,7 +114,7 @@ public:
     Controller(PolyDriver *_drvTorso, PolyDriver *_drvHead, exchangeData *_commData,
                const string &_robotName, const string &_localName, ResourceFinder &_camerasFile,
                const double _neckTime, const double _eyesTime, const double _eyeTiltMin,
-               const double _eyeTiltMax, const double _minAbsVel, const bool _headV2,
+               const double _eyeTiltMax, const double _minAbsVel, const bool _headV2, const string &_root_link,
                const unsigned int _period);
 
     void   resetCtrlEyes();

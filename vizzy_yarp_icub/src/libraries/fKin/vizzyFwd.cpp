@@ -21,16 +21,21 @@ using namespace iCub::iKin;
 /************************************************************************/
 vizzyEye::vizzyEye()
 {
-    allocate("right");
+    allocate("right","waist");
 }
 
 
 /************************************************************************/
 vizzyEye::vizzyEye(const string &_type)
 {
-    allocate(_type);
+    allocate(_type,"waist");
 }
 
+/************************************************************************/
+vizzyEye::vizzyEye(const string &_type,const std::string &_root_link)
+{
+    allocate(_type,_root_link);
+}
 
 /************************************************************************/
 vizzyEye::vizzyEye(const vizzyEye &eye)
@@ -40,21 +45,36 @@ vizzyEye::vizzyEye(const vizzyEye &eye)
 
 
 /************************************************************************/
-void vizzyEye::allocate(const string &_type)
+void vizzyEye::allocate(const string &_type, const std::string &_root_link)
 {
     //iKinLimb::allocate(_type);
     type=_type;
+    root_link=_root_link;
     configured=true;
 
     //virtual link
     //H0 (1.0 0.0 0.0 0.0   0.0 0.0 -1.0 0.0  0.0 1.0 0.0 0.0   0.0 0.0 0.0 1.0)     // given per rows (Very precise MATLAB Matrix)
     Matrix H0(4,4);
     H0.zero();
-    H0(0,0)=1.0;
-    H0(1,2)=-1.0;
-    H0(2,1)=1.0;
-    H0(3,3)=1.0;
-    setH0(H0);
+    if (_root_link=="waist")
+    {
+	//1.0 0.0 0.0 0.189861 0.0 0.000004 -1.0 0.0 -0.0 1.0 -0.000004 0.535797 0.0 0.0 0.0 1.0)
+        H0(0,0)=1.0;
+        H0(1,2)=-1.0;
+        H0(2,1)=1.0;
+        H0(3,3)=1.0;
+	H0(0,3)=0.189861;
+	H0(2,3)=0.535797;
+    }
+    else if (_root_link=="base_link")
+    {
+        H0(0,0)=1.0;
+        H0(1,2)=-1.0;
+        H0(2,1)=1.0;
+        H0(3,3)=1.0;
+    }
+
+        setH0(H0);
 
       //pushLink(new iKinLink(  R,      D,      alpha,     theta,       minAngle,         maxAngle));
 
@@ -97,7 +117,7 @@ void vizzyEye::allocate(const string &_type)
       pushLink(new iKinLink( 0, 0, M_PI/2.0, -M_PI/2.0, -38.0*CTRL_DEG2RAD, 38.0*CTRL_DEG2RAD));//link5
     }
     Matrix HN(4,4);
-    H0.zero();
+    HN.zero();
     HN(0,0)=1.0;
     HN(1,1)=1.0;
     HN(2,2)=1.0;
@@ -183,16 +203,21 @@ void vizzyEyeNeckRef::allocate(const string &_type)
 /************************************************************************/
 vizzyInertialSensor::vizzyInertialSensor()
 {
-    allocate("");
+    allocate("","waist");
 }
 
 
 /************************************************************************/
 vizzyInertialSensor::vizzyInertialSensor(const string &_type)
 {
-    allocate(_type);
+    allocate(_type,"waist");
 }
 
+/************************************************************************/
+vizzyInertialSensor::vizzyInertialSensor(const string &_type, const std::string &_root_link)
+{
+    allocate(_type,_root_link);
+}
 
 /************************************************************************/
 vizzyInertialSensor::vizzyInertialSensor(const vizzyInertialSensor &sensor)
@@ -202,7 +227,7 @@ vizzyInertialSensor::vizzyInertialSensor(const vizzyInertialSensor &sensor)
 
 
 /************************************************************************/
-void vizzyInertialSensor::allocate(const string &_type)
+void vizzyInertialSensor::allocate(const string &_type, const std::string &_root_link)
 {
     iKinLimb::allocate(_type);
 
@@ -210,11 +235,23 @@ void vizzyInertialSensor::allocate(const string &_type)
     //H0 (1.0 0.0 0.0 0.0   0.0 0.0 -1.0 0.0  0.0 1.0 0.0 0.0   0.0 0.0 0.0 1.0)     // given per rows (Very precise MATLAB Matrix)
     Matrix H0(4,4);
     H0.zero();
-    H0(0,0)=1.0;
-    H0(1,2)=-1.0;
-    H0(2,1)=1.0;
-    H0(3,3)=1.0;
-    setH0(H0);
+    if (_root_link=="waist")
+    {
+	//1.0 0.0 0.0 0.189861 0.0 0.000004 -1.0 0.0 -0.0 1.0 -0.000004 0.535797 0.0 0.0 0.0 1.0)
+        H0(0,0)=1.0;
+        H0(1,2)=-1.0;
+        H0(2,1)=1.0;
+        H0(3,3)=1.0;
+	H0(0,3)=0.189861;
+	H0(2,3)=0.535797;
+    }
+    else if (_root_link=="base_link")
+    {
+        H0(0,0)=1.0;
+        H0(1,2)=-1.0;
+        H0(2,1)=1.0;
+        H0(3,3)=1.0;
+    }
     //pushLink(new iKinLink(  R,      D,      alpha,     theta,       minAngle,         maxAngle));
 
     /*
