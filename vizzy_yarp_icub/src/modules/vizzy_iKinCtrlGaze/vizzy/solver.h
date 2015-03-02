@@ -111,7 +111,7 @@ public:
                   const string &_robotName, Controller *_ctrl, const string &_localName,
                   ResourceFinder &_camerasFile, const double _eyeTiltMin, const double _eyeTiltMax,
                   const bool _saccadesOn, const Vector &_counterRotGain, const bool _headV2,
-                  const unsigned int _period);
+                  const string &_root_link,const unsigned int _period);
 
     void   set_xdport(xdPort *_port_xd)                        { port_xd=_port_xd;                   }
     void   enable()                                            { genOn=true;                         }
@@ -187,7 +187,7 @@ public:
     Solver(PolyDriver *_drvTorso, PolyDriver *_drvHead, exchangeData *_commData,
            EyePinvRefGen *_eyesRefGen, Localizer *_loc, Controller *_ctrl,
            const string &_localName, ResourceFinder &_camerasFile, const double _eyeTiltMin,
-           const double _eyeTiltMax, const bool _headV2, const unsigned int _period);
+           const double _eyeTiltMax, const bool _headV2, const string &_root_link,const unsigned int _period);
 
     // Returns a measure of neck angle required to reach the target
     Vector neckTargetRotAngles(const Vector &xd);    

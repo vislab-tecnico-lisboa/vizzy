@@ -28,7 +28,7 @@ Controller::Controller(PolyDriver *_drvTorso, PolyDriver *_drvHead, exchangeData
                        const string &_robotName, const string &_localName, ResourceFinder &_camerasFile,
                        const double _neckTime, const double _eyesTime, const double _eyeTiltMin,
                        const double _eyeTiltMax, const double _minAbsVel, const bool _headV2,
-                       const unsigned int _period) :
+                       const string &_root_link, const unsigned int _period) :
                        RateThread(_period),       drvTorso(_drvTorso),     drvHead(_drvHead),
                        commData(_commData),       robotName(_robotName),   localName(_localName),
                         neckTime(_neckTime),     eyesTime(_eyesTime),
@@ -40,9 +40,9 @@ Controller::Controller(PolyDriver *_drvTorso, PolyDriver *_drvHead, exchangeData
     Robotable=(drvHead!=NULL);
 
     // Instantiate objects
-    neck=new vizzyHeadCenter(headV2?"right_v2":"right");
-    eyeL=new vizzyEye(headV2?"left_v2":"left");
-    eyeR=new vizzyEye(headV2?"right_v2":"right");
+    neck=new vizzyHeadCenter(headV2?"right_v2":"right",_root_link);
+    eyeL=new vizzyEye(headV2?"left_v2":"left",_root_link);
+    eyeR=new vizzyEye(headV2?"right_v2":"right",_root_link);
 
     // release links
     neck->releaseLink(0); eyeL->releaseLink(0); eyeR->releaseLink(0);

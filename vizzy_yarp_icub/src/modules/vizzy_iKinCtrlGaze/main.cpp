@@ -684,6 +684,7 @@ public:
 		double ping_robot_tmo;
 		Vector counterRotGain(2);
 		ResourceFinder rf_cameras;
+		string root_link;
 		Time::turboBoost();
 
 		// get params from the command-line
@@ -703,8 +704,9 @@ public:
 		counterRotGain[0] = rf.check("vor", Value(1.0)).asDouble();
 		counterRotGain[1] = rf.check("ocr", Value(0.0)).asDouble();
 		headV2 = rf.check("headV2");
+		root_link = rf.check("root", Value("waist")).asString();
 		Robotable = !rf.check("simulation");
-
+		fprintf(stdout, "Root reference frame set at %s\n",root_link.c_str());
 		// minAbsVel is given in absolute form
 		// hence it must be positive
 		if (minAbsVel < 0.0)
@@ -783,16 +785,16 @@ public:
 		// creation order does matter (for the minimum allowed vergence computation) !!
 		ctrl = new Controller(drvTorso, drvHead, &commData, robotName,
 				localHeadName, rf_cameras, neckTime, eyesTime, eyeTiltMin,
-				eyeTiltMax, minAbsVel, headV2, 10);
+				eyeTiltMax, minAbsVel, headV2, root_link,10);
 
-		loc = new Localizer(&commData, localHeadName, rf_cameras, headV2, 10);
+		loc = new Localizer(&commData, localHeadName, rf_cameras, headV2, root_link, 10);
 
 		eyesRefGen = new EyePinvRefGen(drvTorso, drvHead, &commData, robotName,
 				ctrl, localHeadName, rf_cameras, eyeTiltMin, eyeTiltMax,
-				saccadesOn, counterRotGain, headV2, 20);
+				saccadesOn, counterRotGain, headV2, root_link, 20);
 
 		slv = new Solver(drvTorso, drvHead, &commData, eyesRefGen, loc, ctrl,
-				localHeadName, rf_cameras, eyeTiltMin, eyeTiltMax, headV2, 20);
+				localHeadName, rf_cameras, eyeTiltMin, eyeTiltMax, headV2, root_link, 20);
 
 		// this switch-on order does matter !!
 		eyesRefGen->start();

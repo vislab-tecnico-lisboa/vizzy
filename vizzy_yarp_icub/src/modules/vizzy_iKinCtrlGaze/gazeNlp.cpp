@@ -173,7 +173,7 @@ bool computeFixationPointOnly(iKinChain &eyeL, iKinChain &eyeR, Vector &fp)
 
 
 /************************************************************************/
-void vizzyHeadCenter::allocate(const string &_type)
+void vizzyHeadCenter::allocate(const string &_type,const string &_root_link)
 {
     iKinLimb::allocate(_type);
 
@@ -182,10 +182,23 @@ void vizzyHeadCenter::allocate(const string &_type)
     // accounting for the virtual link
     Matrix H0(4,4);
     H0.zero();
-    H0(0,0)=1.0;
-    H0(1,2)=-1.0;
-    H0(2,1)=1.0;
-    H0(3,3)=1.0;
+    if (_root_link=="waist")
+    {
+	//1.0 0.0 0.0 0.189861 0.0 0.000004 -1.0 0.0 -0.0 1.0 -0.000004 0.535797 0.0 0.0 0.0 1.0)
+        H0(0,0)=1.0;
+        H0(1,2)=-1.0;
+        H0(2,1)=1.0;
+        H0(3,3)=1.0;
+	H0(0,3)=0.189861;
+	H0(2,3)=0.535797;
+    }
+    else if (_root_link=="base_link")
+    {
+        H0(0,0)=1.0;
+        H0(1,2)=-1.0;
+        H0(2,1)=1.0;
+        H0(3,3)=1.0;
+    }
     setH0(H0);
 
 #if 0
@@ -351,22 +364,24 @@ protected:
 
     // this attributes were from the old class iKin_NLP ##################################################################
     iKinChain &chain;
-    iKinChain &chain2ndTask;
 
-    iKinLinIneqConstr &LIC;
 
     unsigned int dim;
     unsigned int dim_2nd;
     unsigned int ctrlPose;
 
+    yarp::sig::Vector  qd;
+    yarp::sig::Vector  q;
+    yarp::sig::Vector  q0;
     yarp::sig::Vector &xd;
+    double weight2ndTask;
+    iKinChain &chain2ndTask;
     yarp::sig::Vector &xd_2nd;
     yarp::sig::Vector &w_2nd;
+    double weight3rdTask;
     yarp::sig::Vector &qd_3rd;
     yarp::sig::Vector &w_3rd;
-    yarp::sig::Vector  qd;
-    yarp::sig::Vector  q0;
-    yarp::sig::Vector  q;
+    iKinLinIneqConstr &LIC;
     bool   *exhalt;
 
     yarp::sig::Vector  e_zero;
@@ -395,9 +410,6 @@ protected:
     Ipopt::Number translationalTol;
 
     iKinIterateCallback *callback;
-
-    double weight2ndTask;
-    double weight3rdTask;
     bool firstGo;
 
     // end of "this attributes were from the old class iKin_NLP"  ##################################################################
@@ -410,7 +422,7 @@ public:
                    iKinLinIneqConstr &_LIC, bool *_exhalt) :
                    chain(c), q0(_q0), xd(_xd),
                    chain2ndTask(_chain2ndTask),   xd_2nd(_xd_2nd), w_2nd(_w_2nd),
-                   weight3rdTask(_weight3rdTask), qd_3rd(_qd_3rd), w_3rd(_w_3rd),
+                   weight3rdTask(_weight3rdTask),qd_3rd(_qd_3rd), w_3rd(_w_3rd),
                    LIC(_LIC), 
                    exhalt(_exhalt)
   {

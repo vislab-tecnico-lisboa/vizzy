@@ -88,7 +88,7 @@ protected:
 public:
     Localizer(exchangeData *_commData, const string &_localName,
               ResourceFinder &_camerasFile, const bool _headV2,
-              const unsigned int _period);
+              const string &_root_link, const unsigned int _period);
 
     void   set_xdport(xdPort *_port_xd) { port_xd=_port_xd; }
     void   getPidOptions(Bottle &options);
