@@ -182,7 +182,7 @@ void vizzyHeadCenter::allocate(const string &_type,const string &_root_link)
     // accounting for the virtual link
     Matrix H0(4,4);
     H0.zero();
-    if (_root_link=="waist")
+    if (_root_link=="base_link")
     {
 	//1.0 0.0 0.0 0.189861 0.0 0.000004 -1.0 0.0 -0.0 1.0 -0.000004 0.535797 0.0 0.0 0.0 1.0)
         H0(0,0)=1.0;
@@ -192,7 +192,7 @@ void vizzyHeadCenter::allocate(const string &_type,const string &_root_link)
 	H0(0,3)=0.189861;
 	H0(2,3)=0.535797;
     }
-    else if (_root_link=="base_link")
+    else if (_root_link=="waist")
     {
         H0(0,0)=1.0;
         H0(1,2)=-1.0;
