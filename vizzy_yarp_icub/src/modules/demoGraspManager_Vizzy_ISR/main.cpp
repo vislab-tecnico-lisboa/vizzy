@@ -978,12 +978,21 @@ protected:
                 {
                     fprintf(stdout,"*** Change arm event triggered\n");
                     state=STATE_CHECKMOTIONDONE;
+		    latchTimer=Time::now();
                 }
             }
             else if (state==STATE_CHECKMOTIONDONE)
             {
                 bool done=false;
                 cartArm->checkMotionDone(&done);
+		if (!done)
+                {
+                    if (Time::now()-latchTimer>3.0*trajTime)
+                    {
+                        fprintf(stdout,"--- Timeout elapsed => FORCE STOP and CHANGE ARM\n");
+                        done=true;
+                    }
+                }
 
                 if (done)
                 {
