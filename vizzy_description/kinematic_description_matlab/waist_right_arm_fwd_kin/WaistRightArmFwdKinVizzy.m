@@ -105,7 +105,7 @@ rpy_Rn = [rpy_Rn; roll,pitch,yaw];
 G_89=evalDHMatrix(	0,	0,	pi/2,	rtheta(4)-pi/2);
 [roll,pitch,yaw] = dcm2angle(G_89(1:3,1:3)','ZYX');
 rpy_Rn = [rpy_Rn; roll,pitch,yaw];
-G_910=evalDHMatrix(	-100,	0,	pi/2,	rtheta(5)+pi);
+G_910=evalDHMatrix(	100,	0,	-pi/2,	rtheta(5));
 [roll,pitch,yaw] = dcm2angle(G_910(1:3,1:3)','ZYX');
 rpy_Rn = [rpy_Rn; roll,pitch,yaw];
 
