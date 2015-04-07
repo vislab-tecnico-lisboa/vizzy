@@ -79,6 +79,10 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        eyes_center_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
         eyes_tilt_link:
           Alpha: 1
           Show Axes: false
@@ -273,6 +277,8 @@ Visualization Manager:
           Value: true
         base_link:
           Value: true
+        eyes_center_link:
+          Value: true
         eyes_tilt_link:
           Value: true
         f_wheel_base_link:
@@ -382,18 +388,19 @@ Visualization Manager:
               neck_pan_link:
                 neck_tilt_link:
                   eyes_tilt_link:
-                    l_eye_version_link:
-                      l_eye_vergence_link:
-                        l_camera_link:
-                          {}
-                    r_eye_version_link:
-                      r_eye_vergence_link:
-                        r_camera_link:
-                          {}
-                    vergence_link:
-                      {}
-                    version_link:
-                      {}
+                    eyes_center_link:
+                      l_eye_version_link:
+                        l_eye_vergence_link:
+                          l_camera_link:
+                            {}
+                      r_eye_version_link:
+                        r_eye_vergence_link:
+                          r_camera_link:
+                            {}
+                      vergence_link:
+                        {}
+                      version_link:
+                        {}
               r_shoulder_scapula_link:
                 r_shoulder_flection_link:
                   r_shoulder_abduction_link:
@@ -532,5 +539,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1301
-  X: 65
-  Y: 24
+  X: 196
+  Y: 115
