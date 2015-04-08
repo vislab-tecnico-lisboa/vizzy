@@ -63,7 +63,7 @@
     <axis
       xyz="0 0 1" />
     <limit lower="-0.925024504" upper="0.925024504" effort="10.0" velocity="3" />
-    <dynamics damping="0.1" friction="0.1" />
+    <dynamics damping="10.0" friction="100.0" />
   </joint>
   <link
     name="neck_tilt_link">
@@ -118,7 +118,7 @@
     <axis
       xyz="0 0 1" />
     <limit lower="-0.314159265" upper="0.645771823" effort="100.0" velocity="1.0" />
-    <dynamics damping="0.0" friction="0.0" />
+    <dynamics damping="10.0" friction="100.0" />
   </joint>
   <link
     name="eyes_tilt_link">
@@ -173,7 +173,7 @@
     <axis
       xyz="0 0 1" />
     <limit lower="-0.663225116" upper="0.663225116" effort="10.0" velocity="3" />
-    <dynamics damping="0.1" friction="0.1" />
+    <dynamics damping="10.0" friction="100.0" />
   </joint>
   <!-- version virtual link and joint -->
   <link name="version_link">
