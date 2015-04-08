@@ -62,6 +62,7 @@
 		  <axis
 		    xyz="0 0 1" />
 		  <limit lower="-0.314159265" upper="0.314159265" effort="10" velocity="3" />
+    	<dynamics damping="1.0" friction="1000000.0" />
 		</joint>
 		<link
 		  name="r_shoulder_flection_link">
@@ -116,6 +117,7 @@
 		  <axis
 		    xyz="0 0 1" />
 		  <limit lower="-1.30899694" upper="2.35619449" effort="10" velocity="3" />
+    	<dynamics damping="1.0" friction="1000000.0" />
 		</joint>
 		<link
 		  name="r_shoulder_abduction_link">
@@ -170,6 +172,7 @@
 		  <axis
 		    xyz="0 0 1" />
 		  <limit lower="0" upper="1.30899694" effort="10" velocity="3" />
+    	<dynamics damping="1.0" friction="1000000.0" />
 		</joint>
 		<link
 		  name="r_shoulder_rotation_link">
@@ -224,6 +227,7 @@
 		  <axis
 		    xyz="0 0 1" />
 		  <limit lower="-1.48352986" upper="1.48352986" effort="10" velocity="3" />
+    	<dynamics damping="0.5" friction="1000000.0" />
 		</joint>
 		<link
 		  name="r_elbow_flection_link">
@@ -278,6 +282,7 @@
 		  <axis
 		    xyz="0 0 1" />
 		  <limit lower="0" upper="1.91986218" effort="10" velocity="3" />
+    	<dynamics damping="0.5" friction="1000000.0" />
 		</joint>
 		<link
 		  name="r_forearm_pronation_link">
@@ -332,6 +337,7 @@
 		  <axis
 		    xyz="0 0 1" />
 		  <limit lower="-1.48352986" upper="1.48352986" effort="10" velocity="3" />
+    	<dynamics damping="0.1" friction="1000000.0" />
 		</joint>
 		<link
 		  name="r_wrist_abduction_link">
@@ -386,6 +392,7 @@
 		  <axis
 		    xyz="0 0 1" />
 		  <limit lower="-0.610865238" upper="0.610865238" effort="10" velocity="3" />
+    	<dynamics damping="0.1" friction="1000000.0" />
 		</joint>
 		<link
 		  name="r_wrist_flection_link">
@@ -440,6 +447,7 @@
 		  <axis
 		    xyz="0 0 1" />
 		  <limit lower="-0.610865238" upper="0.610865238" effort="10" velocity="3" />
+    	<dynamics damping="0.1" friction="1000000.0" />
 		</joint>
 		<link name="r_palm_link">
 		 <visual>
@@ -453,6 +461,7 @@
 		  <origin xyz="0.1 0 0.0" rpy="${M_PI/2.0} 0 ${M_PI}" />
 		  <parent link="r_wrist_flection_link"/>
 		  <child link="r_palm_link" />
+    	<dynamics damping="0.1" friction="1000000.0" />
 		</joint>
 
     <!-- gazebo extensions -->
