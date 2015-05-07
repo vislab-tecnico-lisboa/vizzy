@@ -61,14 +61,14 @@
           <imageTopicName>image_raw</imageTopicName>
           <cameraInfoTopicName>camera_info</cameraInfoTopicName>
           <frameName>${prefix}_camera_link</frameName>
-          <distortion>
+          <!--<distortion>
             <k1>-0.4738</k1>
             <k2>0.190309</k2>
             <k3>0.0</k3>
             <p1>-0.000375676</p1>
             <p2>-0.000663688</p2>
             <center> 0.4809  0.4887</center>
-          </distortion>
+          </distortion>-->
         </plugin>
       </sensor>
     </gazebo>

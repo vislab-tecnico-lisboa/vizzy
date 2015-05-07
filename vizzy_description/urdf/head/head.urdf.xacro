@@ -347,6 +347,24 @@
     <parent link="r_eye_vergence_link"/>
     <child link="r_camera_link" />
   </joint>
+  <link name="r_camera_vision_link">
+   <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.001 0.001 0.001" />
+      </geometry>
+    </visual>
+  </link>
+
+  <joint name="r_camera_vision_joint" type="fixed">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 ${M_PI/2} 0.0" />
+    <parent link="r_camera_link"/>
+    <child link="r_camera_vision_link" />
+  </joint>
+
+
+
+
   <link name="l_eye_vergence_link">
    <inertial>
       <origin
@@ -419,6 +437,21 @@
     <origin xyz="0.0575 0.0 0.0" rpy="0.0 0.0 0.0" />
     <parent link="l_eye_vergence_link"/>
     <child link="l_camera_link" />
+  </joint>
+
+  <link name="l_camera_vision_link">
+   <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.001 0.001 0.001" />
+      </geometry>
+    </visual>
+  </link>
+
+  <joint name="l_camera_vision_joint" type="fixed">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 ${M_PI/2} 0.0" />
+    <parent link="l_camera_link"/>
+    <child link="l_camera_vision_link" />
   </joint>
 
     <!-- gazebo extensions -->
