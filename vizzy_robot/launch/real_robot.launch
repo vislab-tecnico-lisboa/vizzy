@@ -48,4 +48,6 @@
     	<arg name="map_topic" value="$(arg map_topic)" />
   	</include>
 
+
+	<include file="$(find vizzy_robot)/launch/cameras.launch">
 </launch>

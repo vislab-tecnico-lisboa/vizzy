@@ -1,2 +1,9 @@
-rosrun camera1394 camera1394_node _guid:=08144361026320a0 _video_mode:=640x480_mono8 _iso_speed:=400 _frame_rate:=30
-
+<!--rosrun  camera1394_node _guid:=08144361026320a0 _video_mode:=640x480_mono8 _iso_speed:=400 _frame_rate:=30-->
+<launch>
+	<node name="left_camera_node" pkg="camera1394" type="camera1394_node">
+	    <remap from="base_pose_ground_truth" to="odom"/>
+	    <param name="global_frame_id" value="$(arg map_frame)" />
+	    <param name="base_frame_id" value="$(arg base_frame_id)" />
+	    <param name="odom_frame_id" value="$(arg odom_frame_id)" />
+	</node>
+</launch>
