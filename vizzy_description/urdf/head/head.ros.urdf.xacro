@@ -118,7 +118,7 @@
     <axis
       xyz="0 0 1" />
     <limit lower="-0.314159265" upper="0.645771823" effort="100.0" velocity="1.0" />
-    <dynamics damping="0.0" friction="0.0" />
+    <dynamics damping="10.0" friction="1000000.0" />
   </joint>
   <link
     name="eyes_tilt_link">
@@ -173,11 +173,26 @@
     <axis
       xyz="0 0 1" />
     <limit lower="-0.663225116" upper="0.663225116" effort="10.0" velocity="3" />
-    <dynamics damping="0.1" friction="0.1" />
+    <dynamics damping="0.1" friction="10.0" />
   </joint>
 
   <!-- eyes center virtual link and joint -->
   <link name="eyes_center_link">
+		<inertial>
+			<origin xyz="0 0 0" 
+      rpy="0.0 0.0 0" />
+			<mass value="0.1"/> 
+			<inertia  
+				ixx="0.001" ixy="0.0" ixz="0.0" 
+				iyy="0.001" iyz="0.0" izz="0.001"/> 				
+		</inertial>
+  </link>
+  <joint name="eyes_center_vision_joint" type="fixed">
+    <origin xyz="0 0 0"       rpy="${-M_PI/2} 0.0 ${-M_PI/2}" />
+    <parent link="eyes_center_link" />
+    <child link="eyes_center_vision_link" />
+  </joint>
+  <link name="eyes_center_vision_link">
 		<inertial>
 			<origin xyz="0 0 0" 
       rpy="0.0 0.0 0" />
@@ -356,6 +371,8 @@
     <dynamics damping="0.1" friction="0.1" />
     <mimic joint="vergence_joint" multiplier="1" offset="0"/>
   </joint>
+  
+
   <link name="r_camera_link">
    <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
@@ -369,6 +386,24 @@
     <parent link="r_eye_vergence_link"/>
     <child link="r_camera_link" />
   </joint>
+  <link name="r_camera_vision_link">
+   <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.001 0.001 0.001" />
+      </geometry>
+    </visual>
+  </link>
+
+  <joint name="r_camera_vision_joint" type="fixed">
+    <origin xyz="0.0 0.0 0.0" rpy="${-M_PI/2} 0.0 ${-M_PI/2}" />
+    <parent link="r_camera_link"/>
+    <child link="r_camera_vision_link" />
+  </joint>
+
+
+
+
   <link name="l_eye_vergence_link">
    <inertial>
       <origin
@@ -441,6 +476,21 @@
     <origin xyz="0.0575 0.0 0.0" rpy="0.0 0.0 0.0" />
     <parent link="l_eye_vergence_link"/>
     <child link="l_camera_link" />
+  </joint>
+
+  <link name="l_camera_vision_link">
+   <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.001 0.001 0.001" />
+      </geometry>
+    </visual>
+  </link>
+
+  <joint name="l_camera_vision_joint" type="fixed">
+    <origin xyz="0.0 0.0 0.0" rpy="${-M_PI/2} 0.0 ${-M_PI/2}" />
+    <parent link="l_camera_link"/>
+    <child link="l_camera_vision_link" />
   </joint>
 
     <!-- gazebo extensions -->
