@@ -5,9 +5,9 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Global Options1
-        - /TF1
         - /TF1/Frames1
         - /Right camera1/Visibility1
+        - /ego_sphere1
       Splitter Ratio: 0.5
     Tree Height: 289
   - Class: rviz/Selection
@@ -83,6 +83,10 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+        eyes_center_vision_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
         eyes_tilt_link:
           Alpha: 1
           Show Axes: false
@@ -99,6 +103,11 @@ Visualization Manager:
           Show Trail: false
           Value: true
         l_camera_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        l_camera_vision_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -182,6 +191,11 @@ Visualization Manager:
           Show Trail: false
           Value: true
         r_camera_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r_camera_vision_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -289,11 +303,12 @@ Visualization Manager:
       Value: true
       Visibility:
         Grid: false
-        PointCloud2: true
         Right camera: true
         RobotModel: false
         TF: false
         Value: false
+        ego_sphere: true
+        stereo: true
       Zoom Factor: 1
     - Class: rviz/Camera
       Enabled: true
@@ -307,10 +322,11 @@ Visualization Manager:
       Visibility:
         Grid: false
         Left camera: true
-        PointCloud2: true
         RobotModel: false
         TF: false
         Value: false
+        ego_sphere: true
+        stereo: true
       Zoom Factor: 1
     - Alpha: 1
       Autocompute Intensity Bounds: true
@@ -330,7 +346,7 @@ Visualization Manager:
       Max Intensity: 4096
       Min Color: 0; 0; 0
       Min Intensity: 0
-      Name: PointCloud2
+      Name: stereo
       Position Transformer: XYZ
       Queue Size: 10
       Selectable: true
@@ -338,6 +354,35 @@ Visualization Manager:
       Size (m): 0.01
       Style: Flat Squares
       Topic: /stereo
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: true
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 2.22569
+        Min Value: -0.0552422
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/PointCloud2
+      Color: 255; 255; 255
+      Color Transformer: RGB8
+      Decay Time: 0
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Max Intensity: 4096
+      Min Color: 0; 0; 0
+      Min Intensity: 0
+      Name: ego_sphere
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.3
+      Style: Spheres
+      Topic: /ego_sphere
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
@@ -365,22 +410,22 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 2.61377
+      Distance: 22.0636
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.666021
-        Y: 0.407329
-        Z: 0.62826
+        X: -0.089422
+        Y: 0.0336419
+        Z: 0.2343
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.199798
+      Pitch: 0.284797
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 0.270368
+      Yaw: 0.75036
     Saved: ~
 Window Geometry:
   Displays:
