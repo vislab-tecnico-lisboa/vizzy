@@ -1,0 +1,42 @@
+<launch>
+
+  <!-- Set use_sim_time to false if the hardware segway driver is being loaded --> 
+  <param name="/use_sim_time" value="false"/>
+
+  <!-- Launch Segway driver -->
+  <node name="segway_rmp_node" pkg="segway_rmp" type="segway_rmp_node" output="screen" required="true">
+
+    <param name="interface_type" type="str" value="serial" />
+    <param name="serial_port" type="str" value="/dev/ttyUSB0" />
+        
+    <!-- Commands need to be provided at atleast 1Hz -->
+    <param name="motor_timeout" type="double" value="1.0" />
+    <param name="rmp_type" type="str" value="50/100" />
+        
+    <param name="frame_id" type="str" value="base_footprint" />
+    <param name="broadcast_tf" type="bool" value="true" />
+
+    <param name="invert_linear_vel_cmds" type="bool" value="false" />
+    <param name="invert_angular_vel_cmds" type="bool" value="false" />
+
+    <!-- Set linear and angular acceleration limits in m/s^2 and degree/s^2 respectively -->
+    <param name="linear_pos_accel_limit" type="double" value="1.0" />
+    <param name="linear_neg_accel_limit" type="double" value="1.0" />
+    <param name="angular_pos_accel_limit" type="double" value="45.0" />
+    <param name="angular_neg_accel_limit" type="double" value="45.0" />
+
+    <!-- Set max linear and angular absolute velocity in m/s^2 and radians/s^2 respectively -->
+    <param name="max_linear_vel" type="double" value="0.8" />
+    <param name="max_angular_vel" type="double" value="0.4" />
+
+    <param name="linear_odom_scale" type="double" value="2.0" />
+    <param name="angular_odom_scale" type="double" value="2.0" />
+
+    <param name="reset_odometry" value="true" />
+
+    <remap from="~cmd_vel" to="/vizzy/cmd_vel" />
+    <remap from="~odom" to="odom" />
+
+  </node>
+
+</launch>
