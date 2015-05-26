@@ -6,7 +6,14 @@
 
   <!-- Load the URDF into the ROS Parameter Server -->
   <param name="robot_description" command="$(find xacro)/xacro.py $(find vizzy_description)/robots/vizzy.urdf.xacro use_yarp:=$(arg use_yarp)" />
-	 
+	 	<!-- launch stereo_calibration -->
+	<node name="foveated_stereo_ros" pkg="foveated_stereo_ros" type="foveated_stereo_ros_node" respawn="false" output="screen">
+  	<rosparam file="$(find foveated_stereo_ros)/config/params.yaml" command="load" />
+		<remap from="left_image" to="/vizzy/l_camera/image_raw"/>
+		<remap from="right_image" to="/vizzy/r_camera/image_raw"/>
+		<remap from="left_camera_info" to="/vizzy/l_camera/camera_info"/>
+		<remap from="right_camera_info" to="/vizzy/r_camera/camera_info"/>
+	</node>
   <!-- Spawn robot in Gazebo -->
   <node pkg="gazebo_ros" type="spawn_model" name="spawn_model" args="-urdf -param robot_description $(arg pose) -model $(arg robot)" />
 </launch>

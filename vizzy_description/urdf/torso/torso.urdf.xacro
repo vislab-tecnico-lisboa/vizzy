@@ -63,7 +63,7 @@
     <axis
       xyz="0 0 1" />
     <limit lower="-0.34906585" upper="0.34906585" effort="${3863H024C_motor_max_effort}" velocity="${3863H024C_motor_max_velocitiy*DEG_TO_RAD}" />
-    <dynamics damping="1.0" friction="1.0"/>
+    <dynamics damping="20.0" friction="1000000.0"/>
   </joint>
 
   <!-- gazebo extensions -->
