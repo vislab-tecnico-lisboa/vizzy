@@ -1,0 +1,2 @@
+rosrun camera1394 camera1394_node _guid:=08144361026320a0 _video_mode:=640x480_mono8 _iso_speed:=400 _frame_rate:=30
+
