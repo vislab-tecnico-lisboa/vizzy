@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!-- ROS head file to simulate vizzy in gazebo -->
+<launch>
+  <!-- Load the URDF, SRDF and other .yaml configuration files on the param server -->
+  <include file="$(find vizzy_moveit_config)/launch/planning_context.launch">
+    <arg name="load_robot_description" value="true"/>
+  </include>
+
+  <!-- Run the main MoveIt executable without trajectory execution (we do not have controllers configured by default) -->
+  <include file="$(find vizzy_moveit_config)/launch/move_group.launch">
+    <arg name="allow_trajectory_execution" value="true"/>  
+    <arg name="fake_execution" value="false"/>
+    <arg name="info" value="true"/>
+  </include>
+</launch>

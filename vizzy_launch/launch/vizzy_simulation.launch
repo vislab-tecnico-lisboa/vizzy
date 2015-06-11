@@ -32,6 +32,9 @@
   	<arg name="world" value="$(arg world)" />
   </include>
 
+	<!-- launch moveit -->
+  <include file="$(find vizzy_moveit_config)/launch/moveit.launch"/>
+
   <group if="$(arg navigation)">
     <!-- launch the laser filter to get rid of readings from the robot itself -->
     <include file="$(find vizzy_sensors)/launch/hokuyo/hokuyo-filters.launch" />
