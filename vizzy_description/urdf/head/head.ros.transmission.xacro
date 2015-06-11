@@ -10,7 +10,7 @@
     <transmission name="neck_pan_transmission">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="neck_pan_joint">
-        <hardwareInterface>EffortJointInterface</hardwareInterface>
+        <hardwareInterface>VelocityJointInterface</hardwareInterface>
       </joint>
       <actuator name="neck_pan_motor">
         <mechanicalReduction>1</mechanicalReduction>
@@ -20,7 +20,7 @@
     <transmission name="neck_tilt_transmission">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="neck_tilt_joint">
-        <hardwareInterface>EffortJointInterface</hardwareInterface>
+        <hardwareInterface>VelocityJointInterface</hardwareInterface>
       </joint>
       <actuator name="neck_tilt_motor">
         <mechanicalReduction>1</mechanicalReduction>
@@ -30,7 +30,7 @@
     <transmission name="eyes_tilt_transmission">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="eyes_tilt_joint">
-        <hardwareInterface>EffortJointInterface</hardwareInterface>
+        <hardwareInterface>VelocityJointInterface</hardwareInterface>
       </joint>
       <actuator name="eyes_tilt_motor">
         <mechanicalReduction>1</mechanicalReduction>
@@ -40,7 +40,7 @@
     <transmission name="version_transmission">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="version_joint">
-        <hardwareInterface>EffortJointInterface</hardwareInterface>
+        <hardwareInterface>VelocityJointInterface</hardwareInterface>
       </joint>
       <actuator name="version_motor">
         <mechanicalReduction>100</mechanicalReduction>
@@ -50,7 +50,7 @@
     <transmission name="l_eye_version_transmission">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="l_eye_version_joint">
-        <hardwareInterface>EffortJointInterface</hardwareInterface>
+        <hardwareInterface>VelocityJointInterface</hardwareInterface>
       </joint>
       <actuator name="l_eye_version_motor">
         <mechanicalReduction>1</mechanicalReduction>
@@ -60,7 +60,7 @@
     <transmission name="r_eye_version_transmission">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="r_eye_version_joint">
-        <hardwareInterface>EffortJointInterface</hardwareInterface>
+        <hardwareInterface>VelocityJointInterface</hardwareInterface>
       </joint>
       <actuator name="r_eye_version_motor">
         <mechanicalReduction>1</mechanicalReduction>
@@ -71,7 +71,7 @@
     <transmission name="vergence_transmission">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="vergence_joint">
-        <hardwareInterface>EffortJointInterface</hardwareInterface>
+        <hardwareInterface>VelocityJointInterface</hardwareInterface>
       </joint>
       <actuator name="vergence_motor">
         <mechanicalReduction>100</mechanicalReduction>
@@ -81,7 +81,7 @@
     <transmission name="l_eye_vergence_transmission">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="l_eye_vergence_joint">
-        <hardwareInterface>EffortJointInterface</hardwareInterface>
+        <hardwareInterface>VelocityJointInterface</hardwareInterface>
       </joint>
       <actuator name="l_eye_vergence_motor">
         <mechanicalReduction>1</mechanicalReduction>
@@ -91,7 +91,7 @@
     <transmission name="r_eye_vergence_transmission">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="r_eye_vergence_joint">
-        <hardwareInterface>EffortJointInterface</hardwareInterface>
+        <hardwareInterface>VelocityJointInterface</hardwareInterface>
       </joint>
       <actuator name="r_eye_vergence_motor">
         <mechanicalReduction>1</mechanicalReduction>

@@ -62,7 +62,7 @@
       link="neck_pan_link" />
     <axis
       xyz="0 0 1" />
-    <limit lower="-0.925024504" upper="0.925024504" effort="10.0" velocity="3" />
+    <limit lower="-0.925024504" upper="0.925024504" effort="10.0" velocity="5.0" />
     <dynamics damping="0.1" friction="0.1" />
   </joint>
   <link
@@ -117,7 +117,7 @@
       link="neck_tilt_link" />
     <axis
       xyz="0 0 1" />
-    <limit lower="-0.314159265" upper="0.645771823" effort="100.0" velocity="1.0" />
+    <limit lower="-0.314159265" upper="0.645771823" effort="100.0" velocity="5.0" />
     <dynamics damping="10.0" friction="1000000.0" />
   </joint>
   <link
@@ -172,7 +172,7 @@
       link="eyes_tilt_link" />
     <axis
       xyz="0 0 1" />
-    <limit lower="-0.663225116" upper="0.663225116" effort="10.0" velocity="3" />
+    <limit lower="-0.663225116" upper="0.663225116" effort="10.0" velocity="5.0" />
     <dynamics damping="0.1" friction="10.0" />
   </joint>
 
