@@ -1,5 +1,12 @@
 <launch>
-	
+	<!-- Camera parameters -->
+	<arg name="left_camera_name" default="left_camera" />
+	<arg name="right_camera_name" default="right_camera" />
+	<arg name="left_camera_guid" default="00b09d01007ad691" />
+	<arg name="right_camera_guid" default="00b09d01007ad693" />
+  	<arg name="video_mode" default="640x480_mono8" />
+  	<arg name="frame_rate" default="5.0" />
+
 	<arg name="map_frame" default="map" />
   	<arg name="map_service" default="/static_map" />
 	<arg name="map_topic" default="/map" />
@@ -48,6 +55,19 @@
     	<arg name="map_topic" value="$(arg map_topic)" />
   	</include>
 
+ 	<!-- Left camera -->
+	<include file="$(find vizzy_robot)/launch/camera.launch">
+    		<arg name="camera" value="$(arg left_camera_name)" />
+    		<arg name="guid" value="$(arg left_camera_guid)" />
+  		<arg name="video_mode" value="$(arg video_mode)" />
+  		<arg name="frame_rate" value="$(arg frame_rate)" />
+	</include>
 
-	<include file="$(find vizzy_robot)/launch/cameras.launch">
+ 	<!-- Right camera -->
+	<include file="$(find vizzy_robot)/launch/camera.launch">
+    		<arg name="camera" value="$(arg right_camera_name)" />
+    		<arg name="guid" value="$(arg right_camera_guid)" />
+  		<arg name="video_mode" value="$(arg video_mode)" />
+  		<arg name="frame_rate" value="$(arg frame_rate)" />
+	</include>
 </launch>
