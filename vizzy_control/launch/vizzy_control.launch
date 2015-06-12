@@ -22,15 +22,31 @@
 		neck_pan_position_controller 
 		eyes_tilt_position_controller 
 		version_position_controller
-	  vergence_position_controller 
-		joint_state_controller" />-
+	        vergence_position_controller
+
+		l_shoulder_scapula_position_controller
+	        l_shoulder_flection_position_controller
+	        l_shoulder_rotation_position_controller
+	        l_elbow_flection_position_controller
+	        l_forearm_pronation_position_controller
+	        l_wrist_abduction_position_controller
+	        l_wrist_flection_position_controller
+
+		r_shoulder_scapula_position_controller
+	        r_shoulder_flection_position_controller
+	        r_shoulder_rotation_position_controller
+	        r_elbow_flection_position_controller
+	        r_forearm_pronation_position_controller
+	        r_wrist_abduction_position_controller
+	        r_wrist_flection_position_controller
+                joint_state_controller" />
 
 	  <!--<node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
 	    output="screen" ns="/vizzy" args="
 		waist_position_controller
     head_trajectory_controller 
-		joint_state_controller" />
-  </group>-->
+		joint_state_controller" />-->
+  </group>
 
 	<!-- convert joint states to TF transforms for rviz, etc -->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
