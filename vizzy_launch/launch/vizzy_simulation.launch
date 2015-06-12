@@ -2,7 +2,7 @@
 <!-- ROS head file to simulate vizzy in gazebo   -->
 <launch>
   <!-- robot configuration parameters -->
-	<arg name="robot" default="vizzy"/> <!-- full, lower_body, foot -->
+  <arg name="robot" default="vizzy"/> <!-- full, lower_body, foot -->
 
   <!-- simulation parameters and robot configuration parameters -->
 	<arg name="use_yarp" default="false"/>
