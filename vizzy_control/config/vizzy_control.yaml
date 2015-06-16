@@ -124,28 +124,31 @@ vizzy:
       - eyes_tilt_joint
     gains:
       neck_pan_joint:
-        p: 1.0
+        p: 40.0
         i: 0.0
         d: 0.0
       neck_tilt_joint:
-        p: 1.0
+        p: 40.0
         i: 0.0
         d: 0.0
       eyes_tilt_joint:
-        p: 1.0
+        p: 40.0
         i: 0.0
         d: 0.0
     constraints:
       goal_time: 1000.0                   # Override default
       neck_pan_joint:
         trajectory: -1.0
-        goal: 0
+        goal: -1.0
+        stopped_velocity_tolerance: 0.02
       neck_tilt_joint:
         trajectory: -1.0
-        goal: 0
+        goal: -1.0
+        stopped_velocity_tolerance: 0.02
       eyes_tilt_joint:
         trajectory: -1.0
-        goal: 0
+        goal: -1.0
+        stopped_velocity_tolerance: 0.02
 
 
 
