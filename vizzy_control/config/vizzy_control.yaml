@@ -140,15 +140,15 @@ vizzy:
       neck_pan_joint:
         trajectory: -1.0
         goal: -1.0
-        stopped_velocity_tolerance: 0.02
+        stopped_velocity_tolerance: 0.025
       neck_tilt_joint:
         trajectory: -1.0
         goal: -1.0
-        stopped_velocity_tolerance: 0.02
+        stopped_velocity_tolerance: 0.025
       eyes_tilt_joint:
         trajectory: -1.0
         goal: -1.0
-        stopped_velocity_tolerance: 0.02
+        stopped_velocity_tolerance: 0.025
 
 
 
