@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <launch>
   <arg name="camera" default="left_camera" />
   <arg name="guid" default="" />

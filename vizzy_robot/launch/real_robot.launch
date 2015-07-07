@@ -1,10 +1,11 @@
+<?xml version="1.0"?>
 <launch>
 	<!-- Camera parameters -->
-	<arg name="left_camera_name" default="left_camera" />
-	<arg name="right_camera_name" default="right_camera" />
+	<arg name="left_camera_name" default="l_camera" />
+	<arg name="right_camera_name" default="r_camera" />
 	<arg name="left_camera_guid" default="00b09d01007ad691" />
 	<arg name="right_camera_guid" default="00b09d01007ad693" />
-  	<arg name="video_mode" default="640x480_mono8" />
+  	<arg name="video_mode" default="640x480_rgb8" />
   	<arg name="frame_rate" default="5.0" />
 
 	<arg name="map_frame" default="map" />
@@ -12,7 +13,7 @@
 	<arg name="map_topic" default="/map" />
 
 	<!-- launch the map server for the simulated world -->
-  	<include file="$(find vizzy-robot)/launch/vizzy_world_map_server.launch" />
+  	<include file="$(find vizzy_robot)/launch/vizzy_world_map_server.launch" />
 
 	<!-- set the tf prefix as necessary -->
 	<arg name="ns" default="" />
@@ -24,16 +25,16 @@
   	<arg name="odom_frame_id" default="$(arg tf_prefix)/odom" />
 
 	<!-- launch the auxiliary configuration (shared between h/w and simulation) -->
-	<include file="$(find vizzy-robot)/launch/auxiliary.vizzy.launch.xml">
+	<include file="$(find vizzy_robot)/launch/auxiliary.vizzy.launch.xml">
 		<arg name="tf_prefix" value="$(arg tf_prefix)" />
 		<arg name="use_yarp" value="true" />
 	</include>
 
 	<!-- launch the segway base -->
-  	<include file="$(find vizzy-robot)/launch/segway_base.launch" />
+  	<include file="$(find vizzy_robot)/launch/segway_base.launch" />
 
   	<!-- launch the hokuyo sensor -->
-	<include file="$(find vizzy-robot)/launch/hokuyo.launch">
+	<include file="$(find vizzy_robot)/launch/hokuyo.launch">
 	    <arg name="name" value="nav_hokuyo" />
 	    <arg name="tf_prefix" value="$(arg tf_prefix)" />
 	    <!-- <arg name="publish_tf" value="false" /> already published by urdf -->
@@ -64,10 +65,14 @@
 	</include>
 
  	<!-- Right camera -->
-	<include file="$(find vizzy_robot)/launch/camera.launch">
+	<!--<include file="$(find vizzy_robot)/launch/camera.launch">
     		<arg name="camera" value="$(arg right_camera_name)" />
     		<arg name="guid" value="$(arg right_camera_guid)" />
   		<arg name="video_mode" value="$(arg video_mode)" />
   		<arg name="frame_rate" value="$(arg frame_rate)" />
+	</include>-->
+
+ 	<!-- Pedestrian Detector -->
+	<include file="$(find pedestrian_detector)/launch/pedestrian_detector.launch">
 	</include>
 </launch>
