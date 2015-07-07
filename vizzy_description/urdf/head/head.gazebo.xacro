@@ -5,21 +5,21 @@
     <gazebo reference="neck_pan_link">
       <mu1>0.2</mu1>
       <mu2>0.2</mu2>
- 			<kp value="1000000.0" />
+ 			<kp value="100.0" />
 			<kd value="1.0" />
     </gazebo>
 
     <gazebo reference="neck_tilt_link">
       <mu1>0.2</mu1>
       <mu2>0.2</mu2>
- 			<kp value="1000000.0" />
+ 			<kp value="100.0" />
 			<kd value="1.0" />
     </gazebo>
 
     <gazebo reference="eyes_tilt_link">
       <mu1>0.2</mu1>
       <mu2>0.2</mu2>
- 			<kp value="1000000.0" />
+ 			<kp value="100.0" />
 			<kd value="1.0" />
     </gazebo>
 
@@ -36,74 +36,74 @@
       <gravity value="false"/>
       <mu1>0.2</mu1>
       <mu2>0.2</mu2>
- 			<kp value="1000000.0" />
+ 			<kp value="100.0" />
 			<kd value="1.0" />
     </gazebo>
     
 		 <gazebo reference="r_eye_vergence_link">
       <mu1>0.2</mu1>
       <mu2>0.2</mu2>
- 			<kp value="1000000.0" />
+ 			<kp value="100.0" />
 			<kd value="1.0" />
     </gazebo>
 
     <gazebo reference="l_eye_vergence_link">
       <mu1>0.2</mu1>
       <mu2>0.2</mu2>
- 			<kp value="1000000.0" />
+ 			<kp value="100.0" />
 			<kd value="1.0" />
     </gazebo>
 
  		<gazebo reference="neck_pan_joint">
 			<kd value="1.0" />
-			<kp value="1000000.0" />
+			<kp value="100.0" />
 			<fudgeFactor value="1.0" />
 			<provideFeedback value="true"/>
 		</gazebo>
 
  		<gazebo reference="neck_tilt_joint">
 			<kd value="1.0" />
-			<kp value="1000000.0" />
+			<kp value="100.0" />
 			<fudgeFactor value="1.0" />
 			<provideFeedback value="true"/>
 		</gazebo>
 
  		<gazebo reference="eyes_tilt_joint">
 			<kd value="1.0" />
-			<kp value="1000000.0" />
+			<kp value="100.0" />
 			<fudgeFactor value="1.0" />
 			<provideFeedback value="true"/>
 		</gazebo>
 
  		<gazebo reference="version_joint">
-  		<stopKd value="1000000.0" />
-  		<stopKp value="1000000.0" />
+  		<stopKd value="100.0" />
+  		<stopKp value="100.0" />
 		</gazebo>
 
  		<!--<gazebo reference="l_eye_version_joint">
-  		<stopKd value="1000000.0" />
-  		<stopKp value="1000000.0" />
+  		<stopKd value="100.0" />
+  		<stopKp value="100.0" />
 		</gazebo>
 
  		<gazebo reference="r_eye_version_joint">
-  		<stopKd value="1000000.0" />
-  		<stopKp value="1000000.0" />
+  		<stopKd value="100.0" />
+  		<stopKp value="100.0" />
 		</gazebo>-->
 
  		<gazebo reference="vergence_joint">
-  		<stopKd value="1000000.0" />
-  		<stopKp value="1000000.0" />
+  		<stopKd value="100.0" />
+  		<stopKp value="100.0" />
 		</gazebo>
 
 
  		<!--<gazebo reference="l_eye_vergence_joint">
-  		<stopKd value="1000000.0" />
-  		<stopKp value="1000000.0" />
+  		<stopKd value="100.0" />
+  		<stopKp value="100.0" />
 		</gazebo>
 
  		<gazebo reference="r_eye_vergence_joint">
-  		<stopKd value="1000000.0" />
-  		<stopKp value="1000000.0" />
+  		<stopKd value="100.0" />
+  		<stopKp value="100.0" />
 		</gazebo>-->
 
 		<gazebo>

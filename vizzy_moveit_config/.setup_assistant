@@ -1,0 +1,8 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: vizzy_description
+    relative_path: robots/vizzy.urdf.xacro
+  SRDF:
+    relative_path: config/vizzy.srdf
+  CONFIG:
+    generated_timestamp: 1434030652
