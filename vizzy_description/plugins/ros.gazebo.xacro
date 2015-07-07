@@ -38,6 +38,8 @@
           <image>
             <width>320</width>
             <height>240</height>
+            <!--<width>100</width>
+            <height>100</height>-->
             <format>R8G8B8</format>
           </image>
           <clip>

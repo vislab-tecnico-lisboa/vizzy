@@ -10,7 +10,7 @@
     <transmission name="l_shoulder_scapula_transmission">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="l_shoulder_scapula_joint">
-        <hardwareInterface>EffortJointInterface</hardwareInterface>
+        <hardwareInterface>VelocityJointInterface</hardwareInterface>
       </joint>
       <actuator name="l_shoulder_scapula_motor">
         <mechanicalReduction>1</mechanicalReduction>
@@ -20,7 +20,7 @@
     <transmission name="l_shoulder_flection_transmission">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="l_shoulder_flection_joint">
-        <hardwareInterface>EffortJointInterface</hardwareInterface>
+        <hardwareInterface>VelocityJointInterface</hardwareInterface>
       </joint>
       <actuator name="l_shoulder_flection_motor">
         <mechanicalReduction>1</mechanicalReduction>
@@ -30,7 +30,7 @@
     <transmission name="l_shoulder_abduction_transmission">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="l_shoulder_abduction_joint">
-        <hardwareInterface>EffortJointInterface</hardwareInterface>
+        <hardwareInterface>VelocityJointInterface</hardwareInterface>
       </joint>
       <actuator name="l_shoulder_abduction_motor">
         <mechanicalReduction>1</mechanicalReduction>
@@ -40,7 +40,7 @@
     <transmission name="l_shoulder_rotation_transmission">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="l_shoulder_rotation_joint">
-        <hardwareInterface>EffortJointInterface</hardwareInterface>
+        <hardwareInterface>VelocityJointInterface</hardwareInterface>
       </joint>
       <actuator name="l_shoulder_rotation_motor">
         <mechanicalReduction>1</mechanicalReduction>
@@ -50,7 +50,7 @@
     <transmission name="l_elbow_flection_transmission">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="l_elbow_flection_joint">
-        <hardwareInterface>EffortJointInterface</hardwareInterface>
+        <hardwareInterface>VelocityJointInterface</hardwareInterface>
       </joint>
       <actuator name="l_elbow_flection_motor">
         <mechanicalReduction>1</mechanicalReduction>
@@ -60,7 +60,7 @@
     <transmission name="l_forearm_pronation_transmission">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="l_forearm_pronation_joint">
-        <hardwareInterface>EffortJointInterface</hardwareInterface>
+        <hardwareInterface>VelocityJointInterface</hardwareInterface>
       </joint>
       <actuator name="l_forearm_pronation_motor">
         <mechanicalReduction>1</mechanicalReduction>
@@ -70,7 +70,7 @@
     <transmission name="l_wrist_abduction_transmission">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="l_wrist_abduction_joint">
-        <hardwareInterface>EffortJointInterface</hardwareInterface>
+        <hardwareInterface>VelocityJointInterface</hardwareInterface>
       </joint>
       <actuator name="l_wrist_abduction_motor">
         <mechanicalReduction>1</mechanicalReduction>
@@ -80,7 +80,7 @@
     <transmission name="l_wrist_flection_transmission">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="l_wrist_flection_joint">
-        <hardwareInterface>EffortJointInterface</hardwareInterface>
+        <hardwareInterface>VelocityJointInterface</hardwareInterface>
       </joint>
       <actuator name="l_wrist_flection_motor">
         <mechanicalReduction>1</mechanicalReduction>

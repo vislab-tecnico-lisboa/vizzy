@@ -1,0 +1,6 @@
+controller_list:
+  - name: fake_head_controller
+    joints:
+      - neck_pan_joint
+      - neck_tilt_joint
+      - eyes_tilt_joint
