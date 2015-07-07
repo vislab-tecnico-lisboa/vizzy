@@ -14,6 +14,7 @@
   </node>
 
   <!-- launch the joint state publisher to default values -->
-  <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher" />
-
+  <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher">
+    <rosparam param="source_list">["/vizzy_left_arm/joint_states","/vizzy_right_arm/joint_states","/vizzy_head/joint_states","joint_states"]</rosparam>
+  </node>
 </launch>
