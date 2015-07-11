@@ -4,12 +4,13 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
+        - /Global Options1
+        - /Status1
         - /TF1/Tree1
         - /Right camera1/Visibility1
-        - /MarkerArray1/Namespaces1
-        - /MotionPlanning1/Scene Robot1
+        - /MotionPlanning1
       Splitter Ratio: 0.5
-    Tree Height: 544
+    Tree Height: 412
   - Class: rviz/Selection
     Name: Selection
   - Class: rviz/Tool Properties
@@ -28,7 +29,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: StereoUncertainty
+    SyncSource: ego_sphere
 Visualization Manager:
   Class: ""
   Displays:
@@ -458,6 +459,7 @@ Visualization Manager:
         TF: false
         Value: false
         ego_sphere: true
+        ego_sphere_structure: true
         stereo: true
       Zoom Factor: 1
     - Class: rviz/Camera
@@ -480,6 +482,7 @@ Visualization Manager:
         TF: false
         Value: false
         ego_sphere: true
+        ego_sphere_structure: true
         stereo: true
       Zoom Factor: 1
     - Alpha: 1
@@ -523,12 +526,12 @@ Visualization Manager:
       Color: 255; 255; 255
       Color Transformer: Intensity
       Decay Time: 0
-      Enabled: true
+      Enabled: false
       Invert Rainbow: true
       Max Color: 255; 255; 255
-      Max Intensity: 10.2766
+      Max Intensity: 13.5703
       Min Color: 0; 0; 0
-      Min Intensity: 4.16534
+      Min Intensity: -9.83977
       Name: StereoUncertainty
       Position Transformer: XYZ
       Queue Size: 10
@@ -537,6 +540,43 @@ Visualization Manager:
       Size (m): 0.01
       Style: Flat Squares
       Topic: /uncertainty_pcl
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: false
+    - Class: rviz/MarkerArray
+      Enabled: false
+      Marker Topic: /covariances
+      Name: MarkerArray
+      Namespaces:
+        {}
+      Queue Size: 10
+      Value: false
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 2.22569
+        Min Value: -0.0552422
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/PointCloud2
+      Color: 255; 255; 255
+      Color Transformer: RGB8
+      Decay Time: 0
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Max Intensity: 4096
+      Min Color: 0; 0; 0
+      Min Intensity: 0
+      Name: ego_sphere
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.06
+      Style: Spheres
+      Topic: /ego_sphere
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
@@ -555,9 +595,9 @@ Visualization Manager:
       Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
-      Max Intensity: 10.5216
+      Max Intensity: 3.05069
       Min Color: 0; 0; 0
-      Min Intensity: 4.20098
+      Min Intensity: 2.30507
       Name: EgoSphereUncertainty
       Position Transformer: XYZ
       Queue Size: 10
@@ -567,47 +607,39 @@ Visualization Manager:
       Style: Flat Squares
       Topic: /ego_sphere_uncertainty
       Use Fixed Frame: true
-      Use rainbow: true
-      Value: true
-    - Class: rviz/MarkerArray
-      Enabled: true
-      Marker Topic: /covariances
-      Name: MarkerArray
-      Namespaces:
-        covariances: true
-      Queue Size: 10
+      Use rainbow: false
       Value: true
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
-        Max Value: 2.22569
-        Min Value: -0.0552422
+        Max Value: 1.9533
+        Min Value: -0.046551
         Value: true
       Axis: Z
       Channel Name: intensity
       Class: rviz/PointCloud2
-      Color: 255; 255; 255
-      Color Transformer: RGB8
+      Color: 85; 170; 255
+      Color Transformer: FlatColor
       Decay Time: 0
       Enabled: false
       Invert Rainbow: false
-      Max Color: 255; 255; 255
+      Max Color: 85; 170; 255
       Max Intensity: 4096
       Min Color: 0; 0; 0
       Min Intensity: 0
-      Name: ego_sphere
+      Name: ego_sphere_structure
       Position Transformer: XYZ
       Queue Size: 10
       Selectable: true
       Size (Pixels): 3
       Size (m): 0.01
-      Style: Spheres
-      Topic: /ego_sphere
+      Style: Flat Squares
+      Topic: /ego_sphere_structure
       Use Fixed Frame: true
       Use rainbow: true
       Value: false
     - Class: moveit_rviz_plugin/MotionPlanning
-      Enabled: false
+      Enabled: true
       Move Group Namespace: ""
       MoveIt_Goal_Tolerance: 0
       MoveIt_Planning_Attempts: 10
@@ -855,13 +887,13 @@ Visualization Manager:
         Goal State Color: 250; 128; 0
         Interactive Marker Size: 0
         Joint Violation Color: 255; 0; 255
-        Planning Group: head
-        Query Goal State: false
-        Query Start State: false
+        Planning Group: eyes
+        Query Goal State: true
+        Query Start State: true
         Show Workspace: false
         Start State Alpha: 1
         Start State Color: 0; 255; 0
-      Planning Scene Topic: planning_scene
+      Planning Scene Topic: /move_group/monitored_planning_scene
       Robot Description: robot_description
       Scene Geometry:
         Scene Alpha: 0.9
@@ -1092,11 +1124,11 @@ Visualization Manager:
             Value: true
         Robot Alpha: 0.5
         Show Robot Collision: false
-        Show Robot Visual: true
-      Value: false
+        Show Robot Visual: false
+      Value: true
   Enabled: true
   Global Options:
-    Background Color: 170; 0; 255
+    Background Color: 255; 255; 255
     Fixed Frame: base_footprint
     Frame Rate: 30
   Name: root
@@ -1118,34 +1150,34 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 3.45664
+      Distance: 0.833674
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 1.21019
-        Y: -0.24129
-        Z: 1.02294
+        X: -0.0617866
+        Y: 0.0324245
+        Z: 0.925458
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.529798
+      Pitch: -0.0602027
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 3.00727
+      Yaw: 5.98737
     Saved: ~
 Window Geometry:
   Displays:
     collapsed: false
-  Height: 744
+  Height: 1056
   Hide Left Dock: false
   Hide Right Dock: false
   Left camera:
     collapsed: false
   Motion Planning:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd0000000400000000000002a200000261fc020000000bfb0000001200530065006c0065006300740069006f006e00000001e10000009b0000006400fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000002800000261000000dd00fffffffb00000016004c006500660074002000630061006d0065007200610000000187000001020000001600fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb0000001800520069006700680074002000630061006d00650072006100000001b6000000d30000001600fffffffb0000001e004d006f00740069006f006e00200050006c0061006e006e0069006e0067000000010b000001b60000001600000016000000010000010f0000025efc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a0056006900650077007300000000280000025e000000b000fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000005150000003bfc0100000002fb0000000800540069006d0065010000000000000515000002f600fffffffb0000000800540069006d006501000000000000045000000000000000000000026d0000026100000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd0000000400000000000002a200000399fc020000000bfb0000001200530065006c0065006300740069006f006e00000001e10000009b0000006400fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c0061007900730100000028000001dd000000dd00fffffffb00000016004c006500660074002000630061006d0065007200610000000187000001020000001600fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb0000001800520069006700680074002000630061006d00650072006100000001b6000000d30000001600fffffffb0000001e004d006f00740069006f006e00200050006c0061006e006e0069006e0067010000020b000001b6000001ab00ffffff000000010000010f0000025efc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a0056006900650077007300000000280000025e000000b000fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000073f0000003bfc0100000002fb0000000800540069006d006501000000000000073f000002f600fffffffb0000000800540069006d00650100000000000004500000000000000000000004970000039900000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Right camera:
     collapsed: false
   Selection:
@@ -1156,6 +1188,6 @@ Window Geometry:
     collapsed: false
   Views:
     collapsed: false
-  Width: 1301
+  Width: 1855
   X: 65
   Y: 24
