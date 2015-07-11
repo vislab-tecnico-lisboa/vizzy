@@ -24,6 +24,10 @@
     </gazebo>
 
     <gazebo reference="version_link">
+      <mu1>0.2</mu1>
+      <mu2>0.2</mu2>
+ 			<kp value="1.0" />
+			<kd value="1.0" />
     </gazebo>
 
     <gazebo reference="r_eye_version_link">
@@ -36,7 +40,7 @@
       <gravity value="false"/>
       <mu1>0.2</mu1>
       <mu2>0.2</mu2>
- 			<kp value="1000000.0" />
+ 			<kp value="1.0" />
 			<kd value="1.0" />
     </gazebo>
     

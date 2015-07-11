@@ -29,12 +29,12 @@ vizzy:
   version_position_controller:
     type: velocity_controllers/JointPositionController
     joint: version_joint
-    pid: {p: 1.0, i: 0, d: 0}
+    pid: {p: 5.0, i: 1.0, d: 0.1}
 
   vergence_position_controller:
     type: velocity_controllers/JointPositionController
     joint: vergence_joint
-    pid: {p: 1.0, i: 0, d: 0}
+    pid: {p: 5.0, i: 1.0, d: 0.1}
 
   # Left arm Position Controllers
   l_shoulder_scapula_position_controller:
@@ -108,12 +108,30 @@ vizzy:
     joint: r_wrist_flection_joint
     pid: {p: 1.0, i: 0.0, d: 0.0}
 
-  gaze_controller:
+  eyes_trajectory_controller:
     type: velocity_controllers/JointTrajectoryController
     joints:
-    - r_eye_pan_joint
-    - l_eye_pan_joint
-
+    - vergence_joint
+    - version_joint
+    gains:
+      vergence_joint:
+        p: 5.0
+        i: 1.0
+        d: 0.5
+      version_joint:
+        p: 5.0
+        i: 1.0
+        d: 0.5
+    constraints:
+      goal_time: 1000.0                   # Override default
+      vergence_joint:
+        trajectory: -1.0
+        goal: -1.0
+        stopped_velocity_tolerance: 0.02
+      version_joint:
+        trajectory: -1.0
+        goal: -1.0
+        stopped_velocity_tolerance: 0.02
 
  # Trajectory Controllers ---------------------------------------
   head_trajectory_controller:
@@ -140,11 +158,11 @@ vizzy:
       neck_pan_joint:
         trajectory: -1.0
         goal: -1.0
-        stopped_velocity_tolerance: 0.025
+        stopped_velocity_tolerance: 0.02
       neck_tilt_joint:
         trajectory: -1.0
         goal: -1.0
-        stopped_velocity_tolerance: 0.025
+        stopped_velocity_tolerance: 0.02
       eyes_tilt_joint:
         trajectory: -1.0
         goal: -1.0

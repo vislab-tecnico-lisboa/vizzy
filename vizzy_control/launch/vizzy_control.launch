@@ -48,8 +48,7 @@
 		right_arm_trajectory_controller
     		head_trajectory_controller 
 		joint_state_controller
-		version_position_controller
-	        vergence_position_controller" />
+		eyes_trajectory_controller" />
   </group>
 
 	<!-- convert joint states to TF transforms for rviz, etc -->
