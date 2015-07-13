@@ -230,7 +230,7 @@
     <child link="version_link" />
     <axis  xyz="0 0 1" />
     <limit lower="-0.698131" upper="0.698131" effort="10.0" velocity="5.0" />
-    <dynamics damping="1.0" friction="0.7" />
+
   </joint>
 
 
@@ -260,7 +260,7 @@
 			upper="1.0"     
       effort="1000.0" 
       velocity="5.0" />
-    <dynamics damping="0.1" friction="0.1" />
+
     <mimic joint="version_joint" multiplier="1" offset="0"/>
   </joint>
 
@@ -290,7 +290,6 @@
 			upper="1.0"     
       effort="1000.0" 
       velocity="5.0"/>
-    <dynamics damping="0.1" friction="0.1" />
     <mimic joint="version_joint" multiplier="1" offset="0"/>
   </joint>
 
@@ -309,7 +308,6 @@
     <child link="vergence_link" />
     <axis  xyz="0 0 1" />
     <limit lower="0.0" upper="0.698131" effort="10.0" velocity="5.0" />
-    <dynamics damping="1.0" friction="0.7" />
   </joint>
   
   <link name="r_eye_vergence_link">
@@ -368,7 +366,6 @@
 			upper="1.0"     
       effort="1000.0" 
       velocity="5.0"/>
-    <dynamics damping="0.1" friction="0.1" />
     <mimic joint="vergence_joint" multiplier="1" offset="0"/>
   </joint>
   
@@ -461,7 +458,6 @@
 			upper="1.0"    
       effort="1000.0" 
       velocity="5.0" />
-    <dynamics damping="0.1" friction="0.1" />
     <mimic joint="vergence_joint" multiplier="-1" offset="0"/>
   </joint>
   <link name="l_camera_link">
