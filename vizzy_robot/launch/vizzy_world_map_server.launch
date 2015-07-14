@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <launch>
-  <node name="map_server" pkg="map_server" type="map_server" args="$(find vizzy-robot)/maps/sixtyminscore.yaml" />
+  <node name="map_server" pkg="map_server" type="map_server" args="$(find vizzy_robot)/maps/sixtyminscore.yaml" />
 </launch>

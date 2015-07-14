@@ -1,4 +1,4 @@
-# vizzy-robot
+# vizzy_robot
 
 Package to initialize interfaces for real robot usage
 
@@ -29,7 +29,7 @@ Open a terminal and navigate to the folder where you want to download the packag
 
 Now, run:
 
-    git clone https://github.com/vislab-tecnico-lisboa/vizzy-robot.git
+    git clone https://github.com/vislab-tecnico-lisboa/vizzy_robot.git
 
 After completing the download, you should execute some instructions to setup your environment:
 
@@ -49,7 +49,7 @@ If you have followed everything as stated in here, you should now be able to ini
 
 Open a terminal:
 
-    roslaunch vizzy-robot real_robot.launch
+    roslaunch vizzy_robot real_robot.launch
 
 Additionally you can use the RViz for visualization purposes by running:
 
