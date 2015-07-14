@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<package>
+  <name>vizzy_robot</name>
+  <version>1.0.0</version>
+  <description>
+    This package holds all the needed launches and elements for
+    Vizzy's real robot.
+  </description>
+
+  <maintainer email="miguelaragao91@gmail.com">Miguel Aragão</maintainer>
+  <author>Miguel Aragão</author>
+  <author>Rui Figueiredo</author>
+  <author>Plinio Moreno</author>
+  <license>BSD</license>
+
+  <url type="website">https://github.com/vislab-tecnico-lisboa/vizzy/vizzy_robot</url>
+  <url type="bugtracker">https://github.com/vislab-tecnico-lisboa/vizzy/issues</url>
+
+  <run_depend>eband-local-planner</run_depend>
+  <run_depend>segway-rmp</run_depend>
+  <run_depend>hokuyo-node</run_depend>
+
+  <!-- The export tag contains other, unspecified, tags -->
+  <export>
+  	<gazebo_ros plugin_path="${prefix}/lib" gazebo_media_path="${prefix}" />
+  </export>
+</package>
