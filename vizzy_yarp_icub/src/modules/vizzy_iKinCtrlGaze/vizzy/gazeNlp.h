@@ -29,6 +29,9 @@
 
 #include <vizzy/vizzyFwd.h>
 
+#define IKINIPOPT_DEFAULT_UPBOUNDINF (+1e9)
+#define IKINIPOPT_DEFAULT_LWBOUNDINF (1e-9)
+#define IKINIPOPT_DEFAULT_TRANSTOL (1e-6)
 using namespace std;
 using namespace yarp::sig;
 using namespace yarp::math;
