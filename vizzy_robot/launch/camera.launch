@@ -35,6 +35,6 @@
     <remap from="image_rect" to="$(arg camera)/image_rect_color" />
   </node>
 
-  <node name="$(arg camera)_throttle_node" pkg="topic_tools" type="throttle" args="messages $(arg camera)/image_raw $(arg throttle_rate) $(arg camera)/image_throttled" />
+  <!--<node name="$(arg camera)_throttle_node" pkg="topic_tools" type="throttle" args="messages $(arg camera)/image_raw $(arg throttle_rate) $(arg camera)/image_throttled" />-->
 </launch>
 

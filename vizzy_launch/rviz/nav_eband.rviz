@@ -7,10 +7,9 @@ Panels:
         - /RobotModel1/Links1
         - /RobotModel1/Links1/base_footprint1
         - /RobotModel1/Links1/base_link1
-        - /Stereo1
         - /TF1/Frames1
       Splitter Ratio: 0.496795
-    Tree Height: 326
+    Tree Height: 325
   - Class: rviz/Selection
     Name: Selection
   - Class: rviz/Tool Properties
@@ -329,14 +328,6 @@ Visualization Manager:
         Z: 0
       Topic: /move_base/NavfnROS/plan
       Value: true
-    - Class: rviz/Marker
-      Enabled: true
-      Marker Topic: /move_base/EBandPlannerROS/eband_visualization
-      Name: Marker
-      Namespaces:
-        {}
-      Queue Size: 100
-      Value: true
     - Alpha: 1
       Class: rviz/Map
       Color Scheme: costmap
@@ -344,14 +335,6 @@ Visualization Manager:
       Enabled: true
       Name: Costmap
       Topic: /move_base/local_costmap/costmap
-      Value: true
-    - Alpha: 0.2
-      Class: rviz/Map
-      Color Scheme: costmap
-      Draw Behind: false
-      Enabled: true
-      Name: Map
-      Topic: /move_base/global_costmap/costmap
       Value: true
     - Class: rviz/Camera
       Enabled: true
@@ -364,25 +347,21 @@ Visualization Manager:
       Value: true
       Visibility:
         Costmap: true
-        EgoSphere: true
-        EgoSphereUncertainty: true
+        Eband: true
         Global Path: true
         Grid: true
         LaserScan: true
         Left camera: true
         Map: true
-        Marker: true
         PointCloud2: true
         RobotModel: true
-        Stereo: true
-        StereoUncertainty: true
         TF: true
         Value: false
       Zoom Factor: 1
     - Class: rviz/Camera
       Enabled: true
       Image Rendering: background and overlay
-      Image Topic: /vizzy/l_camera/image_raw
+      Image Topic: /l_camera/image_raw_throttled
       Name: Left camera
       Overlay Alpha: 0.5
       Queue Size: 2
@@ -390,137 +369,17 @@ Visualization Manager:
       Value: true
       Visibility:
         Costmap: true
-        EgoSphere: true
-        EgoSphereUncertainty: true
+        Eband: true
         Global Path: true
         Grid: true
         LaserScan: true
         Map: true
-        Marker: true
         PointCloud2: true
         Right camera: true
         RobotModel: true
-        Stereo: true
-        StereoUncertainty: true
         TF: true
         Value: false
       Zoom Factor: 1
-    - Alpha: 1
-      Autocompute Intensity Bounds: true
-      Autocompute Value Bounds:
-        Max Value: 10
-        Min Value: -10
-        Value: true
-      Axis: Z
-      Channel Name: intensity
-      Class: rviz/PointCloud2
-      Color: 255; 255; 255
-      Color Transformer: RGB8
-      Decay Time: 0
-      Enabled: true
-      Invert Rainbow: false
-      Max Color: 255; 255; 255
-      Max Intensity: 4096
-      Min Color: 0; 0; 0
-      Min Intensity: 0
-      Name: Stereo
-      Position Transformer: XYZ
-      Queue Size: 10
-      Selectable: true
-      Size (Pixels): 3
-      Size (m): 0.06
-      Style: Flat Squares
-      Topic: /stereo
-      Use Fixed Frame: true
-      Use rainbow: true
-      Value: true
-    - Alpha: 1
-      Autocompute Intensity Bounds: true
-      Autocompute Value Bounds:
-        Max Value: 10
-        Min Value: -10
-        Value: true
-      Axis: Z
-      Channel Name: intensity
-      Class: rviz/PointCloud2
-      Color: 255; 255; 255
-      Color Transformer: Intensity
-      Decay Time: 0
-      Enabled: true
-      Invert Rainbow: false
-      Max Color: 255; 255; 255
-      Max Intensity: 13.2903
-      Min Color: 0; 0; 0
-      Min Intensity: -9.99148
-      Name: StereoUncertainty
-      Position Transformer: XYZ
-      Queue Size: 1
-      Selectable: true
-      Size (Pixels): 3
-      Size (m): 0.01
-      Style: Flat Squares
-      Topic: /uncertainty_pcl
-      Use Fixed Frame: true
-      Use rainbow: true
-      Value: true
-    - Alpha: 1
-      Autocompute Intensity Bounds: true
-      Autocompute Value Bounds:
-        Max Value: 10
-        Min Value: -10
-        Value: true
-      Axis: Z
-      Channel Name: intensity
-      Class: rviz/PointCloud2
-      Color: 255; 255; 255
-      Color Transformer: RGB8
-      Decay Time: 0
-      Enabled: true
-      Invert Rainbow: false
-      Max Color: 255; 255; 255
-      Max Intensity: 4096
-      Min Color: 0; 0; 0
-      Min Intensity: 0
-      Name: EgoSphere
-      Position Transformer: XYZ
-      Queue Size: 1
-      Selectable: true
-      Size (Pixels): 3
-      Size (m): 0.06
-      Style: Flat Squares
-      Topic: /ego_sphere
-      Use Fixed Frame: true
-      Use rainbow: true
-      Value: true
-    - Alpha: 1
-      Autocompute Intensity Bounds: true
-      Autocompute Value Bounds:
-        Max Value: 10
-        Min Value: -10
-        Value: true
-      Axis: Z
-      Channel Name: intensity
-      Class: rviz/PointCloud2
-      Color: 255; 255; 255
-      Color Transformer: Intensity
-      Decay Time: 0
-      Enabled: true
-      Invert Rainbow: false
-      Max Color: 255; 255; 255
-      Max Intensity: 26.0587
-      Min Color: 0; 0; 0
-      Min Intensity: 2.34454
-      Name: EgoSphereUncertainty
-      Position Transformer: XYZ
-      Queue Size: 1
-      Selectable: true
-      Size (Pixels): 3
-      Size (m): 0.06
-      Style: Flat Squares
-      Topic: /ego_sphere_uncertainty
-      Use Fixed Frame: true
-      Use rainbow: true
-      Value: true
     - Class: rviz/TF
       Enabled: false
       Frame Timeout: 15
@@ -547,7 +406,7 @@ Visualization Manager:
       Color: 255; 255; 255
       Color Transformer: RGB8
       Decay Time: 0
-      Enabled: true
+      Enabled: false
       Invert Rainbow: false
       Max Color: 255; 255; 255
       Max Intensity: 4096
@@ -563,6 +422,14 @@ Visualization Manager:
       Topic: /ego_sphere_structure
       Use Fixed Frame: true
       Use rainbow: true
+      Value: false
+    - Class: rviz/Marker
+      Enabled: true
+      Marker Topic: /move_base/EBandPlannerROS/eband_visualization
+      Name: Eband
+      Namespaces:
+        {}
+      Queue Size: 100
       Value: true
   Enabled: true
   Global Options:
@@ -595,10 +462,10 @@ Visualization Manager:
         Z: 0.561095
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.324797
+      Pitch: 1.2198
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 4.9212
+      Yaw: 3.2462
     Saved: ~
 Window Geometry:
   Displays:
@@ -608,7 +475,7 @@ Window Geometry:
   Hide Right Dock: false
   Left camera:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd00000004000000000000015d000003dafc0200000007fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000006400fffffffb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000002800000187000000dd00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007300000001380000006d0000006400fffffffb0000001800520069006700680074002000630061006d00650072006101000001b5000001460000001600fffffffb00000016004c006500660074002000630061006d0065007200610100000301000001010000001600ffffff0000000100000105000003d5fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a005600690065007700730000000036000003d5000000b000fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000004a00000003efc0100000002fb0000000800540069006d00650000000000000004a0000002f600fffffffb0000000800540069006d00650100000000000004500000000000000000000005dc000003da00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd00000004000000000000015d000003dafc0200000007fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000006400fffffffb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000002800000186000000dd00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007300000001380000006d0000006400fffffffb0000001800520069006700680074002000630061006d00650072006101000001b4000001be0000001600fffffffb00000016004c006500660074002000630061006d00650072006101000003780000008a0000001600ffffff0000000100000105000003d5fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a005600690065007700730000000036000003d5000000b000fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000004a00000003efc0100000002fb0000000800540069006d00650000000000000004a0000002f600fffffffb0000000800540069006d00650100000000000004500000000000000000000005dc000003da00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Right camera:
     collapsed: false
   Selection:
@@ -620,5 +487,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1855
-  X: 65
-  Y: 24
+  X: 55
+  Y: -14
