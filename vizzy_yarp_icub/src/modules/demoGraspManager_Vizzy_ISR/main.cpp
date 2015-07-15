@@ -1829,7 +1829,7 @@ int main(int argc, char *argv[])
     rf.configure(argc,argv);
 
     managerModule mod;
-    mod.setName("/demoGraspManager_IIT_ISR");
+    mod.setName("/demoGraspManager_Vizzy_ISR");
 
     return mod.runModule(rf);
 }

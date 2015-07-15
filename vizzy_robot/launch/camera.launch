@@ -4,7 +4,7 @@
   <arg name="guid" default="" />
   <arg name="video_mode" default="640x480_rgb8" />
   <arg name="frame_rate" default="5" />
-
+  <arg name="throttle_rate" default="1" />
   <!-- nodelet manager process -->
   <node pkg="nodelet" type="nodelet" name="$(arg camera)_camera_nodelet_manager" args="manager" />
 
@@ -35,5 +35,6 @@
     <remap from="image_rect" to="$(arg camera)/image_rect_color" />
   </node>
 
+  <node name="$(arg camera)_throttle_node" pkg="topic_tools" type="throttle" args="messages $(arg camera)/image_raw $(arg throttle_rate) $(arg camera)/image_throttled" />
 </launch>
 

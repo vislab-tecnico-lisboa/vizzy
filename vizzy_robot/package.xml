@@ -15,7 +15,7 @@
 
   <url type="website">https://github.com/vislab-tecnico-lisboa/vizzy/vizzy_robot</url>
   <url type="bugtracker">https://github.com/vislab-tecnico-lisboa/vizzy/issues</url>
-
+  <buildtool_depend>catkin</buildtool_depend>
   <run_depend>eband-local-planner</run_depend>
   <run_depend>segway-rmp</run_depend>
   <run_depend>hokuyo-node</run_depend>

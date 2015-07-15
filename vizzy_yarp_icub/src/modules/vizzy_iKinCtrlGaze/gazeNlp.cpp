@@ -769,7 +769,8 @@ Vector GazeIpOptMin::solve(const Vector &q0, Vector &xd, const Vector &gDir,
 
     nlp->set_scaling(obj_scaling,x_scaling,g_scaling);
     nlp->set_bound_inf(lowerBoundInf,upperBoundInf);
-    nlp->set_translational_tol(translationalTol);
+    //nlp->set_translational_tol(translationalTol);
+    nlp->set_translational_tol(IKINIPOPT_DEFAULT_TRANSTOL);
     nlp->set_callback(iterate);
     
     /*Ipopt::ApplicationReturnStatus status=optimize(GetRawPtr(nlp));

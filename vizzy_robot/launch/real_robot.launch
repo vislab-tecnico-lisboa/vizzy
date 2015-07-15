@@ -6,11 +6,13 @@
 	<arg name="left_camera_guid" default="00b09d01007ad691" />
 	<arg name="right_camera_guid" default="00b09d01007ad693" />
   	<arg name="video_mode" default="640x480_rgb8" />
-  	<arg name="frame_rate" default="5.0" />
+  	<arg name="frame_rate" default="10.0" />
 
 	<arg name="map_frame" default="map" />
   	<arg name="map_service" default="/static_map" />
 	<arg name="map_topic" default="/map" />
+
+  	<arg name="throttle_rate" default="0.5" />
 
 	<!-- launch the map server for the simulated world -->
   	<include file="$(find vizzy_robot)/launch/vizzy_world_map_server.launch" />
@@ -65,14 +67,18 @@
 	</include>
 
  	<!-- Right camera -->
-	<!--<include file="$(find vizzy_robot)/launch/camera.launch">
+	<include file="$(find vizzy_robot)/launch/camera.launch">
     		<arg name="camera" value="$(arg right_camera_name)" />
     		<arg name="guid" value="$(arg right_camera_guid)" />
   		<arg name="video_mode" value="$(arg video_mode)" />
   		<arg name="frame_rate" value="$(arg frame_rate)" />
-	</include>-->
+  		<arg name="throttle_rate" default="$(arg throttle_rate)" />
+	</include>
 
  	<!-- Pedestrian Detector -->
 	<include file="$(find pedestrian_detector)/launch/pedestrian_detector.launch">
+    		<arg name="image_in" value="$(arg right_camera_name)/image_raw" />
 	</include>
+
+
 </launch>

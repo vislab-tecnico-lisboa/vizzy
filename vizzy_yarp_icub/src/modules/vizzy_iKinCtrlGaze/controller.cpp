@@ -408,7 +408,7 @@ void Controller::run()
     {
         for (size_t i=0; i<v.length(); i++)
             if ((v[i]>-minAbsVel) && (v[i]<minAbsVel) && (v[i]!=0.0))
-                v[i]=iCub::ctrl::sign(qd[i]-fbHead[i])*minAbsVel;
+                v[i]=yarp::math::sign(qd[i]-fbHead[i])*minAbsVel;
     }
 
     // convert to degrees
