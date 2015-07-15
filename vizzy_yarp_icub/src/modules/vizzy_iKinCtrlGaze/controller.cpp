@@ -38,7 +38,7 @@ Controller::Controller(PolyDriver *_drvTorso, PolyDriver *_drvHead, exchangeData
 {
     this->rf_camera=_camerasFile;
     Robotable=(drvHead!=NULL);
-
+     fprintf(stdout,"Robotable = %d \n",Robotable);
     // Instantiate objects
     neck=new vizzyHeadCenter(headV2?"right_v2":"right",_root_link);
     eyeL=new vizzyEye(headV2?"left_v2":"left",_root_link);
@@ -72,6 +72,7 @@ Controller::Controller(PolyDriver *_drvTorso, PolyDriver *_drvHead, exchangeData
         IEncoders *encHead; drvHead->view(encHead);
         encHead->getAxes(&nJointsHead);
 
+	drvHead->view(modHead);
         drvHead->view(posHead);
         drvHead->view(velHead);
 
@@ -264,6 +265,9 @@ void Controller::doSaccade(Vector &ang, Vector &vel)
 {
     mutexCtrl.wait();
 
+    modHead->setControlMode(2,VOCAB_CM_POSITION);
+    modHead->setControlMode(3,VOCAB_CM_POSITION);
+    modHead->setControlMode(4,VOCAB_CM_POSITION);
     posHead->setRefSpeed(2,CTRL_RAD2DEG*vel[0]);
     posHead->setRefSpeed(3,CTRL_RAD2DEG*vel[1]);
     posHead->setRefSpeed(4,CTRL_RAD2DEG*vel[2]);
@@ -301,6 +305,11 @@ void Controller::run()
 {
     // verify if any saccade is still underway
     mutexCtrl.wait();
+    modHead->setControlMode(0,VOCAB_CM_VELOCITY);
+    modHead->setControlMode(1,VOCAB_CM_VELOCITY);
+    modHead->setControlMode(2,VOCAB_CM_VELOCITY);
+    modHead->setControlMode(3,VOCAB_CM_MIXED);
+    modHead->setControlMode(4,VOCAB_CM_MIXED);
     if (commData->get_isSaccadeUnderway() && (Time::now()-saccadeStartTime>=Ts))
     {
         if (!tiltDone)

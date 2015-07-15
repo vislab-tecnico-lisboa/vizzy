@@ -59,6 +59,7 @@ protected:
     vizzyEye          *eyeL,      *eyeR;
     iKinChain        *chainNeck, *chainEyeL, *chainEyeR;
     PolyDriver       *drvTorso,  *drvHead;
+    IControlMode2    *modHead;
     IPositionControl *posHead;
     IVelocityControl *velHead;
     exchangeData     *commData;
@@ -138,6 +139,8 @@ public:
     bool   getDesired(Vector &des);
     bool   getVelocity(Vector &vel);
     bool   getPose(const string &poseSel, Vector &x, Stamp &stamp);
+    void   setJointsCtrlMode();
+    bool   areJointsHealthyAndSet();
 };
 
 
