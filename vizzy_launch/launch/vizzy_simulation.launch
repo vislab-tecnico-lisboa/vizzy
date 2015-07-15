@@ -68,4 +68,14 @@
   <group unless="$(arg navigation)">
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find vizzy_launch)/rviz/vizzy.rviz" />
   </group>
+
+
+
+  <node pkg="nodelet" type="nodelet" name="nodelt_manager" args="manager" output="screen" />
+
+  <node name="l_camera_throttle_node" pkg="topic_tools" type="throttle">
+    <remap from="topic_in"  to="/vizzy/l_camera/image_raw"/>
+    <remap from="topic_out" to="/vizzy/l_camera/image_raw_throttled"/>
+  </node>
+
 </launch>
