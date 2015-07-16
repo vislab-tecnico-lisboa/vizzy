@@ -2,6 +2,10 @@
 <!-- ROS head file to simulate vizzy in gazebo   -->
 <launch>
   <!-- robot configuration parameters -->
+  <arg name="vizzy_machine_name" default="vizzy-desktop"/>
+  <arg name="vizzy_machine_address" default="10.1.3.1"/>
+  <arg name="env-loader" default="/opt/ros/hydro/env.sh"/>
+  <machine name="$(arg vizzy_machine_name)" address="$(arg vizzy_machine_address)" env-loader="$(arg env-loader)" user="vizzy"/>
 
   <!-- simulation parameters and robot configuration parameters -->
   <arg name="navigation" default="true"/>
@@ -14,8 +18,10 @@
   <arg name="map_topic" default="/map" />
   <arg name="pedestrian_detection" default="false" />
   <arg name="use_moveit" default="false" />
-
+  <arg name="visualization" default="true" />
+	<arg name="vizzy_navigation_absolute_path" default="/home/vizzy/catkin_workspace/src/vizzy/vizzy_navigation" />
   <include file="$(find vizzy_launch)/launch/vizzy_real.launch">
+  	<arg name="vizzy_machine_name" default="$(arg vizzy_machine_name)"/>
 	  <arg name="navigation" value="$(arg navigation)"/>
 	  <arg name="slam" value="$(arg slam)"/>
 	  <!--<arg name="pose" default="-x -3.65 -y 17.7 -z 0.20 -R 0.0 -P 0.0 -Y 1.57"/>-->
@@ -26,5 +32,7 @@
 	  <arg name="map_topic" value="$(arg map_topic)" />
 	  <arg name="pedestrian_detection" value="$(arg pedestrian_detection)" />
 	  <arg name="use_moveit" value="$(arg use_moveit)" />
+	  <arg name="visualization" value="$(arg visualization)" />
+	  <arg name="vizzy_navigation_absolute_path" value="$(arg vizzy_navigation_absolute_path)" />
   </include>
 </launch>

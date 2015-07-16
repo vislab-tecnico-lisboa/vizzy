@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <launch>
+  <arg name="vizzy_machine_name" default="localhost"/>
   <arg name="use_map_topic" default="true"/>
   <arg name="map_service" default="static_map" />
   <arg name="map_topic" default="map" />
@@ -14,7 +15,7 @@
   <arg name="base_frame_id" default="base_footprint" />
   <arg name="odom_frame_id" default="odom" />
 
-  <node pkg="amcl" type="amcl" name="amcl">
+  <node machine="$(arg vizzy_machine_name)" pkg="amcl" type="amcl" name="amcl">
     <param name="use_map_topic" value="$(arg use_map_topic)"/>
     <!-- Publish scans from best pose at a max of 10 Hz -->
     <param name="odom_model_type" value="diff"/>

@@ -6,7 +6,7 @@
   <arg name="use_yarp" default="false" />	
 
   <!-- launch the appropriate urdf description, as well as the corresponding tf tree -->
-  <param machine="$(arg machine_name)" name="robot_description" command="$(find xacro)/xacro.py $(find vizzy_description)/robots/vizzy.urdf.xacro use_yarp:=$(arg use_yarp)" />
+  <param name="robot_description" command="$(find xacro)/xacro.py $(find vizzy_description)/robots/vizzy.urdf.xacro use_yarp:=$(arg use_yarp)" />
 
   <!-- launch the tf tree -->
   <node machine="$(arg machine_name)" pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">

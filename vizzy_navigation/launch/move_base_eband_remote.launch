@@ -1,11 +1,12 @@
 <?xml version="1.0"?>
 <launch>
+  <arg name="vizzy_machine_name" default="localhost"/>
   <arg name="map_topic" default="/map" />
   <arg name="debug" default="false" />
   <arg if="$(arg debug)" name="prefix" value="gdb -ex run --args" />
   <arg unless="$(arg debug)" name="prefix" value="" />
 
-  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen" launch-prefix="$(arg prefix)">
+  <node machine="$(arg vizzy_machine_name)" pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen" launch-prefix="$(arg prefix)">
     <rosparam file="$(find vizzy_navigation)/config/eband/move_base_params.yaml" command="load" />
     <rosparam file="$(find vizzy_navigation)/config/eband/costmap_common_params.yaml" command="load" ns="global_costmap" />
     <rosparam file="$(find vizzy_navigation)/config/eband/costmap_common_params.yaml" command="load" ns="local_costmap" />

@@ -2,16 +2,13 @@
 <!-- ROS head file to simulate vizzy in gazebo   -->
 <launch>
   <arg name="vizzy_machine_name" default="vizzy-desktop"/>
-  <arg name="vizzy_machine_address" default="10.1.3.1"/>
-  <arg name="env-loader" default="/opt/ros/hydro/env.sh"/>
-  <machine name="$(arg vizzy_machine_name)" address="$(arg vizzy_machine_address)" env-loader="$(arg env-loader)" user="vizzy"/>
 
   <!-- robot configuration parameters -->
   <arg name="robot" default="vizzy"/> <!-- full, lower_body, foot -->
 
   <!-- simulation parameters and robot configuration parameters -->
   <arg name="use_yarp" default="false"/>
-  <arg name="navigation" default="false"/>
+  <arg name="navigation" default="true"/>
   <arg name="slam" default="false"/>
   <!--<arg name="pose" default="-x -3.65 -y 17.7 -z 0.20 -R 0.0 -P 0.0 -Y 1.57"/>-->
   <arg name="pose" default="-x 0.0 -y 0.0 -z 0.15 -R 0.0 -P 0.0 -Y 1.57"/>
@@ -24,16 +21,18 @@
   <arg name="base_frame_id" default="$(arg tf_prefix)/base_footprint" />
   <arg name="odom_frame_id" default="$(arg tf_prefix)/odom" />
   <arg name="map_topic" default="/map" />
-  <arg name="pedestrian_detection" default="false" />
+  <arg name="pedestrian_detection" default="true" />
   <arg name="use_moveit" default="false" />
   <arg name="visualization" default="false" />
 	<arg name="left_camera_name" default="l_camera" />
 	<arg name="right_camera_name" default="r_camera" />
+	<arg name="vizzy_navigation_absolute_path" default="/home/vizzy/catkin_workspace/src/vizzy/vizzy_navigation" />
 
   <!-- bringup robot -->
   <include file="$(find vizzy_robot)/launch/real_robot.launch">
   	<arg name="map_frame" value="$(arg map_frame)" />
   	<arg name="tf_prefix" value="$(arg tf_prefix)" />
+  	<arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)"/>
   </include>
 
   <!-- launch moveit -->
@@ -44,32 +43,36 @@
   <!-- launch navigation -->
   <group if="$(arg navigation)">
     <!-- launch the laser filter to get rid of readings from the robot itself -->
-    <include file="$(find vizzy_sensors)/launch/hokuyo/hokuyo-filters.launch" />
+   <node machine="$(arg vizzy_machine_name)" name="hokuyo_laser_filters" pkg="laser_filters" type="scan_to_scan_filter_chain">
+    <rosparam command="load" file="$(find vizzy_sensors)/config/hokuyo_filters.yaml" />
+   </node>
 
     <group if="$(arg slam)">
       <!-- TO DO -->
     </group>
     <group unless="$(arg slam)">
       <!-- launch pre obtained map to the environment -->
-      <node name="map_server" pkg="map_server" type="map_server" args="$(find vizzy_navigation)/maps/sixtyminscore.yaml" />
+      <node machine="$(arg vizzy_machine_name)" name="map_server" pkg="map_server" type="map_server" args="$(arg vizzy_navigation_absolute_path)/maps/sixtyminscore.yaml" />
 
       <!-- move_base using local eband planner -->
-      <include file="$(find vizzy_navigation)/launch/move_base_eband.launch">
+      <include file="$(find vizzy_navigation)/launch/move_base_eband_remote.launch">
+  			<arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)"/>
         <arg name="map_topic" value="$(arg map_topic)" />
       </include>
 
-      <!-- lighter localization package for simulation -->
-      <include file="$(find vizzy_navigation)/launch/amcl.launch"/>
-
+      <!-- localization package -->
+      <include file="$(find vizzy_navigation)/launch/amcl.launch">
+  			<arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)"/>
+      </include>
     </group>
   </group>
 
   <!-- Pedestrian Detector -->
-  <!--<group if="$(arg pedestrian_detection)">
+  <group if="$(arg pedestrian_detection)">
 	  <include file="$(find pedestrian_detector)/launch/pedestrian_detector.launch">
 	    <arg name="image_in" value="$(arg right_camera_name)/image_raw" />
 	  </include>
-  </group>-->
+  </group>
 
   <!-- launch vizualization on rviz -->
   <group if="$(arg visualization)">
