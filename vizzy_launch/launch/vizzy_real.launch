@@ -1,12 +1,17 @@
 <?xml version="1.0"?>
 <!-- ROS head file to simulate vizzy in gazebo   -->
 <launch>
+  <arg name="vizzy_machine_name" default="vizzy-desktop"/>
+  <arg name="vizzy_machine_address" default="10.1.3.1"/>
+  <arg name="env-loader" default="/opt/ros/hydro/env.sh"/>
+  <machine name="$(arg vizzy_machine_name)" address="$(arg vizzy_machine_address)" env-loader="$(arg env-loader)" user="vizzy"/>
+
   <!-- robot configuration parameters -->
   <arg name="robot" default="vizzy"/> <!-- full, lower_body, foot -->
 
   <!-- simulation parameters and robot configuration parameters -->
   <arg name="use_yarp" default="false"/>
-  <arg name="navigation" default="true"/>
+  <arg name="navigation" default="false"/>
   <arg name="slam" default="false"/>
   <!--<arg name="pose" default="-x -3.65 -y 17.7 -z 0.20 -R 0.0 -P 0.0 -Y 1.57"/>-->
   <arg name="pose" default="-x 0.0 -y 0.0 -z 0.15 -R 0.0 -P 0.0 -Y 1.57"/>
@@ -19,9 +24,11 @@
   <arg name="base_frame_id" default="$(arg tf_prefix)/base_footprint" />
   <arg name="odom_frame_id" default="$(arg tf_prefix)/odom" />
   <arg name="map_topic" default="/map" />
-  <arg name="pedestrian_detection" default="true" />
+  <arg name="pedestrian_detection" default="false" />
   <arg name="use_moveit" default="false" />
-  <arg name="visualization" default="true" />
+  <arg name="visualization" default="false" />
+	<arg name="left_camera_name" default="l_camera" />
+	<arg name="right_camera_name" default="r_camera" />
 
   <!-- bringup robot -->
   <include file="$(find vizzy_robot)/launch/real_robot.launch">
@@ -34,6 +41,7 @@
   	<include file="$(find vizzy_moveit_config)/launch/moveit.launch"/>
   </group>
 
+  <!-- launch navigation -->
   <group if="$(arg navigation)">
     <!-- launch the laser filter to get rid of readings from the robot itself -->
     <include file="$(find vizzy_sensors)/launch/hokuyo/hokuyo-filters.launch" />
@@ -57,11 +65,11 @@
   </group>
 
   <!-- Pedestrian Detector -->
-  <group if="$(arg pedestrian_detection)">
+  <!--<group if="$(arg pedestrian_detection)">
 	  <include file="$(find pedestrian_detector)/launch/pedestrian_detector.launch">
 	    <arg name="image_in" value="$(arg right_camera_name)/image_raw" />
 	  </include>
-  </group>
+  </group>-->
 
   <!-- launch vizualization on rviz -->
   <group if="$(arg visualization)">

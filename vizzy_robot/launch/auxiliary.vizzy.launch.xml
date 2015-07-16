@@ -1,20 +1,20 @@
 <launch>
-
+  <arg name="machine_name" default="$(arg machine_name)" />
   <arg name="tf_prefix" default="" /> 
   <arg name="use_full_gazebo_model" default="false" />
   <arg name="urdf_file" default="$(find vizzy_description)/robots/vizzy.urdf.xacro" />
   <arg name="use_yarp" default="false" />	
 
   <!-- launch the appropriate urdf description, as well as the corresponding tf tree -->
-  <param name="robot_description" command="$(find xacro)/xacro.py $(find vizzy_description)/robots/vizzy.urdf.xacro use_yarp:=$(arg use_yarp)" />
+  <param machine="$(arg machine_name)" name="robot_description" command="$(find xacro)/xacro.py $(find vizzy_description)/robots/vizzy.urdf.xacro use_yarp:=$(arg use_yarp)" />
 
   <!-- launch the tf tree -->
-  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+  <node machine="$(arg machine_name)" pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
     <param name="publish_frequency" type="double" value="5.0" />
   </node>
 
   <!-- launch the joint state publisher to default values -->
-  <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher">
+  <node machine="$(arg machine_name)" pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher">
     <rosparam param="source_list">["/vizzy_left_arm/joint_states","/vizzy_right_arm/joint_states","/vizzy_head/joint_states","joint_states"]</rosparam>
   </node>
 </launch>
