@@ -21,6 +21,7 @@
   <arg name="map_topic" default="/map" />
   <arg name="pedestrian_detection" default="true" />
   <arg name="use_moveit" default="false" />
+  <arg name="visualization" default="true" />
 
   <!-- bringup robot -->
   <include file="$(find vizzy_robot)/launch/real_robot.launch">
@@ -63,8 +64,8 @@
   </group>
 
   <!-- launch vizualization on rviz -->
-  <!--<group unless="$(arg navigation)">
+  <group if="$(arg visualization)">
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find vizzy_launch)/rviz/vizzy.rviz" />
-  </group>-->
+  </group>
 
 </launch>
