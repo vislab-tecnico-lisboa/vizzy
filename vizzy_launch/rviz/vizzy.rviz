@@ -24,7 +24,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: ""
+    SyncSource: LaserScan
 Visualization Manager:
   Class: ""
   Displays:
@@ -294,7 +294,7 @@ Visualization Manager:
       Color: 25; 255; 0
       Color Transformer: FlatColor
       Decay Time: 0
-      Enabled: false
+      Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
       Max Intensity: 0
@@ -310,7 +310,7 @@ Visualization Manager:
       Topic: /scan_filtered
       Use Fixed Frame: true
       Use rainbow: true
-      Value: false
+      Value: true
     - Alpha: 1
       Class: rviz/Map
       Color Scheme: costmap
@@ -562,15 +562,15 @@ Visualization Manager:
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.219152
-        Y: 0.159188
-        Z: 0.490035
+        X: 3.34013
+        Y: 4.84204
+        Z: 0.495907
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.449797
+      Pitch: 0.819797
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 5.44255
+      Yaw: 3.74755
     Saved: ~
 Window Geometry:
   Displays:

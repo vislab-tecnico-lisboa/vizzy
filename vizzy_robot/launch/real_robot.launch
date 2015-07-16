@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="machine_name" default="vizzy-desktop"/>
+  <arg name="vizzy_machine_name" default="vizzy-desktop"/>
 	<!-- Camera parameters -->
 	<arg name="left_camera_name" default="l_camera" />
 	<arg name="right_camera_name" default="r_camera" />
@@ -26,19 +26,19 @@
 	<include file="$(find vizzy_robot)/launch/auxiliary.vizzy.launch.xml">
 		<arg name="tf_prefix" value="$(arg tf_prefix)" />
 		<arg name="use_yarp" value="true" />
-  	<arg name="machine_name" value="$(arg machine_name)" />
+  	<arg name="machine_name" value="$(arg vizzy_machine_name)" />
 	</include>
 
 	<!-- launch the segway base -->
   <include file="$(find vizzy_robot)/launch/segway_base.launch">
-  		<arg name="machine_name" value="$(arg machine_name)" />
+  		<arg name="machine_name" value="$(arg vizzy_machine_name)" />
   </include>
 
   	<!-- launch the hokuyo sensor -->
 	<include file="$(find vizzy_robot)/launch/hokuyo.launch">
 	    <arg name="name" value="nav_hokuyo" />
 	    <arg name="tf_prefix" value="$(arg tf_prefix)" />
-  		<arg name="machine_name" value="$(arg machine_name)" />
+  		<arg name="machine_name" value="$(arg vizzy_machine_name)" />
 	    <!-- <arg name="publish_tf" value="false" /> already published by urdf -->
 	</include>
 
@@ -48,7 +48,7 @@
     	<arg name="guid" value="$(arg left_camera_guid)" />
   		<arg name="video_mode" value="$(arg video_mode)" />
   		<arg name="frame_rate" value="$(arg frame_rate)" />
-  		<arg name="machine_name" value="$(arg machine_name)" />
+  		<arg name="machine_name" value="$(arg vizzy_machine_name)" />
 	</include>
 
  	<!-- Right camera -->
@@ -58,6 +58,6 @@
   		<arg name="video_mode" value="$(arg video_mode)" />
   		<arg name="frame_rate" value="$(arg frame_rate)" />
   		<arg name="throttle_rate" default="$(arg throttle_rate)" />
-  		<arg name="machine_name" default="$(arg machine_name)" />
+  		<arg name="machine_name" default="$(arg vizzy_machine_name)" />
 	</include>
 </launch>
