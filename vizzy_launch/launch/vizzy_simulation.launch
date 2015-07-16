@@ -20,6 +20,7 @@
   <arg name="base_frame_id" default="$(arg tf_prefix)/base_footprint" />
   <arg name="odom_frame_id" default="$(arg tf_prefix)/odom" />
   <arg name="map_topic" default="/map" />
+  <arg name="visualization" default="true" />
 
   <!-- bringup robot -->
   <include file="$(find vizzy_gazebo)/launch/gazebo.launch">
@@ -32,7 +33,7 @@
   	<arg name="world" value="$(arg world)" />
   </include>
 
-	<!-- launch moveit -->
+  <!-- launch moveit -->
   <include file="$(find vizzy_moveit_config)/launch/moveit.launch"/>
 
   <group if="$(arg navigation)">
@@ -58,14 +59,11 @@
         <param name="base_frame_id" value="$(arg base_frame_id)" />
         <param name="odom_frame_id" value="$(arg odom_frame_id)" />
       </node>
-
-      <!-- launch vizualization on rviz -->
-      <node name="rviz" pkg="rviz" type="rviz" args="-d $(find vizzy_launch)/rviz/nav_eband.rviz" launch-prefix="$(optenv OPTIRUN_LAUNCH_PREFIX)" />
     </group>
   </group>
 
   <!-- launch vizualization on rviz -->
-  <group unless="$(arg navigation)">
+  <group if="$(arg visualization)">
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find vizzy_launch)/rviz/vizzy.rviz" />
   </group>
 
