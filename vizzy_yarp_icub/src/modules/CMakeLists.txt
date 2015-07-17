@@ -7,4 +7,5 @@ add_subdirectory(vizzy_iKinCtrlGaze)
 add_subdirectory(vizzyCartesianControllerServer)
 add_subdirectory(vizzyCartesianSolver)
 add_subdirectory(yogaDemo)
+add_subdirectory(cfwFailUtility)
 
