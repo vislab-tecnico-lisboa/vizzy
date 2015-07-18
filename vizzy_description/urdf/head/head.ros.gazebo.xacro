@@ -59,29 +59,19 @@
     </gazebo>
 
  		<gazebo reference="neck_pan_joint">
-			<kd value="1.0" />
-			<kp value="1000000.0" />
-			<fudgeFactor value="1.0" />
-			<provideFeedback value="true"/>
+
 		</gazebo>
 
  		<gazebo reference="neck_tilt_joint">
-			<kd value="1.0" />
-			<kp value="1000000.0" />
-			<fudgeFactor value="1.0" />
-			<provideFeedback value="true"/>
+
 		</gazebo>
 
  		<gazebo reference="eyes_tilt_joint">
-			<kd value="1.0" />
-			<kp value="1000000.0" />
-			<fudgeFactor value="1.0" />
-			<provideFeedback value="true"/>
+
 		</gazebo>
 
  		<gazebo reference="version_joint">
-  		<stopKd value="1000000.0" />
-  		<stopKp value="1000000.0" />
+
 		</gazebo>
 
  		<!--<gazebo reference="l_eye_version_joint">
