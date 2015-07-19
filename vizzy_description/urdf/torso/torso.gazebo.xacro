@@ -12,7 +12,6 @@
 			<stopCfm value="1000000.0" />
 			<fudgeFactor value="1.0" />
 			<provideFeedback value="true"/>
-  		        <dampingFactor>0.7</dampingFactor>
 		</gazebo>
   </xacro:macro>
 </robot>
