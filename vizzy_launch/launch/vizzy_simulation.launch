@@ -25,7 +25,7 @@
 
   <!-- bringup robot -->
   <include file="$(find vizzy_gazebo)/launch/gazebo.launch">
-	  <arg name="use_yarp" value="$(arg use_yarp)"/>
+	<arg name="use_yarp" value="$(arg use_yarp)"/>
     <arg name="robot" value="$(arg robot)"/>
     <arg name="pose" value="$(arg pose)"/>
     <arg name="paused" value="$(arg paused)"/>
