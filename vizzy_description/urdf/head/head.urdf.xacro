@@ -63,7 +63,7 @@
     <axis
       xyz="0 0 1" />
     <limit lower="-0.925024504" upper="0.925024504" effort="10.0" velocity="3" />
-    <dynamics damping="10.0" friction="100.0" />
+
   </joint>
   <link
     name="neck_tilt_link">
@@ -118,7 +118,7 @@
     <axis
       xyz="0 0 1" />
     <limit lower="-0.314159265" upper="0.645771823" effort="100.0" velocity="1.0" />
-    <dynamics damping="10.0" friction="100.0" />
+
   </joint>
   <link
     name="eyes_tilt_link">
@@ -173,7 +173,7 @@
     <axis
       xyz="0 0 1" />
     <limit lower="-0.663225116" upper="0.663225116" effort="10.0" velocity="3" />
-    <dynamics damping="10.0" friction="100.0" />
+
   </joint>
   <!-- version virtual link and joint -->
   <link name="version_link">
@@ -193,7 +193,6 @@
     <child link="version_link" />
     <axis  xyz="0 0 1" />
     <limit lower="-0.698131" upper="0.698131" effort="10.0" velocity="0.2" />
-    <dynamics damping="1.0" friction="0.7" />
   </joint>
 
 
@@ -223,7 +222,7 @@
 			upper="1.0"     
       effort="1000.0" 
       velocity="0.2" />
-    <dynamics damping="0.1" friction="0.1" />
+
     <mimic joint="version_joint" multiplier="1" offset="0"/>
   </joint>
 
@@ -253,7 +252,7 @@
 			upper="1.0"     
       effort="1000.0" 
       velocity="0.2"/>
-    <dynamics damping="0.1" friction="0.1" />
+
     <mimic joint="version_joint" multiplier="1" offset="0"/>
   </joint>
 
@@ -272,7 +271,7 @@
     <child link="vergence_link" />
     <axis  xyz="0 0 1" />
     <limit lower="0.0" upper="0.698131" effort="10.0" velocity="0.2" />
-    <dynamics damping="1.0" friction="0.7" />
+
   </joint>
   
   <link name="r_eye_vergence_link">
@@ -331,7 +330,6 @@
 			upper="1.0"     
       effort="1000.0" 
       velocity="0.2"/>
-    <dynamics damping="0.1" friction="0.1" />
     <mimic joint="vergence_joint" multiplier="1" offset="0"/>
   </joint>
   <link name="r_camera_link">
@@ -422,7 +420,6 @@
 			upper="1.0"    
       effort="1000.0" 
       velocity="0.2" />
-    <dynamics damping="0.1" friction="0.1" />
     <mimic joint="vergence_joint" multiplier="-1" offset="0"/>
   </joint>
   <link name="l_camera_link">
