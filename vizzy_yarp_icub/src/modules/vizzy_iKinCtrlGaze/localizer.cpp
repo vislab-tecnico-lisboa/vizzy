@@ -109,7 +109,14 @@ bool Localizer::threadInit()
     port_stereo.open((localName+"/stereo:i").c_str());
     port_anglesIn.open((localName+"/angles:i").c_str());
     port_anglesOut.open((localName+"/angles:o").c_str());
-
+    /*ros_port_anglesOut.setWriteOnly();
+    ros_port_anglesOut.open("/vizzy_gaze_controller/angles_out@/vizzy_iKinGazeCtrl_ros");
+    while(ros_port_anglesOut.getOutputCount() == 0) {
+        Time::delay(1);
+        std::cout << ".\n";
+    }
+    std::cout << "Connection successfuly established." << std::endl;*/
+    Time::delay(5);
     fprintf(stdout,"Starting Localizer at %d ms\n",period);
 
     return true;
@@ -638,6 +645,19 @@ void Localizer::handleAnglesOutput()
         port_anglesOut.prepare()=CTRL_RAD2DEG*getAbsAngles(x);
         port_anglesOut.setEnvelope(txInfo_ang);
         port_anglesOut.write();
+	/*Bottle angles_message = Bottle();
+	Bottle& list_1 = angles_message.addList();
+	list_1.add(txInfo_ang.getCount());
+	Bottle& list_2 = angles_message.addList();
+	Vector angles_converted(CTRL_RAD2DEG*getAbsAngles(x));
+	for (int my_i=0;my_i<x.size();my_i++){
+	    list_2.add(angles_converted[my_i]);
+	}
+        ros_port_anglesOut.write(angles_message);
+	Time::delay(0.1);
+	ros_port_anglesOut.write(angles_message);
+	ros_port_anglesOut.write(angles_message);*/
+
     }
 }
 

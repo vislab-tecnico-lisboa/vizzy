@@ -18,7 +18,7 @@
   <arg name="map_topic" default="/map" />
   <arg name="pedestrian_detection" default="false" />
   <arg name="use_moveit" default="false" />
-  <arg name="visualization" default="true" />
+  <arg name="visualization" default="false" />
 	<arg name="vizzy_navigation_absolute_path" default="/home/vizzy/catkin_workspace/src/vizzy/vizzy_navigation" />
   <include file="$(find vizzy_launch)/launch/vizzy_real.launch">
   	<arg name="vizzy_machine_name" default="$(arg vizzy_machine_name)"/>
