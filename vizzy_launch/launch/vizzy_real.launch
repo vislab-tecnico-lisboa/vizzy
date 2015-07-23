@@ -24,8 +24,8 @@
   <arg name="pedestrian_detection" default="true" />
   <arg name="use_moveit" default="false" />
   <arg name="visualization" default="false" />
-	<arg name="left_camera_name" default="l_camera" />
-	<arg name="right_camera_name" default="r_camera" />
+	<arg name="left_camera_name" default="vizzy/l_camera" />
+	<arg name="right_camera_name" default="vizzy/r_camera" />
 	<arg name="vizzy_navigation_absolute_path" default="/home/vizzy/catkin_workspace/src/vizzy/vizzy_navigation" />
 
   <!-- bringup robot -->
@@ -33,6 +33,8 @@
   	<arg name="map_frame" value="$(arg map_frame)" />
   	<arg name="tf_prefix" value="$(arg tf_prefix)" />
   	<arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)"/>
+	<arg name="left_camera_name" value="$(arg left_camera_name)" />
+	<arg name="right_camera_name" value="$(arg right_camera_name)" />
   </include>
 
   <!-- launch moveit -->

@@ -26,6 +26,7 @@
 #include <yarp/os/Stamp.h>
 #include <yarp/os/RateThread.h>
 #include <yarp/os/Bottle.h>
+#include <yarp/os/Time.h>
 #include <yarp/sig/Vector.h>
 #include <yarp/sig/Matrix.h>
 #include <yarp/math/Math.h>
@@ -57,6 +58,7 @@ protected:
     BufferedPort<Bottle>  port_stereo;
     BufferedPort<Bottle>  port_anglesIn;
     BufferedPort<Vector>  port_anglesOut;
+    //Port ros_port_anglesOut;
     Stamp txInfo_ang;
 
     string localName;

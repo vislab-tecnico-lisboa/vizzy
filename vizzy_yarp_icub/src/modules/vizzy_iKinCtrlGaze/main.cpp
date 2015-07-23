@@ -435,6 +435,7 @@
 #include <yarp/os/Time.h>
 #include <yarp/os/Stamp.h>
 #include <yarp/sig/Vector.h>
+#include <yarp/os/all.h>
 
 #include <yarp/dev/ControlBoardInterfaces.h>
 #include <yarp/dev/PolyDriver.h>
@@ -788,7 +789,7 @@ public:
 				eyeTiltMax, minAbsVel, headV2, root_link,10);
 
 		loc = new Localizer(&commData, localHeadName, rf_cameras, headV2, root_link, 10);
-
+		Time::delay(2);
 		eyesRefGen = new EyePinvRefGen(drvTorso, drvHead, &commData, robotName,
 				ctrl, localHeadName, rf_cameras, eyeTiltMin, eyeTiltMax,
 				saccadesOn, counterRotGain, headV2, root_link, 20);
@@ -801,7 +802,6 @@ public:
 		slv->start();
 		ctrl->start();
 		loc->start();
-
 		string rpcPortName = "/" + ctrlName + "/rpc";
 		rpcPort.open(rpcPortName.c_str());
 		attach(rpcPort);
@@ -1299,6 +1299,7 @@ public:
 int main(int argc, char *argv[])
 {
     Network yarp;
+    Node node("/vizzy_iKinGazeCtrl");
     if (!yarp.checkNetwork())
     {
         cout<<"Error: yarp server does not seem available"<<endl;
