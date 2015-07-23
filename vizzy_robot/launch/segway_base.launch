@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="machine_name" default="$(arg machine_name)" />
+  <arg name="vizzy_machine_name" default="$(arg vizzy_machine_name)" />
   <!-- Set use_sim_time to false if the hardware segway driver is being loaded --> 
   <param name="/use_sim_time" value="false"/>
 
   <!-- Launch Segway driver -->
-  <node machine="$(arg machine_name)" name="segway_rmp_node" pkg="segway_rmp" type="segway_rmp_node" output="screen" required="true">
+  <node machine="$(arg vizzy_machine_name)" name="segway_rmp_node" pkg="segway_rmp" type="segway_rmp_node" output="screen" required="true">
 
     <param name="interface_type" type="str" value="serial" />
     <param name="serial_port" type="str" value="/dev/ttyUSB0" />
