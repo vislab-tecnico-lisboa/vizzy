@@ -1,5 +1,5 @@
-image_width: 320
-image_height: 240
+image_width: 640
+image_height: 480
 camera_name: l_camera
 camera_matrix:
   rows: 3
