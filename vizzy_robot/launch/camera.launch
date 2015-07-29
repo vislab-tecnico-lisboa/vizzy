@@ -17,7 +17,7 @@
 	<param name="video_mode" value="$(arg video_mode)"/>
 	<param name="frame_rate" value="5"/>
     	<remap from="camera" to="$(arg camera)" />
-        <param name="camera_info_url" value="file://$(find vizzy_robot)/config/left_camera_params.yaml" />
+        <param name="camera_info_url" value="file://$(find vizzy_robot)/config/$(arg camera_file)" />
         <!--<rosparam file="$(find vizzy_robot)/config/$(arg camera_file)" />-->
   </node>
     
