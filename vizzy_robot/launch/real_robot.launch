@@ -8,7 +8,7 @@
   <arg name="right_camera_guid" default="00b09d01007ad693" />
   <arg name="left_camera_file" default="left_camera_params.yaml" />
   <arg name="right_camera_file" default="right_camera_params.yaml" />
-  <arg name="video_mode" default="320x240_rgb8" />
+  <arg name="video_mode" default="320x240_yuv422" />
   <arg name="frame_rate" default="10.0" />
 
   <arg name="map_frame" default="map" />
