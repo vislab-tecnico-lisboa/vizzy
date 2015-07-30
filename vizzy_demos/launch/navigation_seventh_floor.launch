@@ -16,24 +16,27 @@
   <arg name="base_frame_id" default="$(arg tf_prefix)/base_footprint" />
   <arg name="odom_frame_id" default="$(arg tf_prefix)/odom" />
   <arg name="map_topic" default="/map" />
-  <arg name="pedestrian_detection" default="true" />
+  <arg name="pedestrian_detection" default="false" />
   <arg name="use_moveit" default="false" />
   <arg name="visualization" default="true" />
   <arg name="ns" default="vizzy" />
-	<arg name="vizzy_navigation_absolute_path" default="/home/vizzy/catkin_workspace/src/vizzy/vizzy_navigation" />
+  <arg name="vizzy_navigation_absolute_path" default="/home/vizzy/catkin_workspace/src/vizzy/vizzy_navigation" />
+  <arg name="stereo" default="true" />
+
   <include file="$(find vizzy_launch)/launch/vizzy_real.launch">
   	<arg name="vizzy_machine_name" default="$(arg vizzy_machine_name)"/>
-	  <arg name="navigation" value="$(arg navigation)"/>
-	  <arg name="slam" value="$(arg slam)"/>
-	  <!--<arg name="pose" default="-x -3.65 -y 17.7 -z 0.20 -R 0.0 -P 0.0 -Y 1.57"/>-->
-	  <arg name="map_frame" value="$(arg map_frame)" />
-	  <arg name="tf_prefix" value="$(arg tf_prefix)" />
-	  <arg name="base_frame_id" value="$(arg base_frame_id)" />
-	  <arg name="odom_frame_id" value="$(arg odom_frame_id)" />
-	  <arg name="map_topic" value="$(arg map_topic)" />
-	  <arg name="pedestrian_detection" value="$(arg pedestrian_detection)" />
-	  <arg name="use_moveit" value="$(arg use_moveit)" />
-	  <arg name="visualization" value="$(arg visualization)" />
-	  <arg name="vizzy_navigation_absolute_path" value="$(arg vizzy_navigation_absolute_path)" />
+	<arg name="navigation" value="$(arg navigation)"/>
+	<arg name="slam" value="$(arg slam)"/>
+	<!--<arg name="pose" default="-x -3.65 -y 17.7 -z 0.20 -R 0.0 -P 0.0 -Y 1.57"/>-->
+	<arg name="map_frame" value="$(arg map_frame)" />
+	<arg name="tf_prefix" value="$(arg tf_prefix)" />
+	<arg name="base_frame_id" value="$(arg base_frame_id)" />
+	<arg name="odom_frame_id" value="$(arg odom_frame_id)" />
+	<arg name="map_topic" value="$(arg map_topic)" />
+	<arg name="pedestrian_detection" value="$(arg pedestrian_detection)" />
+	<arg name="use_moveit" value="$(arg use_moveit)" />
+	<arg name="visualization" value="$(arg visualization)" />
+	<arg name="vizzy_navigation_absolute_path" value="$(arg vizzy_navigation_absolute_path)" />
+  	<arg name="stereo" value="$(arg stereo)" />
   </include>
 </launch>
