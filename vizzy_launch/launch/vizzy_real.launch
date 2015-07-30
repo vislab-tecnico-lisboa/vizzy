@@ -2,6 +2,9 @@
 <!-- ROS head file to simulate vizzy in gazebo   -->
 <launch>
   <arg name="vizzy_machine_name" default="vizzy-desktop"/>
+  <arg name="vizzy_machine_address" default="10.1.3.1"/>
+  <arg name="env-loader" default="/opt/ros/hydro/env.sh"/>
+
 
   <!-- robot configuration parameters -->
   <arg name="robot" default="vizzy"/> <!-- full, lower_body, foot -->
@@ -86,6 +89,9 @@
   	<arg name="right_image" value="/vizzy/r_camera/image_rect_color"/>
   	<arg name="left_camera_info" value="/vizzy/l_camera/camera_rect_color"/>
   	<arg name="right_camera_info" value="/vizzy/r_camera/camera_rect_color"/>
+  	<arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)"/>
+  	<arg name="vizzy_machine_address" value="$(arg vizzy_machine_address)"/>
+  	<arg name="env-loader" value="$(arg env-loader)"/>
       </include>
   </group>
 
