@@ -24,7 +24,6 @@
   <arg name="stereo" default="true" />
 
   <include file="$(find vizzy_launch)/launch/vizzy_real.launch">
-  	<arg name="vizzy_machine_name" default="$(arg vizzy_machine_name)"/>
 	<arg name="navigation" value="$(arg navigation)"/>
 	<arg name="slam" value="$(arg slam)"/>
 	<!--<arg name="pose" default="-x -3.65 -y 17.7 -z 0.20 -R 0.0 -P 0.0 -Y 1.57"/>-->
