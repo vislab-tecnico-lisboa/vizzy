@@ -116,7 +116,7 @@ bool Localizer::threadInit()
         std::cout << ".\n";
     }
     std::cout << "Connection successfuly established." << std::endl;*/
-    Time::delay(5);
+    //Time::delay(5);
     fprintf(stdout,"Starting Localizer at %d ms\n",period);
 
     return true;
