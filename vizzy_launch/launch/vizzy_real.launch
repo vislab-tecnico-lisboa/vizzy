@@ -34,17 +34,17 @@
 
   <!-- bringup robot -->
   <include file="$(find vizzy_robot)/launch/real_robot.launch">
-  	<arg name="map_frame" value="$(arg map_frame)" />
-  	<arg name="tf_prefix" value="$(arg tf_prefix)" />
-  	<arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)"/>
-	<arg name="left_camera_name" value="$(arg left_camera_name)" />
-	<arg name="right_camera_name" value="$(arg right_camera_name)" />
+    <arg name="map_frame" value="$(arg map_frame)" />
+    <arg name="tf_prefix" value="$(arg tf_prefix)" />
+    <arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)"/>
+    <arg name="left_camera_name" value="$(arg left_camera_name)" />
+    <arg name="right_camera_name" value="$(arg right_camera_name)" />
     <arg name="ns" value="$(arg ns)" />
   </include>
 
   <!-- launch moveit -->
   <group if="$(arg use_moveit)">
-  	<include file="$(find vizzy_moveit_config)/launch/moveit.launch"/>
+    <include file="$(find vizzy_moveit_config)/launch/moveit.launch"/>
   </group>
 
   <!-- launch navigation -->
@@ -89,8 +89,6 @@
   	<arg name="left_camera_info" value="/vizzy/l_camera/camera_rect_color"/>
   	<arg name="right_camera_info" value="/vizzy/r_camera/camera_rect_color"/>
   	<arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)"/>
-  	<arg name="vizzy_machine_address" value="$(arg vizzy_machine_address)"/>
-  	<arg name="env-loader" value="$(arg env-loader)"/>
       </include>
   </group>
 
@@ -99,8 +97,4 @@
   <group if="$(arg visualization)">
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find vizzy_launch)/rviz/vizzy.rviz" />
   </group>
-
-
-
-
 </launch>
