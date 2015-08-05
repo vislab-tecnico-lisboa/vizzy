@@ -83,7 +83,7 @@
 
   <!-- Probabilistic Stereo -->
   <group if="$(arg stereo)">
-      <include file="$(find foveated_stereo_ros)/launch/foveated_stereo_ros.launch">
+      <include file="$(find foveated_stereo_ros)/launch/conventional_stereo_ros.launch">
    	<arg name="left_image" value="/vizzy/l_camera/image_rect_color"/>
   	<arg name="right_image" value="/vizzy/r_camera/image_rect_color"/>
   	<arg name="left_camera_info" value="/vizzy/l_camera/camera_rect_color"/>

@@ -9,7 +9,7 @@
   <arg name="left_camera_file" default="left_camera_params.yaml" />
   <arg name="right_camera_file" default="right_camera_params.yaml" />
   <arg name="video_mode" default="640x480_rgb8" />
-  <arg name="frame_rate" default="10.0" />
+  <arg name="frame_rate" default="15.0" />
 
   <arg name="map_frame" default="map" />
   <arg name="map_service" default="/static_map" />
