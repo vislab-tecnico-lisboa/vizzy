@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <launch>
-
+  <arg name="vizzy_machine_name" default="localhost"/>
   <arg name="ns" default="" />
   <param name="joy_node" value="/dev/input/js0"/>
 
   <node machine="$(arg vizzy_machine_name)" pkg="joy" type="joy_node" name="joy_node">
    
-  <node ns="$(arg ns)" machine="$(arg vizzy_machine_name)" pkg="vizzy_navigation" type="teleop_joy_node" name="teleop_joy_node">
+  <node machine="$(arg vizzy_machine_name)" ns="$(arg ns)" machine="$(arg vizzy_machine_name)" pkg="vizzy_navigation" type="teleop_joy_node" name="teleop_joy_node">
    
   </node>
 </launch>
