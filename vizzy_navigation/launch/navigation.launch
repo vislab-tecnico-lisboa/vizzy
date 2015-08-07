@@ -24,11 +24,5 @@
     <param name="base_frame_id" value="$(arg base_frame_id)" />
     <param name="odom_frame_id" value="$(arg odom_frame_id)" />
   </node>
-    <!-- launch the map server for the simulated world -->
-  <!--<include file="$(find vizzy_gazebo)/launch/vizzy_sim_world_map_server.launch" />-->
-  <!-- launch the tf tree from the urdf (for all fixed joints + the hokuyo internal link) -->
-  <!--<node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
-    <param name="publish_frequency" type="double" value="5.0" />
-  </node>-->
 
 </launch>
