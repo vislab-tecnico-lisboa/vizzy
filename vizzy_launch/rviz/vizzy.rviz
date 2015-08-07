@@ -25,7 +25,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: left_image
+    SyncSource: LaserScan
 Visualization Manager:
   Class: ""
   Displays:
@@ -279,10 +279,10 @@ Visualization Manager:
       Class: rviz/Map
       Color Scheme: map
       Draw Behind: true
-      Enabled: true
+      Enabled: false
       Name: Map
       Topic: /map
-      Value: true
+      Value: false
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -295,7 +295,7 @@ Visualization Manager:
       Color: 25; 255; 0
       Color Transformer: FlatColor
       Decay Time: 0
-      Enabled: true
+      Enabled: false
       Invert Rainbow: false
       Max Color: 255; 255; 255
       Max Intensity: 0
@@ -311,7 +311,7 @@ Visualization Manager:
       Topic: /scan_filtered
       Use Fixed Frame: true
       Use rainbow: true
-      Value: true
+      Value: false
     - Alpha: 1
       Class: rviz/Map
       Color Scheme: costmap
@@ -321,168 +321,19 @@ Visualization Manager:
       Topic: /move_base/local_costmap/costmap
       Value: false
     - Class: rviz/TF
-      Enabled: true
+      Enabled: false
       Frame Timeout: 15
       Frames:
         All Enabled: true
-        b_wheel_base_link:
-          Value: true
-        b_wheel_link:
-          Value: true
-        base_footprint:
-          Value: true
-        base_link:
-          Value: true
-        eyes_center_link:
-          Value: true
-        eyes_center_vision_link:
-          Value: true
-        eyes_tilt_link:
-          Value: true
-        f_wheel_base_link:
-          Value: true
-        f_wheel_link:
-          Value: true
-        l_camera_link:
-          Value: true
-        l_camera_vision_link:
-          Value: true
-        l_elbow_flection_link:
-          Value: true
-        l_eye_vergence_link:
-          Value: true
-        l_eye_version_link:
-          Value: true
-        l_forearm_pronation_link:
-          Value: true
-        l_palm_link:
-          Value: true
-        l_shoulder_abduction_link:
-          Value: true
-        l_shoulder_flection_link:
-          Value: true
-        l_shoulder_rotation_link:
-          Value: true
-        l_shoulder_scapula_link:
-          Value: true
-        l_wheel_link:
-          Value: true
-        l_wrist_abduction_link:
-          Value: true
-        l_wrist_flection_link:
-          Value: true
-        map:
-          Value: true
-        nav_hokuyo_laser_link:
-          Value: true
-        nav_hokuyo_link:
-          Value: true
-        neck_pan_link:
-          Value: true
-        neck_tilt_link:
-          Value: true
-        odom:
-          Value: true
-        r_camera_link:
-          Value: true
-        r_camera_vision_link:
-          Value: true
-        r_elbow_flection_link:
-          Value: true
-        r_eye_vergence_link:
-          Value: true
-        r_eye_version_link:
-          Value: true
-        r_forearm_pronation_link:
-          Value: true
-        r_palm_link:
-          Value: true
-        r_shoulder_abduction_link:
-          Value: true
-        r_shoulder_flection_link:
-          Value: true
-        r_shoulder_rotation_link:
-          Value: true
-        r_shoulder_scapula_link:
-          Value: true
-        r_wheel_link:
-          Value: true
-        r_wrist_abduction_link:
-          Value: true
-        r_wrist_flection_link:
-          Value: true
-        vergence_link:
-          Value: true
-        version_link:
-          Value: true
-        waist_link:
-          Value: true
       Marker Scale: 1
       Name: TF
       Show Arrows: false
       Show Axes: true
       Show Names: false
       Tree:
-        map:
-          odom:
-            base_footprint:
-              base_link:
-                b_wheel_base_link:
-                  b_wheel_link:
-                    {}
-                f_wheel_base_link:
-                  f_wheel_link:
-                    {}
-                l_wheel_link:
-                  {}
-                nav_hokuyo_link:
-                  nav_hokuyo_laser_link:
-                    {}
-                r_wheel_link:
-                  {}
-                waist_link:
-                  l_shoulder_scapula_link:
-                    l_shoulder_flection_link:
-                      l_shoulder_abduction_link:
-                        l_shoulder_rotation_link:
-                          l_elbow_flection_link:
-                            l_forearm_pronation_link:
-                              l_wrist_abduction_link:
-                                l_wrist_flection_link:
-                                  l_palm_link:
-                                    {}
-                  neck_pan_link:
-                    neck_tilt_link:
-                      eyes_tilt_link:
-                        eyes_center_link:
-                          eyes_center_vision_link:
-                            {}
-                          l_eye_version_link:
-                            l_eye_vergence_link:
-                              l_camera_link:
-                                l_camera_vision_link:
-                                  {}
-                          r_eye_version_link:
-                            r_eye_vergence_link:
-                              r_camera_link:
-                                r_camera_vision_link:
-                                  {}
-                          vergence_link:
-                            {}
-                          version_link:
-                            {}
-                  r_shoulder_scapula_link:
-                    r_shoulder_flection_link:
-                      r_shoulder_abduction_link:
-                        r_shoulder_rotation_link:
-                          r_elbow_flection_link:
-                            r_forearm_pronation_link:
-                              r_wrist_abduction_link:
-                                r_wrist_flection_link:
-                                  r_palm_link:
-                                    {}
+        {}
       Update Interval: 0
-      Value: true
+      Value: false
     - Class: rviz/Marker
       Enabled: false
       Marker Topic: /move_base/EBandPlannerROS/eband_visualization
