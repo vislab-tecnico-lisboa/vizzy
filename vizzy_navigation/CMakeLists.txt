@@ -1,8 +1,31 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(vizzy_navigation)
 
-find_package(catkin REQUIRED)
-catkin_package()
+
+find_package(catkin REQUIRED
+  COMPONENTS
+    roscpp
+    sensor_msgs
+    geometry_msgs)
+
+
+catkin_package(
+  CATKIN_DEPENDS
+    sensor_msgs
+    geometry_msgs
+    roscpp
+)
+
+include_directories(include ${catkin_INCLUDE_DIRS})
+
+## Declare a cpp executable
+add_executable(teleop_joy_node src/teleop_joy.cpp)
+
+target_link_libraries(teleop_joy_node
+  ${Boost_LIBRARIES}
+  ${catkin_LIBRARIES}
+)
+
 
 foreach(dir config launch rviz)
   install(DIRECTORY ${dir}/ 
