@@ -1,17 +1,17 @@
 <?xml version="1.0"?>
 <launch>
   <!-- these are the arguments you can pass this launch file, for example paused:=true -->
-	<arg name="use_yarp" default="false"/>
-	<arg name="robot" default="vizzy"/> <!-- full, lower_body, foot -->
+  <arg name="use_yarp" default="false"/>
+  <arg name="robot" default="vizzy"/> <!-- full, lower_body, foot -->
   <arg name="pose" default="-x 0.0 -y 0.0 -z 0.2 -R 0.0 -P 0.0 -Y 1.57"/>
   <arg name="paused" default="false"/>
   <arg name="use_sim_time" default="true"/>
   <arg name="gui" default="true"/>
   <arg name="world" default="vizzy_test_world.world" />
+  <arg name="urdf_file" default="vizzy.urdf.xacro"/>
+  <env name="GAZEBO_MODEL_PATH" value="$(find vizzy_gazebo):$(optenv GAZEBO_MODEL_PATH)"/>
 
-	<env name="GAZEBO_MODEL_PATH" value="$(find vizzy_gazebo):$(optenv GAZEBO_MODEL_PATH)"/>
-
-	<!-- start up world -->
+  <!-- start up world -->
   <include file="$(find vizzy_gazebo)/launch/vizzy_sim_world.launch">
   	<arg name="use_sim_time" value="$(arg use_sim_time)" />
   	<arg name="gui" value="$(arg gui)" />
@@ -23,6 +23,7 @@
   	<arg name="use_yarp" value="$(arg use_yarp)"/>
   	<arg name="pose" value="$(arg pose)"/>
   	<arg name="robot" value="$(arg robot)"/>
+  	<arg name="urdf_file" value="$(arg urdf_file)" />
   </include>
 
   <!-- bringup robot and controllers -->

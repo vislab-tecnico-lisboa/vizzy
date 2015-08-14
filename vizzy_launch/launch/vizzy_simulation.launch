@@ -6,11 +6,11 @@
 
   <!-- simulation parameters and robot configuration parameters -->
   <arg name="use_yarp" default="false"/>
-  <arg name="navigation" default="true"/>
+  <arg name="navigation" default="false"/>
   <arg name="launch_moveit" default="true"/>
   <arg name="slam" default="false"/>
   <!--<arg name="pose" default="-x -3.65 -y 17.7 -z 0.20 -R 0.0 -P 0.0 -Y 1.57"/>-->
-  <arg name="pose" default="-x -2.0 -y -0.0 -z 0.25 -R 0.0 -P 0.0 -Y 0"/>
+  <arg name="pose" default="-x -2.0 -y -0.0 -z 0.1 -R 0.0 -P 0.0 -Y 0"/>
   <arg name="paused" default="false"/>
   <arg name="use_sim_time" default="true"/>
   <arg name="gui" default="true"/>
@@ -22,7 +22,7 @@
   <arg name="odom_frame_id" default="$(arg tf_prefix)/odom" />
   <arg name="map_topic" default="/map" />
   <arg name="visualization" default="true" />
-
+  <arg name="urdf_file" default="vizzy_head_only.urdf.xacro"/>
   <!-- bringup robot -->
   <include file="$(find vizzy_gazebo)/launch/gazebo.launch">
 	<arg name="use_yarp" value="$(arg use_yarp)"/>
@@ -32,11 +32,12 @@
   	<arg name="use_sim_time" value="$(arg use_sim_time)" />
   	<arg name="gui" value="$(arg gui)" />
   	<arg name="world" value="$(arg world)" />
+  	<arg name="urdf_file" value="$(arg urdf_file)"/>
   </include>
 
   <!-- launch moveit -->
   <group if="$(arg launch_moveit)">
-    <include file="$(find vizzy_moveit_config)/launch/moveit.launch"/>
+    <include file="$(find vizzy_head_moveit_config)/launch/moveit.launch"/>
   </group>
 
   <group if="$(arg navigation)">

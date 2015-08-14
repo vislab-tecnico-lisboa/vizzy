@@ -43,9 +43,6 @@
 
 	  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
 	    output="screen" ns="/vizzy" args="
-		waist_position_controller
-		left_arm_trajectory_controller
-		right_arm_trajectory_controller
     		head_trajectory_controller 
 		joint_state_controller
 		eyes_trajectory_controller" />
