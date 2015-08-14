@@ -428,9 +428,9 @@
       </material>
     </visual>
     <collision>
-      <origin
-        xyz="0 0 -0.0200000000000069"
-        rpy="0 0 1.5708" />
+ 	<origin
+        xyz="0.010 0.0 0.003"
+        rpy="0.0 ${M_PI} ${-M_PI/2}" />
       <geometry>
         <mesh
           filename="package://vizzy_description/meshes/M4.dae" />

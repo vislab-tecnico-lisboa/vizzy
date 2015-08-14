@@ -264,7 +264,13 @@
           <surface>
             <bounce/>
             <friction>
-              <ode/>
+              <ode>
+                <mu>1e+08</mu>
+                <mu2>1e+08</mu2>
+                <fdir1>0 0 0</fdir1>
+                <slip1>0</slip1>
+                <slip2>0</slip2>
+              </ode>
             </friction>
             <contact>
               <ode/>
