@@ -5,6 +5,7 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /TF1/Frames1
+        - /EgoUncertainty1
         - /MotionPlanning1/Planning Request1
       Splitter Ratio: 0.496795
     Tree Height: 269
@@ -383,12 +384,12 @@ Visualization Manager:
       Color: 255; 255; 255
       Color Transformer: Intensity
       Decay Time: 0
-      Enabled: false
+      Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
-      Max Intensity: 28.0718
+      Max Intensity: 7.81509
       Min Color: 0; 0; 0
-      Min Intensity: 4.30874
+      Min Intensity: -1.99999
       Name: StereoUncertainty
       Position Transformer: XYZ
       Queue Size: 10
@@ -399,7 +400,7 @@ Visualization Manager:
       Topic: /uncertainty_pcl
       Use Fixed Frame: true
       Use rainbow: true
-      Value: false
+      Value: true
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -430,7 +431,7 @@ Visualization Manager:
       Use rainbow: true
       Value: false
     - Alpha: 1
-      Autocompute Intensity Bounds: false
+      Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
         Max Value: 10
         Min Value: -10
@@ -441,12 +442,12 @@ Visualization Manager:
       Color: 255; 255; 255
       Color Transformer: Intensity
       Decay Time: 0
-      Enabled: false
+      Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
-      Max Intensity: 45.3725
+      Max Intensity: 26.5696
       Min Color: 0; 0; 0
-      Min Intensity: 8.15927
+      Min Intensity: -0.998785
       Name: EgoUncertainty
       Position Transformer: XYZ
       Queue Size: 10
@@ -457,7 +458,7 @@ Visualization Manager:
       Topic: /ego_sphere_uncertainty
       Use Fixed Frame: true
       Use rainbow: false
-      Value: false
+      Value: true
     - Class: moveit_rviz_plugin/MotionPlanning
       Enabled: false
       Move Group Namespace: ""
@@ -539,6 +540,7 @@ Visualization Manager:
         Grid: true
         LaserScan: true
         Map: true
+        MarkerArray: true
         MotionPlanning: true
         RobotModel: true
         Stereo: true
@@ -570,6 +572,14 @@ Visualization Manager:
       Queue Size: 2
       Transport Hint: compressed
       Value: true
+    - Class: rviz/MarkerArray
+      Enabled: true
+      Marker Topic: /covariances_debug
+      Name: MarkerArray
+      Namespaces:
+        covariances: true
+      Queue Size: 100
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -589,7 +599,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 9.05564
+      Distance: 18.9704
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
@@ -601,10 +611,10 @@ Visualization Manager:
         Z: 2.07734
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.739801
+      Pitch: 0.259797
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 4.55755
+      Yaw: 1.72573
     Saved: ~
 Window Geometry:
   Displays:

@@ -115,13 +115,13 @@ vizzy:
     - version_joint
     gains:
       vergence_joint:
-        p: 0.4
-        i: 0.0
-        d: 0.0
+        p: 0.1
+        i: 0.001
+        d: 0.001
       version_joint:
-        p: 0.4
-        i: 0.0
-        d: 0.0
+        p: 0.1
+        i: 0.001
+        d: 0.001
     constraints:
       goal_time: 1000.0                   # Override default
       vergence_joint:
@@ -142,15 +142,15 @@ vizzy:
       - eyes_tilt_joint
     gains:
       neck_pan_joint:
-        p: 1.0
-        i: 0.1
-        d: 0.1
+        p: 3.0
+        i: 0.01
+        d: 0.01
       neck_tilt_joint:
-        p: 1.0
-        i: 0.1
-        d: 0.1
+        p: 3.0
+        i: 0.01
+        d: 0.01
       eyes_tilt_joint:
-        p: 1.0
+        p: 2.0
         i: 0.1
         d: 0.1
     constraints:
@@ -158,15 +158,15 @@ vizzy:
       neck_pan_joint:
         trajectory: -1.0
         goal: -1.0
-        stopped_velocity_tolerance: 0.025
+        stopped_velocity_tolerance: 0.01
       neck_tilt_joint:
         trajectory: -1.0
         goal: -1.0
-        stopped_velocity_tolerance: 0.025
+        stopped_velocity_tolerance: 0.01
       eyes_tilt_joint:
         trajectory: -1.0
         goal: -1.0
-        stopped_velocity_tolerance: 0.025
+        stopped_velocity_tolerance: 0.01
 
 
 
