@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<launch>
+     <arg name="ns" default="vizzy" />
+  <node ns="$(arg ns)" pkg="key_teleop" type="key_teleop.py" name="teleop_key_node" output="screen">
+     <remap from="key_vel" to="cmd_vel"/>
+
+     <param name="forward_rate" value="0.7"/>
+     <param name="backward_rate" value="0.7"/>
+     <param name="rotation_rate" value="0.2"/>
+  </node>
+</launch>
