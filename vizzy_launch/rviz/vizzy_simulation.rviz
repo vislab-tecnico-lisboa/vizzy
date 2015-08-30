@@ -4,8 +4,8 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
+        - /Global Options1
         - /TF1/Frames1
-        - /EgoUncertainty1
         - /MotionPlanning1/Planning Request1
       Splitter Ratio: 0.496795
     Tree Height: 269
@@ -58,25 +58,15 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
-        b_wheel_base_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        b_wheel_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        base_footprint:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
         base_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
+        ego_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
         eyes_center_link:
           Alpha: 1
           Show Axes: false
@@ -86,16 +76,6 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
         eyes_tilt_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        f_wheel_base_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        f_wheel_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -110,11 +90,6 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        l_elbow_flection_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
         l_eye_vergence_link:
           Alpha: 1
           Show Axes: false
@@ -124,60 +99,6 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        l_forearm_pronation_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        l_palm_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        l_shoulder_abduction_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        l_shoulder_flection_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        l_shoulder_rotation_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        l_shoulder_scapula_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        l_wheel_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        l_wrist_abduction_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        l_wrist_flection_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        nav_hokuyo_laser_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        nav_hokuyo_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
         neck_pan_link:
           Alpha: 1
           Show Axes: false
@@ -198,11 +119,6 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        r_elbow_flection_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
         r_eye_vergence_link:
           Alpha: 1
           Show Axes: false
@@ -212,51 +128,6 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        r_forearm_pronation_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        r_palm_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        r_shoulder_abduction_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        r_shoulder_flection_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        r_shoulder_rotation_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        r_shoulder_scapula_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        r_wheel_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        r_wrist_abduction_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        r_wrist_flection_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
         vergence_link:
           Alpha: 1
           Show Axes: false
@@ -269,7 +140,10 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-          Value: true
+        world:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
       Name: RobotModel
       Robot Description: robot_description
       TF Prefix: ""
@@ -336,13 +210,13 @@ Visualization Manager:
       Update Interval: 0
       Value: false
     - Class: rviz/Marker
-      Enabled: false
+      Enabled: true
       Marker Topic: /move_base/EBandPlannerROS/eband_visualization
       Name: Eband
       Namespaces:
         {}
       Queue Size: 100
-      Value: false
+      Value: true
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -384,12 +258,12 @@ Visualization Manager:
       Color: 255; 255; 255
       Color Transformer: Intensity
       Decay Time: 0
-      Enabled: true
+      Enabled: false
       Invert Rainbow: false
       Max Color: 255; 255; 255
-      Max Intensity: 7.81509
+      Max Intensity: 13.4529
       Min Color: 0; 0; 0
-      Min Intensity: -1.99999
+      Min Intensity: -1.99954
       Name: StereoUncertainty
       Position Transformer: XYZ
       Queue Size: 10
@@ -400,7 +274,7 @@ Visualization Manager:
       Topic: /uncertainty_pcl
       Use Fixed Frame: true
       Use rainbow: true
-      Value: true
+      Value: false
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -413,7 +287,7 @@ Visualization Manager:
       Color: 255; 255; 255
       Color Transformer: RGB8
       Decay Time: 0
-      Enabled: false
+      Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
       Max Intensity: 4096
@@ -429,7 +303,7 @@ Visualization Manager:
       Topic: /ego_sphere
       Use Fixed Frame: true
       Use rainbow: true
-      Value: false
+      Value: true
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -442,12 +316,12 @@ Visualization Manager:
       Color: 255; 255; 255
       Color Transformer: Intensity
       Decay Time: 0
-      Enabled: true
+      Enabled: false
       Invert Rainbow: false
       Max Color: 255; 255; 255
-      Max Intensity: 26.5696
+      Max Intensity: 33.5131
       Min Color: 0; 0; 0
-      Min Intensity: -0.998785
+      Min Intensity: -0.194817
       Name: EgoUncertainty
       Position Transformer: XYZ
       Queue Size: 10
@@ -457,8 +331,8 @@ Visualization Manager:
       Style: Flat Squares
       Topic: /ego_sphere_uncertainty
       Use Fixed Frame: true
-      Use rainbow: false
-      Value: true
+      Use rainbow: true
+      Value: false
     - Class: moveit_rviz_plugin/MotionPlanning
       Enabled: false
       Move Group Namespace: ""
@@ -547,6 +421,7 @@ Visualization Manager:
         StereoUncertainty: true
         TF: true
         Value: true
+        fixation_point: true
         left_image: true
         right_image: true
       Zoom Factor: 1
@@ -577,13 +452,21 @@ Visualization Manager:
       Marker Topic: /covariances_debug
       Name: MarkerArray
       Namespaces:
-        covariances: true
+        {}
+      Queue Size: 100
+      Value: true
+    - Class: rviz/Marker
+      Enabled: true
+      Marker Topic: /fixation_point
+      Name: fixation_point
+      Namespaces:
+        fixation_point: true
       Queue Size: 100
       Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
-    Fixed Frame: map
+    Fixed Frame: base_link
     Frame Rate: 30
   Name: root
   Tools:
@@ -599,22 +482,22 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 18.9704
+      Distance: 9.2297
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.728218
-        Y: -0.847395
-        Z: 2.07734
+        X: 0.0414943
+        Y: -0.0159818
+        Z: 0.464078
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.259797
+      Pitch: 0.504797
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 1.72573
+      Yaw: 3.88255
     Saved: ~
 Window Geometry:
   Displays:

@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<robot  name="vizzy" xmlns:xacro="http://ros.org/wiki/xacro" >
+<xacro:arg name="use_yarp" default="false"/>
+  <!-- The following include files set up definitions of parts of the robot body  -->
+  <!-- misc common stuff -->
+  <xacro:include filename="$(find vizzy_description)/urdf/common.urdf.xacro" />
+
+  <!-- base -->
+  <xacro:include filename="$(find vizzy_description)/urdf/simple_base/base.urdf.xacro" />
+
+  <!-- head -->
+  <xacro:if value="$(arg use_yarp)">
+  	<xacro:include filename="$(find vizzy_description)/urdf/head/head.yarp.urdf.xacro" />
+  </xacro:if>-->
+  <xacro:unless value="$(arg use_yarp)">
+  	<xacro:include filename="$(find vizzy_description)/urdf/head/head.ros.urdf.xacro" />
+  </xacro:unless>
+ 
+  <!-- The following include files contain gazebo plugins -->
+  <!-- ROS -->
+  <xacro:include filename="$(find vizzy_description)/plugins/ros.gazebo.xacro" />
+  <!-- Yarp -->
+  <xacro:include filename="$(find vizzy_description)/plugins/yarp.gazebo.xacro" />
+
+  <!-- instantiate base -->
+  <xacro:base name="base"/>
+
+  <!-- instantiate head -->
+  <xacro:head name="head"/>
+
+  <!-- instantiate common ROS and Yarp plugins -->
+  <xacro:camera_plugin name="l_camera" prefix="l"/>
+  <xacro:camera_plugin name="r_camera" prefix="r"/>
+
+  <!-- instantiate Yarp plugins -->
+  <xacro:if value="$(arg use_yarp)">
+    <xacro:head_gazebo_control/>
+  </xacro:if>
+
+  <!-- instantiate ROS plugins -->
+  <xacro:unless value="$(arg use_yarp)">
+    <xacro:ros_control_gazebo/>
+  </xacro:unless>
+</robot>
