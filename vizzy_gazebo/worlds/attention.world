@@ -1,3 +1,4 @@
+<?xml version="1.0" ?>
 <sdf version='1.4'>
   <world name='default'>
     <scene>
@@ -10,7 +11,7 @@
       <ode>
         <solver>
           <type>quick</type>
-          <iters>70</iters>
+          <iters>200</iters>
           <sor>1.3</sor>
         </solver>
         <constraints>
@@ -264,7 +265,13 @@
           <surface>
             <bounce/>
             <friction>
-              <ode/>
+              <ode>
+                <mu>1e+08</mu>
+                <mu2>1e+08</mu2>
+                <fdir1>0 0 0</fdir1>
+                <slip1>0</slip1>
+                <slip2>0</slip2>
+              </ode>
             </friction>
             <contact>
               <ode/>

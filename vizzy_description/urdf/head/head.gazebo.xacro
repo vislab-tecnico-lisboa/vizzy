@@ -3,24 +3,15 @@
   <xacro:macro name="head_gazebo">
 
     <gazebo reference="neck_pan_link">
-      <mu1>0.2</mu1>
-      <mu2>0.2</mu2>
- 			<kp value="100.0" />
-			<kd value="1.0" />
+
     </gazebo>
 
     <gazebo reference="neck_tilt_link">
-      <mu1>0.2</mu1>
-      <mu2>0.2</mu2>
- 			<kp value="100.0" />
-			<kd value="1.0" />
+
     </gazebo>
 
     <gazebo reference="eyes_tilt_link">
-      <mu1>0.2</mu1>
-      <mu2>0.2</mu2>
- 			<kp value="100.0" />
-			<kd value="1.0" />
+
     </gazebo>
 
     <gazebo reference="version_link">
@@ -33,78 +24,37 @@
     </gazebo>
 
     <gazebo reference="vergence_link">
-      <gravity value="false"/>
-      <mu1>0.2</mu1>
-      <mu2>0.2</mu2>
- 			<kp value="100.0" />
-			<kd value="1.0" />
+
     </gazebo>
     
 		 <gazebo reference="r_eye_vergence_link">
-      <mu1>0.2</mu1>
-      <mu2>0.2</mu2>
- 			<kp value="100.0" />
-			<kd value="1.0" />
+
     </gazebo>
 
     <gazebo reference="l_eye_vergence_link">
-      <mu1>0.2</mu1>
-      <mu2>0.2</mu2>
- 			<kp value="100.0" />
-			<kd value="1.0" />
+
     </gazebo>
 
  		<gazebo reference="neck_pan_joint">
-			<kd value="1.0" />
-			<kp value="100.0" />
-			<fudgeFactor value="1.0" />
-			<provideFeedback value="true"/>
+
 		</gazebo>
 
  		<gazebo reference="neck_tilt_joint">
-			<kd value="1.0" />
-			<kp value="100.0" />
-			<fudgeFactor value="1.0" />
-			<provideFeedback value="true"/>
+
 		</gazebo>
 
  		<gazebo reference="eyes_tilt_joint">
-			<kd value="1.0" />
-			<kp value="100.0" />
-			<fudgeFactor value="1.0" />
-			<provideFeedback value="true"/>
+
 		</gazebo>
 
  		<gazebo reference="version_joint">
-  		<stopKd value="100.0" />
-  		<stopKp value="100.0" />
+
 		</gazebo>
 
- 		<!--<gazebo reference="l_eye_version_joint">
-  		<stopKd value="100.0" />
-  		<stopKp value="100.0" />
-		</gazebo>
-
- 		<gazebo reference="r_eye_version_joint">
-  		<stopKd value="100.0" />
-  		<stopKp value="100.0" />
-		</gazebo>-->
 
  		<gazebo reference="vergence_joint">
-  		<stopKd value="100.0" />
-  		<stopKp value="100.0" />
+
 		</gazebo>
-
-
- 		<!--<gazebo reference="l_eye_vergence_joint">
-  		<stopKd value="100.0" />
-  		<stopKp value="100.0" />
-		</gazebo>
-
- 		<gazebo reference="r_eye_vergence_joint">
-  		<stopKd value="100.0" />
-  		<stopKp value="100.0" />
-		</gazebo>-->
 
 		<gazebo>
 			<plugin name="mimic_plugin" filename="libgazebo_mimic_plugin.so">
