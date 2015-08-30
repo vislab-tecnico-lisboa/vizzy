@@ -11,7 +11,7 @@
       <ode>
         <solver>
           <type>quick</type>
-          <iters>70</iters>
+          <iters>200</iters>
           <sor>1.300000</sor>
         </solver>
         <constraints>
