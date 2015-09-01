@@ -116,7 +116,8 @@
       link="neck_tilt_link" />
     <axis
       xyz="0 0 1" />
-    <limit lower="-0.314159265" upper="0.645771823" effort="100.0" velocity="5.0" />
+    <!--<limit lower="-0.314159265" upper="0.645771823" effort="100.0" velocity="5.0" />-->
+    <limit lower="-0.614159265" upper="0.645771823" effort="100.0" velocity="5.0" />
   </joint>
   <link
     name="eyes_tilt_link">
