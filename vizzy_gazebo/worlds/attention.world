@@ -1,4 +1,3 @@
-<?xml version="1.0" ?>
 <sdf version='1.4'>
   <world name='default'>
     <scene>
@@ -352,124 +351,6 @@
       </link>
       <pose>-3 3 0 0 -0 0</pose>
     </model>
-    <model name='coke_can'>
-      <link name='link'>
-        <inertial>
-          <pose>-0.01 -0.012 0.15 0 -0 0</pose>
-          <mass>0.39</mass>
-          <inertia>
-            <ixx>0.00058</ixx>
-            <ixy>0</ixy>
-            <ixz>0</ixz>
-            <iyy>0.00058</iyy>
-            <iyz>0</iyz>
-            <izz>0.00019</izz>
-          </inertia>
-        </inertial>
-        <collision name='collision'>
-          <pose>0 0 -0.46 0 -0 0</pose>
-          <geometry>
-            <mesh>
-              <uri>model://coke_can/meshes/coke_can.dae</uri>
-            </mesh>
-          </geometry>
-          <surface>
-            <friction>
-              <ode>
-                <mu>1</mu>
-                <mu2>1</mu2>
-              </ode>
-            </friction>
-            <contact>
-              <ode>
-                <kp>1e+07</kp>
-                <kd>1</kd>
-                <min_depth>0.001</min_depth>
-                <max_vel>0.1</max_vel>
-              </ode>
-            </contact>
-            <bounce/>
-          </surface>
-          <max_contacts>10</max_contacts>
-        </collision>
-        <visual name='visual'>
-          <pose>0 0 -0.46 0 -0 0</pose>
-          <geometry>
-            <mesh>
-              <uri>model://coke_can/meshes/coke_can.dae</uri>
-            </mesh>
-          </geometry>
-        </visual>
-        <velocity_decay>
-          <linear>0</linear>
-          <angular>0</angular>
-        </velocity_decay>
-        <self_collide>0</self_collide>
-        <kinematic>0</kinematic>
-        <gravity>1</gravity>
-      </link>
-      <pose>0 1.59268 0 0 -0 0</pose>
-      <static>0</static>
-    </model>
-    <model name='coke_can_0'>
-      <link name='link'>
-        <inertial>
-          <pose>-0.01 -0.012 0.15 0 -0 0</pose>
-          <mass>0.39</mass>
-          <inertia>
-            <ixx>0.00058</ixx>
-            <ixy>0</ixy>
-            <ixz>0</ixz>
-            <iyy>0.00058</iyy>
-            <iyz>0</iyz>
-            <izz>0.00019</izz>
-          </inertia>
-        </inertial>
-        <collision name='collision'>
-          <pose>0 0 -0.46 0 -0 0</pose>
-          <geometry>
-            <mesh>
-              <uri>model://coke_can/meshes/coke_can.dae</uri>
-            </mesh>
-          </geometry>
-          <surface>
-            <friction>
-              <ode>
-                <mu>1</mu>
-                <mu2>1</mu2>
-              </ode>
-            </friction>
-            <contact>
-              <ode>
-                <kp>1e+07</kp>
-                <kd>1</kd>
-                <min_depth>0.001</min_depth>
-                <max_vel>0.1</max_vel>
-              </ode>
-            </contact>
-            <bounce/>
-          </surface>
-          <max_contacts>10</max_contacts>
-        </collision>
-        <visual name='visual'>
-          <pose>0 0 -0.46 0 -0 0</pose>
-          <geometry>
-            <mesh>
-              <uri>model://coke_can/meshes/coke_can.dae</uri>
-            </mesh>
-          </geometry>
-        </visual>
-        <velocity_decay>
-          <linear>0</linear>
-          <angular>0</angular>
-        </velocity_decay>
-        <self_collide>0</self_collide>
-        <kinematic>0</kinematic>
-        <gravity>1</gravity>
-      </link>
-      <pose>-0.493775 1.4507 0 0 -0 0</pose>
-      <static>0</static>
-    </model>
     <model name='beer'>
       <link name='link'>
         <pose>0 0 0.115 0 -0 0</pose>
@@ -587,127 +468,41 @@
       <pose>-0.527277 1 0 0 -0 0</pose>
       <static>0</static>
     </model>
-    <model name='coke_can_2'>
-      <link name='link'>
-        <inertial>
-          <pose>-0.01 -0.012 0.15 0 -0 0</pose>
-          <mass>0.39</mass>
-          <inertia>
-            <ixx>0.00058</ixx>
-            <ixy>0</ixy>
-            <ixz>0</ixz>
-            <iyy>0.00058</iyy>
-            <iyz>0</iyz>
-            <izz>0.00019</izz>
-          </inertia>
-        </inertial>
-        <collision name='collision'>
-          <pose>0 0 -0.46 0 -0 0</pose>
-          <geometry>
-            <mesh>
-              <uri>model://coke_can/meshes/coke_can.dae</uri>
-            </mesh>
-          </geometry>
-          <surface>
-            <friction>
-              <ode>
-                <mu>1</mu>
-                <mu2>1</mu2>
-              </ode>
-            </friction>
-            <contact>
-              <ode>
-                <kp>1e+07</kp>
-                <kd>1</kd>
-                <min_depth>0.001</min_depth>
-                <max_vel>0.1</max_vel>
-              </ode>
-            </contact>
-            <bounce/>
-          </surface>
-          <max_contacts>10</max_contacts>
-        </collision>
-        <visual name='visual'>
-          <pose>0 0 -0.46 0 -0 0</pose>
-          <geometry>
-            <mesh>
-              <uri>model://coke_can/meshes/coke_can.dae</uri>
-            </mesh>
-          </geometry>
-        </visual>
-        <velocity_decay>
-          <linear>0</linear>
-          <angular>0</angular>
-        </velocity_decay>
-        <self_collide>0</self_collide>
-        <kinematic>0</kinematic>
-        <gravity>1</gravity>
-      </link>
-      <pose>-1 0.53239 0 0 -0 0</pose>
-      <static>0</static>
-    </model>
     <state world_name='default'>
-      <sim_time>909 448000000</sim_time>
-      <real_time>147 249435863</real_time>
-      <wall_time>1439206096 516786419</wall_time>
+      <sim_time>4493 424000000</sim_time>
+      <real_time>1225 123436279</real_time>
+      <wall_time>1441156605 3919938</wall_time>
       <model name='Dumpster'>
-        <pose>0.001347 2.99916 0.100903 5e-06 -2.5e-05 -9.3e-05</pose>
+        <pose>0.001347 2.99916 0.100919 -1e-05 -6e-06 -9.3e-05</pose>
         <link name='link'>
-          <pose>0.001347 2.99916 0.100903 5e-06 -2.5e-05 -9.3e-05</pose>
+          <pose>0.001347 2.99916 0.100919 -1e-05 -6e-06 -9.3e-05</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='beer'>
-        <pose>-0.335232 -0.105687 0.099983 -3.2e-05 -6e-06 0.00752</pose>
+        <pose>-0.317908 -0.590947 0.100007 4.3e-05 0.000113 -0.121405</pose>
         <link name='link'>
-          <pose>-0.335233 -0.105683 0.214983 -3.2e-05 -6e-06 0.00752</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
-        </link>
-      </model>
-      <model name='coke_can'>
-        <pose>0.380396 -0.075259 0.096134 0.012107 -0.019499 0.012192</pose>
-        <link name='link'>
-          <pose>0.380396 -0.075259 0.096134 0.012107 -0.019499 0.012192</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
-        </link>
-      </model>
-      <model name='coke_can_0'>
-        <pose>-0.374164 0.07256 0.096144 -0.006573 0.002363 0.081938</pose>
-        <link name='link'>
-          <pose>-0.374164 0.07256 0.096144 -0.006573 0.002363 0.081938</pose>
+          <pose>-0.317895 -0.590954 0.215007 4.3e-05 0.000113 -0.121405</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='coke_can_1'>
-        <pose>-0.862353 -0.117804 0.096168 -0.003479 0.001249 0.060738</pose>
+        <pose>-1.01365 -0.287804 0.096042 -0.01431 0.003655 0.060334</pose>
         <link name='link'>
-          <pose>-0.862353 -0.117804 0.096168 -0.003479 0.001249 0.060738</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
-        </link>
-      </model>
-      <model name='coke_can_2'>
-        <pose>-1.16951 0.551545 0.095611 0.000813 -0.006891 0.028109</pose>
-        <link name='link'>
-          <pose>-1.16951 0.551545 0.095611 0.000813 -0.006891 0.028109</pose>
+          <pose>-1.01365 -0.287804 0.096042 -0.01431 0.003655 0.060334</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='coke_can_3'>
-        <pose>-1.00157 0.181775 0.096119 -0.009681 0.003476 0.053738</pose>
+        <pose>-0.972644 0.388648 0.095997 -0.016502 0.003411 0.053434</pose>
         <link name='link'>
-          <pose>-1.00157 0.181775 0.096119 -0.009681 0.003476 0.053738</pose>
+          <pose>-0.972644 0.388648 0.095997 -0.016502 0.003411 0.053434</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
@@ -740,10 +535,73 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
+      <model name='vizzy'>
+        <pose>-1.5 0 0.1 0 -0 0</pose>
+        <link name='base_link'>
+          <pose>-1.5 0 0.1 0 -0 0</pose>
+          <velocity>0 0 -0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+        <link name='eyes_tilt_link'>
+          <pose>-1.37914 -0.049792 0.446984 -1.57004 0.171673 -0.388885</pose>
+          <velocity>0 0 -0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+        <link name='l_eye_vergence_link'>
+          <pose>-1.32711 0.04639 0.440058 -0.091164 0.534294 -0.567881</pose>
+          <velocity>-3.1e-05 -1e-06 1.7e-05 0.000169 -7e-05 0.000305</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+        <link name='l_eye_version_link'>
+          <pose>-1.34045 0.044585 0.447062 0.000908 0.541272 -0.388492</pose>
+          <velocity>-3e-06 -0 1e-06 1.5e-05 -6e-06 2.7e-05</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+        <link name='neck_pan_link'>
+          <pose>-1.49997 1.7e-05 0.1 3.14085 -0.000269 2.75257</pose>
+          <velocity>-0 0 -0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+        <link name='neck_tilt_link'>
+          <pose>-1.49998 -0.000278 0.470017 -1.57167 -0.54133 2.75303</pose>
+          <velocity>-0 -0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+        <link name='r_eye_vergence_link'>
+          <pose>-1.42065 -0.132343 0.451186 0.092943 0.534016 -0.209133</pose>
+          <velocity>-5e-06 1.6e-05 7e-06 0.000101 -4.1e-05 0.000181</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+        <link name='r_eye_version_link'>
+          <pose>-1.41782 -0.144166 0.446909 0.000907 0.541272 -0.388492</pose>
+          <velocity>-1e-06 4e-06 2e-06 2.5e-05 -1e-05 4.6e-05</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+        <link name='vergence_link'>
+          <pose>-1.38688 -0.044709 0.452452 0.092905 0.534024 -0.209206</pose>
+          <velocity>0 0 -0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+        <link name='version_link'>
+          <pose>-1.37914 -0.04979 0.446986 0.000907 0.541272 -0.388493</pose>
+          <velocity>0 0 -0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
     </state>
     <gui fullscreen='0'>
       <camera name='user_camera'>
-        <pose>-4.9079 -0.071921 3.0304 4.93583e-19 0.497795 -0.015816</pose>
+        <pose>-3.82982 -0.140648 2.78483 4.93583e-19 0.497795 -0.015816</pose>
         <view_controller>orbit</view_controller>
       </camera>
     </gui>
@@ -805,6 +663,712 @@
       </link>
       <pose>-1 0 0 0 -0 0</pose>
       <static>0</static>
+    </model>
+    <model name='vizzy'>
+      <link name='base_link'>
+        <pose>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>-2.34513e-10 -1.47247e-07 0.125122 0 -0 0</pose>
+          <mass>2.001</mass>
+          <inertia>
+            <ixx>200.032</ixx>
+            <ixy>-1.38181e-13</ixy>
+            <ixz>1.14911e-10</ixz>
+            <iyy>200.032</iyy>
+            <iyz>7.21508e-08</iyz>
+            <izz>200.001</izz>
+          </inertia>
+        </inertial>
+        <collision name='base_link_collision'>
+          <pose>0 0 0.25 0 -0 0</pose>
+          <geometry>
+            <cylinder>
+              <length>0.25</length>
+              <radius>0.05</radius>
+            </cylinder>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode>
+                <mu>0.2</mu>
+                <mu2>0.2</mu2>
+              </ode>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='base_link_visual'>
+          <pose>0 0 0.25 0 -0 0</pose>
+          <geometry>
+            <cylinder>
+              <length>0.25</length>
+              <radius>0.05</radius>
+            </cylinder>
+          </geometry>
+        </visual>
+        <velocity_decay>
+          <linear>0</linear>
+          <angular>0</angular>
+        </velocity_decay>
+        <gravity>1</gravity>
+        <velocity_decay>
+          <linear>0</linear>
+          <angular>0</angular>
+        </velocity_decay>
+        <self_collide>0</self_collide>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='fixed' type='revolute'>
+        <child>base_link</child>
+        <parent>world</parent>
+        <axis>
+          <limit>
+            <lower>0</lower>
+            <upper>0</upper>
+          </limit>
+          <dynamics>
+            <damping>0</damping>
+          </dynamics>
+          <xyz>0 0 1</xyz>
+        </axis>
+      </joint>
+      <link name='neck_pan_link'>
+        <pose>0 0 0 3.1408 5.89747e-20 3.14</pose>
+        <inertial>
+          <pose>0 0 -0.327 0 0 -1.5708</pose>
+          <mass>0.223144</mass>
+          <inertia>
+            <ixx>0.000359045</ixx>
+            <ixy>3.18554e-08</ixy>
+            <ixz>-1.3374e-05</ixz>
+            <iyy>0.000368715</iyy>
+            <iyz>-4.52682e-07</iyz>
+            <izz>8.59049e-05</izz>
+          </inertia>
+        </inertial>
+        <collision name='neck_pan_link_collision'>
+          <pose>0 0 -0.327 0 0 -1.5708</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/rui/catkin_ws/src/vizzy/vizzy_description/meshes/M1.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <bounce/>
+            <friction>
+              <ode/>
+            </friction>
+            <contact>
+              <ode/>
+            </contact>
+          </surface>
+        </collision>
+        <visual name='neck_pan_link_visual'>
+          <pose>0 0 -0.327 0 0 -1.5708</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/rui/catkin_ws/src/vizzy/vizzy_description/meshes/M1.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <gravity>1</gravity>
+        <velocity_decay>
+          <linear>0</linear>
+          <angular>0</angular>
+        </velocity_decay>
+        <self_collide>0</self_collide>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='neck_pan_joint' type='revolute'>
+        <child>neck_pan_link</child>
+        <parent>base_link</parent>
+        <axis>
+          <xyz>1e-06 0.000796 -1</xyz>
+          <limit>
+            <lower>-0.925025</lower>
+            <upper>0.925025</upper>
+            <effort>10</effort>
+            <velocity>5</velocity>
+          </limit>
+          <dynamics/>
+        </axis>
+        <physics>
+          <ode>
+            <limit>
+              <cfm>0</cfm>
+              <erp>0.2</erp>
+            </limit>
+          </ode>
+        </physics>
+      </joint>
+      <link name='neck_tilt_link'>
+        <pose>-4.69261e-07 -0.000294641 0.37 -1.57159 3.25261e-19 3.14</pose>
+        <inertial>
+          <pose>-0.027 -0.027 0 2.06823e-13 -2.06823e-13 3.14159</pose>
+          <mass>0.298441</mass>
+          <inertia>
+            <ixx>0.00029423</ixx>
+            <ixy>0.000128561</ixy>
+            <ixz>-4.90947e-05</ixz>
+            <iyy>0.000820635</iyy>
+            <iyz>-2.69741e-05</iyz>
+            <izz>0.000854308</izz>
+          </inertia>
+        </inertial>
+        <collision name='neck_tilt_link_collision'>
+          <pose>-0.027 -0.027 0 2.06823e-13 -2.06823e-13 3.14159</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/rui/catkin_ws/src/vizzy/vizzy_description/meshes/M2.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <bounce/>
+            <friction>
+              <ode/>
+            </friction>
+            <contact>
+              <ode/>
+            </contact>
+          </surface>
+        </collision>
+        <visual name='neck_tilt_link_visual'>
+          <pose>-0.027 -0.027 0 2.06823e-13 -2.06823e-13 3.14159</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/rui/catkin_ws/src/vizzy/vizzy_description/meshes/M2.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <gravity>1</gravity>
+        <velocity_decay>
+          <linear>0</linear>
+          <angular>0</angular>
+        </velocity_decay>
+        <self_collide>0</self_collide>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='neck_tilt_joint' type='revolute'>
+        <child>neck_tilt_link</child>
+        <parent>neck_pan_link</parent>
+        <axis>
+          <xyz>-0.001593 -0.999998 -0.000796</xyz>
+          <limit>
+            <lower>-0.614159</lower>
+            <upper>0.645772</upper>
+            <effort>100</effort>
+            <velocity>5</velocity>
+          </limit>
+          <dynamics/>
+        </axis>
+        <physics>
+          <ode>
+            <limit>
+              <cfm>0</cfm>
+              <erp>0.2</erp>
+            </limit>
+          </ode>
+        </physics>
+      </joint>
+      <link name='eyes_tilt_link'>
+        <pose>0.123789 -0.00052966 0.41755 -1.56994 -0.369599 -0.00190115</pose>
+        <inertial>
+          <pose>-0.00373829 -0.00106808 -0.00106808 0 0 -1.2012</pose>
+          <mass>0.429223</mass>
+          <inertia>
+            <ixx>0.00336253</ixx>
+            <ixy>-1.51155e-06</ixy>
+            <ixz>-6.24898e-07</ixz>
+            <iyy>0.00328657</iyy>
+            <iyz>-3.71754e-06</iyz>
+            <izz>0.00213784</izz>
+          </inertia>
+        </inertial>
+        <collision name='eyes_tilt_link_collision'>
+          <pose>-0.007 -0.002 -0.002 0 0 -1.2012</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/rui/catkin_ws/src/vizzy/vizzy_description/meshes/M3.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <bounce/>
+            <friction>
+              <ode/>
+            </friction>
+            <contact>
+              <ode/>
+            </contact>
+          </surface>
+        </collision>
+        <visual name='eyes_tilt_link_visual'>
+          <pose>-0.007 -0.002 -0.002 0 0 -1.2012</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/rui/catkin_ws/src/vizzy/vizzy_description/meshes/M3.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <gravity>1</gravity>
+        <velocity_decay>
+          <linear>0</linear>
+          <angular>0</angular>
+        </velocity_decay>
+        <self_collide>0</self_collide>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='eyes_tilt_joint' type='revolute'>
+        <child>eyes_tilt_link</child>
+        <parent>neck_tilt_link</parent>
+        <axis>
+          <xyz>0.001593 0.999998 0.000796</xyz>
+          <limit>
+            <lower>-0.663225</lower>
+            <upper>0.663225</upper>
+            <effort>10</effort>
+            <velocity>5</velocity>
+          </limit>
+          <dynamics/>
+        </axis>
+        <physics>
+          <ode>
+            <limit>
+              <cfm>0</cfm>
+              <erp>0.2</erp>
+            </limit>
+          </ode>
+        </physics>
+      </joint>
+      <link name='l_eye_version_link'>
+        <pose>0.123952 0.10147 0.417631 0.000796327 2.86697e-15 -0.00159265</pose>
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <mass>0.01</mass>
+          <inertia>
+            <ixx>0.001</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.001</iyy>
+            <iyz>0</iyz>
+            <izz>0.001</izz>
+          </inertia>
+        </inertial>
+        <gravity>1</gravity>
+        <velocity_decay>
+          <linear>0</linear>
+          <angular>0</angular>
+        </velocity_decay>
+        <self_collide>0</self_collide>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='l_eye_version_joint' type='revolute'>
+        <child>l_eye_version_link</child>
+        <parent>eyes_tilt_link</parent>
+        <axis>
+          <xyz>-1e-06 -0.000796 1</xyz>
+          <limit>
+            <lower>-1</lower>
+            <upper>1</upper>
+            <effort>1000</effort>
+            <velocity>5</velocity>
+          </limit>
+          <dynamics/>
+        </axis>
+      </joint>
+      <link name='l_eye_vergence_link'>
+        <pose>0.123952 0.10147 0.417631 0.000796327 2.86697e-15 -0.00159265</pose>
+        <inertial>
+          <pose>0 0 -0.02 0 -0 1.5708</pose>
+          <mass>0.158521</mass>
+          <inertia>
+            <ixx>0.000147615</ixx>
+            <ixy>-1.56211e-09</ixy>
+            <ixz>8.85545e-10</ixz>
+            <iyy>0.00017784</iyy>
+            <iyz>8.21234e-06</iyz>
+            <izz>0.000144885</izz>
+          </inertia>
+        </inertial>
+        <collision name='l_eye_vergence_link_collision'>
+          <pose>0.01 0 0.003 -3.14159 -2.06823e-13 1.5708</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/rui/catkin_ws/src/vizzy/vizzy_description/meshes/M4.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <bounce/>
+            <friction>
+              <ode/>
+            </friction>
+            <contact>
+              <ode/>
+            </contact>
+          </surface>
+        </collision>
+        <visual name='l_eye_vergence_link_visual'>
+          <pose>0.01 0 0.003 -3.14159 -2.06823e-13 1.5708</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/rui/catkin_ws/src/vizzy/vizzy_description/meshes/M4.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <visual name='l_eye_vergence_link_visual_l_camera_link'>
+          <pose>0.0575 0 0 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.001 0.001 0.001</size>
+            </box>
+          </geometry>
+        </visual>
+        <visual name='l_eye_vergence_link_visual_l_camera_vision_link'>
+          <pose>0.0575 0 0 -1.5708 -5.55112e-17 -1.5708</pose>
+          <geometry>
+            <box>
+              <size>0.001 0.001 0.001</size>
+            </box>
+          </geometry>
+        </visual>
+        <velocity_decay>
+          <linear>0</linear>
+          <angular>0</angular>
+        </velocity_decay>
+        <gravity>1</gravity>
+        <velocity_decay>
+          <linear>0</linear>
+          <angular>0</angular>
+        </velocity_decay>
+        <self_collide>0</self_collide>
+        <sensor name='l_camera' type='camera'>
+          <update_rate>30</update_rate>
+          <camera name='head'>
+            <horizontal_fov>1.4912</horizontal_fov>
+            <image>
+              <width>250</width>
+              <height>250</height>
+              <format>R8G8B8</format>
+            </image>
+            <clip>
+              <near>0.02</near>
+              <far>300</far>
+            </clip>
+            <noise>
+              <type>gaussian</type>
+              <mean>0</mean>
+              <stddev>0</stddev>
+            </noise>
+          </camera>
+          <plugin name='camera_controller' filename='libgazebo_ros_camera.so'>
+            <alwaysOn>true</alwaysOn>
+            <updateRate>30.0</updateRate>
+            <cameraName>vizzy/l_camera</cameraName>
+            <imageTopicName>image_raw</imageTopicName>
+            <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+            <frameName>l_camera_link</frameName>
+            <robotNamespace>/</robotNamespace>
+          </plugin>
+          <pose>0.0575 0 0 0 -0 0</pose>
+        </sensor>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='l_eye_vergence_joint' type='revolute'>
+        <child>l_eye_vergence_link</child>
+        <parent>l_eye_version_link</parent>
+        <axis>
+          <xyz>-1e-06 -0.000796 1</xyz>
+          <limit>
+            <lower>-1</lower>
+            <upper>1</upper>
+            <effort>1000</effort>
+            <velocity>5</velocity>
+          </limit>
+          <dynamics/>
+        </axis>
+      </joint>
+      <link name='r_eye_version_link'>
+        <pose>0.123627 -0.102529 0.417469 0.000796327 2.86697e-15 -0.00159265</pose>
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <mass>0.01</mass>
+          <inertia>
+            <ixx>0.001</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.001</iyy>
+            <iyz>0</iyz>
+            <izz>0.001</izz>
+          </inertia>
+        </inertial>
+        <gravity>1</gravity>
+        <velocity_decay>
+          <linear>0</linear>
+          <angular>0</angular>
+        </velocity_decay>
+        <self_collide>0</self_collide>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='r_eye_version_joint' type='revolute'>
+        <child>r_eye_version_link</child>
+        <parent>eyes_tilt_link</parent>
+        <axis>
+          <xyz>-1e-06 -0.000796 1</xyz>
+          <limit>
+            <lower>-1</lower>
+            <upper>1</upper>
+            <effort>1000</effort>
+            <velocity>5</velocity>
+          </limit>
+          <dynamics/>
+        </axis>
+      </joint>
+      <link name='r_eye_vergence_link'>
+        <pose>0.123627 -0.102529 0.417469 0.000796327 2.86697e-15 -0.00159265</pose>
+        <inertial>
+          <pose>0.01 0 0.003 -3.14159 -2.06823e-13 1.5708</pose>
+          <mass>0.158521</mass>
+          <inertia>
+            <ixx>0.000147615</ixx>
+            <ixy>-1.56211e-09</ixy>
+            <ixz>8.85545e-10</ixz>
+            <iyy>0.00017784</iyy>
+            <iyz>8.21234e-06</iyz>
+            <izz>0.000144885</izz>
+          </inertia>
+        </inertial>
+        <collision name='r_eye_vergence_link_collision'>
+          <pose>0.01 0 0.003 -3.14159 -2.06823e-13 1.5708</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/rui/catkin_ws/src/vizzy/vizzy_description/meshes/M4.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <bounce/>
+            <friction>
+              <ode/>
+            </friction>
+            <contact>
+              <ode/>
+            </contact>
+          </surface>
+        </collision>
+        <visual name='r_eye_vergence_link_visual'>
+          <pose>0.01 0 0.003 -3.14159 -2.06823e-13 1.5708</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/rui/catkin_ws/src/vizzy/vizzy_description/meshes/M4.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <visual name='r_eye_vergence_link_visual_r_camera_link'>
+          <pose>0.0575 0 0 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.001 0.001 0.001</size>
+            </box>
+          </geometry>
+        </visual>
+        <visual name='r_eye_vergence_link_visual_r_camera_vision_link'>
+          <pose>0.0575 0 0 -1.5708 -5.55112e-17 -1.5708</pose>
+          <geometry>
+            <box>
+              <size>0.001 0.001 0.001</size>
+            </box>
+          </geometry>
+        </visual>
+        <velocity_decay>
+          <linear>0</linear>
+          <angular>0</angular>
+        </velocity_decay>
+        <gravity>1</gravity>
+        <velocity_decay>
+          <linear>0</linear>
+          <angular>0</angular>
+        </velocity_decay>
+        <self_collide>0</self_collide>
+        <sensor name='r_camera' type='camera'>
+          <update_rate>30</update_rate>
+          <camera name='head'>
+            <horizontal_fov>1.4912</horizontal_fov>
+            <image>
+              <width>250</width>
+              <height>250</height>
+              <format>R8G8B8</format>
+            </image>
+            <clip>
+              <near>0.02</near>
+              <far>300</far>
+            </clip>
+            <noise>
+              <type>gaussian</type>
+              <mean>0</mean>
+              <stddev>0</stddev>
+            </noise>
+          </camera>
+          <plugin name='camera_controller' filename='libgazebo_ros_camera.so'>
+            <alwaysOn>true</alwaysOn>
+            <updateRate>30.0</updateRate>
+            <cameraName>vizzy/r_camera</cameraName>
+            <imageTopicName>image_raw</imageTopicName>
+            <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+            <frameName>r_camera_link</frameName>
+            <robotNamespace>/</robotNamespace>
+          </plugin>
+          <pose>0.0575 0 0 0 -0 0</pose>
+        </sensor>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='r_eye_vergence_joint' type='revolute'>
+        <child>r_eye_vergence_link</child>
+        <parent>r_eye_version_link</parent>
+        <axis>
+          <xyz>-1e-06 -0.000796 1</xyz>
+          <limit>
+            <lower>-1</lower>
+            <upper>1</upper>
+            <effort>1000</effort>
+            <velocity>5</velocity>
+          </limit>
+          <dynamics/>
+        </axis>
+      </joint>
+      <link name='vergence_link'>
+        <pose>0.123789 -0.00052966 0.41755 0.000796327 2.86697e-15 -0.00159265</pose>
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <mass>0.01</mass>
+          <inertia>
+            <ixx>0.001</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.001</iyy>
+            <iyz>0</iyz>
+            <izz>0.001</izz>
+          </inertia>
+        </inertial>
+        <gravity>1</gravity>
+        <velocity_decay>
+          <linear>0</linear>
+          <angular>0</angular>
+        </velocity_decay>
+        <self_collide>0</self_collide>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='vergence_joint' type='revolute'>
+        <child>vergence_link</child>
+        <parent>eyes_tilt_link</parent>
+        <axis>
+          <xyz>-1e-06 -0.000796 1</xyz>
+          <limit>
+            <lower>0</lower>
+            <upper>0.698131</upper>
+            <effort>10</effort>
+            <velocity>5</velocity>
+          </limit>
+          <dynamics/>
+        </axis>
+        <physics>
+          <ode>
+            <limit>
+              <cfm>0</cfm>
+              <erp>0.2</erp>
+            </limit>
+          </ode>
+        </physics>
+      </joint>
+      <link name='version_link'>
+        <pose>0.123789 -0.00052966 0.41755 0.000796327 2.86697e-15 -0.00159265</pose>
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <mass>0.01</mass>
+          <inertia>
+            <ixx>0.001</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.001</iyy>
+            <iyz>0</iyz>
+            <izz>0.001</izz>
+          </inertia>
+        </inertial>
+        <gravity>1</gravity>
+        <velocity_decay>
+          <linear>0</linear>
+          <angular>0</angular>
+        </velocity_decay>
+        <self_collide>0</self_collide>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='version_joint' type='revolute'>
+        <child>version_link</child>
+        <parent>eyes_tilt_link</parent>
+        <axis>
+          <xyz>-1e-06 -0.000796 1</xyz>
+          <limit>
+            <lower>-0.698131</lower>
+            <upper>0.698131</upper>
+            <effort>10</effort>
+            <velocity>5</velocity>
+          </limit>
+          <dynamics/>
+        </axis>
+        <physics>
+          <ode>
+            <limit>
+              <cfm>0</cfm>
+              <erp>0.2</erp>
+            </limit>
+          </ode>
+        </physics>
+      </joint>
+      <plugin name='mimic_plugin' filename='libgazebo_mimic_plugin.so'>
+        <joint>version_joint</joint>
+        <mimicJoint>l_eye_version_joint</mimicJoint>
+        <multiplier>1.0</multiplier>
+        <robotNamespace>/</robotNamespace>
+      </plugin>
+      <plugin name='mimic_plugin' filename='libgazebo_mimic_plugin.so'>
+        <joint>version_joint</joint>
+        <mimicJoint>r_eye_version_joint</mimicJoint>
+        <multiplier>1.0</multiplier>
+        <robotNamespace>/</robotNamespace>
+      </plugin>
+      <plugin name='mimic_plugin' filename='libgazebo_mimic_plugin.so'>
+        <joint>vergence_joint</joint>
+        <mimicJoint>l_eye_vergence_joint</mimicJoint>
+        <multiplier>-1.0</multiplier>
+        <robotNamespace>/</robotNamespace>
+      </plugin>
+      <plugin name='mimic_plugin' filename='libgazebo_mimic_plugin.so'>
+        <joint>vergence_joint</joint>
+        <mimicJoint>r_eye_vergence_joint</mimicJoint>
+        <multiplier>1.0</multiplier>
+        <robotNamespace>/</robotNamespace>
+      </plugin>
+      <static>0</static>
+      <plugin name='gazebo_ros_control' filename='libgazebo_ros_control.so'>
+        <robotNamespace>/vizzy</robotNamespace>
+      </plugin>
+      <pose>-1.5 0 0.1 0 -0 0</pose>
     </model>
   </world>
 </sdf>
