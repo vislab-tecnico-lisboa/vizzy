@@ -3,9 +3,9 @@
 <arg name="use_yarp" default="false"/>
   <arg name="robot" default="vizzy"/>
   <arg name="pose" default="-x 0 -y 3.0 -z 0.85 -R 0.0 -P 0.0 -Y 0.0"/>
-
+  <arg name="urdf_file" default="vizzy.urdf.xacro"/>
   <!-- Load the URDF into the ROS Parameter Server -->
-  <param name="robot_description" command="$(find xacro)/xacro.py $(find vizzy_description)/robots/vizzy.urdf.xacro use_yarp:=$(arg use_yarp)" />
+  <param name="robot_description" command="$(find xacro)/xacro.py $(find vizzy_description)/robots/$(arg urdf_file) use_yarp:=$(arg use_yarp)" />
 
   <!-- Spawn robot in Gazebo -->
   <node pkg="gazebo_ros" type="spawn_model" name="spawn_model" args="-urdf -param robot_description $(arg pose) -model $(arg robot)" />
