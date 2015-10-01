@@ -31,6 +31,7 @@
   <arg name="vizzy_navigation_absolute_path" default="/home/vizzy/catkin_workspace/src/vizzy/vizzy_navigation" />
   <arg name="ns" default="vizzy" />
   <arg name="stereo" default="true" />
+  <arg name="ros_cameras_on" default="true" />
 
   <!-- bringup robot -->
   <include file="$(find vizzy_robot)/launch/real_robot.launch">
@@ -40,6 +41,7 @@
     <arg name="left_camera_name" value="$(arg left_camera_name)" />
     <arg name="right_camera_name" value="$(arg right_camera_name)" />
     <arg name="ns" value="$(arg ns)" />
+    <arg name="ros_cameras_on" value="$(arg ros_cameras_on)" />
   </include>
 
   <!-- launch moveit -->
