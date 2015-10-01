@@ -5,6 +5,7 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Global Options1
+        - /Status1
         - /TF1/Frames1
         - /MotionPlanning1/Planning Request1
       Splitter Ratio: 0.496795
@@ -154,10 +155,10 @@ Visualization Manager:
       Class: rviz/Map
       Color Scheme: map
       Draw Behind: true
-      Enabled: true
+      Enabled: false
       Name: Map
       Topic: /map
-      Value: true
+      Value: false
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -210,13 +211,13 @@ Visualization Manager:
       Update Interval: 0
       Value: false
     - Class: rviz/Marker
-      Enabled: true
+      Enabled: false
       Marker Topic: /move_base/EBandPlannerROS/eband_visualization
       Name: Eband
       Namespaces:
         {}
       Queue Size: 100
-      Value: true
+      Value: false
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -261,19 +262,19 @@ Visualization Manager:
       Enabled: false
       Invert Rainbow: false
       Max Color: 255; 255; 255
-      Max Intensity: 13.4529
+      Max Intensity: 64.1966
       Min Color: 0; 0; 0
-      Min Intensity: -1.99954
+      Min Intensity: -6.05062
       Name: StereoUncertainty
       Position Transformer: XYZ
       Queue Size: 10
       Selectable: true
       Size (Pixels): 3
-      Size (m): 0.06
-      Style: Flat Squares
+      Size (m): 0.03
+      Style: Spheres
       Topic: /uncertainty_pcl
       Use Fixed Frame: true
-      Use rainbow: true
+      Use rainbow: false
       Value: false
     - Alpha: 1
       Autocompute Intensity Bounds: true
@@ -287,7 +288,7 @@ Visualization Manager:
       Color: 255; 255; 255
       Color Transformer: RGB8
       Decay Time: 0
-      Enabled: true
+      Enabled: false
       Invert Rainbow: false
       Max Color: 255; 255; 255
       Max Intensity: 4096
@@ -298,12 +299,12 @@ Visualization Manager:
       Queue Size: 10
       Selectable: true
       Size (Pixels): 3
-      Size (m): 0.06
+      Size (m): 0.04
       Style: Flat Squares
       Topic: /ego_sphere
       Use Fixed Frame: true
       Use rainbow: true
-      Value: true
+      Value: false
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -316,23 +317,23 @@ Visualization Manager:
       Color: 255; 255; 255
       Color Transformer: Intensity
       Decay Time: 0
-      Enabled: false
+      Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
-      Max Intensity: 33.5131
+      Max Intensity: 72.566
       Min Color: 0; 0; 0
-      Min Intensity: -0.194817
+      Min Intensity: 1.78397
       Name: EgoUncertainty
       Position Transformer: XYZ
       Queue Size: 10
       Selectable: true
       Size (Pixels): 3
-      Size (m): 0.06
-      Style: Flat Squares
+      Size (m): 0.03
+      Style: Spheres
       Topic: /ego_sphere_uncertainty
       Use Fixed Frame: true
-      Use rainbow: true
-      Value: false
+      Use rainbow: false
+      Value: true
     - Class: moveit_rviz_plugin/MotionPlanning
       Enabled: false
       Move Group Namespace: ""
@@ -421,6 +422,7 @@ Visualization Manager:
         StereoUncertainty: true
         TF: true
         Value: true
+        covariance debug: true
         fixation_point: true
         left_image: true
         right_image: true
@@ -452,7 +454,7 @@ Visualization Manager:
       Marker Topic: /covariances_debug
       Name: MarkerArray
       Namespaces:
-        {}
+        covariances: true
       Queue Size: 100
       Value: true
     - Class: rviz/Marker
@@ -463,9 +465,17 @@ Visualization Manager:
         fixation_point: true
       Queue Size: 100
       Value: true
+    - Class: rviz/MarkerArray
+      Enabled: false
+      Marker Topic: /covariances_debug
+      Name: covariance debug
+      Namespaces:
+        {}
+      Queue Size: 100
+      Value: false
   Enabled: true
   Global Options:
-    Background Color: 48; 48; 48
+    Background Color: 85; 170; 127
     Fixed Frame: base_link
     Frame Rate: 30
   Name: root
@@ -482,22 +492,22 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 9.2297
+      Distance: 5.97606
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.0414943
-        Y: -0.0159818
-        Z: 0.464078
+        X: 0.348188
+        Y: -0.358458
+        Z: 0.0345227
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.504797
+      Pitch: 0.564799
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 3.88255
+      Yaw: 1.80656
     Saved: ~
 Window Geometry:
   Displays:
