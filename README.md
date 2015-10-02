@@ -6,7 +6,7 @@ This repository contains the necessary tools to interact with Vizzy - both on si
 
 The real robot uses two different middlewares for distinct body parts (YARP for the upperbody and ROS for the mobile base). In simulation there are two options in terms of middleware - one aligned with the real robot (using YARP and ROS) and one aiming simulation experiences (using exclusively ROS).
 
-![vizzy with its arms opened](vizzy_images/vizzy_open_arms.jpg)![vizzy grasping red ball](vizzy_images/vizzy_grasping_ball.jpg)
+![vizzy grasping red ball](vizzy_images/vizzy_grasping_ball.jpg)
 
 ## Packages Description
 
