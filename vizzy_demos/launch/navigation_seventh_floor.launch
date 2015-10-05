@@ -17,11 +17,12 @@
   <arg name="odom_frame_id" default="$(arg tf_prefix)/odom" />
   <arg name="map_topic" default="/map" />
   <arg name="pedestrian_detection" default="false" />
-  <arg name="use_moveit" default="true" />
-  <arg name="visualization" default="true" />
+  <arg name="use_moveit" default="false" />
+  <arg name="visualization" default="false" />
   <arg name="ns" default="vizzy" />
   <arg name="vizzy_navigation_absolute_path" default="/home/vizzy/catkin_workspace/src/vizzy/vizzy_navigation" />
   <arg name="stereo" default="false" />
+  <arg name="ros_cameras_on" default="false" />
 
   <include file="$(find vizzy_launch)/launch/vizzy_real.launch">
 	<arg name="navigation" value="$(arg navigation)"/>
@@ -40,5 +41,6 @@
   	<arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)"/>
   	<arg name="vizzy_machine_address" value="$(arg vizzy_machine_address)"/>
   	<arg name="env-loader" value="$(arg env-loader)"/>
+  	<arg name="ros_cameras_on" value="$(arg ros_cameras_on)"/>
   </include>
 </launch>
