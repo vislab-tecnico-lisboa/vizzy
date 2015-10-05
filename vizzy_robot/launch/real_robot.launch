@@ -22,6 +22,7 @@
   <param name="tf_prefix" value="$(arg tf_prefix)" />
   <arg name="base_frame_id" default="$(arg tf_prefix)/base_footprint" />
   <arg name="odom_frame_id" default="$(arg tf_prefix)/odom" />
+  <arg name="ros_cameras_on" default="true" />
 
 
 	<!-- launch the auxiliary configuration (shared between h/w and simulation) -->
@@ -43,27 +44,29 @@
   		<arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)" />
 	    <!-- <arg name="publish_tf" value="false" /> already published by urdf -->
 	</include>
+	
+	<group if="$(arg ros_cameras_on)">
+	 	<!-- Left camera -->
+		<include file="$(find vizzy_robot)/launch/camera.launch">
+	    	<arg name="camera" value="$(arg left_camera_name)" />
+	    	<arg name="guid" value="$(arg left_camera_guid)" />
+	  		<arg name="video_mode" value="$(arg video_mode)" />
+	  		<arg name="frame_rate" value="$(arg frame_rate)" />
+	  		<arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)" />
+	  		<arg name="ns" value="$(arg ns)" />
+	  		<arg name="camera_file" value="$(arg left_camera_file)" />
+		</include>
 
- 	<!-- Left camera -->
-	<include file="$(find vizzy_robot)/launch/camera.launch">
-    	<arg name="camera" value="$(arg left_camera_name)" />
-    	<arg name="guid" value="$(arg left_camera_guid)" />
-  		<arg name="video_mode" value="$(arg video_mode)" />
-  		<arg name="frame_rate" value="$(arg frame_rate)" />
-  		<arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)" />
-  		<arg name="ns" value="$(arg ns)" />
-  		<arg name="camera_file" value="$(arg left_camera_file)" />
-	</include>
-
- 	<!-- Right camera -->
-	<include file="$(find vizzy_robot)/launch/camera.launch">
-    	<arg name="camera" value="$(arg right_camera_name)" />
-    	<arg name="guid" value="$(arg right_camera_guid)" />
-  		<arg name="video_mode" value="$(arg video_mode)" />
-  		<arg name="frame_rate" value="$(arg frame_rate)" />
-  		<arg name="throttle_rate" value="$(arg throttle_rate)" />
-  		<arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)" />
-  		<arg name="ns" value="$(arg ns)" />
-  		<arg name="camera_file" value="$(arg right_camera_file)" />
-	</include>
+	 	<!-- Right camera -->
+		<include file="$(find vizzy_robot)/launch/camera.launch">
+	    	<arg name="camera" value="$(arg right_camera_name)" />
+	    	<arg name="guid" value="$(arg right_camera_guid)" />
+	  		<arg name="video_mode" value="$(arg video_mode)" />
+	  		<arg name="frame_rate" value="$(arg frame_rate)" />
+	  		<arg name="throttle_rate" value="$(arg throttle_rate)" />
+	  		<arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)" />
+	  		<arg name="ns" value="$(arg ns)" />
+	  		<arg name="camera_file" value="$(arg right_camera_file)" />
+		</include>
+	</group>
 </launch>
