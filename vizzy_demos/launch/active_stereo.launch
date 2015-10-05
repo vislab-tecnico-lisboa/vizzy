@@ -21,7 +21,7 @@
   <arg name="odom_frame_id" default="$(arg tf_prefix)/odom" />
   <arg name="map_topic" default="/map" />
   <arg name="visualization" default="true" />
-  <arg name="head_only" default="true"/>
+  <arg name="head_only" default="false"/>
 
   <include file="$(find vizzy_launch)/launch/vizzy_simulation.launch">
 	<arg name="navigation" value="$(arg navigation)"/>
