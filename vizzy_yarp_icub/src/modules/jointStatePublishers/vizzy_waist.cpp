@@ -35,7 +35,6 @@ int main(int argc, char *argv[]) {
 
     for(int i = 0; i < mux1.size(); i++) {
       mux1.get(i) = mux1.get(i).asDouble() / (180/3.1415926);
-      std::cout << "value on index " << i << ": " << mux1.get(i).asDouble() << std::endl;
     }
 
     /* DO SOME COMPUTATION HERE */
@@ -53,6 +52,18 @@ int main(int argc, char *argv[]) {
     list_1_1.add(100);
 
     list_1.add("0");
+
+    Bottle& list_2 = message.addList();
+    list_2.add("waist_joint");
+
+    Bottle& list_3 = message.addList();
+    for(int i = 0; i < mux1.size(); i++) {
+      list_3.add(mux1.get(i));
+    }
+
+    Bottle& list_4 = message.addList();
+
+    Bottle& list_5 = message.addList();
 
     /* DO SOME COMPUTATION HERE */
 

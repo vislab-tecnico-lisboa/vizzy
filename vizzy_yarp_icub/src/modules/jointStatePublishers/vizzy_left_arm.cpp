@@ -35,7 +35,6 @@ int main(int argc, char *argv[]) {
 
     for(int i = 0; i < mux1.size(); i++) {
       mux1.get(i) = mux1.get(i).asDouble() / (180/3.1415926);
-      std::cout << "value on index " << i << ": " << mux1.get(i).asDouble() << std::endl;
     }
 
     /* DO SOME COMPUTATION HERE */
