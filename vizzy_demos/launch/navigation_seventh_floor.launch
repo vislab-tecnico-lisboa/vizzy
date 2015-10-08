@@ -8,7 +8,7 @@
   <machine name="$(arg vizzy_machine_name)" address="$(arg vizzy_machine_address)" env-loader="$(arg env-loader)" user="vizzy"/>
 
   <!-- simulation parameters and robot configuration parameters -->
-  <arg name="navigation" default="true"/>
+  <arg name="navigation" default="false"/>
   <arg name="slam" default="false"/>
   <!--<arg name="pose" default="-x -3.65 -y 17.7 -z 0.20 -R 0.0 -P 0.0 -Y 1.57"/>-->
   <arg name="map_frame" default="map" />
@@ -18,11 +18,11 @@
   <arg name="map_topic" default="/map" />
   <arg name="pedestrian_detection" default="false" />
   <arg name="use_moveit" default="false" />
-  <arg name="visualization" default="true" />
+  <arg name="visualization" default="false" />
   <arg name="ns" default="vizzy" />
   <arg name="vizzy_navigation_absolute_path" default="/home/vizzy/catkin_workspace/src/vizzy/vizzy_navigation" />
   <arg name="stereo" default="false" />
-  <arg name="ros_cameras_on" default="true" />
+  <arg name="ros_cameras_on" default="false" />
 
   <include file="$(find vizzy_launch)/launch/vizzy_real.launch">
 	<arg name="navigation" value="$(arg navigation)"/>

@@ -74,12 +74,12 @@
   			<arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)"/>
       </include>
     </group>
+  </group>
     <!-- teleop -->
     <include file="$(find vizzy_navigation)/launch/teleop_joy.launch">
       <arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)"/>
       <arg name="ns" value="$(arg ns)" />
     </include>
-  </group>
 
   <!-- Pedestrian Detector -->
   <group if="$(arg pedestrian_detection)">
