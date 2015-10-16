@@ -8,7 +8,7 @@
   <arg name="navigation" default="true"/>
   <arg name="launch_moveit" default="true"/>
   <!--<arg name="pose" default="-x -3.65 -y 17.7 -z 0.20 -R 0.0 -P 0.0 -Y 1.57"/>-->
-  <arg name="pose" default="-x -1.5 -y -0.0 -z 0.1 -R 0.0 -P 0.0 -Y 0"/>
+  <arg name="pose" default="-x 0 -y -0.0 -z 0.1 -R 0.0 -P 0.0 -Y 1.57"/>
   <arg name="paused" default="false"/>
   <arg name="use_sim_time" default="true"/>
   <arg name="gui" default="true"/>
@@ -41,4 +41,10 @@
   <group if="$(arg visualization)">
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find vizzy_demos)/rviz/pedestrian_detection.rviz" />
   </group>
+
+  <!-- launch Pedestrian detector, tracker and follower -->
+  <include file="$(find pedestrian_detector)/launch/pedestrian_detector.launch">
+    <arg name="image_in" value="/vizzy/l_camera/image_raw"/>
+  </include>
+
 </launch>

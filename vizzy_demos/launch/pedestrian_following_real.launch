@@ -43,4 +43,14 @@
   	<arg name="env-loader" value="$(arg env-loader)"/>
   	<arg name="ros_cameras_on" value="$(arg ros_cameras_on)"/>
   </include>
+
+  <!-- launch vizualization on rviz -->
+  <group if="$(arg visualization)">
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find vizzy_demos)/rviz/pedestrian_detection.rviz" />
+  </group>
+
+  <!-- Launch pedestrian detector, tracker and follower -->
+  <include file="$(find pedestrian_detector)/launch/pedestrian_detector.launch">
+    <arg name="image_in" value="/vizzy/l_camera/image_rect_color"/>
+  </include>
 </launch>
