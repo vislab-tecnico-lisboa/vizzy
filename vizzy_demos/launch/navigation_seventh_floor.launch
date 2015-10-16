@@ -35,7 +35,6 @@
 	<arg name="map_topic" value="$(arg map_topic)" />
 	<arg name="pedestrian_detection" value="$(arg pedestrian_detection)" />
 	<arg name="use_moveit" value="$(arg use_moveit)" />
-	<arg name="visualization" value="$(arg visualization)" />
 	<arg name="vizzy_navigation_absolute_path" value="$(arg vizzy_navigation_absolute_path)" />
   	<arg name="stereo" value="$(arg stereo)" />
   	<arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)"/>
@@ -43,4 +42,9 @@
   	<arg name="env-loader" value="$(arg env-loader)"/>
   	<arg name="ros_cameras_on" value="$(arg ros_cameras_on)"/>
   </include>
+
+  <!-- launch vizualization on rviz -->
+  <group if="$(arg visualization)">
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find vizzy_demos)/rviz/navigation_seventh_floor.rviz" />
+  </group>
 </launch>
