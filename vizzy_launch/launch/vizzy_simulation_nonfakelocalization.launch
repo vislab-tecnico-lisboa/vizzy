@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<!-- ROS head file to simulate vizzy in gazebo   -->
+<launch>
+  <!-- robot configuration parameters -->
+  <arg name="robot" default="vizzy"/> <!-- full, lower_body, foot -->
+
+  <!-- simulation parameters and robot configuration parameters -->
+  <arg name="use_yarp" default="false"/>
+  <arg name="navigation" default="true"/>
+  <arg name="launch_moveit" default="true"/>
+  <arg name="slam" default="false"/>
+  <!--<arg name="pose" default="-x -3.65 -y 17.7 -z 0.20 -R 0.0 -P 0.0 -Y 1.57"/>-->
+  <arg name="pose" default="-x 0.0 -y 0.0 -z 0.15 -R 0.0 -P 0.0 -Y 1.57"/>
+  <arg name="paused" default="false"/>
+  <arg name="use_sim_time" default="true"/>
+  <arg name="gui" default="true"/>
+  <arg name="world" default="isr_7th_floor.world" />
+  <arg name="yarp" default="false"/>
+  <arg name="map_frame" default="map" />
+  <arg name="tf_prefix" default="" />
+  <arg name="base_frame_id" default="$(arg tf_prefix)/base_footprint" />
+  <arg name="odom_frame_id" default="$(arg tf_prefix)/odom" />
+  <arg name="map_topic" default="/map" />
+  <arg name="visualization" default="true" />
+
+  <!-- bringup robot -->
+  <include file="$(find vizzy_gazebo)/launch/gazebo.launch">
+	<arg name="use_yarp" value="$(arg use_yarp)"/>
+    <arg name="robot" value="$(arg robot)"/>
+    <arg name="pose" value="$(arg pose)"/>
+    <arg name="paused" value="$(arg paused)"/>
+  	<arg name="use_sim_time" value="$(arg use_sim_time)" />
+  	<arg name="gui" value="$(arg gui)" />
+  	<arg name="world" value="$(arg world)" />
+  </include>
+
+  <!-- launch moveit -->
+  <group if="$(arg launch_moveit)">
+    <include file="$(find vizzy_moveit_config)/launch/moveit.launch"/>
+  </group>
+
+  <group if="$(arg navigation)">
+    <!-- launch the laser filter to get rid of readings from the robot itself -->
+   <node name="hokuyo_laser_filters" pkg="laser_filters" type="scan_to_scan_filter_chain">
+    <rosparam command="load" file="$(find vizzy_sensors)/config/hokuyo_filters.yaml" />
+   </node>
+
+    <group if="$(arg slam)">
+      <!-- TO DO -->
+    </group>
+    <group unless="$(arg slam)">
+      <!-- launch pre obtained map to the environment -->
+      <node name="map_server" pkg="map_server" type="map_server" args="$(find vizzy_navigation)/maps/perfectMap.yaml" />
+
+      <!-- move_base using local eband planner -->
+      <include file="$(find vizzy_navigation)/launch/move_base_eband_local.launch">
+        <arg name="map_topic" value="$(arg map_topic)" />
+      </include>
+
+      <!-- localization package -->
+      <include file="$(find vizzy_navigation)/launch/amcl_simulation.launch">
+      </include>
+
+    </group>
+  </group>
+
+  <!-- launch vizualization on rviz -->
+  <group if="$(arg visualization)">
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find vizzy_launch)/rviz/vizzy_simulation_nonfake.rviz" />
+  </group>
+
+</launch>
