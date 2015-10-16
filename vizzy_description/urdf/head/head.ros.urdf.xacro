@@ -364,7 +364,7 @@
 			upper="1.0"     
       effort="1000.0" 
       velocity="5.0"/>
-    <mimic joint="vergence_joint" multiplier="1" offset="0"/>
+    <mimic joint="vergence_joint" multiplier="0.5" offset="0"/>
   </joint>
   
 
@@ -456,7 +456,7 @@
 			upper="1.0"    
       effort="1000.0" 
       velocity="5.0" />
-    <mimic joint="vergence_joint" multiplier="-1" offset="0"/>
+    <mimic joint="vergence_joint" multiplier="-0.5" offset="0"/>
   </joint>
   <link name="l_camera_link">
    <visual>

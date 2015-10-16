@@ -23,14 +23,11 @@
   <arg name="base_frame_id" default="$(arg tf_prefix)/base_footprint" />
   <arg name="odom_frame_id" default="$(arg tf_prefix)/odom" />
   <arg name="map_topic" default="/map" />
-  <arg name="pedestrian_detection" default="true" />
   <arg name="use_moveit" default="false" />
-  <arg name="visualization" default="false" />
   <arg name="left_camera_name" default="l_camera" />
   <arg name="right_camera_name" default="r_camera" />
   <arg name="vizzy_navigation_absolute_path" default="/home/vizzy/catkin_workspace/src/vizzy/vizzy_navigation" />
   <arg name="ns" default="vizzy" />
-  <arg name="stereo" default="true" />
   <arg name="ros_cameras_on" default="true" />
 
   <!-- bringup robot -->
@@ -80,28 +77,4 @@
       <arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)"/>
       <arg name="ns" value="$(arg ns)" />
     </include>
-
-  <!-- Pedestrian Detector -->
-  <group if="$(arg pedestrian_detection)">
-	  <include file="$(find pedestrian_detector)/launch/pedestrian_detector.launch">
-	    <arg name="image_in" value="$(arg right_camera_name)/image_raw" />
-	  </include>
-  </group>
-
-  <!-- Probabilistic Stereo -->
-  <group if="$(arg stereo)">
-      <include file="$(find foveated_stereo_ros)/launch/conventional_stereo_ros.launch">
-   	<arg name="left_image" value="/vizzy/l_camera/image_rect_color"/>
-  	<arg name="right_image" value="/vizzy/r_camera/image_rect_color"/>
-  	<arg name="left_camera_info" value="/vizzy/l_camera/camera_rect_color"/>
-  	<arg name="right_camera_info" value="/vizzy/r_camera/camera_rect_color"/>
-  	<arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)"/>
-      </include>
-  </group>
-
-
-  <!-- launch vizualization on rviz -->
-  <group if="$(arg visualization)">
-    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find vizzy_launch)/rviz/vizzy.rviz" />
-  </group>
 </launch>
