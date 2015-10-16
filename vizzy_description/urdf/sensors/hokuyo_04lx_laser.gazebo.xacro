@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 
-<root 
-      xmlns:xacro="http://ros.org/wiki/xacro">
+<root xmlns:xacro="http://ros.org/wiki/xacro">
 
   <xacro:macro name="hokuyo_04lx_laser_gazebo" params="name ros_topic update_rate min_angle max_angle">
     <gazebo reference="${name}_link">
@@ -28,7 +27,7 @@
           <noise>
             <type>gaussian</type>
             <mean>0.0</mean>
-            <stddev>0.05</stddev>
+            <stddev>0.02</stddev>
           </noise>
         </ray>
         <plugin name="gazebo_ros_${name}_controller" filename="libgazebo_ros_laser.so">

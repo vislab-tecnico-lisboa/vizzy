@@ -75,14 +75,14 @@
 			<plugin name="mimic_plugin" filename="libgazebo_mimic_plugin.so">
 				<joint>vergence_joint</joint>
 				<mimicJoint>l_eye_vergence_joint</mimicJoint>
-				<multiplier>-1.0</multiplier>
+				<multiplier>-0.5</multiplier>
 			</plugin>
 		</gazebo>
 		<gazebo>
 			<plugin name="mimic_plugin" filename="libgazebo_mimic_plugin.so">
 				<joint>vergence_joint</joint>
 				<mimicJoint>r_eye_vergence_joint</mimicJoint>
-				<multiplier>1.0</multiplier>
+				<multiplier>0.5</multiplier>
 			</plugin>
 		</gazebo>
   </xacro:macro>
