@@ -6,6 +6,6 @@
 
      <param name="forward_rate" value="0.7"/>
      <param name="backward_rate" value="0.7"/>
-     <param name="rotation_rate" value="0.2"/>
+     <param name="rotation_rate" value="0.7"/>
   </node>
 </launch>

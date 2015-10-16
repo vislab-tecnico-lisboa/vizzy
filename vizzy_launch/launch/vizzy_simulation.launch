@@ -22,6 +22,7 @@
   <arg name="odom_frame_id" default="$(arg tf_prefix)/odom" />
   <arg name="map_topic" default="/map" />
   <arg name="head_only" default="false"/>
+  <arg name="fake_localization" default="false"/>
 
   <!-- bringup robot -->
   <include file="$(find vizzy_gazebo)/launch/gazebo.launch">
@@ -52,9 +53,9 @@
 
   <group if="$(arg navigation)">
     <!-- launch the laser filter to get rid of readings from the robot itself -->
-   <node name="hokuyo_laser_filters" pkg="laser_filters" type="scan_to_scan_filter_chain">
-    <rosparam command="load" file="$(find vizzy_sensors)/config/hokuyo_filters.yaml" />
-   </node>
+    <node name="hokuyo_laser_filters" pkg="laser_filters" type="scan_to_scan_filter_chain">
+     <rosparam command="load" file="$(find vizzy_sensors)/config/hokuyo_filters.yaml" />
+   	</node>
 
     <group if="$(arg slam)">
       <!-- TO DO -->
@@ -68,13 +69,20 @@
         <arg name="map_topic" value="$(arg map_topic)" />
       </include>
 
-      <!-- lighter localization package for simulation -->
-      <node name="fake_localization" pkg="fake_localization" type="fake_localization">
-        <remap from="base_pose_ground_truth" to="odom"/>
-        <param name="global_frame_id" value="$(arg map_frame)" />
-        <param name="base_frame_id" value="$(arg base_frame_id)" />
-        <param name="odom_frame_id" value="$(arg odom_frame_id)" />
-      </node>
+  		<group if="$(arg fake_localization)">
+      	<!-- lighter localization package for simulation -->
+		    <node name="fake_localization" pkg="fake_localization" type="fake_localization">
+		      <remap from="base_pose_ground_truth" to="odom"/>
+		      <param name="global_frame_id" value="$(arg map_frame)" />
+		      <param name="base_frame_id" value="$(arg base_frame_id)" />
+		      <param name="odom_frame_id" value="$(arg odom_frame_id)" />
+		    </node>
+    	</group>
+    	<group unless="$(arg fake_localization)">
+      	<!-- localization package -->
+      	<include file="$(find vizzy_navigation)/launch/amcl_simulation.launch">
+      	</include>
+    	</group>
     </group>
   </group>
 </launch>
