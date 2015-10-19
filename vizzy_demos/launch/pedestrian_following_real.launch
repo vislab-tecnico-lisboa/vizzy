@@ -21,7 +21,6 @@
   <arg name="visualization" default="false" />
   <arg name="ns" default="vizzy" />
   <arg name="vizzy_navigation_absolute_path" default="/home/vizzy/catkin_workspace/src/vizzy/vizzy_navigation" />
-  <arg name="stereo" default="false" />
   <arg name="ros_cameras_on" default="true" />
 
   <!-- Choose what we want to detect: pedestrian, headandshoulders, full -->
@@ -39,11 +38,8 @@
 	<arg name="base_frame_id" value="$(arg base_frame_id)" />
 	<arg name="odom_frame_id" value="$(arg odom_frame_id)" />
 	<arg name="map_topic" value="$(arg map_topic)" />
-	<arg name="pedestrian_detection" value="$(arg pedestrian_detection)" />
 	<arg name="use_moveit" value="$(arg use_moveit)" />
-	<arg name="visualization" value="$(arg visualization)" />
 	<arg name="vizzy_navigation_absolute_path" value="$(arg vizzy_navigation_absolute_path)" />
-  	<arg name="stereo" value="$(arg stereo)" />
   	<arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)"/>
   	<arg name="vizzy_machine_address" value="$(arg vizzy_machine_address)"/>
   	<arg name="env-loader" value="$(arg env-loader)"/>
@@ -57,8 +53,8 @@
 
   <!-- Launch pedestrian detector, tracker and follower -->
   <include file="$(find pedestrian_detector)/launch/pedestrian_detector.launch">
-    <arg name="image_in" value="/vizzy/($ arg camera)/image_rect_color"/>
-    <arg name="camera" value="$(arg camera)"/>
+    <arg name="image_in" value="/vizzy/$(arg camera)/image_rect_color"/>
     <arg name="detector_type" value="$(arg detector_type)" />
+    <arg name="camera" value="$(arg camera)"/>
   </include>
 </launch>
