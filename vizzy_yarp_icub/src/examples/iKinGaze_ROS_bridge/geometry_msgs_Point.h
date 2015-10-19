@@ -15,6 +15,8 @@
 #include <vector>
 #include <yarp/os/Wire.h>
 #include <yarp/os/idl/WireTypes.h>
+#include "TickTime.h"
+#include "Header.h"
 
 class geometry_msgs_Point : public yarp::os::idl::WirePortable {
 public:
