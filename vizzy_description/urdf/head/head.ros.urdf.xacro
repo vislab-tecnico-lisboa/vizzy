@@ -507,6 +507,23 @@
     <child link="ego_frame" />
   </joint>
 
+  <link name="head_origin_frame">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0.0 0.0 0" />
+      <mass value="0.001"/> 
+      <inertia  
+        ixx="0.001" ixy="0.0" ixz="0.0" 
+        iyy="0.001" iyz="0.0" izz="0.001"/> 				
+    </inertial>
+  </link>
+
+  <joint name="head_origin_joint" type="fixed">
+    <origin
+      xyz="0.0 -0.04755 0.0"
+      rpy="0.0 -${M_PI/2.0} 0.0" />
+    <parent link="neck_tilt_link"/>
+    <child link="head_origin_frame" />
+  </joint>
     <!-- gazebo extensions -->
     <xacro:head_gazebo/>
     <xacro:head_transmissions />
