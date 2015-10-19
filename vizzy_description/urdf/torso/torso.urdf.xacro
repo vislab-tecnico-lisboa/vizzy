@@ -65,6 +65,32 @@
     <limit lower="-0.34906585" upper="0.34906585" effort="${3863H024C_motor_max_effort}" velocity="${3863H024C_motor_max_velocitiy*DEG_TO_RAD}" />
   </joint>
 
+  <link name="waist_fixed_virtual_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0.0 0.0 0" />
+      <mass value="0.001"/> 
+      <inertia  
+        ixx="0.001" ixy="0.0" ixz="0.0" 
+        iyy="0.001" iyz="0.0" izz="0.001"/> 				
+    </inertial>
+  </link>
+
+  <joint
+    name="waist_virtual_joint"
+    type="fixed">
+    <origin
+      xyz="0.189861451370331 0.0 0.535796910356883"
+      rpy="0.0 0.0 0.0" />
+    <parent
+      link="base_link" />
+    <child
+      link="waist_fixed_virtual_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit lower="-0.34906585" upper="0.34906585" effort="${3863H024C_motor_max_effort}" velocity="${3863H024C_motor_max_velocitiy*DEG_TO_RAD}" />
+  </joint>
+
+
   <!-- gazebo extensions -->
   <xacro:torso_gazebo/>
   <xacro:torso_transmissions/>
