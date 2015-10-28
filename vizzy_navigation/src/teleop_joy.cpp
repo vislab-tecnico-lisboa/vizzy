@@ -46,8 +46,6 @@ void TeleopJoy::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
 {
   geometry_msgs::Twist vel;
 
-std::cout << "l_scale_:" << l_scale_ << std::endl;
-std::cout << "a_scale_:" << a_scale_ << std::endl;
   vel.linear.x = l_scale_*joy->axes[1];
   vel.angular.z = a_scale_*joy->axes[2];
   vel_pub_.publish(vel);

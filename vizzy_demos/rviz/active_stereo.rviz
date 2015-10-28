@@ -1,10 +1,9 @@
 Panels:
   - Class: rviz/Displays
-    Help Height: 78
+    Help Height: 179
     Name: Displays
     Property Tree Widget:
       Expanded:
-        - /Global Options1
         - /RobotModel1/Links1/ego_frame1
         - /RobotModel1/Links1/eyes_center_link1
         - /RobotModel1/Links1/eyes_center_vision_link1
@@ -24,7 +23,7 @@ Panels:
         - /RobotModel1/Links1/waist_link1
         - /RobotModel1/Links1/world1
       Splitter Ratio: 0.57085
-    Tree Height: 78
+    Tree Height: 408
   - Class: rviz/Selection
     Name: Selection
   - Class: rviz/Tool Properties
@@ -197,12 +196,12 @@ Visualization Manager:
     - Alpha: 1
       Class: rviz/PointStamped
       Color: 204; 41; 204
-      Enabled: true
+      Enabled: false
       History Length: 1
       Name: FixationPointGoal
       Radius: 0.03
       Topic: /fixation_point_goal
-      Value: true
+      Value: false
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -218,16 +217,16 @@ Visualization Manager:
       Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
-      Max Intensity: 69.7292
+      Max Intensity: 65.5852
       Min Color: 0; 0; 0
-      Min Intensity: 32.9868
+      Min Intensity: -7.72792
       Name: StereoUncertainty
       Position Transformer: XYZ
       Queue Size: 10
       Selectable: true
       Size (Pixels): 3
       Size (m): 0.01
-      Style: Flat Squares
+      Style: Points
       Topic: /uncertainty_pcl
       Use Fixed Frame: true
       Use rainbow: true
@@ -247,22 +246,22 @@ Visualization Manager:
       Enabled: false
       Invert Rainbow: false
       Max Color: 255; 255; 255
-      Max Intensity: 87.7364
+      Max Intensity: 73.944
       Min Color: 0; 0; 0
-      Min Intensity: 40.8941
+      Min Intensity: 39.1237
       Name: EgoUncertainty
       Position Transformer: XYZ
       Queue Size: 10
       Selectable: true
       Size (Pixels): 3
-      Size (m): 0.01
-      Style: Flat Squares
+      Size (m): 0.001
+      Style: Points
       Topic: /ego_sphere_uncertainty
       Use Fixed Frame: true
-      Use rainbow: true
+      Use rainbow: false
       Value: false
     - Class: rviz/Image
-      Enabled: true
+      Enabled: false
       Image Topic: /left_retinal_image
       Max Value: 1
       Median window: 5
@@ -271,7 +270,7 @@ Visualization Manager:
       Normalize Range: true
       Queue Size: 2
       Transport Hint: raw
-      Value: true
+      Value: false
     - Class: rviz/Image
       Enabled: false
       Image Topic: /right_retinal_image
@@ -284,7 +283,7 @@ Visualization Manager:
       Transport Hint: compressed
       Value: false
     - Class: rviz/Image
-      Enabled: true
+      Enabled: false
       Image Topic: /left_cortical_image
       Max Value: 1
       Median window: 5
@@ -293,7 +292,7 @@ Visualization Manager:
       Normalize Range: true
       Queue Size: 2
       Transport Hint: raw
-      Value: true
+      Value: false
     - Class: rviz/Image
       Enabled: false
       Image Topic: /right_cortical_image
@@ -305,6 +304,46 @@ Visualization Manager:
       Queue Size: 2
       Transport Hint: compressed
       Value: false
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 10
+        Min Value: -10
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/PointCloud2
+      Color: 255; 255; 255
+      Color Transformer: Intensity
+      Decay Time: 0
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Max Intensity: 4096
+      Min Color: 0; 0; 0
+      Min Intensity: 0
+      Name: EgoStructure
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.01
+      Style: Flat Squares
+      Topic: /ego_sphere_structure
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: true
+    - Class: rviz/Image
+      Enabled: true
+      Image Topic: /stereo_calibration_panel_image
+      Max Value: 1
+      Median window: 5
+      Min Value: 0
+      Name: StereoCalibrationPanel
+      Normalize Range: true
+      Queue Size: 2
+      Transport Hint: compressed
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -329,39 +368,41 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 17.4993
+      Distance: 7.03178
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.00176051
-        Y: 0.0134159
-        Z: -0.00340152
+        X: 0.764609
+        Y: -0.158466
+        Z: -0.321039
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.579797
+      Pitch: 0.229796
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 2.71855
+      Yaw: 1.43619
     Saved: ~
 Window Geometry:
   Displays:
     collapsed: false
-  Height: 1022
+  Height: 1056
   Hide Left Dock: false
   Hide Right Dock: false
   LeftCortical:
     collapsed: false
   LeftRetinal:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd00000004000000000000038600000373fc020000000cfb0000001200530065006c0065006300740069006f006e00000001e10000009b0000006400fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c0061007900730100000028000000dd000000dd00fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb00000016004c0065006600740052006500740069006e0061006c010000010b000001460000001600fffffffb00000018005200690067006800740052006500740069006e0061006c0000000193000001490000001600fffffffb00000018004c0065006600740043006f00720074006900630061006c0100000257000001440000001600fffffffb0000001a005200690067006800740043006f00720074006900630061006c000000031c0000007f0000001600ffffff000000010000010f00000373fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073000000002800000373000000b000fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000073d0000003ffc0100000002fb0000000800540069006d006501000000000000073d000002f600fffffffb0000000800540069006d00650100000000000004500000000000000000000003b10000037300000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd00000004000000000000036500000395fc020000000dfb0000001200530065006c0065006300740069006f006e00000001e10000009b0000006400fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c00610079007301000000280000028c000000dd00fffffffb00000016004c0065006600740052006500740069006e0061006c0000000264000001590000001600fffffffb00000018004c0065006600740043006f00720074006900630061006c000000010b0000003a0000001600fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb00000018005200690067006800740052006500740069006e0061006c000000011c000001d40000001600fffffffb0000001a005200690067006800740043006f00720074006900630061006c0000000222000000ce0000001600fffffffb0000002c00530074006500720065006f00430061006c006900620072006100740069006f006e00500061006e0065006c01000002ba000001030000001600ffffff000000010000010f00000373fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073000000002800000373000000b000fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b20000000000000000000000020000073d000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000073f0000003ffc0100000002fb0000000800540069006d006501000000000000073f000002f600fffffffb0000000800540069006d00650100000000000004500000000000000000000003d40000039500000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   RightCortical:
     collapsed: false
   RightRetinal:
     collapsed: false
   Selection:
+    collapsed: false
+  StereoCalibrationPanel:
     collapsed: false
   Time:
     collapsed: false
@@ -369,6 +410,6 @@ Window Geometry:
     collapsed: false
   Views:
     collapsed: false
-  Width: 1853
-  X: 55
-  Y: 14
+  Width: 1855
+  X: 65
+  Y: 24
