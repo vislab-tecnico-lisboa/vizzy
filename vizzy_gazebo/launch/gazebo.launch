@@ -31,8 +31,14 @@
     <arg name="use_yarp" value="$(arg use_yarp)"/>
   </include>
 
-  <!-- start up camera rectification and debayering -->
+  <!-- start up left camera rectification and debayering -->
   <include ns="vizzy" file="$(find vizzy_gazebo)/launch/camera.launch">
   	<arg name="camera" value="l_camera" />
+  </include>
+
+
+  <!-- start up right camera rectification and debayering -->
+  <include ns="vizzy" file="$(find vizzy_gazebo)/launch/camera.launch">
+  	<arg name="camera" value="r_camera" />
   </include>
 </launch>
