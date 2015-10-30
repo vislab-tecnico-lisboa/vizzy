@@ -24,7 +24,6 @@
   <arg name="image_in" default="/vizzy/l_camera/image_rect_color" />
   <arg name="camera_info" default="/vizzy/l_camera/camera_info"/>
   <arg name="image_out" default="/vizzy/l_camera/ball_tracker"/>
-  <arg name="ros_cameras_on" default="true" />
 
   <!-- Choose which camera to use: left or right -->
   <arg name="camera" default="l_camera"/>
@@ -53,6 +52,4 @@
   <group if="$(arg visualization)">
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find vizzy_demos)/rviz/ball_tracking.rviz" />
   </group>
-
-
 </launch>
