@@ -58,7 +58,7 @@
     </group>
     <group unless="$(arg slam)">
       <!-- launch pre obtained map to the environment -->
-      <node machine="$(arg vizzy_machine_name)" name="map_server" pkg="map_server" type="map_server" args="$(arg vizzy_navigation_absolute_path)/maps/sixtyminscore.yaml" />
+      <node machine="$(arg vizzy_machine_name)" name="map_server" pkg="map_server" type="map_server" args="$(arg vizzy_navigation_absolute_path)/maps/pavilhao.yaml" />
 
       <!-- move_base using local eband planner -->
       <include file="$(find vizzy_navigation)/launch/move_base_eband_remote.launch">
