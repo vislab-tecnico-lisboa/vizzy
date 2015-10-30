@@ -5,9 +5,20 @@
   <arg name="guid" default="" />
   <arg name="video_mode" default="320x240_yuv422" />
   <arg name="frame_rate" default="5" />
-  <arg name="throttle_rate" default="1" />
+
+  <arg name="gain" default="0.312"/>
+  <arg name="shutter" default="0.592"/>
+  <arg name="white_balance_BU" default="0.474"/>
+  <arg name="white_balance_RV" default="0.648"/>
+  <arg name="hue" default="0.48"/>
+  <arg name="gamma" default="0.4"/>
+  <arg name="saturation" default="0.826"/>
+  <arg name="sharpness" default="0.5"/>
+  <arg name="brightness" default="0"/>
+
   <arg name="ns" default="" />
   <arg name="camera_file" default="" />
+
   <!-- nodelet manager process -->
   <node machine="$(arg vizzy_machine_name)" ns="$(arg ns)" pkg="nodelet" type="nodelet" name="$(arg camera)_camera_nodelet_manager" args="manager" />
 
@@ -16,8 +27,18 @@
 	<param name="guid" value="$(arg guid)" />
 	<param name="video_mode" value="$(arg video_mode)"/>
 	<param name="frame_rate" value="$(arg frame_rate)"/>
+        <param name="gain" value="$(arg gain)"/>
+        <param name="shutter" value="$(arg shutter)"/>
+        <param name="white_balance_BU" value="$(arg white_balance_BU)"/>
+        <param name="white_balance_RV" value="$(arg white_balance_RV)"/>
+        <param name="hue" value="$(arg hue)"/>
+        <param name="gamma" value="$(arg gamma)"/>
+        <param name="saturation" value="$(arg saturation)"/>
+        <param name="sharpness" value="$(arg sharpness)"/>
+        <param name="brightness" value="$(arg brightness)"/>
+
 	<!--<param name="auto_exposure" value="0"/>-->
-	<param name="auto_gain" value="0"/>
+
     	<remap from="camera" to="$(arg camera)" />
         <param name="camera_info_url" value="file://$(find vizzy_robot)/config/$(arg camera_file)" />
     	<rosparam file="$(find vizzy_robot)/config/camera_params.yaml" command="load"/>

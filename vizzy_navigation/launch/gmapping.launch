@@ -2,7 +2,7 @@
 <launch>
   <arg name="scan_topic" default="scan" />
   
-  <node name="slam_gmapping" pkg="gmapping" type="slam_gmapping" output="log">
+  <node name="slam_gmapping" pkg="gmapping" type="slam_gmapping" output="screen">
     <param name="scan" value="$(arg scan_topic)"/>
     <param name="map_update_interval" value="0.5"/>
     <param name="maxUrange" value="3.5"/>
