@@ -124,21 +124,16 @@ vizzy:
         i: 0.001
         d: 0.001
     constraints:
-      goal_time: 1000.0                   # Override default
+      goal_time: 10.0                   # Override default
+      stopped_velocity_tolerance: 0.00001
       vergence_joint:
         trajectory: -1.0
-        goal: -1.0
-        stopped_velocity_tolerance: 0.00001
+        goal: 0.0004
       version_joint:
         trajectory: -1.0
-        goal: -1.0
-        stopped_velocity_tolerance: 0.00001
-    #stop_trajectory_duration: 0.0
-    #state_publish_rate: 50.0
-    #action_monitor_rate: 30.0
+        goal: 0.0004
 
-
- # Trajectory Controllers ---------------------------------------
+# Trajectory Controllers ---------------------------------------
   head_trajectory_controller:
     type: velocity_controllers/JointTrajectoryController
     joints:
@@ -159,18 +154,18 @@ vizzy:
         i: 0.1
         d: 0.1
     constraints:
-      goal_time: 1000.0                   # Override default
+      goal_time: 10.0                   # Override default
       neck_pan_joint:
         trajectory: -1.0
-        goal: -1.0
+        goal: 0.0004
         stopped_velocity_tolerance: 0.00001
       neck_tilt_joint:
         trajectory: -1.0
-        goal: -1.0
+        goal: 0.0004
         stopped_velocity_tolerance: 0.00001
       eyes_tilt_joint:
         trajectory: -1.0
-        goal: -1.0
+        goal: 0.0004
         stopped_velocity_tolerance: 0.00001
 
 
