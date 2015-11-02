@@ -42,7 +42,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: StereoUncertainty
+    SyncSource: ""
 Visualization Manager:
   Class: ""
   Displays:

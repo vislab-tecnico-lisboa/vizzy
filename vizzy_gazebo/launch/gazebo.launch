@@ -31,14 +31,19 @@
     <arg name="use_yarp" value="$(arg use_yarp)"/>
   </include>
 
+  <!-- camera driver nodelet -->
+  <node ns="vizzy" pkg="nodelet" type="nodelet" name="cameras_nodelet_manager" args="manager" respawn="true" output="screen"/>
+
   <!-- start up left camera rectification and debayering -->
   <include ns="vizzy" file="$(find vizzy_gazebo)/launch/camera.launch">
   	<arg name="camera" value="l_camera" />
+  	<arg name="manager" value="cameras_nodelet_manager" />
   </include>
 
 
   <!-- start up right camera rectification and debayering -->
   <include ns="vizzy" file="$(find vizzy_gazebo)/launch/camera.launch">
   	<arg name="camera" value="r_camera" />
+  	<arg name="manager" value="cameras_nodelet_manager" />
   </include>
 </launch>
