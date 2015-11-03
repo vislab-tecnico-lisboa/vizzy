@@ -5,4 +5,4 @@ moveit_setup_assistant_config:
   SRDF:
     relative_path: config/vizzy.srdf
   CONFIG:
-    generated_timestamp: 1436620267
+    generated_timestamp: 1446513036
