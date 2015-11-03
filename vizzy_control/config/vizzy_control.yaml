@@ -215,9 +215,6 @@ vizzy:
         goal: 0.0004
 
 
-
-
-
   left_arm_trajectory_controller:
     type: velocity_controllers/JointTrajectoryController
     joints:
