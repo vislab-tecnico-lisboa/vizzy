@@ -3,7 +3,7 @@
 <arg name="use_yarp" default="false"/>
   <arg name="robot" default="vizzy"/>
   <arg name="pose" default="-x 0 -y 3.0 -z 0.85 -R 0.0 -P 0.0 -Y 0.0"/>
-  <arg name="urdf_file" default="vizzy.urdf.xacro"/>
+  <arg name="urdf_file" default="vizzy_head_only.urdf.xacro"/>
   <!-- Load the URDF into the ROS Parameter Server -->
   <param name="robot_description" command="$(find xacro)/xacro.py $(find vizzy_description)/robots/$(arg urdf_file) use_yarp:=$(arg use_yarp)" />
 
