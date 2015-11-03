@@ -22,27 +22,35 @@
   <arg name="base_frame_id" default="$(arg tf_prefix)/base_footprint" />
   <arg name="odom_frame_id" default="$(arg tf_prefix)/odom" />
   <arg name="map_topic" default="/map" />
-  <arg name="head_only" default="false"/>
+  <arg name="head_only" default="true"/>
   <arg name="ns" default="vizzy" />
   <arg name="fake_localization" default="false"/>
 
   <!-- bringup robot -->
-  <include file="$(find vizzy_gazebo)/launch/gazebo.launch">
-    <arg name="use_yarp" value="$(arg use_yarp)"/>
-    <arg name="robot" value="$(arg robot)"/>
-    <arg name="pose" value="$(arg pose)"/>
-    <arg name="paused" value="$(arg paused)"/>
-    <arg name="use_sim_time" value="$(arg use_sim_time)" />
-    <arg name="gui" value="$(arg gui)" />
-    <arg name="world" value="$(arg world)" />
-    <group if="$(arg head_only)">
-  	  <arg name="urdf_file" value="vizzy_head_only.urdf.xacro"/>
-    </group>
-    <group unless="$(arg head_only)">
+  <group if="$(arg head_only)">
+    <include file="$(find vizzy_gazebo)/launch/gazebo.launch">
+      <arg name="use_yarp" value="$(arg use_yarp)"/>
+      <arg name="robot" value="$(arg robot)"/>
+      <arg name="pose" value="$(arg pose)"/>
+      <arg name="paused" value="$(arg paused)"/>
+      <arg name="use_sim_time" value="$(arg use_sim_time)" />
+      <arg name="gui" value="$(arg gui)" />
+      <arg name="world" value="$(arg world)" />
+      <arg name="urdf_file" value="vizzy_head_only.urdf.xacro"/>
+    </include>
+  </group>
+  <group unless="$(arg head_only)">
+    <include file="$(find vizzy_gazebo)/launch/gazebo.launch">
+      <arg name="use_yarp" value="$(arg use_yarp)"/>
+      <arg name="robot" value="$(arg robot)"/>
+      <arg name="pose" value="$(arg pose)"/>
+      <arg name="paused" value="$(arg paused)"/>
+      <arg name="use_sim_time" value="$(arg use_sim_time)" />
+      <arg name="gui" value="$(arg gui)" />
+      <arg name="world" value="$(arg world)" />
       <arg name="urdf_file" value="vizzy.urdf.xacro"/>
-    </group>
-  </include>
-
+    </include>
+  </group>
   <!-- launch moveit -->
   <group if="$(arg launch_moveit)">
     <group if="$(arg head_only)">
@@ -81,9 +89,8 @@
 		    </node>
     	</group>
     	<group unless="$(arg fake_localization)">
-      	<!-- localization package -->
-      	<include file="$(find vizzy_navigation)/launch/amcl_simulation.launch">
-      	</include>
+      	  <!-- localization package -->
+      	  <include file="$(find vizzy_navigation)/launch/amcl_simulation.launch"/>
     	</group>
     </group>
   </group>
