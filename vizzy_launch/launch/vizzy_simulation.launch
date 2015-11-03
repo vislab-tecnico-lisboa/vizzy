@@ -28,13 +28,13 @@
 
   <!-- bringup robot -->
   <include file="$(find vizzy_gazebo)/launch/gazebo.launch">
-	<arg name="use_yarp" value="$(arg use_yarp)"/>
+    <arg name="use_yarp" value="$(arg use_yarp)"/>
     <arg name="robot" value="$(arg robot)"/>
     <arg name="pose" value="$(arg pose)"/>
     <arg name="paused" value="$(arg paused)"/>
-  	<arg name="use_sim_time" value="$(arg use_sim_time)" />
-  	<arg name="gui" value="$(arg gui)" />
-  	<arg name="world" value="$(arg world)" />
+    <arg name="use_sim_time" value="$(arg use_sim_time)" />
+    <arg name="gui" value="$(arg gui)" />
+    <arg name="world" value="$(arg world)" />
     <group if="$(arg head_only)">
   	  <arg name="urdf_file" value="vizzy_head_only.urdf.xacro"/>
     </group>
