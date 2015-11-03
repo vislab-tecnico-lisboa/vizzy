@@ -21,6 +21,13 @@
         <joint name="vergence_joint" />
         <joint name="version_joint" />
     </group>
+    <group name="oculocephalic">
+        <joint name="neck_pan_joint" />
+        <joint name="neck_tilt_joint" />
+        <joint name="eyes_tilt_joint" />
+        <joint name="vergence_joint" />
+        <joint name="version_joint" />
+    </group>
     <!--GROUP STATES: Purpose: Define a named state for a particular group, in terms of joint values. This is useful to define states like 'folded arms'-->
     <group_state name="head_home" group="head">
         <joint name="eyes_tilt_joint" value="0" />
@@ -28,6 +35,13 @@
         <joint name="neck_tilt_joint" value="0" />
     </group_state>
     <group_state name="eyes_home" group="eyes">
+        <joint name="vergence_joint" value="0" />
+        <joint name="version_joint" value="0" />
+    </group_state>
+    <group_state name="oculocephalic_home" group="oculocephalic">
+        <joint name="eyes_tilt_joint" value="0" />
+        <joint name="neck_pan_joint" value="0" />
+        <joint name="neck_tilt_joint" value="0" />
         <joint name="vergence_joint" value="0" />
         <joint name="version_joint" value="0" />
     </group_state>
