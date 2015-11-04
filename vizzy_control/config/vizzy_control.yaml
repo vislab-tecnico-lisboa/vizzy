@@ -34,7 +34,7 @@ vizzy:
   vergence_position_controller:
     type: velocity_controllers/JointPositionController
     joint: vergence_joint
-    pid: {p: 3.0, i: 0.01, d: 0.01}
+    pid: {p: 3.0, i: 0.01, d: 0.01, i_clamp: 1.0}
 
   # Left arm Position Controllers
   l_shoulder_scapula_position_controller:

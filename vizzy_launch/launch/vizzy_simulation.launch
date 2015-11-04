@@ -25,6 +25,7 @@
   <arg name="head_only" default="true"/>
   <arg name="ns" default="vizzy" />
   <arg name="fake_localization" default="false"/>
+  <arg name="teleop" default="false"/>
 
   <!-- bringup robot -->
   <group if="$(arg head_only)">
@@ -51,6 +52,7 @@
       <arg name="urdf_file" value="vizzy.urdf.xacro"/>
     </include>
   </group>
+
   <!-- launch moveit -->
   <group if="$(arg launch_moveit)">
     <group if="$(arg head_only)">
@@ -61,6 +63,7 @@
     </group>
   </group>
 
+  <!-- launch navigation -->
   <group if="$(arg navigation)">
     <!-- launch the laser filter to get rid of readings from the robot itself -->
     <node name="hokuyo_laser_filters" pkg="laser_filters" type="scan_to_scan_filter_chain">
@@ -95,8 +98,10 @@
     </group>
   </group>
 
-    <!-- teleop -->
+  <!-- teleop -->
+  <group if="$(arg teleop)">
     <include file="$(find vizzy_navigation)/launch/teleop_joy_simulation.launch">
       <arg name="ns" value="$(arg ns)" />
     </include>
+  </group>
 </launch>

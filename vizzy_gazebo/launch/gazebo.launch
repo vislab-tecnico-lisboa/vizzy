@@ -10,6 +10,7 @@
   <arg name="world" default="isr_7th_floor.world" />
   <arg name="urdf_file" default="vizzy.urdf.xacro"/>
   <env name="GAZEBO_MODEL_PATH" value="$(find vizzy_gazebo):$(optenv GAZEBO_MODEL_PATH)"/>
+  <env name="LC_NUMERIC" value="C"/>
 
   <!-- start up world -->
   <include file="$(find vizzy_gazebo)/launch/vizzy_sim_world.launch">
