@@ -43,7 +43,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: StereoUncertainty
+    SyncSource: ""
 Visualization Manager:
   Class: ""
   Displays:
@@ -215,7 +215,7 @@ Visualization Manager:
       Color: 255; 255; 255
       Color Transformer: Intensity
       Decay Time: 0
-      Enabled: false
+      Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
       Max Intensity: 64.3312
@@ -231,7 +231,7 @@ Visualization Manager:
       Topic: /uncertainty_pcl
       Use Fixed Frame: true
       Use rainbow: true
-      Value: false
+      Value: true
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -410,10 +410,10 @@ Visualization Manager:
         Z: -0.000766729
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.529797
+      Pitch: 0.354797
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 2.83442
+      Yaw: 3.11442
     Saved: ~
 Window Geometry:
   Displays:
