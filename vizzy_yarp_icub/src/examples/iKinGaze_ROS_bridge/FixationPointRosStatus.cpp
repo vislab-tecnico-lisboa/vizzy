@@ -37,7 +37,6 @@ int main(int argc, char *argv[]) {
     reading1Mux = receiverBuff1Mux1.read(false);
     yarp::os::Time::delay(0.03);
     if (reading1Mux != NULL){
-	//std::cout << "point read" << std::endl;
 	geometry_msgs_PointStamped & out = xd_outputPort.prepare();
 	out.point = *reading1Mux;
 
