@@ -10,9 +10,9 @@ int main(int argc, char *argv[]) {
   rosNode = new yarp::os::Node("/ros_tests");
   yarp::os::Subscriber<geometry_msgs_Point> xd_inputPort;
   xd_inputPort.setReadOnly();
-  bool outputOk = xd_inputPort.topic("/fixation_point_goal_yarp");
+  bool outputOk = xd_inputPort.topic("/fixation_point_goal_ros");
   BufferedPort<geometry_msgs_Point> xd_outputPort;
-  bool outputOk_3 = xd_outputPort.open("/fixation_point_goal_ros");
+  bool outputOk_3 = xd_outputPort.open("/fixation_point_goal_yarp");
 
   BufferedPort<geometry_msgs_Point>  receiverBuff1Mux1;
   bool receiver1Mux1Ok = receiverBuff1Mux1.open("/fixation_point_internal");

@@ -41,7 +41,7 @@ int main(int argc, char *argv[]) {
 	geometry_msgs_PointStamped & out = xd_outputPort.prepare();
 	out.point = *reading1Mux;
 
-	out.header.frame_id="waist_fixed_virtual_link";
+	out.header.frame_id="base_link";
 	out.header.stamp.sec=yarp::os::Time::now();
 	out.header.stamp.nsec=0.0;
 	xd_outputPort.write();
