@@ -26,7 +26,7 @@
   <arg name="right_camera_name" default="r_camera" />
 
   <!-- camera parameters -->
-  <arg name="video_mode" default="format7_mode4" /> <!-- raw format7_mode4-->
+  <arg name="video_mode" default="320x240_yuv422" /> <!-- raw format7_mode4-->
   <arg name="frame_rate" default="30.0" />
   <arg name="gain" default="0.312"/>
   <arg name="shutter" default="0.592"/>
