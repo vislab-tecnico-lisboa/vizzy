@@ -1,6 +1,6 @@
 #include <iostream>
 #include <yarp/os/all.h>
-#include <geometry_msgs_Point.h>
+#include <geometry_msgs_PointStamped.h>
 
 using namespace yarp::os;
 
@@ -10,15 +10,15 @@ int main(int argc, char *argv[]) {
   rosNode = new yarp::os::Node("/ros_tests");
   yarp::os::Subscriber<geometry_msgs_Point> xd_inputPort;
   xd_inputPort.setReadOnly();
-  bool outputOk = xd_inputPort.topic("/my_xd_in");
+  bool outputOk = xd_inputPort.topic("/fixation_point_goal_yarp");
   BufferedPort<geometry_msgs_Point> xd_outputPort;
-  bool outputOk_3 = xd_outputPort.open("/gaze_point");
+  bool outputOk_3 = xd_outputPort.open("/fixation_point_goal_ros");
 
   BufferedPort<geometry_msgs_Point>  receiverBuff1Mux1;
-  bool receiver1Mux1Ok = receiverBuff1Mux1.open("/my_other_port_in");
-  yarp::os::Publisher<geometry_msgs_Point> outputPort;
+  bool receiver1Mux1Ok = receiverBuff1Mux1.open("/fixation_point_internal");
+  yarp::os::Publisher<geometry_msgs_PointStamped> outputPort;
   outputPort.setWriteOnly();
-  bool outputOk_1 = outputPort.topic("/my_x_out");
+  bool outputOk_1 = outputPort.topic("/fixation_point");
   
  if(!outputOk_3)
   {
@@ -58,8 +58,12 @@ int main(int argc, char *argv[]) {
     geometry_msgs_Point *reading1Mux;
     reading1Mux = receiverBuff1Mux1.read();
 
-    geometry_msgs_Point & out_ = outputPort.prepare();
-    out_ = *reading1Mux;
+    geometry_msgs_PointStamped & out_ = outputPort.prepare();
+    out_.point = *reading1Mux;
+    out_.header.frame_id="base_link";
+    out_.header.stamp.sec=yarp::os::Time::now();
+    out_.header.stamp.nsec=0.0;
+
     outputPort.write();
   }
   return 0;
