@@ -22,6 +22,7 @@ Panels:
         - /RobotModel1/Links1/version_link1
         - /RobotModel1/Links1/waist_link1
         - /RobotModel1/Links1/world1
+        - /EgoRGBD1
       Splitter Ratio: 0.57085
     Tree Height: 673
   - Class: rviz/Selection
@@ -42,7 +43,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: StereoUncertainty
+    SyncSource: ""
 Visualization Manager:
   Class: ""
   Displays:
@@ -217,9 +218,9 @@ Visualization Manager:
       Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
-      Max Intensity: 67.1049
+      Max Intensity: 64.3312
       Min Color: 0; 0; 0
-      Min Intensity: 36.0637
+      Min Intensity: 35.6778
       Name: StereoUncertainty
       Position Transformer: XYZ
       Queue Size: 10
@@ -243,12 +244,12 @@ Visualization Manager:
       Color: 255; 255; 255
       Color Transformer: Intensity
       Decay Time: 0
-      Enabled: false
+      Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
-      Max Intensity: 73.944
+      Max Intensity: 74.6878
       Min Color: 0; 0; 0
-      Min Intensity: 39.1237
+      Min Intensity: 40.8474
       Name: EgoUncertainty
       Position Transformer: XYZ
       Queue Size: 10
@@ -259,6 +260,64 @@ Visualization Manager:
       Topic: /ego_sphere_uncertainty
       Use Fixed Frame: true
       Use rainbow: false
+      Value: true
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 10
+        Min Value: -10
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/PointCloud2
+      Color: 255; 255; 255
+      Color Transformer: RGB8
+      Decay Time: 0
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Max Intensity: 4096
+      Min Color: 0; 0; 0
+      Min Intensity: 0
+      Name: EgoRGBD
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.01
+      Style: Points
+      Topic: /ego_sphere
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: true
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 10
+        Min Value: -10
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/PointCloud2
+      Color: 255; 255; 255
+      Color Transformer: Intensity
+      Decay Time: 0
+      Enabled: false
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Max Intensity: 4096
+      Min Color: 0; 0; 0
+      Min Intensity: 0
+      Name: EgoStructure
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.01
+      Style: Flat Squares
+      Topic: /ego_sphere_structure
+      Use Fixed Frame: true
+      Use rainbow: true
       Value: false
     - Class: rviz/Image
       Enabled: false
@@ -304,35 +363,6 @@ Visualization Manager:
       Queue Size: 2
       Transport Hint: compressed
       Value: false
-    - Alpha: 1
-      Autocompute Intensity Bounds: true
-      Autocompute Value Bounds:
-        Max Value: 10
-        Min Value: -10
-        Value: true
-      Axis: Z
-      Channel Name: intensity
-      Class: rviz/PointCloud2
-      Color: 255; 255; 255
-      Color Transformer: Intensity
-      Decay Time: 0
-      Enabled: true
-      Invert Rainbow: false
-      Max Color: 255; 255; 255
-      Max Intensity: 4096
-      Min Color: 0; 0; 0
-      Min Intensity: 0
-      Name: EgoStructure
-      Position Transformer: XYZ
-      Queue Size: 10
-      Selectable: true
-      Size (Pixels): 3
-      Size (m): 0.01
-      Style: Flat Squares
-      Topic: /ego_sphere_structure
-      Use Fixed Frame: true
-      Use rainbow: true
-      Value: true
     - Class: rviz/Image
       Enabled: false
       Image Topic: /stereo_calibration_panel_image
@@ -368,22 +398,22 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 7.03178
+      Distance: 7.28507
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.764609
-        Y: -0.158466
-        Z: -0.321039
+        X: 1.90861
+        Y: 0.376723
+        Z: -0.000766729
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: -0.00520399
+      Pitch: 0.354797
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 1.50119
+      Yaw: 3.11442
     Saved: ~
 Window Geometry:
   Displays:

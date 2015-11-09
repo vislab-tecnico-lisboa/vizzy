@@ -20,6 +20,13 @@
         <joint name="vergence_joint" />
         <joint name="version_joint" />
     </group>
+    <group name="oculocephalic">
+        <joint name="neck_pan_joint" />
+        <joint name="neck_tilt_joint" />
+        <joint name="eyes_tilt_joint" />
+        <joint name="vergence_joint" />
+        <joint name="version_joint" />
+    </group>
     <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
     <disable_collisions link1="base_link" link2="eyes_tilt_link" reason="Never" />
     <disable_collisions link1="base_link" link2="l_camera_link" reason="Never" />

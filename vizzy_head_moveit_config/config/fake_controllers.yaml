@@ -8,3 +8,10 @@ controller_list:
     joints:
       - vergence_joint
       - version_joint
+  - name: fake_oculocephalic_controller
+    joints:
+      - neck_pan_joint
+      - neck_tilt_joint
+      - eyes_tilt_joint
+      - vergence_joint
+      - version_joint

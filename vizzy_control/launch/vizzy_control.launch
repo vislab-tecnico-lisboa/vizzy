@@ -43,9 +43,12 @@
 
 	  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
 	    output="screen" ns="/vizzy" args="
-    		head_trajectory_controller 
 		joint_state_controller
-		eyes_trajectory_controller" />
+		neck_pan_position_controller
+                neck_tilt_position_controller
+                eyes_tilt_position_controller
+                version_position_controller
+                vergence_position_controller" />
   </group>
 
 	<!-- convert joint states to TF transforms for rviz, etc -->

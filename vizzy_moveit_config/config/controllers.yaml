@@ -1,16 +1,26 @@
-controller_list:
- - name: /vizzy/head_trajectory_controller
-   action_ns: follow_joint_trajectory
-   type: FollowJointTrajectory
-   default: true
-   joints:
-      - neck_pan_joint
-      - neck_tilt_joint
-      - eyes_tilt_joint
- - name: /vizzy/eyes_trajectory_controller
-   action_ns: follow_joint_trajectory
-   type: FollowJointTrajectory
-   default: true
-   joints:
-      - vergence_joint
-      - version_joint
+#controller_list:
+# - name: /vizzy/head_trajectory_controller
+#   action_ns: follow_joint_trajectory
+#   type: FollowJointTrajectory
+#   default: true
+#   joints:
+#      - neck_pan_joint
+#      - neck_tilt_joint
+#      - eyes_tilt_joint
+# - name: /vizzy/eyes_trajectory_controller
+#   action_ns: follow_joint_trajectory
+#   type: FollowJointTrajectory
+#   default: true
+#   joints:
+#      - vergence_joint
+#      - version_joint
+# - name: /vizzy/oculocephalic_trajectory_controller
+#   action_ns: follow_joint_trajectory
+#   type: FollowJointTrajectory
+#   default: true
+#   joints:
+#      - neck_pan_joint
+#      - neck_tilt_joint
+#      - eyes_tilt_joint
+#      - vergence_joint
+#      - version_joint

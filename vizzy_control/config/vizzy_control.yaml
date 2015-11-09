@@ -14,27 +14,27 @@ vizzy:
   neck_pan_position_controller:
     type: velocity_controllers/JointPositionController
     joint: neck_pan_joint
-    pid: {p: 1.0, i: 0.0, d: 0.0}
+    pid: {p: 3.0, i: 0.01, d: 0.01}
 
   neck_tilt_position_controller:
     type: velocity_controllers/JointPositionController
     joint: neck_tilt_joint
-    pid: {p: 1.0, i: 0.0, d: 0.0}
+    pid: {p: 10.0, i: 0.01, d: 0.01}
 
   eyes_tilt_position_controller:
     type: velocity_controllers/JointPositionController
     joint: eyes_tilt_joint
-    pid: {p: 1.0, i: 0.0, d: 0.0}
+    pid: {p: 10.0, i: 0.01, d: 0.01}
 
   version_position_controller:
     type: velocity_controllers/JointPositionController
     joint: version_joint
-    pid: {p: 5.0, i: 1.0, d: 0.1}
+    pid: {p: 0.1, i: 0.01, d: 0.01}
 
   vergence_position_controller:
     type: velocity_controllers/JointPositionController
     joint: vergence_joint
-    pid: {p: 5.0, i: 1.0, d: 0.1}
+    pid: {p: 3.0, i: 0.01, d: 0.01, i_clamp: 1.0}
 
   # Left arm Position Controllers
   l_shoulder_scapula_position_controller:
@@ -107,34 +107,7 @@ vizzy:
     type: velocity_controllers/JointPositionController
     joint: r_wrist_flection_joint
     pid: {p: 1.0, i: 0.0, d: 0.0}
-
-  eyes_trajectory_controller:
-    type: velocity_controllers/JointTrajectoryController
-    joints:
-    - vergence_joint
-    - version_joint
-    gains:
-      vergence_joint:
-        p: 3.0
-        i: 0.001
-        d: 0.001
-        i_clamp: 1.0
-      version_joint:
-        p: 0.1
-        i: 0.001
-        d: 0.001
-    constraints:
-      goal_time: 1000.0                   # Override default
-      vergence_joint:
-        trajectory: -1.0
-        goal: -1.0
-        stopped_velocity_tolerance: 0.00001
-      version_joint:
-        trajectory: -1.0
-        goal: -1.0
-        stopped_velocity_tolerance: 0.00001
-
- # Trajectory Controllers ---------------------------------------
+# Trajectory Controllers ---------------------------------------
   head_trajectory_controller:
     type: velocity_controllers/JointTrajectoryController
     joints:
@@ -155,20 +128,91 @@ vizzy:
         i: 0.1
         d: 0.1
     constraints:
-      goal_time: 1000.0                   # Override default
+      goal_time: 10.0                   # Override default
       neck_pan_joint:
         trajectory: -1.0
-        goal: -1.0
-        stopped_velocity_tolerance: 0.00001
+        goal: 0.0004
       neck_tilt_joint:
         trajectory: -1.0
-        goal: -1.0
-        stopped_velocity_tolerance: 0.00001
+        goal: 0.0004
       eyes_tilt_joint:
         trajectory: -1.0
-        goal: -1.0
-        stopped_velocity_tolerance: 0.00001
+        goal: 0.0004
 
+  eyes_trajectory_controller:
+    type: velocity_controllers/JointTrajectoryController
+    joints:
+    - vergence_joint
+    - version_joint
+    gains:
+      vergence_joint:
+        p: 3.0
+        i: 0.001
+        d: 0.001
+        i_clamp: 1.0
+      version_joint:
+        p: 0.1
+        i: 0.001
+        d: 0.001
+    constraints:
+      goal_time: 10.0                   # Override default
+      stopped_velocity_tolerance: 0.00001
+      vergence_joint:
+        trajectory: -1.0
+        goal: 0.0004
+      version_joint:
+        trajectory: -1.0
+        goal: 0.0004
+
+
+  oculocephalic_trajectory_controller:
+    type: velocity_controllers/JointTrajectoryController
+    joints:
+    - neck_pan_joint
+    - neck_tilt_joint
+    - eyes_tilt_joint
+    - vergence_joint
+    - version_joint
+    gains:
+      neck_pan_joint:
+        p: 3.0
+        i: 0.01
+        d: 0.01
+      neck_tilt_joint:
+        p: 10.0
+        i: 0.01
+        d: 0.01
+      eyes_tilt_joint:
+        p: 10.0
+        i: 0.1
+        d: 0.1
+      vergence_joint:
+        p: 3.0
+        i: 0.001
+        d: 0.001
+        i_clamp: 1.0
+      version_joint:
+        p: 0.1
+        i: 0.001
+        d: 0.001
+    constraints:
+      goal_time: 10.0                   # Override default
+      stopped_velocity_tolerance: 0.00001
+      neck_pan_joint:
+        trajectory: -1.0
+        goal: 0.0004
+      neck_tilt_joint:
+        trajectory: -1.0
+        goal: 0.0004
+      eyes_tilt_joint:
+        trajectory: -1.0
+        goal: 0.0004
+      vergence_joint:
+        trajectory: -1.0
+        goal: 0.0004
+      version_joint:
+        trajectory: -1.0
+        goal: 0.0004
 
 
   left_arm_trajectory_controller:

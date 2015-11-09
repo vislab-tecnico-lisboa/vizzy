@@ -8,14 +8,24 @@
   <arg name="right_camera_guid" default="00b09d01007ad693" />
   <arg name="left_camera_file" default="left_camera_params.yaml" />
   <arg name="right_camera_file" default="right_camera_params.yaml" />
-  <arg name="video_mode" default="640x480_rgb8" />
-  <arg name="frame_rate" default="15.0" />
+  
+  <arg name="video_mode" default="format7_mode4" /> <!-- raw format7_mode4-->
+  <arg name="frame_rate" default="30.0" />
+  <arg name="gain" default="0.312"/>
+  <arg name="shutter" default="0.592"/>
+  <arg name="white_balance_BU" default="0.474"/>
+  <arg name="white_balance_RV" default="0.648"/>
+  <arg name="hue" default="0.48"/>
+  <arg name="gamma" default="0.4"/>
+  <arg name="saturation" default="0.826"/>
+  <arg name="sharpness" default="0.5"/>
+  <arg name="brightness" default="0"/>
 
   <arg name="map_frame" default="map" />
   <arg name="map_service" default="/static_map" />
   <arg name="map_topic" default="/map" />
 
-  <arg name="throttle_rate" default="0.5" />
+
   <arg name="ns" default="vizzy" />
   <arg name="tf_prefix" default="$(arg ns)" />
   <arg name="device_id" default="#1" />
@@ -47,26 +57,35 @@
 	
 	<group if="$(arg ros_cameras_on)">
 	 	<!-- Left camera -->
-		<include file="$(find vizzy_robot)/launch/camera.launch">
-	    	<arg name="camera" value="$(arg left_camera_name)" />
-	    	<arg name="guid" value="$(arg left_camera_guid)" />
-	  		<arg name="video_mode" value="$(arg video_mode)" />
-	  		<arg name="frame_rate" value="$(arg frame_rate)" />
-	  		<arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)" />
-	  		<arg name="ns" value="$(arg ns)" />
-	  		<arg name="camera_file" value="$(arg left_camera_file)" />
-		</include>
+          <include file="$(find vizzy_robot)/launch/camera.launch">
+	    <arg name="camera" value="$(arg left_camera_name)" />
+	    <arg name="guid" value="$(arg left_camera_guid)" />
+	    <arg name="video_mode" value="$(arg video_mode)"/>
+	    <arg name="frame_rate" value="$(arg frame_rate)"/>
+            <arg name="gain" value="$(arg gain)"/>
+            <arg name="shutter" value="$(arg shutter)"/>
+            <arg name="white_balance_BU" value="$(arg white_balance_BU)"/>
+            <arg name="white_balance_RV" value="$(arg white_balance_RV)"/>
+            <arg name="hue" value="$(arg hue)"/>
+            <arg name="gamma" value="$(arg gamma)"/>
+            <arg name="saturation" value="$(arg saturation)"/>
+            <arg name="sharpness" value="$(arg sharpness)"/>
+            <arg name="brightness" value="$(arg brightness)"/>
+	    <arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)" />
+	    <arg name="ns" value="$(arg ns)" />
+	    <arg name="camera_file" value="$(arg left_camera_file)" />
+	  </include>
 
-	 	<!-- Right camera -->
-		<include file="$(find vizzy_robot)/launch/camera.launch">
-	    	<arg name="camera" value="$(arg right_camera_name)" />
-	    	<arg name="guid" value="$(arg right_camera_guid)" />
-	  		<arg name="video_mode" value="$(arg video_mode)" />
-	  		<arg name="frame_rate" value="$(arg frame_rate)" />
-	  		<arg name="throttle_rate" value="$(arg throttle_rate)" />
-	  		<arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)" />
-	  		<arg name="ns" value="$(arg ns)" />
-	  		<arg name="camera_file" value="$(arg right_camera_file)" />
-		</include>
+	  <!-- Right camera -->
+	  <include file="$(find vizzy_robot)/launch/camera.launch">
+	    <arg name="camera" value="$(arg right_camera_name)" />
+	    <arg name="guid" value="$(arg right_camera_guid)" />
+	    <arg name="video_mode" value="$(arg video_mode)" />
+	    <arg name="frame_rate" value="$(arg frame_rate)" />
+
+	    <arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)" />
+	    <arg name="ns" value="$(arg ns)" />
+	    <arg name="camera_file" value="$(arg right_camera_file)" />
+	  </include>
 	</group>
 </launch>
