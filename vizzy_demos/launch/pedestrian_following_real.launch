@@ -21,6 +21,7 @@
   <arg name="visualization" default="false" />
   <arg name="ns" default="vizzy" />
   <arg name="ros_cameras_on" default="true" />
+  <arg name="map_file" default="isr_7th_floor_real.yaml" />
 
   <!-- Choose what we want to detect: pedestrian, headandshoulders, full -->
   <arg name="detector_type" default="full" />
@@ -42,6 +43,7 @@
   	<arg name="vizzy_machine_address" value="$(arg vizzy_machine_address)"/>
   	<arg name="env-loader" value="$(arg env-loader)"/>
   	<arg name="ros_cameras_on" value="$(arg ros_cameras_on)"/>
+  	<arg name="map_file" value="$(arg map_file)" />
   </include>
 
   <!-- launch vizualization on rviz -->
