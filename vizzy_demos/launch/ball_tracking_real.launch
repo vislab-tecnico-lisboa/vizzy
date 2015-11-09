@@ -9,31 +9,31 @@
 
   <!-- simulation parameters and robot configuration parameters -->
   <arg name="navigation" default="true"/>
+  <arg name="launch_moveit" default="true"/>
   <arg name="slam" default="false"/>
-  <!--<arg name="pose" default="-x -3.65 -y 17.7 -z 0.20 -R 0.0 -P 0.0 -Y 1.57"/>-->
   <arg name="map_frame" default="map" />
-  <arg name="tf_prefix" default="" />
-  <arg name="base_frame_id" default="$(arg tf_prefix)/base_footprint" />
-  <arg name="odom_frame_id" default="$(arg tf_prefix)/odom" />
+  <arg name="base_frame_id" default="$(arg base_footprint" />
+  <arg name="odom_frame_id" default="$(arg odom" />
   <arg name="map_topic" default="/map" />
   <arg name="pedestrian_detection" default="false" />
   <arg name="use_moveit" default="false" />
   <arg name="visualization" default="false" />
   <arg name="ns" default="vizzy" />
-  <arg name="ros_cameras_on" default="true" />
 
-  <!-- Choose what we want to detect: pedestrian, headandshoulders, full -->
-  <arg name="detector_type" default="full" />
+  <arg name="image_in" default="/vizzy/l_camera/image_rect_color" />
+  <arg name="camera_info" default="/vizzy/l_camera/camera_info"/>
+  <arg name="image_out" default="/vizzy/l_camera/ball_tracker"/>
+  <arg name="ros_cameras_on" default="true" />
 
   <!-- Choose which camera to use: left or right -->
   <arg name="camera" default="l_camera"/>
-
+  
+  <!-- vizzy -->
   <include file="$(find vizzy_launch)/launch/vizzy_real.launch">
 	<arg name="navigation" value="$(arg navigation)"/>
 	<arg name="slam" value="$(arg slam)"/>
 	<!--<arg name="pose" default="-x -3.65 -y 17.7 -z 0.20 -R 0.0 -P 0.0 -Y 1.57"/>-->
 	<arg name="map_frame" value="$(arg map_frame)" />
-	<arg name="tf_prefix" value="$(arg tf_prefix)" />
 	<arg name="base_frame_id" value="$(arg base_frame_id)" />
 	<arg name="odom_frame_id" value="$(arg odom_frame_id)" />
 	<arg name="map_topic" value="$(arg map_topic)" />
@@ -43,16 +43,15 @@
   	<arg name="env-loader" value="$(arg env-loader)"/>
   	<arg name="ros_cameras_on" value="$(arg ros_cameras_on)"/>
   </include>
+  <!-- launch ball tracker -->
+  <include file="$(find pf3d_tracker)/launch/pf3d_tracker.launch">
+  	<arg name="image_in" default="/vizzy/l_camera/image_rect_color"/>
+  	<arg name="camera_info" default="/vizzy/l_camera/camera_info"/>
+  	<arg name="image_out" default="/vizzy/l_camera/ball_tracker"/>
+  </include>
 
   <!-- launch vizualization on rviz -->
   <group if="$(arg visualization)">
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find vizzy_demos)/rviz/pedestrian_detection.rviz" />
   </group>
-
-  <!-- Launch pedestrian detector, tracker and follower -->
-  <include file="$(find pedestrian_detector)/launch/pedestrian_detector.launch">
-    <arg name="image_in" value="/vizzy/$(arg camera)/image_rect_color"/>
-    <arg name="detector_type" value="$(arg detector_type)" />
-    <arg name="camera" value="$(arg camera)"/>
-  </include>
 </launch>

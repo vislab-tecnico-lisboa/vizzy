@@ -12,9 +12,6 @@
   <arg name="use_yarp" default="false"/>
   <arg name="navigation" default="true"/>
   <arg name="slam" default="false"/>
-  <!--<arg name="pose" default="-x -3.65 -y 17.7 -z 0.20 -R 0.0 -P 0.0 -Y 1.57"/>-->
-  <arg name="pose" default="-x 0.0 -y 0.0 -z 0.15 -R 0.0 -P 0.0 -Y 1.57"/>
-  <arg name="paused" default="false"/>
   <arg name="use_sim_time" default="true"/>
   <arg name="gui" default="true"/>
   <arg name="yarp" default="false"/>
@@ -23,9 +20,25 @@
   <arg name="base_frame_id" default="$(arg tf_prefix)/base_footprint" />
   <arg name="odom_frame_id" default="$(arg tf_prefix)/odom" />
   <arg name="map_topic" default="/map" />
+  <arg name="map_file" default="sixtyminscore.yaml" />
   <arg name="use_moveit" default="false" />
   <arg name="left_camera_name" default="l_camera" />
   <arg name="right_camera_name" default="r_camera" />
+
+  <!-- camera parameters -->
+  <arg name="video_mode" default="format7_mode4" /> <!-- raw format7_mode4-->
+  <arg name="frame_rate" default="30.0" />
+  <arg name="gain" default="0.312"/>
+  <arg name="shutter" default="0.592"/>
+  <arg name="white_balance_BU" default="0.474"/>
+  <arg name="white_balance_RV" default="0.648"/>
+  <arg name="hue" default="0.48"/>
+  <arg name="gamma" default="0.4"/>
+  <arg name="saturation" default="0.826"/>
+  <arg name="sharpness" default="0.5"/>
+  <arg name="brightness" default="0"/>
+
+
   <arg name="vizzy_navigation_absolute_path" default="/home/vizzy/catkin_workspace/src/vizzy/vizzy_navigation" />
   <arg name="ns" default="vizzy" />
   <arg name="ros_cameras_on" default="true" />
@@ -39,6 +52,18 @@
     <arg name="right_camera_name" value="$(arg right_camera_name)" />
     <arg name="ns" value="$(arg ns)" />
     <arg name="ros_cameras_on" value="$(arg ros_cameras_on)" />
+
+    <arg name="video_mode" value="$(arg video_mode)"/>
+    <arg name="frame_rate" value="$(arg frame_rate)"/>
+    <arg name="gain" value="$(arg gain)"/>
+    <arg name="shutter" value="$(arg shutter)"/>
+    <arg name="white_balance_BU" value="$(arg white_balance_BU)"/>
+    <arg name="white_balance_RV" value="$(arg white_balance_RV)"/>
+    <arg name="hue" value="$(arg hue)"/>
+    <arg name="gamma" value="$(arg gamma)"/>
+    <arg name="saturation" value="$(arg saturation)"/>
+    <arg name="sharpness" value="$(arg sharpness)"/>
+    <arg name="brightness" value="$(arg brightness)"/>
   </include>
 
   <!-- launch moveit -->
@@ -58,7 +83,7 @@
     </group>
     <group unless="$(arg slam)">
       <!-- launch pre obtained map to the environment -->
-      <node machine="$(arg vizzy_machine_name)" name="map_server" pkg="map_server" type="map_server" args="$(arg vizzy_navigation_absolute_path)/maps/sixtyminscore.yaml" />
+      <node machine="$(arg vizzy_machine_name)" name="map_server" pkg="map_server" type="map_server" args="$(arg vizzy_navigation_absolute_path)/maps/$(arg map_file)" />
 
       <!-- move_base using local eband planner -->
       <include file="$(find vizzy_navigation)/launch/move_base_eband_remote.launch">

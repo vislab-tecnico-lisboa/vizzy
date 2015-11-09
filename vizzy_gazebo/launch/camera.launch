@@ -1,25 +1,23 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="camera" default="l_camera" />
-
-  <!-- camera driver nodelet -->
-  <node pkg="nodelet" type="nodelet" name="$(arg camera)_camera_nodelet_manager" args="manager" respawn="true" output="screen"/>
+  <arg name="camera" default="" />
+  <arg name="manager" default="cameras_camera" />
 
   <!-- Bayer color decoding -->
-  <node pkg="nodelet" type="nodelet" name="$(arg camera)_image_proc_debayer" args="load image_proc/debayer $(arg camera)_camera_nodelet_manager">
+  <node pkg="nodelet" type="nodelet" name="$(arg camera)_image_proc_debayer" args="load image_proc/debayer $(arg manager)">
     <remap from="image_color" to="$(arg camera)/image_color" />
     <remap from="image_mono" to="$(arg camera)/image_mono" />
     <remap from="image_raw" to="$(arg camera)/image_raw" />
   </node>
 
   <!-- mono rectification -->
-  <node pkg="nodelet" type="nodelet" name="$(arg camera)_image_proc_rect" args="load image_proc/rectify $(arg camera)_camera_nodelet_manager">
+  <node pkg="nodelet" type="nodelet" name="$(arg camera)_image_proc_rect" args="load image_proc/rectify $(arg manager)">
     <remap from="image_mono" to="$(arg camera)/image_mono" />
     <remap from="image_rect" to="$(arg camera)/image_rect" />
   </node>
 
   <!-- color rectification -->
-  <node pkg="nodelet" type="nodelet" name="$(arg camera)_image_proc_rect_color" args="load image_proc/rectify $(arg camera)_camera_nodelet_manager">
+  <node pkg="nodelet" type="nodelet" name="$(arg camera)_image_proc_rect_color" args="load image_proc/rectify $(arg manager)">
     <remap from="image_mono" to="$(arg camera)/image_color" />
     <remap from="image_rect" to="$(arg camera)/image_rect_color" />
   </node>

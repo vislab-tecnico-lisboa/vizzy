@@ -19,7 +19,6 @@
   <arg name="use_moveit" default="false" />
   <arg name="visualization" default="false" />
   <arg name="ns" default="vizzy" />
-  <arg name="vizzy_navigation_absolute_path" default="/home/vizzy/catkin_workspace/src/vizzy/vizzy_navigation" />
   <arg name="ros_cameras_on" default="false" />
 
   <include file="$(find vizzy_launch)/launch/vizzy_real.launch">
@@ -32,7 +31,6 @@
 	<arg name="odom_frame_id" value="$(arg odom_frame_id)" />
 	<arg name="map_topic" value="$(arg map_topic)" />
 	<arg name="use_moveit" value="$(arg use_moveit)" />
-	<arg name="vizzy_navigation_absolute_path" value="$(arg vizzy_navigation_absolute_path)" />
   	<arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)"/>
   	<arg name="vizzy_machine_address" value="$(arg vizzy_machine_address)"/>
   	<arg name="env-loader" value="$(arg env-loader)"/>
