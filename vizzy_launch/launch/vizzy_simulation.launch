@@ -18,7 +18,7 @@
   <arg name="yarp" default="false"/>
   <arg name="map_frame" default="map" />
   <arg name="tf_prefix" default="" />
-  <arg name="map_file" default="perfectMap.yaml" />
+  <arg name="map_file" default="isr_7th_floor_simulation.yaml" />
   <arg name="base_frame_id" default="$(arg tf_prefix)/base_footprint" />
   <arg name="odom_frame_id" default="$(arg tf_prefix)/odom" />
   <arg name="map_topic" default="/map" />

@@ -5,7 +5,7 @@
 
   <!-- simulation parameters and robot configuration parameters -->
   <arg name="use_yarp" default="false"/>
-  <arg name="navigation" default="false"/>
+  <arg name="navigation" default="true"/>
   <arg name="launch_moveit" default="true"/>
   <arg name="pose" default="-x -1.5 -y -0.0 -z 0.1 -R 0.0 -P 0.0 -Y 0"/>
   <arg name="paused" default="false"/>
@@ -19,7 +19,7 @@
   <arg name="odom_frame_id" default="$(arg tf_prefix)/odom" />
   <arg name="map_topic" default="/map" />
   <arg name="visualization" default="true" />
-  <arg name="head_only" default="true"/>
+  <arg name="head_only" default="false"/>
   <arg name="move_robot_config_file" default="$(find foveated_stereo_ros)/config/frames.yaml"/>
   <arg name="teleop" default="false"/>
 
