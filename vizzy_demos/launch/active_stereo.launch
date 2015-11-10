@@ -20,7 +20,6 @@
   <arg name="map_topic" default="/map" />
   <arg name="visualization" default="true" />
   <arg name="head_only" default="false"/>
-  <arg name="move_robot_config_file" default="$(find foveated_stereo_ros)/config/frames.yaml"/>
   <arg name="teleop" default="false"/>
 
   <!-- launch vizzy -->
@@ -37,12 +36,7 @@
     <arg name="world" value="$(arg world)" />
     <arg name="teleop" value="$(arg teleop)"/>
   </include>
-
-  <!-- launch gaze action -->
-  <include file="$(find move_robot)/launch/gaze.launch">
-    <arg name="config_file" value="$(arg move_robot_config_file)" />
-  </include>
-  
+ 
   <!-- launch online stereo calibration -->
   <include ns="vizzy"  file="$(find online_stereo_calibration_ros)/launch/stereo_calibration.launch">
     <arg name="manager" value="cameras_nodelet_manager"/>
