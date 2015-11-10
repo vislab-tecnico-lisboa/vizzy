@@ -22,7 +22,7 @@
   <arg name="ns" default="vizzy" />
   <arg name="ros_cameras_on" default="true" />
   <arg name="map_file" default="isr_7th_floor_real.yaml" />
-  <arg name="follower" default="true" />
+
   <!-- Choose what we want to detect: pedestrian, headandshoulders, full -->
   <arg name="detector_type" default="full" />
 
@@ -56,6 +56,12 @@
     <arg name="image_in" value="/vizzy/$(arg camera)/image_rect_color"/>
     <arg name="detector_type" value="$(arg detector_type)" />
     <arg name="camera" value="$(arg camera)"/>
-    <arg name="follower" value="$(arg follower)" />
+    <arg name="follower" value="true"/>
   </include>
+
+  <!-- launch Gaze action server -->
+  <include file="$(find move_robot)/launch/gaze_real_test.launch">
+    <arg name="config_file" value="$(find pedestrian_detector)/config/frames.yaml"/>
+  </include>
+
 </launch>
