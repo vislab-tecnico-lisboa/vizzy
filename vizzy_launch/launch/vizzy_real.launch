@@ -43,6 +43,12 @@
   <arg name="ns" default="vizzy" />
   <arg name="ros_cameras_on" default="true" />
 
+  <arg name="move_robot_config_file" default="$(find foveated_stereo_ros)/config/frames.yaml"/>
+  <arg name="simulation" default="true" />
+  <arg name="fixation_point_in" default="fixation_point" /> 
+  <arg name="fixation_point_out" default="fixation_point_goal_ros"/>
+
+
   <!-- bringup robot -->
   <include file="$(find vizzy_robot)/launch/real_robot.launch">
     <arg name="map_frame" value="$(arg map_frame)" />
@@ -97,9 +103,18 @@
       </include>
     </group>
   </group>
-    <!-- teleop -->
-    <include file="$(find vizzy_navigation)/launch/teleop_joy.launch">
-      <arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)"/>
-      <arg name="ns" value="$(arg ns)" />
-    </include>
+
+  <!-- launch gaze action -->
+  <include file="$(find move_robot)/launch/gaze.launch">
+    <arg name="config_file" value="$(arg move_robot_config_file)" />
+    <arg name="simulation" value="$(arg simulation)" />
+    <arg name="fixation_point_in" value="$(arg fixation_point_in)" />
+    <arg name="fixation_point_out" value="$(arg fixation_point_out)" />
+  </include>
+
+  <!-- launch teleop -->
+  <include file="$(find vizzy_navigation)/launch/teleop_joy.launch">
+    <arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)"/>
+    <arg name="ns" value="$(arg ns)" />
+  </include>
 </launch>
