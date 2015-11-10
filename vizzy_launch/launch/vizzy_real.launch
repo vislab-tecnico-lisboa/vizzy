@@ -26,8 +26,8 @@
   <arg name="right_camera_name" default="r_camera" />
 
   <!-- camera parameters -->
-  <arg name="video_mode" default="320x240_yuv422" /> <!-- raw format7_mode4-->
-  <arg name="frame_rate" default="30.0" />
+  <arg name="video_mode" default="640x480_rgb8" /> <!-- raw format7_mode4-->
+  <arg name="frame_rate" default="20.0" />
   <arg name="gain" default="0.312"/>
   <arg name="shutter" default="0.592"/>
   <arg name="white_balance_BU" default="0.474"/>
@@ -44,7 +44,7 @@
   <arg name="ros_cameras_on" default="true" />
 
   <arg name="move_robot_config_file" default="$(find foveated_stereo_ros)/config/frames.yaml"/>
-  <arg name="simulation" default="true" />
+  <arg name="simulation" default="false" />
   <arg name="fixation_point_in" default="fixation_point" /> 
   <arg name="fixation_point_out" default="fixation_point_goal_ros"/>
 
