@@ -5,6 +5,7 @@
   <arg name="guid" default="" />
   <arg name="video_mode" default="320x240_yuv422" />
   <arg name="frame_rate" default="5" />
+  <arg name="frame_id" default="camera" />
 
   <arg name="gain" default="0.312"/>
   <arg name="shutter" default="0.592"/>
@@ -36,6 +37,7 @@
         <param name="saturation" value="$(arg saturation)"/>
         <param name="sharpness" value="$(arg sharpness)"/>
         <param name="brightness" value="$(arg brightness)"/>
+        <param name="frame_id" value="$(arg frame_id)"/>
 
 	<!--<param name="auto_exposure" value="0"/>-->
 
