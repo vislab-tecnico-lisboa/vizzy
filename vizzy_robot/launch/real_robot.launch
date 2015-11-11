@@ -59,6 +59,7 @@
 	 	<!-- Left camera -->
           <include file="$(find vizzy_robot)/launch/camera.launch">
 	    <arg name="camera" value="$(arg left_camera_name)" />
+            <arg name="frame_id" value="l_camera_vision_link" />
 	    <arg name="guid" value="$(arg left_camera_guid)" />
 	    <arg name="video_mode" value="$(arg video_mode)"/>
 	    <arg name="frame_rate" value="$(arg frame_rate)"/>
@@ -79,7 +80,8 @@
 	  <!-- Right camera -->
 	  <include file="$(find vizzy_robot)/launch/camera.launch">
 	    <arg name="camera" value="$(arg right_camera_name)" />
-	    <arg name="guid" value="$(arg right_camera_guid)" />
+	    <arg name="frame_id" value="r_camera_vision_link" />
+            <arg name="guid" value="$(arg right_camera_guid)" />
 	    <arg name="video_mode" value="$(arg video_mode)" />
 	    <arg name="frame_rate" value="$(arg frame_rate)" />
             <arg name="gain" value="$(arg gain)"/>
