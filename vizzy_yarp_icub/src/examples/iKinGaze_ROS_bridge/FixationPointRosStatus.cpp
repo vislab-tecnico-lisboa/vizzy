@@ -1,7 +1,7 @@
 #include <iostream>
 #include <yarp/os/all.h>
 #include <geometry_msgs_PointStamped.h>
-
+#include <math.h>
 using namespace yarp::os;
 
 int main(int argc, char *argv[]) {
@@ -35,16 +35,20 @@ int main(int argc, char *argv[]) {
   while(true){
     geometry_msgs_Point *reading1Mux;
     reading1Mux = receiverBuff1Mux1.read(false);
-    yarp::os::Time::delay(0.03);
+
     if (reading1Mux != NULL){
 	geometry_msgs_PointStamped & out = xd_outputPort.prepare();
 	out.point = *reading1Mux;
 
 	out.header.frame_id="base_link";
-	out.header.stamp.sec=yarp::os::Time::now();
-	out.header.stamp.nsec=0.0;
+	double timestamp = (double) Time::now();
+	double dummy;
+        double frac=modf(timestamp, &dummy);
+	out.header.stamp.sec=(int)timestamp;
+	out.header.stamp.nsec=(int)round(frac*pow(10,9));
 	xd_outputPort.write();
     }
+    yarp::os::Time::delay(0.03);
   }
   return 0;
 }

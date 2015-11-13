@@ -3,6 +3,9 @@ cmake_minimum_required(VERSION 2.8.7)
 # find YARP
 find_package(YARP REQUIRED)
 
+  SET(CMAKE_CXX_FLAGS_RELEASE "-Wall -O2 -finline-functions -fpredictive-commoning -fgcse-after-reload -ftree-slp-vectorize -ftree-loop-distribute-patterns -fipa-cp-clone -funswitch-loops -fvect-cost-model -ftree-partial-pre")
+  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS_RELEASE}") #Default build mode is release mode
+
 # add YARP include directories
 include_directories(${YARP_INCLUDE_DIRS})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})

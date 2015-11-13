@@ -52,10 +52,12 @@
   </group>
 
   <!-- Launch pedestrian detector, tracker and follower -->
+
   <include file="$(find pedestrian_detector)/launch/pedestrian_detector.launch">
     <arg name="image_in" value="/vizzy/$(arg camera)/image_rect_color"/>
     <arg name="detector_type" value="$(arg detector_type)" />
     <arg name="camera" value="$(arg camera)"/>
     <arg name="follower" value="$(arg follower)" />
   </include>
+
 </launch>

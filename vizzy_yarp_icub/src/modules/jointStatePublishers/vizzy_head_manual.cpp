@@ -1,5 +1,7 @@
 #include <iostream>
 #include <yarp/os/all.h>
+//#include <iomanip>
+#include <math.h>
 #include "sensor_msgs_JointState.h"
 using namespace yarp::os;
 
@@ -40,7 +42,7 @@ int main(int argc, char *argv[]) {
   while(true){
     Bottle* reading1Mux1;
     reading1Mux1 = receiverBuff1Mux1.read(false);
-    yarp::os::Time::delay(0.03);
+
     if (reading1Mux1 != NULL){
 	sensor_msgs_JointState & out = outputPort.prepare();
 	int bottleSize;
@@ -58,13 +60,17 @@ int main(int argc, char *argv[]) {
     out.name[3]="version_joint";
     out.name[4]="vergence_joint";
     /* DO SOME COMPUTATION HERE */
-    
+    double timestamp = (double) Time::now();
     out.header.frame_id="";
-    out.header.stamp.sec=yarp::os::Time::now();
-    out.header.stamp.nsec=0.0;
+    out.header.stamp.sec=(int)timestamp;
+
+    double dummy;
+    double frac=modf(timestamp, &dummy);
+    out.header.stamp.nsec=(int)round(frac*pow(10,9));
     
 
     outputPort.write();
+    yarp::os::Time::delay(0.03);
   }
   }
   return 0;
