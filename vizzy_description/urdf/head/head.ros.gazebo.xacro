@@ -61,14 +61,14 @@
 			<plugin name="mimic_plugin" filename="libgazebo_mimic_plugin.so">
 				<joint>version_joint</joint>
 				<mimicJoint>l_eye_version_joint</mimicJoint>
-				<multiplier>1.0</multiplier>
+				<multiplier>-1.0</multiplier>
 			</plugin>
 		</gazebo>
 		<gazebo>
 			<plugin name="mimic_plugin" filename="libgazebo_mimic_plugin.so">
 				<joint>version_joint</joint>
 				<mimicJoint>r_eye_version_joint</mimicJoint>
-				<multiplier>1.0</multiplier>
+				<multiplier>-1.0</multiplier>
 			</plugin>
 		</gazebo>
 		<gazebo>
