@@ -1,7 +1,7 @@
 #include <iostream>
 #include <yarp/os/all.h>
-#include <iomanip>
 #include <math.h>
+
 using namespace yarp::os;
 
 int main(int argc, char *argv[]) {
@@ -37,29 +37,24 @@ int main(int argc, char *argv[]) {
     for(int i = 0; i < mux1.size(); i++) {
       mux1.get(i) = mux1.get(i).asDouble() / (180/3.1415926);
     }
-    Bottle message = Bottle();
+
     /* DO SOME COMPUTATION HERE */
 
     double timestamp = (double) Time::now();
-    //std::cout << std::fixed;
-    //std::cout << std::setprecision(5);
-    //std::cout << "timestamp:" << timestamp << std::endl;
 
-	
-
-    double dummy;
-    double frac=modf(timestamp, &dummy);
-
+    Bottle message = Bottle();
 
     Bottle& list_1 = message.addList();
 
     list_1.add(counter);
 
+    double dummy;
+    double frac=modf(timestamp,&dummy);
     Bottle& list_1_1 = list_1.addList();
     list_1_1.add((int)timestamp);
     list_1_1.add((int)round(frac*pow(10,9)));
 
-    list_1.add("0");
+    list_1.add("");
 
     Bottle& list_2 = message.addList();
     list_2.add("neck_pan_joint");
@@ -81,7 +76,7 @@ int main(int argc, char *argv[]) {
 
     outputPort.write(message);
     counter++;
-    Time::delay(0.01);
+    Time::delay(0.016666666666666666);
   }
 
   return 0;

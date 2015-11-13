@@ -1,5 +1,6 @@
 #include <iostream>
 #include <yarp/os/all.h>
+#include <math.h>
 
 using namespace yarp::os;
 
@@ -39,7 +40,7 @@ int main(int argc, char *argv[]) {
 
     /* DO SOME COMPUTATION HERE */
 
-    int timestamp = (int) Time::now();
+    double timestamp = (double) Time::now();
 
     Bottle message = Bottle();
 
@@ -47,11 +48,13 @@ int main(int argc, char *argv[]) {
 
     list_1.add(counter);
 
+    double dummy;
+    double frac=modf(timestamp,&dummy);
     Bottle& list_1_1 = list_1.addList();
-    list_1_1.add(timestamp);
-    list_1_1.add(100);
+    list_1_1.add((int)timestamp);
+    list_1_1.add((int)round(frac*pow(10,9)));
 
-    list_1.add("0");
+    list_1.add("");
 
     Bottle& list_2 = message.addList();
     list_2.add("r_shoulder_scapula_joint");
@@ -76,7 +79,7 @@ int main(int argc, char *argv[]) {
 
     outputPort.write(message);
     counter++;
-    Time::delay(0.01);
+    Time::delay(0.016666666666666666);
   }
 
   return 0;
