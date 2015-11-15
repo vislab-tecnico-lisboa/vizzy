@@ -19,7 +19,7 @@
   <arg name="odom_frame_id" default="$(arg tf_prefix)/odom" />
   <arg name="map_topic" default="/map" />
   <arg name="visualization" default="true" />
-  <arg name="head_only" default="false"/>
+  <arg name="head_only" default="true"/>
   <arg name="teleop" default="false"/>
 
   <!-- launch vizzy -->
