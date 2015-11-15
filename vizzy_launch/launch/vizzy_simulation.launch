@@ -27,7 +27,7 @@
   <arg name="fake_localization" default="false"/>
   <arg name="teleop" default="false"/>
 
-  <arg name="move_robot_config_file" default="$(find foveated_stereo_ros)/config/frames.yaml"/>
+  <arg name="move_robot_config_file" default="$(find move_robot)/config/frames.yaml"/>
   <arg name="simulation" default="true" />
   <arg name="fixation_point_in" default="fixation_point" /> 
 
