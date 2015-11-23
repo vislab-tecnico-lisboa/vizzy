@@ -11,6 +11,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 add_executable(readAndWriteTopicsTest ReadAndWriteTopicsTest.cpp)
 add_executable(fixationPointActionBridge FixationPointRosAction.cpp)
 add_executable(fixationPointStatusBridge FixationPointRosStatus.cpp)
+#add_executable(fixationPointStatusBridge fixationPointStatus.cpp)
 add_executable(ballPointBridge ParticleFilterBallPointRos.cpp)
 
 # link with YARP libraries
