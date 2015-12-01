@@ -9,10 +9,9 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 # set up our program
 add_executable(readAndWriteTopicsTest ReadAndWriteTopicsTest.cpp)
-add_executable(fixationPointActionBridge FixationPointRosAction.cpp)
-add_executable(fixationPointStatusBridge FixationPointRosStatus.cpp)
-#add_executable(fixationPointStatusBridge fixationPointStatus.cpp)
-add_executable(ballPointBridge ParticleFilterBallPointRos.cpp)
+add_executable(fixationPointActionBridge fixationPointActionBridge.cpp)
+add_executable(fixationPointStatusBridge fixationPointStatusBridge.cpp)
+add_executable(ballPointBridge ballPointBridge.cpp)
 
 # link with YARP libraries
 target_link_libraries(readAndWriteTopicsTest ${YARP_LIBRARIES})
