@@ -46,9 +46,7 @@
 		joint_state_controller
 		neck_pan_position_controller
                 neck_tilt_position_controller
-                eyes_tilt_position_controller
-                version_position_controller
-                vergence_position_controller" />
+                eyes_tilt_position_controller" />
   </group>
 
 	<!-- convert joint states to TF transforms for rviz, etc -->
