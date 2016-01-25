@@ -4,6 +4,7 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
+        - /Global Options1
         - /RobotModel1/Links1/ego_frame1
         - /RobotModel1/Links1/eyes_center_link1
         - /RobotModel1/Links1/eyes_center_vision_link1
@@ -21,9 +22,13 @@ Panels:
         - /RobotModel1/Links1/vergence_link1
         - /RobotModel1/Links1/version_link1
         - /RobotModel1/Links1/waist_link1
+        - /FixationPoint1
         - /FixationPointGoal1
+<<<<<<< HEAD
         - /EgoRGBD1
         - /LeftRetinal1
+=======
+>>>>>>> 7a849b5af668c95c50a53c325a76b357d6c28526
       Splitter Ratio: 0.57085
     Tree Height: 78
   - Class: rviz/Selection
@@ -44,7 +49,11 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
+<<<<<<< HEAD
     SyncSource: LeftRetinal
+=======
+    SyncSource: EgoUncertainty
+>>>>>>> 7a849b5af668c95c50a53c325a76b357d6c28526
 Visualization Manager:
   Class: ""
   Displays:
@@ -90,20 +99,6 @@ Visualization Manager:
         Expand Link Details: true
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
-        b_wheel_base_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        b_wheel_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        base_footprint:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
         base_link:
           Alpha: 1
           Show Axes: false
@@ -126,16 +121,6 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        f_wheel_base_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        f_wheel_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
         head_origin_frame:
           Alpha: 1
           Show Axes: false
@@ -150,11 +135,6 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        l_elbow_flection_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
         l_eye_vergence_link:
           Alpha: 1
           Show Axes: false
@@ -164,60 +144,6 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        l_forearm_pronation_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        l_palm_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        l_shoulder_abduction_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        l_shoulder_flection_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        l_shoulder_rotation_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        l_shoulder_scapula_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        l_wheel_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        l_wrist_abduction_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        l_wrist_flection_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        nav_hokuyo_laser_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        nav_hokuyo_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
         neck_pan_link:
           Alpha: 1
           Show Axes: false
@@ -238,11 +164,6 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        r_elbow_flection_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
         r_eye_vergence_link:
           Alpha: 1
           Show Axes: false
@@ -252,51 +173,6 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        r_forearm_pronation_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        r_palm_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        r_shoulder_abduction_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        r_shoulder_flection_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        r_shoulder_rotation_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        r_shoulder_scapula_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        r_wheel_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        r_wrist_abduction_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        r_wrist_flection_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
         vergence_link:
           Alpha: 1
           Show Axes: false
@@ -305,15 +181,14 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        waist_fixed_virtual_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
         waist_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-          Value: true
+        world:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
       Name: RobotModel
       Robot Description: robot_description
       TF Prefix: ""
@@ -323,21 +198,21 @@ Visualization Manager:
     - Alpha: 1
       Class: rviz/PointStamped
       Color: 255; 170; 0
-      Enabled: true
+      Enabled: false
       History Length: 1
       Name: FixationPoint
-      Radius: 0.03
+      Radius: 10
       Topic: /fixation_point
-      Value: true
+      Value: false
     - Alpha: 1
       Class: rviz/PointStamped
       Color: 204; 41; 204
-      Enabled: true
+      Enabled: false
       History Length: 1
       Name: FixationPointGoal
-      Radius: 0.03
+      Radius: 10
       Topic: /fixation_point_goal_viz
-      Value: true
+      Value: false
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -350,12 +225,12 @@ Visualization Manager:
       Color: 255; 255; 255
       Color Transformer: Intensity
       Decay Time: 0
-      Enabled: true
+      Enabled: false
       Invert Rainbow: false
       Max Color: 255; 255; 255
-      Max Intensity: 64.3312
+      Max Intensity: 86.2109
       Min Color: 0; 0; 0
-      Min Intensity: 35.6778
+      Min Intensity: 39.6938
       Name: StereoUncertainty
       Position Transformer: XYZ
       Queue Size: 10
@@ -366,7 +241,7 @@ Visualization Manager:
       Topic: /uncertainty_pcl
       Use Fixed Frame: true
       Use rainbow: true
-      Value: true
+      Value: false
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -382,9 +257,9 @@ Visualization Manager:
       Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
-      Max Intensity: 74.6878
+      Max Intensity: 103.282
       Min Color: 0; 0; 0
-      Min Intensity: 40.8474
+      Min Intensity: 52.1303
       Name: EgoUncertainty
       Position Transformer: XYZ
       Queue Size: 10
@@ -408,7 +283,7 @@ Visualization Manager:
       Color: 255; 255; 255
       Color Transformer: RGB8
       Decay Time: 0
-      Enabled: true
+      Enabled: false
       Invert Rainbow: false
       Max Color: 255; 255; 255
       Max Intensity: 4096
@@ -424,7 +299,7 @@ Visualization Manager:
       Topic: /ego_sphere
       Use Fixed Frame: true
       Use rainbow: true
-      Value: true
+      Value: false
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -511,7 +386,7 @@ Visualization Manager:
       Value: true
   Enabled: true
   Global Options:
-    Background Color: 48; 48; 48
+    Background Color: 115; 115; 115
     Fixed Frame: base_link
     Frame Rate: 30
   Name: root
@@ -533,22 +408,22 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 7.28507
+      Distance: 10
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 1.90861
-        Y: 0.376723
-        Z: -0.000766729
+        X: 0
+        Y: 0
+        Z: 0
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.354797
+      Pitch: 0.250399
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 3.11442
+      Yaw: 3.3454
     Saved: ~
 Window Geometry:
   Displays:
@@ -560,7 +435,11 @@ Window Geometry:
     collapsed: false
   LeftRetinal:
     collapsed: false
+<<<<<<< HEAD
   QMainWindow State: 000000ff00000000fd0000000400000000000003650000025dfc020000000ffb0000001200530065006c0065006300740069006f006e00000001e10000009b0000006400fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c0061007900730100000028000000fe000000dd00fffffffb00000016004c0065006600740052006500740069006e0061006c010000012c000001590000001600fffffffb00000018004c0065006600740043006f00720074006900630061006c000000010b0000003a0000001600fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb00000018005200690067006800740052006500740069006e0061006c000000011c000001d40000001600fffffffb0000001a005200690067006800740043006f00720074006900630061006c0000000222000000ce0000001600fffffffb0000002c00530074006500720065006f00430061006c006900620072006100740069006f006e00500061006e0065006c00000002ba000001030000001600fffffffb0000000a0049006d0061006700650000000000ffffffff0000000000000000fb0000000a0049006d0061006700650000000000ffffffff0000000000000000000000010000010f00000373fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073000000002800000373000000b000fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b20000000000000000000000020000073d000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000005150000003ffc0100000002fb0000000800540069006d0065010000000000000515000002f600fffffffb0000000800540069006d00650100000000000004500000000000000000000001aa0000025d00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+=======
+  QMainWindow State: 000000ff00000000fd00000004000000000000036500000395fc020000000dfb0000001200530065006c0065006300740069006f006e00000001e10000009b0000006400fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000002800000395000000dd00fffffffb00000016004c0065006600740052006500740069006e0061006c0000000264000001590000001600fffffffb00000018004c0065006600740043006f00720074006900630061006c000000010b0000003a0000001600fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb00000018005200690067006800740052006500740069006e0061006c000000011c000001d40000001600fffffffb0000001a005200690067006800740043006f00720074006900630061006c0000000222000000ce0000001600fffffffb0000002c00530074006500720065006f00430061006c006900620072006100740069006f006e00500061006e0065006c00000002ba000001030000001600ffffff000000010000010f00000395fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073010000002800000395000000b000fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b20000000000000000000000020000073d000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000073f0000003ffc0100000002fb0000000800540069006d006501000000000000073f000002f600fffffffb0000000800540069006d00650100000000000004500000000000000000000002bf0000039500000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+>>>>>>> 7a849b5af668c95c50a53c325a76b357d6c28526
   RightCortical:
     collapsed: false
   RightRetinal:

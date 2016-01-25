@@ -22,7 +22,7 @@
   <arg name="base_frame_id" default="$(arg tf_prefix)/base_footprint" />
   <arg name="odom_frame_id" default="$(arg tf_prefix)/odom" />
   <arg name="map_topic" default="/map" />
-  <arg name="head_only" default="true"/>
+  <arg name="head_only" default="false"/>
   <arg name="ns" default="vizzy" />
   <arg name="fake_localization" default="false"/>
   <arg name="teleop" default="false"/>
@@ -60,10 +60,14 @@
   <!-- launch moveit -->
   <group if="$(arg launch_moveit)">
     <group if="$(arg head_only)">
-      <include file="$(find vizzy_head_moveit_config)/launch/moveit.launch"/>
+      <include file="$(find vizzy_head_moveit_config)/launch/moveit.launch">
+        <arg name="use_yarp" value="$(arg use_yarp)"/>
+      </include>
     </group>
     <group unless="$(arg head_only)">
-      <include file="$(find vizzy_moveit_config)/launch/moveit.launch"/>
+      <include file="$(find vizzy_moveit_config)/launch/moveit.launch">
+        <arg name="use_yarp" value="$(arg use_yarp)"/>
+      </include>
     </group>
   </group>
 
@@ -103,11 +107,13 @@
   </group>
 
   <!-- launch gaze action -->
+  <group unless="$(arg use_yarp)">
   <include file="$(find move_robot)/launch/gaze.launch">
     <arg name="config_file" value="$(arg move_robot_config_file)" />
     <arg name="simulation" value="$(arg simulation)" />
     <arg name="fixation_point_in" value="$(arg fixation_point_in)" />
   </include>
+  </group>
 
   <!-- launch teleop -->
   <group if="$(arg teleop)">

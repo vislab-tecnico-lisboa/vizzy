@@ -8,13 +8,13 @@ int main(int argc, char *argv[]) {
   Network yarp;
 
   BufferedPort<Bottle> receiverBuff1Mux1;
-  bool receiver1Mux1Ok = receiverBuff1Mux1.open("/vizzy_left_arm/mux1/receiver1");
+  bool receiver1Mux1Ok = receiverBuff1Mux1.open("/fixationPointStatus/mux1/receiver1");
 
   Port outputPort;
   outputPort.setWriteOnly();
-  bool outputOk = outputPort.open("/vizzy_left_arm/joint_states@/yarp/vizzy_left_arm");
+  bool outputOk = outputPort.open("/fixation_point@/yarp/fixationPointStatus");
 
-  yarp.connect("/vizzy/left_shoulder_arm/state:o", receiverBuff1Mux1.getName());
+  yarp.connect("/iKinGazeCtrl/x:o", receiverBuff1Mux1.getName());
 
   std::cout << "Waiting for output..." << std::endl;
   while(outputPort.getOutputCount() == 0) {
@@ -35,7 +35,7 @@ int main(int argc, char *argv[]) {
     }
 
     for(int i = 0; i < mux1.size(); i++) {
-      mux1.get(i) = mux1.get(i).asDouble() / (180/3.1415926);
+      break;
     }
 
     /* DO SOME COMPUTATION HERE */
@@ -54,32 +54,15 @@ int main(int argc, char *argv[]) {
     list_1_1.add((int)timestamp);
     list_1_1.add((int)round(frac*pow(10,9)));
 
-    list_1.add("");
+    list_1.add("base_link");
 
     Bottle& list_2 = message.addList();
-    list_2.add("l_shoulder_scapula_joint");
-    list_2.add("l_shoulder_flection_joint");
-    list_2.add("l_shoulder_abduction_joint");
-    list_2.add("l_shoulder_rotation_joint");
-    list_2.add("l_elbow_flection_joint");
-    list_2.add("l_forearm_pronation_joint");
-    list_2.add("l_wrist_abduction_joint");
-    list_2.add("l_wrist_flection_joint");
-
-    Bottle& list_3 = message.addList();
-    for(int i = 0; i < mux1.size(); i++) {
-      list_3.add(mux1.get(i));
-    }
-
-    Bottle& list_4 = message.addList();
-
-    Bottle& list_5 = message.addList();
 
     /* DO SOME COMPUTATION HERE */
 
     outputPort.write(message);
     counter++;
-    Time::delay(0.033);
+    Time::delay(0.016666666666666666);
   }
 
   return 0;

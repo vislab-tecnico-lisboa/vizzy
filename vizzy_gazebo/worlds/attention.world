@@ -411,58 +411,58 @@
       <static>0</static>
     </model>
     <state world_name='default'>
-      <sim_time>33023 42000000</sim_time>
-      <real_time>31 722163430</real_time>
-      <wall_time>1441764302 514518354</wall_time>
+      <sim_time>38260 504000000</sim_time>
+      <real_time>1510 827142040</real_time>
+      <wall_time>1448277543 325561151</wall_time>
       <model name='Dumpster'>
-        <pose>0.001347 2.99916 0.100915 -1.3e-05 1.4e-05 -9.3e-05</pose>
+        <pose>0.001347 2.99916 0.100906 9e-06 1.2e-05 -9.3e-05</pose>
         <link name='link'>
-          <pose>0.001347 2.99916 0.100915 -1.3e-05 1.4e-05 -9.3e-05</pose>
+          <pose>0.001347 2.99916 0.100906 9e-06 1.2e-05 -9.3e-05</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='coke_can'>
-        <pose>0.311307 0.420581 0.0955 -0.013069 -0.017155 -0.025443</pose>
+        <pose>0.311307 0.420581 0.095501 -0.013074 -0.01721 -0.025387</pose>
         <link name='link'>
-          <pose>0.311307 0.420581 0.0955 -0.013069 -0.017155 -0.025443</pose>
+          <pose>0.311307 0.420581 0.095501 -0.013074 -0.01721 -0.025387</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='coke_can_0'>
-        <pose>0.16496 -0.205104 0.096002 -0.016229 0.003423 -0.086527</pose>
+        <pose>-0.817667 -0.633182 0.095501 -0.013074 -0.01721 -0.085422</pose>
         <link name='link'>
-          <pose>0.16496 -0.205104 0.096002 -0.016229 0.003423 -0.086527</pose>
+          <pose>-0.817667 -0.633182 0.095501 -0.013074 -0.01721 -0.085422</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='coke_can_1'>
-        <pose>-1.15831 -0.418356 0.095606 -0.008062 -0.016626 0.062134</pose>
+        <pose>-0.63073 -0.046592 0.095501 -0.013074 -0.01721 0.064112</pose>
         <link name='link'>
-          <pose>-1.15831 -0.418356 0.095606 -0.008062 -0.016626 0.062134</pose>
+          <pose>-0.63073 -0.046592 0.095501 -0.013074 -0.01721 0.064112</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='coke_can_2'>
-        <pose>-0.059456 -0.433351 0.095621 -0.004771 -0.01369 -0.076806</pose>
+        <pose>-0.826309 -0.281307 0.095488 -0.013012 -0.016504 -0.075504</pose>
         <link name='link'>
-          <pose>-0.059456 -0.433351 0.095621 -0.004771 -0.01369 -0.076806</pose>
+          <pose>-0.826309 -0.281307 0.095488 -0.013012 -0.016504 -0.075504</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='coke_can_3'>
-        <pose>-1.04901 0.39629 0.095501 -0.013074 -0.01721 0.054849</pose>
+        <pose>-1.04207 0.468435 0.095934 -0.019434 0.003012 0.054662</pose>
         <link name='link'>
-          <pose>-1.04901 0.39629 0.095501 -0.013074 -0.01721 0.054849</pose>
+          <pose>-1.04207 0.468435 0.095934 -0.019434 0.003012 0.054662</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
@@ -478,9 +478,9 @@
         </link>
       </model>
       <model name='mud_box'>
-        <pose>-2.11203 2.92245 0 0 -0 0</pose>
+        <pose>-2.11264 2.9211 0 0 -0 0</pose>
         <link name='link'>
-          <pose>-2.11203 2.92245 0 0 -0 0</pose>
+          <pose>-2.11264 2.9211 0 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
@@ -498,7 +498,7 @@
     </state>
     <gui fullscreen='0'>
       <camera name='user_camera'>
-        <pose>-4.04394 -1.04108 3.25308 -1.1e-05 0.752182 0.087417</pose>
+        <pose>-3.95049 -0.02288 2.68432 0 0.753802 0.343412</pose>
         <view_controller>orbit</view_controller>
       </camera>
     </gui>

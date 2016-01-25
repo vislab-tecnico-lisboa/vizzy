@@ -25,6 +25,7 @@
   <arg name="follower" default="false" />
   <!-- Choose what we want to detect: pedestrian, headandshoulders, full -->
   <arg name="detector_type" default="full" />
+  <arg name="move_robot_config_file" default="$(find pedestrian_detector)/config/frames.yaml"/>
 
   <!-- Choose which camera to use: left or right -->
   <arg name="camera" default="l_camera"/>
@@ -44,6 +45,7 @@
   	<arg name="env-loader" value="$(arg env-loader)"/>
   	<arg name="ros_cameras_on" value="$(arg ros_cameras_on)"/>
   	<arg name="map_file" value="$(arg map_file)" />
+  	<arg name="move_robot_config_file" value="$(arg move_robot_config_file)" />
   </include>
 
   <!-- launch vizualization on rviz -->
