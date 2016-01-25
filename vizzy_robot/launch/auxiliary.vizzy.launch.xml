@@ -10,12 +10,12 @@
 
   <!-- launch the tf tree -->
   <node machine="$(arg vizzy_machine_name)" pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
-    <param name="publish_frequency" type="double" value="100.0" />
+    <param name="publish_frequency" type="double" value="30.0" />
   </node>
 
   <!-- launch the joint state publisher to default values -->
   <node machine="$(arg vizzy_machine_name)" pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher">
-    <rosparam param="source_list">["/vizzy_waist/joint_states","/vizzy_left_arm/joint_states","/vizzy_right_arm/joint_states","/vizzy_head/joint_states","joint_states"]</rosparam>
-    <param name="rate" value="100"/>
+    <rosparam param="source_list">["/vizzy_upper_body/joint_states","joint_states"]</rosparam>
+    <param name="rate" value="30"/>
   </node>
 </launch>
