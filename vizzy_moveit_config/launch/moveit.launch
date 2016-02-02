@@ -3,7 +3,7 @@
 <launch>
   <!-- Load the URDF, SRDF and other .yaml configuration files on the param server -->
   <include file="$(find vizzy_moveit_config)/launch/planning_context.launch">
-    <arg name="load_robot_description" value="true"/>
+    <arg name="load_robot_description" value="false"/>
   </include>
 
   <!-- Run the main MoveIt executable without trajectory execution (we do not have controllers configured by default) -->

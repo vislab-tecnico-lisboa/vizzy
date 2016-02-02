@@ -24,7 +24,7 @@
   <arg name="map_frame" default="map" />
   <arg name="map_service" default="/static_map" />
   <arg name="map_topic" default="/map" />
-
+  <arg name="use_yarp" value="false" />
 
   <arg name="ns" default="vizzy" />
   <arg name="tf_prefix" default="$(arg ns)" />
@@ -38,7 +38,7 @@
 	<!-- launch the auxiliary configuration (shared between h/w and simulation) -->
 	<include file="$(find vizzy_robot)/launch/auxiliary.vizzy.launch.xml">
 		<arg name="tf_prefix" value="$(arg tf_prefix)" />
-		<arg name="use_yarp" value="true" />
+		<arg name="use_yarp" value="$(arg use_yarp)" />
   	<arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)" />
 	</include>
 
