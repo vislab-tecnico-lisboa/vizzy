@@ -1,9 +1,6 @@
-<?xml version="1.0"?>
 <launch>
-   <arg name="use_yarp" default="true"/>
-  <include file="$(find vizzy_moveit_config)/launch/planning_context.launch">
-    <arg name="use_yarp" value="$(arg use_yarp)"/>
-  </include>
+
+  <include file="$(find vizzy_moveit_config)/launch/planning_context.launch" />
 
   <!-- GDB Debug Option -->
   <arg name="debug" default="false" />

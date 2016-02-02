@@ -34,7 +34,7 @@ int main(int argc, char *argv[]) {
   {
     geometry_msgs_Point *reading1Mux1;
     reading1Mux1 = xd_inputPort.read(false);
-    yarp::os::Time::delay(0.1);
+    yarp::os::Time::delay(0.05);
     if (reading1Mux1 != NULL){
 	geometry_msgs_Point & out = xd_outputPort.prepare();
 	out = *reading1Mux1;

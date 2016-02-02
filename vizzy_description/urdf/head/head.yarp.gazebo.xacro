@@ -2,51 +2,20 @@
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
   <xacro:macro name="head_gazebo">
 
-
     <gazebo reference="neck_pan_link">
-
+      <mu1>0.2</mu1>
+      <mu2>0.2</mu2>
     </gazebo>
 
     <gazebo reference="neck_tilt_link">
-
+      <mu1>0.2</mu1>
+      <mu2>0.2</mu2>
     </gazebo>
 
     <gazebo reference="eyes_tilt_link">
-
+      <mu1>0.2</mu1>
+      <mu2>0.2</mu2>
     </gazebo>
-
-    <gazebo reference="version_link">
-    </gazebo>
-
-    <gazebo reference="r_eye_version_link">
-    </gazebo>
-
-    <gazebo reference="l_eye_version_link">
-    </gazebo>
-
-    <gazebo reference="vergence_link">
-
-    </gazebo>
-    
-  <gazebo reference="r_eye_vergence_link">
-
-    </gazebo>
-
-    <gazebo reference="l_eye_vergence_link">
-
-    </gazebo>
-
- 		<gazebo reference="neck_pan_joint">
-
-		</gazebo>
-
- 		<gazebo reference="neck_tilt_joint">
-
-		</gazebo>
-
- 		<gazebo reference="eyes_tilt_joint">
-
-		</gazebo>
 
     <gazebo reference="r_eye_pan_link">
       <mu1>0.2</mu1>

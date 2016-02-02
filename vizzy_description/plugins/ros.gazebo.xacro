@@ -35,10 +35,10 @@
         <update_rate>30.0</update_rate>
         <camera name="head">
           <!--<horizontal_fov>1.4912</horizontal_fov>-->
-          <horizontal_fov>1.57079632679</horizontal_fov>
+          <horizontal_fov>1.4912</horizontal_fov>
           <image>
-            <width>200</width>
-            <height>200</height>
+            <width>100</width>
+            <height>100</height>
 	    <!--<width>640</width>
             <height>480</height>-->
             <!--<width>320</width>
