@@ -17,7 +17,7 @@
   <arg name="odom_frame_id" default="$(arg tf_prefix)/odom" />
   <arg name="map_topic" default="/map" />
   <arg name="pedestrian_detection" default="false" />
-  <arg name="use_moveit" default="true" />
+  <arg name="use_moveit" default="false" />
   <arg name="visualization" default="false" />
   <arg name="ns" default="vizzy" />
   <arg name="ros_cameras_on" default="true" />
