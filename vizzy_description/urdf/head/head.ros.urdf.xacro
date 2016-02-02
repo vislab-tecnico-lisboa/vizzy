@@ -8,8 +8,6 @@
        sensor and controller plugin specifications -->
  <xacro:include filename="$(find vizzy_description)/urdf/head/head.ros.gazebo.xacro" />
  <xacro:include filename="$(find vizzy_description)/urdf/head/head.ros.transmission.xacro" />
-
-
   <xacro:macro name="head" params="name">
    <link name="neck_pan_link">
     <inertial>
@@ -62,7 +60,8 @@
       link="neck_pan_link" />
     <axis
       xyz="0 0 1" />
-    <limit lower="-0.925024504" upper="0.925024504" effort="10.0" velocity="5.0" />
+    <!--<limit lower="-0.925024504" upper="0.925024504" effort="10.0" velocity="5.0" />-->
+    <limit lower="-2.025024504" upper="2.025024504" effort="10.0" velocity="5.0" />
   </joint>
   <link
     name="neck_tilt_link">
@@ -117,7 +116,7 @@
     <axis
       xyz="0 0 1" />
     <!--<limit lower="-0.314159265" upper="0.645771823" effort="100.0" velocity="5.0" />-->
-    <limit lower="-0.614159265" upper="0.645771823" effort="100.0" velocity="5.0" />
+    <limit lower="-2.014159265" upper="2.45771823" effort="100.0" velocity="5.0" />
   </joint>
   <link
     name="eyes_tilt_link">
