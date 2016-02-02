@@ -1,11 +1,9 @@
 <?xml version="1.0"?>
 <!-- ROS head file to simulate vizzy in gazebo -->
 <launch>
-  <arg name="use_yarp" default="true" />
   <!-- Load the URDF, SRDF and other .yaml configuration files on the param server -->
   <include file="$(find vizzy_moveit_config)/launch/planning_context.launch">
     <arg name="load_robot_description" value="true"/>
-    <arg name="use_yarp" value="$(arg use_yarp)" />
   </include>
 
   <!-- Run the main MoveIt executable without trajectory execution (we do not have controllers configured by default) -->
@@ -13,6 +11,5 @@
     <arg name="allow_trajectory_execution" value="true"/>  
     <arg name="fake_execution" value="false"/>
     <arg name="info" value="true"/>
-
   </include>
 </launch>

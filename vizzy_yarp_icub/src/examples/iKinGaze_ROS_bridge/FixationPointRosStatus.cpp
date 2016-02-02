@@ -48,7 +48,7 @@ int main(int argc, char *argv[]) {
 	out.header.stamp.nsec=(int)round(frac*pow(10,9));
 	xd_outputPort.write();
     }
-    yarp::os::Time::delay(0.0333);
+    yarp::os::Time::delay(0.03);
   }
   return 0;
 }

@@ -5,18 +5,10 @@
     name="gui"
     default="True" />
 
-  <arg
-    name="use_yarp"
-    default="true" />
-
   <!-- Load the URDF into the ROS Parameter Server -->
-  <group if="$(arg use_yarp)">
-  	<param name="robot_description" command="$(find xacro)/xacro.py $(find vizzy_description)/robots/vizzy.yarp.urdf.xacro " />
-  </group>
-  <group unless="$(arg use_yarp)">
-  	<param name="robot_description" command="$(find xacro)/xacro.py $(find vizzy_description)/robots/vizzy.ros.urdf.xacro " />
-  </group>
-
+  <param name="robot_description"
+		command="$(find xacro)/xacro.py $(find vizzy_description)/robots/vizzy.urdf.xacro use_yarp:=false" />
+	 
   <!-- Use graphical interface to set the joints positions --> 
   <param
     name="use_gui"

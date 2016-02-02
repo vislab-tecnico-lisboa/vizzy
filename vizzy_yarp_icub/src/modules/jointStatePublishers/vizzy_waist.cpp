@@ -72,7 +72,7 @@ int main(int argc, char *argv[]) {
 
     outputPort.write(message);
     counter++;
-    Time::delay(0.033);
+    Time::delay(0.016666666666666666);
   }
 
   return 0;
