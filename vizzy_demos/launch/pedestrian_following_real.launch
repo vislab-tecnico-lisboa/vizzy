@@ -22,7 +22,7 @@
   <arg name="ns" default="vizzy" />
   <arg name="ros_cameras_on" default="true" />
   <arg name="map_file" default="isr_7th_floor_real.yaml" />
-  <arg name="follower" default="true" />
+  <arg name="follower" default="false" />
   <!-- Choose what we want to detect: pedestrian, headandshoulders, full -->
   <arg name="detector_type" default="full" />
   <arg name="move_robot_config_file" default="$(find pedestrian_detector)/config/frames.yaml"/>
