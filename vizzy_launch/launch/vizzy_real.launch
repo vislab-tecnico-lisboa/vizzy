@@ -43,7 +43,7 @@
   <arg name="ns" default="vizzy" />
   <arg name="ros_cameras_on" default="true" />
 
-  <arg name="move_robot_config_file" default="$(find pedestrian_detector)/config/frames.yaml"/>
+  <arg name="move_robot_config_file" default="$(find foveated_stereo_ros)/config/frames.yaml"/>
   <arg name="simulation" default="false" />
   <arg name="fixation_point_in" default="fixation_point" /> 
   <arg name="fixation_point_out" default="fixation_point_goal_ros"/>
