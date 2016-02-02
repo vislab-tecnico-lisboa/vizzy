@@ -9,7 +9,7 @@ int main(int argc, char *argv[]) {
 
   BufferedPort<Bottle> receiverBuff1Mux1;
   receiverBuff1Mux1.setReadOnly();
-  bool receiver1Mux1Ok = receiverBuff1Mux1.open("/fixation_point_goal_ros@/mux1/receiver1");
+  bool receiver1Mux1Ok = receiverBuff1Mux1.open("/fixation_point_goal@/mux1/receiver1");
 
   Port outputPort;
   outputPort.setWriteOnly();
