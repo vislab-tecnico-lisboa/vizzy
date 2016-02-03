@@ -5,13 +5,10 @@
       xmlns:xacro="http://ros.org/wiki/xacro">
 
   <xacro:include filename="$(find vizzy_description)/urdf/sensors/hokuyo_04lx_laser.urdf.xacro" />
-
   <xacro:macro name="hokuyo_mount" params="name parent *origin length ros_topic update_rate min_angle max_angle">
-
     <xacro:hokuyo_04lx_laser name="${name}" parent="${parent}" ros_topic="${ros_topic}" update_rate="${update_rate}" min_angle="${min_angle}" max_angle="${max_angle}">
       <origin xyz="0 0 0.25" rpy="0 0 ${-M_PI}" />
     </xacro:hokuyo_04lx_laser>
-
   </xacro:macro>
 
 </root>
