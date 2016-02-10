@@ -24,11 +24,13 @@
   <arg name="head_only" default="false"/>
   <arg name="ns" default="vizzy" />
   <arg name="fake_localization" default="false"/>
-  <arg name="teleop" default="false"/>
 
   <arg name="move_robot_config_file" default="$(find move_robot)/config/frames.yaml"/>
   <arg name="simulation" default="true" />
   <arg name="fixation_point_in" default="fixation_point" /> 
+
+  <arg name="reactive_2d_navigation" default="false"/>
+  <arg name="teleop" default="false"/>
 
   <!-- bringup robot -->
   <group if="$(arg head_only)">
@@ -70,8 +72,13 @@
   <group if="$(arg navigation)">
     <!-- launch the laser filter to get rid of readings from the robot itself -->
     <node name="hokuyo_laser_filters" pkg="laser_filters" type="scan_to_scan_filter_chain">
-     <rosparam command="load" file="$(find vizzy_sensors)/config/hokuyo_filters.yaml" />
-   	</node>
+      <rosparam command="load" file="$(find vizzy_sensors)/config/hokuyo_filters.yaml" />
+    </node>
+    <node name="polygon_stamped_to_polygon" pkg="vizzy_sensors" type="polygon_stamped_to_polygon">
+      <remap from="polygon_stamped_in" to="/hokuyo_laser_filters/footprint"/>
+      <remap from="polygon_out" to="laser_footprint"/>
+    </node>
+
 
     <group if="$(arg slam)">
       <!-- TO DO -->
@@ -80,24 +87,50 @@
       <!-- launch pre obtained map to the environment -->
       <node name="map_server" pkg="map_server" type="map_server" args="$(find vizzy_navigation)/maps/$(arg map_file)" />
 
-      <!-- move_base using local eband planner -->
-      <include file="$(find vizzy_navigation)/launch/move_base_eband_local.launch">
-        <arg name="map_topic" value="$(arg map_topic)" />
-      </include>
+      <group unless="$(arg reactive_2d_navigation)">
+        <!-- move_base using local eband planner -->
+        <include file="$(find vizzy_navigation)/launch/move_base_eband_local.launch">
+          <arg name="map_topic" value="$(arg map_topic)" />
+        </include>
+      </group>
+      <group if="$(arg reactive_2d_navigation)">
 
-  		<group if="$(arg fake_localization)">
-      	<!-- lighter localization package for simulation -->
-		    <node name="fake_localization" pkg="fake_localization" type="fake_localization">
-		      <remap from="base_pose_ground_truth" to="odom"/>
-		      <param name="global_frame_id" value="$(arg map_frame)" />
-		      <param name="base_frame_id" value="$(arg base_frame_id)" />
-		      <param name="odom_frame_id" value="$(arg odom_frame_id)" />
-		    </node>
-    	</group>
-    	<group unless="$(arg fake_localization)">
-      	  <!-- localization package -->
-      	  <include file="$(find vizzy_navigation)/launch/amcl_simulation.launch"/>
-    	</group>
+        <!-- Node: Local obstacles builder -->
+  	<node pkg="mrpt_local_obstacles" type="mrpt_local_obstacles_node" name="mrpt_local_obstacles_node" output="screen">
+          <param name="source_topics_2dscan" value="scan_filtered"/>
+          <param name="show_gui" value="true"/>
+        </node>
+
+        <!-- Node: Pure Reactive Navigator -->
+        <node pkg="mrpt_reactivenav2d" type="mrpt_reactivenav2d_node" name="mrpt_reactivenav2d_node" output="screen" respawn="true">
+          <!-- *Important*: This external config file holds the most important navigation settings -->
+          <param name="cfg_file_reactive" value="$(find vizzy_navigation)/config/reactive2d_config.ini"/> 
+          <param name="frameid_robot" value="base_footprint"/> 
+
+          <!-- This is to allow the reactive responsive to RVIZ GUI commands -->
+          <remap from="reactive_nav_goal" to="/move_base_simple/goal" />
+          <remap from="cmd_vel" to="/vizzy/cmd_vel" />
+          <!-- Enable logs to ~/.ros/reactivenav.logs , use navlog-viewer to open them -->
+          <!--		<param name="save_nav_log" value="true"/> -->
+
+          <!-- Robot shape: Load from geometry_msgs::Polygon topic -->
+          <param name="topic_robot_shape" value="laser_footprint" />
+        </node>
+      </group>
+
+      <group if="$(arg fake_localization)">
+      <!-- lighter localization package for simulation -->
+        <node name="fake_localization" pkg="fake_localization" type="fake_localization">
+	    <remap from="base_pose_ground_truth" to="odom"/>
+	    <param name="global_frame_id" value="$(arg map_frame)" />
+	    <param name="base_frame_id" value="$(arg base_frame_id)" />
+	    <param name="odom_frame_id" value="$(arg odom_frame_id)" />
+	</node>
+      </group>
+      <group unless="$(arg fake_localization)">
+        <!-- localization package -->
+        <include file="$(find vizzy_navigation)/launch/amcl_simulation.launch"/>
+      </group>
     </group>
   </group>
 
