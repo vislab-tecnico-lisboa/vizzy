@@ -31,6 +31,15 @@ catkin_package(
 
 include_directories(include ${catkin_INCLUDE_DIRS})
 
+
+## Declare a cpp executable
+add_executable(polygon_stamped_to_polygon src/polygon_stamped_to_polygon.cpp)
+
+## Specify libraries to link a library or executable target against
+target_link_libraries(polygon_stamped_to_polygon
+   ${catkin_LIBRARIES}
+)
+
 add_library(vizzy_sensors_filters src/vizzy_sensors_filters.cpp)
 target_link_libraries(vizzy_sensors_filters 
   ${Boost_LIBRARIES} 

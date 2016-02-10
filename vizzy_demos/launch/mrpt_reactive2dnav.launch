@@ -23,7 +23,7 @@
   <arg name="head_only" default="false"/>
   <arg name="fake_localization" default="false"/>
   <arg name="map_file" default="isr_7th_floor_simulation.yaml" />
-
+  <arg name="reactive_2d_navigation" default="true"/>
   <!-- Choose what we want to detect: pedestrian, headandshoulders, full -->
   <arg name="detector_type" default="full" />
 
@@ -43,18 +43,12 @@
     <arg name="world" value="$(arg world)" />
     <arg name="fake_localization" value="$(arg fake_localization)"/>
     <arg name="map_file" value="$(arg map_file)" />
+    <arg name="reactive_2d_navigation" value="$(arg reactive_2d_navigation)"/>
   </include>
 
   <!-- launch vizualization on rviz -->
   <group if="$(arg visualization)">
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find vizzy_demos)/rviz/pedestrian_detection.rviz" />
   </group>
-
-  <!-- launch Pedestrian detector, tracker and follower -->
-  <include file="$(find pedestrian_detector)/launch/pedestrian_detector.launch">
-    <arg name="image_in" value="/vizzy/$(arg camera)/image_raw"/>
-    <arg name="detector_type" value="$(arg detector_type)" />
-    <arg name="camera" value="$(arg camera)"/>
-  </include>
 
 </launch>
