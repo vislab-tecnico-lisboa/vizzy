@@ -48,7 +48,8 @@
   <arg name="fixation_point_in" default="fixation_point" /> 
   <arg name="fixation_point_out" default="fixation_point_goal_ros"/>
 
-
+  <arg name="reactive_2d_navigation" default="false"/>
+  <arg name="teleop" default="false"/>
   <!-- bringup robot -->
   <include file="$(find vizzy_robot)/launch/real_robot.launch">
     <arg name="map_frame" value="$(arg map_frame)" />
@@ -81,8 +82,13 @@
   <group if="$(arg navigation)">
     <!-- launch the laser filter to get rid of readings from the robot itself -->
    <node machine="$(arg vizzy_machine_name)" name="hokuyo_laser_filters" pkg="laser_filters" type="scan_to_scan_filter_chain">
-    <rosparam command="load" file="$(find vizzy_sensors)/config/hokuyo_filters.yaml" />
+     <rosparam command="load" file="$(find vizzy_sensors)/config/hokuyo_filters.yaml" />
    </node>
+   <node machine="$(arg vizzy_machine_name)" name="polygon_stamped_to_polygon" pkg="vizzy_sensors" type="polygon_stamped_to_polygon">
+     <remap from="polygon_stamped_in" to="/hokuyo_laser_filters/footprint"/>
+     <remap from="polygon_out" to="laser_footprint"/>
+   </node>
+
 
     <group if="$(arg slam)">
       <!-- TO DO -->
@@ -92,10 +98,14 @@
       <node machine="$(arg vizzy_machine_name)" name="map_server" pkg="map_server" type="map_server" args="$(arg vizzy_navigation_absolute_path)/maps/$(arg map_file)" />
 
       <!-- move_base using local eband planner -->
-      <include file="$(find vizzy_navigation)/launch/move_base_eband_remote.launch">
-  			<arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)"/>
-        <arg name="map_topic" value="$(arg map_topic)" />
-      </include>
+      <group unless="$(arg reactive_2d_navigation)">
+        <!-- move_base using local eband planner -->
+        <include file="$(find vizzy_navigation)/launch/move_base_eband_remote.launch">
+  	  <arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)"/>
+          <arg name="map_topic" value="$(arg map_topic)" />
+        </include>
+      </group>
+
 
       <!-- localization package -->
       <include file="$(find vizzy_navigation)/launch/amcl.launch">
@@ -113,8 +123,11 @@
   </include>
 
   <!-- launch teleop -->
-  <include file="$(find vizzy_navigation)/launch/teleop_joy.launch">
-    <arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)"/>
-    <arg name="ns" value="$(arg ns)" />
-  </include>
+  <!-- launch teleop -->
+  <group if="$(arg teleop)">
+    <include file="$(find vizzy_navigation)/launch/teleop_joy.launch">
+      <arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)"/>
+      <arg name="ns" value="$(arg ns)" />
+    </include>
+  </group>
 </launch>
