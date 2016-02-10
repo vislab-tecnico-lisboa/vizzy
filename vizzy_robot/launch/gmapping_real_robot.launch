@@ -33,7 +33,7 @@
   	<include file="$(find vizzy_sensors)/launch/hokuyo/hokuyo-filters.launch" />
 
 	<include file="$(find vizzy_navigation)/launch/gmapping.launch">
-    	<arg name="scan_topic" value="scan" />
+    	<arg name="scan_topic" value="scan_filtered" />
   	</include>
 
 </launch>

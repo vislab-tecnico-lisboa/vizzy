@@ -4,7 +4,7 @@
   <arg name="map_service" default="static_map" />
   <arg name="map_topic" default="map" />
 
-  <arg name="scan_topic" default="scan" />
+  <arg name="scan_topic" default="scan_filtered" />
 
   <arg name="initial_pose_x" default="0.0" />
   <arg name="initial_pose_y" default="0.0" />
