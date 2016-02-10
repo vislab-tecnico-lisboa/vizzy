@@ -54,7 +54,7 @@
     name="waist_joint"
     type="revolute">
     <origin
-      xyz="0.1934543 0.0 0.54067"
+      xyz="0.1934543 0.0 0.58254"
       rpy="1.5708 0.0 0.0" />
     <parent
       link="base_link" />

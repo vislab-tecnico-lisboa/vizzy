@@ -44,7 +44,7 @@
     </inertial>
     <visual>
       <origin
-        xyz="0.188 0.001 0.197"
+        xyz="0.188 0.001 0.23887"
         rpy="0 0 0" />
       <geometry>
         <mesh
@@ -110,7 +110,7 @@
     name="f_wheel_base_joint"
     type="continuous">
     <origin
-      xyz="0.43986 0.001 0.14806"
+      xyz="0.43986 0.001 0.18993"
       rpy="${M_PI} 0.0 0.0" />
     <parent
       link="base_link" />
@@ -216,7 +216,7 @@
     name="b_wheel_base_joint"
     type="continuous">
     <origin
-      xyz="-0.060139 0.001 0.14806"
+      xyz="-0.060139 0.001 0.18993"
       rpy="${M_PI} 0.0 0.0" />
     <parent
       link="base_link" />
@@ -322,7 +322,7 @@
     name="r_wheel_joint"
     type="continuous">
     <origin
-      xyz="0.18986 0.246 0.15814"
+      xyz="0.18986 0.246 0.20001"
       rpy="1.5708 1.5708 0" />
     <parent
       link="base_link" />
@@ -375,7 +375,7 @@
     name="l_wheel_joint"
     type="continuous">
     <origin
-      xyz="0.18986 -0.244 0.15814"
+      xyz="0.18986 -0.244 0.20001"
       rpy="1.5708 1.5708 0" />
     <parent
       link="base_link" />
