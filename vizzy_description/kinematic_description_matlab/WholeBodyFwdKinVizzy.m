@@ -11,7 +11,7 @@ cd ..
 
 right_shoulder_angles = [0.0     0.0     0.0]*pi/180;
 right_arm_angles	=	[0.0     0.0     0.0     0.0     0.0]*pi/180;
-
+cd 
 cd waist_right_arm_fwd_kin;
 [T_Root_0__, T_0n_rightArm, rpy_root_end_rightArm] = WaistRightArmFwdKinVizzy(waist_angles,right_shoulder_angles,right_arm_angles, 1);
 cd ..

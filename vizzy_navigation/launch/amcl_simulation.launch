@@ -53,7 +53,7 @@
     <param name="initial_pose_x" value="$(arg initial_pose_x)"/> 
     <param name="initial_pose_y" value="$(arg initial_pose_y)"/> 
     <param name="initial_pose_a" value="$(arg initial_pose_a)"/> 
-    <param name="base_frame_id" value="$(arg base_frame_id)" />
+    <param name="base_frame_id" value="base_footprint" />
     <param name="global_frame_id" value="$(arg map_frame_id)" />
     <param name="odom_frame_id" value="$(arg odom_frame_id)" />
 

@@ -18,8 +18,8 @@
   <arg name="map_frame" default="map" />
   <arg name="tf_prefix" default="" />
   <arg name="map_file" default="isr_7th_floor_simulation.yaml" />
-  <arg name="base_frame_id" default="$(arg tf_prefix)/base_footprint" />
-  <arg name="odom_frame_id" default="$(arg tf_prefix)/odom" />
+  <arg name="base_frame_id" default="base_footprint" />
+  <arg name="odom_frame_id" default="odom" />
   <arg name="map_topic" default="/map" />
   <arg name="head_only" default="false"/>
   <arg name="ns" default="vizzy" />
