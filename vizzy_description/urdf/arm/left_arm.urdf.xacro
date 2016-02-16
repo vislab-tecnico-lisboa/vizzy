@@ -53,7 +53,7 @@
 		  type="revolute">
 		  <origin
 		    xyz="0.0 0.0 0.0805"
-		    rpy="${M_PI/2.0} 0.0 0.0" />
+		    rpy="${M_PI/2.0} 0.0 -0.0175" />
 		  <parent
 		    link="waist_link" />
 		  <child
@@ -233,7 +233,7 @@
 		  <inertial>
 		    <origin
 		      xyz="0.002 -0.035 0.0"
-		      rpy="0.0 ${M_PI} ${M_PI}" />
+		      rpy="0.0 ${M_PI} ${M_PI+0.0873}" />
 		    <mass
 		      value="0.224019872188573" />
 		    <inertia
@@ -247,7 +247,7 @@
 		  <visual>
 		    <origin
 		      xyz="0.002 -0.035 0.0"
-		      rpy="0.0 ${M_PI} ${M_PI}" />
+		      rpy="0.0 ${M_PI} ${M_PI+0.0873}" />
 		    <geometry>
 		      <mesh
 		        filename="package://vizzy_description/meshes/M4L.dae" />
@@ -261,7 +261,7 @@
 		  <collision>
 		    <origin
 		      xyz="0.002 -0.035 0.0"
-		      rpy="0.0 ${M_PI} ${M_PI}" />
+		      rpy="0.0 ${M_PI} ${M_PI+0.0873}" />
 		    <geometry>
 		      <mesh
 		        filename="package://vizzy_description/meshes/M4L.dae" />
@@ -328,7 +328,7 @@
 		  type="revolute">
 		  <origin
 		    xyz="0.0 0.0 0.0"
-		    rpy="${M_PI/2} 0.0 0.0" />
+		    rpy="${M_PI/2} 0.0 0.0873" />
 		  <parent
 		    link="l_elbow_flection_link" />
 		  <child
