@@ -7,6 +7,7 @@ Panels:
         - /Global Options1
         - /Status1
         - /RobotModel1
+        - /TF1
         - /TF1/Frames1
       Splitter Ratio: 0.761146
     Tree Height: 462
@@ -79,6 +80,39 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        camera_depth_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        camera_depth_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        camera_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        camera_rgb_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        camera_rgb_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        ego_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        eyes_center_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        eyes_center_vision_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
         eyes_tilt_link:
           Alpha: 1
           Show Axes: false
@@ -94,11 +128,80 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        head_origin_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        l_camera_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        l_camera_vision_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        l_elbow_flection_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        l_eye_vergence_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         l_eye_version_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+        l_forearm_pronation_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        l_palm_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        l_shoulder_abduction_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        l_shoulder_flection_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        l_shoulder_rotation_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        l_shoulder_scapula_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         l_wheel_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        l_wrist_abduction_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        l_wrist_abduction_virtual_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        l_wrist_flection_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -122,16 +225,89 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        r_camera_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r_camera_vision_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r_elbow_flection_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r_eye_vergence_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         r_eye_version_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+        r_forearm_pronation_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r_palm_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r_shoulder_abduction_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r_shoulder_flection_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r_shoulder_rotation_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r_shoulder_scapula_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         r_wheel_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
+        r_wrist_abduction_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r_wrist_abduction_virtual_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r_wrist_flection_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        vergence_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
         version_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        waist_fixed_virtual_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -147,19 +323,199 @@ Visualization Manager:
       Value: true
       Visual Enabled: true
     - Class: rviz/TF
-      Enabled: false
+      Enabled: true
       Frame Timeout: 15
       Frames:
         All Enabled: false
+        b_wheel_base_link:
+          Value: true
+        b_wheel_link:
+          Value: true
+        base_footprint:
+          Value: true
+        base_link:
+          Value: true
+        camera_depth_frame:
+          Value: true
+        camera_depth_optical_frame:
+          Value: true
+        camera_link:
+          Value: true
+        camera_rgb_frame:
+          Value: true
+        camera_rgb_optical_frame:
+          Value: true
+        ego_frame:
+          Value: true
+        eyes_center_link:
+          Value: true
+        eyes_center_vision_link:
+          Value: true
+        eyes_tilt_link:
+          Value: true
+        f_wheel_base_link:
+          Value: true
+        f_wheel_link:
+          Value: true
+        head_origin_frame:
+          Value: true
+        l_camera_link:
+          Value: true
+        l_camera_vision_link:
+          Value: true
+        l_elbow_flection_link:
+          Value: true
+        l_eye_vergence_link:
+          Value: true
+        l_eye_version_link:
+          Value: true
+        l_forearm_pronation_link:
+          Value: true
+        l_palm_link:
+          Value: true
+        l_shoulder_abduction_link:
+          Value: true
+        l_shoulder_flection_link:
+          Value: true
+        l_shoulder_rotation_link:
+          Value: true
+        l_shoulder_scapula_link:
+          Value: true
+        l_wheel_link:
+          Value: true
+        l_wrist_abduction_link:
+          Value: true
+        l_wrist_abduction_virtual_link:
+          Value: true
+        l_wrist_flection_link:
+          Value: true
+        nav_hokuyo_laser_link:
+          Value: true
+        nav_hokuyo_link:
+          Value: true
+        neck_pan_link:
+          Value: true
+        neck_tilt_link:
+          Value: true
+        r_camera_link:
+          Value: true
+        r_camera_vision_link:
+          Value: true
+        r_elbow_flection_link:
+          Value: true
+        r_eye_vergence_link:
+          Value: true
+        r_eye_version_link:
+          Value: true
+        r_forearm_pronation_link:
+          Value: true
+        r_palm_link:
+          Value: true
+        r_shoulder_abduction_link:
+          Value: true
+        r_shoulder_flection_link:
+          Value: true
+        r_shoulder_rotation_link:
+          Value: true
+        r_shoulder_scapula_link:
+          Value: true
+        r_wheel_link:
+          Value: true
+        r_wrist_abduction_link:
+          Value: true
+        r_wrist_abduction_virtual_link:
+          Value: true
+        r_wrist_flection_link:
+          Value: true
+        vergence_link:
+          Value: true
+        version_link:
+          Value: true
+        waist_fixed_virtual_link:
+          Value: true
+        waist_link:
+          Value: true
       Marker Scale: 1
       Name: TF
-      Show Arrows: true
+      Show Arrows: false
       Show Axes: true
       Show Names: false
       Tree:
-        {}
+        base_footprint:
+          base_link:
+            b_wheel_base_link:
+              b_wheel_link:
+                {}
+            f_wheel_base_link:
+              f_wheel_link:
+                {}
+            l_wheel_link:
+              {}
+            nav_hokuyo_link:
+              nav_hokuyo_laser_link:
+                {}
+            r_wheel_link:
+              {}
+            waist_fixed_virtual_link:
+              {}
+            waist_link:
+              camera_link:
+                camera_depth_frame:
+                  camera_depth_optical_frame:
+                    {}
+                camera_rgb_frame:
+                  camera_rgb_optical_frame:
+                    {}
+              ego_frame:
+                {}
+              l_shoulder_scapula_link:
+                l_shoulder_flection_link:
+                  l_shoulder_abduction_link:
+                    l_shoulder_rotation_link:
+                      l_elbow_flection_link:
+                        l_forearm_pronation_link:
+                          l_wrist_abduction_link:
+                            l_wrist_flection_link:
+                              l_palm_link:
+                                {}
+                          l_wrist_abduction_virtual_link:
+                            {}
+              neck_pan_link:
+                neck_tilt_link:
+                  eyes_tilt_link:
+                    eyes_center_link:
+                      eyes_center_vision_link:
+                        {}
+                      l_eye_version_link:
+                        l_eye_vergence_link:
+                          l_camera_link:
+                            l_camera_vision_link:
+                              {}
+                      r_eye_version_link:
+                        r_eye_vergence_link:
+                          r_camera_link:
+                            r_camera_vision_link:
+                              {}
+                      vergence_link:
+                        {}
+                      version_link:
+                        {}
+                  head_origin_frame:
+                    {}
+              r_shoulder_scapula_link:
+                r_shoulder_flection_link:
+                  r_shoulder_abduction_link:
+                    r_shoulder_rotation_link:
+                      r_elbow_flection_link:
+                        r_forearm_pronation_link:
+                          r_wrist_abduction_link:
+                            r_wrist_flection_link:
+                              r_palm_link:
+                                {}
+                          r_wrist_abduction_virtual_link:
+                            {}
       Update Interval: 0
-      Value: false
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -184,7 +540,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 2.03073
+      Distance: 0.765605
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
@@ -196,10 +552,10 @@ Visualization Manager:
         Z: 0.512424
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.350203
+      Pitch: -0.0597969
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 3.38498
+      Yaw: 2.71497
     Saved: ~
 Window Geometry:
   Displays:
@@ -217,5 +573,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1301
-  X: 65
-  Y: 24
+  X: 55
+  Y: 14
