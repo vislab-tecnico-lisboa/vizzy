@@ -48,5 +48,8 @@
   <material name="almost_black">
     <color rgba="0.02 0.02 0.02 1" />
   </material>
+  <material name="orange">
+    <color rgba="${255/255} ${108/255} ${10/255} 1.0"/>
+  </material>
 </root>
 
