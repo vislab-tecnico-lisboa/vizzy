@@ -49,7 +49,7 @@
   <arg name="fixation_point_out" default="fixation_point_goal_ros"/>
 
   <arg name="reactive_2d_navigation" default="false"/>
-  <arg name="teleop" default="false"/>
+  <arg name="teleop" default="true"/>
   <!-- bringup robot -->
   <include file="$(find vizzy_robot)/launch/real_robot.launch">
     <arg name="map_frame" value="$(arg map_frame)" />
