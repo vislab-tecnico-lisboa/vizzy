@@ -356,20 +356,19 @@ Matrix exchangeData::get_fpFrame()
 
 
 /************************************************************************/
-bool getCamPrj(const string &camerasFile, const string &type, Matrix **Prj)
+bool getCamPrj(const ResourceFinder &rf, const string &type, Matrix **Prj)
 {
+    ResourceFinder &_rf=const_cast<ResourceFinder&>(rf);
     *Prj=NULL;
+    if (!_rf.isConfigured())
+        return false;
 
-    if (camerasFile.size())
+    string camerasFile=_rf.findFile("from").c_str();
+    if (!camerasFile.empty())
     {
-        Property par;
-        par.fromConfigFile(camerasFile.c_str());
-
-        Bottle parType=par.findGroup(type.c_str());
+        Bottle parType=_rf.findGroup(type.c_str());
         string warning="Intrinsic parameters for "+type+" group not found";
 
-        if (parType.size())
-        {
             if (parType.check("cx") && parType.check("cy") &&
                 parType.check("fx") && parType.check("fy"))
             {
@@ -388,16 +387,11 @@ bool getCamPrj(const string &camerasFile, const string &type, Matrix **Prj)
 
                 *Prj=new Matrix;
                 **Prj=K*Pi;
-
                 return true;
             }
             else
                 fprintf(stdout,"%s\n",warning.c_str());
-        }
-        else
-            fprintf(stdout,"%s\n",warning.c_str());
     }
-
     return false;
 }
 

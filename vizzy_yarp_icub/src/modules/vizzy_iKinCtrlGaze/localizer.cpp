@@ -61,7 +61,7 @@ Localizer::Localizer(exchangeData *_commData, const string &_localName,
     eyesHalfBaseline=0.5*norm(eyeL->EndEffPose().subVector(0,2)-eyeR->EndEffPose().subVector(0,2));
 
     // get camera projection matrix from the camerasFile
-    if (getCamPrj(camerasFile,"CAMERA_CALIBRATION_LEFT",&PrjL))
+    if (getCamPrj(rf_camera,"CAMERA_CALIBRATION_LEFT",&PrjL))
     {
         Matrix &Prj=*PrjL;
         cxl=Prj(0,2);
@@ -73,7 +73,7 @@ Localizer::Localizer(exchangeData *_commData, const string &_localName,
         PrjL=invPrjL=NULL;
 
     // get camera projection matrix from the camerasFile
-    if (getCamPrj(camerasFile,"CAMERA_CALIBRATION_RIGHT",&PrjR))
+    if (getCamPrj(rf_camera,"CAMERA_CALIBRATION_RIGHT",&PrjR))
     {
         Matrix &Prj=*PrjR;
         cxr=Prj(0,2);
