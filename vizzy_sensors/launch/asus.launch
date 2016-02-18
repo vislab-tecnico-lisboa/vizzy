@@ -1,0 +1,9 @@
+<!-- Entry point for using OpenNI devices -->
+<launch>
+
+  <include file="$(find openni_launch)/launch/openni.launch">
+    <arg name="depth_camera_info_url" value="file://$(find vizzy_sensors)/config/depth_1204110031.yaml"/>
+    <arg name="rgb_camera_info_url" value="file://$(find vizzy_sensors)/config/rgb_1204110031.yaml"/>
+  </include>
+
+</launch>
