@@ -3,30 +3,30 @@
 <xacro:property name="M_PI" value="3.1415926535897931" />
 <xacro:macro name="asus_camera_model" params="name parent *origin">
 <joint name="${name}_joint" type="fixed">
-<xacro:insert_block name="origin" />
-<parent link="${parent}"/>
-<child link="${name}_link"/>
+	<xacro:insert_block name="origin" />
+	<parent link="${parent}"/>
+	<child link="${name}_link"/>
 </joint>
 <link name="${name}_link">
-<inertial>
-<mass value="0.200" />
-<origin xyz="0 0 0" rpy="0 0 0" />
-<inertia ixx="5.8083e-4" ixy="0" ixz="0" iyy="3.0833e-5" iyz="0" izz="5.9083e-4" />
-</inertial>
-<visual>
-<origin xyz="0 0 0" rpy="0 0 0" />
-<geometry>
-<mesh filename="package://vizzy_description/meshes/asus_camera/asus_camera_simple.dae"/>
-</geometry>
-</visual>
-<collision>
-<origin xyz="0 0 0" rpy="0 0 0" />
-<geometry>
-<box size="0.035 0.185 0.025"/>
-</geometry>
-</collision>
+	<inertial>
+	<mass value="0.200" />
+	<origin xyz="0 0 0" rpy="0 0 0" />
+	<inertia ixx="5.8083e-4" ixy="0" ixz="0" iyy="3.0833e-5" iyz="0" izz="5.9083e-4" />
+	</inertial>
+	<visual>
+		<origin xyz="0 0 0" rpy="0 0 0" />
+		<geometry>
+			<mesh filename="package://vizzy_description/meshes/asus_camera/asus_camera_simple.dae"/>
+		</geometry>
+	</visual>
+	<collision>
+		<origin xyz="0 0 0" rpy="0 0 0" />
+		<geometry>
+			<box size="0.035 0.185 0.025"/>
+		</geometry>
+	</collision>
 </link>
-<joint name="${name}_depth_joint" type="fixed">
+<!--<joint name="${name}_depth_joint" type="fixed">
 <origin xyz="0.0 0.049 0.0" rpy="0 0 0" />
 <parent link="${name}_link" />
 <child link="${name}_depth_frame"/>
@@ -49,7 +49,7 @@
 <parent link="${name}_rgb_frame" />
 <child link="${name}_rgb_optical_frame"/>
 </joint>
-<link name="${name}_rgb_optical_frame"/>
+<link name="${name}_rgb_optical_frame"/>-->
 </xacro:macro>
 <xacro:macro name="asus_camera" params="name parent *origin">
 <xacro:asus_camera_model name="${name}" parent="${parent}">

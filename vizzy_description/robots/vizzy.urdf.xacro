@@ -54,7 +54,7 @@
   </xacro:hokuyo_mount>
 
   <xacro:asus_camera name="camera" parent="waist_link">
-    <origin xyz="-0.08 0.16 0.02" rpy="${-M_PI/2} ${M_PI} ${-21.0*(M_PI/180)}"/>
+    <origin xyz="-0.075 0.15 0.02" rpy="${-M_PI/2} ${M_PI} ${-21.0*(M_PI/180)}"/>
   </xacro:asus_camera>
 
   <!-- instantiate common ROS and Yarp plugins -->
