@@ -190,7 +190,7 @@ int main(int argc, char *argv[])
                   second_camera_frame,
                   true);
 
-    ros::Rate r(100.0);
+    /*ros::Rate r(100.0);
     while(ros::ok)
     {
         static tf::TransformBroadcaster br;
@@ -198,7 +198,7 @@ int main(int argc, char *argv[])
                                               first_camera_frame, second_camera_frame));
 
         r.sleep();
-    }
+    }*/
 
     return 1;
 }
