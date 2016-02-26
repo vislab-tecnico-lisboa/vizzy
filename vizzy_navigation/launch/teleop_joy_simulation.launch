@@ -3,10 +3,13 @@
   <arg name="ns" default="" />
   <param name="joy_node" value="/dev/input/js0"/>
 
+  <arg name="cmd_out_topic" default="twist2nav2d" />
+
   <node ns="$(arg ns)" pkg="joy" type="joy_node" name="joy_node"/>
    
   <node ns="$(arg ns)" pkg="vizzy_navigation" type="teleop_joy_node" name="teleop_joy_node" output="screen">
-     <param name="scale_linear" value="0.55"/>
-     <param name="scale_angular" value="0.3"/>
+     <param name="scale_linear" value="1"/>
+     <param name="scale_angular" value="0.8"/>
+     <remap from="cmd_vel" to="$(arg cmd_out_topic)"/>
   </node>
 </launch>
