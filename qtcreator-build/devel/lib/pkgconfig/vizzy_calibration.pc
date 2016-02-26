@@ -1,0 +1,8 @@
+prefix=/home/vizzy/catkin_workspace/src/vizzy/qtcreator-build/devel
+
+Name: vizzy_calibration
+Description: Description of vizzy_calibration
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/vizzy/catkin_workspace/src/vizzy/qtcreator-build/devel/lib 
+Requires: 

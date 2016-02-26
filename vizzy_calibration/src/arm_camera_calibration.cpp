@@ -73,6 +73,15 @@ bool computeMatrix(PointCloud::Ptr target,
         std::cout << std::endl << "#################################################" << std::endl;
         std::cout << "origin: "<<origin.transpose() << std::endl;
         std::cout << "rpy: " << roll << " " << pitch << " " << yaw << std::endl;
+
+        Eigen::Vector3d origin_inv(transform.inverse().getOrigin());
+        double roll_inv, pitch_inv, yaw_inv;
+        tf::Matrix3x3(transform.getRotation()).getRPY(roll_inv, pitch_inv, yaw_inv);
+        std::cout << std::endl << "#################################################" << std::endl;
+        std::cout << std::endl << "########### INVERSE TRANSFORMATION PARAMETERS ###########" << std::endl;
+        std::cout << std::endl << "#################################################" << std::endl;
+        std::cout << "origin: "<<origin_inv.transpose() << std::endl;
+        std::cout << "rpy: " << roll_inv << " " << pitch_inv << " " << yaw_inv << std::endl;
     }
 
     return true;
@@ -89,16 +98,18 @@ int main(int argc, char *argv[])
     ros::NodeHandle n_priv("~");
 
     int number_of_points;
-
+    int number_of_markers;
     std::string marker_link_prefix;
     std::string first_camera_frame;
     std::string second_camera_frame;
-    std::string base_link;
+
 
     n_priv.param<int>("number_of_points",number_of_points, 6);
-    n_priv.param<std::string>("base_link",base_link, "base_link");
+    n_priv.param<int>("number_of_markers",number_of_markers, 9);
+
+
     n_priv.param<std::string>("first_camera_frame",first_camera_frame, "first_camera_link");
-    n_priv.param<std::string>("second_camera_link",second_camera_frame, "second_camera_link");
+    n_priv.param<std::string>("second_camera_frame",second_camera_frame, "second_camera_link");
     n_priv.param<std::string>("marker_link_prefix",marker_link_prefix, "ar_marker_");
 
     std::vector <std::string> marker_links;
@@ -113,60 +124,66 @@ int main(int argc, char *argv[])
     ros::AsyncSpinner spinner(1);
     spinner.start();
 
-    // specify that our target will be a random one
-    geometry_msgs::PoseStamped random_pose;
-    random_pose.header.frame_id=base_link;
 
     PointCloud::Ptr first_camera_cloud(new PointCloud);
     PointCloud::Ptr second_camera_cloud(new PointCloud);
 
-    for(int i=0; i< number_of_points;)
+    int p=0;
+    do
     {
+        for(int i=0; i< number_of_markers;)
+        {
+            tf::TransformListener listener;
+            // Get some point correspondences
+            try
+            {
+                ///////////////////////////////
+                // Point in 1st camera frame //
+                ///////////////////////////////
 
+                tf::StampedTransform first_camera_tf;
+                listener.waitForTransform(first_camera_frame, "first/"+marker_links[i], ros::Time(0), ros::Duration(1.0) );
+                listener.lookupTransform(first_camera_frame, "first/"+marker_links[i], ros::Time(0), first_camera_tf);
+
+                tf::StampedTransform second_camera_tf;
+                listener.waitForTransform(second_camera_frame, "second/"+marker_links[i], ros::Time(0), ros::Duration(1.0) );
+                listener.lookupTransform(second_camera_frame, "second/"+marker_links[i], ros::Time(0), second_camera_tf);
+                ////////////////////////////////
+                // Get points in camera frame //
+                ////////////////////////////////
+
+                PointT first_camera_point;
+                first_camera_point.x=first_camera_tf.getOrigin().x();
+                first_camera_point.y=first_camera_tf.getOrigin().y();
+                first_camera_point.z=first_camera_tf.getOrigin().z();
+                first_camera_cloud->points.push_back(first_camera_point);
+
+                PointT second_camera_point;
+                second_camera_point.x=second_camera_tf.getOrigin().x();
+                second_camera_point.y=second_camera_tf.getOrigin().y();
+                second_camera_point.z=second_camera_tf.getOrigin().z();
+                second_camera_cloud->points.push_back(second_camera_point);
+            }
+            catch (tf::TransformException ex)
+            {
+                ROS_ERROR("%s",ex.what());
+                continue;
+            }
+            ++i;
+            ROS_INFO_STREAM("  Markers acquired so far: "
+                            << i
+                            << " out of "
+                            <<number_of_markers);
+        }
+        ++p;
         ROS_INFO_STREAM("Samples acquired so far: "
-                        << second_camera_cloud->points.size()
+                        << p
                         << " out of "
                         <<number_of_points);
-
-        tf::TransformListener listener;
-        // Get some point correspondences
-        try
-        {
-            ///////////////////////////////
-            // Point in 1st camera frame //
-            ///////////////////////////////
-
-            tf::StampedTransform first_camera_tf;
-            listener.waitForTransform(first_camera_frame, marker_links[i], ros::Time(0), ros::Duration(10.0) );
-            listener.lookupTransform(first_camera_frame, marker_links[i], ros::Time(0), first_camera_tf);
-
-            tf::StampedTransform second_camera_tf;
-            listener.waitForTransform(second_camera_frame, marker_links[i], ros::Time(0), ros::Duration(10.0) );
-            listener.lookupTransform(second_camera_frame, marker_links[i], ros::Time(0), second_camera_tf);
-            ////////////////////////////////
-            // Get points in camera frame //
-            ////////////////////////////////
-
-            PointT first_camera_point;
-            first_camera_point.x=first_camera_tf.getOrigin().x();
-            first_camera_point.y=first_camera_tf.getOrigin().y();
-            first_camera_point.z=first_camera_tf.getOrigin().z();
-            first_camera_cloud->points.push_back(first_camera_point);
-
-            PointT second_camera_point;
-            second_camera_point.x=second_camera_tf.getOrigin().x();
-            second_camera_point.y=second_camera_tf.getOrigin().y();
-            second_camera_point.z=second_camera_tf.getOrigin().z();
-            second_camera_cloud->points.push_back(second_camera_point);
-        }
-        catch (tf::TransformException ex)
-        {
-            ROS_ERROR("%s",ex.what());
-            continue;
-        }
-        ++i;
     }
+    while(p<number_of_points);
 
+	ROS_INFO("WHA");
     computeMatrix(first_camera_cloud,
                   second_camera_cloud,
                   first_camera_frame,
