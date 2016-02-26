@@ -1,0 +1,6 @@
+###########################################################
+# Defines topics services and frames for operator
+#
+### TF frames #############################################
+robot_frame: base_footprint
+odometry_frame: odom

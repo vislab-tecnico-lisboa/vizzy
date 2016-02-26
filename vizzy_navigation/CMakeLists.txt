@@ -20,8 +20,13 @@ include_directories(include ${catkin_INCLUDE_DIRS})
 
 ## Declare a cpp executable
 add_executable(teleop_joy_node src/teleop_joy.cpp)
-
 target_link_libraries(teleop_joy_node
+  ${Boost_LIBRARIES}
+  ${catkin_LIBRARIES}
+)
+
+add_executable(reroute_twist2nav2d_node src/twist2nav2d.cpp)
+target_link_libraries(reroute_twist2nav2d_node
   ${Boost_LIBRARIES}
   ${catkin_LIBRARIES}
 )

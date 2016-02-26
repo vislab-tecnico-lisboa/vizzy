@@ -30,7 +30,7 @@
   <arg name="fixation_point_in" default="fixation_point" /> 
 
   <arg name="reactive_2d_navigation" default="false"/>
-  <arg name="teleop" default="false"/>
+  <arg name="teleop" default="true"/>
 
   <!-- bringup robot -->
   <group if="$(arg head_only)">
@@ -144,7 +144,25 @@
   <!-- launch teleop -->
   <group if="$(arg teleop)">
     <include file="$(find vizzy_navigation)/launch/teleop_joy_simulation.launch">
+      <arg name="cmd_out_topic" value="twist2nav2d"/>
       <arg name="ns" value="$(arg ns)" />
     </include>
   </group>
+
+  <group>
+  <node name="twist2nav2d" pkg="vizzy_navigation" type="reroute_twist2nav2d_node">
+    <remap from="twist_topic" to="$(arg ns)/twist2nav2d"/>
+    <remap from="nav2d_topic" to="cmd"/>
+    <remap from="cmd_topic" to="$(arg ns)/cmd_vel" />
+  </node>
+  <rosparam file="$(find vizzy_navigation)/param/general.yaml"/>
+  <node name="Operator" pkg="nav2d_operator" type="operator">
+    <rosparam file="$(find vizzy_navigation)/param/operator.yaml"/>
+    <rosparam file="$(find vizzy_navigation)/param/costmap.yaml" ns="local_map" />
+    <remap from="cmd_vel" to = "$(arg ns)/cmd_vel"/>
+  </node>
+  </group>
+
+  
+
 </launch>
