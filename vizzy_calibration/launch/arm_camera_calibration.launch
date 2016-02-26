@@ -18,7 +18,7 @@
   <node name="vizzy_calibration" pkg="vizzy_calibration" type="two_camera_extrinsic_calibration" output="screen">
      
     <!-- CONFIG PARAMETERS -->
-    <param name="number_of_points" value="20" />  <!-- Minimum number of samples for the transformation calculation -->
+    <param name="number_of_points" value="60" />  <!-- Minimum number of samples for the transformation calculation -->
     <param name="number_of_markers" value="1" />  <!-- Minimum number of samples for the transformation calculation -->
     <param name="first_camera_frame" value="camera_link" />  <!-- camera frame -->
     <param name="second_camera_frame" value="waist_link" />  <!-- end effector frame, where the AR marker should be placed -->
