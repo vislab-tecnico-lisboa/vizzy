@@ -4,6 +4,8 @@
   <arg name="ns" default="" />
   <param name="joy_node" value="/dev/input/js0"/>
 
+  <arg name="cmd_out_topic" default="twist2nav2d" />
+
   <node machine="$(arg vizzy_machine_name)" ns="$(arg ns)" pkg="joy" type="joy_node" name="joy_node"/>
    
   <node machine="$(arg vizzy_machine_name)" ns="$(arg ns)" pkg="vizzy_navigation" type="teleop_joy_node" name="teleop_joy_node" output="screen">
