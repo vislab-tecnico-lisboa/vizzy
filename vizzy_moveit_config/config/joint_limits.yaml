@@ -3,27 +3,77 @@
 # Joint limits can be turned off with [has_velocity_limits, has_acceleration_limits]
 joint_limits:
   eyes_tilt_joint:
-    has_velocity_limits: false
+    has_velocity_limits: true
     max_velocity: 5
     has_acceleration_limits: false
     max_acceleration: 0
   neck_pan_joint:
-    has_velocity_limits: false
+    has_velocity_limits: true
     max_velocity: 5
     has_acceleration_limits: false
     max_acceleration: 0
   neck_tilt_joint:
-    has_velocity_limits: false
+    has_velocity_limits: true
     max_velocity: 5
     has_acceleration_limits: false
     max_acceleration: 0
+  r_elbow_flection_joint:
+    has_velocity_limits: true
+    max_velocity: 3
+    has_acceleration_limits: false
+    max_acceleration: 0
+  r_forearm_pronation_joint:
+    has_velocity_limits: true
+    max_velocity: 3
+    has_acceleration_limits: false
+    max_acceleration: 0
+  r_shoulder_abduction_joint:
+    has_velocity_limits: true
+    max_velocity: 3
+    has_acceleration_limits: false
+    max_acceleration: 0
+  r_shoulder_flection_joint:
+    has_velocity_limits: true
+    max_velocity: 3
+    has_acceleration_limits: false
+    max_acceleration: 0
+  r_shoulder_rotation_joint:
+    has_velocity_limits: true
+    max_velocity: 3
+    has_acceleration_limits: false
+    max_acceleration: 0
+  r_shoulder_scapula_joint:
+    has_velocity_limits: true
+    max_velocity: 3
+    has_acceleration_limits: false
+    max_acceleration: 0
+  r_wrist_abduction_joint:
+    has_velocity_limits: true
+    max_velocity: 3
+    has_acceleration_limits: false
+    max_acceleration: 0
+  r_wrist_abduction_virtual_joint:
+    has_velocity_limits: true
+    max_velocity: 3
+    has_acceleration_limits: false
+    max_acceleration: 0
+  r_wrist_flection_joint:
+    has_velocity_limits: true
+    max_velocity: 3
+    has_acceleration_limits: false
+    max_acceleration: 0
   vergence_joint:
-    has_velocity_limits: false
-    max_velocity: 0.2
+    has_velocity_limits: true
+    max_velocity: 5
     has_acceleration_limits: false
     max_acceleration: 0
   version_joint:
-    has_velocity_limits: false
-    max_velocity: 0.2
+    has_velocity_limits: true
+    max_velocity: 5
+    has_acceleration_limits: false
+    max_acceleration: 0
+  waist_joint:
+    has_velocity_limits: true
+    max_velocity: 3863
     has_acceleration_limits: false
     max_acceleration: 0
