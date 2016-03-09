@@ -339,7 +339,7 @@
 		  name="r_wrist_abduction_virtual_link">
 		  <inertial>
 		    <origin
-		      xyz="0.0 0.0 0.0"
+		      xyz="0.0 0.0 -0.005"
 		      rpy="${-M_PI/2.0} 0 ${M_PI}" />
 		    <mass
 		      value="0.15130263687109" />
@@ -367,7 +367,7 @@
 		  </visual>
 		  <collision>
 		    <origin
-		      xyz="0.0 0.0 0.0"
+		      xyz="0.0 0.0 -0.005"
 		      rpy="${-M_PI/2.0} 0 ${M_PI}" />
 		    <geometry>
 		      <mesh

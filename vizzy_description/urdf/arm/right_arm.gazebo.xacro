@@ -55,7 +55,10 @@
       <mu1>0.2</mu1>
       <mu2>0.2</mu2>
     </gazebo>
-		<gazebo>
+
+
+
+    <gazebo>
 			<plugin name="mimic_plugin" filename="libgazebo_mimic_plugin.so">
 				<joint>r_wrist_abduction_joint</joint>
 				<mimicJoint>r_wrist_abduction_virtual_joint</mimicJoint>
