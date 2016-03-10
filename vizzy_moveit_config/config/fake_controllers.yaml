@@ -17,7 +17,6 @@ controller_list:
       - version_joint
   - name: fake_right_arm_controller
     joints:
-      - waist_joint
       - r_shoulder_scapula_joint
       - r_shoulder_flection_joint
       - r_shoulder_abduction_joint
