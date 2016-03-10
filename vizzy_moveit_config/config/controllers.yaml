@@ -29,6 +29,7 @@ controller_list:
    type: FollowJointTrajectory
    default: true
    joints:
+      - r_shoulder_abduction_joint
       - r_shoulder_scapula_joint
       - r_shoulder_flection_joint
       - r_shoulder_rotation_joint
@@ -41,6 +42,7 @@ controller_list:
    type: FollowJointTrajectory
    default: true
    joints:
+      - l_shoulder_abduction_joint
       - l_shoulder_scapula_joint
       - l_shoulder_flection_joint
       - l_shoulder_rotation_joint

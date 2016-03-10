@@ -110,5 +110,5 @@ right_arm:
     - TRRTkConfigDefault
     - PRMkConfigDefault
     - PRMstarkConfigDefault
-  projection_evaluator: joints(waist_joint,r_shoulder_scapula_joint)
+  projection_evaluator: joints(r_shoulder_scapula_joint,r_shoulder_flection_joint)
   longest_valid_segment_fraction: 0.05

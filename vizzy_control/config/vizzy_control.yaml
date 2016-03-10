@@ -166,7 +166,7 @@ vizzy:
 
 
   oculocephalic_trajectory_controller:
-    type: velocity_controllers/JointTrajectoryController
+    type: effort_controllers/JointTrajectoryController
     joints:
     - neck_pan_joint
     - neck_tilt_joint
@@ -216,8 +216,9 @@ vizzy:
 
 
   left_arm_trajectory_controller:
-    type: velocity_controllers/JointTrajectoryController
+    type: position_controllers/JointTrajectoryController
     joints:
+      - l_shoulder_abduction_joint
       - l_shoulder_scapula_joint
       - l_shoulder_flection_joint
       - l_shoulder_rotation_joint
@@ -267,8 +268,9 @@ vizzy:
         goal: 0
 
   right_arm_trajectory_controller:
-    type: velocity_controllers/JointTrajectoryController
+    type: position_controllers/JointTrajectoryController
     joints:
+      - r_shoulder_abduction_joint
       - r_shoulder_scapula_joint
       - r_shoulder_flection_joint
       - r_shoulder_rotation_joint
