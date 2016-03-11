@@ -142,6 +142,7 @@
     <rosparam file="$(find vizzy_navigation)/param/operator.yaml"/>
     <rosparam file="$(find vizzy_navigation)/param/costmap.yaml" ns="local_map" />
     <remap from="cmd_vel" to = "$(arg ns)/cmd_vel"/>
+    <remap from="/Operator/local_map/footprint" to = "/laser_footprint" />
   </node>
   </group>
 </launch>
