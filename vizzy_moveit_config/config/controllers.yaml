@@ -1,4 +1,4 @@
-#controller_list:
+controller_list:
 # - name: /vizzy/head_trajectory_controller
 #   action_ns: follow_joint_trajectory
 #   type: FollowJointTrajectory
@@ -24,3 +24,29 @@
 #      - eyes_tilt_joint
 #      - vergence_joint
 #      - version_joint
+ - name: /vizzy/right_arm_trajectory_controller
+   action_ns: follow_joint_trajectory
+   type: FollowJointTrajectory
+   default: true
+   joints:
+      - r_shoulder_abduction_joint
+      - r_shoulder_scapula_joint
+      - r_shoulder_flection_joint
+      - r_shoulder_rotation_joint
+      - r_elbow_flection_joint
+      - r_forearm_pronation_joint
+      - r_wrist_abduction_joint
+      - r_wrist_flection_joint
+ - name: /vizzy/left_arm_trajectory_controller
+   action_ns: follow_joint_trajectory
+   type: FollowJointTrajectory
+   default: true
+   joints:
+      - l_shoulder_abduction_joint
+      - l_shoulder_scapula_joint
+      - l_shoulder_flection_joint
+      - l_shoulder_rotation_joint
+      - l_elbow_flection_joint
+      - l_forearm_pronation_joint
+      - l_wrist_abduction_joint
+      - l_wrist_flection_joint
