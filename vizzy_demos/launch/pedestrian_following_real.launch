@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!-- ROS head file to simulate vizzy in gazebo   -->
+
 <launch>
   <!-- robot configuration parameters -->
   <arg name="vizzy_machine_name" default="vizzy-desktop"/>
