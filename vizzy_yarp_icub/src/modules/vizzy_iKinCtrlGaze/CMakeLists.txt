@@ -4,7 +4,6 @@ SET(PROJECTNAME vizzy_iKinGazeCtrl)
 
 PROJECT(${PROJECTNAME})
 
-
 set(DEBUG_DEFINES
     #RPC_DEBUG=1
     #TPM_DEBUG=1
