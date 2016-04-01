@@ -24,8 +24,6 @@
 #include <iomanip>
 #include <string>
 
-YARP_DECLARE_DEVICES(icubmod)
-
 using namespace std;
 using namespace yarp::os;
 using namespace yarp::dev;
@@ -231,7 +229,6 @@ int main(int argc, char *argv[])
   // register here the icubmod devices
   // along with the new yarp devices
   // for dealing with the robot
-  YARP_REGISTER_DEVICES(icubmod)
 
   ResourceFinder rf;
   rf.setVerbose(true);

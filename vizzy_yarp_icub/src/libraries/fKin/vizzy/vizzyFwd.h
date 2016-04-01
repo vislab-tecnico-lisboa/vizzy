@@ -14,7 +14,7 @@
 #include <yarp/sig/Matrix.h>
 #include <yarp/math/Math.h>
 
-#include <iCub/ctrl/math.h>
+#include <cmath>
 
 #include <iCub/iKin/iKinInv.h>
 #include <iCub/iKin/iKinIpOpt.h>

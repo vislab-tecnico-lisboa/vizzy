@@ -218,8 +218,6 @@ Windows, Linux
 #define STATE_RELEASE           3
 #define STATE_WAIT              4
 
-YARP_DECLARE_DEVICES(icubmod)
-
 using namespace std;
 using namespace yarp::os;
 using namespace yarp::sig;
@@ -1817,8 +1815,6 @@ int main(int argc, char *argv[])
         return -1;
     }
 
-    YARP_REGISTER_DEVICES(icubmod)
-    
     myReport rep;
 
     ResourceFinder rf;
