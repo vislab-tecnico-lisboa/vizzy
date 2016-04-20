@@ -5,6 +5,7 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Global Options1
+        - /Marker1
       Splitter Ratio: 0.563694
     Tree Height: 512
   - Class: rviz/Selection
@@ -25,7 +26,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: LaserScan
+    SyncSource: PedestrianDetections
 Visualization Manager:
   Class: ""
   Displays:
@@ -57,6 +58,7 @@ Visualization Manager:
       Normalize Range: true
       Queue Size: 2
       Transport Hint: compressed
+      Unreliable: false
       Value: true
     - Alpha: 0.7
       Class: rviz/Map
@@ -65,6 +67,7 @@ Visualization Manager:
       Enabled: true
       Name: Map
       Topic: /map
+      Unreliable: false
       Value: true
     - Alpha: 1
       Class: rviz/RobotModel
@@ -95,27 +98,11 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        camera_depth_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        camera_depth_optical_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
         camera_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        camera_rgb_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        camera_rgb_optical_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
         ego_frame:
           Alpha: 1
           Show Axes: false
@@ -211,6 +198,11 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        l_wrist_abduction_virtual_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         l_wrist_flection_link:
           Alpha: 1
           Show Axes: false
@@ -299,6 +291,11 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        r_wrist_abduction_virtual_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         r_wrist_flection_link:
           Alpha: 1
           Show Axes: false
@@ -353,6 +350,7 @@ Visualization Manager:
       Size (m): 0.03
       Style: Flat Squares
       Topic: /scan_filtered
+      Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
       Value: false
@@ -378,6 +376,7 @@ Visualization Manager:
         Y: 0
         Z: 0
       Topic: /move_base/EBandPlannerROS/global_plan
+      Unreliable: false
       Value: true
     - Alpha: 1
       Autocompute Intensity Bounds: true
@@ -405,6 +404,7 @@ Visualization Manager:
       Size (m): 0.01
       Style: Flat Squares
       Topic: /camera/depth/points
+      Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
@@ -414,6 +414,7 @@ Visualization Manager:
       Enabled: true
       Name: Polygon
       Topic: /hokuyo_laser_filters/footprint
+      Unreliable: false
       Value: true
     - Alpha: 1
       Autocompute Intensity Bounds: true
@@ -441,6 +442,7 @@ Visualization Manager:
       Size (m): 0.01
       Style: Flat Squares
       Topic: /local_map_pointcloud
+      Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
@@ -457,6 +459,15 @@ Visualization Manager:
       Shaft Radius: 0.05
       Shape: Arrow
       Topic: /move_base_simple/goal
+      Unreliable: false
+      Value: true
+    - Class: rviz/Marker
+      Enabled: true
+      Marker Topic: /location_undertainty
+      Name: Marker
+      Namespaces:
+        "": true
+      Queue Size: 100
       Value: true
   Enabled: true
   Global Options:
@@ -482,7 +493,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 13.8164
+      Distance: 15.7044
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
@@ -494,10 +505,10 @@ Visualization Manager:
         Z: 2.4022
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.644797
+      Pitch: 1.5398
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 5.77856
+      Yaw: 4.54855
     Saved: ~
 Window Geometry:
   Displays:
