@@ -12,16 +12,10 @@
  <xacro:macro name="base" params="name">
   <!-- root link, on the ground just below the robot origin -->
   <link name="base_footprint">
-   <!--<visual>
-     <origin xyz="0 0 0" rpy="0 0 0" />
-     <geometry>
-       <box size="0.001 0.001 0.001" />
-     </geometry>
-   </visual>-->
   </link>
 
   <joint name="base_footprint_joint" type="fixed">
-   <origin xyz="0.0 0.0 0.04" rpy="0.0 0.0 ${M_PI}" />
+   <origin xyz="0.1934543 0.0 0.04" rpy="0.0 0.0 ${M_PI}" />
    <parent link="base_footprint"/>
    <child link="base_link" />
   </joint>
