@@ -21,7 +21,7 @@
   <arg name="visualization" default="false" />
   <arg name="ns" default="vizzy" />
   <arg name="ros_cameras_on" default="true" />
-  <arg name="map_file" default="isr_7th_floor_real.yaml" />
+  <arg name="map_file" default="mapa_fful.yaml" />
   <arg name="follower" default="true" />
   <!-- Choose what we want to detect: pedestrian, headandshoulders, full -->
   <arg name="detector_type" default="full" />
