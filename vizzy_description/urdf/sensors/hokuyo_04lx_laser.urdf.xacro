@@ -9,7 +9,6 @@
 
   <xacro:macro name="hokuyo_04lx_laser" params="name parent *origin ros_topic update_rate min_angle max_angle">
     <joint name="${name}_joint" type="fixed">
-      <axis xyz="0 1 0" />
       <insert_block name="origin" />
       <parent link="${parent}_link"/>
       <child link="${name}_link"/>
@@ -17,21 +16,15 @@
     <link name="${name}_link">
       <inertial>
         <mass value="0.001" />
-        <origin xyz="0 0 0" rpy="0 0 0" />
+        <insert_block name="origin" />
         <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.000001" iyz="0" izz="0.0001" />
       </inertial>
       <visual>
-        <origin xyz="0 0 0" rpy="0 0 0" />
+        <origin xyz="0 0 0.058" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://vizzy_description/meshes/hokuyo.dae" scale="0.0254 0.0254 0.0254" />
+          <mesh filename="package://vizzy_description/meshes/hokuyo_utm30lx/hokuyo_utm_30lxTEST_SELF_FILTER.dae" />
         </geometry>
       </visual>
-      <!-- <collision> -->
-      <!--   <origin xyz="0 0 0" rpy="0 0 0" /> -->
-      <!--   <geometry> -->
-      <!--     <mesh filename="package://vizzy_description/meshes/hokuyo.dae" scale="0.0254 0.0254 0.0254" /> -->
-      <!--   </geometry> -->
-      <!-- </collision> -->
     </link>
 
     <!-- go from the base of the laser to the actual sensor location -->
@@ -47,6 +40,7 @@
         <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.000001" iyz="0" izz="0.0001" />
       </inertial>
     </link>
+
     <!-- gazebo extensions -->
     <xacro:hokuyo_04lx_laser_gazebo name="${name}_laser" ros_topic="${ros_topic}" update_rate="${update_rate}" min_angle="${min_angle}" max_angle="${max_angle}" />
   </xacro:macro>

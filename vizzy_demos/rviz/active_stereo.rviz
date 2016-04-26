@@ -25,8 +25,10 @@ Panels:
         - /FixationPointGoal1
         - /EgoRGBD1
         - /PointCloud21
+        - /MotionPlanning1
+        - /MotionPlanning1/Planning Request1
       Splitter Ratio: 0.57085
-    Tree Height: 673
+    Tree Height: 229
   - Class: rviz/Selection
     Name: Selection
   - Class: rviz/Tool Properties
@@ -45,7 +47,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: PointCloud2
+    SyncSource: ""
 Visualization Manager:
   Class: ""
   Displays:
@@ -110,27 +112,11 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        camera_depth_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        camera_depth_optical_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
         camera_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        camera_rgb_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        camera_rgb_optical_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
         ego_frame:
           Alpha: 1
           Show Axes: true
@@ -360,6 +346,7 @@ Visualization Manager:
       Name: FixationPoint
       Radius: 0.03
       Topic: /fixation_point
+      Unreliable: false
       Value: true
     - Alpha: 1
       Class: rviz/PointStamped
@@ -369,6 +356,7 @@ Visualization Manager:
       Name: FixationPointGoal
       Radius: 0.03
       Topic: /fixation_point_goal_viz
+      Unreliable: false
       Value: true
     - Alpha: 1
       Autocompute Intensity Bounds: true
@@ -396,6 +384,7 @@ Visualization Manager:
       Size (m): 0.01
       Style: Points
       Topic: /uncertainty_pcl
+      Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
@@ -425,6 +414,7 @@ Visualization Manager:
       Size (m): 0.001
       Style: Points
       Topic: /ego_sphere_uncertainty
+      Unreliable: false
       Use Fixed Frame: true
       Use rainbow: false
       Value: true
@@ -454,6 +444,7 @@ Visualization Manager:
       Size (m): 0.01
       Style: Points
       Topic: /ego_sphere
+      Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
@@ -483,6 +474,7 @@ Visualization Manager:
       Size (m): 0.01
       Style: Flat Squares
       Topic: /ego_sphere_structure
+      Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
       Value: false
@@ -496,6 +488,7 @@ Visualization Manager:
       Normalize Range: true
       Queue Size: 2
       Transport Hint: raw
+      Unreliable: false
       Value: false
     - Class: rviz/Image
       Enabled: false
@@ -507,6 +500,7 @@ Visualization Manager:
       Normalize Range: true
       Queue Size: 2
       Transport Hint: compressed
+      Unreliable: false
       Value: false
     - Class: rviz/Image
       Enabled: false
@@ -518,6 +512,7 @@ Visualization Manager:
       Normalize Range: true
       Queue Size: 2
       Transport Hint: raw
+      Unreliable: false
       Value: false
     - Class: rviz/Image
       Enabled: false
@@ -529,6 +524,7 @@ Visualization Manager:
       Normalize Range: true
       Queue Size: 2
       Transport Hint: compressed
+      Unreliable: false
       Value: false
     - Class: rviz/Image
       Enabled: false
@@ -540,6 +536,7 @@ Visualization Manager:
       Normalize Range: true
       Queue Size: 2
       Transport Hint: compressed
+      Unreliable: false
       Value: false
     - Alpha: 1
       Autocompute Intensity Bounds: true
@@ -567,8 +564,561 @@ Visualization Manager:
       Size (m): 0.001
       Style: Points
       Topic: /particle_cloud
+      Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
+      Value: true
+    - Class: moveit_rviz_plugin/MotionPlanning
+      Enabled: true
+      Move Group Namespace: ""
+      MoveIt_Goal_Tolerance: 0
+      MoveIt_Planning_Attempts: 10
+      MoveIt_Planning_Time: 5
+      MoveIt_Use_Constraint_Aware_IK: true
+      MoveIt_Warehouse_Host: 127.0.0.1
+      MoveIt_Warehouse_Port: 33829
+      MoveIt_Workspace:
+        Center:
+          X: 0
+          Y: 0
+          Z: 0
+        Size:
+          X: 2
+          Y: 2
+          Z: 2
+      Name: MotionPlanning
+      Planned Path:
+        Interrupt Display: false
+        Links:
+          All Links Enabled: true
+          Expand Joint Details: false
+          Expand Link Details: false
+          Expand Tree: false
+          Link Tree Style: Links in Alphabetic Order
+          b_wheel_base_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          b_wheel_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          base_footprint:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          base_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          camera_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          ego_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          eyes_center_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          eyes_center_vision_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          eyes_tilt_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          f_wheel_base_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          f_wheel_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          head_origin_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          l_camera_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          l_camera_vision_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          l_elbow_flection_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          l_eye_vergence_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          l_eye_version_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          l_forearm_pronation_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          l_palm_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          l_shoulder_abduction_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          l_shoulder_flection_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          l_shoulder_rotation_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          l_shoulder_scapula_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          l_wheel_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          l_wrist_abduction_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          l_wrist_abduction_virtual_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          l_wrist_flection_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          nav_hokuyo_laser_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          nav_hokuyo_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          neck_pan_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          neck_tilt_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          r_camera_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          r_camera_vision_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          r_elbow_flection_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          r_eye_vergence_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          r_eye_version_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          r_forearm_pronation_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          r_palm_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          r_shoulder_abduction_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          r_shoulder_flection_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          r_shoulder_rotation_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          r_shoulder_scapula_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          r_wheel_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          r_wrist_abduction_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          r_wrist_abduction_virtual_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          r_wrist_flection_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          vergence_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          version_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          waist_fixed_virtual_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          waist_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+        Loop Animation: false
+        Robot Alpha: 0.5
+        Show Robot Collision: false
+        Show Robot Visual: true
+        Show Trail: false
+        State Display Time: 0.05 s
+        Trajectory Topic: /move_group/display_planned_path
+      Planning Metrics:
+        Payload: 1
+        Show Joint Torques: false
+        Show Manipulability: false
+        Show Manipulability Index: false
+        Show Weight Limit: false
+        TextHeight: 0.08
+      Planning Request:
+        Colliding Link Color: 255; 0; 0
+        Goal State Alpha: 1
+        Goal State Color: 250; 128; 0
+        Interactive Marker Size: 0
+        Joint Violation Color: 255; 0; 255
+        Planning Group: right_arm
+        Query Goal State: true
+        Query Start State: true
+        Show Workspace: false
+        Start State Alpha: 1
+        Start State Color: 0; 255; 0
+      Planning Scene Topic: planning_scene
+      Robot Description: robot_description
+      Scene Geometry:
+        Scene Alpha: 0.9
+        Scene Color: 50; 230; 50
+        Scene Display Time: 0.2
+        Show Scene Geometry: true
+        Voxel Coloring: Z-Axis
+        Voxel Rendering: Occupied Voxels
+      Scene Robot:
+        Attached Body Color: 150; 50; 150
+        Links:
+          All Links Enabled: true
+          Expand Joint Details: false
+          Expand Link Details: false
+          Expand Tree: false
+          Link Tree Style: Links in Alphabetic Order
+          b_wheel_base_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          b_wheel_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          base_footprint:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          base_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          camera_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          ego_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          eyes_center_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          eyes_center_vision_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          eyes_tilt_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          f_wheel_base_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          f_wheel_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          head_origin_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          l_camera_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          l_camera_vision_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          l_elbow_flection_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          l_eye_vergence_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          l_eye_version_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          l_forearm_pronation_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          l_palm_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          l_shoulder_abduction_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          l_shoulder_flection_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          l_shoulder_rotation_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          l_shoulder_scapula_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          l_wheel_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          l_wrist_abduction_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          l_wrist_abduction_virtual_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          l_wrist_flection_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          nav_hokuyo_laser_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          nav_hokuyo_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          neck_pan_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          neck_tilt_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          r_camera_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          r_camera_vision_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          r_elbow_flection_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          r_eye_vergence_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          r_eye_version_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          r_forearm_pronation_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          r_palm_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          r_shoulder_abduction_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          r_shoulder_flection_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          r_shoulder_rotation_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          r_shoulder_scapula_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          r_wheel_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          r_wrist_abduction_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          r_wrist_abduction_virtual_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          r_wrist_flection_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          vergence_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          version_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          waist_fixed_virtual_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          waist_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+        Robot Alpha: 1
+        Show Robot Collision: false
+        Show Robot Visual: true
       Value: true
   Enabled: true
   Global Options:
@@ -594,22 +1144,22 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 3.08525
+      Distance: 5.35897
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -1.15816
-        Y: -0.478259
-        Z: -0.761812
+        X: -1.45471
+        Y: 0.0244478
+        Z: 0.0627254
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 1.2798
+      Pitch: 0.559801
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 2.28442
+      Yaw: 3.19123
     Saved: ~
 Window Geometry:
   Displays:
@@ -621,7 +1171,9 @@ Window Geometry:
     collapsed: false
   LeftRetinal:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd00000004000000000000036500000395fc020000000dfb0000001200530065006c0065006300740069006f006e00000001e10000009b0000006400fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000002800000395000000dd00fffffffb00000016004c0065006600740052006500740069006e0061006c0000000264000001590000001600fffffffb00000018004c0065006600740043006f00720074006900630061006c000000010b0000003a0000001600fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb00000018005200690067006800740052006500740069006e0061006c000000011c000001d40000001600fffffffb0000001a005200690067006800740043006f00720074006900630061006c0000000222000000ce0000001600fffffffb0000002c00530074006500720065006f00430061006c006900620072006100740069006f006e00500061006e0065006c00000002ba000001030000001600ffffff000000010000010f00000373fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073000000002800000373000000b000fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b20000000000000000000000020000073d000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000073f0000003ffc0100000002fb0000000800540069006d006501000000000000073f000002f600fffffffb0000000800540069006d00650100000000000004500000000000000000000003d40000039500000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  Motion Planning:
+    collapsed: false
+  QMainWindow State: 000000ff00000000fd00000004000000000000036500000395fc020000000efb0000001200530065006c0065006300740069006f006e00000001e10000009b0000006400fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c0061007900730100000028000001d9000000dd00fffffffb00000016004c0065006600740052006500740069006e0061006c0000000264000001590000001600fffffffb00000018004c0065006600740043006f00720074006900630061006c000000010b0000003a0000001600fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb00000018005200690067006800740052006500740069006e0061006c000000011c000001d40000001600fffffffb0000001a005200690067006800740043006f00720074006900630061006c0000000222000000ce0000001600fffffffb0000002c00530074006500720065006f00430061006c006900620072006100740069006f006e00500061006e0065006c00000002ba000001030000001600fffffffb0000001e004d006f00740069006f006e00200050006c0061006e006e0069006e00670100000207000001b6000001ab00ffffff000000010000010f00000373fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073000000002800000373000000b000fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b20000000000000000000000020000073d000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000073f0000003ffc0100000002fb0000000800540069006d006501000000000000073f000002f600fffffffb0000000800540069006d00650100000000000004500000000000000000000003d40000039500000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   RightCortical:
     collapsed: false
   RightRetinal:
