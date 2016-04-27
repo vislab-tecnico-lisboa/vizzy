@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-
 <robot xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
        xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
        xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
@@ -10,9 +9,10 @@
     <transmission name="l_shoulder_scapula_transmission">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="l_shoulder_scapula_joint">
-        <hardwareInterface>VelocityJointInterface</hardwareInterface>
+        <hardwareInterface>PositionJointInterface</hardwareInterface>
       </joint>
       <actuator name="l_shoulder_scapula_motor">
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
@@ -20,9 +20,10 @@
     <transmission name="l_shoulder_flection_transmission">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="l_shoulder_flection_joint">
-        <hardwareInterface>VelocityJointInterface</hardwareInterface>
+        <hardwareInterface>PositionJointInterface</hardwareInterface>
       </joint>
       <actuator name="l_shoulder_flection_motor">
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
@@ -30,9 +31,10 @@
     <transmission name="l_shoulder_abduction_transmission">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="l_shoulder_abduction_joint">
-        <hardwareInterface>VelocityJointInterface</hardwareInterface>
+        <hardwareInterface>PositionJointInterface</hardwareInterface>
       </joint>
       <actuator name="l_shoulder_abduction_motor">
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
@@ -40,9 +42,10 @@
     <transmission name="l_shoulder_rotation_transmission">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="l_shoulder_rotation_joint">
-        <hardwareInterface>VelocityJointInterface</hardwareInterface>
+        <hardwareInterface>PositionJointInterface</hardwareInterface>
       </joint>
       <actuator name="l_shoulder_rotation_motor">
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
@@ -50,9 +53,10 @@
     <transmission name="l_elbow_flection_transmission">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="l_elbow_flection_joint">
-        <hardwareInterface>VelocityJointInterface</hardwareInterface>
+        <hardwareInterface>PositionJointInterface</hardwareInterface>
       </joint>
       <actuator name="l_elbow_flection_motor">
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
@@ -60,9 +64,10 @@
     <transmission name="l_forearm_pronation_transmission">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="l_forearm_pronation_joint">
-        <hardwareInterface>VelocityJointInterface</hardwareInterface>
+        <hardwareInterface>PositionJointInterface</hardwareInterface>
       </joint>
       <actuator name="l_forearm_pronation_motor">
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
@@ -70,9 +75,10 @@
     <transmission name="l_wrist_abduction_transmission">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="l_wrist_abduction_joint">
-        <hardwareInterface>VelocityJointInterface</hardwareInterface>
+        <hardwareInterface>PositionJointInterface</hardwareInterface>
       </joint>
       <actuator name="l_wrist_abduction_motor">
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
@@ -80,9 +86,10 @@
     <transmission name="l_wrist_abduction_virtual_transmission">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="l_wrist_abduction_virtual_joint">
-        <hardwareInterface>VelocityJointInterface</hardwareInterface>
+        <hardwareInterface>PositionJointInterface</hardwareInterface>
       </joint>
       <actuator name="l_wrist_abduction_virtual_motor">
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
@@ -90,9 +97,10 @@
     <transmission name="l_wrist_flection_transmission">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="l_wrist_flection_joint">
-        <hardwareInterface>VelocityJointInterface</hardwareInterface>
+        <hardwareInterface>PositionJointInterface</hardwareInterface>
       </joint>
       <actuator name="l_wrist_flection_motor">
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
