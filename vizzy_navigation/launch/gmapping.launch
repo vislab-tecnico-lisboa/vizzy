@@ -5,8 +5,8 @@
   <node name="slam_gmapping" pkg="gmapping" type="slam_gmapping" output="screen">
     <param name="scan" value="$(arg scan_topic)"/>
     <param name="map_update_interval" value="0.5"/>
-    <param name="maxUrange" value="3.5"/>
-    <param name="maxRange" value="4.5"/>
+    <param name="maxUrange" value="25"/>
+    <param name="maxRange" value="30"/>
     <param name="minimumScore" value="70"/>
     <param name="linearUpdate" value="0.2"/>
     <param name="angularUpdate" value="0.1"/>
