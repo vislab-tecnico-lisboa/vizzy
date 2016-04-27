@@ -23,13 +23,13 @@ The real robot uses two different middlewares for distinct body parts (YARP for 
 Note that for simulation purposes one can ignore all YARP dependencies as explained on the repository description.
 
 * Operating System (one of the two)
-  * [Ubuntu 12.04](http://releases.ubuntu.com/precise/) - forces the user to install ROS Hydro that currently is able to run everything
+  * [Ubuntu 12.04](http://releases.ubuntu.com/precise/) - Deprecated !!! forces the user to install ROS Hydro that currently is able to run everything
   * [Ubuntu 14.04](http://releases.ubuntu.com/trusty/) - forces the user to install ROS Indigo that currently is missing support for the planner we have configured for navigation
 * Middleware
   * [ROS](http://www.ros.org/) - depending on the installed OS (Hydro for Ubuntu 12.04 or Indigo for Ubuntu 14.04)
   * [YARP](http://wiki.icub.org/yarpdoc/) - we try to keep everything working with the most recent version of YARP
 * Other Dependencies
-  * [GAZEBO](http://gazebosim.org/) - the version that comes by default with the ROS installation
+  * [GAZEBO](http://gazebosim.org/) - It needs GAZEBO 5 to run the gazebo-yarp-plugins
   * [gazebo-yarp-plugins](https://github.com/robotology/gazebo-yarp-plugins) - we try to keep everything working with the most recent version of gazebo-yarp-plugins
 
 At any time you might need to install some more specific dependencies (like some missing ROS packages). Please open an issue in case you can't solve these or other dependencies.
@@ -66,6 +66,30 @@ You still need to add something to the `GAZEBO_MODEL_PATH`:
 Save the file and run:
 
     source ~/.bashrc
+
+Install the nav2d package
+
+    sudo apt-get install ros-indigo-nav2d
+
+If you want to run the follower module, download a changed version of the nav2d and place it in your catkin workspace folder
+
+    git clone https://github.com/joao-avelino/navigation_2d.git
+
+Clone the move_robot repository into the catkin workspace folder
+
+    git clone https://github.com/vislab-tecnico-lisboa/move_robot.git
+
+Other dependencies needed
+
+    sudo apt-get install ros-indigo-move-base
+    sudo apt-get install ros-indigo-amcl
+    sudo apt-get install ros-indigo-joy
+    sudo apt-get install ros-indigo-map-server
+    sudo apt-get install ros-indigo-joint-state-controller
+    sudo apt-get install ros-indigo-velocity-controllers
+    sudo apt-get install ros-indigo-position-controllers
+    sudo apt-get install ros-indigo-joint-trajectory-controller
+    sudo apt-get install ros-indigo-eband-local-planner
 
 You are now ready to compile the code!
 
