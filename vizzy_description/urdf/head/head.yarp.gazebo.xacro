@@ -3,30 +3,87 @@
   <xacro:macro name="head_gazebo">
 
     <gazebo reference="neck_pan_link">
-      <mu1>0.2</mu1>
-      <mu2>0.2</mu2>
+
     </gazebo>
 
     <gazebo reference="neck_tilt_link">
-      <mu1>0.2</mu1>
-      <mu2>0.2</mu2>
+
     </gazebo>
 
     <gazebo reference="eyes_tilt_link">
-      <mu1>0.2</mu1>
-      <mu2>0.2</mu2>
+
     </gazebo>
 
-    <gazebo reference="r_eye_pan_link">
-      <mu1>0.2</mu1>
-      <mu2>0.2</mu2>
+    <gazebo reference="version_link">
     </gazebo>
 
-    <gazebo reference="l_eye_pan_link">
-      <mu1>0.2</mu1>
-      <mu2>0.2</mu2>
+    <gazebo reference="r_eye_version_link">
     </gazebo>
 
+    <gazebo reference="l_eye_version_link">
+    </gazebo>
+
+    <gazebo reference="vergence_link">
+
+    </gazebo>
+    
+  <gazebo reference="r_eye_vergence_link">
+
+    </gazebo>
+
+    <gazebo reference="l_eye_vergence_link">
+
+    </gazebo>
+
+ 		<gazebo reference="neck_pan_joint">
+
+		</gazebo>
+
+ 		<gazebo reference="neck_tilt_joint">
+
+		</gazebo>
+
+ 		<gazebo reference="eyes_tilt_joint">
+
+		</gazebo>
+
+ 		<gazebo reference="version_joint">
+
+		</gazebo>
+
+
+ 		<gazebo reference="vergence_joint">
+
+		</gazebo>
+
+
+		<gazebo>
+			<plugin name="mimic_plugin" filename="libgazebo_mimic_plugin.so">
+				<joint>version_joint</joint>
+				<mimicJoint>l_eye_version_joint</mimicJoint>
+				<multiplier>-1.0</multiplier>
+			</plugin>
+		</gazebo>
+		<gazebo>
+			<plugin name="mimic_plugin" filename="libgazebo_mimic_plugin.so">
+				<joint>version_joint</joint>
+				<mimicJoint>r_eye_version_joint</mimicJoint>
+				<multiplier>-1.0</multiplier>
+			</plugin>
+		</gazebo>
+		<gazebo>
+			<plugin name="mimic_plugin" filename="libgazebo_mimic_plugin.so">
+				<joint>vergence_joint</joint>
+				<mimicJoint>l_eye_vergence_joint</mimicJoint>
+				<multiplier>-0.5</multiplier>
+			</plugin>
+		</gazebo>
+		<gazebo>
+			<plugin name="mimic_plugin" filename="libgazebo_mimic_plugin.so">
+				<joint>vergence_joint</joint>
+				<mimicJoint>r_eye_vergence_joint</mimicJoint>
+				<multiplier>0.5</multiplier>
+			</plugin>
+		</gazebo>
   </xacro:macro>
-
 </robot>
