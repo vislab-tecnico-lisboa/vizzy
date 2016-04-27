@@ -12,7 +12,7 @@ int main(int argc, char *argv[]) {
   bool receiver1Mux1Ok = receiverBuff1Mux1.open("/vizzy_head/mux1/receiver1");
   rosNode = new yarp::os::Node("/vizzy_head_bridge");
   yarp::os::Publisher<sensor_msgs_JointState> outputPort;
-  bool outputOk_3 = outputPort.topic("/vizzy_head/joint_states");
+  bool outputOk_3 = outputPort.topic("/vizzy_upper_body/joint_states");
   outputPort.setWriteOnly();
   
 

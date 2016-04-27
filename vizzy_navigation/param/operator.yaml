@@ -10,7 +10,7 @@ safety_decay: 0.90
 
 # The importance weights of the 3 action values
 distance_weight: 1
-safety_weight: 3
+safety_weight: 10
 conformance_weight: 1
 continue_weight: 0
 inflation_layer/inflation_radius: 1.0

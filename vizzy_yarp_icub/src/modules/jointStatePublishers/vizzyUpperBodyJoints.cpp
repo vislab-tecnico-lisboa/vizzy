@@ -17,7 +17,7 @@ int main(int argc, char *argv[]) {
   bool receiver4Mux1Ok = receiverBuff4Mux1.open("/vizzyUpperBodyJoints/mux1/receiver4");
 
   Port outputPort;
-  outputPort.promiseType(Type::byNameOnWire("sensor_msgs/JointState"));
+  outputPort.promiseType(Type::byNameOnWire("JointState"));
   outputPort.setWriteOnly();
   bool outputOk = outputPort.open("/vizzy_upper_body/joint_states@/yarp/vizzyUpperBodyJoints");
 
@@ -91,6 +91,7 @@ int main(int argc, char *argv[]) {
     double dummy;
     double frac=modf(timestamp,&dummy);
     Bottle& list_1_1 = list_1.addList();
+    //list_1_1.add(counter);
     list_1_1.add((int)timestamp);
     list_1_1.add((int)round(frac*pow(10,9)));
 
@@ -132,9 +133,14 @@ int main(int argc, char *argv[]) {
     }
 
     Bottle& list_4 = message.addList();
+    for(int i = 0; i < mux1.size(); i++) {
+      list_4.add(mux1.get(i));
+    }
 
     Bottle& list_5 = message.addList();
-
+    for(int i = 0; i < mux1.size(); i++) {
+      list_5.add(mux1.get(i));
+    }
     /* DO SOME COMPUTATION HERE */
 
     outputPort.write(message);
