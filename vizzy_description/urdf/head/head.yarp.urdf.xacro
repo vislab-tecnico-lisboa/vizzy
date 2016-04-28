@@ -8,7 +8,7 @@
        sensor and controller plugin specifications -->
  <xacro:include filename="$(find vizzy_description)/urdf/head/head.yarp.gazebo.xacro" />
  <xacro:include filename="$(find vizzy_description)/urdf/head/head.yarp.transmission.xacro" />
- <xacro:macro name="head" params="name">
+ <xacro:macro name="head_yarp" params="name">
    <link name="neck_pan_link">
     <inertial>
       <origin
@@ -258,7 +258,6 @@
       effort="1000.0" 
       velocity="5.0" />
 
-    <mimic joint="version_joint" multiplier="-1.0" offset="0"/>
   </joint>
 
   <link name="r_eye_version_link">
@@ -287,7 +286,7 @@
 			upper="1.0"     
       effort="1000.0" 
       velocity="5.0"/>
-    <mimic joint="version_joint" multiplier="-1.0" offset="0"/>
+
   </joint>
 
   <link name="vergence_link">
@@ -363,7 +362,7 @@
 			upper="1.0"     
       effort="1000.0" 
       velocity="5.0"/>
-    <mimic joint="vergence_joint" multiplier="0.5" offset="0"/>
+
   </joint>
   
 
@@ -455,7 +454,7 @@
 			upper="1.0"    
       effort="1000.0" 
       velocity="5.0" />
-    <mimic joint="vergence_joint" multiplier="-0.5" offset="0"/>
+
   </joint>
   <link name="l_camera_link">
    <visual>
@@ -523,7 +522,6 @@
     <parent link="neck_tilt_link"/>
     <child link="head_origin_frame" />
   </joint>
-    <!-- gazebo extensions -->
     <!-- gazebo extensions -->
     <xacro:head_gazebo/>
     <xacro:head_transmissions />

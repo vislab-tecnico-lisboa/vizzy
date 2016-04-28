@@ -1,7 +1,0 @@
-set(_CATKIN_CURRENT_PACKAGE "vizzy_calibration")
-set(vizzy_calibration_MAINTAINER "rui <rui@todo.todo>")
-set(vizzy_calibration_DEPRECATED "")
-set(vizzy_calibration_VERSION "0.0.0")
-set(vizzy_calibration_BUILD_DEPENDS "roscpp" "pcl_ros" "pcl_conversions" "tf")
-set(vizzy_calibration_RUN_DEPENDS "roscpp" "pcl_ros" "pcl_conversions" "tf")
-set(vizzy_calibration_BUILDTOOL_DEPENDS "catkin" "catkin")
