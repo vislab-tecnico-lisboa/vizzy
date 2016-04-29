@@ -3,7 +3,6 @@
        xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
        xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
        xmlns:xacro="http://ros.org/wiki/xacro"> 
-
   <!-- Things that are needed only for Gazebo (not the physical robot).  These include
        sensor and controller plugin specifications -->
   <xacro:include filename="$(find vizzy_description)/urdf/arm/right_arm.gazebo.xacro"/>
@@ -334,7 +333,6 @@
 		    xyz="0 0 1" />
 		  <limit lower="-1.48352986" upper="1.48352986" effort="10" velocity="3" />
 		</joint>
-
 		<link
 		  name="r_wrist_abduction_virtual_link">
 		  <inertial>
@@ -342,14 +340,14 @@
 		      xyz="0.0 0.0 -0.005"
 		      rpy="${-M_PI/2.0} 0 ${M_PI}" />
 		    <mass
-		      value="0.15130263687109" />
+		      value="0.151302636921624" />
 		    <inertia
-		      ixx="0.000206280948481805"
-		      ixy="-2.10167871847464E-05"
-		      ixz="-1.95502541303483E-06"
-		      iyy="7.18084114032176E-05"
-		      iyz="1.63557763545568E-05"
-		      izz="0.000199867817507994" />
+		      ixx="0.000116373512947626"
+		      ixy="1.31009871908069E-05"
+		      ixz="6.69703789973942E-05"
+		      iyy="0.00020031628400595"
+		      iyz="1.00268924727662E-05"
+		      izz="0.000162164313365602" />
 		  </inertial>
 		  <visual>
 		    <origin

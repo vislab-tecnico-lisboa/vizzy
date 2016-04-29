@@ -61,7 +61,6 @@
 		  <axis
 		    xyz="0 0 1" />
 		  <limit lower="-0.314159265" upper="0.314159265" effort="10" velocity="3" />
-
 		</joint>
 		<link
 		  name="l_shoulder_flection_link">
@@ -116,7 +115,6 @@
 		  <axis
 		    xyz="0 0 1" />
 		  <limit lower="-1.30899694" upper="2.35619449" effort="10" velocity="3" />
-
 		</joint>
 		<link
 		  name="l_shoulder_abduction_link">
@@ -226,7 +224,6 @@
 		  <axis
 		    xyz="0 0 1" />
 		  <limit lower="-1.48352986" upper="1.48352986" effort="10" velocity="3" />
-
 		</joint>
 		<link
 		  name="l_elbow_flection_link">
@@ -281,7 +278,6 @@
 		  <axis
 		    xyz="0 0 1" />
 		  <limit lower="0" upper="1.91986218" effort="10" velocity="3" />
-
 		</joint>
 		<link
 		  name="l_forearm_pronation_link">
@@ -337,20 +333,6 @@
 		    xyz="0 0 1" />
 		  <limit lower="-1.48352986" upper="1.48352986" effort="10" velocity="3" />
 		</joint>
-		<joint
-		  name="l_wrist_abduction_joint"
-		  type="revolute">
-		  <origin
-		    xyz="0.0 0.0 0.11925"
-		    rpy="${M_PI/2.0} 0.0 0.0" />
-		  <parent
-		    link="l_forearm_pronation_link" />
-		  <child
-		    link="l_wrist_abduction_virtual_link" />
-		  <axis
-		    xyz="0 0 1" />
-		  <limit lower="-0.610865238" upper="0.610865238" effort="10" velocity="3" />
-		</joint>
 		<link
 		  name="l_wrist_abduction_virtual_link">
 		  <inertial>
@@ -391,7 +373,20 @@
 		    </geometry>
 		  </collision>
 		</link>
-
+		<joint
+		  name="l_wrist_abduction_joint"
+		  type="revolute">
+		  <origin
+		    xyz="0.0 0.0 0.11925"
+		    rpy="${M_PI/2.0} 0.0 0.0" />
+		  <parent
+		    link="l_forearm_pronation_link" />
+		  <child
+		    link="l_wrist_abduction_virtual_link" />
+		  <axis
+		    xyz="0 0 1" />
+		  <limit lower="-0.610865238" upper="0.610865238" effort="10" velocity="3" />
+		</joint>
 		<link
 		  name="l_wrist_abduction_link">
 		  <inertial>
@@ -500,7 +495,6 @@
 		  <axis
 		    xyz="0 0 1" />
 		  <limit lower="-0.610865238" upper="0.610865238" effort="10" velocity="3" />
-
 		</joint>
 		<link name="l_palm_link">
 		 <visual>
@@ -514,7 +508,6 @@
 		  <origin xyz="-0.1 0.0 0.0" rpy="${-M_PI/2} ${M_PI} 0.0" />
 		  <parent link="l_wrist_flection_link"/>
 		  <child link="l_palm_link" />
-
 		</joint>
 
 		<!-- gazebo extensions -->
