@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<robot xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
+       xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
+       xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
+       xmlns:xacro="http://ros.org/wiki/xacro"> 
+  <!-- Things that are needed only for Gazebo (not the physical robot).  These include
+       sensor and controller plugin specifications -->
+  <xacro:include filename="$(find vizzy_description)/urdf/arm/right_arm.gazebo.xacro"/>
+  <xacro:include filename="$(find vizzy_description)/urdf/arm/right_arm.transmission.xacro"/>
+
+  <xacro:macro name="right_hand" params="name parent sufix reflect *origin">
+
+		<link name="r_palm_link">
+		 <visual>
+		    <origin xyz="0 0 0" rpy="0 0 0" />
+		    <geometry>
+		      <box size="0.001 0.001 0.001" />
+		    </geometry>
+		  </visual>
+		</link>
+		<joint name="r_palm_joint" type="fixed">
+		  <origin xyz="0.1 0 0.0" rpy="${M_PI/2.0} 0 ${M_PI}" />
+		  <parent link="${parent}"/>
+		  <child link="r_palm_link" />
+		</joint>
+
+    <!-- gazebo extensions -->
+    <xacro:right_arm_gazebo/>
+    <xacro:right_arm_transmissions/>
+ </xacro:macro>
+</robot>
