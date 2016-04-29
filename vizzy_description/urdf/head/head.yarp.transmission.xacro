@@ -37,63 +37,22 @@
       </actuator>
     </transmission>
 
-    <transmission name="version_transmission">
+    <transmission name="l_eye_transmission">
       <type>transmission_interface/SimpleTransmission</type>
-      <joint name="version_joint">
+      <joint name="l_eye_joint">
         <hardwareInterface>VelocityJointInterface</hardwareInterface>
       </joint>
-      <actuator name="version_motor">
-        <mechanicalReduction>100</mechanicalReduction>
-      </actuator>
-    </transmission>
-
-    <transmission name="l_eye_version_transmission">
-      <type>transmission_interface/SimpleTransmission</type>
-      <joint name="l_eye_version_joint">
-        <hardwareInterface>VelocityJointInterface</hardwareInterface>
-      </joint>
-      <actuator name="l_eye_version_motor">
+      <actuator name="l_eye_motor">
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
 
-    <transmission name="r_eye_version_transmission">
+    <transmission name="r_eye_transmission">
       <type>transmission_interface/SimpleTransmission</type>
-      <joint name="r_eye_version_joint">
+      <joint name="r_eye_joint">
         <hardwareInterface>VelocityJointInterface</hardwareInterface>
       </joint>
-      <actuator name="r_eye_version_motor">
-        <mechanicalReduction>1</mechanicalReduction>
-      </actuator>
-    </transmission>
-
-
-    <transmission name="vergence_transmission">
-      <type>transmission_interface/SimpleTransmission</type>
-      <joint name="vergence_joint">
-        <hardwareInterface>VelocityJointInterface</hardwareInterface>
-      </joint>
-      <actuator name="vergence_motor">
-        <mechanicalReduction>100</mechanicalReduction>
-      </actuator>
-    </transmission>
-
-    <transmission name="l_eye_vergence_transmission">
-      <type>transmission_interface/SimpleTransmission</type>
-      <joint name="l_eye_vergence_joint">
-        <hardwareInterface>VelocityJointInterface</hardwareInterface>
-      </joint>
-      <actuator name="l_eye_vergence_motor">
-        <mechanicalReduction>1</mechanicalReduction>
-      </actuator>
-    </transmission>
-
-    <transmission name="r_eye_vergence_transmission">
-      <type>transmission_interface/SimpleTransmission</type>
-      <joint name="r_eye_vergence_joint">
-        <hardwareInterface>VelocityJointInterface</hardwareInterface>
-      </joint>
-      <actuator name="r_eye_vergence_motor">
+      <actuator name="r_eye_motor">
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>

@@ -14,76 +14,65 @@
 
     </gazebo>
 
-    <gazebo reference="version_link">
-    </gazebo>
-
-    <gazebo reference="r_eye_version_link">
-    </gazebo>
-
-    <gazebo reference="l_eye_version_link">
-    </gazebo>
-
-    <gazebo reference="vergence_link">
-
-    </gazebo>
-    
-  <gazebo reference="r_eye_vergence_link">
+    <gazebo reference="eyes_center_link">
 
     </gazebo>
 
-    <gazebo reference="l_eye_vergence_link">
+    <gazebo reference="eyes_center_vision_link">
 
     </gazebo>
 
- 		<gazebo reference="neck_pan_joint">
+   <gazebo reference="l_eye_link">
 
-		</gazebo>
+    </gazebo>
 
- 		<gazebo reference="neck_tilt_joint">
+    <gazebo reference="r_eye_link">
 
-		</gazebo>
+    </gazebo>
 
- 		<gazebo reference="eyes_tilt_joint">
+    <gazebo reference="r_camera_link">
 
-		</gazebo>
+    </gazebo>
 
- 		<gazebo reference="version_joint">
+    <gazebo reference="r_camera_vision_link">
 
-		</gazebo>
+    </gazebo>
 
+    <gazebo reference="l_camera_link">
 
- 		<gazebo reference="vergence_joint">
+    </gazebo>
 
-		</gazebo>
+    <gazebo reference="l_camera_vision_link">
 
+    </gazebo>
 
-		<gazebo>
-			<plugin name="mimic_plugin" filename="libgazebo_mimic_plugin.so">
-				<joint>version_joint</joint>
-				<mimicJoint>l_eye_version_joint</mimicJoint>
-				<multiplier>-1.0</multiplier>
-			</plugin>
-		</gazebo>
-		<gazebo>
-			<plugin name="mimic_plugin" filename="libgazebo_mimic_plugin.so">
-				<joint>version_joint</joint>
-				<mimicJoint>r_eye_version_joint</mimicJoint>
-				<multiplier>-1.0</multiplier>
-			</plugin>
-		</gazebo>
-		<gazebo>
-			<plugin name="mimic_plugin" filename="libgazebo_mimic_plugin.so">
-				<joint>vergence_joint</joint>
-				<mimicJoint>l_eye_vergence_joint</mimicJoint>
-				<multiplier>-0.5</multiplier>
-			</plugin>
-		</gazebo>
-		<gazebo>
-			<plugin name="mimic_plugin" filename="libgazebo_mimic_plugin.so">
-				<joint>vergence_joint</joint>
-				<mimicJoint>r_eye_vergence_joint</mimicJoint>
-				<multiplier>0.5</multiplier>
-			</plugin>
-		</gazebo>
+    <gazebo reference="ego_frame">
+
+    </gazebo>
+
+    <gazebo reference="head_origin_frame">
+
+    </gazebo>
+
+    <gazebo reference="neck_pan_joint">
+
+    </gazebo>
+
+    <gazebo reference="neck_tilt_joint">
+
+    </gazebo>
+
+    <gazebo reference="eyes_tilt_joint">
+
+    </gazebo>
+
+    <gazebo reference="l_eye_joint">
+
+    </gazebo>
+
+    <gazebo reference="r_eye_joint">
+
+    </gazebo>
+
   </xacro:macro>
 </robot>
