@@ -209,7 +209,7 @@
 
 
   <!-- version virtual link and joint -->
-  <link name="version_link">
+  <link name="eyes_link">
 		<inertial>
 			<origin xyz="0 0 0" 
       rpy="0.0 0.0 0" />
@@ -221,27 +221,57 @@
   </link>
 
 
-  <joint name="version_joint" type="revolute">
+  <joint name="center_joint" type="fixed">
     <origin xyz="0 0 0"       rpy="0 0 0" />
     <parent link="eyes_center_link" />
-    <child link="version_link" />
+    <child link="eyes_link" />
     <axis  xyz="0 0 1" />
     <limit lower="-0.698131" upper="0.698131" effort="10.0" velocity="5.0" />
 
   </joint>
+	
 
-
-  <link name="l_eye_version_link">  
- 		<inertial> 
-			<origin xyz="0 0 0" rpy="0 0 0"/> 
-			<mass value="0.01"/> 
-			<inertia 
-				ixx="0.001" ixy="0.0" ixz="0.0" 
-				iyy="0.001" iyz="0.0" izz="0.001"/> 	
-		</inertial>
+  <link name="l_eye_link">  
+<inertial>
+      <origin
+        xyz="0 0 -0.0200000000000069"
+        rpy="0 0 1.5708" />
+      <mass
+        value="0.158520637460366" />
+      <inertia
+        ixx="0.000147614970454271"
+        ixy="-1.56210652664748E-09"
+        ixz="8.85544640354075E-10"
+        iyy="0.000177840459249179"
+        iyz="8.21234366300574E-06"
+        izz="0.000144884726537935" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0.010 0.0 0.003"
+        rpy="0.0 ${M_PI} ${-M_PI/2}" />
+      <geometry>
+        <mesh
+          filename="package://vizzy_description/meshes/M4.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0 0 0 1" />
+      </material>
+    </visual>
+    <collision>
+ 	<origin
+        xyz="0.010 0.0 0.003"
+        rpy="0.0 ${M_PI} ${-M_PI/2}" />
+      <geometry>
+        <mesh
+          filename="package://vizzy_description/meshes/M4.dae" />
+      </geometry>
+    </collision>
   </link>
   <joint
-    name="l_eye_version_joint"
+    name="l_eye_joint"
     type="revolute">
     <origin
       xyz="0.0 0.102 0.0"
@@ -249,7 +279,7 @@
     <parent
       link="eyes_center_link" />
     <child
-      link="l_eye_version_link" />
+      link="l_eye_link" />
     <axis
       xyz="0 0 1" />
     <limit  
@@ -260,17 +290,47 @@
 
   </joint>
 
-  <link name="r_eye_version_link">
- 		<inertial> 
-			<origin xyz="0 0 0" rpy="0 0 0"/> 
-			<mass value="0.01"/> 
-			<inertia 
-				ixx="0.001" ixy="0.0" ixz="0.0" 
-				iyy="0.001" iyz="0.0" izz="0.001"/> 			
-		</inertial>
+  <link name="r_eye_link">
+<inertial>
+      <origin
+        xyz="0.010 0.0 0.003"
+        rpy="0.0 ${M_PI} ${-M_PI/2}" />
+      <mass
+        value="0.158520637460366" />
+      <inertia
+        ixx="0.000147614970454271"
+        ixy="-1.56210652664748E-09"
+        ixz="8.85544640354075E-10"
+        iyy="0.000177840459249179"
+        iyz="8.21234366300574E-06"
+        izz="0.000144884726537935" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0.010 0.0 0.003"
+        rpy="0.0 ${M_PI} ${-M_PI/2}" />
+      <geometry>
+        <mesh
+          filename="package://vizzy_description/meshes/M4.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0 0 0 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0.010 0.0 0.003"
+        rpy="0.0 ${M_PI} ${-M_PI/2}" />
+      <geometry>
+        <mesh
+          filename="package://vizzy_description/meshes/M4.dae" />
+      </geometry>
+    </collision>
   </link>
   <joint
-    name="r_eye_version_joint"
+    name="r_eye_joint"
     type="revolute">
     <origin
       xyz="0.0 -0.102 0.0"
@@ -278,7 +338,7 @@
     <parent
       link="eyes_center_link" />
     <child
-      link="r_eye_version_link" />
+      link="r_eye_link" />
     <axis
       xyz="0 0 1" />
     <limit
@@ -289,7 +349,7 @@
 
   </joint>
 
-  <link name="vergence_link">
+  <!--<link name="vergence_link">
  		<inertial> 
 			<origin xyz="0 0 0" rpy="0 0 0"/> 
 			<mass value="0.01"/> 
@@ -304,9 +364,9 @@
     <child link="vergence_link" />
     <axis  xyz="0 0 1" />
     <limit lower="0.0" upper="0.698131" effort="10.0" velocity="5.0" />
-  </joint>
+  </joint>-->
   
-  <link name="r_eye_vergence_link">
+  <!--<link name="r_eye_vergence_link">
     <inertial>
       <origin
         xyz="0.010 0.0 0.003"
@@ -352,7 +412,7 @@
       xyz="0.0 0.0 0.0"
       rpy="0.0 0.0 0.0" />
     <parent
-      link="r_eye_version_link" />
+      link="r_eye_link" />
     <child
       link="r_eye_vergence_link" />
     <axis
@@ -363,7 +423,7 @@
       effort="1000.0" 
       velocity="5.0"/>
 
-  </joint>
+  </joint>-->
   
 
   <link name="r_camera_link">
@@ -376,7 +436,7 @@
   </link>
   <joint name="r_camera_joint" type="fixed">
     <origin xyz="0.0575 0.0 0.0" rpy="0.0 0.0 0.0" />
-    <parent link="r_eye_vergence_link"/>
+    <parent link="r_eye_link"/>
     <child link="r_camera_link" />
   </joint>
   <link name="r_camera_vision_link">
@@ -397,7 +457,7 @@
 
 
 
-  <link name="l_eye_vergence_link">
+  <!--<link name="l_eye_vergence_link">
    <inertial>
       <origin
         xyz="0 0 -0.0200000000000069"
@@ -444,7 +504,7 @@
       xyz="0 0 0"
       rpy="0 0 0" />
     <parent
-      link="l_eye_version_link" />
+      link="l_eye_link" />
     <child
       link="l_eye_vergence_link" />
     <axis
@@ -453,9 +513,9 @@
 			lower="-1.0" 
 			upper="1.0"    
       effort="1000.0" 
-      velocity="5.0" />
+      velocity="5.0" />-->
 
-  </joint>
+
   <link name="l_camera_link">
    <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
@@ -466,7 +526,7 @@
   </link>
   <joint name="l_camera_joint" type="fixed">
     <origin xyz="0.0575 0.0 0.0" rpy="0.0 0.0 0.0" />
-    <parent link="l_eye_vergence_link"/>
+    <parent link="l_eye_link"/>
     <child link="l_camera_link" />
   </joint>
 
