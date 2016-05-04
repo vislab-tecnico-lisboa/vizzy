@@ -5,7 +5,7 @@
 	<group if="$(arg use_yarp)">
  		<!-- launch the joint state publisher to default values -->
 		<node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher">
-			<remap from="/joint_states" to="/vizzy/joint_states" />
+			<rosparam param="source_list">["/vizzy_upper_body/joint_states","joint_states"]</rosparam>
 		</node>
 	</group>
 
