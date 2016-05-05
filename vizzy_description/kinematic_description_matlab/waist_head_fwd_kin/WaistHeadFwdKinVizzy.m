@@ -96,10 +96,10 @@ rpy_pRn = [rpy_pRn; roll,pitch,yaw];
 %LEFT EYE
 %G_67=evalDHMatrix(	0,		111,	-pi/2,	theta2 + 2*pi/17); %VIZZY EYE PAN
 %G_78=evalDHMatrix(	0,		0,      0 + pi/2,	theta4 + pi/2); %VIZZY EYE END-EFFECTOR
-G_67=evalDHMatrix(	0,		102,	pi/2,	theta2 + 2*pi/17); %VIZZY EYE PAN
+G_67=evalDHMatrix(	0,		102,	pi/2,	theta2 - 15*pi/17); %VIZZY EYE PAN
 [roll,pitch,yaw] = dcm2angle(G_67(1:3,1:3)','ZYX');
 rpy_pRn = [rpy_pRn; roll,pitch,yaw];
-G_78=evalDHMatrix(	0,		0,      0+pi/2,	theta4+pi/2); %VIZZY EYE TILT
+G_78=evalDHMatrix(	0,		0,      0+pi/2,	theta4-pi/2); %VIZZY EYE TILT
 [roll,pitch,yaw] = dcm2angle(G_78(1:3,1:3)','ZYX');
 rpy_pRn = [rpy_pRn; roll,pitch,yaw];
 G_89=evalDHMatrix(	0,		27.5,      0,	0); %VIZZY EYE END-EFFECTOR
@@ -109,10 +109,10 @@ rpy_pRn = [rpy_pRn; roll,pitch,yaw];
 %RIGHT EYE
 %Gp_67=evalDHMatrix(	0,		-111,	-pi/2,	theta2 + 2*pi/17); %VIZZY EYE PAN
 %Gp_78=evalDHMatrix(	0,		0,      0 + pi/2,   theta3 + pi/2); %VIZZY EYE END-EFFECTOR
-Gp_67=evalDHMatrix(	0,		-102,	pi/2,	theta2 + 2*pi/17); %VIZZY EYE PAN
+Gp_67=evalDHMatrix(	0,		-102,	pi/2,	theta2 - 15*pi/17); %VIZZY EYE PAN
 [roll,pitch,yaw] = dcm2angle(Gp_67(1:3,1:3)','ZYX');
 rpy_Rn = [rpy_Rn; roll,pitch,yaw];
-Gp_78=evalDHMatrix(	0,		0,      0+pi/2,	theta3+pi/2); %VIZZY EYE TILT
+Gp_78=evalDHMatrix(	0,		0,      0+pi/2,	theta3-pi/2); %VIZZY EYE TILT
 [roll,pitch,yaw] = dcm2angle(Gp_78(1:3,1:3)','ZYX');
 rpy_Rn = [rpy_Rn; roll,pitch,yaw];
 Gp_89=evalDHMatrix(	0,		27.5,      0,	0); %VIZZY EYE END-EFFECTOR
