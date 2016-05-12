@@ -80,17 +80,6 @@
         <joint name="r_wrist_abduction_virtual_joint" value="0" />
         <joint name="r_wrist_flection_joint" value="0" />
     </group_state>
-    <group_state name="right_hand_shake" group="right_arm">
-        <joint name="r_elbow_flection_joint" value="0,0647" />
-        <joint name="r_forearm_pronation_joint" value="0,1834" />
-        <joint name="r_shoulder_abduction_joint" value="0" />
-        <joint name="r_shoulder_flection_joint" value="1,3472" />
-        <joint name="r_shoulder_rotation_joint" value="0,0833" />
-        <joint name="r_shoulder_scapula_joint" value="0,3141" />
-        <joint name="r_wrist_abduction_joint" value="0,142" />
-        <joint name="r_wrist_abduction_virtual_joint" value="-0,3431" />
-        <joint name="r_wrist_flection_joint" value="0,0009" />
-    </group_state>
     <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
     <disable_collisions link1="b_wheel_base_link" link2="b_wheel_link" reason="Adjacent" />
     <disable_collisions link1="b_wheel_base_link" link2="base_link" reason="Adjacent" />
