@@ -5,27 +5,815 @@
        xmlns:xacro="http://ros.org/wiki/xacro"> 
   <!-- Things that are needed only for Gazebo (not the physical robot).  These include
        sensor and controller plugin specifications -->
-  <xacro:include filename="$(find vizzy_description)/urdf/arm/right_arm.gazebo.xacro"/>
+<xacro:include filename="$(find vizzy_description)/urdf/arm/right_arm.gazebo.xacro"/>
   <xacro:include filename="$(find vizzy_description)/urdf/arm/right_arm.transmission.xacro"/>
 
   <xacro:macro name="right_hand" params="name parent sufix reflect *origin">
 
-		<link name="r_palm_link">
-		 <visual>
-		    <origin xyz="0 0 0" rpy="0 0 0" />
-		    <geometry>
-		      <box size="0.001 0.001 0.001" />
-		    </geometry>
-		  </visual>
-		</link>
-		<joint name="r_palm_joint" type="fixed">
-		  <origin xyz="0.1 0 0.0" rpy="${M_PI/2.0} 0 ${M_PI}" />
-		  <parent link="${parent}"/>
+    <joint name="r_palm_joint" type="fixed">
+		  <origin xyz="0.1 0 0.0" rpy="0 ${M_PI/2.0} 0" />
+		  <parent link="r_wrist_flection_link"/>
 		  <child link="r_palm_link" />
 		</joint>
 
+
+  <link
+    name="r_palm_link">
+    <inertial>
+      <origin
+        xyz="-0.006637 0.0034589 0.0058703"
+        rpy="0 0 0" />
+      <mass
+        value="0.14841" />
+      <inertia
+        ixx="0.00014253"
+        ixy="1.9852E-05"
+        ixz="-1.4353E-06"
+        iyy="9.7254E-05"
+        iyz="-2.6916E-06"
+        izz="0.0002182" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://vizzy_description/meshes/right_hand/r_palm_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79608 0.82353 0.93725 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://vizzy_description/meshes/right_hand/r_palm_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="min_phal_1_link">
+    <inertial>
+      <origin
+        xyz="-0.0065851 -4.2258E-05 0.019478"
+        rpy="0 0 0" />
+      <mass
+        value="0.014476" />
+      <inertia
+        ixx="1.7219E-06"
+        ixy="3.4428E-10"
+        ixz="3.009E-10"
+        iyy="1.7445E-06"
+        iyz="1.5436E-08"
+        izz="5.3067E-07" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://vizzy_description/meshes/right_hand/min_phal_1_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://vizzy_description/meshes/right_hand/min_phal_1_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="min_phal_1_joint"
+    type="revolute">
+    <origin
+      xyz="0.020602 -0.005836 0.044434"
+      rpy="6.2175E-17 -0.17453 3.1416" />
+    <parent
+      link="r_palm_link" />
+    <child
+      link="min_phal_1_link" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="0"
+      upper="1.7453"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="min_phal_2_link">
+    <inertial>
+      <origin
+        xyz="-0.0065912 3.9323E-05 0.016339"
+        rpy="0 0 0" />
+      <mass
+        value="0.011277" />
+      <inertia
+        ixx="1.007E-06"
+        ixy="5.324E-10"
+        ixz="5.414E-10"
+        iyy="1.0456E-06"
+        iyz="1.1256E-08"
+        izz="4.1298E-07" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://vizzy_description/meshes/right_hand/min_phal_2_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://vizzy_description/meshes/right_hand/min_phal_2_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="min_phal_2_joint"
+    type="revolute">
+    <origin
+      xyz="0 0 0.033"
+      rpy="0 -7.2164E-16 0" />
+    <parent
+      link="min_phal_1_link" />
+    <child
+      link="min_phal_2_link" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="0"
+      upper="1.5708"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="min_phal_3_link">
+    <inertial>
+      <origin
+        xyz="-0.0065949 -2.2728E-05 0.013411"
+        rpy="0 0 0" />
+      <mass
+        value="0.0093855" />
+      <inertia
+        ixx="5.7614E-07"
+        ixy="5.3191E-10"
+        ixz="-3.8097E-11"
+        iyy="5.3414E-07"
+        iyz="3.9566E-09"
+        izz="3.158E-07" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://vizzy_description/meshes/right_hand/min_phal_3_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://vizzy_description/meshes/right_hand/min_phal_3_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="min_phal_3_joint"
+    type="revolute">
+    <origin
+      xyz="0 0 0.0265"
+      rpy="0 2.7756E-17 0" />
+    <parent
+      link="min_phal_2_link" />
+    <child
+      link="min_phal_3_link" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="0"
+      upper="1.5708"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="med_phal_1_link">
+    <inertial>
+      <origin
+        xyz="0.0029095 0.0027577 0.019478"
+        rpy="0 0 0" />
+      <mass
+        value="0.014476" />
+      <inertia
+        ixx="1.7219E-06"
+        ixy="3.4427E-10"
+        ixz="3.008E-10"
+        iyy="1.7445E-06"
+        iyz="1.5436E-08"
+        izz="5.3067E-07" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://vizzy_description/meshes/right_hand/med_phal_1_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://vizzy_description/meshes/right_hand/med_phal_1_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="med_phal_1_joint"
+    type="revolute">
+    <origin
+      xyz="0 -0.003036 0.050139"
+      rpy="6.123E-17 4.5912E-49 3.1416" />
+    <parent
+      link="r_palm_link" />
+    <child
+      link="med_phal_1_link" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="0"
+      upper="1.7453"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="med_phal_2_link">
+    <inertial>
+      <origin
+        xyz="0.0029034 3.9323E-05 0.01634"
+        rpy="0 0 0" />
+      <mass
+        value="0.011277" />
+      <inertia
+        ixx="1.007E-06"
+        ixy="5.324E-10"
+        ixz="5.4133E-10"
+        iyy="1.0456E-06"
+        iyz="1.1377E-08"
+        izz="4.13E-07" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://vizzy_description/meshes/right_hand/med_phal_2_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://vizzy_description/meshes/right_hand/med_phal_2_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="med_phal_2_joint"
+    type="revolute">
+    <origin
+      xyz="0 0.0028 0.033"
+      rpy="0 0 0" />
+    <parent
+      link="med_phal_1_link" />
+    <child
+      link="med_phal_2_link" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="0"
+      upper="1.5708"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="med_phal_3_link">
+    <inertial>
+      <origin
+        xyz="0.0028997 -2.2727E-05 0.013411"
+        rpy="0 0 0" />
+      <mass
+        value="0.0093855" />
+      <inertia
+        ixx="5.7614E-07"
+        ixy="5.3189E-10"
+        ixz="-3.8133E-11"
+        iyy="5.3439E-07"
+        iyz="3.9566E-09"
+        izz="3.1605E-07" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://vizzy_description/meshes/right_hand/med_phal_3_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://vizzy_description/meshes/right_hand/med_phal_3_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="med_phal_3_joint"
+    type="revolute">
+    <origin
+      xyz="0 0 0.0265"
+      rpy="0 0 -2.7192E-32" />
+    <parent
+      link="med_phal_2_link" />
+    <child
+      link="med_phal_3_link" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="0"
+      upper="1.5708"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="ind_phal_1_link">
+    <inertial>
+      <origin
+        xyz="0.014603 -4.2258E-05 0.019478"
+        rpy="0 0 0" />
+      <mass
+        value="0.014476" />
+      <inertia
+        ixx="1.7219E-06"
+        ixy="3.4427E-10"
+        ixz="3.0073E-10"
+        iyy="1.7445E-06"
+        iyz="1.5436E-08"
+        izz="5.3067E-07" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://vizzy_description/meshes/right_hand/ind_phal_1_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://vizzy_description/meshes/right_hand/ind_phal_1_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="ind_phal_1_joint"
+    type="revolute">
+    <origin
+      xyz="-0.017526 -0.005836 0.047945"
+      rpy="6.2175E-17 0.17453 -3.1416" />
+    <parent
+      link="r_palm_link" />
+    <child
+      link="ind_phal_1_link" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="0"
+      upper="1.5708"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="ind_phal_2_link">
+    <inertial>
+      <origin
+        xyz="0.013485 3.9323E-05 0.01634"
+        rpy="0 0 0" />
+      <mass
+        value="0.011277" />
+      <inertia
+        ixx="1.007E-06"
+        ixy="5.324E-10"
+        ixz="5.4129E-10"
+        iyy="1.0456E-06"
+        iyz="1.1256E-08"
+        izz="4.1298E-07" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://vizzy_description/meshes/right_hand/ind_phal_2_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://vizzy_description/meshes/right_hand/ind_phal_2_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="ind_phal_2_joint"
+    type="revolute">
+    <origin
+      xyz="0.0011116 0 0.033"
+      rpy="0 6.6613E-16 0" />
+    <parent
+      link="ind_phal_1_link" />
+    <child
+      link="ind_phal_2_link" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="0"
+      upper="1.5708"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="ind_phal_3_link">
+    <inertial>
+      <origin
+        xyz="0.012563 -2.2727E-05 0.013411"
+        rpy="0 0 0" />
+      <mass
+        value="0.0093855" />
+      <inertia
+        ixx="5.7614E-07"
+        ixy="5.3188E-10"
+        ixz="-3.8161E-11"
+        iyy="5.3409E-07"
+        iyz="3.9567E-09"
+        izz="3.1575E-07" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://vizzy_description/meshes/right_hand/ind_phal_3_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://vizzy_description/meshes/right_hand/ind_phal_3_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="ind_phal_3_joint"
+    type="revolute">
+    <origin
+      xyz="0.00091878 0 0.0265"
+      rpy="0 8.3267E-17 0" />
+    <parent
+      link="ind_phal_2_link" />
+    <child
+      link="ind_phal_3_link" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="0"
+      upper="1.5708"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="thumb_phal_1_link">
+    <inertial>
+      <origin
+        xyz="0.018048 1.523E-05 0.015459"
+        rpy="0 0 0" />
+      <mass
+        value="0.0081407" />
+      <inertia
+        ixx="6.5008E-07"
+        ixy="-7.3119E-10"
+        ixz="2.5547E-09"
+        iyy="5.6171E-07"
+        iyz="-2.5966E-09"
+        izz="2.9059E-07" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://vizzy_description/meshes/right_hand/thumb_phal_1_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://vizzy_description/meshes/right_hand/thumb_phal_1_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="thumb_phal_1_joint"
+    type="revolute">
+    <origin
+      xyz="-0.038376 -0.005836 -0.0033723"
+      rpy="0.2618 1.2566 -3.1416" />
+    <parent
+      link="r_palm_link" />
+    <child
+      link="thumb_phal_1_link" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="0"
+      upper="1.5708"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="thumb_phal_2_link">
+    <inertial>
+      <origin
+        xyz="-7.2146E-06 0.0027577 0.019491"
+        rpy="0 0 0" />
+      <mass
+        value="0.014476" />
+      <inertia
+        ixx="1.7208E-06"
+        ixy="3.4426E-10"
+        ixz="3.0214E-10"
+        iyy="1.7434E-06"
+        iyz="1.3707E-08"
+        izz="5.3067E-07" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://vizzy_description/meshes/right_hand/thumb_phal_2_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://vizzy_description/meshes/right_hand/thumb_phal_2_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="thumb_phal_2_joint"
+    type="revolute">
+    <origin
+      xyz="0.014928 0 0.0225"
+      rpy="8.2306E-16 -3.0531E-16 -1.5708" />
+    <parent
+      link="thumb_phal_1_link" />
+    <child
+      link="thumb_phal_2_link" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="0"
+      upper="1.5708"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="thumb_phal_3_link">
+    <inertial>
+      <origin
+        xyz="-1.3326E-05 3.9324E-05 0.0033395"
+        rpy="0 0 0" />
+      <mass
+        value="0.011277" />
+      <inertia
+        ixx="1.007E-06"
+        ixy="5.3239E-10"
+        ixz="5.4129E-10"
+        iyy="1.0456E-06"
+        iyz="1.1256E-08"
+        izz="4.1298E-07" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://vizzy_description/meshes/right_hand/thumb_phal_3_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://vizzy_description/meshes/right_hand/thumb_phal_3_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="thumb_phal_3_joint"
+    type="revolute">
+    <origin
+      xyz="0 0.0028 0.046"
+      rpy="-1.7831E-12 -6.1062E-16 -4.7716E-13" />
+    <parent
+      link="thumb_phal_2_link" />
+    <child
+      link="thumb_phal_3_link" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="0"
+      upper="1.5708"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="thumb_phal_4_link">
+    <inertial>
+      <origin
+        xyz="-1.702E-05 -2.2727E-05 0.013411"
+        rpy="0 0 0" />
+      <mass
+        value="0.0093855" />
+      <inertia
+        ixx="5.7614E-07"
+        ixy="5.3187E-10"
+        ixz="-3.8144E-11"
+        iyy="5.3409E-07"
+        iyz="3.9566E-09"
+        izz="3.1576E-07" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://vizzy_description/meshes/right_hand/thumb_phal_4_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://vizzy_description/meshes/right_hand/thumb_phal_4_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="thumb_phal_4_joint"
+    type="revolute">
+    <origin
+      xyz="0 0 0.0135"
+      rpy="1.7831E-12 2.7756E-17 4.7741E-13" />
+    <parent
+      link="thumb_phal_3_link" />
+    <child
+      link="thumb_phal_4_link" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="0"
+      upper="1.5708"
+      effort="0"
+      velocity="0" />
+  </joint>
+
     <!-- gazebo extensions -->
-    <xacro:right_arm_gazebo/>
-    <xacro:right_arm_transmissions/>
+    <!--<xacro:right_arm_gazebo/>
+    <xacro:right_arm_transmissions/>-->
  </xacro:macro>
 </robot>
