@@ -7,7 +7,7 @@
 
   <xacro:macro name="head_transmissions">
 
-    <transmission name="neck_pan_transmission">
+    <!-- <transmission name="neck_pan_transmission">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="neck_pan_joint">
         <hardwareInterface>VelocityJointInterface</hardwareInterface>
@@ -55,7 +55,7 @@
       <actuator name="r_eye_motor">
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
-    </transmission>
+    </transmission> -->
 
   </xacro:macro>
 </robot>

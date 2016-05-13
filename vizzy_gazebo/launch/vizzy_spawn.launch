@@ -9,4 +9,5 @@
 
   <!-- Spawn robot in Gazebo -->
   <node pkg="gazebo_ros" type="spawn_model" name="spawn_model" args="-urdf -param robot_description $(arg pose) -model $(arg robot)" />
+
 </launch>
