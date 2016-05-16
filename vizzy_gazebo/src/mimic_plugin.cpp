@@ -51,7 +51,8 @@ void MimicPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf )
 
 void MimicPlugin::UpdateChild()
 {
-    mimic_joint_->SetAngle(0, math::Angle(joint_->GetAngle(0).Radian()*multiplier_));
+    //mimic_joint_->SetAngle(0, math::Angle(joint_->GetAngle(0).Radian()*multiplier_));
+    mimic_joint_->SetPosition(0, joint_->GetAngle(0).Radian()*multiplier_);
 }
 
 GZ_REGISTER_MODEL_PLUGIN(MimicPlugin);

@@ -22,6 +22,8 @@
   <arg name="head_only" default="false"/>
   <arg name="teleop" default="false"/>
   <arg name="move_robot_config_file" default="$(find move_robot)/config/frames.yaml"/>
+  <arg name="perfect_calibration" default="false"/>
+  <arg name="manager" default="cameras_nodelet_manager"/>
 
   <!-- launch vizzy -->
   <include file="$(find vizzy_launch)/launch/vizzy_simulation.launch">
@@ -41,7 +43,8 @@
  
   <!-- launch online stereo calibration -->
   <include ns="vizzy"  file="$(find online_stereo_calibration_ros)/launch/stereo_calibration.launch">
-    <arg name="manager" value="cameras_nodelet_manager"/>
+    <arg name="manager" value="$(arg manager)"/>
+    <arg name="perfect_calibration" value="$(arg perfect_calibration)"/>
   </include>
 
   <!-- launch vizualization on rviz -->
