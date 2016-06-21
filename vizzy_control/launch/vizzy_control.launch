@@ -21,8 +21,8 @@
 		neck_tilt_position_controller 
 		neck_pan_position_controller 
 		eyes_tilt_position_controller 
-		version_position_controller
-	        vergence_position_controller
+		l_eye_position_controller
+	        r_eye_position_controller
 
 		l_shoulder_scapula_position_controller
 	        l_shoulder_flection_position_controller
@@ -47,8 +47,8 @@
 		neck_pan_position_controller
                 neck_tilt_position_controller
                 eyes_tilt_position_controller
-                version_position_controller
-                vergence_position_controller
+                l_eye_position_controller
+                r_eye_position_controller
 		left_arm_trajectory_controller
 		right_arm_trajectory_controller" />
   </group>

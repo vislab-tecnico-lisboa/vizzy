@@ -14,8 +14,7 @@
   <!-- torso -->
   <xacro:include filename="$(find vizzy_description)/urdf/torso/torso.urdf.xacro" />
   <!-- head -->
- <xacro:include filename="$(find vizzy_description)/urdf/head/head.yarp.urdf.xacro"/>
- <xacro:include filename="$(find vizzy_description)/urdf/head/head.ros.urdf.xacro"/>
+ <xacro:include filename="$(find vizzy_description)/urdf/head/head.urdf.xacro"/>
 
   <!-- left arm -->
   <xacro:include filename="$(find vizzy_description)/urdf/arm/left_arm.urdf.xacro" />
@@ -36,12 +35,8 @@
   <!-- instantiate torso -->
   <xacro:torso name="torso"/>
   <!-- instantiate head -->
-  <xacro:if value="$(arg use_yarp)">
-  	<xacro:head_yarp name="head"/>
-  </xacro:if>
-  <xacro:unless value="$(arg use_yarp)">
-  	<xacro:head name="head"/>
-  </xacro:unless>
+  <xacro:head name="head"/>
+
   <!-- instantiate left arm -->
   <xacro:left_arm name="left_arm" parent="waist_link" sufix="l" reflect="1">
     <origin xyz="-0.01707 0.0 0.38145" rpy="0.0 0.0 0.0" />
