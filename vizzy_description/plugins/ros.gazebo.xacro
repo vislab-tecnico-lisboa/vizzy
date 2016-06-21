@@ -19,11 +19,19 @@
         <wheelSeparation>0.4580</wheelSeparation>
         <wheelDiameter>0.2410</wheelDiameter>
         <torque>20</torque>
+        <updateRate>100</updateRate>
         <commandTopic>vizzy/cmd_vel</commandTopic>
         <odometryTopic>odom</odometryTopic>
         <odometryFrame>odom</odometryFrame>
         <robotBaseFrame>base_footprint</robotBaseFrame>
-        <updateRate>100.0</updateRate>
+        <odometrySource>0</odometrySource>
+        <wheelTorque>5</wheelTorque>
+        <wheelAcceleration>0</wheelAcceleration>
+        <publishWheelJointState>true</publishWheelJointState>
+        <publishTF>1</publishTF>
+        <publishWheelTF>true</publishWheelTF>
+        <rosDebugLevel>na</rosDebugLevel>
+
       </plugin>
     </gazebo>
   </xacro:macro>

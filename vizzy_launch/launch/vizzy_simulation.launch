@@ -30,7 +30,7 @@
   <arg name="fixation_point_in" default="fixation_point" /> 
 
   <arg name="reactive_2d_navigation" default="false"/>
-  <arg name="teleop" default="true"/>
+  <arg name="teleop" default="false"/>
 
   <!-- bringup robot -->
   <group if="$(arg head_only)">
