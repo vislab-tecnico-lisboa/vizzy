@@ -350,7 +350,8 @@ void EyePinvRefGen::run()
         // update eyes chains for convergence purpose
         updateNeckBlockedJoints(chainEyeL,fbHead);         updateNeckBlockedJoints(chainEyeR,fbHead);
         chainEyeL->setAng(nJointsTorso+2,qd[0]);           chainEyeR->setAng(nJointsTorso+2,qd[0]);
-        chainEyeL->setAng(nJointsTorso+3,qd[1]+qd[2]/2.0); chainEyeR->setAng(nJointsTorso+3,qd[1]-qd[2]/2.0);
+        //chainEyeL->setAng(nJointsTorso+3,qd[1]+qd[2]/2.0); chainEyeR->setAng(nJointsTorso+3,qd[1]-qd[2]/2.0);
+	chainEyeL->setAng(nJointsTorso+3,(qd[1]+qd[2])/2.0); chainEyeR->setAng(nJointsTorso+3,(qd[1]-qd[2])/2.0);
 
 
         // converge on target
@@ -361,7 +362,8 @@ void EyePinvRefGen::run()
 
             // update eyes chains in actual configuration for velocity compensation
             chainEyeL->setAng(nJointsTorso+2,fbHead[2]);               chainEyeR->setAng(nJointsTorso+2,fbHead[2]);
-            chainEyeL->setAng(nJointsTorso+3,fbHead[3]+fbHead[4]/2.0); chainEyeR->setAng(nJointsTorso+3,fbHead[3]-fbHead[4]/2.0);
+            //chainEyeL->setAng(nJointsTorso+3,fbHead[3]+fbHead[4]/2.0); chainEyeR->setAng(nJointsTorso+3,fbHead[3]-fbHead[4]/2.0);
+	    chainEyeL->setAng(nJointsTorso+3,(fbHead[3]+fbHead[4])/2.0); chainEyeR->setAng(nJointsTorso+3,(fbHead[3]-fbHead[4])/2.0);
 
             // compensate neck rotation at eyes level
             if (computeFixationPointData(*chainEyeL,*chainEyeR,fp,eyesJ))
@@ -545,9 +547,11 @@ Solver::Solver(PolyDriver *_drvTorso, PolyDriver *_drvHead, exchangeData *_commD
 
     Vector eyePos(2);
     eyePos[0]=gazePos[0];
-    eyePos[1]=gazePos[1]+gazePos[2]/2.0;
+    //eyePos[1]=gazePos[1]+gazePos[2]/2.0;
+    eyePos[1]=(gazePos[1]+gazePos[2])/2.0;
     chainEyeL->setAng(eyePos);
-    eyePos[1]=gazePos[1]-gazePos[2]/2.0;
+    //eyePos[1]=gazePos[1]-gazePos[2]/2.0;
+    eyePos[1]=(gazePos[1]-gazePos[2])/2.0;
     chainEyeR->setAng(eyePos);
 
     gDefaultDir.resize(4,0.0);
@@ -880,7 +884,8 @@ void Solver::resume()
     updateNeckBlockedJoints(chainEyeR,fbHead);
     chainNeck->setAng(neckPos);
     chainEyeL->setAng(nJointsTorso+2,gazePos[0]);                chainEyeR->setAng(nJointsTorso+2,gazePos[0]);
-    chainEyeL->setAng(nJointsTorso+3,gazePos[1]+gazePos[2]/2.0); chainEyeR->setAng(nJointsTorso+3,gazePos[1]-gazePos[2]/2.0);
+    //chainEyeL->setAng(nJointsTorso+3,gazePos[1]+gazePos[2]/2.0); chainEyeR->setAng(nJointsTorso+3,gazePos[1]-gazePos[2]/2.0);
+    chainEyeL->setAng(nJointsTorso+3,(gazePos[1]+gazePos[2])/2.0); chainEyeR->setAng(nJointsTorso+3,(gazePos[1]-gazePos[2])/2.0);
 
     // compute fixation point
     Vector fp(3);

@@ -223,11 +223,15 @@ Vector Localizer::get3DPoint(const string &type, const Vector &ang)
     mutex.wait();
 
     //q[7]+=ver/2.0;
-    q[4]+=ver/2.0;
+    // temporary fix while the firmware is updated
+    q[4]=(q[4]+ver)/2.0;
+    //q[4]+=ver/2.0;
     eyeL->setAng(q);
 
     //q[7]-=ver;
-    q[4]-=ver;
+    // temporary fix while the firmware is updated
+    q[4]=(q[4]-ver)/2.0;
+    //q[4]-=ver;
     eyeR->setAng(q);
 
     Vector fp(4);
@@ -298,10 +302,14 @@ bool Localizer::projectPoint(const string &type, const Vector &x, Vector &px)
 
         if (isLeft)
             //q[7]=head[4]+head[5]/2.0;
-        	q[4]=head[3]+head[4]/2.0;
+            // temporary fix while the firmware is updated
+	    q[4]=(head[3]+head[4])/2.0;
+            //q[4]=head[3]+head[4]/2.0;
         else
             //q[7]=head[4]-head[5]/2.0;
-        	q[4]=head[3]-head[4]/2.0;
+	    // temporary fix while the firmware is updated
+	    q[4]=(head[3]-head[4])/2.0;
+            //q[4]=head[3]-head[4]/2.0;
         
         Vector xo=x;
         if (xo.length()<4)
@@ -356,10 +364,14 @@ bool Localizer::projectPoint(const string &type, const double u, const double v,
 
         if (isLeft)
         	//q[7]=head[4]+head[5]/2.0;
-        	q[4]=head[3]+head[4]/2.0;
+		// temporary fix while the firmware is updated
+        	q[4]=(head[3]+head[4])/2.0;
+        	//q[4]=head[3]+head[4]/2.0;
         else
         	//q[7]=head[4]-head[5]/2.0;
-        	q[4]=head[3]-head[4]/2.0;
+		// temporary fix while the firmware is updated
+		q[4]=(head[3]-head[4])/2.0;
+        	//q[4]=head[3]-head[4]/2.0;
 
         Vector p(3);
         p[0]=z*u;
@@ -465,12 +477,14 @@ bool Localizer::triangulatePoint(const Vector &pxl, const Vector &pxr, Vector &x
         qL[1]=head[0];
         qL[2]=head[1];
         qL[3]=head[2];
-        qL[4]=head[3]+head[4]/2.0;
+        //qL[4]=head[3]+head[4]/2.0;
+	qL[4]=(head[3]+head[4])/2.0;
 
 
         Vector qR=qL;
         //qR[7]-=head[5];
-        qR[4]-=head[4];
+        //qR[4]-=head[4];
+	qL[4]=(head[3]-head[4])/2.0;
 
         mutex.wait();
         Matrix HL=SE3inv(eyeL->getH(qL));

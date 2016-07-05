@@ -52,7 +52,8 @@ int main(int argc, char *argv[]) {
     std::cout << ".\n";
     Time::delay(1);
   }  int counter = 0;
-
+  Bottle mux1_previous;
+  double timestamp_previous;
   while(true){
     Bottle* reading1Mux1 = receiverBuff1Mux1.read();
     Bottle* reading2Mux1 = receiverBuff2Mux1.read();
@@ -64,12 +65,22 @@ int main(int argc, char *argv[]) {
     for(int i = 0; i < reading1Mux1->size(); i++) {
       mux1.add(reading1Mux1->get(i));
     }
+    std::cout << "Version: " << reading2Mux1->get(3).asDouble() << std::endl;
+    std::cout << "Vergence: " << reading2Mux1->get(4).asDouble() << std::endl;
+    double left_eye = (reading2Mux1->get(3).asDouble()+reading2Mux1->get(4).asDouble())/2;
+    double right_eye = (reading2Mux1->get(3).asDouble()-reading2Mux1->get(4).asDouble())/2;
     for(int i = 0; i < reading2Mux1->size(); i++) {
-      mux1.add(reading2Mux1->get(i));
+      if (i==3)
+          mux1.add(left_eye);
+      else if (i==4)
+          mux1.add(right_eye);
+      else
+	  mux1.add(reading2Mux1->get(i));
     }
     for(int i = 0; i < reading3Mux1->size(); i++) {
       mux1.add(reading3Mux1->get(i));
     }
+
     for(int i = 0; i < reading4Mux1->size(); i++) {
       mux1.add(reading4Mux1->get(i));
     }
@@ -81,7 +92,7 @@ int main(int argc, char *argv[]) {
     /* DO SOME COMPUTATION HERE */
 
     double timestamp = (double) Time::now();
-
+  
     Bottle message = Bottle();
 
     Bottle& list_1 = message.addList();
@@ -90,6 +101,13 @@ int main(int argc, char *argv[]) {
 
     double dummy;
     double frac=modf(timestamp,&dummy);
+
+    if (counter==0){
+	timestamp_previous = timestamp;
+	mux1_previous.copy(mux1);
+	counter ++;
+	continue;
+    }
     Bottle& list_1_1 = list_1.addList();
     //list_1_1.add(counter);
     list_1_1.add((int)timestamp);
@@ -102,8 +120,8 @@ int main(int argc, char *argv[]) {
     list_2.add("neck_pan_joint");
     list_2.add("neck_tilt_joint");
     list_2.add("eyes_tilt_joint");
-    list_2.add("version_joint");
-    list_2.add("vergence_joint");
+    list_2.add("l_eye_joint");
+    list_2.add("r_eye_joint");
     list_2.add("l_shoulder_scapula_joint");
     list_2.add("l_shoulder_flection_joint");
     list_2.add("l_shoulder_abduction_joint");
@@ -134,7 +152,7 @@ int main(int argc, char *argv[]) {
 
     Bottle& list_4 = message.addList();
     for(int i = 0; i < mux1.size(); i++) {
-      list_4.add(mux1.get(i));
+      list_4.add((mux1.get(i).asDouble()-mux1_previous.get(i).asDouble())/(timestamp-timestamp_previous));
     }
 
     Bottle& list_5 = message.addList();
@@ -145,7 +163,9 @@ int main(int argc, char *argv[]) {
 
     outputPort.write(message);
     counter++;
-    Time::delay(0.016666666666666666);
+    timestamp_previous = timestamp;
+    mux1_previous.copy(mux1);
+    Time::delay(0.0166666);
   }
 
   return 0;

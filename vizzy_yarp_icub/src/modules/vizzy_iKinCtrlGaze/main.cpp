@@ -281,7 +281,6 @@
  - [clear] [pitch]: restore the neck pitch range.
  - [clear] [roll]: restore the neck roll range.
  - [clear] [yaw]: restore the neck yaw range.
- - [get] [Tneck]: returns the neck movements execution time.
  - [get] [Teyes]: returns the eyes movements execution time.
  - [get] [vor]: returns the vor gain.
  - [get] [ocr]: returns the ocr gain.

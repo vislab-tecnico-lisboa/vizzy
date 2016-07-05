@@ -477,7 +477,8 @@ void Controller::run()
         chainEyeR->setAng(nJointsTorso+i,fbHead[i]);
     }
     chainEyeL->setAng(nJointsTorso+2,fbHead[2]);               chainEyeR->setAng(nJointsTorso+2,fbHead[2]);
-    chainEyeL->setAng(nJointsTorso+3,fbHead[3]+fbHead[4]/2.0); chainEyeR->setAng(nJointsTorso+3,fbHead[3]-fbHead[4]/2.0);
+    //chainEyeL->setAng(nJointsTorso+3,fbHead[3]+fbHead[4]/2.0); chainEyeR->setAng(nJointsTorso+3,fbHead[3]-fbHead[4]/2.0);
+    chainEyeL->setAng(nJointsTorso+3,(fbHead[3]+fbHead[4])/2.0); chainEyeR->setAng(nJointsTorso+3,(fbHead[3]-fbHead[4])/2.0);
 
     txInfo_pose.update(q_stamp);
 
