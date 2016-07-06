@@ -272,6 +272,10 @@
     <dynamics damping="0.0" friction="5.0"/>
   </joint>
 
+
+
+
+
   <link name="r_eye_link">
   <inertial>
       <origin
@@ -341,7 +345,7 @@
     </visual>
   </link>
   <joint name="r_camera_joint" type="fixed">
-    <origin xyz="-0.0275 0.0 0.0" rpy="${M_PI/2} 0.0 ${-M_PI/2}" />
+    <origin xyz="-0.0275 0.0 0.0" rpy="0.0 ${M_PI} 0.0" />
     <parent link="r_eye_link"/>
     <child link="r_camera_link" />
   </joint>
@@ -354,8 +358,8 @@
     </visual>
   </link>
   <joint name="r_camera_vision_joint" type="fixed">
-    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
-    <parent link="r_camera_link"/>
+    <origin xyz="0.0 0.0 0.0" rpy="${M_PI/2} 0.0 ${-M_PI/2}" />
+    <parent link="r_eye_link"/>
     <child link="r_camera_vision_link" />
   </joint>
 
@@ -368,7 +372,7 @@
     </visual>
   </link>
   <joint name="l_camera_joint" type="fixed">
-    <origin xyz="-0.0275 0.0 0.0" rpy="${M_PI/2} 0.0 ${-M_PI/2}" />
+    <origin xyz="-0.0275 0.0 0.0" rpy="0 ${M_PI} 0" />
     <parent link="l_eye_link"/>
     <child link="l_camera_link" />
   </joint>
@@ -381,8 +385,8 @@
     </visual>
   </link>
   <joint name="l_camera_vision_joint" type="fixed">
-    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
-    <parent link="l_camera_link"/>
+    <origin xyz="0.0 0.0 0.0" rpy="${M_PI/2} 0.0 ${-M_PI/2}" />
+    <parent link="l_eye_link"/>
     <child link="l_camera_vision_link" />
   </joint>
 

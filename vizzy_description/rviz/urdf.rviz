@@ -116,6 +116,21 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+        ind_phal_1_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ind_phal_2_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ind_phal_3_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         l_camera_link:
           Alpha: 1
           Show Axes: false
@@ -182,6 +197,36 @@ Visualization Manager:
           Show Trail: false
           Value: true
         l_wrist_flection_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        med_phal_1_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        med_phal_2_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        med_phal_3_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        min_phal_1_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        min_phal_2_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        min_phal_3_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -271,6 +316,25 @@ Visualization Manager:
           Show Trail: false
           Value: true
         r_wrist_flection_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        thumb_phal_1_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        thumb_phal_2_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        thumb_phal_3_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        thumb_phal_4_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -296,97 +360,123 @@ Visualization Manager:
       Frames:
         All Enabled: false
         b_wheel_base_link:
-          Value: true
+          Value: false
         b_wheel_link:
-          Value: true
+          Value: false
         base_footprint:
-          Value: true
+          Value: false
         base_link:
-          Value: true
+          Value: false
         camera_link:
-          Value: true
+          Value: false
         ego_frame:
-          Value: true
+          Value: false
         eyes_center_link:
-          Value: true
+          Value: false
         eyes_center_vision_link:
-          Value: true
+          Value: false
         eyes_tilt_link:
-          Value: true
+          Value: false
         f_wheel_base_link:
-          Value: true
+          Value: false
         f_wheel_link:
-          Value: true
+          Value: false
         head_origin_frame:
-          Value: true
+          Value: false
+        ind_phal_1_link:
+          Value: false
+        ind_phal_2_link:
+          Value: false
+        ind_phal_3_link:
+          Value: false
         l_camera_link:
-          Value: true
+          Value: false
         l_camera_vision_link:
           Value: true
         l_elbow_flection_link:
-          Value: true
+          Value: false
         l_eye_link:
-          Value: true
+          Value: false
         l_forearm_pronation_link:
-          Value: true
+          Value: false
         l_palm_link:
-          Value: true
+          Value: false
         l_shoulder_abduction_link:
-          Value: true
+          Value: false
         l_shoulder_flection_link:
-          Value: true
+          Value: false
         l_shoulder_rotation_link:
-          Value: true
+          Value: false
         l_shoulder_scapula_link:
-          Value: true
+          Value: false
         l_wheel_link:
-          Value: true
+          Value: false
         l_wrist_abduction_link:
-          Value: true
+          Value: false
         l_wrist_abduction_virtual_link:
-          Value: true
+          Value: false
         l_wrist_flection_link:
-          Value: true
+          Value: false
+        med_phal_1_link:
+          Value: false
+        med_phal_2_link:
+          Value: false
+        med_phal_3_link:
+          Value: false
+        min_phal_1_link:
+          Value: false
+        min_phal_2_link:
+          Value: false
+        min_phal_3_link:
+          Value: false
         nav_hokuyo_laser_link:
-          Value: true
+          Value: false
         nav_hokuyo_link:
-          Value: true
+          Value: false
         neck_pan_link:
-          Value: true
+          Value: false
         neck_tilt_link:
-          Value: true
+          Value: false
         r_camera_link:
-          Value: true
+          Value: false
         r_camera_vision_link:
           Value: true
         r_elbow_flection_link:
-          Value: true
+          Value: false
         r_eye_link:
-          Value: true
+          Value: false
         r_forearm_pronation_link:
-          Value: true
+          Value: false
         r_palm_link:
-          Value: true
+          Value: false
         r_shoulder_abduction_link:
-          Value: true
+          Value: false
         r_shoulder_flection_link:
-          Value: true
+          Value: false
         r_shoulder_rotation_link:
-          Value: true
+          Value: false
         r_shoulder_scapula_link:
-          Value: true
+          Value: false
         r_wheel_link:
-          Value: true
+          Value: false
         r_wrist_abduction_link:
-          Value: true
+          Value: false
         r_wrist_abduction_virtual_link:
-          Value: true
+          Value: false
         r_wrist_flection_link:
-          Value: true
+          Value: false
+        thumb_phal_1_link:
+          Value: false
+        thumb_phal_2_link:
+          Value: false
+        thumb_phal_3_link:
+          Value: false
+        thumb_phal_4_link:
+          Value: false
         waist_fixed_virtual_link:
-          Value: true
+          Value: false
         waist_link:
-          Value: true
+          Value: false
       Marker Scale: 1
       Name: TF
       Show Arrows: false
@@ -452,7 +542,23 @@ Visualization Manager:
                           r_wrist_abduction_link:
                             r_wrist_flection_link:
                               r_palm_link:
-                                {}
+                                ind_phal_1_link:
+                                  ind_phal_2_link:
+                                    ind_phal_3_link:
+                                      {}
+                                med_phal_1_link:
+                                  med_phal_2_link:
+                                    med_phal_3_link:
+                                      {}
+                                min_phal_1_link:
+                                  min_phal_2_link:
+                                    min_phal_3_link:
+                                      {}
+                                thumb_phal_1_link:
+                                  thumb_phal_2_link:
+                                    thumb_phal_3_link:
+                                      thumb_phal_4_link:
+                                        {}
                           r_wrist_abduction_virtual_link:
                             {}
       Update Interval: 0
@@ -481,7 +587,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 1.18414
+      Distance: 2.33728
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
@@ -493,10 +599,10 @@ Visualization Manager:
         Z: 0.338334
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 1.4848
+      Pitch: 0.524801
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 4.49995
+      Yaw: 3.27995
     Saved: ~
 Window Geometry:
   Displays:
