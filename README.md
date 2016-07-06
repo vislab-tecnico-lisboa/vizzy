@@ -112,6 +112,19 @@ Don't forget you'll need to have `yarpserver` running when you have the `use_yar
 
 Feel free to play with the arguments as you want or to change the low-level launchers with more functionality.
 
+## Documentation
+For more details see the following reference:
+
+    @inproceedings{moreno2016vizzy,
+      title={Vizzy: A humanoid on wheels for assistive robotics},
+      author={Moreno, Plinio and Nunes, Ricardo and Figueiredo, Rui and Ferreira, Ricardo and Bernardino, Alexandre and Santos-Victor, Jos{\'e} and Beira, Ricardo and Vargas, Lu{\'\i}s and Arag{\~a}o, Duarte and Arag{\~a}o, Miguel},
+      booktitle={Robot 2015: Second Iberian Robotics Conference},
+      pages={17--28},
+      year={2016},
+      organization={Springer}
+     }
+
+
 ## Issues
 
 All kind of issues and contributions will be very welcome. Please get in touch on [our issues page](https://github.com/vislab-tecnico-lisboa/vizzy/issues) when help is needed!
