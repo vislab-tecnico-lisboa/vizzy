@@ -1,4 +1,5 @@
 #include <iostream>
+#include <numeric>
 #include <yarp/os/all.h>
 #include <math.h>
 
@@ -53,20 +54,34 @@ int main(int argc, char *argv[]) {
     Time::delay(1);
   }  int counter = 0;
   Bottle mux1_previous;
-  double timestamp_previous;
+  double timestamp_previous,timestamp;
+  // Filter that smooths the velocity values
+  // From the matlab command sgolay(
+  std::vector<double > golayFilter;
+  golayFilter.resize(7);
+  golayFilter[0]=-0.1071;
+  golayFilter[1]=-0.0714;
+  golayFilter[2]=-0.0357;
+  golayFilter[3]=0.0;
+  golayFilter[4]=0.0357;
+  golayFilter[5]=0.0714;
+  golayFilter[6]=0.1071;
+  std::vector<std::vector<double> > jointsBuffer;
+  jointsBuffer.resize(28);
+
   while(true){
-    Bottle* reading1Mux1 = receiverBuff1Mux1.read();
-    Bottle* reading2Mux1 = receiverBuff2Mux1.read();
-    Bottle* reading3Mux1 = receiverBuff3Mux1.read();
-    Bottle* reading4Mux1 = receiverBuff4Mux1.read();
+    Bottle* reading1Mux1 = receiverBuff1Mux1.read(false);
+    Bottle* reading2Mux1 = receiverBuff2Mux1.read(false);
+    Bottle* reading3Mux1 = receiverBuff3Mux1.read(false);
+    Bottle* reading4Mux1 = receiverBuff4Mux1.read(false);
 
     Bottle mux1;
-
+    if (reading1Mux1 != NULL && reading2Mux1 != NULL && reading3Mux1 != NULL && reading4Mux1 != NULL){ 
     for(int i = 0; i < reading1Mux1->size(); i++) {
       mux1.add(reading1Mux1->get(i));
     }
-    std::cout << "Version: " << reading2Mux1->get(3).asDouble() << std::endl;
-    std::cout << "Vergence: " << reading2Mux1->get(4).asDouble() << std::endl;
+    //std::cout << "Version: " << reading2Mux1->get(3).asDouble() << std::endl;
+    //std::cout << "Vergence: " << reading2Mux1->get(4).asDouble() << std::endl;
     double left_eye = (reading2Mux1->get(3).asDouble()+reading2Mux1->get(4).asDouble())/2;
     double right_eye = (reading2Mux1->get(3).asDouble()-reading2Mux1->get(4).asDouble())/2;
     for(int i = 0; i < reading2Mux1->size(); i++) {
@@ -91,7 +106,7 @@ int main(int argc, char *argv[]) {
 
     /* DO SOME COMPUTATION HERE */
 
-    double timestamp = (double) Time::now();
+    timestamp = (double) Time::now();
   
     Bottle message = Bottle();
 
@@ -148,11 +163,25 @@ int main(int argc, char *argv[]) {
     Bottle& list_3 = message.addList();
     for(int i = 0; i < mux1.size(); i++) {
       list_3.add(mux1.get(i));
+      if (jointsBuffer[i].size()<7){
+	 jointsBuffer[i].push_back(mux1.get(i).asDouble());
+      }
+      else{
+	jointsBuffer[i].push_back(mux1.get(i).asDouble());
+	jointsBuffer[i].erase (jointsBuffer[i].begin());
+      }
     }
 
     Bottle& list_4 = message.addList();
     for(int i = 0; i < mux1.size(); i++) {
-      list_4.add((mux1.get(i).asDouble()-mux1_previous.get(i).asDouble())/(timestamp-timestamp_previous));
+      if (jointsBuffer[i].size()<7)
+        list_4.add((mux1.get(i).asDouble()-mux1_previous.get(i).asDouble())/(timestamp-timestamp_previous));
+      else{
+        double delta_t = (timestamp-timestamp_previous);
+        double delta_ang = std::inner_product( golayFilter.begin(), golayFilter.end(), jointsBuffer[i].begin(), 0.0 ); 
+        double my_vel = delta_ang/delta_t;
+	list_4.add(my_vel);
+      }
     }
 
     Bottle& list_5 = message.addList();
@@ -162,9 +191,10 @@ int main(int argc, char *argv[]) {
     /* DO SOME COMPUTATION HERE */
 
     outputPort.write(message);
+    mux1_previous.copy(mux1);
+    }
     counter++;
     timestamp_previous = timestamp;
-    mux1_previous.copy(mux1);
     Time::delay(0.0166666);
   }
 
