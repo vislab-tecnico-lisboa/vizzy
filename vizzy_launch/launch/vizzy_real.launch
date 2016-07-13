@@ -24,10 +24,12 @@
   <arg name="use_moveit" default="false" />
   <arg name="left_camera_name" default="l_camera" />
   <arg name="right_camera_name" default="r_camera" />
+  <arg name="left_camera_file" default="" />
+  <arg name="right_camera_file" default="" />
 
   <!-- camera parameters -->
   <arg name="video_mode" default="640x480_rgb8" /> <!-- raw format7_mode4-->
-  <arg name="frame_rate" default="20.0" />
+  <arg name="frame_rate" default="60.0" />
   <arg name="gain" default="0.312"/>
   <arg name="shutter" default="0.592"/>
   <arg name="white_balance_BU" default="0.474"/>
@@ -59,6 +61,8 @@
     <arg name="right_camera_name" value="$(arg right_camera_name)" />
     <arg name="ns" value="$(arg ns)" />
     <arg name="ros_cameras_on" value="$(arg ros_cameras_on)" />
+    <arg name="left_camera_file" value="$(arg left_camera_file)" />
+    <arg name="right_camera_file" value="$(arg right_camera_file)" />
 
     <arg name="video_mode" value="$(arg video_mode)"/>
     <arg name="frame_rate" value="$(arg frame_rate)"/>
