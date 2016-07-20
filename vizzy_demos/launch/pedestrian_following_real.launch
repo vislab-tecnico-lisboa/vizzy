@@ -45,6 +45,8 @@
   	<arg name="ros_cameras_on" value="$(arg ros_cameras_on)"/>
   	<arg name="map_file" value="$(arg map_file)" />
 	<arg name="frame_rate" default="15.0" />
+	<arg name="left_camera_file" default="left_camera_params.yaml" />
+	<arg name="right_camera_file" default="right_camera_params.yaml" />
   </include>
 
   <!-- launch vizualization on rviz -->
