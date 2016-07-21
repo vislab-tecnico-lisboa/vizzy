@@ -24,7 +24,7 @@ Note that for simulation purposes one can ignore all YARP dependencies as explai
 
 * Operating System (one of the two)
   * [Ubuntu 12.04](http://releases.ubuntu.com/precise/) - Deprecated !!! forces the user to install ROS Hydro that currently is able to run everything
-  * [Ubuntu 14.04](http://releases.ubuntu.com/trusty/) - forces the user to install ROS Indigo that is the fully functional and currently supported version
+  * [Ubuntu 14.04](http://releases.ubuntu.com/trusty/) - forces the user to install [ROS Indigo](http://wiki.ros.org/indigo/Installation/Ubuntu) that is the fully functional and currently supported version
 * Middleware
   * [ROS](http://www.ros.org/) - depending on the installed OS (Hydro for Ubuntu 12.04 or Indigo for Ubuntu 14.04)
   * [YARP](http://wiki.icub.org/yarpdoc/) - we try to keep everything working with the most recent version of YARP
