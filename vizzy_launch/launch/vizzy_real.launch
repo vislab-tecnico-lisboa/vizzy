@@ -2,8 +2,10 @@
 <!-- ROS head file to simulate vizzy in gazebo   -->
 <launch>
   <arg name="vizzy_machine_name" default="vizzy-desktop"/>
-  <arg name="vizzy_machine_address" default="10.1.3.1"/>
-  <arg name="env-loader" default="/opt/ros/hydro/env.sh"/>
+  <arg name="vizzy_machine_address" default="192.168.1.2"/>
+  <arg name="env-loader" default="/home/vizzy/catkin_workspace/devel/env.sh"/>
+  <machine name="$(arg vizzy_machine_name)" address="$(arg vizzy_machine_address)" env-loader="$(arg env-loader)" user="vizzy"/>
+
 
   <!-- robot configuration parameters -->
   <arg name="robot" default="vizzy"/> <!-- full, lower_body, foot -->
@@ -20,16 +22,16 @@
   <arg name="base_frame_id" default="base_footprint" />
   <arg name="odom_frame_id" default="odom" />
   <arg name="map_topic" default="/map" />
-  <arg name="map_file" default="sixtyminscore.yaml" />
+  <arg name="map_file" default="mapa_fful.yaml" />
   <arg name="use_moveit" default="false" />
   <arg name="left_camera_name" default="l_camera" />
   <arg name="right_camera_name" default="r_camera" />
-  <arg name="left_camera_file" default="" />
-  <arg name="right_camera_file" default="" />
+  <arg name="left_camera_file" default="left_camera_params.yaml" />
+  <arg name="right_camera_file" default="right_camera_params.yaml" />
 
   <!-- camera parameters -->
   <arg name="video_mode" default="640x480_rgb8" /> <!-- raw format7_mode4-->
-  <arg name="frame_rate" default="60.0" />
+  <arg name="frame_rate" default="15.0" />
   <arg name="gain" default="0.312"/>
   <arg name="shutter" default="0.592"/>
   <arg name="white_balance_BU" default="0.474"/>
