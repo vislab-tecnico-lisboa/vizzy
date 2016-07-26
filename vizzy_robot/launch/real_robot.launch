@@ -1,6 +1,9 @@
 <?xml version="1.0"?>
 <launch>
   <arg name="vizzy_machine_name" default="vizzy-desktop"/>
+  <arg name="vizzy_machine_address" default="192.168.1.2"/>
+  <arg name="env-loader" default="/home/vizzy/catkin_workspace/devel/env.sh"/>
+  <machine name="$(arg vizzy_machine_name)" address="$(arg vizzy_machine_address)" env-loader="$(arg env-loader)" user="vizzy"/>
   <!-- Camera parameters -->
   <arg name="left_camera_name" default="l_camera" />
   <arg name="right_camera_name" default="r_camera" />
@@ -9,8 +12,8 @@
   <arg name="left_camera_file" default="left_camera_params.yaml" />
   <arg name="right_camera_file" default="right_camera_params.yaml" />
   
-  <arg name="video_mode" default="format0_mode4" /> <!-- raw format7_mode4-->
-  <arg name="frame_rate" default="30.0" />
+  <arg name="video_mode" default="640x480_rgb8" /> <!-- raw format7_mode4-->
+  <arg name="frame_rate" default="15.0" />
   <arg name="gain" default="0.312"/>
   <arg name="shutter" default="0.592"/>
   <arg name="white_balance_BU" default="0.474"/>
