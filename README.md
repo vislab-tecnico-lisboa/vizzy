@@ -24,7 +24,7 @@ Note that for simulation purposes one can ignore all YARP dependencies as explai
 
 * Operating System (one of the two)
   * [Ubuntu 12.04](http://releases.ubuntu.com/precise/) - Deprecated !!! forces the user to install ROS Hydro that currently is able to run everything
-  * [Ubuntu 14.04](http://releases.ubuntu.com/trusty/) - forces the user to install ROS Indigo that currently is missing support for the planner we have configured for navigation
+  * [Ubuntu 14.04](http://releases.ubuntu.com/trusty/) - forces the user to install [ROS Indigo](http://wiki.ros.org/indigo/Installation/Ubuntu) that is the fully functional and currently supported version
 * Middleware
   * [ROS](http://www.ros.org/) - depending on the installed OS (Hydro for Ubuntu 12.04 or Indigo for Ubuntu 14.04)
   * [YARP](http://wiki.icub.org/yarpdoc/) - we try to keep everything working with the most recent version of YARP
@@ -106,7 +106,7 @@ Hmm... does this seems to easy? I hope it does because you should now be ready t
 
 For now let's focus on simulation. Open a terminal:
 
-    roslaunch vizzy_launch vizzy_simulation.launch use_yarp:=true navigation:=true
+    roslaunch vizzy_launch vizzy_simulation.launch
 
 Don't forget you'll need to have `yarpserver` running when you have the `use_yarp` argument set as true.
 
