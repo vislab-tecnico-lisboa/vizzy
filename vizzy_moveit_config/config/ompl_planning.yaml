@@ -67,21 +67,6 @@ head:
     - PRMstarkConfigDefault
   projection_evaluator: joints(neck_pan_joint,neck_tilt_joint)
   longest_valid_segment_fraction: 0.05
-eyes:
-  planner_configs:
-    - SBLkConfigDefault
-    - ESTkConfigDefault
-    - LBKPIECEkConfigDefault
-    - BKPIECEkConfigDefault
-    - KPIECEkConfigDefault
-    - RRTkConfigDefault
-    - RRTConnectkConfigDefault
-    - RRTstarkConfigDefault
-    - TRRTkConfigDefault
-    - PRMkConfigDefault
-    - PRMstarkConfigDefault
-  projection_evaluator: joints(vergence_joint,version_joint)
-  longest_valid_segment_fraction: 0.05
 oculocephalic:
   planner_configs:
     - SBLkConfigDefault
@@ -126,4 +111,19 @@ left_arm:
     - PRMkConfigDefault
     - PRMstarkConfigDefault
   projection_evaluator: joints(l_shoulder_scapula_joint,l_shoulder_flection_joint)
+  longest_valid_segment_fraction: 0.05
+eyes:
+  planner_configs:
+    - SBLkConfigDefault
+    - ESTkConfigDefault
+    - LBKPIECEkConfigDefault
+    - BKPIECEkConfigDefault
+    - KPIECEkConfigDefault
+    - RRTkConfigDefault
+    - RRTConnectkConfigDefault
+    - RRTstarkConfigDefault
+    - TRRTkConfigDefault
+    - PRMkConfigDefault
+    - PRMstarkConfigDefault
+  projection_evaluator: joints(l_eye_joint,r_eye_joint)
   longest_valid_segment_fraction: 0.05

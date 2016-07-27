@@ -444,7 +444,7 @@
 		</joint>
 		<link
 		  name="r_wrist_flection_link">
-		  <!--<inertial>
+		  <inertial>
 		    <origin
 		      xyz="0.106 0.0077 0.017"
 		      rpy="0.0 ${M_PI} ${-M_PI/2}" />
@@ -480,7 +480,7 @@
 		      <mesh
 		        filename="package://vizzy_description/meshes/M7R.dae" />
 		    </geometry>
-		  </collision>-->
+		  </collision>
 		</link>
 		<joint
 		  name="r_wrist_flection_joint"

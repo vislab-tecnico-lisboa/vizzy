@@ -22,7 +22,7 @@
   <xacro:include filename="$(find vizzy_description)/urdf/arm/right_arm.urdf.xacro" />
 
   <!-- right hand -->
-  <xacro:include filename="$(find vizzy_description)/urdf/hand/right_hand.urdf.xacro" />
+  <!--<xacro:include filename="$(find vizzy_description)/urdf/hand/right_hand.urdf.xacro" />-->
 
   <!-- The following include files contain gazebo plugins -->
   <!-- ROS -->
@@ -46,7 +46,7 @@
     <origin xyz="-0.01707 0.0 0.38145" rpy="0.0 0.0 0.0" />
   </xacro:right_arm>
   <!-- instantiate right hand -->
-  <xacro:right_hand name="right_hand" parent="r_wrist_flection_link" sufix="r" reflect="1">
+  <xacro:right_hand name="right_hand" parent="r_wrist_flection_link" sufix="r" reflect="1"> 
     <origin xyz="-0.01707 0.0 0.38145" rpy="0.0 0.0 0.0" />
   </xacro:right_hand>
 
