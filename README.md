@@ -75,9 +75,6 @@ If you want to run the follower module, download a changed version of the nav2d 
 
     git clone https://github.com/joao-avelino/navigation_2d.git
 
-Clone the move_robot repository into the catkin workspace folder
-
-    git clone https://github.com/vislab-tecnico-lisboa/move_robot.git
 
 Other dependencies needed
 
