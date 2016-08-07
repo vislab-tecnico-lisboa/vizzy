@@ -51,7 +51,7 @@ void Gaze::suppresion(const sensor_msgs::Image::ConstPtr & left_image_msg,
 
     if(active)
     {
-        //ROS_ERROR("ESTOU A SUPPRIMIR");
+        ROS_ERROR("ESTOU A SUPPRIMIR");
 
         return;
     }
