@@ -60,7 +60,7 @@
   </include>
 
   <!-- launch Gaze action server -->
-  <include file="$(find move_robot)/launch/gaze_real_test.launch">
+  <include file="$(find vizzy_control)/launch/gaze_real_test.launch">
     <arg name="move_robot_config_file" value="$(find pedestrian_detector)/config/frames.yaml"/>
   </include>
 

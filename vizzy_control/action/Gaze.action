@@ -1,0 +1,29 @@
+#goal definition
+uint8 FIXATION_POINT=0
+uint8 HOME=1             # POSITION ERROR SUPPRESSION
+uint8 JOINT_VELOCITIES=2 # VELOCITY SUPPRESSION
+uint8 type
+
+uint8 CARTESIAN=0
+uint8 JOINT=1
+uint8 mode  # ONLY CARTESIAN IS IMPLEMENTED
+
+
+geometry_msgs/PointStamped fixation_point
+
+float64 fixation_point_error_tolerance  # max allowed error in meters
+#float64 suppression_velocity # max allowed velocity in radians
+---
+#result definition
+bool state_reached
+geometry_msgs/PointStamped fixation_point
+float64 fixation_point_error
+sensor_msgs/JointState joint_states
+---
+#feedback
+bool state_reached
+geometry_msgs/PointStamped fixation_point
+float64 fixation_point_error
+float64 velocity_error
+sensor_msgs/JointState joint_states
+

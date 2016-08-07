@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!-- ROS head file to simulate vizzy in gazebo -->
+<!-- Now with the ability to perform gazing in the real one -->
+<launch>
+  <arg name="config_file" default="$(find vizzy_control)/config/frames.yaml" />
+  <arg name="simulation" default="true" />
+  <arg name="fixation_point_in" default="fixation_point" /> 
+  <arg name="fixation_point_out" default="fixation_point_goal_ros"/>
+
+  <arg name="left_camera_in" default="/vizzy/l_camera/image_raw" /> 
+  <arg name="left_camera_out" default="/vizzy/l_camera/saccadic/image_raw"/>
+
+  <arg name="right_camera_in" default="/vizzy/r_camera/image_raw" /> 
+  <arg name="right_camera_out" default="/vizzy/r_camera/saccadic/image_raw"/>
+
+  <arg name="joint_states" default="/vizzy/joint_states" /> 
+
+  <group if="$(arg simulation)">
+    <node name="gaze" pkg="vizzy_control" type="gaze_sim" respawn="false" output="screen">
+      <rosparam command="load" file="$(find vizzy_moveit_config)/config/kinematics.yaml"/>
+      <rosparam command="load" file="$(arg config_file)"/>
+      <remap from="left_camera_in" to="$(arg left_camera_in)"/>
+      <remap from="left_camera_out" to="$(arg left_camera_out)"/>
+      <remap from="right_camera_in" to="$(arg right_camera_in)"/>
+      <remap from="right_camera_out" to="$(arg right_camera_out)"/>
+      <remap from="joint_states" to="$(arg joint_states)"/>
+    </node>
+
+    <node name="gaze_status" pkg="vizzy_control" type="fixation_point_node" respawn="false" output="screen" >
+      <rosparam file="$(arg config_file)" command="load" />
+    </node>
+  </group>
+
+  <group unless="$(arg simulation)">
+    <node name="gaze" pkg="vizzy_control" type="gaze_real" respawn="false" output="screen">
+      <rosparam command="load" file="$(find vizzy_moveit_config)/config/kinematics.yaml"/>
+      <rosparam command="load" file="$(arg config_file)"/>
+      <remap from="fixation_point_in" to="$(arg fixation_point_in)"/>
+      <remap from="fixation_point_out" to="$(arg fixation_point_out)"/>
+    </node>    
+  </group>
+</launch>
