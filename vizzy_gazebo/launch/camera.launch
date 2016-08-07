@@ -7,7 +7,7 @@
   <node pkg="nodelet" type="nodelet" name="$(arg camera)_image_proc_debayer" args="load image_proc/debayer $(arg manager)">
     <remap from="image_color" to="$(arg camera)/image_color" />
     <remap from="image_mono" to="$(arg camera)/image_mono" />
-    <remap from="image_raw" to="$(arg camera)/image_raw" />
+    <remap from="image_raw" to="$(arg camera)/saccadic/image_raw" />
   </node>
 
   <!-- mono rectification -->
