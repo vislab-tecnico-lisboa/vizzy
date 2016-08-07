@@ -1,0 +1,15 @@
+world_frame: base_link
+neck_frame: ego_frame
+ego_frame: ego_frame
+base_frame: base_link
+fixation_point_frame: base_link
+left_camera_frame: l_camera_vision_link
+right_camera_frame: r_camera_vision_link
+left_eye_frame: l_eye_link
+right_eye_frame: r_eye_link
+eyes_center_frame: eyes_center_vision_link
+head_origin_frame: head_origin_frame
+
+#other
+vel_threshold: 0.1
+

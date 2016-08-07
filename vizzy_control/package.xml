@@ -5,11 +5,11 @@
   <description>
 
     The vizzy_control package contains simulated ROS controllers
-    to actuate Vizzy's joints in gazebo.
+    to actuate Vizzy's joints in gazebo and an action to control vizzy's gaze
 
   </description>
 
-  <maintainer email="ruihortafigueiredo@gmail.com">Rui Figueiredo</maintainer>
+  <maintainer email="ruifigueiredo@isr.ist.utl.pt">Rui Figueiredo</maintainer>
   <author>Rui Figueiredo</author>
 
   <license>BSD</license>
@@ -22,7 +22,7 @@
   <build_depend>effort_controllers</build_depend>
   <build_depend>velocity_controllers</build_depend>
   <build_depend>joint_trajectory_controller</build_depend>
-
+  <build_depend>vizzy_msgs</build_depend>
   <run_depend>joint_state_controller</run_depend>
   <run_depend>effort_controllers</run_depend>
   <run_depend>velocity_controllers</run_depend>

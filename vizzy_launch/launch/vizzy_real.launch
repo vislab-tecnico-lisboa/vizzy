@@ -47,7 +47,7 @@
   <arg name="ns" default="vizzy" />
   <arg name="ros_cameras_on" default="true" />
 
-  <arg name="move_robot_config_file" default="$(find move_robot)/config/frames.yaml"/>
+  <arg name="vizzy_control_config_file" default="$(find vizzy_control)/config/frames.yaml"/>
   <arg name="simulation" default="false" />
   <arg name="fixation_point_in" default="fixation_point" /> 
   <arg name="fixation_point_out" default="fixation_point_goal_ros"/>
@@ -121,8 +121,8 @@
   </group>
 
   <!-- launch gaze action -->
-  <include file="$(find move_robot)/launch/gaze.launch">
-    <arg name="config_file" value="$(arg move_robot_config_file)" />
+  <include file="$(find vizzy_control)/launch/gaze.launch">
+    <arg name="config_file" value="$(arg vizzy_control_config_file)" />
     <arg name="simulation" value="false" />
     <arg name="fixation_point_in" value="$(arg fixation_point_in)" />
     <arg name="fixation_point_out" value="$(arg fixation_point_out)" />
