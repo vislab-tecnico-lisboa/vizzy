@@ -7,7 +7,8 @@
   <arg name="paused" default="false"/>
   <arg name="use_sim_time" default="true"/>
   <arg name="gui" default="true"/>
-  <arg name="world" default="isr_7th_floor.world" />
+  <!-- <arg name="world" default="isr_7th_floor.world" /> -->
+<arg name="world" default="7thmap_new.world" />
   <arg name="urdf_file" default="vizzy.urdf.xacro"/>
   <env name="GAZEBO_MODEL_PATH" value="$(find vizzy_gazebo):$(optenv GAZEBO_MODEL_PATH)"/>
   <env name="LC_NUMERIC" value="C"/>
