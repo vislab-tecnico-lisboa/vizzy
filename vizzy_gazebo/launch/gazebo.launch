@@ -4,9 +4,11 @@
   <arg name="use_yarp" default="false"/>
   <arg name="robot" default="vizzy"/> <!-- full, lower_body, foot -->
   <arg name="pose" default="-x 0.0 -y 0.0 -z 0.2 -R 0.0 -P 0.0 -Y 1.57"/>
+
   <arg name="paused" default="false"/>
   <arg name="use_sim_time" default="true"/>
   <arg name="gui" default="true"/>
+  <!-- <arg name="world" default="isr_7th_floor.world" /> -->
   <arg name="world" default="isr_7th_floor.world" />
   <arg name="urdf_file" default="vizzy.urdf.xacro"/>
   <env name="GAZEBO_MODEL_PATH" value="$(find vizzy_gazebo):$(optenv GAZEBO_MODEL_PATH)"/>
