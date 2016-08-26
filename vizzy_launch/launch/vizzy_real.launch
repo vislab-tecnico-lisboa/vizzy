@@ -22,7 +22,7 @@
   <arg name="base_frame_id" default="base_footprint" />
   <arg name="odom_frame_id" default="odom" />
   <arg name="map_topic" default="/map" />
-  <arg name="map_file" default="mapa_fful.yaml" />
+  <arg name="map_file" default="mapa_piso7_NOVO_AWESOME.yaml" />
   <arg name="use_moveit" default="false" />
   <arg name="left_camera_name" default="l_camera" />
   <arg name="right_camera_name" default="r_camera" />

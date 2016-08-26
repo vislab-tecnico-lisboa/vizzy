@@ -1,6 +1,10 @@
 <?xml version="1.0"?>
 
 <launch>
+  <!-- TRACKING -->
+  <!--<node pkg="tf" type="static_transform_publisher" name="base_footprint_to_vizzy" args="0.177 0.065 0.385 0 0 0 /base_footprint /vizzy 100" />-->
+
+
   <!-- robot configuration parameters -->
   <arg name="vizzy_machine_name" default="vizzy-desktop"/>
   <arg name="vizzy_machine_address" default="192.168.1.2"/>
@@ -21,7 +25,7 @@
   <arg name="visualization" default="false" />
   <arg name="ns" default="vizzy" />
   <arg name="ros_cameras_on" default="true" />
-  <arg name="map_file" default="mapa_fful.yaml" />
+  <arg name="map_file" default="mapa_piso7_NOVO_AWESOME.yaml" />
   <arg name="follower" default="true" />
   <!-- Choose what we want to detect: pedestrian, headandshoulders, full -->
   <arg name="detector_type" default="full" />

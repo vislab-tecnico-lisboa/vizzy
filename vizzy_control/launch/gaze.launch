@@ -35,6 +35,10 @@
     <node name="gaze" pkg="vizzy_control" type="gaze_real" respawn="false" output="screen">
       <rosparam command="load" file="$(find vizzy_moveit_config)/config/kinematics.yaml"/>
       <rosparam command="load" file="$(arg config_file)"/>
+      <remap from="left_camera_in" to="$(arg left_camera_in)"/>
+      <remap from="left_camera_out" to="$(arg left_camera_out)"/>
+      <remap from="right_camera_in" to="$(arg right_camera_in)"/>
+      <remap from="right_camera_out" to="$(arg right_camera_out)"/>
       <remap from="fixation_point_in" to="$(arg fixation_point_in)"/>
       <remap from="fixation_point_out" to="$(arg fixation_point_out)"/>
     </node>    
