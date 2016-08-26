@@ -1,4 +1,4 @@
-world_frame: base_link
+world_frame: base_footprint
 neck_frame: ego_frame
 ego_frame: ego_frame
 base_frame: base_link
