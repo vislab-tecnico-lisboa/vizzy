@@ -60,7 +60,7 @@ bool GazeReal::moveCartesian()
     try
     {
         ros::Time current_time = ros::Time::now();
-        tf_listener->waitForTransform(fixation_point_frame, current_time, goal_msg->fixation_point.header.frame_id, goal_msg->fixation_point.header.stamp, world_frame, ros::Duration(10.0) );
+        tf_listener->waitForTransform(fixation_point_frame, current_time, goal_msg->fixation_point.header.frame_id, goal_msg->fixation_point.header.stamp, world_frame, ros::Duration(0.1) );
         tf_listener->transformPoint(fixation_point_frame, current_time, goal_msg->fixation_point, world_frame, goal_point);
     }
     catch (tf::TransformException &ex)
@@ -100,9 +100,9 @@ void GazeReal::analysisCB(const geometry_msgs::PointStamped::ConstPtr& fixation_
         try
         {
             ros::Time current_time = ros::Time::now();
-            tf_listener->waitForTransform(world_frame, current_time, fixation_point_msg->header.frame_id, fixation_point_msg->header.stamp, world_frame, ros::Duration(10.0) );
+            tf_listener->waitForTransform(world_frame, current_time, fixation_point_msg->header.frame_id, fixation_point_msg->header.stamp, world_frame, ros::Duration(0.1) );
             tf_listener->transformPoint(world_frame, current_time, *fixation_point_msg, world_frame, fixation_point_);
-            tf_listener->waitForTransform(world_frame, current_time, home_position_fixation_point.header.frame_id, home_position_fixation_point.header.stamp, world_frame, ros::Duration(10.0) );
+            tf_listener->waitForTransform(world_frame, current_time, home_position_fixation_point.header.frame_id, home_position_fixation_point.header.stamp, world_frame, ros::Duration(0.1) );
             tf_listener->transformPoint(world_frame, current_time, home_position_fixation_point, world_frame, goal_point_);
         }
         catch (tf::TransformException &ex)
@@ -122,11 +122,11 @@ void GazeReal::analysisCB(const geometry_msgs::PointStamped::ConstPtr& fixation_
         if(error < goal_msg->fixation_point_error_tolerance)
         {
             feedback_.state_reached=true;
-            ROS_INFO("%s: Succeeded", action_name_.c_str());
+
             as_.setSucceeded(result_);
 
             ros::WallTime total_time = ros::WallTime::now();
-            ROS_INFO_STREAM(action_name_.c_str()<<": Total time: " <<  (total_time - start_time).toSec());
+            ROS_INFO_STREAM(action_name_.c_str()<<": Succeeded. Total time: " <<  (total_time - start_time).toSec());
             active=false;
         }
     }
@@ -135,9 +135,9 @@ void GazeReal::analysisCB(const geometry_msgs::PointStamped::ConstPtr& fixation_
         try
         {
             ros::Time current_time = ros::Time::now();
-            tf_listener->waitForTransform(world_frame, current_time, fixation_point_msg->header.frame_id, fixation_point_msg->header.stamp, world_frame, ros::Duration(1.0) );
+            tf_listener->waitForTransform(world_frame, current_time, fixation_point_msg->header.frame_id, fixation_point_msg->header.stamp, world_frame, ros::Duration(0.1) );
             tf_listener->transformPoint(world_frame, current_time, *fixation_point_msg, world_frame, fixation_point_);
-            tf_listener->waitForTransform(world_frame, current_time, goal_msg->fixation_point.header.frame_id, goal_msg->fixation_point.header.stamp, world_frame, ros::Duration(1.0) );
+            tf_listener->waitForTransform(world_frame, current_time, goal_msg->fixation_point.header.frame_id, goal_msg->fixation_point.header.stamp, world_frame, ros::Duration(0.1) );
             tf_listener->transformPoint(world_frame, current_time, goal_msg->fixation_point, world_frame, goal_point_);
         }
         catch (tf::TransformException &ex)
@@ -160,11 +160,10 @@ void GazeReal::analysisCB(const geometry_msgs::PointStamped::ConstPtr& fixation_
             result_.state_reached=true;
             feedback_.state_reached=true;
 
-            ROS_INFO("%s: Succeeded", action_name_.c_str());
             as_.setSucceeded(result_);
 
             ros::WallTime total_time = ros::WallTime::now();
-            ROS_INFO_STREAM(action_name_.c_str()<<": Total time: " <<  (total_time - start_time).toSec());
+            ROS_INFO_STREAM(action_name_.c_str()<<": Succeeded. Total time: " <<  (total_time - start_time).toSec());
             active=false;
         }
     }

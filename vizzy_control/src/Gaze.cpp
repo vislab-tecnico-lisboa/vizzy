@@ -41,8 +41,6 @@ Gaze::Gaze(const std::string & name, const ros::NodeHandle & nh) :
                                                                                                                                ));
 
     gaze_sync->registerCallback(boost::bind(&Gaze::suppresion, this, _1, _2));
-
-    ROS_INFO("DONE");
 }
 
 void Gaze::suppresion(const sensor_msgs::Image::ConstPtr & left_image_msg,
@@ -69,7 +67,7 @@ void Gaze::publishFixationPointGoal()
         try
         {
             ros::Time current_time = ros::Time::now();
-            tf_listener->waitForTransform(world_frame, current_time, goal_msg->fixation_point.header.frame_id, goal_msg->fixation_point.header.stamp, world_frame, ros::Duration(10.0) );
+            tf_listener->waitForTransform(world_frame, current_time, goal_msg->fixation_point.header.frame_id, goal_msg->fixation_point.header.stamp, world_frame, ros::Duration(0.05) );
             tf_listener->transformPoint(world_frame, current_time, goal_msg->fixation_point, world_frame, goal_point_world_viz);
         }
         catch (tf::TransformException &ex)
@@ -95,7 +93,7 @@ void Gaze::preemptCB()
 void Gaze::goalCB()
 {
     goal_msg = as_.acceptNewGoal();
-    ROS_INFO_STREAM(action_name_.c_str()<<": Received the following goal: "<<*goal_msg);
+
 
     start_time = ros::WallTime::now();
     active=true;
