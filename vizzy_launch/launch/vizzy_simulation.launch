@@ -74,11 +74,6 @@
     <node name="hokuyo_laser_filters" pkg="laser_filters" type="scan_to_scan_filter_chain">
       <rosparam command="load" file="$(find vizzy_sensors)/config/hokuyo_filters.yaml" />
     </node>
-    <node name="polygon_stamped_to_polygon" pkg="vizzy_sensors" type="polygon_stamped_to_polygon">
-      <remap from="polygon_stamped_in" to="/hokuyo_laser_filters/footprint"/>
-      <remap from="polygon_out" to="laser_footprint"/>
-    </node>
-
 
     <group if="$(arg slam)">
       <!-- TO DO -->

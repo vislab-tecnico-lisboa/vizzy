@@ -2,7 +2,7 @@
 
 <launch>
   <!-- TRACKING -->
-  <!--<node pkg="tf" type="static_transform_publisher" name="base_footprint_to_vizzy" args="0.177 0.065 0.385 0 0 0 /base_footprint /vizzy 100" />-->
+  <node pkg="tf" type="static_transform_publisher" name="base_footprint_to_vizzy" args="-2.190 -6.265 0 3.14 0 0 /map /map_opti 50" />
 
 
   <!-- robot configuration parameters -->
