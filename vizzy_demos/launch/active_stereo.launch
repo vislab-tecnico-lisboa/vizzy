@@ -19,10 +19,10 @@
   <arg name="odom_frame_id" default="$(arg tf_prefix)/odom" />
   <arg name="map_topic" default="/map" />
   <arg name="visualization" default="true" />
-  <arg name="head_only" default="false"/>
+  <arg name="head_only" default="true"/>
   <arg name="teleop" default="false"/>
-  <arg name="move_robot_config_file" default="$(find move_robot)/config/frames.yaml"/>
-  <arg name="perfect_calibration" default="false"/>
+  <arg name="move_robot_config_file" default="$(find vizzy_control)/config/frames.yaml"/>
+  <arg name="perfect_calibration" default="true"/>
   <arg name="manager" default="cameras_nodelet_manager"/>
 
   <!-- launch vizzy -->
@@ -38,7 +38,7 @@
     <arg name="pose" value="$(arg pose)"/>
     <arg name="world" value="$(arg world)" />
     <arg name="teleop" value="$(arg teleop)"/>
-    <arg name="move_robot_config_file" value="$(arg move_robot_config_file)"/>
+    <!--<arg name="move_robot_config_file" value="$(arg move_robot_config_file)"/>-->
   </include>
  
   <!-- launch online stereo calibration -->
