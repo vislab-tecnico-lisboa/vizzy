@@ -14,17 +14,17 @@ vizzy:
   neck_pan_position_controller:
     type: velocity_controllers/JointPositionController
     joint: neck_pan_joint
-    pid: {p: 50.0, i: 0.01, d: 0.01}
+    pid: {p: 100.0, i: 0.01, d: 0.01}
 
   neck_tilt_position_controller:
     type: velocity_controllers/JointPositionController
     joint: neck_tilt_joint
-    pid: {p: 50.0, i: 0.01, d: 0.01}
+    pid: {p: 100.0, i: 0.01, d: 0.01}
 
   eyes_tilt_position_controller:
     type: velocity_controllers/JointPositionController
     joint: eyes_tilt_joint
-    pid: {p: 50.0, i: 0.01, d: 0.01}
+    pid: {p: 100.0, i: 0.01, d: 0.01}
 
   l_eye_position_controller:
     type: velocity_controllers/JointPositionController
