@@ -14,27 +14,27 @@ vizzy:
   neck_pan_position_controller:
     type: velocity_controllers/JointPositionController
     joint: neck_pan_joint
-    pid: {p: 3.0, i: 0.01, d: 0.01}
+    pid: {p: 50.0, i: 0.01, d: 0.01}
 
   neck_tilt_position_controller:
     type: velocity_controllers/JointPositionController
     joint: neck_tilt_joint
-    pid: {p: 10.0, i: 0.01, d: 0.01}
+    pid: {p: 50.0, i: 0.01, d: 0.01}
 
   eyes_tilt_position_controller:
     type: velocity_controllers/JointPositionController
     joint: eyes_tilt_joint
-    pid: {p: 10.0, i: 0.01, d: 0.01}
+    pid: {p: 50.0, i: 0.01, d: 0.01}
 
   l_eye_position_controller:
     type: velocity_controllers/JointPositionController
     joint: l_eye_joint
-    pid: {p: 10.0, i: 0.1, d: 0.1, i_clamp: 1.0}
+    pid: {p: 50.0, i: 0.1, d: 0.1, i_clamp: 1.0}
 
   r_eye_position_controller:
     type: velocity_controllers/JointPositionController
     joint: r_eye_joint
-    pid: {p: 10.0, i: 0.1, d: 0.1, i_clamp: 1.0}
+    pid: {p: 50.0, i: 0.1, d: 0.1, i_clamp: 1.0}
 
   # Left arm Position Controllers
   l_shoulder_scapula_position_controller:
@@ -176,24 +176,24 @@ vizzy:
     - r_eye_joint
     gains:
       neck_pan_joint:
-        p: 3.0
+        p: 50.0
         i: 0.01
         d: 0.01
       neck_tilt_joint:
-        p: 10.0
+        p: 50.0
         i: 0.01
         d: 0.01
       eyes_tilt_joint:
-        p: 10.0
+        p: 50.0
         i: 0.1
         d: 0.1
       l_eye_joint:
-        p: 3.0
+        p: 5.0
         i: 0.001
         d: 0.001
         i_clamp: 1.0
       r_eye_joint:
-        p: 3.0
+        p: 5.0
         i: 0.001
         d: 0.001
     constraints:

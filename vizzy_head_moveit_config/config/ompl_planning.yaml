@@ -80,8 +80,6 @@ eyes:
     - TRRTkConfigDefault
     - PRMkConfigDefault
     - PRMstarkConfigDefault
-  projection_evaluator: joints(vergence_joint,version_joint)
-  longest_valid_segment_fraction: 0.05
 oculocephalic:
   planner_configs:
     - SBLkConfigDefault

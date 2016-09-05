@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <robot  name="vizzy" xmlns:xacro="http://ros.org/wiki/xacro" >
-	<xacro:arg name="use_yarp" default="false"/>
+  <xacro:arg name="use_yarp" default="false"/>
   <!-- The following include files set up definitions of parts of the robot body  -->
   <!-- misc common stuff -->
   <xacro:include filename="$(find vizzy_description)/urdf/common.urdf.xacro" />
