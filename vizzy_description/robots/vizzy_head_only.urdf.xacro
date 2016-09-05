@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <robot  name="vizzy" xmlns:xacro="http://ros.org/wiki/xacro" >
-<xacro:arg name="use_yarp" default="false"/>
+  <xacro:arg name="use_yarp" default="false"/>
   <!-- The following include files set up definitions of parts of the robot body  -->
   <!-- misc common stuff -->
   <xacro:include filename="$(find vizzy_description)/urdf/common.urdf.xacro" />
@@ -9,12 +9,11 @@
   <xacro:include filename="$(find vizzy_description)/urdf/simple_base/base.urdf.xacro" />
 
   <!-- head -->
-  <xacro:if value="$(arg use_yarp)">
-  	<xacro:include filename="$(find vizzy_description)/urdf/head/head.yarp.urdf.xacro" />
-  </xacro:if>-->
-  <xacro:unless value="$(arg use_yarp)">
-  	<xacro:include filename="$(find vizzy_description)/urdf/head/head.ros.urdf.xacro" />
-  </xacro:unless>
+  <xacro:include filename="$(find vizzy_description)/urdf/head/head.urdf.xacro" />
+
+
+
+
  
   <!-- The following include files contain gazebo plugins -->
   <!-- ROS -->
