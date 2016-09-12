@@ -4,55 +4,55 @@
   <xacro:macro name="right_arm_gazebo">
 
     <gazebo reference="r_shoulder_scapula_link">
-      <mu1>0.2</mu1>
-      <mu2>0.2</mu2>
+      <!--<mu1>0.2</mu1>
+      <mu2>0.2</mu2>-->
     </gazebo>
 
     <gazebo reference="r_shoulder_flection_link">
-      <mu1>0.2</mu1>
-      <mu2>0.2</mu2>
+      <!--<mu1>0.2</mu1>
+      <mu2>0.2</mu2>-->
     </gazebo>
 
     <gazebo reference="r_shoulder_abduction_link">
-      <mu1>0.2</mu1>
-      <mu2>0.2</mu2>
+      <!--<mu1>0.2</mu1>
+      <mu2>0.2</mu2>-->
     </gazebo>
 
     <gazebo reference="r_shoulder_rotation_link">
-      <mu1>0.2</mu1>
-      <mu2>0.2</mu2>
+      <!--<mu1>0.2</mu1>
+      <mu2>0.2</mu2>-->
     </gazebo>
 
     <gazebo reference="r_elbow_flection_link">
-      <mu1>0.2</mu1>
-      <mu2>0.2</mu2>
+      <!--<mu1>0.2</mu1>
+      <mu2>0.2</mu2>-->
     </gazebo>
 
     <gazebo reference="r_forearm_pronation_link">
-      <mu1>0.2</mu1>
-      <mu2>0.2</mu2>
+      <!--<mu1>0.2</mu1>
+      <mu2>0.2</mu2>-->
     </gazebo>
 
     <gazebo reference="r_wrist_abduction_link">
-      <mu1>0.2</mu1>
-      <mu2>0.2</mu2>
+      <!--<mu1>0.2</mu1>
+      <mu2>0.2</mu2>-->
       <material>Gazebo/Orange</material>
     </gazebo>
 
     <gazebo reference="r_wrist_abduction_virtual_link">
-      <mu1>0.2</mu1>
-      <mu2>0.2</mu2>
+      <!--<mu1>0.2</mu1>
+      <mu2>0.2</mu2>-->
       <material>Gazebo/Orange</material>
     </gazebo>
 
     <gazebo reference="r_wrist_flection_link">
-      <mu1>0.2</mu1>
-      <mu2>0.2</mu2>
+      <!--<mu1>0.2</mu1>
+      <mu2>0.2</mu2>-->
     </gazebo>
 
     <gazebo reference="r_palm_link">
-      <mu1>0.2</mu1>
-      <mu2>0.2</mu2>
+      <!--<mu1>0.2</mu1>
+      <mu2>0.2</mu2>-->
     </gazebo>
 
     <gazebo>
