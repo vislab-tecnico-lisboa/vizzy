@@ -6,13 +6,14 @@
  		<!-- launch the joint state publisher to default values -->
 		<node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher">
 			<rosparam param="source_list">["/vizzy_upper_body/joint_states","joint_states"]</rosparam>
+		<remap from="/joint_states" to="/vizzy/joint_states" />
 		</node>
 	</group>
-
-	<!-- bringup ROS controllers -->
- 	<group unless="$(arg use_yarp)">
     <!-- Load joint controller configurations from YAML file to parameter server -->
     <rosparam file="$(find vizzy_control)/config/vizzy_control.yaml" command="load"/>
+	<!-- bringup ROS controllers -->
+ 	<group unless="$(arg use_yarp)">
+
 
 	  <!-- Load the controllers -->
 	  <!--<node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
