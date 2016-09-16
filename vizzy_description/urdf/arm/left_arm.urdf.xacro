@@ -61,6 +61,7 @@
 		  <axis
 		    xyz="0 0 1" />
 		  <limit lower="-0.314159265" upper="0.314159265" effort="10" velocity="3" />
+		  <dynamics damping="0.0" friction="0.6"/>
 		</joint>
 		<link
 		  name="l_shoulder_flection_link">
@@ -115,6 +116,7 @@
 		  <axis
 		    xyz="0 0 1" />
 		  <limit lower="-1.30899694" upper="2.35619449" effort="10" velocity="3" />
+		  <dynamics damping="0.0" friction="0.6"/>
 		</joint>
 		<link
 		  name="l_shoulder_abduction_link">
@@ -169,7 +171,7 @@
 		  <axis
 		    xyz="0 0 1" />
 		  <limit lower="0" upper="1.30899694" effort="10" velocity="3" />
-
+		  <dynamics damping="0.0" friction="0.6"/>
 		</joint>
 		<link
 		  name="l_shoulder_rotation_link">
@@ -224,6 +226,7 @@
 		  <axis
 		    xyz="0 0 1" />
 		  <limit lower="-1.48352986" upper="1.48352986" effort="10" velocity="3" />
+		  <dynamics damping="0.0" friction="0.6"/>
 		</joint>
 		<link
 		  name="l_elbow_flection_link">
@@ -278,6 +281,7 @@
 		  <axis
 		    xyz="0 0 1" />
 		  <limit lower="0" upper="1.91986218" effort="10" velocity="3" />
+		  <dynamics damping="0.0" friction="0.6"/>
 		</joint>
 		<link
 		  name="l_forearm_pronation_link">
@@ -332,6 +336,7 @@
 		  <axis
 		    xyz="0 0 1" />
 		  <limit lower="-1.48352986" upper="1.48352986" effort="10" velocity="3" />
+		  <dynamics damping="0.0" friction="0.6"/>
 		</joint>
 		<link
 		  name="l_wrist_abduction_virtual_link">
@@ -386,6 +391,7 @@
 		  <axis
 		    xyz="0 0 1" />
 		  <limit lower="-0.610865238" upper="0.610865238" effort="10" velocity="3" />
+		  <dynamics damping="0.0" friction="0.6"/>
 		</joint>
 		<link
 		  name="l_wrist_abduction_link">
@@ -441,6 +447,7 @@
 		    xyz="0 0 1" />
 		  <limit lower="-0.610865238" upper="0.610865238" effort="10" velocity="3" />
     		  <mimic joint="l_wrist_abduction_joint" multiplier="1.0" offset="0"/>
+		  <dynamics damping="0.0" friction="0.6"/>
 		</joint>
 		<link
 		  name="l_wrist_flection_link">
@@ -495,6 +502,7 @@
 		  <axis
 		    xyz="0 0 1" />
 		  <limit lower="-0.610865238" upper="0.610865238" effort="10" velocity="3" />
+		  <dynamics damping="0.0" friction="0.6"/>
 		</joint>
 		<!--<link name="l_palm_link">
 		 <visual>
