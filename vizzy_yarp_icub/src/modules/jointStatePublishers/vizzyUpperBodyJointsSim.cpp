@@ -17,7 +17,7 @@ int main(int argc, char *argv[]) {
   bool receiver4Mux1Ok = receiverBuff4Mux1.open("/vizzyUpperBodyJointsSim/mux1/receiver4");
 
   Port outputPort;
-  outputPort.promiseType(Type::byNameOnWire("JointState"));
+  outputPort.promiseType(Type::byNameOnWire("sensor_msgs/JointState"));
   outputPort.setWriteOnly();
   bool outputOk = outputPort.open("/vizzy_upper_body/joint_states@/yarp/vizzyUpperBodyJointsSim");
 
@@ -64,8 +64,15 @@ int main(int argc, char *argv[]) {
     for(int i = 0; i < reading1Mux1->size(); i++) {
       mux1.add(reading1Mux1->get(i));
     }
+    double left_eye = (reading2Mux1->get(3).asDouble()+reading2Mux1->get(4).asDouble())/2;
+    double right_eye = (reading2Mux1->get(3).asDouble()-reading2Mux1->get(4).asDouble())/2;
     for(int i = 0; i < reading2Mux1->size(); i++) {
-      mux1.add(reading2Mux1->get(i));
+      if (i==3)
+          mux1.add(left_eye);
+      else if (i==4)
+          mux1.add(right_eye);
+      else
+	  mux1.add(reading2Mux1->get(i));
     }
     for(int i = 0; i < reading3Mux1->size(); i++) {
       mux1.add(reading3Mux1->get(i));
@@ -101,6 +108,8 @@ int main(int argc, char *argv[]) {
     list_2.add("neck_pan_joint");
     list_2.add("neck_tilt_joint");
     list_2.add("eyes_tilt_joint");
+    list_2.add("l_eye_joint");
+    list_2.add("r_eye_joint");
     list_2.add("l_shoulder_scapula_joint");
     list_2.add("l_shoulder_flection_joint");
     list_2.add("l_shoulder_abduction_joint");

@@ -324,6 +324,7 @@
       link="r_wheel_link" />
     <axis
       xyz="0 0 1" />
+        <dynamics damping="0.0" friction="100.0"/>
   </joint>
   <link
     name="l_wheel_link">
@@ -377,6 +378,7 @@
       link="l_wheel_link" />
     <axis
       xyz="0 0 1" />
+    <dynamics damping="0.0" friction="100.0"/>
   </joint>
 
   <!-- gazebo extensions -->
