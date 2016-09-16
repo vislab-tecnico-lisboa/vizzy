@@ -83,7 +83,7 @@
       </actuator>
     </transmission>
 
-    <transmission name="r_wrist_abduction_virtual_transmission">
+    <!--<transmission name="r_wrist_abduction_virtual_transmission">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="r_wrist_abduction_virtual_joint">
         <hardwareInterface>PositionJointInterface</hardwareInterface>
@@ -92,7 +92,7 @@
         <hardwareInterface>EffortJointInterface</hardwareInterface>
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
-    </transmission>
+    </transmission>-->
 
     <transmission name="r_wrist_flection_transmission">
       <type>transmission_interface/SimpleTransmission</type>
