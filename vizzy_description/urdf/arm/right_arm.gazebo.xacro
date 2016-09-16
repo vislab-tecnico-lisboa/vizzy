@@ -39,11 +39,11 @@
       <material>Gazebo/Orange</material>
     </gazebo>
 
-    <gazebo reference="r_wrist_abduction_virtual_link">
+    <!--<gazebo reference="r_wrist_abduction_virtual_link">
       <mu1>0.2</mu1>
       <mu2>0.2</mu2>
       <material>Gazebo/Orange</material>
-    </gazebo>
+    </gazebo>-->
 
     <gazebo reference="r_wrist_flection_link">
       <mu1>0.2</mu1>
@@ -55,13 +55,13 @@
       <mu2>0.2</mu2>
     </gazebo>
 
-    <gazebo>
+    <!--<gazebo>
 			<plugin name="mimic_plugin" filename="libgazebo_mimic_plugin.so">
 				<joint>r_wrist_abduction_joint</joint>
 				<mimicJoint>r_wrist_abduction_virtual_joint</mimicJoint>
 				<multiplier>1.0</multiplier>
 			</plugin>
-    </gazebo>
+    </gazebo>-->
   </xacro:macro>
 
 </robot>
