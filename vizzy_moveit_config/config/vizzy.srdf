@@ -167,10 +167,7 @@
     <disable_collisions link1="base_link" link2="r_shoulder_rotation_link" reason="Never" />
     <disable_collisions link1="base_link" link2="r_shoulder_scapula_link" reason="Never" />
     <disable_collisions link1="base_link" link2="r_wheel_link" reason="Adjacent" />
-<<<<<<< HEAD
-=======
-    <disable_collisions link1="base_link" link2="r_wrist_abduction_virtual_link" reason="Never" />
->>>>>>> 6d626c85aa043eb21d0ecfe0d48c72bc15980c9a
+
     <disable_collisions link1="base_link" link2="r_wrist_flection_link" reason="Default" />
     <disable_collisions link1="base_link" link2="waist_link" reason="Adjacent" />
     <disable_collisions link1="camera_link" link2="eyes_tilt_link" reason="Never" />
@@ -221,7 +218,7 @@
     <disable_collisions link1="f_wheel_base_link" link2="l_shoulder_scapula_link" reason="Never" />
     <disable_collisions link1="f_wheel_base_link" link2="l_wheel_link" reason="Never" />
     <disable_collisions link1="f_wheel_base_link" link2="l_wrist_abduction_link" reason="Never" />
-    <disable_collisions link1="f_wheel_base_link" link2="l_wrist_abduction_virtual_link" reason="Never" />
+
     <disable_collisions link1="f_wheel_base_link" link2="l_wrist_flection_link" reason="Never" />
     <disable_collisions link1="f_wheel_base_link" link2="nav_hokuyo_link" reason="Never" />
     <disable_collisions link1="f_wheel_base_link" link2="neck_pan_link" reason="Never" />
@@ -271,17 +268,11 @@
     <disable_collisions link1="l_camera_link" link2="l_camera_vision_link" reason="Never" />
     <disable_collisions link1="l_camera_link" link2="l_elbow_flection_link" reason="Never" />
     <disable_collisions link1="l_camera_link" link2="l_eye_link" reason="Adjacent" />
-<<<<<<< HEAD
+
     <disable_collisions link1="l_camera_link" link2="l_shoulder_rotation_link" reason="Never" />
     <disable_collisions link1="l_camera_link" link2="l_shoulder_scapula_link" reason="Never" />
     <disable_collisions link1="l_camera_link" link2="l_wheel_link" reason="Never" />
-=======
-    <disable_collisions link1="l_camera_link" link2="l_forearm_pronation_link" reason="Never" />
-    <disable_collisions link1="l_camera_link" link2="l_shoulder_rotation_link" reason="Never" />
-    <disable_collisions link1="l_camera_link" link2="l_shoulder_scapula_link" reason="Never" />
-    <disable_collisions link1="l_camera_link" link2="l_wheel_link" reason="Never" />
-    <disable_collisions link1="l_camera_link" link2="l_wrist_abduction_virtual_link" reason="Never" />
->>>>>>> 6d626c85aa043eb21d0ecfe0d48c72bc15980c9a
+
     <disable_collisions link1="l_camera_link" link2="nav_hokuyo_link" reason="Never" />
     <disable_collisions link1="l_camera_link" link2="neck_pan_link" reason="Never" />
     <disable_collisions link1="l_camera_link" link2="neck_tilt_link" reason="Never" />

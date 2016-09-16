@@ -278,7 +278,6 @@ vizzy:
       - r_elbow_flection_joint
       - r_forearm_pronation_joint
       - r_wrist_abduction_joint
-      - r_wrist_flection_joint
     gains:
       r_shoulder_scapula_joint:
         p: 1.0
@@ -304,19 +303,24 @@ vizzy:
         p: 1.0
         i: 0.0
         d: 0.0
-      r_wrist_flection_joint:
-        p: 1.0
-        i: 0.0
-        d: 0.0
     constraints:
       goal_time: 1000.0                   # Override default
-      neck_pan_joint:
+      r_shoulder_scapula_joint:
         trajectory: -1.0
         goal: 0
-      neck_tilt_joint:
+      r_shoulder_flection_joint:
         trajectory: -1.0
         goal: 0
-      eyes_tilt_joint:
+      r_shoulder_rotation_joint:
+        trajectory: -1.0
+        goal: 0
+      r_elbow_flection_joint:
+        trajectory: -1.0
+        goal: 0
+      r_forearm_pronation_joint:
+        trajectory: -1.0
+        goal: 0
+      r_wrist_abduction_joint:
         trajectory: -1.0
         goal: 0
 

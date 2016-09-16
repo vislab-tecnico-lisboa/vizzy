@@ -39,15 +39,10 @@
       <material>Gazebo/Orange</material>
     </gazebo>
 
-<<<<<<< HEAD
+
     <!--<gazebo reference="r_wrist_abduction_virtual_link">
       <mu1>0.2</mu1>
       <mu2>0.2</mu2>
-=======
-    <gazebo reference="r_wrist_abduction_virtual_link">
-      <!--<mu1>0.2</mu1>
-      <mu2>0.2</mu2>-->
->>>>>>> 6d626c85aa043eb21d0ecfe0d48c72bc15980c9a
       <material>Gazebo/Orange</material>
     </gazebo>-->
 
