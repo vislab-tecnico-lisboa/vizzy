@@ -5,7 +5,7 @@
   <arg name="robot" default="vizzy"/> <!-- full, lower_body, foot -->
 
   <!-- simulation parameters and robot configuration parameters -->
-  <arg name="use_yarp" default="true"/>
+  <arg name="use_yarp" default="false"/>
   <arg name="navigation" default="true"/>
   <arg name="launch_moveit" default="true"/>
   <arg name="slam" default="false"/>
