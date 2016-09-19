@@ -127,3 +127,16 @@ eyes:
     - PRMstarkConfigDefault
   projection_evaluator: joints(l_eye_joint,r_eye_joint)
   longest_valid_segment_fraction: 0.05
+right_hand:
+  planner_configs:
+    - SBLkConfigDefault
+    - ESTkConfigDefault
+    - LBKPIECEkConfigDefault
+    - BKPIECEkConfigDefault
+    - KPIECEkConfigDefault
+    - RRTkConfigDefault
+    - RRTConnectkConfigDefault
+    - RRTstarkConfigDefault
+    - TRRTkConfigDefault
+    - PRMkConfigDefault
+    - PRMstarkConfigDefault
