@@ -116,7 +116,7 @@ int main(int argc, char *argv[]) {
     list_2.add("l_shoulder_rotation_joint");
     list_2.add("l_elbow_flection_joint");
     list_2.add("l_forearm_pronation_joint");
-    list_2.add("l_wrist_abduction_joint_virtual");
+    list_2.add("l_wrist_abduction_joint");
     list_2.add("l_wrist_flection_joint");
     list_2.add("r_shoulder_scapula_joint");
     list_2.add("r_shoulder_flection_joint");
