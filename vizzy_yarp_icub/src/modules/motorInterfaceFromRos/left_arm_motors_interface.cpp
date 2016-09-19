@@ -174,7 +174,7 @@ int main(int argc, char *argv[])
       portsConnected[7] = subscribers_left_arm[7].topic("/vizzy/l_wrist_flection_joint/cmd");
       if (!portsConnected[7])
         connectedNumber--;
-    }if (connectedNumber == totalConnections)
+    }if (connectedNumber == 0)
       allConnected = true;
     std::cout << ".\n";
     Time::delay(1);
