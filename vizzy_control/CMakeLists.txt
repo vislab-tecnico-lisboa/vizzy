@@ -85,7 +85,7 @@ target_link_libraries(left_arm_trajectory_action
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-add_dependencies(fixation_point_node visualize_ball_generate_messages_cpp)
+#add_dependencies(fixation_point_node visualize_ball_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(fixation_point_node

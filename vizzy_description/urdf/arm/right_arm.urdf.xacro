@@ -170,8 +170,13 @@
 		    link="r_shoulder_abduction_link" />
 		  <axis
 		    xyz="0 0 1" />
-		  <limit lower="0" upper="1.30899694" effort="10" velocity="3" />
+
+		  <limit lower="-0.1" upper="1.30899694" effort="10" velocity="3" />
+
+
+
 		  <dynamics damping="0.0" friction="5.0"/>
+
 		</joint>
 		<link
 		  name="r_shoulder_rotation_link">
@@ -338,7 +343,7 @@
 		  <limit lower="-1.48352986" upper="1.48352986" effort="10" velocity="3" />
 		  <dynamics damping="0.0" friction="5.0"/>
 		</joint>
-		<link
+		<!--<link
 		  name="r_wrist_abduction_virtual_link">
 		  <inertial>
 		    <origin
@@ -377,17 +382,17 @@
 		        filename="package://vizzy_description/meshes/M6R_back.dae" />
 		    </geometry>
 		  </collision>
-		</link>
+		</link>-->
 		<joint
 		  name="r_wrist_abduction_joint"
 		  type="revolute">
 		  <origin
-		    xyz="0.0 0.0 -0.11925"
+		    xyz="0.0 0.0 -0.18925"
 		    rpy="${M_PI/2.0} 0.0 0.0" />
 		  <parent
 		    link="r_forearm_pronation_link" />
 		  <child
-		    link="r_wrist_abduction_virtual_link" />
+		    link="r_wrist_abduction_link" />
 		  <axis
 		    xyz="0 0 1" />
 		  <limit lower="-0.610865238" upper="0.610865238" effort="10" velocity="3" />
@@ -433,7 +438,7 @@
 		    </geometry>
 		  </collision>
 		</link>
-		<joint
+		<!--<joint
 		  name="r_wrist_abduction_virtual_joint"
 		  type="revolute">
 		  <origin
@@ -447,7 +452,7 @@
 		    xyz="0 0 1" />
 		  <limit lower="-0.610865238" upper="0.610865238" effort="10" velocity="3" />
     		  <mimic joint="r_wrist_abduction_joint" multiplier="1.0" offset="0"/>
-		</joint>
+		</joint>-->
 		<link
 		  name="r_wrist_flection_link">
 		  <inertial>

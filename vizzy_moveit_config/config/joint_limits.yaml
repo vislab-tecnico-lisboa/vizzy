@@ -107,11 +107,6 @@ joint_limits:
     max_velocity: 3
     has_acceleration_limits: false
     max_acceleration: 0
-  r_wrist_abduction_virtual_joint:
-    has_velocity_limits: true
-    max_velocity: 3
-    has_acceleration_limits: false
-    max_acceleration: 0
   r_wrist_flection_joint:
     has_velocity_limits: true
     max_velocity: 3
