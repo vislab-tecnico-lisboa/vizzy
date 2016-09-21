@@ -23,15 +23,18 @@ class VizzyLeftArmTrajectoryActionServer
     VizzyLeftArmTrajectoryActionServer(const ros::NodeHandle &n);
     ~VizzyLeftArmTrajectoryActionServer();
 
-    void actionCallback(const control_msgs::FollowJointTrajectoryGoalConstPtr &goal);
+    void goalCallback();
     actionlib::SimpleActionServer<control_msgs::FollowJointTrajectoryAction> action_server_;
     void actionBridgeCallback(const std_msgs::Int16::ConstPtr& msg);
+    void preemptCB();
  private:
+    bool action_active;
     ros::NodeHandle node_handle_;
     ros::Time last_nonstall_time_;
     ros::Subscriber info_from_bridge;
     ros::Publisher trajectory_from_move_it;
     ros::Publisher stop_execution;
+    control_msgs::FollowJointTrajectoryGoalConstPtr goal_msg;
 };
 
 #endif  // VIZZY_LEFT_ARM_TRAJECTORY_ACTION_H
