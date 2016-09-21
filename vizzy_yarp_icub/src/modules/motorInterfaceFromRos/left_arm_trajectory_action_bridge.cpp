@@ -181,7 +181,7 @@ int main(int argc, char *argv[])
 		for (int my_j=0;my_j<jnts;my_j++){
 		    tmp[my_j] = traj_data->points.at(my_i).positions.at(joint_map[my_j])*180.0/3.141592;
 		    double curr_delta_ang = fabs(tmp[my_j] - tmp_read[my_j]);
-		    std::cout << " delta joint [" << my_j << "] : " << curr_delta_ang << std::endl; 
+		    //std::cout << " delta joint [" << my_j << "] : " << curr_delta_ang << std::endl; 
 		    if (curr_delta_ang > delta_ang)
 			delta_ang = curr_delta_ang;
 		    //std::cout << "Motion to :" << data->data[my_i]*180.0/3.141592 << "sent!" << std::endl;
@@ -192,13 +192,15 @@ int main(int argc, char *argv[])
 		current_delay = delta_ang/head_speeds[0];
 		//else
 		//    current_delay = (5/30);
-		std::cout << "current delay: " << current_delay << std::endl;
-		Time::delay(current_delay*3);
+		//std::cout << "current delay: " << current_delay << std::endl;
+		Time::delay(current_delay*0.6);
 		//Time::delay(0.01);
-		//bool motionDone=false;
-		//while (motionDone==false)
-		//    ips->checkMotionDone(&motionDone);
-		expected_trajectory_time+=current_delay;
+		if (my_i==points_size-1){
+		bool motionDone=false;
+		while (motionDone==false)
+		    ipos->checkMotionDone(&motionDone);
+		}
+		expected_trajectory_time+=current_delay*0.6;
 		enc->getEncoders(tmp_read);
 		trajectory_elapsed_time = Time::now();
 		current_error=0.0;
@@ -206,7 +208,7 @@ int main(int argc, char *argv[])
 		    current_error += fabs(traj_data->points.at(points_size-1).positions.at(joint_map[my_j])*180.0/3.141592-tmp_read[my_j]);
 		    //std::cout << "Motion to :" << data->data[my_i]*180.0/3.141592 << "sent!" << std::endl;
 		}
-		std::cout << "error at point [" << my_i << " ]:" << current_error << std::endl;
+		//std::cout << "error at point [" << my_i << " ]:" << current_error << std::endl;
 		/*if (expected_trajectory_time/(trajectory_elapsed_time-trajectory_start) < 0.7){
 		    feedback_msg_to_ros.data = 0;
 		    publisher_result_left_arm.write(feedback_msg_to_ros);
@@ -222,17 +224,19 @@ int main(int argc, char *argv[])
 		}
             std::cout << "error at last trajectory point:" << current_error << std::endl;
 	    //if (expected_trajectory_time/(trajectory_elapsed_time-trajectory_start) < 0.7 && current_error<4.0){
-	    if (current_error<4.0){
+	    if (current_error<7.0){
 		feedback_msg_to_ros.data = 1;
 		publisher_result_left_arm.write(feedback_msg_to_ros);
 		client_status = -1;
+		std::cout << "succesful: " << std::endl;
 	    }
 	    else{
 		feedback_msg_to_ros.data = 0;
 		publisher_result_left_arm.write(feedback_msg_to_ros);
+		std::cout << "failed! " << std::endl;
 		client_status = -1;
 	    }
-	    std::cout << "error: " << current_error << std::endl;
+	    //std::cout << "error: " << current_error << std::endl;
 	}
 	else if (client_status==1){
 	    client_status = -1;
