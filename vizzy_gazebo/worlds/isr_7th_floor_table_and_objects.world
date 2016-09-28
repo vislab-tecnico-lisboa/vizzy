@@ -387,43 +387,10 @@
       </link>
       <pose frame=''>0 0 0 0 -0 0</pose>
     </model>
-    <model name='hammer'>
-      <static>1</static>
-      <link name='link'>
-        <collision name='collision'>
-          <geometry>
-            <mesh>
-              <uri>model://hammer/meshes/hammer.dae</uri>
-            </mesh>
-          </geometry>
-          <max_contacts>10</max_contacts>
-          <surface>
-            <contact>
-              <ode/>
-            </contact>
-            <bounce/>
-            <friction>
-              <ode/>
-            </friction>
-          </surface>
-        </collision>
-        <visual name='visual'>
-          <geometry>
-            <mesh>
-              <uri>model://hammer/meshes/hammer.dae</uri>
-            </mesh>
-          </geometry>
-        </visual>
-        <self_collide>0</self_collide>
-        <kinematic>0</kinematic>
-        <gravity>1</gravity>
-      </link>
-      <pose frame=''>-0.418415 1 0 0 -0 0</pose>
-    </model>
     <state world_name='default'>
-      <sim_time>369 148000000</sim_time>
-      <real_time>184 944672613</real_time>
-      <wall_time>1473078113 582904753</wall_time>
+      <sim_time>832 286000000</sim_time>
+      <real_time>49 821305639</real_time>
+      <wall_time>1475077193 805946579</wall_time>
       <model name='7thmap'>
         <pose frame=''>9 -10 0 0 -0 0</pose>
         <link name='body'>
@@ -434,27 +401,18 @@
         </link>
       </model>
       <model name='beer'>
-        <pose frame=''>-0.176445 0.928542 0.633284 2.8e-05 9.9e-05 0.013689</pose>
+        <pose frame=''>-1.7402 -0.169732 0.633274 1.4e-05 -5.3e-05 -0.663822</pose>
         <link name='link'>
-          <pose frame=''>-0.176434 0.928539 0.748284 2.8e-05 9.9e-05 0.013689</pose>
+          <pose frame=''>-1.7402 -0.169729 0.748274 1.4e-05 -5.3e-05 -0.663822</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>3.27132 -0.760255 -1.99173 0.011425 0.042058 0.001067</acceleration>
-          <wrench>1.27581 -0.2965 -0.776773 0 -0 0</wrench>
-        </link>
-      </model>
-      <model name='hammer'>
-        <pose frame=''>-0.418415 1 0.744886 0 -0 0</pose>
-        <link name='link'>
-          <pose frame=''>-0.418415 1 0.744886 0 -0 0</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
+          <acceleration>0 0 -9.8 0 -0 0</acceleration>
+          <wrench>0 0 -3.822 0 -0 0</wrench>
         </link>
       </model>
       <model name='table'>
-        <pose frame=''>0.054051 1.00293 -0.38171 0 -0 0</pose>
+        <pose frame=''>-1.38773 0.023305 -0.38171 0 0 -1.58678</pose>
         <link name='link'>
-          <pose frame=''>0.054051 1.00293 -0.38171 0 -0 0</pose>
+          <pose frame=''>-1.38773 0.023305 -0.38171 0 0 -1.58678</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
@@ -464,7 +422,7 @@
     </state>
     <gui fullscreen='0'>
       <camera name='user_camera'>
-        <pose frame=''>-4.4079 0.227577 3.13601 0 0.407643 0.056187</pose>
+        <pose frame=''>-4.23656 0.035966 1.59821 2.27523e-19 0.307643 -0.007814</pose>
         <view_controller>orbit</view_controller>
       </camera>
     </gui>
