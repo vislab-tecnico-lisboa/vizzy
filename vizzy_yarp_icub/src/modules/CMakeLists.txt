@@ -9,4 +9,4 @@ add_subdirectory(vizzyCartesianSolver)
 add_subdirectory(yogaDemo)
 add_subdirectory(cfwFailUtility)
 add_subdirectory(jointStatePublishers)
-
+add_subdirectory(motorInterfaceFromRos)
