@@ -24,6 +24,15 @@ find_package(catkin REQUIRED COMPONENTS
 
 )
 
+add_message_files(
+  FILES
+  motorsArray.msg
+)
+
+generate_messages(
+  DEPENDENCIES
+  std_msgs
+)
 
 catkin_package(
 #  INCLUDE_DIRS include
@@ -62,6 +71,17 @@ add_library(fixation_point_lib
 
 ## Declare a cpp executable
 add_executable(fixation_point_node src/FixationPointRos.cpp)
+
+
+
+## Declare a cpp executable
+add_executable(left_arm_trajectory_action src/VizzyLeftArmTrajActionServerNode.cpp src/VizzyLeftArmTrajectoryActionServer.cpp)
+target_link_libraries(left_arm_trajectory_action
+   ${catkin_LIBRARIES}
+)
+
+
+
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
