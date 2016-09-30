@@ -1043,7 +1043,7 @@ protected:
                 limitRange(x);
                 x=R*x;
     
-                cartArm->goToPose(x,*armHandOrien);
+                cartArm->goToPoseSync(x,*armHandOrien);
             }
         }
     }
