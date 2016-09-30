@@ -107,6 +107,11 @@ vizzy:
     type: velocity_controllers/JointPositionController
     joint: r_wrist_flection_joint
     pid: {p: 1.0, i: 0.0, d: 0.0}
+
+  r_palm_position_controller:
+    type: velocity_controllers/JointPositionController
+    joint: r_palm_joint
+    pid: {p: 1.0, i: 0.0, d: 0.0}
 # Trajectory Controllers ---------------------------------------
   head_trajectory_controller:
     type: velocity_controllers/JointTrajectoryController
@@ -278,6 +283,7 @@ vizzy:
       - r_elbow_flection_joint
       - r_forearm_pronation_joint
       - r_wrist_abduction_joint
+      - r_wrist_flection_joint
     gains:
       r_shoulder_scapula_joint:
         p: 1.0
@@ -303,6 +309,14 @@ vizzy:
         p: 1.0
         i: 0.0
         d: 0.0
+      r_wrist_flection_joint:
+        p: 1.0
+        i: 0.0
+        d: 0.0
+      r_palm_joint:
+        p: 1.0
+        i: 0.0
+        d: 0.0
     constraints:
       goal_time: 1000.0                   # Override default
       r_shoulder_scapula_joint:
@@ -321,6 +335,12 @@ vizzy:
         trajectory: -1.0
         goal: 0
       r_wrist_abduction_joint:
+        trajectory: -1.0
+        goal: 0
+      r_wrist_flection_joint:
+        trajectory: -1.0
+        goal: 0
+      r_palm_joint:
         trajectory: -1.0
         goal: 0
 

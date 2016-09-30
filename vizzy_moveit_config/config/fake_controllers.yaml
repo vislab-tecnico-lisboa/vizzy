@@ -18,6 +18,7 @@ controller_list:
       - r_elbow_flection_joint
       - r_forearm_pronation_joint
       - r_wrist_abduction_joint
+      - r_wrist_flection_joint
   - name: fake_left_arm_controller
     joints:
       - l_shoulder_scapula_joint
@@ -34,4 +35,4 @@ controller_list:
       - r_eye_joint
   - name: fake_right_hand_controller
     joints:
-      - r_wrist_flection_joint
+      - r_palm_joint
