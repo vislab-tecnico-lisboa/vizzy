@@ -42,7 +42,7 @@ bool GazeReal::moveHome()
     home_position_fixation_point.header.frame_id=world_frame;
     home_position_fixation_point.header.stamp=ros::Time::now();
 
-    while(nh_.ok()&&gazePublisher.getNumSubscribers()<1);
+    //while(nh_.ok()&&gazePublisher.getNumSubscribers()<1);
 
     gazePublisher.publish(goalToRobot);
 
