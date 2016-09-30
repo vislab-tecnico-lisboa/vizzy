@@ -105,6 +105,18 @@
       </actuator>
     </transmission>
 
+    <transmission name="r_palm_transmission">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="r_palm_joint">
+        <hardwareInterface>PositionJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="r_palm_motor">
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+
   </xacro:macro>
 
 </robot>
