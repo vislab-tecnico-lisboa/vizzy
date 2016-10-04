@@ -13,6 +13,10 @@
     </gazebo>
 
     <gazebo reference="b_wheel_base_link">
+      <!-- <mu1 value="100.0" />
+      <mu2 value="100.0" />
+      <kp  value="1000000.0" />
+      <kd  value="1.0" /> -->
       <mu1>10000</mu1>
       <mu2>10000</mu2>
     </gazebo>
@@ -23,6 +27,10 @@
     </gazebo>
 
     <gazebo reference="f_wheel_base_link">
+      <!-- <mu1 value="100.0" />
+      <mu2 value="100.0" />
+      <kp  value="1000000.0" />
+      <kd  value="1.0" /> -->
       <mu1>10000</mu1>
       <mu2>10000</mu2>
     </gazebo>
