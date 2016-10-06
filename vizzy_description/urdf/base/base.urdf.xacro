@@ -148,8 +148,9 @@
         xyz="0 0 0"
         rpy="0 0 0" />
       <geometry>
-        <mesh
-          filename="package://vizzy_description/meshes/F_W.dae" />
+        <!-- <mesh
+          filename="package://vizzy_description/meshes/F_W.dae" />  -->
+        <cylinder length="0.02" radius="0.05"/>
       </geometry>
     </collision>
   </link>
@@ -254,8 +255,9 @@
         xyz="0 0 0"
         rpy="0 0 0" />
       <geometry>
-        <mesh
-          filename="package://vizzy_description/meshes/B_W.dae" />
+        <!-- <mesh
+          filename="package://vizzy_description/meshes/B_W.dae" /> -->
+        <cylinder length="0.02" radius="0.05"/>
       </geometry>
     </collision>
   </link>
@@ -279,7 +281,7 @@
         xyz="0 0 0"
         rpy="0 0 0" />
       <mass
-        value="1.22861917507719" />
+        value="150.22861917507719" />
       <inertia
         ixx="0.0106873251772162"
         ixy="4.79944507056635E-17"
@@ -307,8 +309,9 @@
         xyz="0 0 0"
         rpy="0 0 0" />
       <geometry>
-        <mesh
-          filename="package://vizzy_description/meshes/Left.dae" />
+        <!-- <mesh
+          filename="package://vizzy_description/meshes/Left.dae" /> -->
+        <cylinder length="0.06" radius="0.198"/>
       </geometry>
     </collision>
   </link>
@@ -333,7 +336,7 @@
         xyz="0 0 0"
         rpy="3.15 0 0" />
       <mass
-        value="1.22861917507742" />
+        value="150.22861917507742" />
       <inertia
         ixx="0.0106873471854323"
         ixy="7.49808591987845E-18"
@@ -361,8 +364,9 @@
         xyz="0 0 0"
         rpy="3.15 0 0" />
       <geometry>
-        <mesh
-          filename="package://vizzy_description/meshes/Right.dae" />
+        <!-- <mesh
+          filename="package://vizzy_description/meshes/Right.dae" />  -->
+        <cylinder length="0.06" radius="0.198"/>
       </geometry>
     </collision>
   </link>
