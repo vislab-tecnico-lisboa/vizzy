@@ -49,7 +49,7 @@ void Gaze::suppresion(const sensor_msgs::Image::ConstPtr & left_image_msg,
 
     if(active)
     {
-        ROS_ERROR("ESTOU A SUPPRIMIR");
+        //ROS_ERROR("ESTOU A SUPPRIMIR");
 
         return;
     }
@@ -62,20 +62,20 @@ void Gaze::publishFixationPointGoal()
 {
     // Convert to neck frame for convenience
     geometry_msgs::PointStamped goal_point_world_viz;
-    while(nh_.ok())
+    //while(nh_.ok())
     {
-        try
+        //try
         {
             ros::Time current_time = ros::Time::now();
             tf_listener->waitForTransform(world_frame, current_time, goal_msg->fixation_point.header.frame_id, goal_msg->fixation_point.header.stamp, world_frame, ros::Duration(0.05) );
             tf_listener->transformPoint(world_frame, current_time, goal_msg->fixation_point, world_frame, goal_point_world_viz);
         }
-        catch (tf::TransformException &ex)
+        /*catch (tf::TransformException &ex)
         {
-            ROS_WARN("%s",ex.what());
-            continue;
-        }
-        break;
+            //ROS_WARN("%s",ex.what());
+            return;
+        }*/
+        
     }
 
     fixation_point_goal_viz_pub.publish(goal_point_world_viz);
@@ -84,7 +84,7 @@ void Gaze::publishFixationPointGoal()
 
 void Gaze::preemptCB()
 {
-    ROS_INFO("%s: Preempted", action_name_.c_str());
+    //ROS_INFO("%s: Preempted", action_name_.c_str());
     // set the action state to preempted
     active=false;
     as_.setPreempted();
@@ -109,7 +109,7 @@ void Gaze::goalCB()
         {
             result_.state_reached=false;
 
-            ROS_INFO("%s: Aborted", action_name_.c_str());
+            //ROS_INFO("%s: Aborted", action_name_.c_str());
             as_.setAborted(result_);
         }
     }

@@ -98,23 +98,23 @@ void callbackVoice(const std_msgs::Int8::ConstPtr& msg){
   msg2Received = true;
   if(voiceCMD==4){
      ROS_INFO("I will go to the office");     
-     moveBaseToCoordinates(2.5,-14.0,DOWN);
+     moveBaseToCoordinates(-1.0,-15.5,DOWN);
   }
   if(voiceCMD==5){
      ROS_INFO("I will go to the laboratory");  
-     moveBaseToCoordinates(2.5,-3.0,LEFT);
+     moveBaseToCoordinates(0.5,-2.5,LEFT);
   }
   if(voiceCMD==6){
      ROS_INFO("I will go to the meeting room");  
-     moveBaseToCoordinates(16.0,-3.0,LEFT);
+     moveBaseToCoordinates(15.0,-4.5,LEFT);
   }
   if(voiceCMD==7){
      ROS_INFO("I will go to the elevator");  
-     moveBaseToCoordinates(2.5,-10.0,UP);
+     moveBaseToCoordinates(0.0,-7.0,UP);
   }
   if(voiceCMD==8){
      ROS_INFO("I will go to the bathroom");  
-     moveBaseToCoordinates(10.5,-17.0,LEFT);
+     moveBaseToCoordinates(8.5,-18.0,LEFT);
   }
 }
 
@@ -147,11 +147,11 @@ void moveBaseToCoordinates(double px, double py,double orientation[]){
   move_base_msgs::MoveBaseGoal goal;
 
   //we'll send a goal to the robot to move 1 meter forward
-  goal.target_pose.header.frame_id = "base_link";
+  goal.target_pose.header.frame_id = "map";
   goal.target_pose.header.stamp = ros::Time::now();
 
   goal.target_pose.pose.position.x = px;
-  goal.target_pose.pose.position.x = py;
+  goal.target_pose.pose.position.y = py;
   goal.target_pose.pose.orientation.x = orientation[0];
   goal.target_pose.pose.orientation.y = orientation[1];
   goal.target_pose.pose.orientation.z = orientation[2];
