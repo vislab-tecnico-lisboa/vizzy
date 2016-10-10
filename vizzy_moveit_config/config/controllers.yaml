@@ -37,6 +37,7 @@ controller_list:
       - r_forearm_pronation_joint
       - r_wrist_abduction_joint
       - r_wrist_flection_joint
+      - r_palm_joint
  - name: /vizzy/left_arm_trajectory_controller
    action_ns: follow_joint_trajectory
    type: FollowJointTrajectory
