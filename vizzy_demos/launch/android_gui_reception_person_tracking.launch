@@ -70,4 +70,6 @@
     <arg name="following_planner_mode" value="$(arg following_planner_mode)" />
   </include>
 
+  <node pkg="id_selector" name="id_selector" type="idSelector" />
+
 </launch>
