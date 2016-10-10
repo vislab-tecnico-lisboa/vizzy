@@ -19,7 +19,7 @@ GazeReal::GazeReal(const std::string & name, const ros::NodeHandle & nh) : Gaze(
 
     as_.start();
 
-    ROS_INFO("Going to move head and eyes to home position.");
+    //ROS_INFO("Going to move head and eyes to home position.");
     moveHome();
 }
 
@@ -65,7 +65,7 @@ bool GazeReal::moveCartesian()
     }
     catch (tf::TransformException &ex)
     {
-        ROS_WARN("%s",ex.what());
+        //ROS_WARN("%s",ex.what());
         return false;
     }
 
@@ -107,7 +107,7 @@ void GazeReal::analysisCB(const geometry_msgs::PointStamped::ConstPtr& fixation_
         }
         catch (tf::TransformException &ex)
         {
-            ROS_WARN("%s",ex.what());
+            //ROS_WARN("%s",ex.what());
             return;
         }
 
@@ -126,7 +126,7 @@ void GazeReal::analysisCB(const geometry_msgs::PointStamped::ConstPtr& fixation_
             as_.setSucceeded(result_);
 
             ros::WallTime total_time = ros::WallTime::now();
-            ROS_INFO_STREAM(action_name_.c_str()<<": Succeeded. Total time: " <<  (total_time - start_time).toSec());
+            //ROS_INFO_STREAM(action_name_.c_str()<<": Succeeded. Total time: " <<  (total_time - start_time).toSec());
             active=false;
         }
     }
@@ -142,7 +142,7 @@ void GazeReal::analysisCB(const geometry_msgs::PointStamped::ConstPtr& fixation_
         }
         catch (tf::TransformException &ex)
         {
-            ROS_WARN("%s",ex.what());
+            //ROS_WARN("%s",ex.what());
             return;
         }
 
@@ -163,7 +163,7 @@ void GazeReal::analysisCB(const geometry_msgs::PointStamped::ConstPtr& fixation_
             as_.setSucceeded(result_);
 
             ros::WallTime total_time = ros::WallTime::now();
-            ROS_INFO_STREAM(action_name_.c_str()<<": Succeeded. Total time: " <<  (total_time - start_time).toSec());
+            //ROS_INFO_STREAM(action_name_.c_str()<<": Succeeded. Total time: " <<  (total_time - start_time).toSec());
             active=false;
         }
     }
