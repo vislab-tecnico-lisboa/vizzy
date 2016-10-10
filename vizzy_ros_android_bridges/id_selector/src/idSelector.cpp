@@ -9,17 +9,18 @@
 #include <move_base_msgs/MoveBaseAction.h>
 #include <actionlib/client/simple_action_client.h>
 
-bool msg1Received = false,msg2Received = false;
+bool msg1Received = false,msg2Received = false,sendAnswer=false,sucessMoving=false;
 int pixel[2] = {0,0};
 int voiceCMD=0;
 int selectedID = 1000;
 std::vector<id_selector::BoundingBox> personsList;
 int listSize;
-std::string msgStr;
+std::string msgStr, placeString="nowhere";
 double UP[4]={0.0,0.0,0.0,1.0};
 double DOWN[4]={0.0,0.0,1.0,0.0};
 double LEFT[4]={0.0,0.0,0.7071067811,0.7071067811};
 double RIGHT[4]={0.0,0.0,-0.7071067811,0.7071067811};
+std_msgs::String msgMovingResult;
 
 typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
 
@@ -34,6 +35,7 @@ int main(int argc, char **argv){
   ros::NodeHandle n;
   ros::Publisher  pub1 = n.advertise<visualization_msgs::InteractiveMarkerFeedback>("tracker/feedback", 1000);
   ros::Publisher  pub2 = n.advertise<std_msgs::String>("babbler", 1000);
+  ros::Publisher  pub3 = n.advertise<std_msgs::String>("movingResult", 1000);
   ros::Subscriber sub1 = n.subscribe("bbs_with_id", 1000, callbackBoundingBox);
   ros::Subscriber sub2 = n.subscribe("pixelXY", 1000, callbackPixelCoordinates);
   ros::Subscriber sub3 = n.subscribe("voiceCMD", 1000, callbackVoice);
@@ -43,8 +45,7 @@ int main(int argc, char **argv){
   selectedIDmsg.header.frame_id = "/world";
   std_msgs::String msgLabel;
   int followingID=-1;
-  ROS_INFO("ID Selector is running");
-  //moveBaseToCoordinates(2.5,-3.0,0.0,0.0,0.7071067811,0.7071067811);
+  ROS_INFO("ID Selector is running now");
   while (ros::ok()){ 
     if(msg1Received){ 
       if(followingID>-1){  
@@ -75,6 +76,11 @@ int main(int argc, char **argv){
       }
       msg1Received = false;
     }
+    if(sendAnswer){
+      sendAnswer=false;
+      ROS_INFO("Move Base is finished sending result");
+      pub3.publish(msgMovingResult);
+    }
     ros::spinOnce();
     loop_rate.sleep();
   }
@@ -97,23 +103,23 @@ void callbackVoice(const std_msgs::Int8::ConstPtr& msg){
   ROS_INFO("Voice command received: %d",voiceCMD);
   msg2Received = true;
   if(voiceCMD==4){
-     ROS_INFO("I will go to the office");     
+     placeString="office";   
      moveBaseToCoordinates(-1.0,-15.5,DOWN);
   }
   if(voiceCMD==5){
-     ROS_INFO("I will go to the laboratory");  
+     placeString="laboratory";  
      moveBaseToCoordinates(0.5,-2.5,LEFT);
   }
   if(voiceCMD==6){
-     ROS_INFO("I will go to the meeting room");  
+     placeString="meeting room";  
      moveBaseToCoordinates(15.0,-4.5,LEFT);
   }
   if(voiceCMD==7){
-     ROS_INFO("I will go to the elevator");  
+     placeString="elevator"; 
      moveBaseToCoordinates(0.0,-7.0,UP);
   }
-  if(voiceCMD==8){
-     ROS_INFO("I will go to the bathroom");  
+  if(voiceCMD==8){  
+     placeString="bathroom"; 
      moveBaseToCoordinates(8.5,-18.0,LEFT);
   }
 }
@@ -146,7 +152,6 @@ void moveBaseToCoordinates(double px, double py,double orientation[]){
 
   move_base_msgs::MoveBaseGoal goal;
 
-  //we'll send a goal to the robot to move 1 meter forward
   goal.target_pose.header.frame_id = "map";
   goal.target_pose.header.stamp = ros::Time::now();
 
@@ -162,9 +167,13 @@ void moveBaseToCoordinates(double px, double py,double orientation[]){
 
   ac.waitForResult();
 
-  if(ac.getState() == actionlib::SimpleClientGoalState::SUCCEEDED)
+  if(ac.getState() == actionlib::SimpleClientGoalState::SUCCEEDED){
     ROS_INFO("Hooray, the base moved");
-  else
+    msgMovingResult.data="This is the " + placeString;
+  }
+  else{
     ROS_INFO("The base failed to move for some reason");
-
+    msgMovingResult.data="Sorry i got lost";
+  }
+  sendAnswer=true;
 }
