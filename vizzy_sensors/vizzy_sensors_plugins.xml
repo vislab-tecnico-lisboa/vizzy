@@ -6,11 +6,18 @@
    This is a filter that removes points in a certain footprint. Useful for removing known laserscan hits on the body of the robot.
       </description>
     </class>
+    <class name="vizzy_sensors/ScanAngleFilter" type="vizzy_sensors::ScanAngleFilter" 
+      base_class_type="filters::FilterBase<sensor_msgs::LaserScan>">
+      <description>
+   This is a filter that converts nan points to +infinity, effectively making the assumption that locations where no readings are returned are free space.
+      </description>
+    </class>
     <class name="vizzy_sensors/NanToInfFilter" type="vizzy_sensors::NanToInfFilter" 
       base_class_type="filters::FilterBase<sensor_msgs::LaserScan>">
       <description>
    This is a filter that converts nan points to +infinity, effectively making the assumption that locations where no readings are returned are free space.
       </description>
     </class>
+
   </library>
 </class_libraries>
