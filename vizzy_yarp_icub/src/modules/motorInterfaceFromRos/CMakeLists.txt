@@ -12,9 +12,11 @@ add_executable(headMotorsInterface head_motors_interface.cpp)
 add_executable(leftArmMotorsInterface left_arm_motors_interface.cpp)
 add_executable(leftArmMotorsInterfaceOneTopic left_arm_motors_interface_one_topic.cpp)
 add_executable(leftArmFollowTrajBridge left_arm_trajectory_action_bridge.cpp)
+add_executable(pos2_posDirTest position_direct_test_left_arm.cpp)
 
 # link with YARP libraries
 target_link_libraries(headMotorsInterface ${YARP_LIBRARIES})
 target_link_libraries(leftArmMotorsInterface ${YARP_LIBRARIES})
 target_link_libraries(leftArmMotorsInterfaceOneTopic ${YARP_LIBRARIES})
 target_link_libraries(leftArmFollowTrajBridge ${YARP_LIBRARIES})
+target_link_libraries(pos2_posDirTest ${YARP_LIBRARIES})
