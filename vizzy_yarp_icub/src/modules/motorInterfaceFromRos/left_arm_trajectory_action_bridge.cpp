@@ -66,10 +66,12 @@ int main(int argc, char *argv[])
     yarp::os::Subscriber<std_msgs_Bool> subscriber_stop_left_arm;
     yarp::os::Publisher<std_msgs_Int16> publisher_result_left_arm;
     Property options;
-    options.put("robot", "vizzySim");//Needs to be read from a config file
+    //options.put("robot", "vizzySim");//Needs to be read from a config file
+    options.put("robot", "vizzy");//Needs to be read from a config file
     options.put("device", "remote_controlboard");
     options.put("local", "/vizzy/left_arm_pos_interface");
-    options.put("remote", "/vizzySim/left_shoulder_arm");
+    //options.put("remote", "/vizzySim/left_shoulder_arm");
+    options.put("remote", "/vizzy/left_shoulder_arm");
     //Available parts: head torso left_shoulder_arm right_shoulder_arm
     options.put("part", "left_shoulder_arm");
     IPositionControl *ipos=0;
@@ -116,7 +118,8 @@ int main(int argc, char *argv[])
         yError("Problems acquiring mandatory interfaces, quitting\n");
         return 1;
     }
-    double head_speeds[8] = {30.0,30.0,30.0,30.0,30.0,30.0,30.0,30.0};
+    //double head_speeds[8] = {30.0,30.0,30.0,30.0,30.0,30.0,30.0,30.0};
+    double head_speeds[8] = {12.0,12.0,12.0,12.0,12.0,12.0,12.0,12.0};
     ipos->setRefSpeeds(head_speeds);
     ipos->getAxes(&jnts);
     printf("Working with %d axes\n", jnts);
@@ -186,7 +189,12 @@ int main(int argc, char *argv[])
 			delta_ang = curr_delta_ang;
 		    //std::cout << "Motion to :" << data->data[my_i]*180.0/3.141592 << "sent!" << std::endl;
 		}
-		ipos->positionMove(tmp);
+		//multiple joints case
+		//ipos->positionMove(tmp);
+		//single joint execution
+		for (int my_j=0;my_j<jnts;my_j++){
+		  ipos->positionMove(my_j,tmp[my_j]);
+		}
 		double current_delay;
 		//if (my_i!=points_size-1)
 		current_delay = delta_ang/head_speeds[0];
@@ -197,8 +205,18 @@ int main(int argc, char *argv[])
 		//Time::delay(0.01);
 		if (my_i==points_size-1){
 		bool motionDone=false;
-		while (motionDone==false)
-		    ipos->checkMotionDone(&motionDone);
+		while (motionDone==false){
+		  //multiple joints check motion done
+		  //ipos->checkMotionDone(&motionDone);
+		  bool currentMotionDone;
+		  bool previousMotionDone=true;
+		  for (int my_j=0;my_j<jnts;my_j++){
+		    ipos->checkMotionDone(my_j,&currentMotionDone);
+		    currentMotionDone &= previousMotionDone;
+		    previousMotionDone = currentMotionDone;
+		  }
+		  motionDone = currentMotionDone;
+		}
 		}
 		expected_trajectory_time+=current_delay*0.6;
 		enc->getEncoders(tmp_read);

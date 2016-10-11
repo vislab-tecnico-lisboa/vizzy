@@ -2,8 +2,8 @@ scan_filter_chain:
 - name: scan_angle_filter
   type: vizzy_sensors/ScanAngleFilter
   params:
-    min_angle: -0.9
-    max_angle: 0.9
+    min_angle: -1.2740
+    max_angle: 1.2740
 - name: nan_to_inf_filter
   type: vizzy_sensors/NanToInfFilter
 - name: footprint_filter
