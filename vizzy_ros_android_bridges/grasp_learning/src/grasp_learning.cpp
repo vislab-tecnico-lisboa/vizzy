@@ -27,7 +27,7 @@ static const std::string OPENCV_WINDOW_COLOR_CONTROLS = "Color Controls";
 bool visible_L=false,visible_R=false, servoing=false;
 cv_bridge::CvImagePtr cv_ptr;
 geometry_msgs::Pose pose;
-int x_L=0,y_L=0,x_R=0,y_R=0,width=320,height=240;
+int x_L=0,y_L=0,x_R=0,y_R=0,width=640,height=480;
 double PI=3.1416;
 double sphere_azimut=PI/2,sphere_polar=PI/2,sphere_radius=0.8;
 int TOL=2;

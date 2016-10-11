@@ -43,7 +43,7 @@ public:
     {
 	while (!isStopping()) {
         //printf("Hello, from thread1\n");
-	std::cout << "Hello from left arm thread:" << std::endl;
+	std::cout << "Hello from right arm thread:" << std::endl;
 	std_msgs_Bool *data;
         data = my_topic->read();
 	if (data != NULL && data->data)
@@ -62,18 +62,18 @@ int main(int argc, char *argv[])
 {
     Network yarp;
 
-    yarp::os::Subscriber<trajectory_msgs_JointTrajectory> subscriber_trajectory_left_arm;
-    yarp::os::Subscriber<std_msgs_Bool> subscriber_stop_left_arm;
-    yarp::os::Publisher<std_msgs_Int16> publisher_result_left_arm;
+    yarp::os::Subscriber<trajectory_msgs_JointTrajectory> subscriber_trajectory_right_arm;
+    yarp::os::Subscriber<std_msgs_Bool> subscriber_stop_right_arm;
+    yarp::os::Publisher<std_msgs_Int16> publisher_result_right_arm;
     Property options;
     //options.put("robot", "vizzySim");//Needs to be read from a config file
     options.put("robot", "vizzy");//Needs to be read from a config file
     options.put("device", "remote_controlboard");
-    options.put("local", "/vizzy/left_arm_pos_interface");
-    //options.put("remote", "/vizzySim/left_shoulder_arm");
-    options.put("remote", "/vizzy/left_shoulder_arm");
-    //Available parts: head torso left_shoulder_arm right_shoulder_arm
-    options.put("part", "left_shoulder_arm");
+    options.put("local", "/vizzy/right_arm_pos_interface");
+    //options.put("remote", "/vizzySim/right_shoulder_arm");
+    options.put("remote", "/vizzy/right_shoulder_arm");
+    //Available parts: head torso right_shoulder_arm right_shoulder_arm
+    options.put("part", "right_shoulder_arm");
     IPositionControl *ipos=0;
     IPositionControl2 *ipos2=0;
     IPositionDirect  *iposDir=0;
@@ -97,7 +97,7 @@ int main(int argc, char *argv[])
     ok &= dd.view(enc);
 
     Thread1 cancel_topic_thread;
-    cancel_topic_thread.setSubscriber(&subscriber_stop_left_arm);
+    cancel_topic_thread.setSubscriber(&subscriber_stop_right_arm);
     ok&=cancel_topic_thread.start();
     /*ok &= dd.view(ipos2);
     ok &= dd.view(vel);
@@ -128,7 +128,7 @@ int main(int argc, char *argv[])
     //int joint_map[8] = {4,5,2,1,3,0,6,7};
     int joint_map[8] = {5,3,2,4,0,1,6,7};
     /* creates a node called /yarp/listener */
-    Node node("/yarp/left_arm_moveit_bridge");
+    Node node("/yarp/right_arm_moveit_bridge");
 
 
   bool allConnected = false;
@@ -141,17 +141,17 @@ int main(int argc, char *argv[])
   while (!allConnected){
     int connectedNumber=totalConnections;
     if (!portsConnected[0]){
-      portsConnected[0] = subscriber_trajectory_left_arm.topic("/left_arm_trajectory_from_moveit");
+      portsConnected[0] = subscriber_trajectory_right_arm.topic("/right_arm_trajectory_from_moveit");
       if (portsConnected[0])
         connectedNumber--;
     }
     if (!portsConnected[1]){
-      portsConnected[1] = subscriber_stop_left_arm.topic("/left_arm_trajectory_cancel");
+      portsConnected[1] = subscriber_stop_right_arm.topic("/right_arm_trajectory_cancel");
       if (portsConnected[1])
         connectedNumber--;
     }
     if (!portsConnected[2]){
-      portsConnected[2] = publisher_result_left_arm.topic("/left_arm_trajectory_feedback");
+      portsConnected[2] = publisher_result_right_arm.topic("/right_arm_trajectory_feedback");
       if (portsConnected[2])
         connectedNumber--;
     }
@@ -169,8 +169,8 @@ int main(int argc, char *argv[])
   while (true) {
 	if (client_status==-1){
 	    std::cout << "Waiting for trajectory..." << std::endl;
-	    traj_data = subscriber_trajectory_left_arm.read();
-	    //traj_data = subscriber_trajectory_left_arm.read();
+	    traj_data = subscriber_trajectory_right_arm.read();
+	    //traj_data = subscriber_trajectory_right_arm.read();
 	    client_status = 0;
 	}
 	else if (client_status==0){
@@ -234,7 +234,7 @@ int main(int argc, char *argv[])
 		//std::cout << "error at point [" << my_i << " ]:" << current_error << std::endl;
 		/*if (expected_trajectory_time/(trajectory_elapsed_time-trajectory_start) < 0.7){
 		    feedback_msg_to_ros.data = 0;
-		    publisher_result_left_arm.write(feedback_msg_to_ros);
+		    publisher_result_right_arm.write(feedback_msg_to_ros);
 		    client_status=-1;
 		    break;
 		}*/
@@ -249,13 +249,13 @@ int main(int argc, char *argv[])
 	    //if (expected_trajectory_time/(trajectory_elapsed_time-trajectory_start) < 0.7 && current_error<4.0){
 	    if (current_error<7.0){
 		feedback_msg_to_ros.data = 1;
-		publisher_result_left_arm.write(feedback_msg_to_ros);
+		publisher_result_right_arm.write(feedback_msg_to_ros);
 		client_status = -1;
 		std::cout << "succesful: " << std::endl;
 	    }
 	    else{
 		feedback_msg_to_ros.data = 0;
-		publisher_result_left_arm.write(feedback_msg_to_ros);
+		publisher_result_right_arm.write(feedback_msg_to_ros);
 		std::cout << "failed! " << std::endl;
 		client_status = -1;
 	    }

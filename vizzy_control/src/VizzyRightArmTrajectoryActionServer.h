@@ -1,5 +1,5 @@
 /**
- *  File: vizzy_left_arm_trajectory_action.h
+ *  File: vizzy_right_arm_trajectory_action.h
  *  Desc: Class for interfacing with moveIt and the jaco arm.
  *  Auth: Plinio Moreno
  *
@@ -7,8 +7,8 @@
  */
 
 
-#ifndef VIZZY_LEFT_ARM_TRAJECTORY_ACTION_H
-#define VIZZY_LEFT_ARM_TRAJECTORY_ACTION_H
+#ifndef VIZZY_RIGHT_ARM_TRAJECTORY_ACTION_H
+#define VIZZY_RIGHT_ARM_TRAJECTORY_ACTION_H
 
 #include <ros/ros.h>
 #include <actionlib/server/simple_action_server.h>
@@ -17,11 +17,11 @@
 #include <std_msgs/Bool.h>
 #define NUM_JACO_JOINTS 6
 //void actionBridgeCallback(const std_msgs::Int16::ConstPtr& msg);
-class VizzyLeftArmTrajectoryActionServer
+class VizzyRightArmTrajectoryActionServer
 {
  public:
-    VizzyLeftArmTrajectoryActionServer(const std::string & name, const ros::NodeHandle &n);
-    ~VizzyLeftArmTrajectoryActionServer();
+    VizzyRightArmTrajectoryActionServer(const std::string & name, const ros::NodeHandle &n);
+    ~VizzyRightArmTrajectoryActionServer();
 
     void goalCallback();
     actionlib::SimpleActionServer<control_msgs::FollowJointTrajectoryAction> action_server_;
@@ -37,5 +37,5 @@ class VizzyLeftArmTrajectoryActionServer
     control_msgs::FollowJointTrajectoryGoalConstPtr goal_msg;
 };
 
-#endif  // VIZZY_LEFT_ARM_TRAJECTORY_ACTION_H
+#endif  // VIZZY_RIGHT_ARM_TRAJECTORY_ACTION_H
 

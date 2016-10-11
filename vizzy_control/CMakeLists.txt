@@ -80,6 +80,10 @@ target_link_libraries(left_arm_trajectory_action
    ${catkin_LIBRARIES}
 )
 
+add_executable(right_arm_trajectory_action src/VizzyRightArmTrajActionServerNode.cpp src/VizzyRightArmTrajectoryActionServer.cpp)
+target_link_libraries(right_arm_trajectory_action
+   ${catkin_LIBRARIES}
+)
 
 
 
