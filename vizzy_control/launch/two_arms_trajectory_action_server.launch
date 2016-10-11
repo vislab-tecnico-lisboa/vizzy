@@ -1,0 +1,8 @@
+<launch>
+
+  <node ns="/vizzy/left_arm_trajectory_controller" pkg="vizzy_control" type="left_arm_trajectory_action" name="follow_joint_trajectory">
+  </node>
+
+ <node ns="/vizzy/right_arm_trajectory_controller" pkg="vizzy_control" type="right_arm_trajectory_action" name="follow_joint_trajectory">
+  </node>
+</launch>

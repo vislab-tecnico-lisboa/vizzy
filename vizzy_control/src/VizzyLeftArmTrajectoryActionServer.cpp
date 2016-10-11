@@ -12,11 +12,11 @@
 
 using namespace std;
 
-VizzyLeftArmTrajectoryActionServer::VizzyLeftArmTrajectoryActionServer(const ros::NodeHandle &nh)
-    : action_server_(nh, "left_arm_trajectory_controller/follow_joint_trajectory", false)
+VizzyLeftArmTrajectoryActionServer::VizzyLeftArmTrajectoryActionServer(const std::string & name, const ros::NodeHandle &nh)
+    : action_server_(nh,name, false)
 {
-    stop_execution = node_handle_.advertise<std_msgs::Bool>("left_arm_trajectory_cancel", 1);
-    trajectory_from_move_it = node_handle_.advertise<trajectory_msgs::JointTrajectory>("left_arm_trajectory_from_moveit", 1);
+    stop_execution = node_handle_.advertise<std_msgs::Bool>("/left_arm_trajectory_cancel", 1);
+    trajectory_from_move_it = node_handle_.advertise<trajectory_msgs::JointTrajectory>("/left_arm_trajectory_from_moveit", 1);
     action_server_.registerGoalCallback(boost::bind(&VizzyLeftArmTrajectoryActionServer::goalCallback, this));
     action_server_.registerPreemptCallback(boost::bind(&VizzyLeftArmTrajectoryActionServer::preemptCB, this));
     info_from_bridge = node_handle_.subscribe("/left_arm_trajectory_feedback", 1, &VizzyLeftArmTrajectoryActionServer::actionBridgeCallback,this);

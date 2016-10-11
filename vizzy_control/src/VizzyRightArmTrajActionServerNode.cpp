@@ -1,11 +1,11 @@
 /**
- *  File: VizzyLeftArmTrajActionServerNode.cpp
- *  Desc: Class for interfacing moveIt with Vizzy's left arm.
+ *  File: VizzyRightArmTrajActionServerNode.cpp
+ *  Desc: Class for interfacing moveIt with Vizzy's right arm.
  *  Auth: Plinio Moreno
  *
  *
  */
-#include "VizzyLeftArmTrajectoryActionServer.h"
+#include "VizzyRightArmTrajectoryActionServer.h"
 
 int main(int argc, char **argv)
 {
@@ -13,7 +13,7 @@ int main(int argc, char **argv)
     ros::NodeHandle nh;
     bool is_first_init = true;
     while (ros::ok()){
-	VizzyLeftArmTrajectoryActionServer act_server(ros::this_node::getName(),nh);
+	VizzyRightArmTrajectoryActionServer act_server(ros::this_node::getName(),nh);
 	ros::spin();
     }
 }
