@@ -104,7 +104,7 @@ void callbackVoice(const std_msgs::Int8::ConstPtr& msg){
   msg2Received = true;
   if(voiceCMD==4){
      placeString="office";   
-     moveBaseToCoordinates(-1.0,-15.5,DOWN);
+     moveBaseToCoordinates(-1.0,-13.9,DOWN);
   }
   if(voiceCMD==5){
      placeString="laboratory";  
@@ -112,7 +112,7 @@ void callbackVoice(const std_msgs::Int8::ConstPtr& msg){
   }
   if(voiceCMD==6){
      placeString="meeting room";  
-     moveBaseToCoordinates(15.0,-4.5,LEFT);
+     moveBaseToCoordinates(14.7,-4.5,LEFT);
   }
   if(voiceCMD==7){
      placeString="elevator"; 
