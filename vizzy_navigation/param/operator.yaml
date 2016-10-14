@@ -13,4 +13,4 @@ distance_weight: 1
 safety_weight: 10
 conformance_weight: 1
 continue_weight: 0
-inflation_layer/inflation_radius: 0.2
+inflation_layer/inflation_radius: 0.3
