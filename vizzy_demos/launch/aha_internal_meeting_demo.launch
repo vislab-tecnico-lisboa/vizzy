@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+
+<launch>
+  <!-- TRACKING -->
+  <!--<node pkg="tf" type="static_transform_publisher" name="base_footprint_to_vizzy" args="-2.190 -6.265 0 3.14 0 0 /map /map_opti 50" />-->
+
+
+  <!-- robot configuration parameters -->
+  <arg name="vizzy_machine_name" default="vizzy-desktop"/>
+  <arg name="vizzy_machine_address" default="192.168.1.2"/>
+  <arg name="env-loader" default="/home/vizzy/catkin_workspace/devel/env.sh"/>
+  <machine name="$(arg vizzy_machine_name)" address="$(arg vizzy_machine_address)" env-loader="$(arg env-loader)" user="vizzy"/>
+
+  <!-- simulation parameters and robot configuration parameters -->
+  <arg name="navigation" default="true"/>
+  <arg name="slam" default="false"/>
+  <!--<arg name="pose" default="-x -3.65 -y 17.7 -z 0.20 -R 0.0 -P 0.0 -Y 1.57"/>-->
+  <arg name="map_frame" default="map" />
+  <arg name="tf_prefix" default="" />
+  <arg name="base_frame_id" default="$(arg tf_prefix)/base_footprint" />
+  <arg name="odom_frame_id" default="$(arg tf_prefix)/odom" />
+  <arg name="map_topic" default="/map" />
+  <arg name="pedestrian_detection" default="false" />
+  <arg name="use_moveit" default="true" />
+  <arg name="visualization" default="false" />
+  <arg name="ns" default="vizzy" />
+  <arg name="ros_cameras_on" default="true" />
+  <arg name="map_file" default="mapa_piso7_NOVO_AWESOME.yaml" />
+  <arg name="follower" default="true" />
+  <!-- Choose the obstacle avoidance: global_map, local_map -->
+  <arg name="following_planner_mode" default="global_map" />
+  <!-- Choose what we want to detect: pedestrian, headandshoulders, full -->
+  <arg name="detector_type" default="full" />
+
+  <!-- Choose which camera to use: left or right -->
+  <arg name="camera" default="l_camera"/>
+
+  <arg name="ip_kinect_two_pc" default="mongodb://192.168.1.153:27017/"/>
+
+  <include file="$(find vizzy_launch)/launch/vizzy_real.launch">
+	<arg name="navigation" value="$(arg navigation)"/>
+	<arg name="slam" value="$(arg slam)"/>
+	<!--<arg name="pose" default="-x -3.65 -y 17.7 -z 0.20 -R 0.0 -P 0.0 -Y 1.57"/>-->
+	<arg name="map_frame" value="$(arg map_frame)" />
+	<arg name="tf_prefix" value="$(arg tf_prefix)" />
+	<arg name="base_frame_id" value="$(arg base_frame_id)" />
+	<arg name="odom_frame_id" value="$(arg odom_frame_id)" />
+	<arg name="map_topic" value="$(arg map_topic)" />
+	<arg name="use_moveit" value="$(arg use_moveit)" />
+  	<arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)"/>
+  	<arg name="vizzy_machine_address" value="$(arg vizzy_machine_address)"/>
+  	<arg name="env-loader" value="$(arg env-loader)"/>
+  	<arg name="ros_cameras_on" value="$(arg ros_cameras_on)"/>
+  	<arg name="map_file" value="$(arg map_file)" />
+	<arg name="frame_rate" value="15.0" />
+	<arg name="left_camera_file" value="left_camera_params.yaml" />
+	<arg name="right_camera_file" value="right_camera_params.yaml" />
+  </include>
+
+  <!-- launch vizualization on rviz -->
+  <group if="$(arg visualization)">
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find vizzy_demos)/rviz/pedestrian_detection.rviz" />
+  </group>
+
+  <!-- Launch pedestrian detector, tracker and follower -->
+
+  <include file="$(find pedestrian_detector)/launch/pedestrian_detector.launch">
+    <arg name="image_in" value="/vizzy/$(arg camera)/image_rect_color"/>
+    <arg name="detector_type" value="$(arg detector_type)" />
+    <arg name="camera" value="$(arg camera)"/>
+    <arg name="follower" value="$(arg follower)" />
+    <arg name="following_planner_mode" value="$(arg following_planner_mode)" />
+  </include>
+
+  <node pkg="id_selector" name="id_selector" type="idSelector" />
+
+  <include file="$(find behavioural_state_machine)/launch/4dots_no_waiting.launch">
+	<arg name="ip_kinect_two_pc" value="$(arg ip_kinect_two_pc)"/>
+  </include>
+
+</launch>
