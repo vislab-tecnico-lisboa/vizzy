@@ -190,11 +190,11 @@ int main(int argc, char *argv[])
 		    //std::cout << "Motion to :" << data->data[my_i]*180.0/3.141592 << "sent!" << std::endl;
 		}
 		//multiple joints case
-		//ipos->positionMove(tmp);
+		ipos->positionMove(tmp);
 		//single joint execution
-		for (int my_j=0;my_j<jnts;my_j++){
+		/*for (int my_j=0;my_j<jnts;my_j++){
 		  ipos->positionMove(my_j,tmp[my_j]);
-		}
+		}*/
 		double current_delay;
 		//if (my_i!=points_size-1)
 		current_delay = delta_ang/head_speeds[0];

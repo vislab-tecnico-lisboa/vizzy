@@ -45,27 +45,32 @@ int main(int argc, char *argv[])
         yError("Problems acquiring mandatory interfaces, quitting\n");
         return 1;
     }
-    //double left_arm_speeds[8] = {10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0};
-    double position_one[8] = {10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0};
-    double position_two[8] = {20.0,20.0,20.0,20.0,20.0,20.0,20.0,20.0};
-    double position_three[8] = {30.0,30.0,30.0,30.0,30.0,30.0,30.0,30.0};
+    double left_arm_speeds[8] = {10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0};
+    double position_one[8] = {1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0};
+    double position_two[8] = {5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0};
+    double position_three[8] = {10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0};
     int joint_indexes[8] = {0,1,2,3,4,5,6,7};
-    //iposDir->setRefSpeeds(left_arm_speeds);
+    //ipos2->setRefSpeeds(left_arm_speeds);
     //imode->setControlMode(j,VOCAB_CM_POSITION);
     iposDir->getAxes(&jnts);
+    //ipos2->getAxes(&jnts);
     for (size_t j=0; j<8; j++){
         imode->setControlMode(joint_indexes[j],VOCAB_CM_POSITION_DIRECT);
+	//imode->setControlMode(j,VOCAB_CM_POSITION);
 	//iposDir->setPosition(joint_indexes[j],position_one[j]);
     }
-    iposDir->setPositions(jnts,(const int*)&joint_indexes,position_one);
-    /*std::cout << "Position one sent to position control 2! " << std::endl;
-    ipos2->positionMove(jnts,(const int*)&joint_indexes,position_two);
+    iposDir->setPositions(8,(const int*)&joint_indexes,position_one);
+    Time::delay(0.01);
+    //std::cout << "Position one sent to position control 2! " << std::endl;
+    /*ipos2->positionMove(8,(const int*)&joint_indexes,position_one);
+    ipos2->positionMove(8,(const int*)&joint_indexes,position_two);
     std::cout << "Position two sent to position control 2! " << std::endl;
-    ipos2->positionMove(jnts,(const int*)&joint_indexes,position_three);
-    std::cout << "Position three sent to position control 2! " << std::endl;
-    iposDir->setPositions(jnts,(const int*)&joint_indexes,position_one);
+    ipos2->positionMove(8,(const int*)&joint_indexes,position_three);
+    std::cout << "Position three sent to position control 2! " << std::endl;*/
+    iposDir->setPositions(8,(const int*)&joint_indexes,position_two);
+Time::delay(0.01);
     std::cout << "Position one sent to position direct! " << std::endl;
-    iposDir->setPositions(jnts,(const int*)&joint_indexes,position_three);
-    std::cout << "Position three sent to position direct! " << std::endl;*/
+    iposDir->setPositions(8,(const int*)&joint_indexes,position_three);
+    std::cout << "Position three sent to position direct! " << std::endl;
   return 0;
 }
