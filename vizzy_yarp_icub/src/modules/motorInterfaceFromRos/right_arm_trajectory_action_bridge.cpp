@@ -95,6 +95,8 @@ int main(int argc, char *argv[])
     bool ok;
     ok = dd.view(ipos);
     ok &= dd.view(enc);
+    ok &= dd.view(iposDir);
+    ok &= dd.view(iMode2);
 
     Thread1 cancel_topic_thread;
     cancel_topic_thread.setSubscriber(&subscriber_stop_right_arm);
@@ -121,8 +123,11 @@ int main(int argc, char *argv[])
     //double head_speeds[8] = {30.0,30.0,30.0,30.0,30.0,30.0,30.0,30.0};
     double head_speeds[8] = {12.0,12.0,12.0,12.0,12.0,12.0,12.0,12.0};
     ipos->setRefSpeeds(head_speeds);
-    ipos->getAxes(&jnts);
+    //ipos->getAxes(&jnts);
+    iposDir->getAxes(&jnts);
     printf("Working with %d axes\n", jnts);
+    //for (size_t mot_jo=0;mot_jo<jnts;mot_jo++)
+    //	iMode2->setControlMode(mot_jo,VOCAB_CM_POSITION_DIRECT);
     double *tmp = new double[jnts];
     double *tmp_read = new double[jnts];
     //int joint_map[8] = {4,5,2,1,3,0,6,7};
@@ -190,11 +195,12 @@ int main(int argc, char *argv[])
 		    //std::cout << "Motion to :" << data->data[my_i]*180.0/3.141592 << "sent!" << std::endl;
 		}
 		//multiple joints case
-		//ipos->positionMove(tmp);
+		ipos->positionMove(tmp);
 		//single joint execution
-		for (int my_j=0;my_j<jnts;my_j++){
+		/*for (int my_j=0;my_j<jnts;my_j++){
 		  ipos->positionMove(my_j,tmp[my_j]);
-		}
+		  //iposDir->setPosition(my_j,tmp[my_j]);
+		}*/
 		double current_delay;
 		//if (my_i!=points_size-1)
 		current_delay = delta_ang/head_speeds[0];
@@ -202,8 +208,11 @@ int main(int argc, char *argv[])
 		//    current_delay = (5/30);
 		//std::cout << "current delay: " << current_delay << std::endl;
 		//Time::delay(current_delay*0.6);
-		Time::delay(current_delay*1.0);
+		//Time::delay(current_delay*(1.0/3.0));
+		Time::delay(current_delay*(0.3));
 		//Time::delay(0.01);
+		if (my_i==points_size-1)
+			Time::delay(current_delay);
 		/*if (my_i==points_size-1){
 		bool motionDone=false;
 		while (motionDone==false){
