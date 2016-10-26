@@ -5,7 +5,7 @@
  *
  *
  */
-#include "VizzyLeftArmTrajectoryActionServer.h"
+#include "VizzyTrajectoryActionServer.h"
 
 int main(int argc, char **argv)
 {
@@ -13,7 +13,7 @@ int main(int argc, char **argv)
     ros::NodeHandle nh;
     bool is_first_init = true;
     while (ros::ok()){
-	VizzyLeftArmTrajectoryActionServer act_server(ros::this_node::getName(),nh);
+    VizzyFollowTrajectoryActionServer act_server(ros::this_node::getName(),nh);
 	ros::spin();
     }
 }

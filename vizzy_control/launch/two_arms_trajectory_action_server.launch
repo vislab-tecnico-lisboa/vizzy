@@ -1,8 +1,13 @@
+<?xml version="1.0"?>
 <launch>
+  <arg name="left_arm_name" default="left_shoulder_arm" />
+  <arg name="right_arm_name" default="right_shoulder_arm" /> 
 
-  <node ns="/vizzy/left_arm_trajectory_controller" pkg="vizzy_control" type="left_arm_trajectory_action" name="follow_joint_trajectory">
+ <node ns="/vizzy/right_arm_trajectory_controller" pkg="vizzy_control" type="follow_trajectory_action_server" name="follow_joint_trajectory">
+	<rosparam file="$(find vizzy_control)/param/right_arm_follow_traj.yaml"/>
   </node>
 
- <node ns="/vizzy/right_arm_trajectory_controller" pkg="vizzy_control" type="right_arm_trajectory_action" name="follow_joint_trajectory">
+<node ns="/vizzy/left_arm_trajectory_controller" pkg="vizzy_control" type="follow_trajectory_action_server" name="follow_joint_trajectory">
+	<rosparam file="$(find vizzy_control)/param/left_arm_follow_traj.yaml"/>
   </node>
 </launch>

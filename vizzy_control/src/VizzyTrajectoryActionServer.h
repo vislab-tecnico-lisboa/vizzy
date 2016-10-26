@@ -7,8 +7,8 @@
  */
 
 
-#ifndef VIZZY_LEFT_ARM_TRAJECTORY_ACTION_H
-#define VIZZY_LEFT_ARM_TRAJECTORY_ACTION_H
+#ifndef VIZZY_TRAJECTORY_ACTION_H
+#define VIZZY_TRAJECTORY_ACTION_H
 
 #include <ros/ros.h>
 #include <actionlib/server/simple_action_server.h>
@@ -17,11 +17,11 @@
 #include <std_msgs/Bool.h>
 #define NUM_JACO_JOINTS 6
 //void actionBridgeCallback(const std_msgs::Int16::ConstPtr& msg);
-class VizzyLeftArmTrajectoryActionServer
+class VizzyFollowTrajectoryActionServer
 {
  public:
-    VizzyLeftArmTrajectoryActionServer(const std::string & name, const ros::NodeHandle &n);
-    ~VizzyLeftArmTrajectoryActionServer();
+    VizzyFollowTrajectoryActionServer(const std::string & name, const ros::NodeHandle &n);
+    ~VizzyFollowTrajectoryActionServer();
 
     void goalCallback();
     actionlib::SimpleActionServer<control_msgs::FollowJointTrajectoryAction> action_server_;
@@ -35,7 +35,9 @@ class VizzyLeftArmTrajectoryActionServer
     ros::Publisher trajectory_from_move_it;
     ros::Publisher stop_execution;
     control_msgs::FollowJointTrajectoryGoalConstPtr goal_msg;
+    ros::NodeHandle private_node_handle;
+    std::string robot_part;
 };
 
-#endif  // VIZZY_LEFT_ARM_TRAJECTORY_ACTION_H
+#endif  // VIZZY_TRAJECTORY_ACTION_H
 
