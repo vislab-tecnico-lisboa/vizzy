@@ -75,16 +75,10 @@ add_executable(fixation_point_node src/FixationPointRos.cpp)
 
 
 ## Declare a cpp executable
-add_executable(left_arm_trajectory_action src/VizzyLeftArmTrajActionServerNode.cpp src/VizzyLeftArmTrajectoryActionServer.cpp)
-target_link_libraries(left_arm_trajectory_action
+add_executable(follow_trajectory_action_server src/VizzyTrajActionServerNode.cpp src/VizzyTrajectoryActionServer.cpp)
+target_link_libraries(follow_trajectory_action_server
    ${catkin_LIBRARIES}
 )
-
-add_executable(right_arm_trajectory_action src/VizzyRightArmTrajActionServerNode.cpp src/VizzyRightArmTrajectoryActionServer.cpp)
-target_link_libraries(right_arm_trajectory_action
-   ${catkin_LIBRARIES}
-)
-
 
 
 ## Add cmake target dependencies of the executable/library
