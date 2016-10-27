@@ -78,6 +78,7 @@ If you want to run the follower module, download a changed version of the nav2d 
 
 Other dependencies needed
 
+    sudo apt-get install ros-indigo-moveit-*
     sudo apt-get install ros-indigo-move-base
     sudo apt-get install ros-indigo-amcl
     sudo apt-get install ros-indigo-joy
