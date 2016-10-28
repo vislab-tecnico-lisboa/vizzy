@@ -4,10 +4,20 @@ project(vizzy_demos)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED)
+find_package(catkin REQUIRED
+  roscpp
+  std_msgs
+  message_generation	
+  moveit_core
+  moveit_ros_planning 
+  moveit_ros_planning_interface 
+  actionlib
+  cv_bridge
+  tf
+  actionlib)
 
 ## System dependencies are found with CMake's conventions
-# find_package(Boost REQUIRED COMPONENTS system)
+
 
 
 ## Uncomment this if the package has a setup.py. This macro ensures
@@ -90,6 +100,12 @@ catkin_package(
 ## Your package locations should be listed before other locations
 # include_directories(include)
 
+include_directories(
+  ${catkin_INCLUDE_DIRS}
+
+)
+
+
 ## Declare a cpp library
 # add_library(vizzy_demos
 #   src/${PROJECT_NAME}/vizzy_demos.cpp
@@ -106,6 +122,12 @@ catkin_package(
 # target_link_libraries(vizzy_demos_node
 #   ${catkin_LIBRARIES}
 # )
+
+
+add_executable(wave src/waveDemo.cpp)
+target_link_libraries(
+  wave ${catkin_LIBRARIES}
+)
 
 #############
 ## Install ##
