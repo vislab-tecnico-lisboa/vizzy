@@ -81,6 +81,7 @@
 
   <!-- launch moveit -->
   <group if="$(arg use_moveit)">
+    <include file="$(find vizzy_control)/launch/two_arms_trajectory_action_server.launch"/>
     <include file="$(find vizzy_moveit_config)/launch/moveit.launch"/>
   </group>
 
