@@ -147,6 +147,8 @@ int main(int argc, char *argv[])
     ipos->setRefSpeeds(part_speeds);
     //ipos->getAxes(&jnts);
     iposDir->getAxes(&jnts);
+    if (part == "left_shoulder_arm" || part == "right_shoulder_arm")
+        jnts=len;
     printf("Working with %d axes\n", jnts);
     //for (size_t mot_jo=0;mot_jo<jnts;mot_jo++)
     //	iMode2->setControlMode(mot_jo,VOCAB_CM_POSITION_DIRECT);
@@ -259,7 +261,7 @@ int main(int argc, char *argv[])
                 current_delay = delta_ang/part_speeds[0];
                 //else
                 //    current_delay = (5/30);
-                //std::cout << "current delay: " << current_delay << std::endl;
+                //std::cout << "current delay: " << current_delay << " and percentage: " << current_delay*(time_percentage) << std::endl;
                 //Time::delay(current_delay*0.6);
                 //Time::delay(current_delay*(1.0/3.0));
                 Time::delay(current_delay*(time_percentage));
