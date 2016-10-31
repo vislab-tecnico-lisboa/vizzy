@@ -13,3 +13,8 @@ right_arm:
   kinematics_solver_search_resolution: 0.01
   kinematics_solver_timeout: 0.5
   kinematics_solver_attempts: 10
+left_arm:
+  kinematics_solver: kdl_kinematics_plugin/KDLKinematicsPlugin
+  kinematics_solver_search_resolution: 0.01
+  kinematics_solver_timeout: 0.5
+  kinematics_solver_attempts: 10

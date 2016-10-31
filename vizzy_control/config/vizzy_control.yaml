@@ -234,42 +234,54 @@ vizzy:
       - l_wrist_flection_joint
     gains:
       l_shoulder_scapula_joint:
-        p: 1.0
+        p: 10.0
         i: 0.0
         d: 0.0
       l_shoulder_flection_joint:
-        p: 1.0
+        p: 10.0
         i: 0.0
         d: 0.0
       l_shoulder_rotation_joint:
-        p: 1.0
+        p: 10.0
         i: 0.0
         d: 0.0
       l_elbow_flection_joint:
-        p: 1.0
+        p: 10.0
         i: 0.0
         d: 0.0
       l_forearm_pronation_joint:
-        p: 1.0
+        p: 10.0
         i: 0.0
         d: 0.0
       l_wrist_abduction_joint:
-        p: 1.0
+        p: 10.0
         i: 0.0
         d: 0.0
       l_wrist_flection_joint:
-        p: 1.0
+        p: 10.0
         i: 0.0
         d: 0.0
     constraints:
       goal_time: 1000.0                   # Override default
-      neck_pan_joint:
+      l_shoulder_scapula_joint:
         trajectory: -1.0
         goal: 0
-      neck_tilt_joint:
+      l_shoulder_flection_joint:
         trajectory: -1.0
         goal: 0
-      eyes_tilt_joint:
+      l_shoulder_rotation_joint:
+        trajectory: -1.0
+        goal: 0
+      l_elbow_flection_joint:
+        trajectory: -1.0
+        goal: 0
+      l_forearm_pronation_joint:
+        trajectory: -1.0
+        goal: 0
+      l_wrist_abduction_joint:
+        trajectory: -1.0
+        goal: 0
+      l_wrist_flection_joint:
         trajectory: -1.0
         goal: 0
 
@@ -286,31 +298,31 @@ vizzy:
       - r_wrist_flection_joint
     gains:
       r_shoulder_scapula_joint:
-        p: 1.0
+        p: 10.0
         i: 0.0
         d: 0.0
       r_shoulder_flection_joint:
-        p: 1.0
+        p: 10.0
         i: 0.0
         d: 0.0
       r_shoulder_rotation_joint:
-        p: 1.0
+        p: 10.0
         i: 0.0
         d: 0.0
       r_elbow_flection_joint:
-        p: 1.0
+        p: 10.0
         i: 0.0
         d: 0.0
       r_forearm_pronation_joint:
-        p: 1.0
+        p: 10.0
         i: 0.0
         d: 0.0
       r_wrist_abduction_joint:
-        p: 1.0
+        p: 10.0
         i: 0.0
         d: 0.0
       r_wrist_flection_joint:
-        p: 1.0
+        p: 10.0
         i: 0.0
         d: 0.0
     constraints:
@@ -334,9 +346,6 @@ vizzy:
         trajectory: -1.0
         goal: 0
       r_wrist_flection_joint:
-        trajectory: -1.0
-        goal: 0
-      r_palm_joint:
         trajectory: -1.0
         goal: 0
 
