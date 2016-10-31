@@ -44,7 +44,7 @@ bool moveArm(){
     group.setGoalOrientationTolerance(goalOrientationTolerance);
     group.startStateMonitor();
 
-    success=group.setNamedTarget("wave_home");
+    success=group.setNamedTarget("right_arm_wave");
     ROS_INFO("MOVE HOME");
     group.move();
 
