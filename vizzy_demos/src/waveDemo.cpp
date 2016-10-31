@@ -64,7 +64,10 @@ bool moveArm(){
 
     int i=0;
     double time_from_start = 0.01;
-    while(i<10)
+
+    ROS_INFO("FINISHED GOING WAVE HOME");
+
+    while(i<5)
     {
         std::vector<double> set_joint_values=current_joint_values;
 
@@ -73,12 +76,10 @@ bool moveArm(){
         double max_joint_move=angle*2.0;
         if(i%2==0)
         {
-            std::cout << "ola"<< std::endl;
             set_joint_values[4]+=angle;
         }
         else
         {
-            std::cout << "adeus"<< std::endl;
             set_joint_values[4]-=angle;
         }
         ++i;
@@ -91,6 +92,11 @@ bool moveArm(){
         point.positions=set_joint_values;
         set_joint_values.pop_back();
         joint_trajectory.points.push_back(point);
+    }
+
+    for (int i=0; i<joint_names.size();++i)
+    {
+        std::cout << joint_names[i] << " " << std::endl;
     }
 
     ROS_INFO("SEND TRAJ");

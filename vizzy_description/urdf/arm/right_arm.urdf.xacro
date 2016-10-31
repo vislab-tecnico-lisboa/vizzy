@@ -530,11 +530,11 @@
                        </geometry>
                    </collision>
 	        </link>
-		<joint name="r_palm_joint" type="revolute">
+		<joint name="r_palm_joint" type="fixed">
 		  <origin xyz="0.1 0 0.0" rpy="${M_PI/2.0} 0 ${M_PI}" />
 		  <parent link="r_wrist_flection_link"/>
 		  <child link="r_palm_link" />
-		  <limit lower="0.0" upper="0.0" effort="10" velocity="3" />
+		  <!--<limit lower="0.0" upper="0.0" effort="10" velocity="3" />-->
 		</joint>
 
     <!-- gazebo extensions -->

@@ -52,8 +52,6 @@
     </gazebo>
 
     <gazebo reference="r_palm_link">
-      <!--<mu1>0.2</mu1>
-      <mu2>0.2</mu2>-->
     </gazebo>
 
     <!--<gazebo>

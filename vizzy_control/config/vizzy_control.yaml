@@ -313,10 +313,6 @@ vizzy:
         p: 1.0
         i: 0.0
         d: 0.0
-      r_palm_joint:
-        p: 1.0
-        i: 0.0
-        d: 0.0
     constraints:
       goal_time: 1000.0                   # Override default
       r_shoulder_scapula_joint:
