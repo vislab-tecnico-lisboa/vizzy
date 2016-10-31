@@ -35,7 +35,7 @@ add_executable(${PROJECTNAME} ${source} ${header})
 
 target_link_libraries(${PROJECTNAME} ${YARP_LIBRARIES} ${ICUB_LIBRARIES}) 
 
-install(TARGETS ${PROJECTNAME} DESTINATION bin)
+#install(TARGETS ${PROJECTNAME} DESTINATION bin)
 
 # required by Windows?
 #SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${ICUB_LINK_FLAGS}")
