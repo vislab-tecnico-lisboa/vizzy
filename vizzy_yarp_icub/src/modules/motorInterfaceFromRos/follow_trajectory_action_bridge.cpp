@@ -238,7 +238,7 @@ int main(int argc, char *argv[])
 		for (int my_j=0;my_j<jnts;my_j++){
 		    joint_trajectory_map[traj_data->joint_names.at(my_j)]=my_j;
 		}
-		trajectory_map_read=true;
+		//trajectory_map_read=true;
 	    }
             for (int my_i=0; my_i<points_size; my_i++){
                 enc->getEncoders(tmp_read);
@@ -251,6 +251,7 @@ int main(int argc, char *argv[])
 		    std::map<std::string,int>::iterator it=joint_trajectory_map.find(joints_name_yarp[my_j]);
                     //tmp[my_j] = traj_data->points.at(my_i).positions.at(joint_map[my_j])*180.0/3.141592;
 		    tmp[my_j] = traj_data->points.at(my_i).positions.at(it->second)*180.0/3.141592;
+		    std::cout << joints_name_yarp[my_j] << " =" << tmp[my_j] << std::endl;
                     double curr_delta_ang = fabs(tmp[my_j] - tmp_read[my_j]);
                     //std::cout << " delta joint [" << my_j << "] : " << curr_delta_ang << std::endl;
                     if (curr_delta_ang >= delta_ang){
@@ -307,7 +308,8 @@ int main(int argc, char *argv[])
                 trajectory_elapsed_time = Time::now();
                 current_error=0.0;
                 for (int my_j=0;my_j<jnts;my_j++){
-                    current_error += fabs(traj_data->points.at(points_size-1).positions.at(joint_map[my_j])*180.0/3.141592-tmp_read[my_j]);
+		    std::map<std::string,int>::iterator it=joint_trajectory_map.find(joints_name_yarp[my_j]);
+                    current_error += fabs(traj_data->points.at(points_size-1).positions.at(it->second)*180.0/3.141592-tmp_read[my_j]);
                     //std::cout << "Motion to :" << data->data[my_i]*180.0/3.141592 << "sent!" << std::endl;
                 }
                 //std::cout << "error at point [" << my_i << " ]:" << current_error << std::endl;
@@ -321,7 +323,8 @@ int main(int argc, char *argv[])
             //Time::delay(0.09);
             enc->getEncoders(tmp_read);
             for (int my_j=0;my_j<jnts;my_j++){
-                current_error += fabs(traj_data->points.at(points_size-1).positions.at(joint_map[my_j])*180.0/3.141592-tmp_read[my_j]);
+		std::map<std::string,int>::iterator it=joint_trajectory_map.find(joints_name_yarp[my_j]);
+                current_error += fabs(traj_data->points.at(points_size-1).positions.at(it->second)*180.0/3.141592-tmp_read[my_j]);
                 //std::cout << "Motion to :" << data->data[my_i]*180.0/3.141592 << "sent!" << std::endl;
             }
             std::cout << "error at last trajectory point:" << current_error << std::endl;
