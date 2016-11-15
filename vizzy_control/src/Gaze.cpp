@@ -64,17 +64,17 @@ void Gaze::publishFixationPointGoal()
     geometry_msgs::PointStamped goal_point_world_viz;
     //while(nh_.ok())
     {
-        //try
+        try
         {
             ros::Time current_time = ros::Time::now();
             tf_listener->waitForTransform(world_frame, current_time, goal_msg->fixation_point.header.frame_id, goal_msg->fixation_point.header.stamp, world_frame, ros::Duration(0.05) );
             tf_listener->transformPoint(world_frame, current_time, goal_msg->fixation_point, world_frame, goal_point_world_viz);
         }
-        /*catch (tf::TransformException &ex)
+        catch (tf::TransformException &ex)
         {
             //ROS_WARN("%s",ex.what());
             return;
-        }*/
+        }
         
     }
 
@@ -92,7 +92,10 @@ void Gaze::preemptCB()
 
 void Gaze::goalCB()
 {
+
     goal_msg = as_.acceptNewGoal();
+
+    as_.isPreemptRequested();
 
 
     start_time = ros::WallTime::now();
@@ -101,16 +104,21 @@ void Gaze::goalCB()
     if(goal_msg->type==vizzy_msgs::GazeGoal::HOME)
     {
         moveHome();
+
     }
     else
     {
+
         publishFixationPointGoal();
+
         if(!moveCartesian())
         {
+
             result_.state_reached=false;
 
             //ROS_INFO("%s: Aborted", action_name_.c_str());
             as_.setAborted(result_);
+
         }
     }
     // set the action state to succeeded
