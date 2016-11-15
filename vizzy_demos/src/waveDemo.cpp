@@ -51,7 +51,6 @@ bool moveArm(){
     for(int i=0; i<joint_names.size(); ++i)
     {
         joint_names_map[joint_names[i]]=i;
-        std::cout << joint_names_map[joint_names[i]] << std::endl;
     }
 
     std::vector<double> current_joint_values=group.getCurrentJointValues();
@@ -65,8 +64,6 @@ bool moveArm(){
     int i=0;
     double time_from_start = 0.01;
 
-    ROS_INFO("FINISHED GOING WAVE HOME");
-
     while(i<5)
     {
         std::vector<double> set_joint_values=current_joint_values;
@@ -76,16 +73,16 @@ bool moveArm(){
         double max_joint_move=angle*2.0;
         if(i%2==0)
         {
-            set_joint_values[joint_names_map['r_elbow_flection_joint']]+=angle;
+            set_joint_values[joint_names_map["r_elbow_flection_joint"]]+=angle;
         }
         else
         {
-            set_joint_values[joint_names_map['r_elbow_flection_joint']]-=angle;
+            set_joint_values[joint_names_map["r_elbow_flection_joint"]]-=angle;
         }
         ++i;
 
         double seconds = max_joint_move/MAX_JOINT_VEL;
-        ROS_INFO("max_joint_move: %0.3f, seconds: %0.3f", max_joint_move, seconds);
+
         time_from_start += seconds;
         trajectory_msgs::JointTrajectoryPoint point;
         point.time_from_start=ros::Duration(time_from_start);
