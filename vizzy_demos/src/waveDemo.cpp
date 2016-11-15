@@ -32,8 +32,6 @@ bool moveArm(){
     ROS_INFO("Waiting for action server to start.");
     // wait for the action server to start
     ac.waitForServer(); //will wait for infinite time
-    ROS_INFO("DONE.");
-
 
     moveit::planning_interface::MoveGroup group("right_arm");
     group.setPlannerId("RRTConnectkConfigDefault");
@@ -45,16 +43,18 @@ bool moveArm(){
     group.startStateMonitor();
 
     success=group.setNamedTarget("right_arm_wave");
-    ROS_INFO("MOVE HOME");
     group.move();
-
-    ROS_INFO("MOVED");
 
     //success=group.setJointValueTarget(test);
     std::vector<std::string> joint_names=group.getJoints();
+    std::map<std::string, int> joint_names_map;
+    for(int i=0; i<joint_names.size(); ++i)
+    {
+        joint_names_map[joint_names[i]]=i;
+        std::cout << joint_names_map[joint_names[i]] << std::endl;
+    }
+
     std::vector<double> current_joint_values=group.getCurrentJointValues();
-    //std::vector<double> group_variable_values;
-    //group.getCurrentState()->copyJointGroupPositions(group.getCurrentState()->getRobotModel()->getJointModelGroup(group.getName()), group_variable_values);
 
     joint_names.pop_back();
 
@@ -76,11 +76,11 @@ bool moveArm(){
         double max_joint_move=angle*2.0;
         if(i%2==0)
         {
-            set_joint_values[4]+=angle;
+            set_joint_values[joint_names_map['r_elbow_flection_joint']]+=angle;
         }
         else
         {
-            set_joint_values[4]-=angle;
+            set_joint_values[joint_names_map['r_elbow_flection_joint']]-=angle;
         }
         ++i;
 
@@ -94,12 +94,6 @@ bool moveArm(){
         joint_trajectory.points.push_back(point);
     }
 
-    for (int i=0; i<joint_names.size();++i)
-    {
-        std::cout << joint_names[i] << " " << std::endl;
-    }
-
-    ROS_INFO("SEND TRAJ");
     // send a goal to the action
     control_msgs::FollowJointTrajectoryGoal goal;
     goal.trajectory=joint_trajectory;
@@ -115,7 +109,9 @@ bool moveArm(){
         ROS_INFO("Action finished: %s",state.toString().c_str());
     }
     else
+    {
         ROS_INFO("Action did not finish before the time out.");
+    }
 
 
 
