@@ -76,11 +76,11 @@ bool moveArm(){
         double max_joint_move=angle*2.0;
         if(i%2==0)
         {
-            set_joint_values[joint_names_map['name']]+=angle;
+            set_joint_values[joint_names_map['r_elbow_flection_joint']]+=angle;
         }
         else
         {
-            set_joint_values[joint_names_map['name']]-=angle;
+            set_joint_values[joint_names_map['r_elbow_flection_joint']]-=angle;
         }
         ++i;
 
