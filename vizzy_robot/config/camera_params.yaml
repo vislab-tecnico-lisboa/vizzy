@@ -1,4 +1,5 @@
 auto_exposure: 2
-auto_brightness: 2
+auto_brightness: 3
 auto_gain: 1
+auto_gamma: 4
 reset_on_open: true
