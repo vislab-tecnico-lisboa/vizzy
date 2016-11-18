@@ -8,10 +8,10 @@ from geometry_msgs.msg import Point
 from sound_play.msg import SoundRequest
 from sound_play.libsoundplay import SoundClient
 import time
-#arm_publisher = None
+arm_publisher = None
 current_track = -1
 sent_already= False
-soundhandle=None
+soundhandle = None
 def subs_callback(data):
 	global current_track
 	global sent_already
@@ -35,20 +35,18 @@ def subs_callback(data):
 			MyPoint = data.bbVector[bb_ind].person3dLocation
 			distance = MyPoint.x*MyPoint.x+MyPoint.y*MyPoint.y
 			#print distance
-			if distance < 2.5*2.5:
+			if distance < 1.5*1.5:
 				if not is_different and not sent_already:
 					arm_publisher.publish(1)
 					sent_already = True
 					print 'Saying hello to person ' + str(data.bbVector[bb_ind].id)
-					time.sleep(2.5)
-					soundhandle.say('Hello my name is vizzy',voice)#,volume)
+					soundhandle.say('Hello I am vizzy',voice,volume)
 					time.sleep(4)
 				if is_different:
 					arm_publisher.publish(1)
 					sent_already = True
 					print 'Saying hello to person ' + str(data.bbVector[bb_ind].id)
-					time.sleep(2.5)
-					soundhandle.say('Hello my name is vizzy',voice)#,volume)
+					soundhandle.say('Hello I am vizzy',voice,volume)
 					time.sleep(4)
 			break
 

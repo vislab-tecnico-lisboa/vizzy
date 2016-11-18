@@ -10,7 +10,7 @@
   <arg name="launch_moveit" default="true"/>
   <arg name="slam" default="false"/>
   <!--<arg name="pose" default="-x -3.65 -y 17.7 -z 0.20 -R 0.0 -P 0.0 -Y 1.57"/>-->
-  <arg name="pose" default="-x -2.0 -y -0.0 -z 0.1 -R 0.0 -P 0.0 -Y 0"/>
+  <arg name="pose" default="-x 2.0 -y -0.0 -z 0.1 -R 0.0 -P 0.0 -Y 0"/>
   <arg name="paused" default="false"/>
   <arg name="use_sim_time" default="true"/>
   <arg name="gui" default="true"/>
