@@ -409,7 +409,7 @@
 		      iyz="0.000132013848915951"
 		      izz="0.00103049250587026" />
 		  </inertial>
-		  <visual>
+		  <!--<visual>
 		    <origin
 		      xyz="0.106 0.0077 0.017"
 		      rpy="0.0 ${M_PI} ${-M_PI/2}" />
@@ -431,7 +431,7 @@
 		      <mesh
 		        filename="package://vizzy_description/meshes/M7R.dae" />
 		    </geometry>
-		  </collision>
+		  </collision>-->
 		</link>
 		<joint
 		  name="r_wrist_flection_joint"
@@ -448,7 +448,7 @@
 		  <limit lower="-0.610865238" upper="0.610865238" effort="10" velocity="3" />
 		  <dynamics damping="0.0" friction="1.0"/>
 		</joint>
-		<link name="r_palm_link">
+		<!--<link name="r_palm_link">
                     <inertial>
                         <origin xyz="0 0 0" rpy="0 0 0" />
                         <mass value="0.1" />
@@ -469,9 +469,9 @@
                            <cylinder length="0.001" radius="0.001" />
                        </geometry>
                    </collision>
-	        </link>
+	        </link>-->
 		<joint name="r_palm_joint" type="fixed">
-		  <origin xyz="0.1 0 0.0" rpy="${M_PI/2.0} 0.0 ${M_PI}" />
+		  <origin xyz="0.075 0.01 -0.005" rpy="0.0 ${M_PI/2.0} 0.0" />
 		  <parent link="r_wrist_flection_link"/>
 		  <child link="r_palm_link" />
 		</joint>
