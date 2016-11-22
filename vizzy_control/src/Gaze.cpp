@@ -1,7 +1,7 @@
 // By: Rui P. de Figueiredo : ruifigueiredo@isr.ist.utl.pt
 
 #include "Gaze.h"
-
+#include <cv_bridge/cv_bridge.h>
 Gaze::Gaze(const std::string & name, const ros::NodeHandle & nh) :
     nh_(nh),
     as_(nh_, name, false),
@@ -47,12 +47,27 @@ void Gaze::suppresion(const sensor_msgs::Image::ConstPtr & left_image_msg,
                       const sensor_msgs::Image::ConstPtr & right_image_msg)
 {
 
+
+    static int count=0;
     if(active)
     {
-        //ROS_ERROR("ESTOU A SUPPRIMIR");
-
+        ROS_ERROR("ESTOU A SUPPRIMIR");
+        //write left image
+        //cv::imwrite("/home/vizzy/images_moutinho"+);
+        // write right image
         return;
     }
+    ++count;
+    std::ostringstream ss_left, ss_right;
+    ss_left << count << "_left.jpg";
+    ss_right << count << "_right.jpg";
+
+    cv::Mat left_image_mat =cv_bridge::toCvCopy(left_image_msg, "bgr8")->image;
+    cv::Mat right_image_mat =cv_bridge::toCvCopy(right_image_msg, "bgr8")->image;
+
+    //ROS_ERROR_STREAM(ss_left.str()<< " "<< ss_right.str());
+    cv::imwrite("/home/vizzy/images_moutinho/"+ss_left.str(),left_image_mat);
+    cv::imwrite("/home/vizzy/images_moutinho/"+ss_right.str(),right_image_mat);
 
     left_image_suppression_pub.publish(left_image_msg);
     right_image_suppression_pub.publish(right_image_msg);

@@ -1,5 +1,10 @@
-auto_exposure: 2
+auto_exposure: 4
 auto_brightness: 3
-auto_gain: 1
 auto_gamma: 4
+auto_saturation: 4
+auto_shutter: 4
+auto_gain: 4
+auto_white_balance: 4
+auto_hue: 4
+auto_sharpness: 4
 reset_on_open: true
