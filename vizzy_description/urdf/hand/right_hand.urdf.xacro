@@ -105,8 +105,8 @@
     <limit
       lower="0"
       upper="1.7453"
-      effort="0"
-      velocity="0" />
+      effort="10"
+      velocity="10" />
   </joint>
   <link
     name="r_min_phal_2_link">
@@ -163,8 +163,8 @@
     <limit
       lower="0"
       upper="1.5708"
-      effort="0"
-      velocity="0" />
+      effort="10"
+      velocity="10" />
   </joint>
   <link
     name="r_min_phal_3_link">
@@ -221,8 +221,8 @@
     <limit
       lower="0"
       upper="1.5708"
-      effort="0"
-      velocity="0" />
+      effort="10"
+      velocity="10" />
   </joint>
   <link
     name="r_med_phal_1_link">
@@ -279,8 +279,8 @@
     <limit
       lower="0"
       upper="1.7453"
-      effort="0"
-      velocity="0" />
+      effort="10"
+      velocity="10" />
   </joint>
   <link
     name="r_med_phal_2_link">
@@ -337,8 +337,8 @@
     <limit
       lower="0"
       upper="1.5708"
-      effort="0"
-      velocity="0" />
+      effort="10"
+      velocity="10" />
   </joint>
   <link
     name="r_med_phal_3_link">
@@ -395,8 +395,8 @@
     <limit
       lower="0"
       upper="1.5708"
-      effort="0"
-      velocity="0" />
+      effort="10"
+      velocity="10" />
   </joint>
   <link
     name="r_ind_phal_1_link">
@@ -453,8 +453,8 @@
     <limit
       lower="0"
       upper="1.5708"
-      effort="0"
-      velocity="0" />
+      effort="10"
+      velocity="10" />
   </joint>
   <link
     name="r_ind_phal_2_link">
@@ -511,8 +511,8 @@
     <limit
       lower="0"
       upper="1.5708"
-      effort="0"
-      velocity="0" />
+      effort="10"
+      velocity="10" />
   </joint>
   <link
     name="r_ind_phal_3_link">
@@ -569,8 +569,8 @@
     <limit
       lower="0"
       upper="1.5708"
-      effort="0"
-      velocity="0" />
+      effort="10"
+      velocity="10" />
   </joint>
   <link
     name="r_thumb_phal_1_link">
@@ -627,8 +627,8 @@
     <limit
       lower="0"
       upper="1.5708"
-      effort="0"
-      velocity="0" />
+      effort="3"
+      velocity="10" />
   </joint>
   <link
     name="r_thumb_phal_2_link">
@@ -685,8 +685,8 @@
     <limit
       lower="0"
       upper="1.5708"
-      effort="0"
-      velocity="0" />
+      effort="3"
+      velocity="10" />
   </joint>
   <link
     name="r_thumb_phal_3_link">
@@ -743,8 +743,8 @@
     <limit
       lower="0"
       upper="1.5708"
-      effort="0"
-      velocity="0" />
+      effort="10"
+      velocity="10" />
   </joint>
   <link
     name="r_thumb_phal_4_link">
@@ -801,8 +801,8 @@
     <limit
       lower="0"
       upper="1.5708"
-      effort="0"
-      velocity="0" />
+      effort="10"
+      velocity="10" />
   </joint>
 
 
