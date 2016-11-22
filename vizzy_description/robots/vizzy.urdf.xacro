@@ -22,7 +22,7 @@
   <xacro:include filename="$(find vizzy_description)/urdf/arm/right_arm.urdf.xacro" />
 
   <!-- right hand -->
-  <!--<xacro:include filename="$(find vizzy_description)/urdf/hand/right_hand.urdf.xacro" />-->
+  <xacro:include filename="$(find vizzy_description)/urdf/hand/right_hand.urdf.xacro" />
 
   <!-- The following include files contain gazebo plugins -->
   <!-- ROS -->

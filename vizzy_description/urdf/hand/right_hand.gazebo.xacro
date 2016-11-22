@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:macro name="right_hand_gazebo">
+
+   <gazebo reference="r_palm_link">
+   </gazebo>
+
+   <gazebo reference="r_min_phal_1_link">
+   </gazebo>
+
+   <gazebo reference="r_min_phal_2_link">
+   </gazebo>
+
+   <gazebo reference="r_min_phal_3_link">
+   </gazebo>
+
+   <gazebo reference="r_med_phal_1_link">
+   </gazebo>
+
+   <gazebo reference="r_med_phal_2_link">
+   </gazebo>
+
+   <gazebo reference="r_med_phal_3_link">
+   </gazebo>
+
+   <gazebo reference="r_ind_phal_1_link">
+   </gazebo>
+
+   <gazebo reference="r_ind_phal_2_link">
+   </gazebo>
+
+   <gazebo reference="r_ind_phal_3_link">
+   </gazebo>
+
+   <gazebo reference="r_thumb_phal_1_link">
+   </gazebo>
+
+   <gazebo reference="r_thumb_phal_2_link">
+   </gazebo>
+
+   <gazebo reference="r_thumb_phal_3_link">
+   </gazebo>
+
+   <gazebo reference="r_thumb_phal_4_link">
+   </gazebo>
+
+  </xacro:macro>
+
+</robot> 
+
+

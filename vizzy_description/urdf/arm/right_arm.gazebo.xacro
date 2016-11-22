@@ -44,9 +44,6 @@
       <mu2>0.2</mu2>-->
     </gazebo>
 
-    <gazebo reference="r_palm_link">
-    </gazebo>
-
   </xacro:macro>
 
 </robot>
