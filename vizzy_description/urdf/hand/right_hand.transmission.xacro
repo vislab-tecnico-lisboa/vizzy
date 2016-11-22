@@ -65,7 +65,7 @@
         <hardwareInterface>VelocityJointInterface</hardwareInterface>
       </joint>
       <actuator name="r_med_phal_3_motor">
-        <hardwareInterface>EffortJointInterface</hardwareInterface>
+
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
