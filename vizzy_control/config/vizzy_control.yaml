@@ -412,3 +412,46 @@ vizzy:
         goal: 0
 
 
+  # fingers joint trajectory
+  r_min_phal_1_joint_trajectory_controller:
+    type: position_controllers/JointTrajectoryController
+    joints:
+      - r_min_phal_1_joint
+    gains:
+      r_min_phal_1_joint:
+        p: 10.0
+        i: 0.0
+        d: 0.0
+
+  r_med_phal_1_joint_trajectory_controller:
+    type: position_controllers/JointTrajectoryController
+    joints:
+      - r_med_phal_1_joint
+    gains:
+      r_med_phal_1_joint:
+        p: 10.0
+        i: 0.0
+        d: 0.0
+
+  r_ind_phal_1_joint_trajectory_controller:
+    type: position_controllers/JointTrajectoryController
+    joints:
+      - r_ind_phal_1_joint
+    gains:
+      r_ind_phal_1_joint:
+        p: 10.0
+        i: 0.0
+        d: 0.0
+
+  r_thumb_phal_1_joint_trajectory_controller:
+    type: position_controllers/JointTrajectoryController
+    joints:
+      - r_thumb_phal_1_joint
+    gains:
+      r_thumb_phal_1_joint:
+        p: 10.0
+        i: 0.0
+        d: 0.0
+
+
+

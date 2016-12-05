@@ -16,29 +16,6 @@
       </actuator>
     </transmission>
 
-    <transmission name="r_min_phal_2_transmission">
-      <type>transmission_interface/SimpleTransmission</type>
-      <joint name="r_min_phal_2_joint">
-        <hardwareInterface>VelocityJointInterface</hardwareInterface>
-      </joint>
-      <actuator name="r_min_phal_2_motor">
-        <mechanicalReduction>1</mechanicalReduction>
-      </actuator>
-    </transmission>
-
-    <transmission name="r_min_phal_3_transmission">
-      <type>transmission_interface/SimpleTransmission</type>
-      <joint name="r_min_phal_3_joint">
-        <hardwareInterface>VelocityJointInterface</hardwareInterface>
-      </joint>
-      <actuator name="r_min_phal_3_motor">
-        <mechanicalReduction>1</mechanicalReduction>
-      </actuator>
-    </transmission>
-
-
-
-
     <transmission name="r_med_phal_1_transmission">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="r_med_phal_1_joint">
