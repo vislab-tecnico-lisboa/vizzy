@@ -66,8 +66,8 @@ void Gaze::suppresion(const sensor_msgs::Image::ConstPtr & left_image_msg,
     cv::Mat right_image_mat =cv_bridge::toCvCopy(right_image_msg, "bgr8")->image;
 
     //ROS_ERROR_STREAM(ss_left.str()<< " "<< ss_right.str());
-    cv::imwrite("/home/vizzy/images_moutinho/"+ss_left.str(),left_image_mat);
-    cv::imwrite("/home/vizzy/images_moutinho/"+ss_right.str(),right_image_mat);
+    //cv::imwrite("/home/vizzy/images_moutinho/"+ss_left.str(),left_image_mat);
+    //cv::imwrite("/home/vizzy/images_moutinho/"+ss_right.str(),right_image_mat);
 
     left_image_suppression_pub.publish(left_image_msg);
     right_image_suppression_pub.publish(right_image_msg);
