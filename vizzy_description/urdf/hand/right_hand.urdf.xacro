@@ -165,6 +165,7 @@
       upper="1.5708"
       effort="10"
       velocity="10" />
+    <mimic joint="r_min_phal_1_joint" multiplier="1.0" offset="0.0" />
   </joint>
   <link
     name="r_min_phal_3_link">
@@ -223,6 +224,7 @@
       upper="1.5708"
       effort="10"
       velocity="10" />
+    <mimic joint="r_min_phal_1_joint" multiplier="1.0" offset="0.0" />
   </joint>
   <link
     name="r_med_phal_1_link">
