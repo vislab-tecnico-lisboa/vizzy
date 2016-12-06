@@ -1,0 +1,10 @@
+<!-- stereo driver nodelet publisher -->
+<library path="lib/libgaze_simulation_ros_nodelet">
+  <class name="vizzy_control/GazeSimulationRosNodelet" type="vizzy_control::GazeSimulationRosNodelet" base_class_type="nodelet::Nodelet">
+    <description>
+      gaze nodelet.
+    </description>
+  </class>
+</library>
+
+
