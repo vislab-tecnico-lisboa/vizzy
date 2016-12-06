@@ -5,13 +5,13 @@
 
   <!-- simulation parameters and robot configuration parameters -->
   <arg name="use_yarp" default="false"/>
-  <arg name="navigation" default="false"/>
+  <arg name="navigation" default="true"/>
   <arg name="launch_moveit" default="true"/>
   <arg name="pose" default="-x -1.5 -y -0.0 -z 0.1 -R 0.0 -P 0.0 -Y 0"/>
   <arg name="paused" default="false"/>
   <arg name="use_sim_time" default="true"/>
   <arg name="gui" default="true"/>
-  <arg name="world" default="attention.world" />
+  <arg name="world" default="isr_7th_floor.world" />
   <arg name="yarp" default="false"/>
   <arg name="map_frame" default="map" />
   <arg name="tf_prefix" default="" />
@@ -19,7 +19,7 @@
   <arg name="odom_frame_id" default="$(arg tf_prefix)/odom" />
   <arg name="map_topic" default="/map" />
   <arg name="visualization" default="true" />
-  <arg name="head_only" default="true"/>
+  <arg name="head_only" default="false"/>
   <arg name="teleop" default="false"/>
   <arg name="move_robot_config_file" default="$(find vizzy_control)/config/frames.yaml"/>
   <arg name="perfect_calibration" default="true"/>

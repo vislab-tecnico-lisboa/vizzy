@@ -53,18 +53,10 @@
 		left_arm_trajectory_controller
 		right_arm_trajectory_controller
 		r_min_phal_1_position_controller
-		r_min_phal_2_position_controller
-		r_min_phal_3_position_controller
 		r_med_phal_1_position_controller
-		r_med_phal_2_position_controller
-		r_med_phal_3_position_controller
 		r_ind_phal_1_position_controller
-		r_ind_phal_2_position_controller
-		r_ind_phal_3_position_controller
 		r_thumb_phal_1_position_controller
-		r_thumb_phal_2_position_controller
-		r_thumb_phal_3_position_controller
-		r_thumb_phal_4_position_controller" />
+		r_thumb_phal_2_position_controller" />
   </group>
 
 	<!-- convert joint states to TF transforms for rviz, etc -->
