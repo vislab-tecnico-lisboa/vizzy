@@ -28,7 +28,7 @@
   <arg name="map_file" default="mapa_piso7_NOVO_AWESOME.yaml" />
   <arg name="follower" default="true" />
   <!-- Choose the obstacle avoidance: global_map, local_map -->
-  <arg name="following_planner_mode" default="global_map" />
+  <arg name="following_planner_mode" default="local_map" />
   <!-- Choose what we want to detect: pedestrian, headandshoulders, full -->
   <arg name="detector_type" default="full" />
 
