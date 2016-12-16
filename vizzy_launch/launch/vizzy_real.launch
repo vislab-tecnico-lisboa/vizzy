@@ -28,6 +28,7 @@
   <arg name="right_camera_name" default="r_camera" />
   <arg name="left_camera_file" default="left_camera_params.yaml" />
   <arg name="right_camera_file" default="right_camera_params.yaml" />
+  <arg name="with_kinect" default="true" />
 
   <!-- camera parameters -->
   <arg name="video_mode" default="640x480_rgb8" /> <!-- raw format7_mode4-->
@@ -86,6 +87,12 @@
     <arg name="sharpness" value="$(arg sharpness)"/>
     <arg name="brightness" value="$(arg brightness)"/>
   </include>
+
+
+  <!-- launch the depth camera -->
+  <group if="$(arg with_kinect)">
+    <include file="$(find vizzy_sensors)/launch/asus.launch"/>
+  </group>
 
   <!-- launch moveit -->
   <group if="$(arg use_moveit)">
