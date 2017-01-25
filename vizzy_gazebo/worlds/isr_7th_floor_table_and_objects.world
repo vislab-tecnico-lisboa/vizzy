@@ -1,4 +1,4 @@
-<sdf version='1.5'>
+<sdf version='1.6'>
   <world name='default'>
     <scene>
       <ambient>0.5 0.5 0.5 1</ambient>
@@ -6,7 +6,6 @@
       <shadows>0</shadows>
     </scene>
     <physics name='default_physics' default='0' type='ode'>
-      <gravity>0 0 -9.8</gravity>
       <ode>
         <solver>
           <type>quick</type>
@@ -24,7 +23,6 @@
       <real_time_update_rate>1000</real_time_update_rate>
       <max_step_size>0.002</max_step_size>
       <real_time_factor>1</real_time_factor>
-      <magnetic_field>5.5645e-06 2.28758e-05 -4.23884e-05</magnetic_field>
     </physics>
     <model name='7thmap'>
       <pose frame=''>9 -10 0 0 -0 0</pose>
@@ -34,6 +32,7 @@
           <geometry>
             <mesh>
               <uri>model://media/models/7thmap_new/7thmap.dae</uri>
+              <scale>1 1 1</scale>
             </mesh>
           </geometry>
           <surface>
@@ -45,6 +44,9 @@
                 <slip1>0</slip1>
                 <slip2>0</slip2>
               </ode>
+              <torsional>
+                <ode/>
+              </torsional>
             </friction>
             <bounce>
               <restitution_coefficient>0</restitution_coefficient>
@@ -67,6 +69,7 @@
           <geometry>
             <mesh>
               <uri>model://media/models/7thmap_new/7thmap.dae</uri>
+              <scale>1 1 1</scale>
             </mesh>
           </geometry>
           <material>
@@ -170,6 +173,9 @@
                 <mu>0.6</mu>
                 <mu2>0.6</mu2>
               </ode>
+              <torsional>
+                <ode/>
+              </torsional>
             </friction>
             <contact>
               <ode/>
@@ -208,6 +214,9 @@
             <bounce/>
             <friction>
               <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
             </friction>
           </surface>
         </collision>
@@ -242,6 +251,9 @@
             <bounce/>
             <friction>
               <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
             </friction>
           </surface>
         </collision>
@@ -276,6 +288,9 @@
             <bounce/>
             <friction>
               <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
             </friction>
           </surface>
         </collision>
@@ -310,6 +325,9 @@
             <bounce/>
             <friction>
               <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
             </friction>
           </surface>
         </collision>
@@ -363,6 +381,9 @@
             <bounce/>
             <friction>
               <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
             </friction>
           </surface>
         </collision>
@@ -388,11 +409,13 @@
       <pose frame=''>0 0 0 0 -0 0</pose>
     </model>
     <state world_name='default'>
-      <sim_time>832 286000000</sim_time>
-      <real_time>49 821305639</real_time>
-      <wall_time>1475077193 805946579</wall_time>
+      <sim_time>973 96000000</sim_time>
+      <real_time>70 556807335</real_time>
+      <wall_time>1479485939 592905180</wall_time>
+      <iterations>70405</iterations>
       <model name='7thmap'>
         <pose frame=''>9 -10 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
         <link name='body'>
           <pose frame=''>9 -10 0 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
@@ -401,16 +424,18 @@
         </link>
       </model>
       <model name='beer'>
-        <pose frame=''>-1.7402 -0.169732 0.633274 1.4e-05 -5.3e-05 -0.663822</pose>
+        <pose frame=''>-1.15031 0.071511 0.633286 6.8e-05 -1.4e-05 -0.664156</pose>
+        <scale>1 1 1</scale>
         <link name='link'>
-          <pose frame=''>-1.7402 -0.169729 0.748274 1.4e-05 -5.3e-05 -0.663822</pose>
+          <pose frame=''>-1.15031 0.071506 0.748286 6.8e-05 -1.4e-05 -0.664156</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 -9.8 0 -0 0</acceleration>
-          <wrench>0 0 -3.822 0 -0 0</wrench>
+          <acceleration>-2.46998 -1.91485 -2.5421 1.78596 -1.35033 0.646748</acceleration>
+          <wrench>-0.963292 -0.746791 -0.991417 0 -0 0</wrench>
         </link>
       </model>
       <model name='table'>
         <pose frame=''>-1.38773 0.023305 -0.38171 0 0 -1.58678</pose>
+        <scale>1 1 1</scale>
         <link name='link'>
           <pose frame=''>-1.38773 0.023305 -0.38171 0 0 -1.58678</pose>
           <velocity>0 0 0 0 -0 0</velocity>
@@ -418,13 +443,34 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
-      <iterations>0</iterations>
+      <light name='my_light_01'>
+        <pose frame=''>0 0 30 0 -0 0</pose>
+      </light>
+      <light name='my_light_02'>
+        <pose frame=''>0 0 30 0 -0 0</pose>
+      </light>
+      <light name='my_light_03'>
+        <pose frame=''>0 0 30 0 -0 0</pose>
+      </light>
+      <light name='my_light_04'>
+        <pose frame=''>0 0 30 0 -0 0</pose>
+      </light>
+      <light name='my_light_05'>
+        <pose frame=''>0 0 30 0 -0 0</pose>
+      </light>
+      <light name='my_light_06'>
+        <pose frame=''>0 0 30 0 -0 0</pose>
+      </light>
     </state>
     <gui fullscreen='0'>
       <camera name='user_camera'>
-        <pose frame=''>-4.23656 0.035966 1.59821 2.27523e-19 0.307643 -0.007814</pose>
+        <pose frame=''>-1.77975 -2.58107 2.19287 0.000103 0.540917 1.55163</pose>
         <view_controller>orbit</view_controller>
+        <projection_type>perspective</projection_type>
       </camera>
     </gui>
+    <gravity>0 0 -9.8</gravity>
+    <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
+    <atmosphere type='adiabatic'/>
   </world>
 </sdf>

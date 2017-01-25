@@ -1,7 +1,7 @@
 // By: Rui P. de Figueiredo : ruifigueiredo@isr.ist.utl.pt
 
 #include "Gaze.h"
-
+#include <cv_bridge/cv_bridge.h>
 Gaze::Gaze(const std::string & name, const ros::NodeHandle & nh) :
     nh_(nh),
     as_(nh_, name, false),
@@ -47,12 +47,27 @@ void Gaze::suppresion(const sensor_msgs::Image::ConstPtr & left_image_msg,
                       const sensor_msgs::Image::ConstPtr & right_image_msg)
 {
 
+
+    static int count=0;
     if(active)
     {
-        //ROS_ERROR("ESTOU A SUPPRIMIR");
-
+        ROS_ERROR("ESTOU A SUPPRIMIR");
+        //write left image
+        //cv::imwrite("/home/vizzy/images_moutinho"+);
+        // write right image
         return;
     }
+    ++count;
+    std::ostringstream ss_left, ss_right;
+    ss_left << count << "_left.jpg";
+    ss_right << count << "_right.jpg";
+
+    cv::Mat left_image_mat =cv_bridge::toCvCopy(left_image_msg, "bgr8")->image;
+    cv::Mat right_image_mat =cv_bridge::toCvCopy(right_image_msg, "bgr8")->image;
+
+    //ROS_ERROR_STREAM(ss_left.str()<< " "<< ss_right.str());
+    //cv::imwrite("/home/vizzy/images_moutinho/"+ss_left.str(),left_image_mat);
+    //cv::imwrite("/home/vizzy/images_moutinho/"+ss_right.str(),right_image_mat);
 
     left_image_suppression_pub.publish(left_image_msg);
     right_image_suppression_pub.publish(right_image_msg);
@@ -64,17 +79,17 @@ void Gaze::publishFixationPointGoal()
     geometry_msgs::PointStamped goal_point_world_viz;
     //while(nh_.ok())
     {
-        //try
+        try
         {
             ros::Time current_time = ros::Time::now();
             tf_listener->waitForTransform(world_frame, current_time, goal_msg->fixation_point.header.frame_id, goal_msg->fixation_point.header.stamp, world_frame, ros::Duration(0.05) );
             tf_listener->transformPoint(world_frame, current_time, goal_msg->fixation_point, world_frame, goal_point_world_viz);
         }
-        /*catch (tf::TransformException &ex)
+        catch (tf::TransformException &ex)
         {
             //ROS_WARN("%s",ex.what());
             return;
-        }*/
+        }
         
     }
 
@@ -92,7 +107,10 @@ void Gaze::preemptCB()
 
 void Gaze::goalCB()
 {
+
     goal_msg = as_.acceptNewGoal();
+
+    as_.isPreemptRequested();
 
 
     start_time = ros::WallTime::now();
@@ -101,16 +119,21 @@ void Gaze::goalCB()
     if(goal_msg->type==vizzy_msgs::GazeGoal::HOME)
     {
         moveHome();
+
     }
     else
     {
+
         publishFixationPointGoal();
+
         if(!moveCartesian())
         {
+
             result_.state_reached=false;
 
             //ROS_INFO("%s: Aborted", action_name_.c_str());
             as_.setAborted(result_);
+
         }
     }
     // set the action state to succeeded

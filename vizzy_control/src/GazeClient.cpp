@@ -34,10 +34,10 @@ int main (int argc, char **argv)
     // wait for the action server to start
     ac.waitForServer(); //will wait for infinite time
 
-    double rate=10.0;
+    double rate=2.0;
     ros::Rate r(rate);
 
-    double rate_aux=0.005;
+    double rate_aux=0.1;
 
     // send a goal to the action
     int i=0;
@@ -50,10 +50,10 @@ int main (int argc, char **argv)
 
     while(nh.ok())
     {
-/*
+
         ++i;
 
-        double angular_freq=2*M_PI*rate_aux;
+        /*double angular_freq=2*M_PI*rate_aux;
         double time_instant=(double)i;
         double aux=angular_freq*time_instant;
         std::cout << aux << " "<<cos(aux) <<std::endl;
@@ -61,18 +61,18 @@ int main (int argc, char **argv)
         goal.type=vizzy_msgs::GazeGoal::CARTESIAN;
         goal.fixation_point.point.x = 0.7*cos(aux);
         goal.fixation_point.point.y = 0.0;
-        goal.fixation_point.point.z = 2.0;
-        goal.fixation_point_error_tolerance = 0.005;*/
+        goal.fixation_point.point.z = 10.0+9.0*cos(aux);
+        goal.fixation_point_error_tolerance = 0.005;
 
         //goal.fixation_point.point.z = 0.5;
 
         goal.fixation_point.header.frame_id="ego_frame";
-        goal.fixation_point.header.stamp=ros::Time::now();
+        goal.fixation_point.header.stamp=ros::Time::now();*/
 
-	/*Teste*/
+    /*AVELINO*/
 	/*Teleop - W, A, S, D, C, V*/
 
-	int c = getchar();
+    int c = getchar();
 
 	const float step = 0.05;
 
@@ -92,7 +92,7 @@ int main (int argc, char **argv)
 
 	goal.fixation_point.header.frame_id="base_footprint";
         goal.fixation_point.header.stamp=ros::Time::now();
-
+    /*FIM AVELINO*/
 
         ac.sendGoal(goal);
         ROS_INFO("Action server started, sending goal.");

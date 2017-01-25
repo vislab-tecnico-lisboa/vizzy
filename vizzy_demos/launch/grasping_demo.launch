@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<!-- ROS head file to simulate vizzy in gazebo   -->
+<launch>
+  <arg name="robot" default="vizzy"/> <!-- full, lower_body, foot -->
+
+  <!-- simulation parameters and robot configuration parameters -->
+  <arg name="use_yarp" default="false"/>
+  <arg name="navigation" default="true"/>
+  <arg name="launch_moveit" default="true"/>
+  <!--<arg name="pose" default="-x -3.65 -y 17.7 -z 0.20 -R 0.0 -P 0.0 -Y 1.57"/>-->
+  <arg name="pose" default="-x -0.4 -y -0.0 -z 0.1 -R 0.0 -P 0.0 -Y 3.14"/>
+  <arg name="paused" default="false"/>
+  <arg name="use_sim_time" default="true"/>
+  <arg name="gui" default="true"/>
+  <arg name="world" default="isr_7th_floor_table_and_objects.world" />
+  <arg name="yarp" default="false"/>
+  <arg name="map_frame" default="map" />
+  <arg name="tf_prefix" default="" />
+  <arg name="base_frame_id" default="base_footprint" />
+  <arg name="odom_frame_id" default="odom" />
+  <arg name="map_topic" default="/map" />
+  <arg name="visualization" default="true" />
+  <arg name="head_only" default="false"/>
+  <arg name="fake_localization" default="false"/>
+  <arg name="map_file" default="isr_7th_floor_simulation.yaml" />
+  <arg name="manager" default="cameras_nodelet_manager"/>
+  <arg name="perfect_calibration" default="true"/>
+
+  <include file="$(find vizzy_launch)/launch/vizzy_simulation.launch">
+    <arg name="navigation" value="$(arg navigation)"/>
+    <arg name="map_frame" value="$(arg map_frame)" />
+    <arg name="tf_prefix" value="$(arg tf_prefix)" />
+    <arg name="base_frame_id" value="$(arg base_frame_id)" />
+    <arg name="odom_frame_id" value="$(arg odom_frame_id)" />
+    <arg name="map_topic" value="$(arg map_topic)" />
+    <arg name="launch_moveit" value="$(arg launch_moveit)" />
+    <arg name="head_only" value="$(arg head_only)"/>
+    <arg name="pose" value="$(arg pose)"/>
+    <arg name="world" value="$(arg world)" />
+    <arg name="fake_localization" value="$(arg fake_localization)"/>
+    <arg name="map_file" value="$(arg map_file)" />
+  </include>
+
+  <!-- launch online stereo calibration -->
+  <include ns="vizzy"  file="$(find online_stereo_calibration_ros)/launch/stereo_calibration.launch">
+    <arg name="manager" value="$(arg manager)"/>
+    <arg name="perfect_calibration" value="$(arg perfect_calibration)"/>
+  </include>
+
+  <!-- launch stereo reconstruction -->
+  <include file="$(find foveated_stereo_ros)/launch/foveal_stereo_ros.launch">
+  </include>
+
+  <!-- launch grasping pipeline -->
+  <include file="$(find grasping_pipeline)/launch/grasping_pipeline_gazebo.launch">
+  </include>
+
+  <!-- launch vizualization on rviz -->
+  <group if="$(arg visualization)">
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find vizzy_demos)/rviz/grasping_demo.rviz" />
+  </group>
+
+
+
+</launch>

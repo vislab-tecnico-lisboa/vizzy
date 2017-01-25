@@ -2,7 +2,7 @@
 <robot xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
        xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
        xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
-       xmlns:xacro="http://ros.org/wiki/xacro"> 
+       xmlns:xacro="http://ros.org/wiki/xacro">
   <!-- Things that are needed only for Gazebo (not the physical robot).  These include
        sensor and controller plugin specifications -->
   <xacro:include filename="$(find vizzy_description)/urdf/arm/right_arm.gazebo.xacro"/>
@@ -170,13 +170,8 @@
 		    link="r_shoulder_abduction_link" />
 		  <axis
 		    xyz="0 0 1" />
-
 		  <limit lower="-0.1" upper="1.30899694" effort="10" velocity="3" />
-
-
-
 		  <dynamics damping="0.0" friction="5.0"/>
-
 		</joint>
 		<link
 		  name="r_shoulder_rotation_link">
@@ -343,46 +338,6 @@
 		  <limit lower="-1.48352986" upper="1.48352986" effort="10" velocity="3" />
 		  <dynamics damping="0.0" friction="5.0"/>
 		</joint>
-		<!--<link
-		  name="r_wrist_abduction_virtual_link">
-		  <inertial>
-		    <origin
-		      xyz="0.0 0.0 -0.005"
-		      rpy="${-M_PI/2.0} 0 ${M_PI}" />
-		    <mass
-		      value="0.151302636921624" />
-		    <inertia
-		      ixx="0.000116373512947626"
-		      ixy="1.31009871908069E-05"
-		      ixz="6.69703789973942E-05"
-		      iyy="0.00020031628400595"
-		      iyz="1.00268924727662E-05"
-		      izz="0.000162164313365602" />
-		  </inertial>
-		  <visual>
-		    <origin
-		      xyz="0.0 0.0 -0.005"
-		      rpy="${-M_PI/2.0} 0 ${M_PI}" />
-		    <geometry>
-		      <mesh
-		        filename="package://vizzy_description/meshes/M6R_back.dae" />
-		    </geometry>
-		    <material
-		      name="">
-		      <color
-		        rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
-		    </material>
-		  </visual>
-		  <collision>
-		    <origin
-		      xyz="0.0 0.0 -0.005"
-		      rpy="${-M_PI/2.0} 0 ${M_PI}" />
-		    <geometry>
-		      <mesh
-		        filename="package://vizzy_description/meshes/M6R_back.dae" />
-		    </geometry>
-		  </collision>
-		</link>-->
 		<joint
 		  name="r_wrist_abduction_joint"
 		  type="revolute">
@@ -438,21 +393,6 @@
 		    </geometry>
 		  </collision>
 		</link>
-		<!--<joint
-		  name="r_wrist_abduction_virtual_joint"
-		  type="revolute">
-		  <origin
-		    xyz="0.0 0.0 -0.18925"
-		    rpy="${M_PI/2.0} 0.0 0.0" />
-		  <parent
-		    link="r_forearm_pronation_link" />
-		  <child
-		    link="r_wrist_abduction_link" />
-		  <axis
-		    xyz="0 0 1" />
-		  <limit lower="-0.610865238" upper="0.610865238" effort="10" velocity="3" />
-    		  <mimic joint="r_wrist_abduction_joint" multiplier="1.0" offset="0"/>
-		</joint>-->
 		<link
 		  name="r_wrist_flection_link">
 		  <inertial>
@@ -469,7 +409,7 @@
 		      iyz="0.000132013848915951"
 		      izz="0.00103049250587026" />
 		  </inertial>
-		  <visual>
+		  <!--<visual>
 		    <origin
 		      xyz="0.106 0.0077 0.017"
 		      rpy="0.0 ${M_PI} ${-M_PI/2}" />
@@ -486,12 +426,12 @@
 		  <collision>
 		    <origin
 		      xyz="0.106 0.0077 0.017"
-		      rpy="0.0 ${M_PI} ${-M_PI/2}" />
+		      rpy="0.0 ${M_PI} ${-M_PI/2.0}" />
 		    <geometry>
 		      <mesh
 		        filename="package://vizzy_description/meshes/M7R.dae" />
 		    </geometry>
-		  </collision>
+		  </collision>-->
 		</link>
 		<joint
 		  name="r_wrist_flection_joint"
@@ -508,7 +448,7 @@
 		  <limit lower="-0.610865238" upper="0.610865238" effort="10" velocity="3" />
 		  <dynamics damping="0.0" friction="1.0"/>
 		</joint>
-		<link name="r_palm_link">
+		<!--<link name="r_palm_link">
                     <inertial>
                         <origin xyz="0 0 0" rpy="0 0 0" />
                         <mass value="0.1" />
@@ -529,12 +469,11 @@
                            <cylinder length="0.001" radius="0.001" />
                        </geometry>
                    </collision>
-	        </link>
-		<joint name="r_palm_joint" type="revolute">
-		  <origin xyz="0.1 0 0.0" rpy="${M_PI/2.0} 0 ${M_PI}" />
+	        </link>-->
+		<joint name="r_palm_joint" type="fixed">
+		  <origin xyz="0.075 0.01 -0.005" rpy="0.0 ${M_PI/2.0} 0.0" />
 		  <parent link="r_wrist_flection_link"/>
 		  <child link="r_palm_link" />
-		  <limit lower="0.0" upper="0.0" effort="10" velocity="3" />
 		</joint>
 
     <!-- gazebo extensions -->
