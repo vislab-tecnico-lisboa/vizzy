@@ -78,6 +78,7 @@ If you want to run the follower module, download a changed version of the nav2d 
 
 Other dependencies needed
 
+    sudo apt-get install ros-indigo-moveit-*
     sudo apt-get install ros-indigo-move-base
     sudo apt-get install ros-indigo-amcl
     sudo apt-get install ros-indigo-joy
@@ -87,6 +88,7 @@ Other dependencies needed
     sudo apt-get install ros-indigo-position-controllers
     sudo apt-get install ros-indigo-joint-trajectory-controller
     sudo apt-get install ros-indigo-eband-local-planner
+    sudo apt-get install ros-indigo-opencv*
 
 You are now ready to compile the code!
 
@@ -95,6 +97,8 @@ You are now ready to compile the code!
 The compilation is quite straightforward. Just open a terminal:
 
     cd /path/to/your/catkin/workspace
+    catkin_make --pkg vizzy_msgs
+    catkin_make --pkg id_selector
     catkin_make
 
 Hmm... does this seems to easy? I hope it does because you should now be ready to interact with Vizzy!

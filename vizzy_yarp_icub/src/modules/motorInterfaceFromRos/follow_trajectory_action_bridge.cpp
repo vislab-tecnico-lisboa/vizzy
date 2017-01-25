@@ -90,13 +90,19 @@ int main(int argc, char *argv[])
         multipleJoints = true;
     else
         multipleJoints = false;
+    std::cout << "size of strings: " << grp.size() << std::endl;
     int sz=grp.size()-1;
     Vector joint_map;
     joint_map.resize(sz,0);
-    for (int i=0; i<sz; i++)
-        joint_map[i]=grp.get(1+i).asDouble();
+    std::vector<std::string> joints_name_yarp;
+    //joints_name_yarp.resize(sz);
+    for (int i=0; i<sz; i++){
+	joints_name_yarp.push_back(grp.get(1+i).asString());
+	std::cout << joints_name_yarp[i] << std::endl;
+    }
+        //joint_map[i]=grp.get(1+i).asDouble();
     bool min_delta=false;
-
+    std::map<std::string,int> joint_trajectory_map;
     yarp::os::Subscriber<trajectory_msgs_JointTrajectory> subscriber_trajectory_part;
     yarp::os::Subscriber<std_msgs_Bool> subscriber_stop_part;
     yarp::os::Publisher<std_msgs_Int16> publisher_result_part;
@@ -147,6 +153,8 @@ int main(int argc, char *argv[])
     ipos->setRefSpeeds(part_speeds);
     //ipos->getAxes(&jnts);
     iposDir->getAxes(&jnts);
+    if (part == "left_shoulder_arm" || part == "right_shoulder_arm")
+        jnts=len;
     printf("Working with %d axes\n", jnts);
     //for (size_t mot_jo=0;mot_jo<jnts;mot_jo++)
     //	iMode2->setControlMode(mot_jo,VOCAB_CM_POSITION_DIRECT);
@@ -213,6 +221,7 @@ int main(int argc, char *argv[])
     double trajectory_elapsed_time;
     double expected_trajectory_time;
     double current_error;
+    bool trajectory_map_read = false;
     while (true) {
         if (client_status==-1){
             std::cout << "Waiting for trajectory..." << std::endl;
@@ -225,6 +234,12 @@ int main(int argc, char *argv[])
             int points_size = traj_data->points.size();
             std::cout << "Number of points: " << points_size << std::endl;
             expected_trajectory_time=0.0;
+	    if (!trajectory_map_read){
+		for (int my_j=0;my_j<jnts;my_j++){
+		    joint_trajectory_map[traj_data->joint_names.at(my_j)]=my_j;
+		}
+		//trajectory_map_read=true;
+	    }
             for (int my_i=0; my_i<points_size; my_i++){
                 enc->getEncoders(tmp_read);
                 double delta_ang=-1.0;
@@ -233,7 +248,10 @@ int main(int argc, char *argv[])
                 else
                     delta_ang = -1.0;
                 for (int my_j=0;my_j<jnts;my_j++){
-                    tmp[my_j] = traj_data->points.at(my_i).positions.at(joint_map[my_j])*180.0/3.141592;
+		    std::map<std::string,int>::iterator it=joint_trajectory_map.find(joints_name_yarp[my_j]);
+                    //tmp[my_j] = traj_data->points.at(my_i).positions.at(joint_map[my_j])*180.0/3.141592;
+		    tmp[my_j] = traj_data->points.at(my_i).positions.at(it->second)*180.0/3.141592;
+		    std::cout << joints_name_yarp[my_j] << " =" << tmp[my_j] << std::endl;
                     double curr_delta_ang = fabs(tmp[my_j] - tmp_read[my_j]);
                     //std::cout << " delta joint [" << my_j << "] : " << curr_delta_ang << std::endl;
                     if (curr_delta_ang >= delta_ang){
@@ -259,7 +277,7 @@ int main(int argc, char *argv[])
                 current_delay = delta_ang/part_speeds[0];
                 //else
                 //    current_delay = (5/30);
-                //std::cout << "current delay: " << current_delay << std::endl;
+                //std::cout << "current delay: " << current_delay << " and percentage: " << current_delay*(time_percentage) << std::endl;
                 //Time::delay(current_delay*0.6);
                 //Time::delay(current_delay*(1.0/3.0));
                 Time::delay(current_delay*(time_percentage));
@@ -290,7 +308,8 @@ int main(int argc, char *argv[])
                 trajectory_elapsed_time = Time::now();
                 current_error=0.0;
                 for (int my_j=0;my_j<jnts;my_j++){
-                    current_error += fabs(traj_data->points.at(points_size-1).positions.at(joint_map[my_j])*180.0/3.141592-tmp_read[my_j]);
+		    std::map<std::string,int>::iterator it=joint_trajectory_map.find(joints_name_yarp[my_j]);
+                    current_error += fabs(traj_data->points.at(points_size-1).positions.at(it->second)*180.0/3.141592-tmp_read[my_j]);
                     //std::cout << "Motion to :" << data->data[my_i]*180.0/3.141592 << "sent!" << std::endl;
                 }
                 //std::cout << "error at point [" << my_i << " ]:" << current_error << std::endl;
@@ -304,7 +323,8 @@ int main(int argc, char *argv[])
             //Time::delay(0.09);
             enc->getEncoders(tmp_read);
             for (int my_j=0;my_j<jnts;my_j++){
-                current_error += fabs(traj_data->points.at(points_size-1).positions.at(joint_map[my_j])*180.0/3.141592-tmp_read[my_j]);
+		std::map<std::string,int>::iterator it=joint_trajectory_map.find(joints_name_yarp[my_j]);
+                current_error += fabs(traj_data->points.at(points_size-1).positions.at(it->second)*180.0/3.141592-tmp_read[my_j]);
                 //std::cout << "Motion to :" << data->data[my_i]*180.0/3.141592 << "sent!" << std::endl;
             }
             std::cout << "error at last trajectory point:" << current_error << std::endl;

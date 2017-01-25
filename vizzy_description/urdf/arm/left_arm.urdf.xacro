@@ -336,105 +336,10 @@
 		  <axis
 		    xyz="0 0 1" />
 		  <limit lower="-1.48352986" upper="1.48352986" effort="10" velocity="3" />
-		  <dynamics damping="0.0" friction="0.1"/>
+		  <dynamics damping="0.0" friction="5.0"/>
 		</joint>
-		<link
-		  name="l_wrist_abduction_virtual_link">
-		  <inertial>
-		    <origin
-		      xyz="0.0 0.0 0.005"
-		      rpy="${M_PI/2} 0.0 0.0" />
-		    <mass
-		      value="0.151302636921624" />
-		    <inertia
-		      ixx="0.000116373512947626"
-		      ixy="1.31009871908069E-05"
-		      ixz="6.69703789973942E-05"
-		      iyy="0.00020031628400595"
-		      iyz="1.00268924727662E-05"
-		      izz="0.000162164313365602" />
-		  </inertial>
-		  <visual>
-		    <origin
-		      xyz="0.0 0.0 0.005"
-		      rpy="${M_PI/2} 0.0 0.0" />
-		    <geometry>
-		      <mesh
-		        filename="package://vizzy_description/meshes/M6L_back.dae" />
-		    </geometry>
-		    <material
-		      name="">
-		      <color
-		        rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
-		    </material>
-		  </visual>
-		  <collision>
-		    <origin
-		      xyz="0.0 0.0 0.005"
-		      rpy="${M_PI/2} 0.0 0.0" />
-		    <geometry>
-		      <mesh
-		        filename="package://vizzy_description/meshes/M6L_back.dae" />
-		    </geometry>
-		  </collision>
-		</link>
 		<joint
 		  name="l_wrist_abduction_joint"
-		  type="revolute">
-		  <origin
-		    xyz="0.0 0.0 0.11925"
-		    rpy="${M_PI/2.0} 0.0 0.0" />
-		  <parent
-		    link="l_forearm_pronation_link" />
-		  <child
-		    link="l_wrist_abduction_virtual_link" />
-		  <axis
-		    xyz="0 0 1" />
-		  <limit lower="-0.610865238" upper="0.610865238" effort="10" velocity="3" />
-		  <dynamics damping="0.0" friction="0.1"/>
-		</joint>
-		<link
-		  name="l_wrist_abduction_link">
-		  <inertial>
-		    <origin
-		      xyz="-0.0047 -0.028 0.003"
-		      rpy="${M_PI/2} 0.0 ${-M_PI/4}" />
-		    <mass
-		      value="0.151302636921624" />
-		    <inertia
-		      ixx="0.000116373512947626"
-		      ixy="1.31009871908069E-05"
-		      ixz="6.69703789973942E-05"
-		      iyy="0.00020031628400595"
-		      iyz="1.00268924727662E-05"
-		      izz="0.000162164313365602" />
-		  </inertial>
-		  <visual>
-		    <origin
-		      xyz="-0.0047 -0.028 0.003"
-		      rpy="${M_PI/2} 0.0 ${-M_PI/4}" />
-		    <geometry>
-		      <mesh
-		        filename="package://vizzy_description/meshes/M6L_wrist.dae" />
-		    </geometry>
-		    <material
-		      name="">
-		      <color
-		        rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
-		    </material>
-		  </visual>
-		  <collision>
-		    <origin
-		      xyz="-0.0047 -0.028 0.003"
-		      rpy="${M_PI/2} 0.0 ${-M_PI/4}" />
-		    <geometry>
-		      <mesh
-		        filename="package://vizzy_description/meshes/M6L_wrist.dae" />
-		    </geometry>
-		  </collision>
-		</link>
-		<joint
-		  name="l_wrist_abduction_virtual_joint"
 		  type="revolute">
 		  <origin
 		    xyz="0.0 0.0 0.18925"
@@ -446,14 +351,53 @@
 		  <axis
 		    xyz="0 0 1" />
 		  <limit lower="-0.610865238" upper="0.610865238" effort="10" velocity="3" />
-    		  <mimic joint="l_wrist_abduction_joint" multiplier="1.0" offset="0"/>
-		  <dynamics damping="0.0" friction="0.1"/>
+		  <dynamics damping="0.0" friction="5.0"/>
 		</joint>
+		<link
+		  name="l_wrist_abduction_link">
+		  <inertial>
+		    <origin
+		      xyz="-0.0047 -0.028 0.003"
+		      rpy="0.0 0.0 0.0" />
+		    <mass
+		      value="0.151302636921624" />
+		    <inertia
+		      ixx="0.000116373512947626"
+		      ixy="1.31009871908069E-05"
+		      ixz="6.69703789973942E-05"
+		      iyy="0.00020031628400595"
+		      iyz="1.00268924727662E-05"
+		      izz="0.000162164313365602" />
+		  </inertial>
+		  <visual>
+		    <origin
+		      xyz="-0.0047 -0.028 -0.003"
+		      rpy="0.0 0.0 0.0" />
+		    <geometry>
+		      <mesh
+		        filename="package://vizzy_description/meshes/M6L_wrist.dae" />
+		    </geometry>
+		    <material
+		      name="">
+		      <color
+		        rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+		    </material>
+		  </visual>
+		  <collision>
+		    <origin
+		      xyz="-0.0047 -0.028 -0.003"
+		      rpy="0.0 0.0 0.0" />
+		    <geometry>
+		      <mesh
+		        filename="package://vizzy_description/meshes/M6L_wrist.dae" />
+		    </geometry>
+		  </collision>
+		</link>
 		<link
 		  name="l_wrist_flection_link">
 		  <inertial>
 		    <origin
-		      xyz="-0.106 -0.0077 -0.015"
+		      xyz="-0.106 -0.0077 -0.017"
 		      rpy="0.0 0.0 ${M_PI/2.0}" />
 		    <mass
 		      value="0.263177712190575" />
@@ -467,8 +411,8 @@
 		  </inertial>
 		  <visual>
 		    <origin
-		      xyz="-0.106 -0.0077 -0.015"
-		      rpy="0.0 0.0 ${M_PI/2.0}" />
+		      xyz="-0.106 -0.0077 -0.017"
+		      rpy="0.0 0.0 ${M_PI/2}" />
 		    <geometry>
 		      <mesh
 		        filename="package://vizzy_description/meshes/M7L.dae" />
@@ -481,7 +425,7 @@
 		  </visual>
 		  <collision>
 		    <origin
-		      xyz="-0.106 -0.0077 -0.015"
+		      xyz="-0.106 -0.0077 -0.017"
 		      rpy="0.0 0.0 ${M_PI/2.0}" />
 		    <geometry>
 		      <mesh
@@ -502,21 +446,35 @@
 		  <axis
 		    xyz="0 0 1" />
 		  <limit lower="-0.610865238" upper="0.610865238" effort="10" velocity="3" />
-		  <dynamics damping="0.0" friction="0.1"/>
+		  <dynamics damping="0.0" friction="1.0"/>
 		</joint>
-		<!--<link name="l_palm_link">
-		 <visual>
-		    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
-		    <geometry>
-		      <box size="0.001 0.001 0.001" />
-		    </geometry>
-		  </visual>
-		</link>
+		<link name="l_palm_link">
+                    <inertial>
+                        <origin xyz="0 0 0" rpy="0 0 0" />
+                        <mass value="0.1" />
+                        <inertia
+                            ixx="1.0" ixy="0.0" ixz="0.0"
+                            iyy="1.0" iyz="0.0"
+                            izz="1.0" />
+                   </inertial>
+		   <visual>
+		       <origin xyz="0 0 0" rpy="0 0 0" />
+		       <geometry>
+		          <box size="0.001 0.001 0.001" />
+		       </geometry>
+		   </visual>
+                   <collision>
+                       <origin xyz="0 0 0" rpy="0 0 0" />
+                       <geometry>
+                           <cylinder length="0.001" radius="0.001" />
+                       </geometry>
+                   </collision>
+	        </link>
 		<joint name="l_palm_joint" type="fixed">
 		  <origin xyz="-0.1 0.0 0.0" rpy="${-M_PI/2} ${M_PI} 0.0" />
 		  <parent link="l_wrist_flection_link"/>
 		  <child link="l_palm_link" />
-		</joint>-->
+		</joint>
 
 		<!-- gazebo extensions -->
 		<xacro:left_arm_gazebo/>
