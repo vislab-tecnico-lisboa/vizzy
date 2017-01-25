@@ -28,20 +28,29 @@
   <arg name="right_camera_name" default="r_camera" />
   <arg name="left_camera_file" default="left_camera_params.yaml" />
   <arg name="right_camera_file" default="right_camera_params.yaml" />
+  <arg name="with_kinect" default="true" />
 
   <!-- camera parameters -->
   <arg name="video_mode" default="640x480_rgb8" /> <!-- raw format7_mode4-->
   <arg name="frame_rate" default="15.0" />
-  <arg name="gain" default="0.312"/>
-  <arg name="shutter" default="0.592"/>
-  <arg name="white_balance_BU" default="0.474"/>
-  <arg name="white_balance_RV" default="0.648"/>
-  <arg name="hue" default="0.48"/>
-  <arg name="gamma" default="0.4"/>
-  <arg name="saturation" default="0.826"/>
-  <arg name="sharpness" default="0.5"/>
+  <!--Min -10 Max 4095-->
+  <arg name="gain" default="1277.64"/>
+  <!--Min 0 Max 4095-->
+  <arg name="shutter" default="2424.24"/>
+  <!--Min 0 Max 4095-->
+  <arg name="white_balance_BU" default="1941.03"/>
+  <!--Min 0 Max 4095-->
+  <arg name="white_balance_RV" default="2653.56"/>
+  <!--Min 0 Max 4095-->
+  <arg name="hue" default="1965.6"/>
+  <!--Min 0 Max 10-->
+  <arg name="gamma" default="4"/>
+  <!--Min 0 Max 4095-->
+  <arg name="saturation" default="3382.47"/>
+  <!--Min 0 Max 4095-->
+  <arg name="sharpness" default="2047.5"/>
+  <!--Min 0 Max 255-->
   <arg name="brightness" default="0"/>
-
 
   <arg name="vizzy_navigation_absolute_path" default="/home/vizzy/catkin_workspace/src/vizzy/vizzy_navigation" />
   <arg name="ns" default="vizzy" />
@@ -79,8 +88,15 @@
     <arg name="brightness" value="$(arg brightness)"/>
   </include>
 
+
+  <!-- launch the depth camera -->
+  <group if="$(arg with_kinect)">
+    <include file="$(find vizzy_sensors)/launch/asus.launch"/>
+  </group>
+
   <!-- launch moveit -->
   <group if="$(arg use_moveit)">
+    <include file="$(find vizzy_control)/launch/two_arms_trajectory_action_server.launch"/>
     <include file="$(find vizzy_moveit_config)/launch/moveit.launch"/>
   </group>
 

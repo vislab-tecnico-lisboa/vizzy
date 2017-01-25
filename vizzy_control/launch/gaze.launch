@@ -16,7 +16,7 @@
   <arg name="joint_states" default="/vizzy/joint_states" /> 
 
   <group if="$(arg simulation)">
-    <node name="gaze" pkg="vizzy_control" type="gaze_sim" respawn="false" output="screen">
+    <node name="gaze" pkg="vizzy_control" type="gaze_sim" respawn="true" output="screen">
       <rosparam command="load" file="$(find vizzy_moveit_config)/config/kinematics.yaml"/>
       <rosparam command="load" file="$(arg config_file)"/>
       <remap from="left_camera_in" to="$(arg left_camera_in)"/>
@@ -26,13 +26,13 @@
       <remap from="joint_states" to="$(arg joint_states)"/>
     </node>
 
-    <node name="gaze_status" pkg="vizzy_control" type="fixation_point_node" respawn="false" output="screen" >
+    <node name="gaze_status" pkg="vizzy_control" type="fixation_point_node" respawn="true" output="screen" >
       <rosparam file="$(arg config_file)" command="load" />
     </node>
   </group>
 
   <group unless="$(arg simulation)">
-    <node name="gaze" pkg="vizzy_control" type="gaze_real" respawn="false" output="screen">
+    <node name="gaze" pkg="vizzy_control" type="gaze_real" respawn="true" output="screen">
       <rosparam command="load" file="$(find vizzy_moveit_config)/config/kinematics.yaml"/>
       <rosparam command="load" file="$(arg config_file)"/>
       <remap from="left_camera_in" to="$(arg left_camera_in)"/>

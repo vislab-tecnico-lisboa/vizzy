@@ -12,7 +12,6 @@
         <hardwareInterface>PositionJointInterface</hardwareInterface>
       </joint>
       <actuator name="r_shoulder_scapula_motor">
-        <hardwareInterface>EffortJointInterface</hardwareInterface>
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
@@ -23,7 +22,7 @@
         <hardwareInterface>PositionJointInterface</hardwareInterface>
       </joint>
       <actuator name="r_shoulder_flection_motor">
-        <hardwareInterface>EffortJointInterface</hardwareInterface>
+
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
@@ -34,7 +33,6 @@
         <hardwareInterface>PositionJointInterface</hardwareInterface>
       </joint>
       <actuator name="r_shoulder_abduction_motor">
-        <hardwareInterface>EffortJointInterface</hardwareInterface>
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
@@ -45,7 +43,6 @@
         <hardwareInterface>PositionJointInterface</hardwareInterface>
       </joint>
       <actuator name="r_shoulder_rotation_motor">
-        <hardwareInterface>EffortJointInterface</hardwareInterface>        
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
@@ -56,7 +53,6 @@
         <hardwareInterface>PositionJointInterface</hardwareInterface>
       </joint>
       <actuator name="r_elbow_flection_motor">
-        <hardwareInterface>EffortJointInterface</hardwareInterface>
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
@@ -78,21 +74,10 @@
         <hardwareInterface>PositionJointInterface</hardwareInterface>
       </joint>
       <actuator name="r_wrist_abduction_motor">
-        <hardwareInterface>EffortJointInterface</hardwareInterface>
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
 
-    <!--<transmission name="r_wrist_abduction_virtual_transmission">
-      <type>transmission_interface/SimpleTransmission</type>
-      <joint name="r_wrist_abduction_virtual_joint">
-        <hardwareInterface>PositionJointInterface</hardwareInterface>
-      </joint>
-      <actuator name="r_wrist_abduction_virtual_motor">
-        <hardwareInterface>EffortJointInterface</hardwareInterface>
-        <mechanicalReduction>1</mechanicalReduction>
-      </actuator>
-    </transmission>-->
 
     <transmission name="r_wrist_flection_transmission">
       <type>transmission_interface/SimpleTransmission</type>
@@ -100,22 +85,9 @@
         <hardwareInterface>PositionJointInterface</hardwareInterface>
       </joint>
       <actuator name="r_wrist_flection_motor">
-        <hardwareInterface>EffortJointInterface</hardwareInterface>
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
-
-    <transmission name="r_palm_transmission">
-      <type>transmission_interface/SimpleTransmission</type>
-      <joint name="r_palm_joint">
-        <hardwareInterface>PositionJointInterface</hardwareInterface>
-      </joint>
-      <actuator name="r_palm_motor">
-        <hardwareInterface>EffortJointInterface</hardwareInterface>
-        <mechanicalReduction>1</mechanicalReduction>
-      </actuator>
-    </transmission>
-
 
   </xacro:macro>
 
