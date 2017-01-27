@@ -39,17 +39,50 @@ protected:
   ICartesianControl *arm;
   Vector xdhat;
   bool randomTarget;
-
+  Vector initial_position;
+  Vector initial_orientation;
+  double distance;
+  double contact_tol;
+  Vector control_reference;
+  int current_state;
+  bool connected_port;
+  BufferedPort<Bottle> sensor_readings;
+  string sensor_remote_port;
+  string sensor_local_port;
+  Vector current_position;
+  Vector current_orientation;
 public:
   /**********************************************************/
   bool configure(ResourceFinder &rf)
   {
     string remote = rf.find("remote").asString().c_str();
     string local = rf.find("local").asString().c_str();
+    sensor_remote_port = rf.find("sensRemotPort").asString().c_str();
+    sensor_local_port = rf.find("sensLocalPort").asString().c_str();
     double tol = rf.find("tol").asDouble();
     double trajtime = rf.find("trajtime").asDouble();
+    Bottle &grp=rf.findGroup("init_position");
+    initial_position.resize(3);
+    for (int i=0; i<3; i++){
+    initial_position[i]=grp.get(1+i).asDouble();
+    std::cout << "Initial position: " << initial_position[i] << std::endl;
+    }
+    initial_orientation.resize(4);
+    Bottle &grp1=rf.findGroup("init_orienta");
+    for (int i=0; i<4; i++){
+    initial_orientation[i]=grp1.get(1+i).asDouble();
+    std::cout << "Initial orientation: " << initial_orientation[i] << std::endl;
+    }
+    control_reference.resize(3);
+    Bottle &grp2=rf.findGroup("control_ref");
+    for (int i=0; i<3; i++){
+    control_reference[i]=grp2.get(1+i).asDouble();
+    std::cout << "Control reference: " << control_reference[i] << std::endl;
+    }
+    distance = rf.find("distance").asDouble();
+    contact_tol = rf.find("contact_tol").asDouble();
     randomTarget = false;
-
+    printf("Distance to be pushed is %f mts and contact tolerance is %f.\n",distance,contact_tol);
     printf("Trajectory time is %f and target tolerance is %f.\n",trajtime,tol);
 
     // Just usual things...
@@ -79,12 +112,15 @@ public:
       max -= 1.0; // [deg]
       arm->setLimits(i, min, max);
     }
-
+    bool opened_reading_port = sensor_readings.open(sensor_local_port);
+    if (!opened_reading_port)
+        return false;
     if (randomTarget)
       Rand::init();
     else
       attachTerminal();
-
+    current_state=0;
+    connected_port=false;
     return true;
   }
 
@@ -100,32 +136,64 @@ public:
   /**********************************************************/
   bool updateModule()
   {
-    bool done = false;
-    arm->checkMotionDone(&done);
-    if (done)
-    {
-      if (randomTarget)
-      {
-        Vector xd(3);
-        xd[0] = Rand::scalar(1.0, 2.5);
-        xd[1] = Rand::scalar(0.0, 2.0);
-        xd[2] = 0.0;
+     if(current_state==0){
+         arm->goToPoseSync(initial_position,initial_orientation);
+         bool done = false;
+         arm->checkMotionDone(&done);
+         if (done){
+             current_state=1;
+         }
+         while (!connected_port){
+           connected_port = Network::connect(sensor_remote_port, sensor_local_port);
+           Time::delay(1);
+         }
+     }
+     else if (current_state==1){
+         Bottle* readingSensor = sensor_readings.read(false);
+         if (readingSensor != NULL){
+             double deltaZ = readingSensor->get(2).asDouble()-readingSensor->get(5).asDouble();
+             double deltaY = readingSensor->get(1).asDouble()-readingSensor->get(4).asDouble();
+             double deltaX = readingSensor->get(0).asDouble()-readingSensor->get(3).asDouble();
+             double total_displacement = sqrt(deltaZ*deltaZ+deltaY*deltaY+deltaX*deltaX);
+             if (total_displacement < contact_tol){
+                 cout << "The sensor is not toching any object" << endl;
+             }
+             else{
+                 current_state = 2;
+             }
+         }
+     }
+     else if (current_state==2){
+         Bottle* readingSensor = sensor_readings.read();
+         //while(readingSensor==NULL)
+         //    readingSensor = sensor_readings.read(false);
+         double deltaZ = control_reference[2]-readingSensor->get(5).asDouble();
+         double deltaY = control_reference[1]-readingSensor->get(4).asDouble();
+         double deltaX = control_reference[0]-readingSensor->get(3).asDouble();
+         double error = sqrt(deltaZ*deltaZ+deltaY*deltaY+deltaX*deltaX);
+         if (deltaZ<0 && error > contact_tol){
+             //move the arm the delta value forward
+             arm->getPose(current_position,current_orientation);
+             Vector new_position(3);
+             new_position[1]+=deltaZ*(1.3);
+             arm->goToPoseSync(new_position,current_orientation);
+         }
+         else if (deltaZ<0 && error < contact_tol){
+             // do not move the arm
+             cout << "Force goal reached!" << endl;
+             cout << "Waiting for three seconds and then moving to the initial pose" << endl;
+             Time::delay(1);
+             current_state=0;
+         }
+         else if (deltaZ >0 && error > contact_tol){
+             //move the arm backwards the delta value
+             arm->getPose(current_position,current_orientation);
+             Vector new_position(3);
+             new_position[1]-=deltaZ*(1.3);
+             arm->goToPoseSync(new_position,current_orientation);
+         }
 
-        cout << endl;
-        cout << "Solving for: (" << xd.toString().c_str() << ")" << endl;
-        arm->goToPositionSync(xd);
-        Vector odhat, qdhat;
-        arm->getDesired(xdhat, odhat, qdhat);
-        cout << "Going to: (" << xdhat.toString().c_str() << ")" << endl;
-        cout << "Solved Configuration: [" << qdhat.toString().c_str() << "]" << endl;
-      }
-    }
-    else
-    {
-      //Vector x, o;
-      //arm->getPose(x, o);
-      //cout << "Running: (" << x.toString().c_str() << ");  distance to go: " << norm(xdhat - x) << endl;
-    }
+     }
     return true;
   }
 
@@ -184,7 +252,7 @@ int main(int argc, char *argv[])
   ResourceFinder rf;
   rf.setVerbose(true);
   rf.setDefaultContext("vizzyCartesianControllerClient");
-  rf.setDefaultConfigFile("client_left_arm.ini");
+  rf.setDefaultConfigFile("client_right_arm_contact_sensor.ini");
   rf.configure(argc,argv);
   rf.setDefault("remote", "server");
   rf.setDefault("local", "client");
