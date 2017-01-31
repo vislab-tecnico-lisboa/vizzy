@@ -78,6 +78,7 @@ If you want to run the follower module, download a changed version of the nav2d 
 
 Other dependencies needed
 
+    sudo apt-get install ros-indigo-gazebo-*
     sudo apt-get install ros-indigo-moveit-*
     sudo apt-get install ros-indigo-move-base
     sudo apt-get install ros-indigo-amcl
@@ -108,6 +109,13 @@ Hmm... does this seems to easy? I hope it does because you should now be ready t
 For now let's focus on simulation. Open a terminal:
 
     roslaunch vizzy_launch vizzy_simulation.launch
+
+This configuration starts Vizzy in the ROS-mode, meaning that all the controllers are emulated using ROS. This configuration works only with Gazebo 2.x and ROS indigo (The default install procedure of ROS indigo)
+
+The upper body controllers simulated by the [gazebo-yarp-plugins](https://github.com/robotology/gazebo-yarp-plugins) can be started by
+
+    yarpserver
+    roslaunch vizzy_launch vizzy_simulation.launch use_yarp:=true
 
 Don't forget you'll need to have `yarpserver` running when you have the `use_yarp` argument set as true.
 
