@@ -51,6 +51,13 @@ protected:
   string sensor_local_port;
   Vector current_position;
   Vector current_orientation;
+  IPositionControl *ipos;
+  IPositionControl *ipos_torso;
+  PolyDriver dd;
+  PolyDriver dd_torso;
+  int n_joints;
+  IControlMode2 *iMode2;
+  IControlMode2 *iMode2_torso;
 public:
   /**********************************************************/
   bool configure(ResourceFinder &rf)
@@ -85,19 +92,46 @@ public:
     printf("Distance to be pushed is %f mts and contact tolerance is %f.\n",distance,contact_tol);
     printf("Trajectory time is %f and target tolerance is %f.\n",trajtime,tol);
 
+    string robot=rf.find("robot").asString().c_str();
+    string part=rf.find("part").asString().c_str();
+    n_joints=rf.find("num_joints").asInt();
     // Just usual things...
     Property option("(device cartesiancontrollerclient)");
     option.put("remote", ("/" + remote).c_str());
     option.put("local", ("/" + local).c_str());
 
-    if (!client.open(option))
+    Property options;
+    options.put("robot", robot);//Needs to be read from a config file
+    options.put("device", "remote_controlboard");
+    options.put("remote", "/" + robot+"/"+ part );
+    options.put("local", "/" + robot+"/"+ part + "/_pos_interface");
+    options.put("part", part);
+
+    Property options_torso;
+    options_torso.put("robot", robot);//Needs to be read from a config file
+    options_torso.put("device", "remote_controlboard");
+    options_torso.put("remote", "/" + robot+"/"+ "torso" );
+    options_torso.put("local", "/" + robot+"/"+ "torso" + "/_pos_interface");
+    options_torso.put("part", "torso");
+
+    dd.open(options);
+    cout << "Arm driver done!!" << endl;
+    dd_torso.open(options_torso);
+    cout << "Torso driver done!!" << endl;
+    bool ok;
+    ok = dd.view(ipos);
+    ok &= dd.view(iMode2);
+    ok &= dd_torso.view(ipos_torso);
+    ok &= dd.view(iMode2_torso);
+    if (!client.open(option) || !ok)
       return false;
 
     // open the view
     client.view(arm);
     arm->setTrajTime(trajtime);
     arm->setInTargetTol(tol);
-
+    double part_speeds[8] = {30.0,30.0,30.0,30.0,30.0,30.0,30.0,30.0};
+    ipos->setRefSpeeds(part_speeds);
     Vector dof;
     arm->getDOF(dof);
     for (int i = 0; i < dof.length(); i++)
@@ -121,6 +155,7 @@ public:
       attachTerminal();
     current_state=0;
     connected_port=false;
+    cout << "Init done!!" << endl;
     return true;
   }
 
@@ -137,18 +172,48 @@ public:
   bool updateModule()
   {
      if(current_state==0){
-         arm->goToPoseSync(initial_position,initial_orientation);
+         double *tmp = new double[n_joints];
+         tmp[0]= 10.15;
+         tmp[1]= 85.11;
+         tmp[2] = 11.90;
+         tmp[3]= -77.00;
+         tmp[4] = 29.40;
+         tmp[5]= -69.70;
+         tmp[6]=-17.92;
+         tmp[7]=-27.00;
+         cout << "Before sending arm position!!" << endl;
+         for (size_t j=0; j<8; j++){
+             iMode2->setControlMode(j,VOCAB_CM_POSITION);
+         }
+         iMode2_torso->setControlMode(0,VOCAB_CM_POSITION);
+         ipos->positionMove(tmp);
+         cout << "Sent arm position!!" << endl;
+         double *tmp1 = new double[1];
+         tmp1[0] = 22.59;
+         ipos_torso->positionMove(tmp1);
+         cout << "Sent torso position!!" << endl;
+         //arm->goToPoseSync(initial_position,initial_orientation);
          bool done = false;
-         arm->checkMotionDone(&done);
+         //arm->checkMotionDone(&done);
+         while(!done) {
+             ipos->checkMotionDone(&done);
+             Time::delay(15.0);   // Alterado
+         }
+
+         cout << "Home position done!!" << endl;
+         /*while (!connected_port){
+           connected_port = Network::connect(sensor_remote_port, sensor_local_port);
+           cout << "Waiting for port!!" << done << endl;
+           Time::delay(1);
+         }*/
          if (done){
              current_state=1;
          }
-         while (!connected_port){
-           connected_port = Network::connect(sensor_remote_port, sensor_local_port);
-           Time::delay(1);
-         }
      }
      else if (current_state==1){
+         arm->getPose(initial_position,initial_orientation);
+         cout << initial_position[0] << " y: " << initial_position[1] << " z:" << initial_position[2] << endl;
+         cout << " or1: " << initial_orientation[0] << " or2: "<< initial_orientation[1] << " or3: " <<initial_orientation[2] << " angle:" << initial_orientation[3]<< endl;
          Bottle* readingSensor = sensor_readings.read(false);
          if (readingSensor != NULL){
              double deltaZ = readingSensor->get(2).asDouble()-readingSensor->get(5).asDouble();
@@ -156,12 +221,28 @@ public:
              double deltaX = readingSensor->get(0).asDouble()-readingSensor->get(3).asDouble();
              double total_displacement = sqrt(deltaZ*deltaZ+deltaY*deltaY+deltaX*deltaX);
              if (total_displacement < contact_tol){
-                 cout << "The sensor is not toching any object" << endl;
+                 cout << "The sensor is not touching any object" << endl;
              }
              else{
                  current_state = 2;
              }
          }
+         arm->getPose(initial_position,initial_orientation);
+         Vector new_position(3);
+         new_position = initial_position;
+         //new_position[0]-=0.03;
+         new_position[1]-=0.01;
+         cout << "new x: " <<new_position[0] << " y: " << new_position[1] << " z:" << new_position[2] << endl;
+         for (size_t j=0; j<8; j++){
+             iMode2->setControlMode(j,VOCAB_CM_POSITION_DIRECT);
+         }
+         iMode2_torso->setControlMode(0,VOCAB_CM_POSITION_DIRECT);
+         arm->goToPose(new_position,initial_orientation);
+         Vector xdhat,odhat, qdhat;
+         arm->getDesired(xdhat, odhat, qdhat);
+         cout << "Going to: (" << xdhat.toString().c_str() << ")" << endl;
+         cout << "Solved Configuration: [" << qdhat.toString().c_str() << "]" << endl;
+         Time::delay(10);
      }
      else if (current_state==2){
          Bottle* readingSensor = sensor_readings.read();
@@ -175,6 +256,7 @@ public:
              //move the arm the delta value forward
              arm->getPose(current_position,current_orientation);
              Vector new_position(3);
+             new_position = current_position;
              new_position[1]+=deltaZ*(1.3);
              arm->goToPoseSync(new_position,current_orientation);
          }
