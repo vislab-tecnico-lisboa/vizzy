@@ -61,6 +61,7 @@
   <!-- launch moveit -->
   <group if="$(arg launch_moveit)">
     <group if="$(arg head_only)">
+      <include file="$(find vizzy_control)/launch/two_arms_trajectory_action_server.launch"/>
       <include file="$(find vizzy_head_moveit_config)/launch/moveit.launch"/>
     </group>
     <group unless="$(arg head_only)">
