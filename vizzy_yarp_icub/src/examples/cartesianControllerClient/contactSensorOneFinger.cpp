@@ -51,13 +51,14 @@ protected:
   string sensor_local_port;
   Vector current_position;
   Vector current_orientation;
-  IPositionControl *ipos;
+  IPositionControl2 *ipos;
   IPositionControl *ipos_torso;
   PolyDriver dd;
   PolyDriver dd_torso;
   int n_joints;
   IControlMode2 *iMode2;
   IControlMode2 *iMode2_torso;
+  double accumulated_distance;
 public:
   /**********************************************************/
   bool configure(ResourceFinder &rf)
@@ -155,6 +156,8 @@ public:
       attachTerminal();
     current_state=0;
     connected_port=false;
+    current_position.resize(3);
+    current_orientation.resize(4);
     cout << "Init done!!" << endl;
     return true;
   }
@@ -186,7 +189,8 @@ public:
              iMode2->setControlMode(j,VOCAB_CM_POSITION);
          }
          iMode2_torso->setControlMode(0,VOCAB_CM_POSITION);
-         ipos->positionMove(tmp);
+         int my_joints[8] = {0,1,2,3,4,5,6,7};
+         ipos->positionMove(8,my_joints,tmp);
          cout << "Sent arm position!!" << endl;
          double *tmp1 = new double[1];
          tmp1[0] = 22.59;
@@ -215,6 +219,8 @@ public:
          cout << initial_position[0] << " y: " << initial_position[1] << " z:" << initial_position[2] << endl;
          cout << " or1: " << initial_orientation[0] << " or2: "<< initial_orientation[1] << " or3: " <<initial_orientation[2] << " angle:" << initial_orientation[3]<< endl;
          Bottle* readingSensor = sensor_readings.read(false);
+         accumulated_distance = 0.0;
+         current_state=2;
          if (readingSensor != NULL){
              double deltaZ = readingSensor->get(2).asDouble()-readingSensor->get(5).asDouble();
              double deltaY = readingSensor->get(1).asDouble()-readingSensor->get(4).asDouble();
@@ -227,7 +233,7 @@ public:
                  current_state = 2;
              }
          }
-         arm->getPose(initial_position,initial_orientation);
+         /*arm->getPose(initial_position,initial_orientation);
          Vector new_position(3);
          new_position = initial_position;
          //new_position[0]-=0.03;
@@ -237,43 +243,61 @@ public:
              iMode2->setControlMode(j,VOCAB_CM_POSITION_DIRECT);
          }
          iMode2_torso->setControlMode(0,VOCAB_CM_POSITION_DIRECT);
-         arm->goToPose(new_position,initial_orientation);
+         arm->goToPoseSync(new_position,initial_orientation);
          Vector xdhat,odhat, qdhat;
          arm->getDesired(xdhat, odhat, qdhat);
          cout << "Going to: (" << xdhat.toString().c_str() << ")" << endl;
          cout << "Solved Configuration: [" << qdhat.toString().c_str() << "]" << endl;
-         Time::delay(10);
+         Time::delay(10);*/
      }
      else if (current_state==2){
-         Bottle* readingSensor = sensor_readings.read();
+         /*Bottle* readingSensor = sensor_readings.read();
          //while(readingSensor==NULL)
          //    readingSensor = sensor_readings.read(false);
          double deltaZ = control_reference[2]-readingSensor->get(5).asDouble();
          double deltaY = control_reference[1]-readingSensor->get(4).asDouble();
          double deltaX = control_reference[0]-readingSensor->get(3).asDouble();
-         double error = sqrt(deltaZ*deltaZ+deltaY*deltaY+deltaX*deltaX);
-         if (deltaZ<0 && error > contact_tol){
+         double error = sqrt(deltaZ*deltaZ+deltaY*deltaY+deltaX*deltaX);*/
+         double error=contact_tol+0.1;
+         double deltaZ=-0.01;
+         if (deltaZ<0 && error > contact_tol && accumulated_distance<0.1){
              //move the arm the delta value forward
              arm->getPose(current_position,current_orientation);
+             cout << current_position[0] << " y: " << current_position[1] << " z:" << current_position[2] << endl;
+             cout << " or1: " << current_orientation[0] << " or2: "<< current_orientation[1] << " or3: " <<current_orientation[2] << " angle:" << current_orientation[3]<< endl;
              Vector new_position(3);
              new_position = current_position;
-             new_position[1]+=deltaZ*(1.3);
-             arm->goToPoseSync(new_position,current_orientation);
+             new_position[1]-=0.01;
+             cout << "new x: " <<new_position[0] << " y: " << new_position[1] << " z:" << new_position[2] << endl;
+             for (size_t j=0; j<8; j++){
+                 iMode2->setControlMode(j,VOCAB_CM_POSITION_DIRECT);
+             }
+             iMode2_torso->setControlMode(0,VOCAB_CM_POSITION_DIRECT);
+             arm->goToPose(new_position,current_orientation);
+             Vector xdhat,odhat, qdhat;
+             arm->getDesired(xdhat, odhat, qdhat);
+             accumulated_distance=initial_position[1]-xdhat[1];
+             cout << "Going to: (" << xdhat.toString().c_str() << ")" << endl;
+             cout << "Solved Configuration: [" << qdhat.toString().c_str() << "]" << endl;
+             cout << "Accumulated distance: " << accumulated_distance << endl;
+             Time::delay(10);
+             //new_position[1]+=deltaZ*(1.3);
+             //arm->goToPoseSync(new_position,current_orientation);
          }
-         else if (deltaZ<0 && error < contact_tol){
+         else if (deltaZ<0 && error > contact_tol && accumulated_distance>=0.1){
              // do not move the arm
-             cout << "Force goal reached!" << endl;
+             cout << "Push object task finished successfully!" << endl;
              cout << "Waiting for three seconds and then moving to the initial pose" << endl;
-             Time::delay(1);
+             Time::delay(3);
              current_state=0;
          }
-         else if (deltaZ >0 && error > contact_tol){
+         /*else if (deltaZ >0 && error > contact_tol){
              //move the arm backwards the delta value
              arm->getPose(current_position,current_orientation);
              Vector new_position(3);
              new_position[1]-=deltaZ*(1.3);
              arm->goToPoseSync(new_position,current_orientation);
-         }
+         }*/
 
      }
     return true;
