@@ -51,7 +51,7 @@ protected:
   string sensor_local_port;
   Vector current_position;
   Vector current_orientation;
-  IPositionControl2 *ipos;
+  IPositionControl *ipos;
   IPositionControl *ipos_torso;
   PolyDriver dd;
   PolyDriver dd_torso;
@@ -123,7 +123,7 @@ public:
     ok = dd.view(ipos);
     ok &= dd.view(iMode2);
     ok &= dd_torso.view(ipos_torso);
-    ok &= dd.view(iMode2_torso);
+    ok &= dd_torso.view(iMode2_torso);
     if (!client.open(option) || !ok)
       return false;
 
@@ -131,7 +131,8 @@ public:
     client.view(arm);
     arm->setTrajTime(trajtime);
     arm->setInTargetTol(tol);
-    double part_speeds[8] = {30.0,30.0,30.0,30.0,30.0,30.0,30.0,30.0};
+    //double part_speeds[8] = {30.0,30.0,30.0,30.0,30.0,30.0,30.0,30.0};
+    double part_speeds[8] = {12.0,12.0,12.0,12.0,12.0,12.0,12.0,12.0};
     ipos->setRefSpeeds(part_speeds);
     Vector dof;
     arm->getDOF(dof);
@@ -176,34 +177,51 @@ public:
   {
      if(current_state==0){
          double *tmp = new double[n_joints];
-         tmp[0]= 10.15;
+         /*tmp[0]= 10.15;
          tmp[1]= 85.11;
          tmp[2] = 11.90;
          tmp[3]= -77.00;
          tmp[4] = 29.40;
          tmp[5]= -69.70;
          tmp[6]=-17.92;
-         tmp[7]=-27.00;
+         tmp[7]=-27.00;*/
+	 /*tmp[0]= 0.0;
+         tmp[1]= 0.0;
+         tmp[2] = 40.0;
+         tmp[3]= 0.0;
+         tmp[4] = 50.0;
+         tmp[5]= 0.0;
+         tmp[6]= 0.0;
+         tmp[7]=0.0;
          cout << "Before sending arm position!!" << endl;
          for (size_t j=0; j<8; j++){
              iMode2->setControlMode(j,VOCAB_CM_POSITION);
          }
          iMode2_torso->setControlMode(0,VOCAB_CM_POSITION);
          int my_joints[8] = {0,1,2,3,4,5,6,7};
-         ipos->positionMove(8,my_joints,tmp);
+         ipos->positionMove(tmp);
          cout << "Sent arm position!!" << endl;
          double *tmp1 = new double[1];
-         tmp1[0] = 22.59;
-         ipos_torso->positionMove(tmp1);
+         tmp1[0] = 0.0;
+         ipos_torso->positionMove(0,tmp1[0]);
          cout << "Sent torso position!!" << endl;
-         //arm->goToPoseSync(initial_position,initial_orientation);
-         bool done = false;
-         //arm->checkMotionDone(&done);
-         while(!done) {
+	 Time::delay(10);*/
+	 /*bool done = false;
+	  while(!done) {
              ipos->checkMotionDone(&done);
-             Time::delay(15.0);   // Alterado
-         }
-
+	     cout << "Not done!!" << endl;
+             Time::delay(0.01);   // Alterado
+          }*/
+         arm->goToPoseSync(initial_position,initial_orientation);
+         bool done = true;
+         //arm->checkMotionDone(&done);
+         /*while(!done) {
+             arm->checkMotionDone(&done);
+	     cout << "Not done!!" << endl;
+             Time::delay(0.01);   // Alterado
+         }*/
+	 //arm->waitMotionDone(0.01);
+	 Time::delay(5.0);
          cout << "Home position done!!" << endl;
          /*while (!connected_port){
            connected_port = Network::connect(sensor_remote_port, sensor_local_port);
@@ -258,7 +276,7 @@ public:
          double deltaY = control_reference[1]-readingSensor->get(4).asDouble();
          double deltaX = control_reference[0]-readingSensor->get(3).asDouble();
          double error = sqrt(deltaZ*deltaZ+deltaY*deltaY+deltaX*deltaX);*/
-         double error=contact_tol+0.1;
+         double error=contact_tol+0.01;
          double deltaZ=-0.01;
          if (deltaZ<0 && error > contact_tol && accumulated_distance<0.1){
              //move the arm the delta value forward
@@ -267,20 +285,21 @@ public:
              cout << " or1: " << current_orientation[0] << " or2: "<< current_orientation[1] << " or3: " <<current_orientation[2] << " angle:" << current_orientation[3]<< endl;
              Vector new_position(3);
              new_position = current_position;
-             new_position[1]-=0.01;
+             new_position[1]-=0.02;
+	     //new_position[2]+=0.005;
              cout << "new x: " <<new_position[0] << " y: " << new_position[1] << " z:" << new_position[2] << endl;
-             for (size_t j=0; j<8; j++){
+             /*for (size_t j=0; j<8; j++){
                  iMode2->setControlMode(j,VOCAB_CM_POSITION_DIRECT);
              }
-             iMode2_torso->setControlMode(0,VOCAB_CM_POSITION_DIRECT);
-             arm->goToPose(new_position,current_orientation);
+             iMode2_torso->setControlMode(0,VOCAB_CM_POSITION_DIRECT);*/
+             arm->goToPoseSync(new_position,current_orientation);
              Vector xdhat,odhat, qdhat;
              arm->getDesired(xdhat, odhat, qdhat);
              accumulated_distance=initial_position[1]-xdhat[1];
              cout << "Going to: (" << xdhat.toString().c_str() << ")" << endl;
              cout << "Solved Configuration: [" << qdhat.toString().c_str() << "]" << endl;
              cout << "Accumulated distance: " << accumulated_distance << endl;
-             Time::delay(10);
+             Time::delay(1);
              //new_position[1]+=deltaZ*(1.3);
              //arm->goToPoseSync(new_position,current_orientation);
          }
