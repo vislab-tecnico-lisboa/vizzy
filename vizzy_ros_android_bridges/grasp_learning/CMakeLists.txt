@@ -193,6 +193,6 @@ include_directories(
 
 add_executable(grasp_learning src/grasp_learning.cpp)
 target_link_libraries(
-  grasp_learning ${catkin_LIBRARIES}
+  grasp_learning ${catkin_LIBRARIES} ${OpenCV_LIBS}
 )
 ##add_dependencies(grasp_learning)
