@@ -107,6 +107,12 @@
      <rosparam command="load" file="$(find vizzy_sensors)/config/hokuyo_filters.yaml" />
    </node>
 
+   <node machine="$(arg vizzy_machine_name)" name="hokuyo_laser_filters_rear" pkg="laser_filters" type="scan_to_scan_filter_chain">
+      <rosparam command="load" file="$(find vizzy_sensors)/config/hokuyo_filters.yaml" />
+      <remap from="scan" to="scan_rear"/>
+      <remap from="scan_filtered" to="scan_filtered_rear"/>
+    </node>
+
     <group if="$(arg slam)">
       <!-- TO DO -->
     </group>
