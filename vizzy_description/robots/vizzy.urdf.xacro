@@ -51,8 +51,12 @@
   </xacro:right_hand>
 
   <!-- instantiate hokuyo -->
-  <xacro:hokuyo_04lx_laser name="nav_hokuyo" parent="base" ros_topic="scan" update_rate="40" min_angle="${-(5 * M_PI)/12}" max_angle="${(5 * M_PI)/12}" max_range="30">
+  <xacro:hokuyo_04lx_laser name="nav_hokuyo" parent="base" mesh_file="package://vizzy_description/meshes/hokuyo_utm30lx/hokuyo_utm_30lx.dae" scale="1.0 1.0 1.0" ros_topic="scan" update_rate="40" min_angle="${-(5 * M_PI)/12}" max_angle="${(5 * M_PI)/12}" max_range="30">
     <origin xyz="${-0.025-0.060139} 0.001 ${-0.00394+0.14806}" rpy="0 0 ${M_PI}" />
+  </xacro:hokuyo_04lx_laser>
+
+<xacro:hokuyo_04lx_laser name="nav_hokuyo_urg" parent="base" mesh_file="package://vizzy_description/meshes/hokuyo.dae" ros_topic="scan_rear" scale="0.0254 0.0254 0.0254" update_rate="10" min_angle="${-(5 * M_PI)/12}" max_angle="${(5 * M_PI)/12}" max_range="4">
+    <origin xyz="${-0.025-0.060139+0.555} 0.001 ${-0.00394+0.14806}" rpy="0 0 0" />
   </xacro:hokuyo_04lx_laser>
 
   <xacro:asus_camera name="camera" parent="waist_link">
