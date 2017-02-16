@@ -29,8 +29,9 @@ inflater:
 
 
 laserobstacles:
-  observation_sources: scan
+  observation_sources: scan scan_rear
   scan: {data_type: LaserScan, topic: scan_filtered, marking: true, clearing: true}
+  scan_rear: {data_type: LaserScan, topic: scan_filtered_rear, marking: true, clearing: true}
   obstacle_range: 4.0
   raytrace_range: 4.5
   marking: true
