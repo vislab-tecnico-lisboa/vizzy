@@ -7,7 +7,7 @@
 
   <xacro:include filename="$(find vizzy_description)/urdf/sensors/hokuyo_04lx_laser.gazebo.xacro" />
 
-  <xacro:macro name="hokuyo_04lx_laser" params="name parent *origin ros_topic update_rate min_angle max_angle max_range">
+  <xacro:macro name="hokuyo_04lx_laser" params="name parent *origin mesh_file scale ros_topic update_rate min_angle max_angle max_range">
     <joint name="${name}_joint" type="fixed">
       <insert_block name="origin" />
       <parent link="${parent}_link"/>
@@ -22,7 +22,7 @@
       <visual>
         <origin xyz="0 0 0.058" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://vizzy_description/meshes/hokuyo_utm30lx/hokuyo_utm_30lx.dae" />
+          <mesh filename="${mesh_file}" scale="${scale}" />
         </geometry>
       </visual>
     </link>
