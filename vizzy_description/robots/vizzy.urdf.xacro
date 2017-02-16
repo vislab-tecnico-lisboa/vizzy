@@ -55,7 +55,7 @@
     <origin xyz="${-0.025-0.060139} 0.001 ${-0.00394+0.14806}" rpy="0 0 ${M_PI}" />
   </xacro:hokuyo_04lx_laser>
 
-<xacro:hokuyo_04lx_laser name="nav_hokuyo_urg" parent="base" mesh_file="package://vizzy_description/meshes/hokuyo.dae" ros_topic="scan_rear" scale="0.0254 0.0254 0.0254" update_rate="10" min_angle="${-(5 * M_PI)/12}" max_angle="${(5 * M_PI)/12}" max_range="4">
+<xacro:hokuyo_04lx_laser name="nav_hokuyo_rear" parent="base" mesh_file="package://vizzy_description/meshes/hokuyo.dae" ros_topic="scan_rear" scale="0.0254 0.0254 0.0254" update_rate="10" min_angle="${-(5 * M_PI)/12}" max_angle="${(5 * M_PI)/12}" max_range="4">
     <origin xyz="${-0.025-0.060139+0.555} 0.001 ${-0.00394+0.14806}" rpy="0 0 0" />
   </xacro:hokuyo_04lx_laser>
 
