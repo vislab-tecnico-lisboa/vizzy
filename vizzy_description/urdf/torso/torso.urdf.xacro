@@ -62,7 +62,7 @@
       link="waist_link" />
     <axis
       xyz="0 0 1" />
-    <limit lower="-0.34906585" upper="0.34906585" effort="${3863H024C_motor_max_effort}" velocity="${3863H024C_motor_max_velocitiy*DEG_TO_RAD}" />
+    <limit lower="-0.34906585" upper="0.34906585" effort="${A3863H024C_motor_max_effort}" velocity="${A3863H024C_motor_max_velocitiy*DEG_TO_RAD}" />
   </joint>
 
   <link name="waist_fixed_virtual_link">
@@ -87,7 +87,7 @@
       link="waist_fixed_virtual_link" />
     <axis
       xyz="0 0 1" />
-    <limit lower="-0.34906585" upper="0.34906585" effort="${3863H024C_motor_max_effort}" velocity="${3863H024C_motor_max_velocitiy*DEG_TO_RAD}" />
+    <limit lower="-0.34906585" upper="0.34906585" effort="${A3863H024C_motor_max_effort}" velocity="${A3863H024C_motor_max_velocitiy*DEG_TO_RAD}" />
   </joint>
 
 
