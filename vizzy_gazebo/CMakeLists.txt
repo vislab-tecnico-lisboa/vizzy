@@ -10,6 +10,8 @@ find_package(catkin REQUIRED COMPONENTS
 # Depend on system install of Gazebo
 find_package(gazebo REQUIRED)
 
+add_definitions(-std=c++11)
+
 link_directories(${GAZEBO_LIBRARY_DIRS})
 include_directories(include ${Boost_INCLUDE_DIR} ${catkin_INCLUDE_DIRS} ${GAZEBO_INCLUDE_DIRS})
 

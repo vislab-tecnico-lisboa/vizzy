@@ -105,6 +105,7 @@ include_directories(
 
 )
 
+add_definitions(-std=c++11)
 
 ## Declare a cpp library
 # add_library(vizzy_demos
