@@ -17,22 +17,22 @@
   <xacro:property name="SENSOR_BEAM_LENGTH" value="10.75" /> <!-- inches -->
 
 	<!-- Motor transmissions -->
-  <xacro:property name="2232U024SR_motor_transmission_reduction" value="100" /> <!--small-->
-  <xacro:property name="3242G024CR_motor_transmission_reduction" value="100" /> <!--medium-->
-  <xacro:property name="3257G024CR_motor_transmission_reduction" value="371" /> <!-- large -->
-  <xacro:property name="3863H024C_motor_transmission_reduction" value="700" /> <!-- huge -->
+  <xacro:property name="A2232U024SR_motor_transmission_reduction" value="100" /> <!--small-->
+  <xacro:property name="A3242G024CR_motor_transmission_reduction" value="100" /> <!--medium-->
+  <xacro:property name="A3257G024CR_motor_transmission_reduction" value="371" /> <!-- large -->
+  <xacro:property name="A3863H024C_motor_transmission_reduction" value="700" /> <!-- huge -->
 
 	<!-- Motor max efforts (N.m)-->
-  <xacro:property name="2232U024SR_motor_max_effort" value="2.8" /> 
-  <xacro:property name="3242G024CR_motor_max_effort" value="11.3" /> 
-  <xacro:property name="3257G024CR_motor_max_effort" value="105.6" /> 
-  <xacro:property name="3863H024C_motor_max_effort" value="525" /> 
+  <xacro:property name="A2232U024SR_motor_max_effort" value="2.8" /> 
+  <xacro:property name="A3242G024CR_motor_max_effort" value="11.3" /> 
+  <xacro:property name="A3257G024CR_motor_max_effort" value="105.6" /> 
+  <xacro:property name="A3863H024C_motor_max_effort" value="525" /> 
 
 	<!-- Motor max velocities degrees per second-->
-  <xacro:property name="2232U024SR_motor_max_velocitiy" value="426" /> 
-  <xacro:property name="3242G024CR_motor_max_velocitiy" value="300" /> 
-  <xacro:property name="3257G024CR_motor_max_velocitiy" value="300" /> 
-  <xacro:property name="3863H024C_motor_max_velocitiy" value="34" /> 
+  <xacro:property name="A2232U024SR_motor_max_velocitiy" value="426" /> 
+  <xacro:property name="A3242G024CR_motor_max_velocitiy" value="300" /> 
+  <xacro:property name="A3257G024CR_motor_max_velocitiy" value="300" /> 
+  <xacro:property name="A3863H024C_motor_max_velocitiy" value="34" /> 
 
 
   <!-- colors -->
