@@ -6,7 +6,8 @@ find_package(catkin REQUIRED
   COMPONENTS
     roscpp
     sensor_msgs
-    geometry_msgs)
+    geometry_msgs
+    nav2d_operator)
 
 
 catkin_package(
@@ -31,6 +32,7 @@ target_link_libraries(reroute_twist2nav2d_node
   ${catkin_LIBRARIES}
 )
 
+add_dependencies(reroute_twist2nav2d_node nav2d_operator_generate_messages_cpp ${catkin_EXPORTED_TARGETS})
 
 foreach(dir config launch rviz)
   install(DIRECTORY ${dir}/ 
