@@ -29,6 +29,8 @@
 %       notation to the last reference frame of the DH notation (left eye)
 %       Tp_0n: rigid transformation from the 0th reference frame of the DH
 %       notation to the last reference frame of the DH notation (right eye)
+%       Tp_0I: rigid transformation from the 0th reference frame of the DH
+%       notation to the inertial sensor reference frame
 %       rpy_Rn: matrix that contains the roll-pitch-yaw angles that perform
 %       the rotations equivalent to the DH Hartenberg matrix for every DH
 %       matrix (left eye), from the root to the end effector (for URDF file spec)
@@ -38,7 +40,7 @@
 
 
 
-function [T_Ro0, T_0n, Tp_0n, rpy_Rn, rpy_pRn] = WaistHeadFwdKinVizzy(wtheta,htheta, display)
+function [T_Ro0, T_0n, Tp_0n, T_0I, rpy_Rn, rpy_pRn] = WaistHeadFwdKinVizzy(wtheta,htheta, display)
 
 %Reference frames attached to links
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -143,7 +145,7 @@ Gp_sI = Gp_boxI * G_sI;
 T_Ro0 = G_sL0;
 T_0n  = G_01*G_34*G_45* G_67* G_78;
 Tp_0n = G_01*G_34*G_45*Gp_67*Gp_78;
-
+T_0I = G_01*G_34*G_bSi*G_sI;
 
 % Inertiax = 51;
 % Inertiay = 35;
