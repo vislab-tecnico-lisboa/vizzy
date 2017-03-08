@@ -3,6 +3,8 @@ project(vizzy_head_moveit_config)
 
 find_package(catkin REQUIRED)
 
+add_definitions(-std=c++11)
+
 catkin_package()
 
 install(DIRECTORY launch DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})

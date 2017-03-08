@@ -24,6 +24,7 @@
   <build_depend>geometry_msgs</build_depend>
   <build_depend>sensor_msgs</build_depend>
   <build_depend>nav2d_operator</build_depend>
+  <build_depend>nav2d_operator_msgs</build_depend>
   <run_depend>amcl</run_depend>
   <run_depend>nav2d_operator</run_depend>
   <run_depend>roscpp</run_depend>

@@ -20,5 +20,5 @@ cd ..
 neck_eyes_angles	=	[0.0 0.0 0.0 0.0 0.0]*pi/180;
 
 cd waist_head_fwd_kin;
-[T_Root_0, T_0n_leftEye, Tp_0n_rightEye, rpy_root_end_leftEye, rpy_root_end_rightEye] = WaistHeadFwdKinVizzy(waist_angles,neck_eyes_angles, 1);
+[T_Root_0, T_0n_leftEye, Tp_0n_rightEye, Tp_0n_inertialSensor, rpy_root_end_leftEye, rpy_root_end_rightEye] = WaistHeadFwdKinVizzy(waist_angles,neck_eyes_angles, 1);
 cd ..
