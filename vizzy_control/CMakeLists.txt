@@ -47,6 +47,8 @@ include_directories(
   #${CUDA_INCLUDE_DIRS}
 )
 
+add_definitions(-std=c++11)
+
 add_executable(gaze_sim src/Gaze.cpp src/GazeSimulation.cpp)
 ## Specify libraries to link a library or executable target against
 target_link_libraries(gaze_sim

@@ -15,7 +15,10 @@ find_package(catkin REQUIRED COMPONENTS
   actionlib
   cv_bridge
   tf
+  vizzy_msgs
 )
+
+add_definitions(-std=c++11)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
