@@ -91,6 +91,7 @@ Other dependencies needed
     sudo apt-get install ros-indigo-eband-local-planner
     sudo apt-get install ros-indigo-opencv*
     sudo apt-get install ros-indigo-gazebo-ros-control
+    sudo apt-get install libsuitesparse-dev
 
 You are now ready to compile the code!
 
