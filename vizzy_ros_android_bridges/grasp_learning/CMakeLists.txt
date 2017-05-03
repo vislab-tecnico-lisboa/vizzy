@@ -8,7 +8,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
-  message_generation	
+  vizzy_msgs
   moveit_core
   moveit_ros_planning 
   moveit_ros_planning_interface 

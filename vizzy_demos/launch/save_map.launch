@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<launch>
+  <node name="map_saver" pkg="map_server" type="map_saver" args="-f $(find vizzy_navigation)/maps/$(arg map_name)" />
+</launch>
