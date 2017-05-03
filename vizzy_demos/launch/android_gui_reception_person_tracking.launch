@@ -31,6 +31,7 @@
   <arg name="following_planner_mode" default="global_map" />
   <!-- Choose what we want to detect: pedestrian, headandshoulders, full -->
   <arg name="detector_type" default="full" />
+  <arg name="with_kinect" default="true" />
 
   <!-- Choose which camera to use: left or right -->
   <arg name="camera" default="l_camera"/>
@@ -53,6 +54,7 @@
 	<arg name="frame_rate" value="15.0" />
 	<arg name="left_camera_file" value="left_camera_params.yaml" />
 	<arg name="right_camera_file" value="right_camera_params.yaml" />
+	<arg name="with_kinect" value="$(arg with_kinect)" />
   </include>
 
   <!-- launch vizualization on rviz -->

@@ -7,6 +7,9 @@ project(vizzy_msgs)
 find_package(catkin REQUIRED COMPONENTS
   actionlib_msgs
   moveit_core
+  message_generation
+  geometry_msgs
+  std_msgs
   moveit_ros_planning
   moveit_ros_planning_interface
 
@@ -15,6 +18,12 @@ find_package(catkin REQUIRED COMPONENTS
 add_action_files(
   DIRECTORY action
   FILES Gaze.action
+)
+
+add_message_files(
+  FILES
+  Tactile.msg
+  TacVector.msg
 )
 
 generate_messages(
