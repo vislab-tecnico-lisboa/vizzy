@@ -27,7 +27,7 @@
   <arg name="visualization" default="false" />
   <arg name="ns" default="vizzy" />
   <arg name="ros_cameras_on" default="true" />
-  <arg name="map_file" default="mapa_piso7_NOVO_AWESOME.yaml" />
+  <arg name="map_file" default="fful_better.yaml" />
   <arg name="follower" default="true" />
   <!-- Choose the obstacle avoidance: global_map, local_map -->
   <arg name="following_planner_mode" default="local_map" />

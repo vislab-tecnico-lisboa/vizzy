@@ -22,7 +22,7 @@
   <arg name="base_frame_id" default="base_footprint" />
   <arg name="odom_frame_id" default="odom" />
   <arg name="map_topic" default="/map" />
-  <arg name="map_file" default="mapa_piso7_NOVO_AWESOME.yaml" />
+  <arg name="map_file" default="fful_better.yaml" />
   <arg name="use_moveit" default="true" />
   <arg name="left_camera_name" default="l_camera" />
   <arg name="right_camera_name" default="r_camera" />
@@ -34,32 +34,32 @@
   <arg name="video_mode" default="640x480_rgb8" /> <!-- raw format7_mode4-->
   <arg name="frame_rate" default="15.0" />
   <!--Min -10 Max 4095-->
-  <arg name="gain" default="211"/> <!-- Works well indoors and at Vislab -->
-  <!-- <arg name="gain" default="0"/> --> <!-- For very bright environments with natural and artificial light -->
+  <!-- <arg name="gain" default="211"/> --><!-- Works well indoors and at Vislab -->
+  <arg name="gain" default="0"/> <!-- For very bright environments with natural and artificial light -->
   <!--Min 0 Max 4095-->
   <!-- <arg name="shutter" default="419"/> -->
   <arg name="shutter" default="419"/>
   <!--Min 0 Max 4095-->
-  <!-- <arg name="white_balance_BU" default="661"/> --> <!-- For very bright environments with natural and artificial light -->
-  <arg name="white_balance_BU" default="704"/> <!-- Works well indoors and at Vislab -->
+  <arg name="white_balance_BU" default="661"/> <!-- For very bright environments with natural and artificial light -->
+  <!--<arg name="white_balance_BU" default="704"/>--> <!-- Works well indoors and at Vislab -->
   <!--Min 0 Max 4095-->
-  <!-- <arg name="white_balance_RV" default="460"/> --> <!-- For very bright environments with natural and artificial light -->
-  <arg name="white_balance_RV" default="550"/> <!-- Works well indoors and at Vislab -->
+  <arg name="white_balance_RV" default="460"/> <!-- For very bright environments with natural and artificial light -->
+  <!--<arg name="white_balance_RV" default="550"/>--> <!-- Works well indoors and at Vislab -->
   <!--Min 0 Max 4095-->
-  <arg name="hue" default="1894.6"/>
-  <arg name="hue" default="2031"/> <!-- Works well indoors and at Vislab -->
+  <arg name="hue" default="1894.6"/> <!-- For very bright environments with natural and artificial light -->
+  <!--<arg name="hue" default="2031"/>--> <!-- Works well indoors and at Vislab -->
   <!--Min 0 Max 10-->
   <!-- <arg name="gamma" default="10"/> -->
   <arg name="gamma" default="10"/>
   <!--Min 0 Max 4095-->
-  <!-- <arg name="saturation" default="3396"/> --> <!-- For very bright environments with natural and artificial light -->
-  <arg name="saturation" default="3201"/> <!-- Works well indoors and at Vislab -->
+  <arg name="saturation" default="3396"/> <!-- For very bright environments with natural and artificial light -->
+  <!--<arg name="saturation" default="3201"/>--> <!-- Works well indoors and at Vislab -->
   <!--Min 0 Max 4095-->
-  <arg name="sharpness" default="2047.5"/> <!-- Works well indoors and at Vislab -->
-  <!-- <arg name="sharpness" default="4095"/> --> <!-- For very bright environments with natural and artificial light -->
+  <!--<arg name="sharpness" default="2047.5"/>--> <!-- Works well indoors and at Vislab -->
+  <arg name="sharpness" default="4095"/> <!-- For very bright environments with natural and artificial light -->
   <!--Min 0 Max 255-->
-  <!-- <arg name="brightness" default="0"/> --> <!-- For very bright environments with natural and artificial light -->
-  <arg name="brightness" default="255"/> <!-- Works well indoors and at Vislab -->
+   <arg name="brightness" default="0"/>  <!-- For very bright environments with natural and artificial light -->
+  <!--<arg name="brightness" default="255"/>--> <!-- Works well indoors and at Vislab -->
 
   <arg name="vizzy_navigation_absolute_path" default="/home/vizzy/catkin_workspace/src/vizzy/vizzy_navigation" />
   <arg name="ns" default="vizzy" />

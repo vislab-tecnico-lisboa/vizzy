@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<launch>
+  <node pkg="rosbag" type="rosbag" name="record_data"
+	args="record -O $(arg bagname) /tf /tf_static /vizzy/joint_states /vizzy/cmd_vel /vizzy/l_camera/camera_info 
+	/vizzy/l_camera/image_rect_color/compressed /vizzy/l_camera/image_rect_color/compressed/parameter_descriptions
+	/vizzy/l_camera/image_rect_color/compressed/parameter_updates /vizzy/r_camera/camera_info 
+	/vizzy/r_camera/image_rect_color/compressed
+	/vizzy/r_camera/image_rect_color/compressed/parameter_descriptions /vizzy/r_camera/image_rect_color/compressed/parameter_updates
+	/vizzy_upper_body/joint_states /hokuyo_laser_filters/footprint /initialpose /map /odom /scan_filtered /scan_filtered_rear
+	/camera/depth_registered/points"/>
+
+</launch>
