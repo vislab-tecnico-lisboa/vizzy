@@ -135,6 +135,10 @@ For more details see the following reference:
       organization={Springer}
      }
 
+## AUDIO (REAL VIZZY)
+In order to access the audio configurations you need to define the the following environment variable:
+
+    export PULSE_SERVER=127.0.0.1
 
 ## Issues
 
