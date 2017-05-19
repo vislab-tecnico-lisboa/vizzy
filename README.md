@@ -135,10 +135,22 @@ For more details see the following reference:
       organization={Springer}
      }
 
-## AUDIO (REAL VIZZY)
-In order to access the audio configurations you need to define the the following environment variable:
+## AUDIO (ON REAL VIZZY)
+In order to access the audio configurations via SSH you need to define the the following environment variable on Vizzy:
 
     export PULSE_SERVER=127.0.0.1
+
+Furthermore, without a X11 session the PulseAudio server will not launch automatically. Therefore you need to launch a daemon of the pulseaudio:
+
+    pulseaudio -D
+    
+This should be launched automatically, but if the audio is not working you should check if the pulseaudio server is running. If not, execute the previous command and it should work.
+
+Now you can access audio configurations via ssh -X. Useful commands:
+
+    gnome-control-center
+    pavucontrol
+    pacmd
 
 ## Issues
 
