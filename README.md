@@ -128,7 +128,7 @@ In order to access the audio configurations via SSH you need to define the the f
 
     export PULSE_SERVER=127.0.0.1
 
-Furthermore, without a X11 session the PulseAudio server will not launch automatically. Therefore you need to launch a daemon of the pulseaudio:
+Furthermore, without a X11 session the PulseAudio server will not launch automatically since it normally requires X11. To run PulseAudio in a headless machine you need to run it in daemon mode:
 
     pulseaudio -D
     
