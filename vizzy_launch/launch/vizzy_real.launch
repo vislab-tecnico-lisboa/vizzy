@@ -22,13 +22,15 @@
   <arg name="base_frame_id" default="base_footprint" />
   <arg name="odom_frame_id" default="odom" />
   <arg name="map_topic" default="/map" />
-  <arg name="map_file" default="fful_better.yaml" />
+  <arg name="map_file" default="mapa_piso7_NOVO_AWESOME.yaml" />
   <arg name="use_moveit" default="true" />
   <arg name="left_camera_name" default="l_camera" />
   <arg name="right_camera_name" default="r_camera" />
   <arg name="left_camera_file" default="left_camera_params.yaml" />
   <arg name="right_camera_file" default="right_camera_params.yaml" />
-  <arg name="with_kinect" default="true" />
+  <arg name="with_kinect" default="false" />
+  <arg name="custom_obstacles" default="true" />
+  <arg name="obstacles_map_file" default="mapa_piso7_NOVO_AWESOME.yaml" />
 
   <!-- camera parameters -->
   <arg name="video_mode" default="640x480_rgb8" /> <!-- raw format7_mode4-->
@@ -128,6 +130,12 @@
     <group unless="$(arg slam)">
       <!-- launch pre obtained map to the environment -->
       <node machine="$(arg vizzy_machine_name)" name="map_server" pkg="map_server" type="map_server" args="$(arg vizzy_navigation_absolute_path)/maps/$(arg map_file)" />
+
+      <group if="$(arg custom_obstacles)" ns="obst">
+	<node name="obstacle_map_server" pkg="map_server" type="map_server" args="$(find vizzy_navigation)/maps/$(arg obstacles_map_file)" >
+	  <remap from="map" to="map_obstacles"/>		
+	</node>
+      </group>
 
       <!-- move_base using local eband planner -->
       <group unless="$(arg reactive_2d_navigation)">

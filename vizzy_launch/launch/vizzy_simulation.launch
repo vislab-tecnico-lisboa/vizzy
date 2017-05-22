@@ -14,7 +14,7 @@
   <arg name="paused" default="false"/>
   <arg name="use_sim_time" default="true"/>
   <arg name="gui" default="true"/>
-  <arg name="world" default="isr_7th_floor.world" />
+  <arg name="world" default="isr_5th_floor.world" />
   <arg name="map_frame" default="map" />
   <arg name="tf_prefix" default="" />
   <arg name="map_file" default="isr_7th_floor_simulation.yaml" />
@@ -31,6 +31,9 @@
 
   <arg name="reactive_2d_navigation" default="false"/>
   <arg name="teleop" default="false"/>
+
+  <arg name="custom_obstacles" default="true" />
+  <arg name="obstacles_map_file" default="isr_7th_floor_simulation_obst.yaml" />
 
   <!-- bringup robot -->
   <group if="$(arg head_only)">
@@ -88,6 +91,12 @@
     <group unless="$(arg slam)">
       <!-- launch pre obtained map to the environment -->
       <node name="map_server" pkg="map_server" type="map_server" args="$(find vizzy_navigation)/maps/$(arg map_file)" />
+
+      <group if="$(arg custom_obstacles)" ns="obst">
+	<node name="obstacle_map_server" pkg="map_server" type="map_server" args="$(find vizzy_navigation)/maps/$(arg obstacles_map_file)" >
+	  <remap from="map" to="map_obstacles"/>		
+	</node>
+      </group>
 
       <group unless="$(arg reactive_2d_navigation)">
         <!-- move_base using local eband planner -->

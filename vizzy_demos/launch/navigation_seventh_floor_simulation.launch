@@ -11,7 +11,7 @@
   <arg name="paused" default="false"/>
   <arg name="use_sim_time" default="true"/>
   <arg name="gui" default="true"/>
-  <arg name="world" default="isr_7th_floor.world" />
+  <arg name="world" default="isr_5th_floor.world" />
   <arg name="yarp" default="false"/>
   <arg name="map_frame" default="map" />
   <arg name="tf_prefix" default="" />
