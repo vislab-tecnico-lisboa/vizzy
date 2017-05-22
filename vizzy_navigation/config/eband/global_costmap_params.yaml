@@ -6,6 +6,7 @@ global_costmap:
    transform_tolerance: 0.5
    plugins:
      - {name: static_map, type: "costmap_2d::StaticLayer"}
+     - {name: obstacle_static_map, type: "costmap_2d::StaticLayer"}
      - {name: laserobstacles, type: "costmap_2d::VoxelLayer"}
      - {name: kinectobstacles, type: "costmap_2d::VoxelLayer"}
      - {name: inflater, type: "costmap_2d::InflationLayer"}
