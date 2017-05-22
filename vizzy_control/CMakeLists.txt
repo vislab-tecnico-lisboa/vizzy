@@ -51,17 +51,20 @@ add_definitions(-std=c++11)
 
 add_executable(gaze_sim src/Gaze.cpp src/GazeSimulation.cpp)
 ## Specify libraries to link a library or executable target against
+add_dependencies(gaze_sim vizzy_msgs_generate_messages_cpp)
 target_link_libraries(gaze_sim
    ${catkin_LIBRARIES}
 )
 
 add_executable(gaze_real src/Gaze.cpp src/GazeReal.cpp)
+add_dependencies(gaze_real vizzy_msgs_generate_messages_cpp)
 ## Specify libraries to link a library or executable target against
 target_link_libraries(gaze_real
    ${catkin_LIBRARIES}
 )
 
 add_executable(gaze_client src/GazeClient.cpp)
+add_dependencies(gaze_client vizzy_msgs_generate_messages_cpp)
 ## Specify libraries to link a library or executable target against
 target_link_libraries(gaze_client
    ${catkin_LIBRARIES}
