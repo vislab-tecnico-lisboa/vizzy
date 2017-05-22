@@ -32,6 +32,11 @@ laserobstacles:
   marking: true
   clearing: true
 
+obstacle_static_map:
+  unknown_cost_value: -1
+  lethal_cost_threshold: 100
+  map_topic: /obst/map_obstacles
+
 kinectobstacles:
   observation_sources: pointcloud_sensor_in pointcloud_sensor_clear
   pointcloud_sensor_in:
