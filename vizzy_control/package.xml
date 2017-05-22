@@ -26,5 +26,6 @@
   <run_depend>joint_state_controller</run_depend>
   <run_depend>effort_controllers</run_depend>
   <run_depend>velocity_controllers</run_depend>
+  <run_depend>vizzy_msgs</run_depend>
   <run_depend>joint_trajectory_controller</run_depend>
 </package>
