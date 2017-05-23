@@ -138,10 +138,6 @@ In order to access the audio configurations via SSH you need to define the the f
 Furthermore, without a X11 session the PulseAudio server will not launch automatically since it normally requires X11. To run PulseAudio in a headless machine you need to run it in daemon mode:
 
     pulseaudio -D
-    
-To run it automatically after booting just add the command to:
-
-    /etc/rc.local
 
 This should be launched automatically, but if the audio is not working you should check if the pulseaudio server is running. If not, execute the previous command and it should work.
 
