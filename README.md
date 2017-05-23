@@ -139,6 +139,10 @@ Furthermore, without a X11 session the PulseAudio server will not launch automat
 
     pulseaudio -D
     
+To run it automatically after booting just add the command to:
+
+    /etc/rc.local
+
 This should be launched automatically, but if the audio is not working you should check if the pulseaudio server is running. If not, execute the previous command and it should work.
 
 Now you can access audio configurations via ssh -X. Useful commands:
