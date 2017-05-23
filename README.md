@@ -124,6 +124,13 @@ Don't forget you'll need to have `yarpserver` running when you have the `use_yar
 Feel free to play with the arguments as you want or to change the low-level launchers with more functionality.
 
 ## AUDIO (ON REAL VIZZY)
+
+# First time configuration
+
+To access pulseaudio and all the sound options through the network you need to make it discoverable. For that use:
+
+    paprefs
+
 In order to access the audio configurations via SSH you need to define the the following environment variable on Vizzy:
 
     export PULSE_SERVER=127.0.0.1
