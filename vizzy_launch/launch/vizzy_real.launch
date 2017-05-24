@@ -30,7 +30,7 @@
   <arg name="right_camera_file" default="right_camera_params.yaml" />
   <arg name="with_kinect" default="false" />
   <arg name="custom_obstacles" default="true" />
-  <arg name="obstacles_map_file" default="mapa_piso7_NOVO_AWESOME.yaml" />
+  <arg name="obstacles_map_file" default="mapa_piso7_NOVO_AWESOME_obst.yaml" />
 
   <!-- camera parameters -->
   <arg name="video_mode" default="640x480_rgb8" /> <!-- raw format7_mode4-->

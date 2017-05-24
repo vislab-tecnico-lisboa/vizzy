@@ -27,10 +27,12 @@
   <arg name="visualization" default="false" />
   <arg name="ns" default="vizzy" />
   <arg name="ros_cameras_on" default="true" />
-  <arg name="map_file" default="fful_better.yaml" />
+  <arg name="map_file" default="rececao+atrio_TorreNorte.yaml" />
   <arg name="follower" default="true" />
+  <arg name="custom_obstacles" default="true" />
+  <arg name="obstacles_map_file" default="rececao+atrio_TorreNorte_obst.yaml" />
   <!-- Choose the obstacle avoidance: global_map, local_map -->
-  <arg name="following_planner_mode" default="local_map" />
+  <arg name="following_planner_mode" default="global_map" />
   <!-- Choose what we want to detect: pedestrian, headandshoulders, full -->
   <arg name="detector_type" default="full" />
 
@@ -56,6 +58,8 @@
 	<arg name="frame_rate" value="15.0" />
 	<arg name="left_camera_file" value="left_camera_params.yaml" />
 	<arg name="right_camera_file" value="right_camera_params.yaml" />
+	<arg name="custom_obstacles" value="$(arg custom_obstacles)" />
+ 	<arg name="obstacles_map_file" value="$(arg obstacles_map_file)" />
   </include>
 
   <!-- launch vizualization on rviz -->
