@@ -124,6 +124,13 @@ Don't forget you'll need to have `yarpserver` running when you have the `use_yar
 Feel free to play with the arguments as you want or to change the low-level launchers with more functionality.
 
 ## AUDIO (ON REAL VIZZY)
+
+# First time configuration
+
+To access pulseaudio and all the sound options through the network you need to make it discoverable. For that use:
+
+    paprefs
+
 In order to access the audio configurations via SSH you need to define the the following environment variable on Vizzy:
 
     export PULSE_SERVER=127.0.0.1
@@ -131,7 +138,7 @@ In order to access the audio configurations via SSH you need to define the the f
 Furthermore, without a X11 session the PulseAudio server will not launch automatically since it normally requires X11. To run PulseAudio in a headless machine you need to run it in daemon mode:
 
     pulseaudio -D
-    
+
 This should be launched automatically, but if the audio is not working you should check if the pulseaudio server is running. If not, execute the previous command and it should work.
 
 Now you can access audio configurations via ssh -X. Useful commands:
