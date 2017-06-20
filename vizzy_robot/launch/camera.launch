@@ -1,11 +1,17 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="vizzy_machine_name" default="$(arg vizzy_machine_name)" />
+  <arg name="vizzy_machine_name" default="vizzy-desktop"/>
+  <arg name="vizzy_machine_address" default="10.10.1.80"/>
+<!--  <arg name="vizzy_machine_name" default="$(arg vizzy_machine_name)" /> -->
+  <arg name="env-loader" default="/home/vizzy/catkin_workspace/devel/env.sh"/>
+  <machine name="$(arg vizzy_machine_name)" address="$(arg vizzy_machine_address)" env-loader="$(arg env-loader)" user="vizzy"/>
+
   <arg name="camera" default="left_camera" />
-  <arg name="guid" default="" />
-  <arg name="video_mode" default="320x240_yuv422" />
-  <arg name="frame_rate" default="5" />
+  <arg name="video_mode" default="640x480_rgb8" />
+  <arg name="frame_rate" default="15" />
   <arg name="frame_id" default="camera" />
+  <arg name="guid" default="00b09d01007ad691" />
+  <arg name="camera_file" default="left_camera_params.yaml" />
 
   <arg name="gain" default="0.312"/>
   <arg name="shutter" default="0.592"/>
@@ -16,15 +22,13 @@
   <arg name="saturation" default="0.826"/>
   <arg name="sharpness" default="0.5"/>
   <arg name="brightness" default="0"/>
-
-  <arg name="ns" default="" />
-  <arg name="camera_file" default="" />
+  <arg name="ns" default="vizzy" />
 
   <!-- nodelet manager process -->
-  <node machine="$(arg vizzy_machine_name)" ns="$(arg ns)" pkg="nodelet" type="nodelet" name="$(arg camera)_camera_nodelet_manager" args="manager" />
+  <node machine="$(arg vizzy_machine_name)" ns="$(arg ns)" pkg="nodelet" type="nodelet" name="$(arg camera)_camera_nodelet_manager" args="manager" output="screen"/>
 
   <!-- camera driver nodelet -->
-  <node machine="$(arg vizzy_machine_name)" ns="$(arg ns)" pkg="nodelet" type="nodelet" name="$(arg camera)_nodelet" args="load camera1394/driver $(arg camera)_camera_nodelet_manager" >
+  <node machine="$(arg vizzy_machine_name)" ns="$(arg ns)" pkg="nodelet" type="nodelet" name="$(arg camera)_nodelet" args="load camera1394/driver $(arg camera)_camera_nodelet_manager" output="screen" >
 	<param name="guid" value="$(arg guid)" />
 	<param name="video_mode" value="$(arg video_mode)"/>
 	<param name="frame_rate" value="$(arg frame_rate)"/>
@@ -48,14 +52,14 @@
   </node>
     
   <!-- Bayer color decoding -->
-  <node machine="$(arg vizzy_machine_name)" ns="$(arg ns)" pkg="nodelet" type="nodelet" name="$(arg camera)_image_proc_debayer" args="load image_proc/debayer $(arg camera)_camera_nodelet_manager">
+  <node machine="$(arg vizzy_machine_name)" ns="$(arg ns)" pkg="nodelet" type="nodelet" name="$(arg camera)_image_proc_debayer" args="load image_proc/debayer $(arg camera)_camera_nodelet_manager" output="screen" >
     <remap from="image_color" to="$(arg camera)/image_color" />
     <remap from="image_mono" to="$(arg camera)/image_mono" />
     <remap from="image_raw" to="$(arg camera)/image_raw" />
   </node>
 
   <!-- mono rectification -->
-  <node machine="$(arg vizzy_machine_name)" ns="$(arg ns)" pkg="nodelet" type="nodelet" name="$(arg camera)_image_proc_rect" args="load image_proc/rectify $(arg camera)_camera_nodelet_manager">
+  <node machine="$(arg vizzy_machine_name)" ns="$(arg ns)" pkg="nodelet" type="nodelet" name="$(arg camera)_image_proc_rect" args="load image_proc/rectify $(arg camera)_camera_nodelet_manager" output="screen">
     <remap from="image_mono" to="$(arg camera)/image_mono" />
     <remap from="image_rect" to="$(arg camera)/image_rect" />
   </node>
