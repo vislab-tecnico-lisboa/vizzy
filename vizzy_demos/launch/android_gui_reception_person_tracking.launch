@@ -7,7 +7,7 @@
 
   <!-- robot configuration parameters -->
   <arg name="vizzy_machine_name" default="vizzy-desktop"/>
-  <arg name="vizzy_machine_address" default="192.168.1.2"/>
+  <arg name="vizzy_machine_address" default="10.10.1.80"/>
   <arg name="env-loader" default="/home/vizzy/catkin_workspace/devel/env.sh"/>
   <machine name="$(arg vizzy_machine_name)" address="$(arg vizzy_machine_address)" env-loader="$(arg env-loader)" user="vizzy"/>
 
