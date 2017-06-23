@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+
+<launch>
+
+  <!-- robot configuration parameters -->
+  <arg name="vizzy_machine_name" default="vizzy-desktop"/>
+  <arg name="vizzy_machine_address" default="10.10.1.80"/>
+  <arg name="env-loader" default="/home/vizzy/catkin_workspace/devel/env.sh"/>
+  <machine name="$(arg vizzy_machine_name)" address="$(arg vizzy_machine_address)" env-loader="$(arg env-loader)" user="vizzy"/>
+
+  <!-- simulation parameters and robot configuration parameters -->
+  <arg name="navigation" default="true"/>
+  <arg name="slam" default="false"/>
+  <!--<arg name="pose" default="-x -3.65 -y 17.7 -z 0.20 -R 0.0 -P 0.0 -Y 1.57"/>-->
+  <arg name="map_frame" default="map" />
+  <arg name="tf_prefix" default="" />
+  <arg name="base_frame_id" default="$(arg tf_prefix)/base_footprint" />
+  <arg name="odom_frame_id" default="$(arg tf_prefix)/odom" />
+  <arg name="map_topic" default="/map" />
+  <arg name="pedestrian_detection" default="false" />
+  <arg name="use_moveit" default="true" />
+  <arg name="visualization" default="false" />
+  <arg name="ns" default="vizzy" />
+  <arg name="ros_cameras_on" default="true" />
+  <arg name="map_file" default="mapa_piso7_NOVO_AWESOME.yaml" />
+  <arg name="follower" default="true" />
+  <!-- Choose the obstacle avoidance: global_map, local_map -->
+  <arg name="following_planner_mode" default="global_map" />
+  <!-- Choose what we want to detect: pedestrian, headandshoulders, full -->
+  <arg name="detector_type" default="full" />
+
+  <include file="$(find vizzy_launch)/launch/vizzy_real.launch">
+	<arg name="navigation" value="$(arg navigation)"/>
+	<arg name="slam" value="$(arg slam)"/>
+	<!--<arg name="pose" default="-x -3.65 -y 17.7 -z 0.20 -R 0.0 -P 0.0 -Y 1.57"/>-->
+	<arg name="map_frame" value="$(arg map_frame)" />
+	<arg name="tf_prefix" value="$(arg tf_prefix)" />
+	<arg name="base_frame_id" value="$(arg base_frame_id)" />
+	<arg name="odom_frame_id" value="$(arg odom_frame_id)" />
+	<arg name="map_topic" value="$(arg map_topic)" />
+	<arg name="use_moveit" value="$(arg use_moveit)" />
+  	<arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)"/>
+  	<arg name="vizzy_machine_address" value="$(arg vizzy_machine_address)"/>
+  	<arg name="env-loader" value="$(arg env-loader)"/>
+  	<arg name="ros_cameras_on" value="$(arg ros_cameras_on)"/>
+  	<arg name="map_file" value="$(arg map_file)" />
+	<arg name="frame_rate" value="15.0" />
+	<arg name="left_camera_file" value="left_camera_params.yaml" />
+	<arg name="right_camera_file" value="right_camera_params.yaml" />
+	<!-- Min value 0, max value 10-->
+	<arg name="gamma" value="10.0"/>
+	<!-- Min value 0, max value 255-->
+	<arg name="brightness" value="255.0"/>
+  </include>
+
+  <!-- Launch the Speech drivers -->
+  <include file="$(find woz_dialog)/launch/speechActionServer.launch"></include>
+  
+  <!-- Launch the YARP arm server -->
+  <node pkg="vizzy_control" type="VizzyArmYarp.sh"
+	name="VizzyArmRoutines_" output="screen">
+  </node>
+
+  <!-- Launch  windows_interface_detector_gaze -->
+  <node pkg="OpenFace" type="windows_interface_detector_gaze.py" 
+	name="windows_interface" args="10.10.1.99" output="screen">
+  </node>
+
+  <!-- Launch continuous_windows_gaze_detector -->
+  <node pkg="OpenFace" type="continuous_windows_gaze_detector.py" 
+	name="continuous_windows_interface" output="screen">
+  </node>
+
+  <!-- Launch the exercise promoter -->
+  <node pkg="vizzy_behaviour" type="exercise_promoter.py" 
+	name="exercise_promoter" output="screen">
+  </node>
+
+  <!-- Launch gaze controller -->
+  <node pkg="vizzy_behaviour" type="gaze_controller.py" 
+	name="gaze_controller" output="screen">
+  </node>
+
+</launch>
