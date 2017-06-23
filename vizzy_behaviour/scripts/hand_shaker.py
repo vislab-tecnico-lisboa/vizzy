@@ -124,12 +124,12 @@ class Roaming(smach.State):
 		rospy.sleep(5)
 		
 	self.state = self.move_base.get_state()
-        #means we have detected a person
+        #means we are moving
 	if(self.state ==1):
 		#chose the closest person
 		distance=9999
 		for new_person in list_of_persons:	    
-		    if new_person.pose_tra_z < distance:
+		    if (new_person.pose_tra_z < distance and new_person.looking==1):
 		        distance=new_person.pose_tra_z
 		        self.id_chosen = new_person.id_model
 		
@@ -233,6 +233,24 @@ class Speak(smach.State):
 
 	    if(person.id_model==userdata.Speak_id_in):				
                 lost=0
+
+		if(person.looking== 1):
+		    #goal = woz_dialog_msgs.msg.SpeechGoal(language="eng-USA", voice="Tom", message="Thank your for looking at me")
+	 	    goal = woz_dialog_msgs.msg.SpeechGoal(language="POR-PRT", voice="Joaquim", message="Obrigado por olhar para mim")    
+		else:
+		    #goal = woz_dialog_msgs.msg.SpeechGoal(language="eng-USA", voice="Tom", message="Please look at me")
+	 	    goal = woz_dialog_msgs.msg.SpeechGoal(language="POR-PRT", voice="Joaquim", message="Por favor olhe para mim")
+
+
+		client = actionlib.SimpleActionClient('/woz_dialog/speaker', woz_dialog_msgs.msg.SpeechAction)
+		client.wait_for_server()
+		client.send_goal(goal)
+		client.wait_for_result()
+		rospy.sleep(2.5)
+
+
+
+
                 #gazeclient(person.pose_tra_x,person.pose_tra_y,person.pose_tra_z)
                 
         #means we did not find the id passed by argument
@@ -249,8 +267,8 @@ class Speak(smach.State):
 
 	client.wait_for_server()
 
-	goal = woz_dialog_msgs.msg.SpeechGoal(language="eng-USA", voice="Tom", message="If you want to make exercise, do this gesture")
-	#goal = woz_dialog_msgs.msg.SpeechGoal(language="POR-PRT", voice="Joaquim", message="Se quiser fazer exercicio físico faça este gesto")
+	goal = woz_dialog_msgs.msg.SpeechGoal(language="eng-USA", voice="Tom", message="My name is Vizzy")
+	#goal = woz_dialog_msgs.msg.SpeechGoal(language="POR-PRT", voice="Joaquim", message="O meu nome é Vizzy")
 
 	client.send_goal(goal)
 	client.wait_for_result()
@@ -269,32 +287,6 @@ class Speak(smach.State):
 	    rospy.sleep(1)
             return 'fail_speak'
 
-
-# define state Do_gesture
-class Do_gesture(smach.State):
-    def __init__(self):
-        smach.State.__init__(self,
-                             outcomes=['fail_doing_gesture','succeed_doing_gesture'],
-                             input_keys=['Do_gesture_id_in'],
-                             output_keys=['Do_gesture_id_out'])
-
-
-    def execute(self, userdata):
-        rospy.loginfo('Executing state DO_GESTURE')
-	
-		
-
-	arm_publisher.publish(1)
-        result_from_action_do_gesture = 1
-
-	rospy.sleep(10)
-
-        if(result_from_action_do_gesture==1):
-	    userdata.Do_gesture_id_out=userdata.Do_gesture_id_in
-            return 'succeed_doing_gesture'
-        else:
-	    userdata.Speak_id_out=-1
-            return 'fail_doing_gesture'
 
 # define state Detect_gesture
 class Detect_gesture(smach.State):
@@ -327,7 +319,7 @@ class Detect_gesture(smach.State):
                     #gazeclient(person.pose_tra_x,person.pose_tra_y,person.pose_tra_z)
          		    
                     print("THIS IS THE GESTURE",person.gesture)
-                    if( person.gesture==3 or person.gesture==4  ):
+                    if( person.gesture==1 or person.gesture==2  ):
                         self.counter=0
 			print("detect gesture")		
                         return 'gesture_detected'
@@ -344,6 +336,19 @@ class Detect_gesture(smach.State):
 		    print("fail to detect gesture when conter was",self.counter)
 		    index_pub.publish(-1)
 		    self.counter=0
+
+
+		    #despedir da pessoa
+		    client = actionlib.SimpleActionClient('/woz_dialog/speaker', woz_dialog_msgs.msg.SpeechAction)
+		    client.wait_for_server()
+
+		    goal = woz_dialog_msgs.msg.SpeechGoal(language="eng-USA", voice="Tom", message="It is a pleasure to met you")
+		    #goal = woz_dialog_msgs.msg.SpeechGoal(language="POR-PRT", voice="Joaquim", message="O meu nome é Vizzy")
+		    client.send_goal(goal)
+		    client.wait_for_result()
+		    rospy.sleep(2.5)
+
+
                     return 'fail_to_detect_gesture'
 
         #means we did not find the id passed by argument
@@ -351,6 +356,38 @@ class Detect_gesture(smach.State):
             index_pub.publish(-1)
             return 'fail_to_detect_gesture'
         #self.mutex.release()
+
+
+
+
+
+# define state Do_gesture
+
+class Do_gesture(smach.State):
+    def __init__(self):
+        smach.State.__init__(self,
+                             outcomes=['fail_doing_gesture','succeed_doing_gesture'],
+                             input_keys=['Do_gesture_id_in'],
+                             output_keys=['Do_gesture_id_out'])
+
+
+    def execute(self, userdata):
+        rospy.loginfo('Executing state DO_GESTURE')
+	
+		
+
+	arm_publisher.publish(2)
+        result_from_action_do_gesture = 1
+
+	rospy.sleep(10)
+
+        if(result_from_action_do_gesture==1):
+	    userdata.Do_gesture_id_out=userdata.Do_gesture_id_in
+            return 'succeed_doing_gesture'
+        else:
+	    userdata.Speak_id_out=-1
+            return 'fail_doing_gesture'
+
 
 
 
@@ -376,7 +413,7 @@ class Go_to_point(smach.State):
 
 	#goal = woz_dialog_msgs.msg.SpeechGoal(language="eng-USA", voice="Tom", message="If you want to play, do this gesture")
 	#goal = woz_dialog_msgs.msg.SpeechGoal(language="POR-PRT", voice="Joaquim", message="Siga-me por favor")
-	goal = woz_dialog_msgs.msg.SpeechGoal(language="eng-USA", voice="Tom", message="That's great, doing exercise is really healthy")
+	goal = woz_dialog_msgs.msg.SpeechGoal(language="eng-USA", voice="Tom", message="It was a pleasure, thank you. Bye bye")
 
 	client.send_goal(goal)
 	client.wait_for_result()
@@ -530,22 +567,23 @@ def main():
 
         smach.StateMachine.add('SPEAK', Speak(),
                                transitions={'fail_speak':'ROAMING',
-                                            'speaked':'DO_GESTURE'},
+                                            'speaked':'DETECT_GESTURE'},
                                remapping={'Speak_id_in':'id_person_detected',
                                         'Speak_id_out':'id_person_detected'})
-        smach.StateMachine.add('DO_GESTURE', Do_gesture(),
-                               transitions={'fail_doing_gesture':'ROAMING',
-                                            'succeed_doing_gesture':'DETECT_GESTURE'},
-                               remapping={'Do_gesture_id_in':'id_person_detected',
-                                        'Do_gesture_id_out':'id_person_detected'})
 
         smach.StateMachine.add('DETECT_GESTURE', Detect_gesture(),
                                transitions={'detecting_gesture':'DETECT_GESTURE',
-                                            'gesture_detected':'GO_TO_POINT',
+                                            'gesture_detected':'DO_GESTURE',
                                             'fail_to_detect_gesture':'ROAMING'},
                                remapping={'Detect_gesture_id_in':'id_person_detected',
                                         'Detect_gesture_id_out':'id_person_detected'})
 
+	
+        smach.StateMachine.add('DO_GESTURE', Do_gesture(),
+                               transitions={'fail_doing_gesture':'ROAMING',
+                                            'succeed_doing_gesture':'GO_TO_POINT'},
+                               remapping={'Do_gesture_id_in':'id_person_detected',
+                                        'Do_gesture_id_out':'id_person_detected'})
 
 
         smach.StateMachine.add('GO_TO_POINT', Go_to_point(),
