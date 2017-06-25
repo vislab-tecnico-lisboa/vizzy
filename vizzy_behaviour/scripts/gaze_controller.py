@@ -55,7 +55,7 @@ def callback(data):
 	    if(person.id_model==index_gaze):
 		    lost=0			
 		    gazeclient(person.pose_tra_x,person.pose_tra_y,person.pose_tra_z)
-		    rospy.sleep(0.01)
+		    rospy.sleep(0.05)
 	if(lost == 1):
 	    gazeclient(0,0,1)
 
