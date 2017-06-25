@@ -72,7 +72,7 @@
   </node>
 
   <!-- Launch the exercise promoter -->
-  <node pkg="vizzy_behaviour" type="exercise_promoter.py" 
+  <node pkg="vizzy_behaviour" type="exercise_promoter_simple.py" 
 	name="exercise_promoter" output="screen">
   </node>
 
