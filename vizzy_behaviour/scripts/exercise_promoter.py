@@ -77,14 +77,14 @@ class Stop(smach.State):
 	global list_of_persons
 
         rospy.loginfo('Executing state Stop')
-	rospy.sleep(0.05)
+	rospy.sleep(0.1)
 	
 	start=0
 	for new_person in list_of_persons:	    
 	    if (new_person.gesture == 1 or  new_person.gesture==2):
 		start=1
 		userdata.Stop_id_out=-1	
-	        return 'star_roaming'
+	        return 'start_roaming'
 	if(start==0):
 	    return 'continue_stop'
 	        
@@ -119,11 +119,13 @@ class Roaming(smach.State):
 	#ACTIVE = 1
 	if(self.state != 1):
 		#ROAMING to a random point in the map	
-		random_index = random.randint(0,len(list_of_points))	
+		random_index = random.randint(0,len(list_of_points)-1)	
 		self.move_base = navigate(list_of_points[random_index].x,list_of_points[random_index].y,list_of_points[random_index].or_z, list_of_points[random_index].w, 'map')
 		rospy.sleep(5)
 		
 	self.state = self.move_base.get_state()
+
+
         #means we have detected a person
 	if(self.state ==1):
 		#chose the closest person
@@ -134,18 +136,18 @@ class Roaming(smach.State):
 		        self.id_chosen = new_person.id_model
 		
 
-		if self.id_chosen != -1:
-		    
-		    #userdata.id_person_detected = self.id_chosen
-		    userdata.Roaming_id_out = self.id_chosen
-		    index_pub.publish(self.id_chosen)
-		    self.id_chosen=-1
-		    return 'person_detected'
-		#means no one was detecte yet
-		else:
-		    return 'No_one_detected'
-		#self.mutex.release()
-	
+	if self.id_chosen != -1:
+	    
+	    #userdata.id_person_detected = self.id_chosen
+	    userdata.Roaming_id_out = self.id_chosen
+	    index_pub.publish(self.id_chosen)
+	    self.id_chosen=-1
+	    return 'person_detected'
+	#means no one was detecte yet
+	else:
+	    return 'No_one_detected'
+	#self.mutex.release()
+
 
 	
 
@@ -284,7 +286,7 @@ class Do_gesture(smach.State):
 	
 		
 
-	arm_publisher.publish(1)
+	#arm_publisher.publish(1)
         result_from_action_do_gesture = 1
 
 	rospy.sleep(10)
@@ -380,7 +382,7 @@ class Go_to_point(smach.State):
 
 	client.send_goal(goal)
 	client.wait_for_result()
-	rospy.sleep(1)
+	rospy.sleep(3)
 
 	goal = woz_dialog_msgs.msg.SpeechGoal(language="eng-USA", voice="Tom", message="Follow me, please")
 
