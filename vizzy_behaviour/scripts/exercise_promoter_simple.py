@@ -211,6 +211,7 @@ class Follow(smach.State):
         if(lost==1):
             userdata.Follow_id_out = -1
 	    index_pub.publish(-1)
+            rospy.sleep(10)
 	    print("lost id of person")
             return 'lost_person_in_follow'
         #self.mutex.release()
@@ -243,6 +244,7 @@ class Speak(smach.State):
             index_pub.publish(-1)
             userdata.Speak_id_out = -1
 	    print("lost id of person")
+            rospy.sleep(10)
             return 'fail_speak'
         #self.mutex.release()
 
@@ -262,6 +264,7 @@ class Speak(smach.State):
         else:
 	    userdata.Speak_id_out=-1
 	    rospy.sleep(1)
+            rospy.sleep(10)
             return 'fail_speak'
 
 
@@ -291,6 +294,7 @@ class Do_gesture(smach.State):
             return 'succeed_doing_gesture'
         else:
 	    userdata.Speak_id_out=-1
+            rospy.sleep(10)
             return 'fail_doing_gesture'
 
 # define state Detect_gesture
@@ -353,12 +357,14 @@ class Detect_gesture(smach.State):
 		    index_pub.publish(-1)
 		    self.counter=0
                     self.advice=0
+                    rospy.sleep(10)
                     return 'fail_to_detect_gesture'
 
         #means we did not find the id passed by argument
         if(lost==1):
             index_pub.publish(-1)
             self.advice=0
+	    rospy.sleep(10)
             return 'fail_to_detect_gesture'
         #self.mutex.release()
 
