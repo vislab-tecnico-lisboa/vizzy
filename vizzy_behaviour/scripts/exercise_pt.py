@@ -65,7 +65,7 @@ class person_intent:
 # define state Stop
 class Stop(smach.State):
     def __init__(self):
-	print("Stop")
+	#print("Stop")
         smach.State.__init__(self,
                              outcomes=['start_roaming', 'continue_stop'],
                              input_keys=['Stop_id_in'],
@@ -76,7 +76,7 @@ class Stop(smach.State):
 
 	global list_of_persons
 
-        rospy.loginfo('Executing state Stop')
+        #rospy.loginfo('Executing state Stop')
 	rospy.sleep(0.1)
 	
 	start=0
@@ -94,7 +94,7 @@ class Stop(smach.State):
 # define state Roaming
 class Roaming(smach.State):
     def __init__(self):
-	print("init already")
+	#print("init already")
         smach.State.__init__(self,
                              outcomes=['No_one_detected', 'person_detected'],
                              input_keys=['Roaming_id_in'],
@@ -112,7 +112,7 @@ class Roaming(smach.State):
 
 	global list_of_persons
 
-        rospy.loginfo('Executing state ROAMING')
+        #rospy.loginfo('Executing state ROAMING')
 	rospy.sleep(0.005)
 	
 
@@ -170,12 +170,12 @@ class Follow(smach.State):
 	
 	global list_of_persons
         
-	rospy.loginfo('Executing state FOLLOW')
+	#rospy.loginfo('Executing state FOLLOW')
         #first try to find person
         #self.mutex.acquire()
 
         lost =1
-	print ("start foloowind to person")
+	#print ("start foloowind to person")
         for person in list_of_persons:
 	    #print("this is person",person)
 
@@ -186,7 +186,7 @@ class Follow(smach.State):
                 #if we are 1 meter far from vizzy -> approach more
 		dist_to_person = distance.euclidean([person.pose_tra_x, person.pose_tra_y, person.pose_tra_z], [0, 0, 0])
                 if(dist_to_person >1.75):
-		    print("have not reach vizzy yet")
+		    #print("have not reach vizzy yet")
                     #PUBLISH TO ROS TOPIC HERE to FOLLOW THE PERSON!!!!!!!!!!!1!!!!!!!!!!!!!!!!!!!!
 		    #gazeclient(person.pose_tra_x,person.pose_tra_y,person.pose_tra_z)
 
@@ -206,14 +206,14 @@ class Follow(smach.State):
                 #Means we already reach the person
                 else:
 		    userdata.Follow_id_out = userdata.Follow_id_in		    
-		    print("we have reach vizzy")
+		    #print("we have reach vizzy")
                     return 'reach_person'
         #means we did not find the id passed by argument
         if(lost==1):
             userdata.Follow_id_out = -1
 	    index_pub.publish(-1)
             rospy.sleep(10)
-	    print("lost id of person")
+	    #print("lost id of person")
             return 'lost_person_in_follow'
         #self.mutex.release()
 
@@ -231,7 +231,7 @@ class Speak(smach.State):
 
 	global list_of_persons
 	
-        rospy.loginfo('Executing state SPEAK')
+        #rospy.loginfo('Executing state SPEAK')
 
         lost =1
         for person in list_of_persons:
@@ -244,7 +244,7 @@ class Speak(smach.State):
         if(lost==1):
             index_pub.publish(-1)
             userdata.Speak_id_out = -1
-	    print("lost id of person")
+	    #print("lost id of person")
             rospy.sleep(10)
             return 'fail_speak'
         #self.mutex.release()
@@ -252,12 +252,12 @@ class Speak(smach.State):
 
 	#goal = woz_dialog_msgs.msg.SpeechGoal(language="eng-USA", voice="Tom", message="If you want to play, do this gesture")
 	#goal = woz_dialog_msgs.msg.SpeechGoal(language="POR-PRT", voice="Joaquim", message="Siga-me por favor")
-	ling="eng-USA"
-        voi="Tom"
-        msg="If you want to play, do this gesture"
+	ling="por-PRT"
+        voi="Joaquim"
+        msg="Se gosta de fazer exercício, faça esta gesto"
 	
 	result_from_action_speak = speak(ling,voi,msg) 
-	print 'RESULTS FROM ACTION!'
+	#print 'RESULTS FROM ACTION!'
 	
         if(result_from_action_speak.success==True):
 	    userdata.Speak_id_out=userdata.Speak_id_in
@@ -279,7 +279,7 @@ class Do_gesture(smach.State):
 
 
     def execute(self, userdata):
-        rospy.loginfo('Executing state DO_GESTURE')
+        #rospy.loginfo('Executing state DO_GESTURE')
 	
 		
 	
@@ -288,7 +288,7 @@ class Do_gesture(smach.State):
 	arm_publisher.publish(1)
         result_from_action_do_gesture = 1
 
-	rospy.sleep(6)
+	rospy.sleep(10)
 
         if(result_from_action_do_gesture==1):
 	    userdata.Do_gesture_id_out=userdata.Do_gesture_id_in
@@ -317,7 +317,7 @@ class Detect_gesture(smach.State):
         global MAX_VALUE_GESTURE
 	global list_of_persons
 
-        rospy.loginfo('Executing state DETECT_GESTURE')
+        #rospy.loginfo('Executing state DETECT_GESTURE')
         lost =1
         for person in list_of_persons:
             #means we are able to detect the gesture
@@ -328,16 +328,16 @@ class Detect_gesture(smach.State):
 			
                     #gazeclient(person.pose_tra_x,person.pose_tra_y,person.pose_tra_z)
          		    
-                    print("THIS IS THE GESTURE",person.gesture)
+                    #print("THIS IS THE GESTURE",person.gesture)
                     if( person.gesture==3 or person.gesture==4  ):
                         self.counter=0
-			print("detect gesture")
+			#print("detect gesture")
 			self.advice=0		
                         return 'gesture_detected'
                     else:
-			print("stil did not detect the gesture, counter is",self.counter)
+			#print("stil did not detect the gesture, counter is",self.counter)
                         self.counter+=1
-			print 'detecting gesture'
+			#print 'detecting gesture'
 		 	
 			'''
 			if(person.looking==0 and self.advice==0):
@@ -355,7 +355,7 @@ class Detect_gesture(smach.State):
                 #maximum time reached
                 else:
                     
-		    print("fail to detect gesture when conter was",self.counter)
+		    #print("fail to detect gesture when conter was",self.counter)
 		    index_pub.publish(-1)
 		    self.counter=0
                     self.advice=0
@@ -381,7 +381,7 @@ class Go_to_point(smach.State):
                              output_keys=['Go_point_id_out'])
 
     def execute(self, userdata):
-        rospy.loginfo('Executing state GO_TO_POINT')
+        #rospy.loginfo('Executing state GO_TO_POINT')
 	
 	#PUBLISH TO NOT FOLLOW WITH GAZE ANYMORE
 	
@@ -390,9 +390,9 @@ class Go_to_point(smach.State):
 
 	#goal = woz_dialog_msgs.msg.SpeechGoal(language="eng-USA", voice="Tom", message="If you want to play, do this gesture")
 	#goal = woz_dialog_msgs.msg.SpeechGoal(language="POR-PRT", voice="Joaquim", message="Siga-me por favor")
-	ling="eng-USA"
-        voi="Tom"
-        msg="that's nice, then check our games right next to me"
+	ling="por-PRT"
+        voi="Joaquim"
+        msg="Boa, então obtenha mais informações sobre o projecto com os meus colegas"
 	
 	result_from_action_speak = speak(ling,voi,msg) 
 
