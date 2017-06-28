@@ -254,7 +254,7 @@ class Speak(smach.State):
 	#goal = woz_dialog_msgs.msg.SpeechGoal(language="POR-PRT", voice="Joaquim", message="Siga-me por favor")
 	ling="eng-USA"
         voi="Tom"
-        msg="If you want to play, do this gesture"
+        msg="if you like to do exercise do this gesture"
 	
 	result_from_action_speak = speak(ling,voi,msg) 
 	print 'RESULTS FROM ACTION!'
@@ -338,7 +338,7 @@ class Detect_gesture(smach.State):
 			print("stil did not detect the gesture, counter is",self.counter)
                         self.counter+=1
 			print 'detecting gesture'
-		 	
+
 			'''
 			if(person.looking==0 and self.advice==0):
 			    self.advice=1
@@ -392,7 +392,7 @@ class Go_to_point(smach.State):
 	#goal = woz_dialog_msgs.msg.SpeechGoal(language="POR-PRT", voice="Joaquim", message="Siga-me por favor")
 	ling="eng-USA"
         voi="Tom"
-        msg="that's nice, then check our games right next to me"
+        msg="thats great, then checkout our games right next to me"
 	
 	result_from_action_speak = speak(ling,voi,msg) 
 
