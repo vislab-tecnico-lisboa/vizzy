@@ -251,9 +251,9 @@ class Speak(smach.State):
 
 	#goal = woz_dialog_msgs.msg.SpeechGoal(language="eng-USA", voice="Tom", message="If you want to play, do this gesture")
 	#goal = woz_dialog_msgs.msg.SpeechGoal(language="POR-PRT", voice="Joaquim", message="Siga-me por favor")
-	ling="eng-USA"
-        voi="Tom"
-        msg="if you like to do exercise do this gesture"
+	ling="por-PRT"
+        voi="Joaquim"
+        msg="se gosta de fazer exercício, faça este gesto"
 	
 	result_from_action_speak = speak(ling,voi,msg) 
 	print 'RESULTS FROM ACTION!'
@@ -389,9 +389,9 @@ class Go_to_point(smach.State):
 
 	#goal = woz_dialog_msgs.msg.SpeechGoal(language="eng-USA", voice="Tom", message="If you want to play, do this gesture")
 	#goal = woz_dialog_msgs.msg.SpeechGoal(language="POR-PRT", voice="Joaquim", message="Siga-me por favor")
-	ling="eng-USA"
-        voi="Tom"
-        msg="thats great, then checkout our games right next to me"
+	ling="por-PRT"
+        voi="Joaquim"
+        msg="excelente, então veja os nossos jogos aqui ao lado."
 	
 	result_from_action_speak = speak(ling,voi,msg) 
 
