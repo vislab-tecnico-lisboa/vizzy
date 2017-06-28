@@ -27,7 +27,7 @@ int main(int argc, char *argv[]) {
   int counter = 0;
 
   while(true){
-    Bottle* reading1Mux1 = receiverBuff1Mux1.read();
+    Bottle* reading1Mux1 = receiverBuff1Mux1.read(false);
 
     Bottle mux1;
 

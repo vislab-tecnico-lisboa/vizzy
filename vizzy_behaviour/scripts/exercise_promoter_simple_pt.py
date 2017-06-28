@@ -252,9 +252,9 @@ class Speak(smach.State):
 
 	#goal = woz_dialog_msgs.msg.SpeechGoal(language="eng-USA", voice="Tom", message="If you want to play, do this gesture")
 	#goal = woz_dialog_msgs.msg.SpeechGoal(language="POR-PRT", voice="Joaquim", message="Siga-me por favor")
-	ling="eng-USA"
-        voi="Tom"
-        msg="If you want to play, do this gesture"
+	ling="'por-PRT"
+        voi="Joaquim"
+        msg="Se gosta de fazer exercício, faça este gesto"
 	
 	result_from_action_speak = speak(ling,voi,msg) 
 	print 'RESULTS FROM ACTION!'
@@ -288,7 +288,7 @@ class Do_gesture(smach.State):
 	arm_publisher.publish(1)
         result_from_action_do_gesture = 1
 
-	rospy.sleep(6)
+	rospy.sleep(10)
 
         if(result_from_action_do_gesture==1):
 	    userdata.Do_gesture_id_out=userdata.Do_gesture_id_in
@@ -390,9 +390,9 @@ class Go_to_point(smach.State):
 
 	#goal = woz_dialog_msgs.msg.SpeechGoal(language="eng-USA", voice="Tom", message="If you want to play, do this gesture")
 	#goal = woz_dialog_msgs.msg.SpeechGoal(language="POR-PRT", voice="Joaquim", message="Siga-me por favor")
-	ling="eng-USA"
-        voi="Tom"
-        msg="that's nice, then check our games right next to me"
+	ling="por-POR"
+        voi="Joaquim"
+        msg="boa, então experimente os nossos jogos que estão aqui ao lado"
 	
 	result_from_action_speak = speak(ling,voi,msg) 
 
