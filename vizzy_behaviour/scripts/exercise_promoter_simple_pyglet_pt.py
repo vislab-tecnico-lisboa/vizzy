@@ -13,6 +13,7 @@ from actionlib_msgs.msg import *
 
 import woz_dialog_msgs.msg
 import vizzy_msgs.msg
+import pyglet
 
 from scipy.spatial import distance
 
@@ -185,19 +186,16 @@ class Follow(smach.State):
                 lost=0
                 #if we are 1 meter far from vizzy -> approach more
 		dist_to_person = distance.euclidean([person.pose_tra_x, person.pose_tra_y, person.pose_tra_z], [0, 0, 0])
-
-                if(dist_to_person >1.75):
-
+                if(dist_to_person >1.5):
 		    print("have not reach vizzy yet")
                     #PUBLISH TO ROS TOPIC HERE to FOLLOW THE PERSON!!!!!!!!!!!1!!!!!!!!!!!!!!!!!!!!
 		    #gazeclient(person.pose_tra_x,person.pose_tra_y,person.pose_tra_z)
 
-		    '''
+		    
 		    goal.fixation_point.point.x = z
 		    goal.fixation_point.point.y = x
 		    goal.fixation_point.point.z = y+0.3
-		    '''
-		    
+
 		    #move_base = navigate(person.pose_tra_z,person.pose_tra_x, 0, 'camera_link')
 
 
@@ -251,15 +249,11 @@ class Speak(smach.State):
             return 'fail_speak'
         #self.mutex.release()
 
+	soundToPlay = pyglet.media.load('/home/vizzy/wav/por-PRT/Joaquim/se gosta de fazer exercício, faça este gesto.wav')
+	soundToPlay.play()
+	rospy.sleep(3)
 
-	#goal = woz_dialog_msgs.msg.SpeechGoal(language="eng-USA", voice="Tom", message="If you want to play, do this gesture")
-	#goal = woz_dialog_msgs.msg.SpeechGoal(language="POR-PRT", voice="Joaquim", message="Siga-me por favor")
-
-	ling="por-PRT"
-        voi="Joaquim"
-        msg="se gosta de fazer exercício, faça este gesto"
-	
-	result_from_action_speak = speak(ling,voi,msg) 
+	result_from_action_speak = 1
 	print 'RESULTS FROM ACTION!'
 	
         if(result_from_action_speak.success==True):
@@ -345,11 +339,9 @@ class Detect_gesture(smach.State):
 			'''
 			if(person.looking==0 and self.advice==0):
 			    self.advice=1
-			    ling="eng-USA"
-			    voi="Tom"
-			    msg="Please look at me and do not forget to do the gesturee"
-		
-			    result_from_action_speak = speak(ling,voi,msg) 
+
+
+			    result_from_action_speak = 1
 			'''
 
 			rospy.sleep(0.01)
@@ -393,12 +385,13 @@ class Go_to_point(smach.State):
 
 	#goal = woz_dialog_msgs.msg.SpeechGoal(language="eng-USA", voice="Tom", message="If you want to play, do this gesture")
 	#goal = woz_dialog_msgs.msg.SpeechGoal(language="POR-PRT", voice="Joaquim", message="Siga-me por favor")
+	ling="eng-USA"
+        voi="Tom"
+        msg="Check our games right next to me"
 
-	ling="por-PRT"
-        voi="Joaquim"
-        msg="excelente, então veja os nossos jogos aqui ao lado."
-	
-	result_from_action_speak = speak(ling,voi,msg) 
+	soundToPlay = pyglet.media.load('/home/vizzy/wav/por-PRT/Joaquim/excelente, então veja os nossos jogos aqui ao lado..wav')
+	soundToPlay.play()
+	rospy.sleep(6)
 
 	index_pub.publish(-1)
 	
