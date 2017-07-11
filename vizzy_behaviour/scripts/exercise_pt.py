@@ -212,7 +212,7 @@ class Follow(smach.State):
         if(lost==1):
             userdata.Follow_id_out = -1
 	    index_pub.publish(-1)
-            rospy.sleep(10)
+            #rospy.sleep(10)
 	    #print("lost id of person")
             return 'lost_person_in_follow'
         #self.mutex.release()
@@ -245,7 +245,7 @@ class Speak(smach.State):
             index_pub.publish(-1)
             userdata.Speak_id_out = -1
 	    #print("lost id of person")
-            rospy.sleep(10)
+            #rospy.sleep(10)
             return 'fail_speak'
         #self.mutex.release()
 
@@ -254,7 +254,7 @@ class Speak(smach.State):
 	#goal = woz_dialog_msgs.msg.SpeechGoal(language="POR-PRT", voice="Joaquim", message="Siga-me por favor")
 	ling="por-PRT"
         voi="Joaquim"
-        msg="Se gosta de fazer exercício, faça esta gesto"
+        msg="se gosta de fazer exercício, faça este gesto"
 	
 	result_from_action_speak = speak(ling,voi,msg) 
 	#print 'RESULTS FROM ACTION!'
@@ -288,14 +288,16 @@ class Do_gesture(smach.State):
 	arm_publisher.publish(1)
         result_from_action_do_gesture = 1
 
-	rospy.sleep(10)
+	#rospy.sleep(10)
+	rospy.sleep(1)
 
         if(result_from_action_do_gesture==1):
 	    userdata.Do_gesture_id_out=userdata.Do_gesture_id_in
             return 'succeed_doing_gesture'
         else:
 	    userdata.Speak_id_out=-1
-            rospy.sleep(10)
+            #rospy.sleep(10)
+	    rospy.sleep(1)
             return 'fail_doing_gesture'
 
 # define state Detect_gesture
@@ -359,14 +361,14 @@ class Detect_gesture(smach.State):
 		    index_pub.publish(-1)
 		    self.counter=0
                     self.advice=0
-                    rospy.sleep(10)
+                    #rospy.sleep(10)
                     return 'fail_to_detect_gesture'
 
         #means we did not find the id passed by argument
         if(lost==1):
             index_pub.publish(-1)
             self.advice=0
-	    rospy.sleep(10)
+	    #rospy.sleep(10)
             return 'fail_to_detect_gesture'
         #self.mutex.release()
 
@@ -392,7 +394,7 @@ class Go_to_point(smach.State):
 	#goal = woz_dialog_msgs.msg.SpeechGoal(language="POR-PRT", voice="Joaquim", message="Siga-me por favor")
 	ling="por-PRT"
         voi="Joaquim"
-        msg="Boa, então obtenha mais informações sobre o projecto com os meus colegas"
+        msg="boa, então obtenha mais informações sobre o projecto com os meus colegas"
 	
 	result_from_action_speak = speak(ling,voi,msg) 
 
