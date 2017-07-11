@@ -31,6 +31,7 @@ int main (int argc, char **argv)
 
     ROS_INFO("Waiting for action server to start.");
     ROS_INFO("Use W, A, S, D like a real gamer to control Vizzy's head. W, S -> controls z values; A, D controls y values. C, V controls x values");
+    ROS_INFO("Use I, J, K, L for coarse control. I, K -> controls z values; J, L controls y values. N, M controls x values");
     // wait for the action server to start
     ac.waitForServer(); //will wait for infinite time
 
@@ -86,8 +87,19 @@ int main (int argc, char **argv)
 	  goal.fixation_point.point.y -= step;
 	if(c == 'C' || c == 'c')
 	  goal.fixation_point.point.x += step;
-	if(c == 'V' || c == 'v')
+	if(c == 'I' || c == 'i')
+	  goal.fixation_point.point.z += 10*step;
+	if(c == 'K' || c == 'k')
+	  goal.fixation_point.point.z -= 10*step;
+	if(c == 'J' || c == 'j')
+	  goal.fixation_point.point.y += 10*step;
+	if(c == 'L' || c == 'l')
+	  goal.fixation_point.point.y -= 10*step;
+	if(c == 'N' || c == 'n')
+	  goal.fixation_point.point.x += 10*step;
+	if(c == 'M' || c == 'm')
 	  goal.fixation_point.point.x -= step;
+
 	  
 
 	goal.fixation_point.header.frame_id="base_footprint";
