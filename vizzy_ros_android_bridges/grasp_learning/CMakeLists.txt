@@ -132,7 +132,7 @@ include_directories(
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
-# add_dependencies(grasp_learning ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
 
 ## Declare a C++ executable
 # add_executable(grasp_learning_node src/grasp_learning_node.cpp)
@@ -198,4 +198,4 @@ add_executable(grasp_learning src/grasp_learning.cpp)
 target_link_libraries(
   grasp_learning ${catkin_LIBRARIES} ${OpenCV_LIBS}
 )
-##add_dependencies(grasp_learning)
+add_dependencies(grasp_learning ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS} vizzy_msgs_generate_messages_cpp)
