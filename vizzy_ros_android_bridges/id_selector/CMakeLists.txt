@@ -194,5 +194,6 @@ include_directories(
 # catkin_add_nosetests(test)
 
 add_executable(idSelector src/idSelector.cpp)
+add_dependencies(idSelector vizzy_msgs_generate_messages_cpp)
 target_link_libraries(idSelector ${catkin_LIBRARIES})
 ##add_dependencies(idSelector)
