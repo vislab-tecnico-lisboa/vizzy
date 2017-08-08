@@ -1,0 +1,18 @@
+<library path="lib/libvizzy_rviz_plugins">
+  <class name="vizzy_rviz_plugins/ClickableGazeDisplay"
+         type="vizzy_rviz_plugins::ClickableGazeDisplay"
+         base_class_type="rviz::Display">
+    <description>
+      A panel that lets the user control Vizzy's gaze with a click
+    </description>
+  </class>
+  <class name="vizzy_rviz_plugins/WasdTeleop"
+         type="vizzy_rviz_plugins::WasdTeleopPanel"
+         base_class_type="rviz::Panel">
+    <description>
+      A panel widget allowing simple diff-drive style robot base control like a Gamer.
+      W, S controls the linear velocity of the robots and pressing the Shift boosts this velocity.
+      A, D controls the angular velocity. Q and E commands the angular velocity with boosted values.
+    </description>
+  </class>
+</library>

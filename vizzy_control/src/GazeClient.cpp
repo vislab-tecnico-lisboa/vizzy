@@ -107,7 +107,7 @@ int main (int argc, char **argv)
     /*FIM AVELINO*/
 
         ac.sendGoal(goal);
-        ROS_INFO("Action server started, sending goal.");
+        ROS_INFO("Action server started, sending gaze goal.");
 
         //wait for the action to return
         //bool finished_before_timeout = ac.waitForResult(ros::Duration(1.0));
