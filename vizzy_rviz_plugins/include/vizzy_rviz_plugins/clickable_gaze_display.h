@@ -129,7 +129,7 @@ private:
   float img_height_;
   float img_xoffset_;
   float img_yoffset_;
-  
+
   std::string camera_info_topic;
 
   std::vector<float> K_ = {0, 0, 0, 0, 0, 0, 0, 0};

@@ -16,6 +16,7 @@
 #include <geometry_msgs/Twist.h>
 
 #include <rviz/properties/ros_topic_property.h>
+#include <rviz/properties/float_property.h>
 
 #include <actionlib_msgs/GoalID.h>
 
@@ -56,13 +57,17 @@ protected:
   float linear_velocity_;
   float angular_velocity_;
 
-  const float lin_step_ = 2;
-  const float ang_step_ = M_PI/4;
+  float lin_step_ = 2;
+  float ang_step_ = M_PI/4;
 
   QString output_topic_;
   rviz::RosTopicProperty *topic_property_;
 
   rviz::RosTopicProperty *move_base_cancel_topic_property_;
+
+
+  rviz::FloatProperty *max_lin_property_;
+  rviz::FloatProperty *max_ang_property_;
 
   QTimer* output_timer;
 
@@ -70,6 +75,11 @@ protected:
 
 
 protected Q_SLOTS:
+
+  void maxLinearVelUpdate();
+
+  void maxAngularVelUpdate();
+
   // sendvel() publishes the current velocity values to a ROS
   // topic.  Internally this is connected to a timer which calls it 10
   // times per second.
