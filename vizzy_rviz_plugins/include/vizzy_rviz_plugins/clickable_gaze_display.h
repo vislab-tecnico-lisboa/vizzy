@@ -64,10 +64,7 @@ class InteractiveRenderPanel : public rviz::RenderPanel {
 public:
   InteractiveRenderPanel(QWidget *parent = 0) : RenderPanel(parent) {}
 
-  virtual void mouseMoveEvent(QMouseEvent *event);
-  virtual void mousePressEvent(QMouseEvent *event);
   virtual void mouseReleaseEvent(QMouseEvent *event);
-  virtual void mouseDoubleClickEvent(QMouseEvent *event);
 
 Q_SIGNALS:
   void mouseEventHandler(QMouseEvent *event);
