@@ -356,20 +356,8 @@ void ClickableGazeDisplay::updateTopic() {
       topic_property_->getStdString(), 1);
 }
 
-void InteractiveRenderPanel::mouseMoveEvent(QMouseEvent *event) {
-//  Q_EMIT mouseEventHandler(event);
-}
-
-void InteractiveRenderPanel::mousePressEvent(QMouseEvent *event) {
-//  Q_EMIT mouseEventHandler(event);
-}
-
 void InteractiveRenderPanel::mouseReleaseEvent(QMouseEvent *event) {
   Q_EMIT mouseEventHandler(event);
-}
-
-void InteractiveRenderPanel::mouseDoubleClickEvent(QMouseEvent *event) {
-//  Q_EMIT mouseEventHandler(event);
 }
 
 }
