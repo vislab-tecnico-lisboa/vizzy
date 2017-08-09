@@ -133,7 +133,9 @@ void ClickableGazeDisplay::onInitialize() {
 
   MouseEventHandler mevent =
       boost::bind(&ClickableGazeDisplay::mouseEventHandler, this, _1);
+
   render_panel_ = new InteractiveRenderPanel();
+
   connect(render_panel_, SIGNAL(mouseEventHandler(QMouseEvent *)), this,
           SLOT(mouseEventHandler(QMouseEvent *)));
   render_panel_->getRenderWindow()->setAutoUpdated(false);
@@ -297,7 +299,7 @@ void ClickableGazeDisplay::mouseEventHandler(QMouseEvent *mevent) {
 
         if(ps.point.y < 0)
           return;
-        
+
         ps.point.z = 0;
 
         if (ps.point.x > img_width_)
@@ -336,7 +338,7 @@ void ClickableGazeDisplay::mouseEventHandler(QMouseEvent *mevent) {
       goal.fixation_point.header.stamp=ros::Time::now();
 
       ac.sendGoal(goal);
-        
+
 
       }else if(mevent->button() == Qt::RightButton)
       {
@@ -344,11 +346,11 @@ void ClickableGazeDisplay::mouseEventHandler(QMouseEvent *mevent) {
         ps.header.frame_id = "camera_vision_link";
         ps.header.stamp = ros::Time::now();
         pub_.publish(ps);
-      
+
       }
 
-  } 
-  
+  }
+
 
 }
 void ClickableGazeDisplay::updateTopic() {
