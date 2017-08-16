@@ -256,10 +256,11 @@ class Speak(smach.State):
         voi="Joaquim"
         msg="se gosta de fazer exercício, faça este gesto"
 	
-	result_from_action_speak = speak(ling,voi,msg) 
+	#result_from_action_speak = speak(ling,voi,msg) 
 	#print 'RESULTS FROM ACTION!'
-	
-        if(result_from_action_speak.success==True):
+	result_from_action_speak = True
+        #if(result_from_action_speak.success==True):
+	if(result_from_action_speak == True):
 	    userdata.Speak_id_out=userdata.Speak_id_in
             return 'speaked'
         else:
@@ -447,7 +448,8 @@ def gazeclient(x,y,z):
 	# Waits for the server to finish performing the action.
 	#client.wait_for_result()
 
-	return client.get_result()
+	#return client.get_result()
+	return 1
 
 
 def speak(lang,voi,msg):
@@ -459,8 +461,9 @@ def speak(lang,voi,msg):
 	goal = woz_dialog_msgs.msg.SpeechGoal(language=lang, voice=voi, message=msg)
 	#goal = woz_dialog_msgs.msg.SpeechGoal(language="POR-PRT", voice="Joaquim", message="Se quiser fazer exercicio físico faça este gesto")
 	client.send_goal(goal)
-	client.wait_for_result()
-	return client.get_result()
+	#client.wait_for_result()
+	#return client.get_result()
+	return 1
 
 
 

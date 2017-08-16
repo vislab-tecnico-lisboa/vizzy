@@ -53,7 +53,7 @@
   	<!-- launch the hokuyo sensor -->
 	<include file="$(find vizzy_robot)/launch/hokuyo.launch">
 	    <arg name="name" value="nav_hokuyo" />
-	    <arg name="port" value="/dev/ttyACM1" />
+	    <arg name="port" value="/dev/ttyACM0" />
 	    <arg name="tf_prefix" value="$(arg tf_prefix)" />
 	    <arg name="scan_name" value="scan" />
   		<arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)" />
@@ -62,7 +62,7 @@
 
 	<include file="$(find vizzy_robot)/launch/hokuyo.launch">
 	    <arg name="name" value="nav_hokuyo_rear" />
-	    <arg name="port" value="/dev/ttyACM0" />
+	    <arg name="port" value="/dev/ttyACM1" />
 	    <arg name="scan_name" value="scan_rear" />
 	    <arg name="tf_prefix" value="$(arg tf_prefix)" />
   		<arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)" />
