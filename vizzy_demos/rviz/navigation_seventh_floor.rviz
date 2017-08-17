@@ -8,9 +8,9 @@ Panels:
         - /Status1
         - /Grid1
         - /ClickableGazeDisplay1
-        - /Image1
+        - /TF1
       Splitter Ratio: 0.5
-    Tree Height: 173
+    Tree Height: 281
   - Class: rviz/Selection
     Name: Selection
   - Class: rviz/Tool Properties
@@ -18,6 +18,7 @@ Panels:
       - /2D Pose Estimate1
       - /2D Nav Goal1
       - /Publish Point1
+      - /WASD Teleop1
     Name: Tool Properties
     Splitter Ratio: 0.588679016
   - Class: rviz/Views
@@ -29,7 +30,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: Image
+    SyncSource: ClickableGazeDisplay
 Visualization Manager:
   Class: ""
   Displays:
@@ -376,17 +377,221 @@ Visualization Manager:
       Transport Hint: raw
       Unreliable: true
       Value: true
-    - Class: rviz/Image
+    - Class: rviz/TF
       Enabled: true
-      Image Topic: /vizzy/l_camera/image_rect_color
-      Max Value: 1
-      Median window: 5
-      Min Value: 0
-      Name: Image
-      Normalize Range: true
-      Queue Size: 2
-      Transport Hint: raw
-      Unreliable: true
+      Frame Timeout: 15
+      Frames:
+        All Enabled: false
+        b_wheel_base_link:
+          Value: false
+        b_wheel_link:
+          Value: false
+        base_footprint:
+          Value: false
+        base_link:
+          Value: false
+        camera_link:
+          Value: false
+        ego_frame:
+          Value: false
+        eyes_center_link:
+          Value: false
+        eyes_center_vision_link:
+          Value: false
+        eyes_tilt_link:
+          Value: false
+        f_wheel_base_link:
+          Value: false
+        f_wheel_link:
+          Value: false
+        head_origin_frame:
+          Value: false
+        l_camera_link:
+          Value: false
+        l_camera_vision_link:
+          Value: false
+        l_elbow_flection_link:
+          Value: false
+        l_eye_link:
+          Value: false
+        l_forearm_pronation_link:
+          Value: false
+        l_palm_link:
+          Value: false
+        l_shoulder_abduction_link:
+          Value: false
+        l_shoulder_flection_link:
+          Value: false
+        l_shoulder_rotation_link:
+          Value: false
+        l_shoulder_scapula_link:
+          Value: false
+        l_wheel_link:
+          Value: false
+        l_wrist_abduction_link:
+          Value: false
+        l_wrist_flection_link:
+          Value: false
+        map:
+          Value: false
+        nav_hokuyo_laser_link:
+          Value: false
+        nav_hokuyo_link:
+          Value: false
+        nav_hokuyo_rear_laser_link:
+          Value: false
+        nav_hokuyo_rear_link:
+          Value: false
+        neck_pan_link:
+          Value: false
+        neck_tilt_link:
+          Value: false
+        odom:
+          Value: false
+        r_camera_link:
+          Value: false
+        r_camera_vision_link:
+          Value: true
+        r_elbow_flection_link:
+          Value: false
+        r_eye_link:
+          Value: false
+        r_forearm_pronation_link:
+          Value: false
+        r_ind_phal_1_link:
+          Value: false
+        r_ind_phal_2_link:
+          Value: false
+        r_ind_phal_3_link:
+          Value: false
+        r_med_phal_1_link:
+          Value: false
+        r_med_phal_2_link:
+          Value: false
+        r_med_phal_3_link:
+          Value: false
+        r_min_phal_1_link:
+          Value: false
+        r_min_phal_2_link:
+          Value: false
+        r_min_phal_3_link:
+          Value: false
+        r_palm_link:
+          Value: false
+        r_shoulder_abduction_link:
+          Value: false
+        r_shoulder_flection_link:
+          Value: false
+        r_shoulder_rotation_link:
+          Value: false
+        r_shoulder_scapula_link:
+          Value: false
+        r_thumb_phal_1_link:
+          Value: false
+        r_thumb_phal_2_link:
+          Value: false
+        r_thumb_phal_3_link:
+          Value: false
+        r_thumb_phal_4_link:
+          Value: false
+        r_wheel_link:
+          Value: false
+        r_wrist_abduction_link:
+          Value: false
+        r_wrist_flection_link:
+          Value: false
+        waist_fixed_virtual_link:
+          Value: false
+        waist_link:
+          Value: false
+      Marker Scale: 1
+      Name: TF
+      Show Arrows: true
+      Show Axes: true
+      Show Names: true
+      Tree:
+        map:
+          odom:
+            base_footprint:
+              base_link:
+                b_wheel_base_link:
+                  b_wheel_link:
+                    {}
+                f_wheel_base_link:
+                  f_wheel_link:
+                    {}
+                nav_hokuyo_link:
+                  nav_hokuyo_laser_link:
+                    {}
+                nav_hokuyo_rear_link:
+                  nav_hokuyo_rear_laser_link:
+                    {}
+                waist_fixed_virtual_link:
+                  {}
+                waist_link:
+                  camera_link:
+                    {}
+                  ego_frame:
+                    {}
+                  l_shoulder_scapula_link:
+                    l_shoulder_flection_link:
+                      l_shoulder_abduction_link:
+                        l_shoulder_rotation_link:
+                          l_elbow_flection_link:
+                            l_forearm_pronation_link:
+                              l_wrist_abduction_link:
+                                l_wrist_flection_link:
+                                  l_palm_link:
+                                    {}
+                  neck_pan_link:
+                    neck_tilt_link:
+                      eyes_tilt_link:
+                        eyes_center_link:
+                          eyes_center_vision_link:
+                            {}
+                          l_eye_link:
+                            l_camera_link:
+                              {}
+                            l_camera_vision_link:
+                              {}
+                          r_eye_link:
+                            r_camera_link:
+                              {}
+                            r_camera_vision_link:
+                              {}
+                      head_origin_frame:
+                        {}
+                  r_shoulder_scapula_link:
+                    r_shoulder_flection_link:
+                      r_shoulder_abduction_link:
+                        r_shoulder_rotation_link:
+                          r_elbow_flection_link:
+                            r_forearm_pronation_link:
+                              r_wrist_abduction_link:
+                                r_wrist_flection_link:
+                                  r_palm_link:
+                                    r_ind_phal_1_link:
+                                      r_ind_phal_2_link:
+                                        r_ind_phal_3_link:
+                                          {}
+                                    r_med_phal_1_link:
+                                      r_med_phal_2_link:
+                                        r_med_phal_3_link:
+                                          {}
+                                    r_min_phal_1_link:
+                                      r_min_phal_2_link:
+                                        r_min_phal_3_link:
+                                          {}
+                                    r_thumb_phal_1_link:
+                                      r_thumb_phal_2_link:
+                                        r_thumb_phal_3_link:
+                                          r_thumb_phal_4_link:
+                                            {}
+              l_wheel_link:
+                {}
+              r_wheel_link:
+                {}
+      Update Interval: 0
       Value: true
   Enabled: true
   Global Options:
@@ -408,11 +613,17 @@ Visualization Manager:
     - Class: rviz/PublishPoint
       Single click: true
       Topic: /clicked_point
+    - Action Cancel Topic: move_base/cancel
+      Class: vizzy_rviz_plugins/WasdTeleopTool
+      Max angular velocity: 0.785398185
+      Max linear velocity: 2
+      Topic: /vizzy/cmd_vel
+      cmd_vel topic: /vizzy/cmd_vel
   Value: true
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 8.18642998
+      Distance: 3.1282022
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
@@ -426,22 +637,20 @@ Visualization Manager:
       Focal Shape Size: 0.0500000007
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.485397995
+      Pitch: 0.790398061
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 4.21540022
+      Yaw: 5.01539898
     Saved: ~
 Window Geometry:
   ClickableGazeDisplay:
     collapsed: false
   Displays:
     collapsed: false
-  Height: 1005
+  Height: 1009
   Hide Left Dock: false
   Hide Right Dock: false
-  Image:
-    collapsed: false
-  QMainWindow State: 000000ff00000000fd00000004000000000000029000000346fc020000000afb0000001200530065006c0065006300740069006f006e00000001e10000009b0000006b00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000004400000143000000eb00fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb000000280043006c00690063006b00610062006c006500470061007a00650044006900730070006c00610079010000018e0000012f0000001600fffffffb0000000a0049006d00610067006501000002c4000000c60000001600ffffff000000010000010200000346fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073010000004400000346000000b900fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000003c00000003efc0100000002fb0000000800540069006d00650100000000000003c0000002c500fffffffb0000000800540069006d00650100000000000004500000000000000000000000200000034600000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd0000000400000000000002900000034afc020000000afb0000001200530065006c0065006300740069006f006e00000001e10000009b0000006b00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c0061007900730100000044000001af000000eb00fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb000000280043006c00690063006b00610062006c006500470061007a00650044006900730070006c0061007901000001fa000001940000001600fffffffb0000000a0049006d00610067006500000002c4000000c6000000000000000000000001000001020000034afc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a0056006900650077007301000000440000034a000000b900fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000007800000003efc0100000002fb0000000800540069006d0065010000000000000780000002c500fffffffb0000000800540069006d00650100000000000004500000000000000000000003e00000034a00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Time:
@@ -450,6 +659,6 @@ Window Geometry:
     collapsed: false
   Views:
     collapsed: false
-  Width: 960
+  Width: 1920
   X: 0
   Y: 34
