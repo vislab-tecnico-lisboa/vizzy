@@ -10,7 +10,7 @@
     <transmission name="neck_pan_transmission">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="neck_pan_joint">
-        <hardwareInterface>VelocityJointInterface</hardwareInterface>
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       </joint>
       <actuator name="neck_pan_motor">
         <mechanicalReduction>1</mechanicalReduction>
@@ -20,7 +20,7 @@
     <transmission name="neck_tilt_transmission">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="neck_tilt_joint">
-        <hardwareInterface>VelocityJointInterface</hardwareInterface>
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       </joint>
       <actuator name="neck_tilt_motor">
         <mechanicalReduction>1</mechanicalReduction>
@@ -30,7 +30,7 @@
     <transmission name="eyes_tilt_transmission">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="eyes_tilt_joint">
-        <hardwareInterface>VelocityJointInterface</hardwareInterface>
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       </joint>
       <actuator name="eyes_tilt_motor">
         <mechanicalReduction>1</mechanicalReduction>
@@ -40,7 +40,7 @@
     <transmission name="l_eye_transmission">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="l_eye_joint">
-        <hardwareInterface>VelocityJointInterface</hardwareInterface>
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       </joint>
       <actuator name="l_eye_motor">
         <mechanicalReduction>1</mechanicalReduction>
@@ -50,7 +50,7 @@
     <transmission name="r_eye_transmission">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="r_eye_joint">
-        <hardwareInterface>VelocityJointInterface</hardwareInterface>
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       </joint>
       <actuator name="r_eye_motor">
         <mechanicalReduction>1</mechanicalReduction>
