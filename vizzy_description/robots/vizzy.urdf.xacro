@@ -69,12 +69,12 @@
   <xacro:camera_plugin name="r_camera" prefix="r"/>
 
   <!-- instantiate Yarp plugins -->
-  <xacro:if value="$(arg use_yarp)">
+	<xacro:if value="$(arg use_yarp)">
 		<xacro:torso_gazebo_control/>
 		<xacro:head_gazebo_control/>
 		<xacro:left_arm_gazebo_control/>
 		<xacro:right_arm_gazebo_control/>
-  </xacro:if>
+	</xacro:if>
 
   <!-- instantiate ROS plugins -->
   <xacro:unless value="$(arg use_yarp)">
