@@ -9,7 +9,7 @@
     <transmission name="r_min_phal_1_transmission">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="r_min_phal_1_joint">
-        <hardwareInterface>VelocityJointInterface</hardwareInterface>
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       </joint>
       <actuator name="r_min_phal_1_motor">
         <mechanicalReduction>1</mechanicalReduction>
@@ -19,7 +19,7 @@
     <transmission name="r_med_phal_1_transmission">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="r_med_phal_1_joint">
-        <hardwareInterface>VelocityJointInterface</hardwareInterface>
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       </joint>
       <actuator name="r_med_phal_1_motor">
         <mechanicalReduction>1</mechanicalReduction>
@@ -29,7 +29,7 @@
     <transmission name="r_med_phal_2_transmission">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="r_med_phal_2_joint">
-        <hardwareInterface>VelocityJointInterface</hardwareInterface>
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       </joint>
       <actuator name="r_med_phal_2_motor">
         <mechanicalReduction>1</mechanicalReduction>
@@ -39,7 +39,7 @@
     <transmission name="r_med_phal_3_transmission">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="r_med_phal_3_joint">
-        <hardwareInterface>VelocityJointInterface</hardwareInterface>
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       </joint>
       <actuator name="r_med_phal_3_motor">
 
@@ -51,7 +51,7 @@
     <transmission name="r_ind_phal_1_transmission">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="r_ind_phal_1_joint">
-        <hardwareInterface>VelocityJointInterface</hardwareInterface>
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       </joint>
       <actuator name="r_ind_phal_1_motor">
         <mechanicalReduction>1</mechanicalReduction>
@@ -61,7 +61,7 @@
     <transmission name="r_ind_phal_2_transmission">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="r_ind_phal_2_joint">
-        <hardwareInterface>VelocityJointInterface</hardwareInterface>
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       </joint>
       <actuator name="r_ind_phal_2_motor">
         <mechanicalReduction>1</mechanicalReduction>
@@ -71,7 +71,7 @@
     <transmission name="r_ind_phal_3_transmission">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="r_ind_phal_3_joint">
-        <hardwareInterface>VelocityJointInterface</hardwareInterface>
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       </joint>
       <actuator name="r_ind_phal_3_motor">
         <mechanicalReduction>1</mechanicalReduction>
@@ -83,7 +83,7 @@
     <transmission name="r_thumb_phal_1_transmission">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="r_thumb_phal_1_joint">
-        <hardwareInterface>VelocityJointInterface</hardwareInterface>
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       </joint>
       <actuator name="r_thumb_phal_1_motor">
         <mechanicalReduction>1</mechanicalReduction>
@@ -93,7 +93,7 @@
     <transmission name="r_thumb_phal_2_transmission">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="r_thumb_phal_2_joint">
-        <hardwareInterface>VelocityJointInterface</hardwareInterface>
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       </joint>
       <actuator name="r_thumb_phal_2_motor">
         <mechanicalReduction>1</mechanicalReduction>
@@ -103,7 +103,7 @@
     <transmission name="r_thumb_phal_3_transmission">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="r_thumb_phal_3_joint">
-        <hardwareInterface>VelocityJointInterface</hardwareInterface>
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       </joint>
       <actuator name="r_thumb_phal_3_motor">
         <mechanicalReduction>1</mechanicalReduction>
@@ -113,7 +113,7 @@
     <transmission name="r_thumb_phal_4_transmission">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="r_thumb_phal_4_joint">
-        <hardwareInterface>VelocityJointInterface</hardwareInterface>
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       </joint>
       <actuator name="r_thumb_phal_4_motor">
         <mechanicalReduction>1</mechanicalReduction>
