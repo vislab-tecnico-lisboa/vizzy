@@ -8,7 +8,7 @@
     <transmission name="waist_transmission">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="waist_joint">
-        <hardwareInterface>VelocityJointInterface</hardwareInterface>
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       </joint>
       <actuator name="waist_motor">
         <mechanicalReduction>${A3863H024C_motor_transmission_reduction}</mechanicalReduction>
