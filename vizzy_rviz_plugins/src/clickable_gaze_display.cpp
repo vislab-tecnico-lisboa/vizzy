@@ -320,7 +320,13 @@ void ClickableGazeDisplay::mouseEventHandler(QMouseEvent *mevent) {
         goal.fixation_point.point.z = -1.5*(ps.point.y-cy)/fy;
         goal.fixation_point_error_tolerance = 0.01;
 
-        goal.fixation_point.header.frame_id=l_camera_info->header.frame_id;
+
+        //Just a workaround. I already made the computations and I'm shor in time...
+
+        if(l_camera_info->header.frame_id == "r_camera_vision_link" || l_camera_info->header.frame_id == "r_camera_link")
+          goal.fixation_point.header.frame_id="r_camera_link";
+        else if(l_camera_info->header.frame_id == "l_camera_vision_link" || l_camera_info->header.frame_id == "l_camera_link")
+          goal.fixation_point.header.frame_id="l_camera_link";
         goal.fixation_point.header.stamp=ros::Time::now();
 
         ac.sendGoal(goal);
