@@ -27,11 +27,11 @@ void WasdTeleopTool::onInitialize()
                                                                 QString::fromStdString(ros::message_traits::datatype<geometry_msgs::Twist>()),
                                                                 "actionlib_msgs::GoalID topic to publish the cancel command.", getPropertyContainer(), SLOT( updateActionCancelTopic()), this);
 
-  max_lin_property_ = new rviz::FloatProperty( "Max linear velocity", 2.0,
+  max_lin_property_ = new rviz::FloatProperty( "Max linear velocity", 0.5,
                           "Maximum absolute value of the linear velocity (m/s)",
                           getPropertyContainer(), SLOT( maxLinearVelUpdate() ), this);
 
-  max_ang_property_ = new rviz::FloatProperty( "Max angular velocity", M_PI/4,
+  max_ang_property_ = new rviz::FloatProperty( "Max angular velocity", M_PI/8,
                           "Maximum absolute value of the angular velocity (rad/s)",
                           getPropertyContainer(), SLOT( maxAngularVelUpdate() ), this);
 
