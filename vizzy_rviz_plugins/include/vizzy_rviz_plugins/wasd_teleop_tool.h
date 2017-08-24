@@ -57,8 +57,8 @@ protected:
   float linear_velocity_;
   float angular_velocity_;
 
-  float lin_step_ = 2;
-  float ang_step_ = M_PI/4;
+  float lin_step_ = 0.5;
+  float ang_step_ = M_PI/8;
 
   QString output_topic_;
   rviz::RosTopicProperty *topic_property_;

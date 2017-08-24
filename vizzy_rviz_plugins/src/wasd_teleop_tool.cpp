@@ -122,23 +122,26 @@ bool WasdTeleopTool::eventFilter(QObject *obj, QEvent *event) //AWESOME!
     QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
     if(keyEvent->key() == Qt::Key_W && !keyEvent->isAutoRepeat())
     {
-
+      if(linear_velocity_ >= lin_step_)
       linear_velocity_-=lin_step_;
       return true;
     }
     else if(keyEvent->key() == Qt::Key_S && !keyEvent->isAutoRepeat())
     {
-      linear_velocity_+=lin_step_;
+      if(linear_velocity_ <= -lin_step_)
+      	linear_velocity_+=lin_step_;
       return true;
     }
     else if(keyEvent->key() == Qt::Key_A && !keyEvent->isAutoRepeat())
     {
-      angular_velocity_-=ang_step_;
+      if(angular_velocity_ >= ang_step_)
+      	angular_velocity_-=ang_step_;
       return true;
     }
     else if(keyEvent->key() == Qt::Key_D && !keyEvent->isAutoRepeat())
     {
-      angular_velocity_+=ang_step_;
+      if(angular_velocity_ <= -ang_step_)
+        angular_velocity_+=ang_step_;
       return true;
     }
     else if(keyEvent->key() == Qt::Key_Shift && !keyEvent->isAutoRepeat())
@@ -151,6 +154,7 @@ bool WasdTeleopTool::eventFilter(QObject *obj, QEvent *event) //AWESOME!
       boosted_ang_ = 0;
       return true;
     }
+	
 
   }
 
@@ -192,11 +196,6 @@ void WasdTeleopTool::sendVel()
 }
 
 
-void WasdTeleopTool::setVel( float lin, float ang )
-{
-  linear_velocity_ = lin;
-  angular_velocity_ = ang;
-}
 
 void WasdTeleopTool::updateTopic()
 {
