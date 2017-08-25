@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="vizzy_machine_name" default="localhost"/>
+  <arg name="map_topic" default="/map" />
+  <arg name="debug" default="false" />
+  <arg if="$(arg debug)" name="prefix" value="gdb -ex run --args" />
+  <arg unless="$(arg debug)" name="prefix" value="" />
+
+  <node  pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen" launch-prefix="$(arg prefix)">
+
+    <rosparam file="$(find vizzy_navigation)/config/teb/move_base_params.yaml" command="load" />
+    <rosparam file="$(find vizzy_navigation)/config/teb/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find vizzy_navigation)/config/teb/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find vizzy_navigation)/config/teb/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find vizzy_navigation)/config/teb/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find vizzy_navigation)/config/teb/base_local_planner_params.yaml" command="load" />
+
+    <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
+    <param name="controller_frequency" value="10.0" />
+
+
+    <param name="global_costmap/map_topic" value="$(arg map_topic)"/>
+    <param name="recovery_behavior_enabled" value="false"/>
+    <param name="clearing_rotation_allowed" value="false"/>
+    <remap from="/cmd_vel" to="/vizzy/cmd_vel" />
+  </node>
+</launch>
