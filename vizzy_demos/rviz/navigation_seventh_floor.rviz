@@ -593,6 +593,26 @@ Visualization Manager:
                 {}
       Update Interval: 0
       Value: true
+    - Alpha: 0.699999988
+      Class: rviz/Map
+      Color Scheme: map
+      Draw Behind: false
+      Enabled: true
+      Name: Map
+      Topic: /move_base/local_costmap/costmap
+      Unreliable: false
+      Use Timestamp: false
+      Value: true
+    - Class: rviz/Marker
+      Enabled: true
+      Marker Topic: /move_base/TebLocalPlannerROS/teb_markers
+      Name: Marker
+      Namespaces:
+        PointObstacles: true
+        RobotFootprintModel: true
+        TebContainer: true
+      Queue Size: 100
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -623,24 +643,24 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 3.1282022
+      Distance: 4.31989527
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0
-        Y: 0
-        Z: 0
+        X: -0.231000811
+        Y: 1.78690362
+        Z: -0.747739494
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.0500000007
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.790398061
+      Pitch: 1.34539783
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 5.01539898
+      Yaw: 4.77540827
     Saved: ~
 Window Geometry:
   ClickableGazeDisplay:

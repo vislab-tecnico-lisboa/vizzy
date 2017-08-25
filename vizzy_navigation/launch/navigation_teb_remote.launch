@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="vizzy_machine_name" default="localhost"/>
+  <arg name="map_topic" default="/map" />
+  <arg name="debug" default="false" />
+  <arg if="$(arg debug)" name="prefix" value="gdb -ex run --args" />
+  <arg unless="$(arg debug)" name="prefix" value="" />
+
+  <node machine="$(arg vizzy_machine_name)" pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen" launch-prefix="$(arg prefix)">
+  
+  <remap from="/cmd_vel" to="/vizzy/cmd_vel" />
+  </node>
+
+</launch>
