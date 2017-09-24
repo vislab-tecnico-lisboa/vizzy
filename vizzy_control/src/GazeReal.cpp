@@ -11,8 +11,8 @@ GazeReal::GazeReal(const std::string & name, const ros::NodeHandle & nh) : Gaze(
     private_node_handle.param<std::string>("fixation_point_frame", fixation_point_frame, "fixation_point_frame");
 
     //Publishers
-    gazePublisher = nh_.advertise<geometry_msgs::Point>("fixation_point_out", 1);
-    fix_point_sub = nh_.subscribe("fixation_point_in", 1, &GazeReal::analysisCB, this);
+    gazePublisher = nh_.advertise<geometry_msgs::Point>("fixation_point_out", 50);
+    fix_point_sub = nh_.subscribe("fixation_point_in", 50, &GazeReal::analysisCB, this);
 
     as_.registerGoalCallback(boost::bind(&Gaze::goalCB, this));
     as_.registerPreemptCallback(boost::bind(&Gaze::preemptCB, this));

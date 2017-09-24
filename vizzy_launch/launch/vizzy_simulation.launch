@@ -6,7 +6,7 @@
 
   <!-- simulation parameters and robot configuration parameters -->
   <arg name="use_yarp" default="false"/>
-  <arg name="navigation" default="true"/>
+  <arg name="navigation" default="false"/>
   <arg name="launch_moveit" default="true"/>
   <arg name="slam" default="false"/>
   <!--<arg name="pose" default="-x -3.65 -y 17.7 -z 0.20 -R 0.0 -P 0.0 -Y 1.57"/>-->
@@ -100,7 +100,7 @@
 
       <group unless="$(arg reactive_2d_navigation)">
         <!-- move_base using local eband planner -->
-        <include file="$(find vizzy_navigation)/launch/move_base_eband_local.launch">
+        <include file="$(find vizzy_navigation)/launch/navigation_teb_local.launch">
           <arg name="map_topic" value="$(arg map_topic)" />
         </include>
       </group>
