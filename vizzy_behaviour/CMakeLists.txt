@@ -10,7 +10,6 @@ find_package(catkin REQUIRED COMPONENTS
   smach
   std_msgs
   vizzy_msgs
-  woz_dialog
 )
 
 ## System dependencies are found with CMake's conventions

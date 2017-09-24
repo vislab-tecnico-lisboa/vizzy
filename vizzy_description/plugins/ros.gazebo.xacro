@@ -24,7 +24,7 @@
         <commandTopic>vizzy/cmd_vel</commandTopic>
         <odometryTopic>odom</odometryTopic>
         <odometryFrame>odom</odometryFrame>
-        <robotBaseFrame>base_footprint</robotBaseFrame>
+        <robotBaseFrame>base_link</robotBaseFrame>
         <odometrySource>0</odometrySource>
         <wheelTorque>10</wheelTorque>
         <wheelAcceleration>0</wheelAcceleration>

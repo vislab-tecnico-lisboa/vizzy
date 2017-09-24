@@ -29,18 +29,25 @@ int main(int argc, char *argv[]) {
     yarp::os::Time::delay(1);
   }
 
+  //double t0 = Time::now();
   // spinning
   while(true)
   {
     geometry_msgs_Point *reading1Mux1;
-    reading1Mux1 = xd_inputPort.read(false);
+    reading1Mux1 = xd_inputPort.read(false); // non-blocking, needs delay
+    //reading1Mux1 = xd_inputPort.read(true); // blocking, does not need delay
     //yarp::os::Time::delay(0.05);
     if (reading1Mux1 != NULL){
 	geometry_msgs_Point & out = xd_outputPort.prepare();
 	out = *reading1Mux1;
 	xd_outputPort.write();
+        //yInfo("%f", Time::now()-t0);
+        //t0 = Time::now();
     }
-    yarp::os::Time::delay(0.016);
+    //else
+    //    yWarning("it was null!");
+    //yarp::os::Time::delay(0.016);
+    yarp::os::Time::delay(0.00001);
   }
   return 0;
 }
