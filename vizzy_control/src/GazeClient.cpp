@@ -35,10 +35,10 @@ int main (int argc, char **argv)
     // wait for the action server to start
     ac.waitForServer(); //will wait for infinite time
 
-    double rate=2.0;
+    double rate=50.0;
     ros::Rate r(rate);
 
-    double rate_aux=0.1;
+    double step_size=0.1/10;
 
     // send a goal to the action
     int i=0;
@@ -54,39 +54,39 @@ int main (int argc, char **argv)
 
         ++i;
 
-        /*double angular_freq=2*M_PI*rate_aux;
+        double angular_freq=2*M_PI*step_size;
         double time_instant=(double)i;
         double aux=angular_freq*time_instant;
         std::cout << aux << " "<<cos(aux) <<std::endl;
         vizzy_msgs::GazeGoal goal;
         goal.type=vizzy_msgs::GazeGoal::CARTESIAN;
-        goal.fixation_point.point.x = 0.7*cos(aux);
+        goal.fixation_point.point.x = 3*cos(aux);
         goal.fixation_point.point.y = 0.0;
-        goal.fixation_point.point.z = 10.0+9.0*cos(aux);
+        goal.fixation_point.point.z = 5.0;//+9.0*cos(aux);
         goal.fixation_point_error_tolerance = 0.005;
 
         //goal.fixation_point.point.z = 0.5;
 
         goal.fixation_point.header.frame_id="ego_frame";
-        goal.fixation_point.header.stamp=ros::Time::now();*/
+        goal.fixation_point.header.stamp=ros::Time::now();
 
     /*AVELINO*/
 	/*Teleop - W, A, S, D, C, V*/
-
+    /*
     int c = getchar();
 
 	const float step = 0.05;
 
 	if(c == 'W' || c == 'w')
-	  goal.fixation_point.point.z += step;
+	  goal.fixation_point.point.z += 5*step;
 	if(c == 'S' || c == 's')
-	  goal.fixation_point.point.z -= step;
+	  goal.fixation_point.point.z -= 5*step;
 	if(c == 'A' || c == 'a')
-	  goal.fixation_point.point.y += step;
+	  goal.fixation_point.point.y += 5*step;
 	if(c == 'D' || c == 'd')
-	  goal.fixation_point.point.y -= step;
+	  goal.fixation_point.point.y -= 5*step;
 	if(c == 'C' || c == 'c')
-	  goal.fixation_point.point.x += step;
+	  goal.fixation_point.point.x += 5*step;
 	if(c == 'I' || c == 'i')
 	  goal.fixation_point.point.z += 10*step;
 	if(c == 'K' || c == 'k')
@@ -104,10 +104,11 @@ int main (int argc, char **argv)
 
 	goal.fixation_point.header.frame_id="camera_link";
         goal.fixation_point.header.stamp=ros::Time::now();
+    */
     /*FIM AVELINO*/
 
         ac.sendGoal(goal);
-        ROS_INFO("Action server started, sending goal.");
+        ROS_INFO("Action server started, sending gaze goal.");
 
         //wait for the action to return
         //bool finished_before_timeout = ac.waitForResult(ros::Duration(1.0));
