@@ -4,390 +4,235 @@
        xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
        xmlns:xacro="http://ros.org/wiki/xacro">
 
+  <!-- Load full inertial and collision model or a simplified model -->
+  <xacro:arg name="use_full_gazebo_model" default="false"/>
+
   <!-- Things that are needed only for Gazebo (not the physical robot).  These include
        sensor and controller plugin specifications -->
- <xacro:include filename="$(find vizzy_description)/urdf/base/base.gazebo.xacro" />
- <xacro:include filename="$(find vizzy_description)/urdf/base/base.transmission.xacro" />
+  <xacro:include filename="$(find vizzy_description)/urdf/base/base.gazebo.xacro">
+    <xacro:arg name="use_full_gazebo_model" value="$(arg use_full_gazebo_model)"/>
+  </xacro:include>
+  <xacro:include filename="$(find vizzy_description)/urdf/base/base.transmission.xacro"/>
 
- <xacro:macro name="base" params="name">
-  <!-- root link, on the ground just below the robot origin -->
-  <link name="base_footprint">
-  </link>
+  <!-- Robot base macro -->
+  <xacro:macro name="base" params="name">
 
-  <joint name="base_footprint_joint" type="fixed">
-   <origin xyz="0.1934543 0.0 0.04" rpy="0.0 0.0 ${M_PI}" />
-   <parent link="base_footprint"/>
-   <child link="base_link" />
-  </joint>
-  
-  <link
-    name="base_link">
-    <inertial>
-      <origin
-        xyz="0.19 0 0.2"
-        rpy="0 0 0" />
-      <mass
-        value="11.7973473742999" />
-      <inertia
-        ixx="0.438925207385402"
-        ixy="0.000141568676799447"
-        ixz="7.95805262167885E-07"
-        iyy="0.326554522375815"
-        iyz="0.00194386671838748"
-        izz="0.296176192213331" />
-    </inertial>
-    <visual>
-      <origin
-        xyz="0.188 0.001 0.197"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://vizzy_description/meshes/Segway.dae" />
-      </geometry>
-      <material
-        name="">
-        <color
-          rgba="0.866666666666667 0.866666666666667 0.890196078431373 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin
-        xyz="0.188 0.001 0.197"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://vizzy_description/meshes/Segway.dae" />
-      </geometry>
-    </collision>
-  </link>
-  <link
-    name="f_wheel_base_link">
-    <inertial>
-      <origin
-        xyz="-0.0118 0.0084 0.083"
-        rpy="0 0 0" />
-      <mass
-        value="0.0522202580480446" />
-      <inertia
-        ixx="0.000109063640814005"
-        ixy="1.29634203029402E-06"
-        ixz="-2.56834920297101E-05"
-        iyy="0.000107815897797672"
-        iyz="1.74895161672912E-05"
-        izz="3.21409232257602E-05" />
-    </inertial>
-    <visual>
-      <origin
-        xyz="-0.0118 0.0084 0.083"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://vizzy_description/meshes/Front.dae" />
-      </geometry>
-      <material
-        name="">
-        <color
-          rgba="0.796078431372549 0.823529411764706 0.937254901960784 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin
-        xyz="-0.0118 0.0084 0.083"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://vizzy_description/meshes/Front.dae" />
-      </geometry>
-    </collision>
-  </link>
-  <joint
-    name="f_wheel_base_joint"
-    type="continuous">
-    <origin
-      xyz="0.43986 0.001 0.14806"
-      rpy="${M_PI} 0.0 0.0" />
-    <parent
-      link="base_link" />
-    <child
-      link="f_wheel_base_link" />
-    <axis
-      xyz="0 0 1" />
-  </joint>
-  <link
-    name="f_wheel_link">
-    <inertial>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <mass
-        value="0.146715525294139" />
-      <inertia
-        ixx="0.000105012932391273"
-        ixy="-1.06408513998821E-20"
-        ixz="-6.7762635780344E-21"
-        iyy="0.000105012932391273"
-        iyz="4.99749438880037E-20"
-        izz="0.00019960379578771" />
-    </inertial>
-    <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://vizzy_description/meshes/F_W.dae" />
-      </geometry>
-      <material
-        name="">
-        <color
-          rgba="0.796078431372549 0.823529411764706 0.937254901960784 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <!-- <mesh
-          filename="package://vizzy_description/meshes/F_W.dae" />  -->
-        <cylinder length="0.02" radius="0.05"/>
-      </geometry>
-    </collision>
-  </link>
-  <joint
-    name="f_wheel_joint"
-    type="continuous">
-    <origin
-      xyz="-0.030027 0.020142 0.138923486"
-      rpy="-1.5708 0.83904 2.5507" />
-    <parent
-      link="f_wheel_base_link" />
-    <child
-      link="f_wheel_link" />
-    <axis
-      xyz="0 0 1" />
-  </joint>
-  <link
-    name="b_wheel_base_link">
-    <inertial>
-      <origin
-        xyz="-0.0118 0.0084 0.083"
-        rpy="0 0 0" />
-      <mass
-        value="0.0522202580480446" />
-      <inertia
-        ixx="0.000109063640814005"
-        ixy="1.29634203029405E-06"
-        ixz="-2.568349202971E-05"
-        iyy="0.000107815897797672"
-        iyz="1.74895161672911E-05"
-        izz="3.21409232257601E-05" />
-    </inertial>
-    <visual>
-      <origin
-        xyz="-0.0118 0.0084 0.083"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://vizzy_description/meshes/Back.dae" />
-      </geometry>
-      <material
-        name="">
-        <color
-          rgba="0.796078431372549 0.823529411764706 0.937254901960784 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin
-        xyz="-0.0118 0.0084 0.083"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://vizzy_description/meshes/Back.dae" />
-      </geometry>
-    </collision>
-  </link>
-  <joint
-    name="b_wheel_base_joint"
-    type="continuous">
-    <origin
-      xyz="-0.060139 0.001 0.14806"
-      rpy="${M_PI} 0.0 0.0" />
-    <parent
-      link="base_link" />
-    <child
-      link="b_wheel_base_link" />
-    <axis
-      xyz="0 0 1" />
-  </joint>
-  <link
-    name="b_wheel_link">
-    <inertial>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <mass
-        value="0.146715525294139" />
-      <inertia
-        ixx="0.000105012932391273"
-        ixy="1.07996700774923E-20"
-        ixz="-1.6940658945086E-21"
-        iyy="0.000105012932391273"
-        iyz="-1.18584612615602E-20"
-        izz="0.00019960379578771" />
-    </inertial>
-    <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://vizzy_description/meshes/B_W.dae" />
-      </geometry>
-      <material
-        name="">
-        <color
-          rgba="0.796078431372549 0.823529411764706 0.937254901960784 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <!-- <mesh
-          filename="package://vizzy_description/meshes/B_W.dae" /> -->
-        <cylinder length="0.02" radius="0.05"/>
-      </geometry>
-    </collision>
-  </link>
-  <joint
-    name="b_wheel_joint"
-    type="continuous">
-    <origin
-      xyz="-0.0300271872634975 0.0201420335543447 0.138923486"
-      rpy="-1.5707963267949 0.83904346430428 2.5507386456365" />
-    <parent
-      link="b_wheel_base_link" />
-    <child
-      link="b_wheel_link" />
-    <axis
-      xyz="0 0 1" />
-  </joint>
-  <link
-    name="r_wheel_link">
-    <inertial>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <mass
-        value="150.22861917507719" />
-      <inertia
-        ixx="0.0106873251772162"
-        ixy="4.79944507056635E-17"
-        ixz="3.53158602954754E-16"
-        iyy="0.0106873821917694"
-        iyz="1.38940097207607E-06"
-        izz="0.0205152843016012" />
-    </inertial>
-    <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://vizzy_description/meshes/Left.dae" />
-      </geometry>
-      <material
-        name="">
-        <color
-          rgba="0.494117647058824 0.494117647058824 0.494117647058824 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <!-- <mesh
-          filename="package://vizzy_description/meshes/Left.dae" /> -->
-        <cylinder length="0.06" radius="0.198"/>
-      </geometry>
-    </collision>
-  </link>
-  <joint
-    name="r_wheel_joint"
-    type="continuous">
-    <origin
-      xyz="0.18986 0.246 0.15814"
-      rpy="1.5708 1.5708 0" />
-    <parent
-      link="base_link" />
-    <child
-      link="r_wheel_link" />
-    <axis
-      xyz="0 0 1" />
-        <dynamics damping="0.0" friction="100.0"/>
-  </joint>
-  <link
-    name="l_wheel_link">
-    <inertial>
-      <origin
-        xyz="0 0 0"
-        rpy="3.15 0 0" />
-      <mass
-        value="150.22861917507742" />
-      <inertia
-        ixx="0.0106873471854323"
-        ixy="7.49808591987845E-18"
-        ixz="-1.93571153328442E-16"
-        iyy="0.0106874041999854"
-        iyz="1.38940098137139E-06"
-        izz="0.0205152843016018" />
-    </inertial>
-    <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="3.15 0 0" />
-      <geometry>
-        <mesh
-          filename="package://vizzy_description/meshes/Right.dae" />
-      </geometry>
-      <material
-        name="">
-        <color
-          rgba="0.494117647058824 0.494117647058824 0.494117647058824 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="3.15 0 0" />
-      <geometry>
-        <!-- <mesh
-          filename="package://vizzy_description/meshes/Right.dae" />  -->
-        <cylinder length="0.06" radius="0.198"/>
-      </geometry>
-    </collision>
-  </link>
-  <joint
-    name="l_wheel_joint"
-    type="continuous">
-    <origin
-      xyz="0.18986 -0.244 0.15814"
-      rpy="1.5708 1.5708 0" />
-    <parent
-      link="base_link" />
-    <child
-      link="l_wheel_link" />
-    <axis
-      xyz="0 0 1" />
-    <dynamics damping="0.0" friction="100.0"/>
-  </joint>
+    <!-- Root link, on the ground just below the robot origin -->
+    <link name="base_footprint">
+    </link>
 
-  <!-- gazebo extensions -->
-  <xacro:base_gazebo/>
-  <xacro:base_transmissions/>
+    <joint name="base_footprint_joint" type="fixed">
+      <origin
+        xyz="0.1934543 0.0 0.04"
+        rpy="0.0 0.0 ${M_PI}"/>
+      <parent link="base_footprint"/>
+      <child link="base_link"/>
+    </joint>
+
+    <!-- Robot origin, center of the two wheels (axis of rotation) -->
+    <link name="base_link">
+      <xacro:vizzy_base_link_inertial/>
+      <visual>
+        <origin
+          xyz="0.188 0.001 0.197"
+          rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://vizzy_description/meshes/base/segway.dae"/>
+        </geometry>
+        <material name="light_gray_3"/>
+      </visual>
+      <xacro:vizzy_base_link_collision/>
+    </link>
+
+    <xacro:gazebo_vizzy_base_link_surface/>
+
+    <!-- Back (rear) caster wheel -->
+
+    <link name="b_wheel_base_link">
+      <xacro:vizzy_caster_wheel_base_link_inertial/>
+      <visual>
+        <origin
+          xyz="-0.0118 0.0084 0.083"
+          rpy="0 0 0"/>
+        <geometry>
+          <mesh
+            filename="package://vizzy_description/meshes/base/b_wheel_base.dae"/>
+        </geometry>
+        <material name="light_gray_3"/>
+      </visual>
+      <xacro:vizzy_caster_wheel_base_link_collision/>
+    </link>
+
+    <joint name="b_wheel_base_joint"
+      type="continuous">
+      <origin
+        xyz="0.43986 0.001 0.1483"
+        rpy="${M_PI} 0 0"/>
+      <parent
+        link="base_link"/>
+      <child
+        link="b_wheel_base_link"/>
+      <axis
+        xyz="0 0 1"/>
+    </joint>
+
+    <link name="b_wheel_link">
+      <xacro:vizzy_caster_wheel_link_inertial/>
+      <visual>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0"/>
+        <geometry>
+          <mesh
+            filename="package://vizzy_description/meshes/base/caster_wheel.dae"/>
+        </geometry>
+        <material name="light_gray_3"/>
+      </visual>
+      <xacro:vizzy_caster_wheel_link_collision/>
+    </link>
+
+    <joint name="b_wheel_joint"
+      type="continuous">
+      <origin
+        xyz="-0.030027 0.020142 0.138923486"
+        rpy="-1.5708 0.83904 2.5507"/>
+      <parent
+        link="b_wheel_base_link"/>
+      <child
+        link="b_wheel_link"/>
+      <axis
+        xyz="0 0 1"/>
+    </joint>
+
+    <xacro:gazebo_vizzy_caster_wheel_link_surface
+      prefix="b"/>
+
+    <!-- Front caster wheel -->
+
+    <link name="f_wheel_base_link">
+      <xacro:vizzy_caster_wheel_base_link_inertial/>
+      <visual>
+        <origin
+          xyz="-0.0118 0.0084 0.083"
+          rpy="0 0 0"/>
+        <geometry>
+          <mesh
+            filename="package://vizzy_description/meshes/base/f_wheel_base.dae"/>
+        </geometry>
+        <material name="light_gray_3"/>
+      </visual>
+      <xacro:vizzy_caster_wheel_base_link_collision/>
+    </link>
+
+    <joint name="f_wheel_base_joint"
+      type="continuous">
+      <origin
+        xyz="-0.060139 0.001 0.1483"
+        rpy="${M_PI} 0 0"/>
+      <parent
+        link="base_link"/>
+      <child
+        link="f_wheel_base_link"/>
+      <axis
+        xyz="0 0 1"/>
+    </joint>
+
+    <link name="f_wheel_link">
+      <xacro:vizzy_caster_wheel_link_inertial/>
+      <visual>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0"/>
+        <geometry>
+          <mesh
+            filename="package://vizzy_description/meshes/base/caster_wheel.dae"/>
+        </geometry>
+        <material name="light_gray_3"/>
+      </visual>
+      <xacro:vizzy_caster_wheel_link_collision/>
+    </link>
+
+    <joint name="f_wheel_joint"
+      type="continuous">
+      <origin
+        xyz="-0.0300271872634975 0.0201420335543447 0.138923486"
+        rpy="-1.5707963267949 0.83904346430428 2.5507386456365"/>
+      <parent
+        link="f_wheel_base_link"/>
+      <child
+        link="f_wheel_link"/>
+      <axis
+        xyz="0 0 1"/>
+    </joint>
+
+    <xacro:gazebo_vizzy_caster_wheel_link_surface
+      prefix="f"/>
+
+    <!-- Right wheel -->
+    <link name="r_wheel_link">
+      <xacro:vizzy_wheel_link_inertial rpy="0 0 0"/>
+      <visual>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0"/>
+        <geometry>
+          <mesh
+            filename="package://vizzy_description/meshes/base/wheel.dae"/>
+        </geometry>
+        <material name="gray_1"/>
+      </visual>
+      <xacro:vizzy_wheel_link_collision rpy="0 0 0"/>
+    </link>
+
+    <joint name="r_wheel_joint"
+      type="continuous">
+      <origin
+        xyz="0.18986 0.245 0.15814"
+        rpy="${M_PI/2} ${M_PI/2} 0"/>
+      <parent
+        link="base_link"/>
+      <child
+        link="r_wheel_link"/>
+      <axis
+        xyz="0 0 1"/>
+    </joint>
+
+    <xacro:gazebo_vizzy_wheel_link_surface
+      prefix="r"/>
+
+    <link name="l_wheel_link">
+      <xacro:vizzy_wheel_link_inertial rpy="${M_PI} 0 0"/>
+      <visual>
+        <origin
+          xyz="0 0 0"
+          rpy="${M_PI} 0 0"/>
+        <geometry>
+          <mesh
+            filename="package://vizzy_description/meshes/base/wheel.dae"/>
+        </geometry>
+        <material name="gray_1"/>
+      </visual>
+      <xacro:vizzy_wheel_link_collision rpy="${M_PI} 0 0"/>
+    </link>
+
+    <joint name="l_wheel_joint"
+      type="continuous">
+      <origin
+        xyz="0.18986 -0.245 0.15814"
+        rpy="${M_PI/2} ${M_PI/2} 0"/>
+      <parent
+        link="base_link"/>
+      <child
+        link="l_wheel_link"/>
+      <axis
+        xyz="0 0 1"/>
+    </joint>
+
+    <xacro:gazebo_vizzy_wheel_link_surface
+      prefix="l"/>
+
+    <!-- Gazebo extensions -->
+    <xacro:base_transmissions/>
 
  </xacro:macro>
 </robot>
