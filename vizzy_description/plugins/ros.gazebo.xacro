@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <root xmlns:xacro="http://ros.org/wiki/xacro">
+  
   <!-- head, torso and arms controllers plugin -->
   <xacro:macro name="ros_control_gazebo">
     <gazebo>
@@ -9,30 +10,31 @@
     </gazebo>
   </xacro:macro>
 
-  <!-- base controller plugin -->
+  <!-- Base controller (differential drive) plugin -->
   <xacro:macro name="ros_differential_drive_gazebo">
     <gazebo>
-      <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
-        <!-- hack -->
-        <leftJoint>r_wheel_joint</leftJoint>
-	<legacyMode>true</legacyMode>
-        <rightJoint>l_wheel_joint</rightJoint>
+      <plugin
+        name="differential_drive_controller"
+        filename="libgazebo_ros_diff_drive.so">
+        <leftJoint>l_wheel_joint</leftJoint>
+        <rightJoint>r_wheel_joint</rightJoint>
         <wheelSeparation>0.4580</wheelSeparation>
-        <wheelDiameter>0.2410</wheelDiameter>
+        <wheelDiameter>0.39628</wheelDiameter>
         <torque>20</torque>
+        <legacyMode>true</legacyMode>
         <updateRate>100</updateRate>
         <commandTopic>vizzy/cmd_vel</commandTopic>
         <odometryTopic>odom</odometryTopic>
         <odometryFrame>odom</odometryFrame>
-        <robotBaseFrame>base_link</robotBaseFrame>
-        <odometrySource>0</odometrySource>
+        <robotBaseFrame>base_footprint</robotBaseFrame>
+
+        <odometrySource>encoder</odometrySource>
         <wheelTorque>10</wheelTorque>
         <wheelAcceleration>0</wheelAcceleration>
-        <publishWheelJointState>true</publishWheelJointState>
-        <publishTF>1</publishTF>
+        <publishTf>1</publishTf>
         <publishWheelTF>true</publishWheelTF>
+        <publishWheelJointState>true</publishWheelJointState>
         <rosDebugLevel>na</rosDebugLevel>
-
       </plugin>
     </gazebo>
   </xacro:macro>
@@ -49,10 +51,10 @@
           <image>
             <width>320</width>
             <height>240</height>
-	    <!--<width>640</width>
-            <height>480</height>-->
-            <!--<width>320</width>
-            <height>240</height>-->
+	          <!--
+            <width>640</width>
+            <height>480</height>
+            -->
             <format>R8G8B8</format>
           </image>
           <clip>
@@ -76,14 +78,16 @@
           <imageTopicName>image_raw</imageTopicName>
           <cameraInfoTopicName>camera_info</cameraInfoTopicName>
           <frameName>${prefix}_camera_link</frameName>
-          <!--<distortion>
-            <k1>-0.4738</k1>
-            <k2>0.190309</k2>
-            <k3>0.0</k3>
-            <p1>-0.000375676</p1>
-            <p2>-0.000663688</p2>
-            <center> 0.4809  0.4887</center>
-          </distortion>-->
+          <!--
+          <distortion>
+          <k1>-0.4738</k1>
+          <k2>0.190309</k2>
+          <k3>0.0</k3>
+          <p1>-0.000375676</p1>
+          <p2>-0.000663688</p2>
+          <center> 0.4809  0.4887</center>
+          </distortion>
+          -->
         </plugin>
       </sensor>
     </gazebo>

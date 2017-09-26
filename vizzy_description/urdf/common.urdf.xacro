@@ -16,26 +16,33 @@
 
   <xacro:property name="SENSOR_BEAM_LENGTH" value="10.75" /> <!-- inches -->
 
-	<!-- Motor transmissions -->
+  <!-- Motor transmissions -->
   <xacro:property name="A2232U024SR_motor_transmission_reduction" value="100" /> <!--small-->
   <xacro:property name="A3242G024CR_motor_transmission_reduction" value="100" /> <!--medium-->
   <xacro:property name="A3257G024CR_motor_transmission_reduction" value="371" /> <!-- large -->
   <xacro:property name="A3863H024C_motor_transmission_reduction" value="700" /> <!-- huge -->
 
-	<!-- Motor max efforts (N.m)-->
+  <!-- Motor max efforts (N.m) -->
   <xacro:property name="A2232U024SR_motor_max_effort" value="2.8" /> 
   <xacro:property name="A3242G024CR_motor_max_effort" value="11.3" /> 
   <xacro:property name="A3257G024CR_motor_max_effort" value="105.6" /> 
   <xacro:property name="A3863H024C_motor_max_effort" value="525" /> 
 
-	<!-- Motor max velocities degrees per second-->
+  <!-- Motor max velocities degrees per second -->
   <xacro:property name="A2232U024SR_motor_max_velocitiy" value="426" /> 
   <xacro:property name="A3242G024CR_motor_max_velocitiy" value="300" /> 
   <xacro:property name="A3257G024CR_motor_max_velocitiy" value="300" /> 
   <xacro:property name="A3863H024C_motor_max_velocitiy" value="34" /> 
 
+  <!-- Inertia calculation macros -->
+  <xacro:macro name="cylinder_inertia" params="m r h">
+    <inertia
+      ixx="${m*(3*r*r+h*h)/12}" ixy = "0" ixz = "0"
+      iyy="${m*(3*r*r+h*h)/12}" iyz = "0"
+      izz="${m*r*r/2}"/> 
+  </xacro:macro>
 
-  <!-- colors -->
+  <!-- Colors -->
   <material name="light_grey">
     <color rgba="0.7 0.7 0.7 1" />
   </material>
@@ -49,7 +56,24 @@
     <color rgba="0.02 0.02 0.02 1" />
   </material>
   <material name="orange">
-    <color rgba="${255/255} ${108/255} ${10/255} 1.0"/>
+    <color rgba="${255/255} ${108/255} ${10/255} 1"/>
   </material>
-</root>
 
+  <!-- #E5EAED: Light gray 1-->
+  <material name="light_gray_1">
+    <color rgba="${229/255} ${234/255} ${237/255} 1"/>
+  </material>
+  <!-- #DDDDE3: Light gray 2 -->
+  <material name="ligh_gray_2">
+    <color rgba="${221/255} ${221/255} ${227/255} 1"/>
+  </material>
+  <!-- #CBD2EF: Light gray 3 -->
+  <material name="light_gray_3">
+    <color rgba="${203/255} ${210/255} ${239/255} 1"/>
+  </material>
+  <!-- #7E7E7E: Gray 1 -->
+  <material name="gray_1">
+    <color rgba="${126/255} ${126/255} ${126/255} 1"/>
+  </material>
+
+</root>
