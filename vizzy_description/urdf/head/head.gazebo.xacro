@@ -1,24 +1,170 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://ros.org/wiki/xacro">
-  <xacro:macro name="head_gazebo">
+<robot xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
+       xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
+       xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
+       xmlns:xacro="http://ros.org/wiki/xacro">
+  
+  <!-- Load full inertial and collision model or a simplified model -->
+  <xacro:arg name="use_full_gazebo_model" default="false"/>
 
-    <gazebo reference="neck_pan_link">
-
-    </gazebo>
-
-    <gazebo reference="neck_tilt_link">
-
-    </gazebo>
-
-    <gazebo reference="eyes_tilt_link">
-
-    </gazebo>
-
-    <gazebo reference="r_eye_version_link">
-    </gazebo>
-
-    <gazebo reference="l_eye_version_link">
-    </gazebo>
- 
+  <!-- Neck pan -->
+  <xacro:macro name="vizzy_neck_pan_link_inertial">
+    <inertial>
+      <origin
+        xyz="0.0 0.0 -0.327"
+        rpy="0.0 0.0 ${-M_PI/2}"/>
+      <mass
+        value="0.223143594366725"/>
+      <inertia
+        ixx="0.000359045077001746"
+        ixy="3.18553746848725E-08"
+        ixz="-1.33740307483815E-05"
+        iyy="0.000368715218013968"
+        iyz="-4.52681716726929E-07"
+        izz="8.59048961267353E-05"/>
+    </inertial>
   </xacro:macro>
+
+  <xacro:macro name="vizzy_neck_pan_link_collision">
+    <collision>
+      <xacro:if value="$(arg use_full_gazebo_model)">
+        <origin
+          xyz="0 0 -0.327"
+          rpy="0 0 ${-M_PI/2}"/>
+        <geometry>
+          <mesh
+            filename="package://vizzy_description/meshes/head/neck_pan.dae"/>
+        </geometry>
+      </xacro:if>
+      <xacro:unless value="$(arg use_full_gazebo_model)">
+        <origin
+          xyz="0 0 -0.37"
+          rpy="${-M_PI/2} 0 0"/>
+        <geometry>
+          <cylinder length="0.07" radius="0.02"/>
+        </geometry>
+      </xacro:unless>
+    </collision>
+  </xacro:macro>
+
+  <!-- Neck tilt -->
+  <xacro:macro name="vizzy_neck_tilt_link_inertial">
+    <inertial>
+      <origin
+        xyz="-0.027 -0.027 0.0"
+        rpy="${M_PI} ${M_PI} 0.0"/>
+      <mass
+        value="0.298440723794245"/>
+      <inertia
+        ixx="0.000294229505972848"
+        ixy="0.000128560854269813"
+        ixz="-4.90947453912942E-05"
+        iyy="0.000820635051594153"
+        iyz="-2.69741258639831E-05"
+        izz="0.000854308458364833"/>
+    </inertial>
+  </xacro:macro>
+
+  <xacro:macro name="vizzy_neck_tilt_link_collision">
+    <collision>
+      <xacro:if value="$(arg use_full_gazebo_model)">
+        <origin
+          xyz="-0.027 -0.027 0"
+          rpy="${M_PI} ${M_PI} 0"/>
+        <geometry>
+          <mesh
+            filename="package://vizzy_description/meshes/head/neck_tilt.dae"/>
+        </geometry>
+      </xacro:if>
+      <xacro:unless value="$(arg use_full_gazebo_model)">
+        <origin
+          xyz="-0.04 -0.05 0"
+          rpy="0 0 0"/>
+        <geometry>
+          <box size="0.1 0.03 0.05"/>
+        </geometry>
+      </xacro:unless>
+    </collision>
+  </xacro:macro>
+
+  <!-- Eyes tilt -->
+  <xacro:macro name="vizzy_eyes_tilt_link_inertial">
+    <inertial>
+      <origin
+        xyz="-0.007 -0.002 -0.002"
+        rpy="0 0 -1.2012"/>
+      <mass
+        value="0.229222715932625"/>
+      <inertia
+        ixx="0.00135649319186769"
+        ixy="-9.97604007968145E-07"
+        ixz="-4.83114556833996E-07"
+        iyy="0.0012860948285637"
+        iyz="-2.16886651449361E-06"
+        izz="0.000132176408116226"/>
+    </inertial>
+  </xacro:macro>
+
+  <xacro:macro name="vizzy_eyes_tilt_link_collision">
+    <collision>
+      <xacro:if value="$(arg use_full_gazebo_model)">
+        <origin
+          xyz="-0.007 -0.002 -0.002"
+          rpy="0 0 -1.2012"/>
+        <geometry>
+          <mesh
+            filename="package://vizzy_description/meshes/head/eyes_tilt.dae"/>
+        </geometry>
+      </xacro:if>
+      <xacro:unless value="$(arg use_full_gazebo_model)">
+        <origin
+          xyz="-0.007 -0.002 -0.002"
+          rpy="0 0 -1.2012"/>
+        <geometry>
+          <cylinder length="0.07" radius="0.02"/>
+        </geometry>
+      </xacro:unless>
+    </collision>
+  </xacro:macro>
+
+  <!-- Eyes -->
+  <xacro:macro name="vizzy_eye_link_inertial">
+    <inertial>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 ${M_PI/2}"/>
+      <mass
+        value="0.158520637460366"/>
+      <inertia
+        ixx="0.000147614970454271"
+        ixy="-1.56210652664748E-09"
+        ixz="8.85544640354075E-10"
+        iyy="0.000177840459249179"
+        iyz="8.21234366300574E-06"
+        izz="0.000144884726537935"/>
+      </inertial>
+  </xacro:macro>
+
+  <xacro:macro name="vizzy_eye_link_collision">
+    <collision>
+      <xacro:if value="$(arg use_full_gazebo_model)">
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 ${M_PI/2}"/>
+        <geometry>
+          <mesh
+            filename="package://vizzy_description/meshes/head/eye.dae"/>
+        </geometry>
+      </xacro:if>
+      <xacro:unless value="$(arg use_full_gazebo_model)">
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 ${M_PI/2}"/>
+        <geometry>
+          <sphere radius="0.055"/>
+        </geometry>
+      </xacro:unless>
+    </collision>
+  </xacro:macro>
+
 </robot>
