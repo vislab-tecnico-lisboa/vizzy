@@ -32,10 +32,10 @@
 
   <!-- instantiate base -->
   <xacro:base name="base"/>
-  <!-- instantiate torso -->
-  <xacro:torso name="torso"/>
-  <!-- instantiate head -->
-  <xacro:head name="head"/>
+  <!-- Instantiate the torso -->
+  <xacro:torso name="torso" parent="base_link"/>
+  <!-- Instantiate head -->
+  <xacro:head name="head" parent="waist_link"/>
 
   <!-- instantiate left arm -->
   <xacro:left_arm name="left_arm" parent="waist_link" sufix="l" reflect="1">
