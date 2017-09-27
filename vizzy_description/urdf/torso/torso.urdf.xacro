@@ -6,94 +6,105 @@
 
   <!-- Things that are needed only for Gazebo (not the physical robot).  These include
        sensor and controller plugin specifications -->
- <xacro:include filename="$(find vizzy_description)/urdf/torso/torso.gazebo.xacro" />
- <xacro:include filename="$(find vizzy_description)/urdf/torso/torso.transmission.xacro" />
+  <xacro:include filename="$(find vizzy_description)/urdf/torso/torso.gazebo.xacro" />
+  <xacro:include filename="$(find vizzy_description)/urdf/torso/torso.transmission.xacro" />
 
- <xacro:macro name="torso" params="name">
-  <link
-    name="waist_link">
-    <inertial>
+  <xacro:macro name="torso" params="name parent">
+    <link name="waist_link">
+      <inertial>
+        <origin
+          xyz="0.0 0.113 0.0"
+          rpy="0.0 3.14159265358979 0.0" />
+        <mass
+          value="1.52801214308198" />
+        <inertia
+          ixx="0.0152197122703999"
+          ixy="-0.000217387828540953"
+          ixz="-2.16469131237159E-06"
+          iyy="0.00325229915840824"
+          iyz="0.000261589513226157"
+          izz="0.0128988018329273" />
+      </inertial>
+      <visual>
+        <origin
+          xyz="0.0 0.113 0.0"
+          rpy="0.0 ${M_PI} 0.0" />
+        <geometry>
+          <mesh
+            filename="package://vizzy_description/meshes/torso/waist_link.dae" />
+        </geometry>
+        <material name="light_gray_1"/>
+      </visual>
+      <collision>
+        <xacro:if value="$(arg use_full_gazebo_model)">
+          <origin
+            xyz="0. 0.113 0."
+            rpy="0.0 ${M_PI} 0.0" />
+          <geometry>
+            <mesh
+              filename="package://vizzy_description/meshes/torso/waist_link.dae" />
+          </geometry>
+        </xacro:if>
+        <xacro:unless value="$(arg use_full_gazebo_model)">
+           <origin
+            xyz="0 0.15 0"
+            rpy="0.0 ${M_PI} 0.0" />
+          <geometry>
+            <box size="0.06 0.355 0.08" />
+          </geometry>
+        </xacro:unless>
+      </collision>
+    </link>
+
+    <joint name="waist_joint"
+      type="revolute">
       <origin
-        xyz="0.0 0.113 0.0"
-        rpy="0.0 3.14159265358979 0.0" />
-      <mass
-        value="1.52801214308198" />
-      <inertia
-        ixx="0.0152197122703999"
-        ixy="-0.000217387828540953"
-        ixz="-2.16469131237159E-06"
-        iyy="0.00325229915840824"
-        iyz="0.000261589513226157"
-        izz="0.0128988018329273" />
-    </inertial>
-    <visual>
+        xyz="0.1934543 0.0 0.54067"
+        rpy="${M_PI/2} 0.0 0.0" />
+      <parent
+        link="${parent}" />
+      <child
+        link="waist_link" />
+      <axis
+        xyz="0 0 1" />
+      <limit
+        lower="-0.34906585"
+        upper="0.34906585"
+        effort="${A3863H024C_motor_max_effort}"
+        velocity="${A3863H024C_motor_max_velocitiy*DEG_TO_RAD}" />
+    </joint>
+
+    <link name="waist_fixed_virtual_link">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0.0 0.0 0" />
+        <mass value="0.001"/> 
+        <inertia  
+          ixx="0.001" ixy="0.0" ixz="0.0" 
+          iyy="0.001" iyz="0.0" izz="0.001"/>         
+      </inertial>
+    </link>
+
+    <joint name="waist_virtual_joint"
+      type="fixed">
       <origin
-        xyz="0.0 0.113 0.0"
-        rpy="0.0 3.14159265358979 0.0" />
-      <geometry>
-        <mesh
-          filename="package://vizzy_description/meshes/M0.dae" />
-      </geometry>
-      <material
-        name="">
-        <color
-          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin
-        xyz="0. 0.113 0."
-        rpy="0.0 3.14159265358979 0.0" />
-      <geometry>
-        <mesh
-          filename="package://vizzy_description/meshes/M0.dae" />
-      </geometry>
-    </collision>
-  </link>
-  <joint
-    name="waist_joint"
-    type="revolute">
-    <origin
-      xyz="0.1934543 0.0 0.54067"
-      rpy="1.5708 0.0 0.0" />
-    <parent
-      link="base_link" />
-    <child
-      link="waist_link" />
-    <axis
-      xyz="0 0 1" />
-    <limit lower="-0.34906585" upper="0.34906585" effort="${A3863H024C_motor_max_effort}" velocity="${A3863H024C_motor_max_velocitiy*DEG_TO_RAD}" />
-  </joint>
+        xyz="0.1934543 0.0 0.54067"
+        rpy="0.0 0.0 0.0" />
+      <parent
+        link="base_link" />
+      <child
+        link="waist_fixed_virtual_link" />
+      <axis
+        xyz="0 0 1" />
+      <limit
+        lower="-0.34906585"
+        upper="0.34906585"
+        effort="${A3863H024C_motor_max_effort}"
+        velocity="${A3863H024C_motor_max_velocitiy*DEG_TO_RAD}" />
+    </joint>
 
-  <link name="waist_fixed_virtual_link">
-    <inertial>
-      <origin xyz="0 0 0" rpy="0.0 0.0 0" />
-      <mass value="0.001"/> 
-      <inertia  
-        ixx="0.001" ixy="0.0" ixz="0.0" 
-        iyy="0.001" iyz="0.0" izz="0.001"/> 				
-    </inertial>
-  </link>
+    <!-- Gazebo extensions -->
+    <xacro:torso_gazebo/>
+    <xacro:torso_transmissions/>
 
-  <joint
-    name="waist_virtual_joint"
-    type="fixed">
-    <origin
-      xyz="0.1934543 0.0 0.54067"
-      rpy="0.0 0.0 0.0" />
-    <parent
-      link="base_link" />
-    <child
-      link="waist_fixed_virtual_link" />
-    <axis
-      xyz="0 0 1" />
-    <limit lower="-0.34906585" upper="0.34906585" effort="${A3863H024C_motor_max_effort}" velocity="${A3863H024C_motor_max_velocitiy*DEG_TO_RAD}" />
-  </joint>
-
-
-  <!-- gazebo extensions -->
-  <xacro:torso_gazebo/>
-  <xacro:torso_transmissions/>
-
- </xacro:macro>
+  </xacro:macro>
 </robot>
