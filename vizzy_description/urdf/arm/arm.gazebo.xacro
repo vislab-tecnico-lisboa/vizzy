@@ -1,0 +1,366 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- Load full inertial and collision model or a simplified model -->
+  <xacro:arg name="use_full_gazebo_model" default="false"/>
+
+  <!-- Shoulder scapula -->
+  <xacro:macro name="vizzy_shoulder_scapula_link_inertial"
+    params="reflect rpy">
+    <inertial>
+      <origin
+        xyz="0 0 ${reflect*0.16}"
+        rpy="${rpy}"/>
+      <mass
+        value="0.328838093974495"/>
+      <inertia
+        ixx="0.00123108428695023"
+        ixy="-7.89159441144304E-11"
+        ixz="6.34904994947113E-10"
+        iyy="0.000919898935947314"
+        iyz="7.50425183645029E-05"
+        izz="0.000480033534091429"/>
+    </inertial>
+  </xacro:macro>
+
+  <xacro:macro name="vizzy_shoulder_scapula_link_collision"
+    params="reflect rpy prefix">
+    <collision>
+      <xacro:if value="$(arg use_full_gazebo_model)">
+        <origin
+          xyz="0 0 ${reflect*0.16}"
+          rpy="${rpy}"/>
+        <geometry>
+          <mesh
+            filename="package://vizzy_description/meshes/arm/${prefix}_shoulder_scapula.dae"/>
+        </geometry>
+      </xacro:if>
+      <xacro:unless value="$(arg use_full_gazebo_model)">
+        <origin
+          xyz="0 0 ${reflect*0.1}"
+          rpy="${rpy}"/>
+        <geometry>
+          <cylinder length="0.11" radius="0.027"/>
+        </geometry>
+      </xacro:unless>
+    </collision>
+  </xacro:macro>
+
+  <!-- Shoulder flection -->
+  <xacro:macro name="vizzy_shoulder_flection_link_inertial"
+    params="reflect rpy">
+    <inertial>
+      <origin
+        xyz="0 0 ${reflect*0.0479999999999997}"
+        rpy="${rpy}" />
+      <mass
+        value="0.32970750458976" />
+      <inertia
+        ixx="0.00116793345082586"
+        ixy="-0.000134890089770505"
+        ixz="3.78931445548874E-05"
+        iyy="0.00101232051019094"
+        iyz="-6.56607928268466E-05"
+        izz="0.000480378760663095" />
+    </inertial>
+  </xacro:macro>
+
+  <xacro:macro name="vizzy_shoulder_flection_link_collision"
+    params="reflect rpy prefix">
+    <collision>
+      <xacro:if value="$(arg use_full_gazebo_model)">
+        <origin
+          xyz="0 0 ${reflect*0.0479999999999997}"
+          rpy="${rpy}"/>
+        <geometry>
+          <mesh
+            filename="package://vizzy_description/meshes/arm/${prefix}_shoulder_flection.dae"/>
+        </geometry>
+      </xacro:if>
+      <xacro:unless value="$(arg use_full_gazebo_model)">
+        <origin
+          xyz="0 0 ${reflect*0.02}"
+          rpy="${rpy}"/>
+        <geometry>
+          <cylinder length="0.1" radius="0.025"/>
+        </geometry>
+      </xacro:unless>
+    </collision>
+  </xacro:macro>
+
+  <!-- Shoulder abduction -->
+  <xacro:macro name="vizzy_shoulder_abduction_link_inertial"
+    params="reflect rpy">
+    <inertial>
+      <origin
+        xyz="${reflect*0.034} ${reflect*0.009} -0.001"
+        rpy="${rpy}"/>
+      <mass
+        value="0.337952134649786"/>
+      <inertia
+        ixx="0.000722844158320218"
+        ixy="-4.62401500200836E-05"
+        ixz="-1.45396813798355E-06"
+        iyy="0.000316566986726189"
+        iyz="1.40155770580819E-05"
+        izz="0.00057775987279214"/>
+    </inertial>
+  </xacro:macro>
+
+  <xacro:macro name="vizzy_shoulder_abduction_link_collision"
+    params="reflect rpy prefix">
+    <collision>
+      <xacro:if value="$(arg use_full_gazebo_model)">
+        <origin
+          xyz="${reflect*0.034} ${reflect*0.009} -0.001"
+          rpy="${rpy}"/>
+        <geometry>
+          <mesh
+            filename="package://vizzy_description/meshes/arm/${prefix}_shoulder_abduction.dae"/>
+        </geometry>
+      </xacro:if>
+      <xacro:unless value="$(arg use_full_gazebo_model)">
+        <origin
+          xyz="0 0 0"
+          rpy="${rpy}"/>
+        <geometry>
+          <cylinder length="0.11" radius="0.028"/>
+        </geometry>
+      </xacro:unless>
+    </collision>
+  </xacro:macro>
+
+  <!-- Shoulder rotation -->
+  <xacro:macro name="vizzy_shoulder_rotation_link_inertial"
+    params="reflect rpy">
+    <inertial>
+      <origin
+        xyz="${-reflect*0.003} ${reflect*0.006} ${reflect*0.127}"
+        rpy="${rpy}"/>
+      <mass
+        value="0.302328099651438"/>
+      <inertia
+        ixx="0.00061524641225989"
+        ixy="4.12484077822449E-06"
+        ixz="6.13276820445825E-05"
+        iyy="0.000574848729857274"
+        iyz="-2.49114687077784E-05"
+        izz="0.000240227009768201"/>
+    </inertial>
+  </xacro:macro>
+
+  <xacro:macro name="vizzy_shoulder_rotation_link_collision"
+    params="reflect rpy prefix">
+    <collision>
+      <xacro:if value="$(arg use_full_gazebo_model)">
+        <origin
+          xyz="${-reflect*0.003} ${reflect*0.006} ${reflect*0.127}"
+          rpy="${rpy}"/>
+        <geometry>
+          <mesh
+            filename="package://vizzy_description/meshes/arm/${prefix}_shoulder_rotation.dae"/>
+        </geometry>
+      </xacro:if>
+      <xacro:unless value="$(arg use_full_gazebo_model)">
+        <origin
+          xyz="0 0 ${reflect*.08}"
+          rpy="${rpy}"/>
+        <geometry>
+          <cylinder length="0.09" radius="0.028"/>
+        </geometry>
+      </xacro:unless>
+    </collision>
+  </xacro:macro>
+
+  <!-- Elbow flection -->
+  <xacro:macro name="vizzy_elbow_flection_link_inertial"
+    params="reflect rpy">
+    <inertial>
+      <origin
+        xyz="${-reflect*0.002} ${reflect*0.035} 0"
+        rpy="${rpy}"/>
+      <mass
+        value="0.302328099651438"/>
+      <inertia
+        ixx="0.00061524641225989"
+        ixy="4.12484077822449E-06"
+        ixz="6.13276820445825E-05"
+        iyy="0.000574848729857274"
+        iyz="-2.49114687077784E-05"
+        izz="0.000240227009768201"/>
+    </inertial>
+  </xacro:macro>
+
+  <xacro:macro name="vizzy_elbow_flection_link_collision"
+    params="reflect rpy prefix">
+    <collision>
+      <xacro:if value="$(arg use_full_gazebo_model)">
+        <origin
+          xyz="${-reflect*0.002} ${reflect*0.035} 0"
+          rpy="${rpy}"/>
+        <geometry>
+          <mesh
+            filename="package://vizzy_description/meshes/arm/${prefix}_elbow_flection.dae"/>
+        </geometry>
+      </xacro:if>
+      <xacro:unless value="$(arg use_full_gazebo_model)">
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0"/>
+        <geometry>
+          <cylinder length="0.07" radius="0.025"/>
+        </geometry>
+      </xacro:unless>
+    </collision>
+  </xacro:macro>
+
+  <!-- Forearm pronation -->
+  <xacro:macro name="vizzy_forearm_pronation_link_inertial"
+    params="reflect rpy">
+    <inertial>
+      <origin
+        xyz="0 ${-reflect*0.007} ${-reflect*0.11}"
+        rpy="${rpy}"/>
+      <mass
+        value="0.192525480880953"/>
+      <inertia
+        ixx="0.000215803121531384"
+        ixy="6.01824209118801E-08"
+        ixz="-9.78525879865635E-06"
+        iyy="0.000229047941469006"
+        iyz="-3.21836442544262E-07"
+        izz="0.000102658857339667"/>
+    </inertial>
+  </xacro:macro>
+
+  <xacro:macro name="vizzy_forearm_pronation_link_collision"
+    params="reflect rpy prefix">
+    <collision>
+      <xacro:if value="$(arg use_full_gazebo_model)">
+        <origin
+          xyz="0 ${-reflect*0.007} ${-reflect*0.11}"
+          rpy="${rpy}"/>
+        <geometry>
+          <mesh
+            filename="package://vizzy_description/meshes/arm/${prefix}_forearm_pronation.dae"/>
+        </geometry>
+      </xacro:if>
+      <xacro:unless value="$(arg use_full_gazebo_model)">
+        <origin
+          xyz="0 0 ${-reflect*0.09}"
+          rpy="0 0 0"/>
+        <geometry>
+          <cylinder length="0.1" radius="0.025"/>
+        </geometry>
+      </xacro:unless>
+    </collision>
+  </xacro:macro>
+
+  <!-- Wrist Abduction -->
+  <xacro:macro name="vizzy_wrist_abduction_link_inertial"
+    params="reflect rpy">
+    <inertial>
+      <origin
+        xyz="${reflect*0.0047} ${reflect*0.028} -0.003"
+        rpy="${rpy}"/>
+      <mass
+        value="0.151302636921624"/>
+      <inertia
+        ixx="0.000116373512947626"
+        ixy="1.31009871908069E-05"
+        ixz="6.69703789973942E-05"
+        iyy="0.00020031628400595"
+        iyz="1.00268924727662E-05"
+        izz="0.000162164313365602"/>
+    </inertial>
+  </xacro:macro>
+
+  <xacro:macro name="vizzy_wrist_abduction_link_collision"
+    params="reflect rpy prefix">
+    <collision>
+      <xacro:if value="$(arg use_full_gazebo_model)">
+        <origin
+          xyz="${reflect*0.0047} ${reflect*0.028} -0.003"
+          rpy="${rpy}"/>
+        <geometry>
+          <mesh
+            filename="package://vizzy_description/meshes/arm/${prefix}_wrist_abduction.dae"/>
+        </geometry>
+      </xacro:if>
+      <xacro:unless value="$(arg use_full_gazebo_model)">
+        <origin
+          xyz="0 0 0"
+          rpy="${M_PI} ${M_PI/2} 0"/>
+        <geometry>
+          <cylinder length="0.06" radius="0.025"/>
+        </geometry>
+      </xacro:unless>
+    </collision>
+  </xacro:macro>
+  
+  <!-- Wrist Flection -->
+  <xacro:macro name="vizzy_wrist_flection_link_inertial"
+    params="reflect rpy">
+    <inertial>
+      <origin
+        xyz="${reflect*0.106} ${reflect*0.0077} ${reflect*0.017}"
+        rpy="${rpy}"/>
+      <mass
+        value="0.263177712190575"/>
+      <inertia
+        ixx="0.00141536691437145"
+        ixy="-5.47006881402205E-06"
+        ixz="4.93141952833896E-05"
+        iyy="0.000423837541639676"
+        iyz="0.000132116163317958"
+        izz="0.0010337584021873"/>
+    </inertial>
+  </xacro:macro>
+
+  <xacro:macro name="vizzy_wrist_flection_link_collision"
+    params="reflect rpy prefix">
+    <collision>
+      <xacro:if value="$(arg use_full_gazebo_model)">
+        <origin
+          xyz="${reflect*0.106} ${reflect*0.0077} ${reflect*0.017}"
+          rpy="${rpy}"/>
+        <geometry>
+          <mesh
+            filename="package://vizzy_description/meshes/arm/${prefix}_wrist_flection.dae"/>
+        </geometry>
+      </xacro:if>
+      <xacro:unless value="$(arg use_full_gazebo_model)">
+        <origin
+          xyz="${reflect*0.106} ${reflect*0.0077} 0"
+          rpy="0 0 0"/>
+        <geometry>
+          <box size="0.11 0.015 0.1"/>
+        </geometry>
+      </xacro:unless>
+    </collision>
+  </xacro:macro>
+
+  <!-- Palm -->
+  <xacro:macro name="vizzy_palm_link_inertial">
+    <inertial>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <mass value="0.1"/>
+      <inertia
+        ixx="1.0" ixy="0.0" ixz="0.0"
+        iyy="1.0" iyz="0.0"
+        izz="1.0" />
+    </inertial>
+  </xacro:macro>
+
+  <xacro:macro name="vizzy_palm_link_collision">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <cylinder length="0.001" radius="0.001" />
+      </geometry>
+    </collision>
+  </xacro:macro>
+
+</robot>
