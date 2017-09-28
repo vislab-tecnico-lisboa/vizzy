@@ -1,13 +1,24 @@
 <?xml version="1.0"?>
 <launch>
-<arg name="use_yarp" default="false"/>
+
   <arg name="robot" default="vizzy"/>
-  <arg name="pose" default="-x 0 -y 3.0 -z 0.85 -R 0.0 -P 0.0 -Y 0.0"/>
-  <arg name="urdf_file" default="vizzy_head_only.urdf.xacro"/>
+  <arg name="pose" default="-x 0.0 -y 0.0 -z 0.0 -R 0.0 -P 0.0 -Y 0.0"/>
+  <arg name="urdf_file" default="vizzy.urdf.xacro"/>
+  <arg name="use_yarp" default="false"/>
+  <arg name="use_full_gazebo_model" default="false"/>
+
+  <arg name="disable_laser" default="false"/>
+  <arg name="disable_3d_sensor" default="false"/>
+
   <!-- Load the URDF into the ROS Parameter Server -->
-  <param name="robot_description" command="$(find xacro)/xacro.py $(find vizzy_description)/robots/$(arg urdf_file) use_yarp:=$(arg use_yarp)" />
+  <param name="robot_description" command="$(find xacro)/xacro --inorder $(find vizzy_description)/robots/$(arg urdf_file)
+    use_yarp:=$(arg use_yarp)
+    use_full_gazebo_model:=$(arg use_full_gazebo_model)
+    disable_laser:=$(arg disable_laser)
+    disable_3d_sensor:=$(arg disable_3d_sensor)"/>
 
   <!-- Spawn robot in Gazebo -->
-  <node pkg="gazebo_ros" type="spawn_model" name="spawn_model" args="-urdf -param robot_description $(arg pose) -model $(arg robot)" />
+  <node pkg="gazebo_ros" type="spawn_model" name="spawn_model"
+    args="-urdf -param robot_description $(arg pose) -model $(arg robot)"/>
 
 </launch>

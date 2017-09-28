@@ -1,52 +1,73 @@
 <?xml version="1.0"?>
 <launch>
-  <!-- these are the arguments you can pass this launch file, for example paused:=true -->
-  <arg name="use_yarp" default="false"/>
-  <arg name="robot" default="vizzy"/> <!-- full, lower_body, foot -->
-  <arg name="pose" default="-x 0.0 -y 0.0 -z 0.2 -R 0.0 -P 0.0 -Y 1.57"/>
 
+  <!-- Parameters -->
+
+  <!-- Robot name -->
+  <arg name="robot" default="vizzy"/>
+  <!-- Robot pose relative to the map -->
+  <arg name="pose" default="-x 0.0 -y -0.0 -z 0.0 -R 0.0 -P 0.0 -Y 0.0"/>
+  <!-- Robot semantic description file -->
+  <arg name="urdf_file" default="vizzy.urdf.xacro"/>
+
+  <!-- Load Yarp plugins for real robot execution -->
+  <arg name="use_yarp" default="false"/>
+
+  <!-- Gazebo parameters -->
+  <arg name="gui" default="true"/>
   <arg name="paused" default="false"/>
   <arg name="use_sim_time" default="true"/>
-  <arg name="gui" default="true"/>
-  <!-- <arg name="world" default="isr_7th_floor.world" /> -->
-  <arg name="world" default="isr_7th_floor.world" />
-  <arg name="urdf_file" default="vizzy.urdf.xacro"/>
+  <!-- Load full inertial and collision model or a simplified model -->
+  <arg name="use_full_gazebo_model" default="false"/>
+
+  <!-- Map -->
+  <arg name="world" default="empty.world"/>
+  <arg name="map_frame" default="map"/>
+
+  <!-- Disable robot parts -->
+  <arg name="disable_laser" default="false"/>
+  <arg name="disable_3d_sensor" default="false"/>
+
+  <!-- Environment variables -->
   <env name="GAZEBO_MODEL_PATH" value="$(find vizzy_gazebo):$(optenv GAZEBO_MODEL_PATH)"/>
   <env name="LC_NUMERIC" value="C"/>
 
-  <!-- start up world -->
+  <!-- Launch world -->
   <include file="$(find vizzy_gazebo)/launch/vizzy_sim_world.launch">
-  	<arg name="use_sim_time" value="$(arg use_sim_time)" />
-  	<arg name="gui" value="$(arg gui)" />
-  	<arg name="world" value="$(arg world)" />
+    <arg name="gui" value="$(arg gui)"/>
+    <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+    <arg name="world" value="$(arg world)"/>
   </include>
 
-  <!-- spawn the robot in simulation -->
+  <!-- Spawn the robot in simulation -->
   <include file="$(find vizzy_gazebo)/launch/vizzy_spawn.launch">
-  	<arg name="use_yarp" value="$(arg use_yarp)"/>
-  	<arg name="pose" value="$(arg pose)"/>
-  	<arg name="robot" value="$(arg robot)"/>
-  	<arg name="urdf_file" value="$(arg urdf_file)" />
+    <arg name="pose" value="$(arg pose)"/>
+    <arg name="robot" value="$(arg robot)"/>
+    <arg name="urdf_file" value="$(arg urdf_file)"/>
+    <arg name="use_full_gazebo_model" value="$(arg use_full_gazebo_model)"/>
+    <arg name="disable_laser" value="$(arg disable_laser)"/>
+    <arg name="disable_3d_sensor" value="$(arg disable_3d_sensor)"/>
   </include>
 
-  <!-- bringup robot and controllers -->
+  <!-- Bringup controllers -->
   <include file="$(find vizzy_control)/launch/vizzy_control.launch">
-    <arg name="use_yarp" value="$(arg use_yarp)"/>
+     <arg name="use_yarp" value="$(arg use_yarp)"/>
   </include>
 
-  <!-- camera driver nodelet -->
-  <node ns="vizzy" pkg="nodelet" type="nodelet" name="cameras_nodelet_manager" args="manager" respawn="true" output="screen"/>
+  <!-- Camera driver nodelet -->
+  <node ns="vizzy" pkg="nodelet" type="nodelet" name="cameras_nodelet_manager"
+    args="manager" respawn="true" output="screen"/>
 
-  <!-- start up left camera rectification and debayering -->
+  <!-- Start up left camera rectification and debayering -->
   <include ns="vizzy" file="$(find vizzy_gazebo)/launch/camera.launch">
-  	<arg name="camera" value="l_camera" />
-  	<arg name="manager" value="cameras_nodelet_manager" />
+    <arg name="camera" value="l_camera"/>
+    <arg name="manager" value="cameras_nodelet_manager"/>
   </include>
 
-
-  <!-- start up right camera rectification and debayering -->
+  <!-- Start up right camera rectification and debayering -->
   <include ns="vizzy" file="$(find vizzy_gazebo)/launch/camera.launch">
-  	<arg name="camera" value="r_camera" />
-  	<arg name="manager" value="cameras_nodelet_manager" />
+    <arg name="camera" value="r_camera"/>
+    <arg name="manager" value="cameras_nodelet_manager"/>
   </include>
+
 </launch>
