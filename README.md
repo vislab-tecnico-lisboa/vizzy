@@ -23,13 +23,14 @@ The real robot uses two different middlewares for distinct body parts (YARP for 
 Note that for simulation purposes one can ignore all YARP dependencies as explained on the repository description.
 
 * Operating System (one of the two)
-  * [Ubuntu 12.04](http://releases.ubuntu.com/precise/) - Deprecated !!! forces the user to install ROS Hydro that currently is able to run everything
-  * [Ubuntu 14.04](http://releases.ubuntu.com/trusty/) - forces the user to install [ROS Indigo](http://wiki.ros.org/indigo/Installation/Ubuntu) that is the fully functional and currently supported version
+  * [Ubuntu 12.04](http://releases.ubuntu.com/12.04/) - Deprecated !!! forces the user to install ROS Hydro that currently is able to run everything
+  * [Ubuntu 14.04](http://releases.ubuntu.com/14.04/) - forces the user to install [ROS Indigo](http://wiki.ros.org/indigo/Installation/Ubuntu) that is the fully functional and currently supported version
+  * [Ubuntu 16.04](http://releases.ubuntu.com/16.04/) - We are currently in the process of migrating to Ubuntu 16.04 and ROS Kinetic-Kame
 * Middleware
-  * [ROS](http://www.ros.org/) - depending on the installed OS (Hydro for Ubuntu 12.04 or Indigo for Ubuntu 14.04)
+  * [ROS](http://www.ros.org/) - depending on the installed OS (Hydro for Ubuntu 12.04, Indigo for Ubuntu 14.04 or Kinetic for 16.04)
   * [YARP](http://wiki.icub.org/yarpdoc/) - we try to keep everything working with the most recent version of YARP
 * Other Dependencies
-  * [GAZEBO](http://gazebosim.org/) - It needs GAZEBO 5 to run the gazebo-yarp-plugins
+  * [GAZEBO](http://gazebosim.org/) - It needs GAZEBO 5 to run the gazebo-yarp-plugins. Currently tested in Gazebo 7.
   * [gazebo-yarp-plugins](https://github.com/robotology/gazebo-yarp-plugins) - we try to keep everything working with the most recent version of gazebo-yarp-plugins
 
 At any time you might need to install some more specific dependencies (like some missing ROS packages). Please open an issue in case you can't solve these or other dependencies.
@@ -68,30 +69,35 @@ Save the file and run:
     source ~/.bashrc
 
 Install the nav2d package
-
-    sudo apt-get install ros-indigo-nav2d
+  
+    version=kinetic &&
+    sudo apt-get install ros-$version-nav2d
 
 If you want to run the follower module, download a changed version of the nav2d and place it in your catkin workspace folder
 
     git clone https://github.com/joao-avelino/navigation_2d.git
 
+We are currently migrating the eband planner to teb planner.
 
-Other dependencies needed
-
-    sudo apt-get install ros-indigo-gazebo-*
-    sudo apt-get install ros-indigo-moveit-*
-    sudo apt-get install ros-indigo-move-base
-    sudo apt-get install ros-indigo-amcl
-    sudo apt-get install ros-indigo-joy
-    sudo apt-get install ros-indigo-map-server
-    sudo apt-get install ros-indigo-joint-state-controller
-    sudo apt-get install ros-indigo-velocity-controllers
-    sudo apt-get install ros-indigo-position-controllers
-    sudo apt-get install ros-indigo-joint-trajectory-controller
-    sudo apt-get install ros-indigo-eband-local-planner
-    sudo apt-get install ros-indigo-opencv*
-    sudo apt-get install ros-indigo-gazebo-ros-control
-    sudo apt-get install libsuitesparse-dev
+Other dependencies needed (in a convenient one-liner)
+    
+    version=kinetic &&
+    sudo apt install 'ros-$version-gazebo-*' &&
+    sudo apt install 'ros-$version-moveit-*' &&
+    sudo apt install ros-$version-move-base &&
+    sudo apt install ros-$version-amcl &&
+    sudo apt install ros-$version-joy &&
+    sudo apt install ros-$version-map-server &&
+    sudo apt install ros-$version-joint-state-controller &&
+    sudo apt install ros-$version-velocity-controllers &&
+    sudo apt install ros-$version-position-controllers &&
+    sudo apt install ros-$version-joint-trajectory-controller &&
+    sudo apt install ros-$version-eband-local-planner &&
+    sudo apt install 'ros-$version-opencv*' &&
+    sudo apt install ros-$version-gazebo-ros-control &&
+    sudo apt install ros-$version-laser-filters &&
+    sudo apt install libsuitesparse-dev &&
+    sudo apt install ros-$version-fake-localization &&
 
 You are now ready to compile the code!
 
