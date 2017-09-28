@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<robot xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
+       xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
+       xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
+       xmlns:xacro="http://ros.org/wiki/xacro">
+  
+  <!-- Load a fully detailed hand model with properly modeled links and joints -->
+  <xacro:arg name="use_full_hand_model" default="false"/>
+
+  <xacro:macro name="arm_transmissions" params="prefix">
+
+    <transmission name="${prefix}_shoulder_scapula_transmission">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${prefix}_shoulder_scapula_joint">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="${prefix}_shoulder_scapula_motor">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <transmission name="${prefix}_shoulder_flection_transmission">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${prefix}_shoulder_flection_joint">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="${prefix}_shoulder_flection_motor">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <transmission name="${prefix}_shoulder_abduction_transmission">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${prefix}_shoulder_abduction_joint">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="${prefix}_shoulder_abduction_motor">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <transmission name="${prefix}_shoulder_rotation_transmission">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${prefix}_shoulder_rotation_joint">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="${prefix}_shoulder_rotation_motor">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <transmission name="${prefix}_elbow_flection_transmission">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${prefix}_elbow_flection_joint">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="${prefix}_elbow_flection_motor">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <transmission name="${prefix}_forearm_pronation_transmission">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${prefix}_forearm_pronation_joint">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="${prefix}_forearm_pronation_motor">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <transmission name="${prefix}_wrist_abduction_transmission">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${prefix}_wrist_abduction_joint">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="${prefix}_wrist_abduction_motor">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <xacro:unless value="$(arg use_full_hand_model)">
+      <transmission name="${prefix}_wrist_flection_transmission">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="${prefix}_wrist_flection_joint">
+          <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="${prefix}_wrist_flection_motor">
+          <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+          <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+      </transmission>
+    </xacro:unless>
+
+  </xacro:macro>
+
+</robot>
+

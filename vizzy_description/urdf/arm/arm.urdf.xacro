@@ -3,449 +3,355 @@
        xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
        xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
        xmlns:xacro="http://ros.org/wiki/xacro">
- <xacro:macro name="arm" params="sufix reflect *origin">
-  <link
-    name="M0${sufix}">
-    <inertial>
+
+  <!-- Load full inertial and collision model or a simplified model -->
+  <xacro:arg name="use_full_gazebo_model" default="false"/>
+  <!-- Load a fully detailed hand model with properly modeled links and joints -->
+  <xacro:arg name="use_full_hand_model" default="false"/>
+
+  <!-- Things that are needed only for Gazebo (not the physical robot).  These include
+   sensor and controller plugin specifications -->
+  <xacro:include filename="$(find vizzy_description)/urdf/arm/arm.gazebo.xacro">
+    <xacro:arg name="use_full_gazebo_model" value="$(arg use_full_gazebo_model)"/>
+  </xacro:include>
+  <xacro:include filename="$(find vizzy_description)/urdf/arm/arm.transmission.xacro" />
+
+  <xacro:macro name="arm"
+    params="name parent">
+
+    <!-- Derived parameters -->
+
+    <!-- Left arm -->
+    <xacro:if value="${name == 'left_arm'}">
+      <xacro:property name="prefix" value="l"/>
+      <xacro:property name="reflect" value="-1"/>
+      <xacro:property name="shoulder_scapula_l_rpy" value="0 0 0"/>
+      <xacro:property name="shoulder_scapula_j_rpy" value="${M_PI/2} 0 -0.0175"/>
+      <xacro:property name="shoulder_flection_l_rpy" value="0 0 -4.1963"/>
+      <xacro:property name="shoulder_abduction_l_rpy" value="0 0 -4.3633"/>
+      <xacro:property name="shoulder_rotation_l_rpy" value="0 0 ${M_PI/2}"/>
+      <xacro:property name="elbow_flection_l_rpy" value="0 ${M_PI} ${M_PI+0.0873}"/>
+      <xacro:property name="forearm_pronation_l_rpy" value="0 ${M_PI} ${-M_PI/2}"/>
+      <xacro:property name="wrist_abduction_l_rpy" value="0 0 0"/>
+      <xacro:property name="wrist_flection_l_rpy" value="0 0 ${M_PI/2}"/>
+      <xacro:property name="palm_j_rpy" value="${-M_PI/2} ${M_PI} 0"/>
+    </xacro:if>
+    <!-- Right arm -->
+    <xacro:if value="${name == 'right_arm'}">
+      <xacro:property name="prefix" value="r"/>
+      <xacro:property name="reflect" value="1"/>
+      <xacro:property name="shoulder_scapula_l_rpy" value="0 ${-M_PI} ${M_PI}"/>
+      <xacro:property name="shoulder_scapula_j_rpy" value="${M_PI/2} 0 ${M_PI-0.0175}"/>
+      <xacro:property name="shoulder_flection_l_rpy" value="0 ${M_PI} -1.0547"/>
+      <xacro:property name="shoulder_abduction_l_rpy" value="0 ${M_PI} -1.2217"/>
+      <xacro:property name="shoulder_rotation_l_rpy" value="${M_PI} 0 ${M_PI/2}"/>
+      <xacro:property name="elbow_flection_l_rpy" value="0 0 0.0873"/>
+      <xacro:property name="forearm_pronation_l_rpy" value="0 0 ${M_PI/2}"/>
+      <xacro:property name="wrist_abduction_l_rpy" value="${M_PI} ${M_PI} 0"/>
+      <xacro:property name="wrist_flection_l_rpy" value="0 ${M_PI} ${-M_PI/2}"/>
+      <xacro:property name="palm_j_rpy" value="0 ${M_PI/2} 0"/>
+    </xacro:if>
+
+    <!-- Shoulder scapula -->
+    <link name="${prefix}_shoulder_scapula_link">
+      <vizzy_shoulder_scapula_link_inertial
+        reflect="${reflect}" rpy="${shoulder_scapula_l_rpy}"/>
+      <visual>
+        <origin
+          xyz="0 0 ${reflect*0.16}"
+          rpy="${shoulder_scapula_l_rpy}"/>
+        <geometry>
+          <mesh
+            filename="package://vizzy_description/meshes/arm/${prefix}_shoulder_scapula.dae" />
+        </geometry>
+        <material name="light_gray_1"/>
+      </visual>
+      <vizzy_shoulder_scapula_link_collision
+        reflect="${reflect}" rpy="${shoulder_scapula_l_rpy}" prefix="${prefix}"/>
+    </link>
+
+    <joint name="${prefix}_shoulder_scapula_joint"
+      type="revolute">
       <origin
-        xyz="0 0 ${-reflect*0.0619999999999821}"
-        rpy="0.0 0.0 ${-reflect*3.1416}" />
-      <mass
-        value="0.328838093974495" />
-      <inertia
-        ixx="0.00123108428695023"
-        ixy="-7.89159441144304E-11"
-        ixz="6.34904994947113E-10"
-        iyy="0.000919898935947314"
-        iyz="7.50425183645029E-05"
-        izz="0.000480033534091429" />
-    </inertial>
-    <visual>
+        xyz="0 0 ${-reflect*0.0805}"
+        rpy="${shoulder_scapula_j_rpy}"/>
+      <parent
+        link="${parent}"/>
+      <child
+        link="${prefix}_shoulder_scapula_link"/>
+      <axis
+        xyz="0 0 1" />
+      <limit lower="-${M_PI/10}" upper="${M_PI/10}" effort="10" velocity="3"/>
+      <dynamics damping="0.0" friction="0.1"/>
+    </joint>
+
+    <!-- Shoulder flection -->
+    <link name="${prefix}_shoulder_flection_link">
+      <vizzy_shoulder_flection_link_inertial
+        reflect="${reflect}" rpy="${shoulder_flection_l_rpy}"/>
+      <visual>
+        <origin
+          xyz="0 0 ${reflect*0.0479999999999997}"
+          rpy="${shoulder_flection_l_rpy}"/>
+        <geometry>
+          <mesh
+            filename="package://vizzy_description/meshes/arm/${prefix}_shoulder_flection.dae"/>
+        </geometry>
+        <material name="light_gray_3"/>
+      </visual>
+      <vizzy_shoulder_flection_link_collision
+        reflect="${reflect}" rpy="${shoulder_flection_l_rpy}" prefix="${prefix}"/>
+    </link>
+
+    <joint name="${prefix}_shoulder_flection_joint"
+      type="revolute">
       <origin
-        xyz="0 0 ${-reflect*0.0619999999999821}"
-        rpy="0.0 0.0 ${-reflect*3.1416}" />
-      <geometry>
-        <mesh
-          filename="package://vizzy_description/meshes/M0${sufix}.dae" />
-      </geometry>
-      <material
-        name="">
-        <color
-          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
-      </material>
-    </visual>
-    <collision>
+        xyz="0 0 ${reflect*0.212}"
+        rpy="${M_PI/2} 0 0"/>
+      <parent
+        link="${prefix}_shoulder_scapula_link"/>
+      <child
+        link="${prefix}_shoulder_flection_link"/>
+      <axis
+        xyz="0 0 1" />
+      <limit lower="-1.30899694" upper="2.35619449" effort="10" velocity="3"/>
+      <dynamics damping="0.0" friction="0.1"/>
+    </joint>
+
+    <!-- Shoulder abduction -->
+    <link name="${prefix}_shoulder_abduction_link">
+      <vizzy_shoulder_abduction_link_inertial
+        reflect="${reflect}" rpy="${shoulder_abduction_l_rpy}"/>
+      <visual>
+        <origin
+          xyz="${reflect*0.034} ${reflect*0.009} -0.001"
+          rpy="${shoulder_abduction_l_rpy}"/>
+        <geometry>
+          <mesh
+            filename="package://vizzy_description/meshes/arm/${prefix}_shoulder_abduction.dae"/>
+        </geometry>
+        <material name="light_gray_1"/>
+      </visual>
+      <vizzy_shoulder_abduction_link_collision
+        reflect="${reflect}" rpy="${shoulder_abduction_l_rpy}" prefix="${prefix}"/>
+    </link>
+
+    <joint name="${prefix}_shoulder_abduction_joint"
+      type="revolute">
       <origin
-        xyz="0 0 ${-reflect*0.0619999999999821}"
-        rpy="0.0 0.0 ${-reflect*3.1416}" />
-      <geometry>
-        <mesh
-          filename="package://vizzy_description/meshes/M0${sufix}.dae" />
-      </geometry>
-    </collision>
-  </link>
-  <joint
-    name="M0${sufix}"
-    type="revolute">
-    <insert_block name="origin" />
-    <parent
-      link="M0" />
-    <child
-      link="M0${sufix}" />
-    <axis
-      xyz="0 0 1" />
-    <limit lower="-0.314159265" upper="0.314159265" effort="10" velocity="3" />
-  </joint>
-  <link
-    name="M1${sufix}">
-    <inertial>
+        xyz="0 0 ${reflect*0.10256}"
+        rpy="${M_PI/2} 0 ${-M_PI/2}"/>
+      <parent
+        link="${prefix}_shoulder_flection_link"/>
+      <child
+        link="${prefix}_shoulder_abduction_link"/>
+      <axis
+        xyz="0 0 1"/>
+      <limit lower="0" upper="1.30899694" effort="10" velocity="3" />
+      <dynamics damping="0.0" friction="0.1"/>
+    </joint>
+
+    <!-- Shoulder rotation -->
+    <link name="${prefix}_shoulder_rotation_link">
+      <vizzy_shoulder_rotation_link_inertial
+        reflect="${reflect}" rpy="${shoulder_rotation_l_rpy}"/>
+      <visual>
+        <origin
+          xyz="${-reflect*0.003} ${reflect*0.006} ${reflect*0.127}"
+          rpy="${shoulder_rotation_l_rpy}"/>
+        <geometry>
+          <mesh
+            filename="package://vizzy_description/meshes/arm/${prefix}_shoulder_rotation.dae" />
+        </geometry>
+        <material name="light_gray_3"/>
+      </visual>
+      <vizzy_shoulder_rotation_link_collision
+        reflect="${reflect}" rpy="${shoulder_rotation_l_rpy}" prefix="${prefix}"/>
+    </link>
+
+    <joint name="${prefix}_shoulder_rotation_joint"
+      type="revolute">
       <origin
-        xyz="0 0 ${reflect*0.0479999999999997}"
-        rpy="0 0 ${-reflect*1.0547}" />
-      <mass
-        value="0.329707501986262" />
-      <inertia
-        ixx="0.00116793344879787"
-        ixy="0.000134890277431864"
-        ixz="-3.78918978637635E-05"
-        iyy="0.0010123206932222"
-        iyz="-6.56607930808342E-05"
-        izz="0.000480378945367471" />
-    </inertial>
-    <visual>
+        xyz="0 0 0"
+        rpy="${M_PI/2} 0 ${11*M_PI/18}"/>
+      <parent
+        link="${prefix}_shoulder_abduction_link"/>
+      <child
+        link="${prefix}_shoulder_rotation_link"/>
+      <axis
+        xyz="0 0 1"/>
+      <limit lower="-1.48352986" upper="1.48352986" effort="10" velocity="3"/>
+      <dynamics damping="0.0" friction="0.1"/>
+    </joint>
+
+    <!-- Elbow flection -->
+    <link name="${prefix}_elbow_flection_link">
+      <vizzy_elbow_flection_link_inertial
+        reflect="${reflect}" rpy="${elbow_flection_l_rpy}"/>
+      <visual>
+        <origin
+          xyz="${-reflect*0.002} ${reflect*0.035} 0"
+          rpy="${elbow_flection_l_rpy}"/>
+        <geometry>
+          <mesh
+            filename="package://vizzy_description/meshes/arm/${prefix}_elbow_flection.dae"/>
+        </geometry>
+        <material name="light_gray_1"/>
+      </visual>
+      <vizzy_elbow_flection_link_collision
+        reflect="${reflect}" rpy="${elbow_flection_l_rpy}" prefix="${prefix}"/>
+    </link>
+
+    <joint name="${prefix}_elbow_flection_joint"
+      type="revolute">
       <origin
-        xyz="0 0 0.0479999999999997"
-        rpy="0 0 -1.0547" />
-      <geometry>
-        <mesh
-          filename="package://vizzy_description/meshes/M1${sufix}.dae" />
-      </geometry>
-      <material
-        name="">
-        <color
-          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
-      </material>
-    </visual>
-    <collision>
+        xyz="0 0 ${reflect*0.16296}"
+        rpy="${M_PI/2} 0 ${M_PI/2}"/>
+      <parent
+        link="${prefix}_shoulder_rotation_link"/>
+      <child
+        link="${prefix}_elbow_flection_link"/>
+      <axis
+        xyz="0 0 1"/>
+      <limit lower="0" upper="1.91986218" effort="10" velocity="3" />
+      <dynamics damping="0.0" friction="0.1"/>
+    </joint>
+
+    <!-- Forearm pronation -->
+    <link name="${prefix}_forearm_pronation_link">
+      <vizzy_forearm_pronation_link_inertial
+        reflect="${reflect}" rpy="${forearm_pronation_l_rpy}"/>
+      <visual>
+        <origin
+          xyz="0 ${-reflect*0.007} ${-reflect*0.11}"
+          rpy="${forearm_pronation_l_rpy}"/>
+        <geometry>
+          <mesh
+            filename="package://vizzy_description/meshes/arm/${prefix}_forearm_pronation.dae"/>
+        </geometry>
+        <material name="light_gray_3"/>
+      </visual>
+      <vizzy_forearm_pronation_link_collision
+        reflect="${reflect}" rpy="${forearm_pronation_l_rpy}" prefix="${prefix}"/>
+    </link>
+
+    <joint name="${prefix}_forearm_pronation_joint"
+      type="revolute">
       <origin
-        xyz="0 0 0.0479999999999997"
-        rpy="0 0 -1.0547" />
-      <geometry>
-        <mesh
-          filename="package://vizzy_description/meshes/M1${sufix}.dae" />
-      </geometry>
-    </collision>
-  </link>
-  <joint
-    name="M1${sufix}"
-    type="revolute">
-    <origin
-      xyz="0 0.0 ${-reflect*0.212}"
-      rpy="-1.5708 0.0 0.0" />
-    <parent
-      link="M0${sufix}" />
-    <child
-      link="M1${sufix}" />
-    <axis
-      xyz="0 0 1" />
-    <limit lower="-1.30899694" upper="2.35619449" effort="10" velocity="3" />
-  </joint>
-  <link
-    name="M2${sufix}">
-    <inertial>
+        xyz="0 0 0"
+        rpy="${M_PI/2} 0 0.0873"/>
+      <parent
+        link="${prefix}_elbow_flection_link"/>
+      <child
+        link="${prefix}_forearm_pronation_link"/>
+      <axis
+        xyz="0 0 1"/>
+      <limit lower="-1.48352986" upper="1.48352986" effort="10" velocity="3"/>
+      <dynamics damping="0.0" friction="0.1"/>
+    </joint>
+
+    <!-- Wrist abduction -->
+    <link name="${prefix}_wrist_abduction_link">
+      <vizzy_wrist_abduction_link_inertial
+        reflect="${reflect}" rpy="${wrist_abduction_l_rpy}"/>
+      <visual>
+        <origin
+          xyz="${reflect*0.0047} ${reflect*0.028} -0.003"
+          rpy="${wrist_abduction_l_rpy}"/>
+        <geometry>
+          <mesh
+            filename="package://vizzy_description/meshes/arm/${prefix}_wrist_abduction.dae"/>
+        </geometry>
+        <material name="Gazebo/Orange"/>
+      </visual>
+      <vizzy_wrist_abduction_link_collision
+        reflect="${reflect}" rpy="${wrist_abduction_l_rpy}" prefix="${prefix}"/>
+    </link>
+
+    <joint name="${prefix}_wrist_abduction_joint"
+      type="revolute">
       <origin
-        xyz="0 0 0.0479999999999997"
-        rpy="0 0 -4.3633" />
-      <mass
-        value="0.337952134412867" />
-      <inertia
-        ixx="0.000722844157573501"
-        ixy="4.62401523525089E-05"
-        ixz="1.45397456168781E-06"
-        iyy="0.000316566987264746"
-        iyz="1.40155768711965E-05"
-        izz="0.000577759873964217" />
-    </inertial>
-    <visual>
-      <origin
-        xyz="0 0 0.0479999999999997"
-        rpy="0 0 -4.3633" />
-      <geometry>
-        <mesh
-          filename="package://vizzy_description/meshes/M2${sufix}.dae" />
-      </geometry>
-      <material
-        name="">
-        <color
-          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin
-        xyz="0 0 0.0479999999999997"
-        rpy="0 0 -4.3633" />
-      <geometry>
-        <mesh
-          filename="package://vizzy_description/meshes/M2${sufix}.dae" />
-      </geometry>
-    </collision>
-  </link>
-  <joint
-    name="M2${sufix}"
-    type="revolute">
-    <origin
-      xyz="0.0 0.0 ${-reflect*0.10256}"
-      rpy="1.5708 0.0 1.5708" />
-    <parent
-      link="M1${sufix}" />
-    <child
-      link="M2${sufix}" />
-    <axis
-      xyz="0 0 1" />
-    <limit lower="0" upper="1.30899694" effort="10" velocity="3" />
-  </joint>
-  <link
-    name="M3${sufix}">
-    <inertial>
-      <origin
-        xyz="0 0 -0.0519999999999999"
-        rpy="0 0 -1.5708" />
-      <mass
-        value="0.302328099651438" />
-      <inertia
-        ixx="0.00061524641225989"
-        ixy="4.12484077822449E-06"
-        ixz="6.13276820445825E-05"
-        iyy="0.000574848729857274"
-        iyz="-2.49114687077784E-05"
-        izz="0.000240227009768201" />
-    </inertial>
-    <visual>
-      <origin
-        xyz="0 0 -0.0519999999999999"
-        rpy="0 0 -1.5708" />
-      <geometry>
-        <mesh
-          filename="package://vizzy_description/meshes/M3${sufix}.dae" />
-      </geometry>
-      <material
-        name="">
-        <color
-          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin
-        xyz="0 0 -0.0519999999999999"
-        rpy="0 0 -1.5708" />
-      <geometry>
-        <mesh
-          filename="package://vizzy_description/meshes/M3${sufix}.dae" />
-      </geometry>
-    </collision>
-  </link>
-  <joint
-    name="M3${sufix}"
-    type="revolute">
-    <origin
-      xyz="0.0 0.0 0.0"
-      rpy="-1.5708 0.0 -1.2217" />
-    <parent
-      link="M2${sufix}" />
-    <child
-      link="M3${sufix}" />
-    <axis
-      xyz="0 0 1" />
-    <limit lower="-1.48352986" upper="1.48352986" effort="10" velocity="3" />
-  </joint>
-  <link
-    name="M4${sufix}">
-    <inertial>
-      <origin
-        xyz="0 0 -0.0229999999999996"
-        rpy="0 3.1416 0" />
-      <mass
-        value="0.224019872188573" />
-      <inertia
-        ixx="0.000224266883987209"
-        ixy="-7.91977708288826E-06"
-        ixz="-2.45971183993369E-07"
-        iyy="9.89759646705347E-05"
-        iyz="9.59757272005961E-06"
-        izz="0.000213841891548227" />
-    </inertial>
-    <visual>
-      <origin
-        xyz="0 0 -0.0229999999999996"
-        rpy="0 3.1416 0" />
-      <geometry>
-        <mesh
-          filename="package://vizzy_description/meshes/M4${sufix}.dae" />
-      </geometry>
-      <material
-        name="">
-        <color
-          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin
-        xyz="0 0 -0.0229999999999996"
-        rpy="0 3.1416 0" />
-      <geometry>
-        <mesh
-          filename="package://vizzy_description/meshes/M4${sufix}.dae" />
-      </geometry>
-    </collision>
-  </link>
-  <joint
-    name="M4${sufix}"
-    type="revolute">
-    <origin
-      xyz="0.0 0.0 ${-reflect*0.16296}"
-      rpy="-1.5708 0.0 1.5708" />
-    <parent
-      link="M3${sufix}" />
-    <child
-      link="M4${sufix}" />
-    <axis
-      xyz="0 0 1" />
-    <limit lower="0" upper="1.91986218" effort="10" velocity="3" />
-  </joint>
-  <link
-    name="M5${sufix}">
-    <inertial>
-      <origin
-        xyz="0 0 -0.0525000000000014"
-        rpy="0 0 1.5708" />
-      <mass
-        value="0.192525480880953" />
-      <inertia
-        ixx="0.000215803121531384"
-        ixy="6.01824209118801E-08"
-        ixz="-9.78525879865635E-06"
-        iyy="0.000229047941469006"
-        iyz="-3.21836442544262E-07"
-        izz="0.000102658857339667" />
-    </inertial>
-    <visual>
-      <origin
-        xyz="0 0 -0.0525000000000014"
-        rpy="0 0 1.5708" />
-      <geometry>
-        <mesh
-          filename="package://vizzy_description/meshes/M5${sufix}.dae" />
-      </geometry>
-      <material
-        name="">
-        <color
-          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin
-        xyz="0 0 -0.0525000000000014"
-        rpy="0 0 1.5708" />
-      <geometry>
-        <mesh
-          filename="package://vizzy_description/meshes/M5${sufix}.dae" />
-      </geometry>
-    </collision>
-  </link>
-  <joint
-    name="M5${sufix}"
-    type="revolute">
-    <origin
-      xyz="0.0 0.0 0.0"
-      rpy="1.5708 0.0 0.0" />
-    <parent
-      link="M4${sufix}" />
-    <child
-      link="M5${sufix}" />
-    <axis
-      xyz="0 0 1" />
-    <limit lower="-1.48352986" upper="1.48352986" effort="10" velocity="3" />
-  </joint>
-  <link
-    name="M6${sufix}">
-    <inertial>
-      <origin
-        xyz="0 0.0682999999999999 0.0240000000000001"
-        rpy="1.5708 0 2.3562" />
-      <mass
-        value="0.151302636921624" />
-      <inertia
-        ixx="0.000116373512947626"
-        ixy="1.31009871908069E-05"
-        ixz="6.69703789973942E-05"
-        iyy="0.00020031628400595"
-        iyz="1.00268924727662E-05"
-        izz="0.000162164313365602" />
-    </inertial>
-    <visual>
-      <origin
-        xyz="0 0.0682999999999999 0.0240000000000001"
-        rpy="1.5708 0 2.3562" />
-      <geometry>
-        <mesh
-          filename="package://vizzy_description/meshes/M6${sufix}.dae" />
-      </geometry>
-      <material
-        name="">
-        <color
-          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin
-        xyz="0 0.0682999999999999 0.0240000000000001"
-        rpy="1.5708 0 2.3562" />
-      <geometry>
-        <mesh
-          filename="package://vizzy_description/meshes/M6${sufix}.dae" />
-      </geometry>
-    </collision>
-  </link>
-  <joint
-    name="M6${sufix}"
-    type="revolute">
-    <origin
-      xyz="0.0 0.0 ${-reflect*0.18925}"
-      rpy="1.5708 0.0 0.0" />
-    <parent
-      link="M5${sufix}" />
-    <child
-      link="M6${sufix}" />
-    <axis
-      xyz="0 0 1" />
-    <limit lower="-0.610865238" upper="0.610865238" effort="10" velocity="3" />
-  </joint>
-  <link
-    name="M7${sufix}">
-    <inertial>
-      <origin
-        xyz="0 0 -0.0075"
-        rpy="0 3.1416 -1.5708" />
-      <mass
-        value="0.263177712190575" />
-      <inertia
-        ixx="0.00141536691437145"
-        ixy="-5.47006881402205E-06"
-        ixz="4.93141952833896E-05"
-        iyy="0.000423837541639676"
-        iyz="0.000132116163317958"
-        izz="0.0010337584021873" />
-    </inertial>
-    <visual>
-      <origin
-        xyz="0 0 -0.0075"
-        rpy="0 3.1416 -1.5708" />
-      <geometry>
-        <mesh
-          filename="package://vizzy_description/meshes/M7${sufix}.dae" />
-      </geometry>
-      <material
-        name="">
-        <color
-          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin
-        xyz="0 0 -0.0075"
-        rpy="0 3.1416 -1.5708" />
-      <geometry>
-        <mesh
-          filename="package://vizzy_description/meshes/M7${sufix}.dae" />
-      </geometry>
-    </collision>
-  </link>
-  <joint
-    name="M7${sufix}"
-    type="revolute">
-    <origin
-      xyz="0.0 0.0 0.0"
-      rpy="1.5708 0.0 -1.5708" />
-    <parent
-      link="M6${sufix}" />
-    <child
-      link="M7${sufix}" />
-    <axis
-      xyz="0 0 1" />
-    <limit lower="-0.610865238" upper="0.610865238" effort="10" velocity="3" />
-  </joint>
-  <link name="M8${sufix}">
-   <visual>
-      <origin xyz="0 0 0" rpy="0 0 0" />
-      <geometry>
-        <box size="0.001 0.001 0.001" />
-      </geometry>
-    </visual>
-  </link>
-  <joint name="M8${sufix}" type="fixed">
-    <origin xyz="0 0 0" rpy="-1.5708 0.0 0.0" />
-    <parent link="M7${sufix}"/>
-    <child link="M8${sufix}" />
-  </joint>
- </xacro:macro>
+        xyz="0 0 ${-reflect*0.18925}"
+        rpy="${M_PI/2} 0 0"/>
+      <parent
+        link="${prefix}_forearm_pronation_link"/>
+      <child
+        link="${prefix}_wrist_abduction_link"/>
+      <axis
+        xyz="0 0 1"/>
+      <limit lower="-0.610865238" upper="0.610865238" effort="10" velocity="3" />
+      <dynamics damping="0.0" friction="0.1"/>
+    </joint>
+
+    <!-- Fully detailed model of the hand -->
+    <xacro:if value="$(arg use_full_hand_model)">
+
+      <!-- TODO: Add detailed hand -->
+
+    </xacro:if>
+    <!-- Simplified rigid model of the hand -->
+    <xacro:unless value="$(arg use_full_hand_model)">
+
+      <!-- Wrist flection -->
+      <link name="${prefix}_wrist_flection_link">
+        <vizzy_wrist_flection_link_inertial
+          reflect="${reflect}" rpy="${wrist_flection_l_rpy}"/>
+        <visual>
+          <origin
+            xyz="${reflect*0.106} ${reflect*0.0077} ${reflect*0.017}"
+            rpy="${wrist_flection_l_rpy}"/>
+          <geometry>
+            <mesh
+              filename="package://vizzy_description/meshes/arm/${prefix}_wrist_flection.dae"/>
+          </geometry>
+          <material name="light_gray_3"/>
+        </visual>
+        <vizzy_wrist_flection_link_collision
+          reflect="${reflect}" rpy="${wrist_flection_l_rpy}" prefix="${prefix}"/>
+      </link>
+
+      <joint name="${prefix}_wrist_flection_joint"
+        type="revolute">
+        <origin
+          xyz="0 0 0"
+          rpy="${M_PI/2} 0 ${-M_PI/2}"/>
+        <parent
+          link="${prefix}_wrist_abduction_link"/>
+        <child
+          link="${prefix}_wrist_flection_link"/>
+        <axis
+          xyz="0 0 1"/>
+        <limit lower="-0.610865238" upper="0.610865238" effort="10" velocity="3" />
+        <dynamics damping="0.0" friction="0.1"/>
+      </joint>
+
+      <!-- Palm (virtual) -->
+      <!-- TODO: add?
+      <link name="${prefix}_palm_link">
+        <vizzy_palm_link_inertial/>
+        <visual>
+          <origin xyz="0 0 0" rpy="0 0 0" />
+          <geometry>
+            <box size="0.001 0.001 0.001" />
+          </geometry>
+        </visual>
+        <vizzy_palm_link_collision/>
+      </link>
+
+      <joint name="${prefix}_palm_joint" type="fixed">
+        <origin
+          xyz="0 0 0"
+          rpy="${palm_j_rpy}"/>
+        <parent link="${prefix}_wrist_flection_link"/>
+        <child link="${prefix}_palm_link" />
+      </joint>
+      -->
+
+    </xacro:unless>
+
+    <!-- Gazebo extensions -->
+    <xacro:arm_transmissions prefix="${prefix}"/>
+
+  </xacro:macro>
+
 </robot>

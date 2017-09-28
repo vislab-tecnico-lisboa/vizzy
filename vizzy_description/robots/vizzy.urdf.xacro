@@ -1,83 +1,111 @@
 <?xml version="1.0"?>
 <robot  name="vizzy" xmlns:xacro="http://ros.org/wiki/xacro" >
+  
+  <!-- Load Yarp plugins for real robot execution -->
   <xacro:arg name="use_yarp" default="false"/>
-  <!-- The following include files set up definitions of parts of the robot body  -->
-  <!-- misc common stuff -->
-  <xacro:include filename="$(find vizzy_description)/urdf/common.urdf.xacro" />
-  <!-- sensors -->
-  <xacro:include filename="$(find vizzy_description)/urdf/sensors/hokuyo_04lx_laser.urdf.xacro" />
-  <!-- Asus Xiton Live Pro -->
+
+  <!-- Load a fully detailed hand model with properly modeled links and joints -->
+  <xacro:arg name="use_full_hand_model" default="false"/>
+  <!-- Disable laser sensors -->
+  <xacro:arg name="disable_laser" default="false"/>
+  <!-- Disable depth camera -->
+  <xacro:arg name="disable_3d_sensor" default="false"/>
+
+  <!-- Includes -->
+
+  <!-- Misc common stuff such as constant definitions -->
+  <xacro:include filename="$(find vizzy_description)/urdf/common.urdf.xacro"/>
+
+  <!-- Sensors -->
+
+  <!-- Hokuyo URG-04LX laser scanner -->
+  <xacro:include filename="$(find vizzy_description)/urdf/sensors/hokuyo_04lx_laser.urdf.xacro"/>
+  <!-- TODO: Update Asus Xiton Live Pro -->
   <xacro:include filename="$(find vizzy_description)/urdf/sensors/asus_camera.urdf.xacro" />
 
-  <!-- base -->
+  <!-- Robot body -->
+
+  <!-- Base -->
   <xacro:include filename="$(find vizzy_description)/urdf/base/base.urdf.xacro" />
-  <!-- torso -->
+  <!-- Torso -->
   <xacro:include filename="$(find vizzy_description)/urdf/torso/torso.urdf.xacro" />
-  <!-- head -->
+  <!-- Head -->
  <xacro:include filename="$(find vizzy_description)/urdf/head/head.urdf.xacro"/>
+  <!-- Arms -->
+  <xacro:include filename="$(find vizzy_description)/urdf/arm/arm.urdf.xacro" />
 
-  <!-- left arm -->
-  <xacro:include filename="$(find vizzy_description)/urdf/arm/left_arm.urdf.xacro" />
-  <!-- right arm -->
-  <xacro:include filename="$(find vizzy_description)/urdf/arm/right_arm.urdf.xacro" />
+  <!-- Gazebo plugins -->
 
-  <!-- right hand -->
-  <xacro:include filename="$(find vizzy_description)/urdf/hand/right_hand.urdf.xacro" />
-
-  <!-- The following include files contain gazebo plugins -->
   <!-- ROS -->
   <xacro:include filename="$(find vizzy_description)/plugins/ros.gazebo.xacro" />
   <!-- Yarp -->
   <xacro:include filename="$(find vizzy_description)/plugins/yarp.gazebo.xacro" />
 
-  <!-- instantiate base -->
+  <!-- Instantiate base -->
   <xacro:base name="base"/>
-  <!-- instantiate torso -->
-  <xacro:torso name="torso"/>
-  <!-- instantiate head -->
-  <xacro:head name="head"/>
+  <!-- Instantiate the torso -->
+  <xacro:torso name="torso" parent="base_link"/>
+  <!-- Instantiate head -->
+  <xacro:head name="head" parent="waist_link"/>
 
-  <!-- instantiate left arm -->
-  <xacro:left_arm name="left_arm" parent="waist_link" sufix="l" reflect="1">
-    <origin xyz="-0.01707 0.0 0.38145" rpy="0.0 0.0 0.0" />
-  </xacro:left_arm>
-  <!-- instantiate right arm -->
-  <xacro:right_arm name="right_arm" parent="waist_link" sufix="r" reflect="1">
-    <origin xyz="-0.01707 0.0 0.38145" rpy="0.0 0.0 0.0" />
-  </xacro:right_arm>
-  <!-- instantiate right hand -->
-  <xacro:right_hand name="right_hand" parent="r_wrist_flection_link" sufix="r" reflect="1"> 
-    <origin xyz="-0.01707 0.0 0.38145" rpy="0.0 0.0 0.0" />
-  </xacro:right_hand>
+  <!-- Instantiate arms -->
+  <xacro:arm name="left_arm" parent="waist_link"/>
+  <xacro:arm name="right_arm" parent="waist_link"/>
 
-  <!-- instantiate hokuyo -->
-  <xacro:hokuyo_04lx_laser name="nav_hokuyo" parent="base" mesh_file="package://vizzy_description/meshes/hokuyo_utm30lx/hokuyo_utm_30lx.dae" scale="1.0 1.0 1.0" ros_topic="scan" update_rate="40" min_angle="${-(5 * M_PI)/12}" max_angle="${(5 * M_PI)/12}" max_range="30">
-    <origin xyz="${-0.025-0.060139} 0.001 ${-0.00394+0.14806}" rpy="0 0 ${M_PI}" />
-  </xacro:hokuyo_04lx_laser>
+  <!-- Instantiate hokuyo laser sensors -->
+  <xacro:unless value="$(arg disable_laser)">
+    <!-- Front laser sensor -->
+    <xacro:hokuyo_04lx_laser name="nav_hokuyo" parent="base"
+      mesh_file="package://vizzy_description/meshes/hokuyo_utm30lx/hokuyo_utm_30lx.dae"
+      scale="1.0 1.0 1.0"
+      ros_topic="scan"
+      update_rate="40"
+      visualize="false"
+      resolution="0.03"
+      min_angle="${-(5 * M_PI)/12}"
+      max_angle="${(5 * M_PI)/12}"
+      max_range="30">
+      <origin xyz="${-0.025-0.060139} 0.001 ${-0.00394+0.14806}" rpy="0 0 ${M_PI}"/>
+    </xacro:hokuyo_04lx_laser>
+    <!-- Rear laser sensor -->
+    <xacro:hokuyo_04lx_laser name="nav_hokuyo_rear" parent="base"
+      mesh_file="package://vizzy_description/meshes/hokuyo.dae"
+      scale="0.0254 0.0254 0.0254"
+      ros_topic="scan_rear"
+      update_rate="10"
+      visualize="false"
+      resolution="0.03"
+      min_angle="${-(5 * M_PI)/12}"
+      max_angle="${(5 * M_PI)/12}"
+      max_range="4">
+      <origin xyz="${-0.025-0.060139+0.555} 0.001 ${-0.00394+0.14806}" rpy="0 0 0"/>
+    </xacro:hokuyo_04lx_laser>
+  </xacro:unless>
 
-<xacro:hokuyo_04lx_laser name="nav_hokuyo_rear" parent="base" mesh_file="package://vizzy_description/meshes/hokuyo.dae" ros_topic="scan_rear" scale="0.0254 0.0254 0.0254" update_rate="10" min_angle="${-(5 * M_PI)/12}" max_angle="${(5 * M_PI)/12}" max_range="4">
-    <origin xyz="${-0.025-0.060139+0.555} 0.001 ${-0.00394+0.14806}" rpy="0 0 0" />
-  </xacro:hokuyo_04lx_laser>
+  <!-- Instantiate depth camera -->
+  <xacro:unless value="$(arg disable_3d_sensor)">
+    <xacro:sensor_asus_xtion_pro name="asus_camera" parent="waist_link"
+      ros_topic="asus_camera">
+      <origin xyz="-0.08 0.16 0.02" rpy="${-M_PI/2} ${M_PI} ${-7*(M_PI/180)}"/>
+    </xacro:sensor_asus_xtion_pro>
+  </xacro:unless>
 
-  <xacro:asus_camera name="camera" parent="waist_link">
-    <origin xyz="-0.08 0.16 0.02" rpy="${-M_PI/2} ${M_PI+3.5*(M_PI/180)} ${-7*(M_PI/180)}"/>
-  </xacro:asus_camera>
+  <!-- Instantiate plugins common to ROS and Yarp -->
 
-  <!-- instantiate common ROS and Yarp plugins -->
   <xacro:ros_differential_drive_gazebo/>
   <xacro:camera_plugin name="l_camera" prefix="l"/>
   <xacro:camera_plugin name="r_camera" prefix="r"/>
 
-  <!-- instantiate Yarp plugins -->
-	<xacro:if value="$(arg use_yarp)">
-		<xacro:torso_gazebo_control/>
-		<xacro:head_gazebo_control/>
-		<xacro:left_arm_gazebo_control/>
-		<xacro:right_arm_gazebo_control/>
-	</xacro:if>
+  <!-- Instantiate Yarp plugins -->
+  <xacro:if value="$(arg use_yarp)">
+    <xacro:torso_gazebo_control/>
+    <xacro:head_gazebo_control/>
+    <xacro:left_arm_gazebo_control/>
+    <xacro:right_arm_gazebo_control/>
+  </xacro:if>
 
-  <!-- instantiate ROS plugins -->
+  <!-- Instantiate ROS plugins -->
   <xacro:unless value="$(arg use_yarp)">
-		<xacro:ros_control_gazebo/>
+    <xacro:ros_control_gazebo/>
   </xacro:unless>
 </robot>

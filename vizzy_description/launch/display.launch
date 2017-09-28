@@ -1,33 +1,34 @@
 <?xml version="1.0"?>
 <launch>
+
   <!-- Argument for graphical interface usage -->
-  <arg
-    name="gui"
-    default="True" />
+  <arg name="gui" default="true"/>
+
+  <arg name="config_file" default="$(find vizzy_description)/rviz/urdf.rviz"/>
 
   <!-- Load the URDF into the ROS Parameter Server -->
   <param name="robot_description"
-		command="$(find xacro)/xacro.py $(find vizzy_description)/robots/vizzy.urdf.xacro use_yarp:=true" />
+		command="$(find xacro)/xacro --inorder $(find vizzy_description)/robots/vizzy.urdf.xacro use_yarp:=true"/>
 	 
   <!-- Use graphical interface to set the joints positions --> 
   <param
     name="use_gui"
-    value="$(arg gui)" />
+    value="$(arg gui)"/>
 
   <node
     name="joint_state_publisher"
     pkg="joint_state_publisher"
-    type="joint_state_publisher" />
+    type="joint_state_publisher"/>
 
   <node
     name="robot_state_publisher"
     pkg="robot_state_publisher"
-    type="state_publisher" />
+    type="state_publisher"/>
 
   <!-- Launch rviz node for visualization -->
   <node
     name="rviz"
     pkg="rviz"
     type="rviz"
-    args="-d $(find vizzy_description)/rviz/urdf.rviz" />
+    args="-d $(arg config_file)"/>
 </launch>

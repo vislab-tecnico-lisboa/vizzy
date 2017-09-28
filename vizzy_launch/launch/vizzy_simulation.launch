@@ -1,179 +1,187 @@
 <?xml version="1.0"?>
-<!-- ROS head file to simulate vizzy in gazebo   -->
+<!--
+  Launcher for vizzy simulation
+-->
 <launch>
-  <!-- robot configuration parameters -->
-  <arg name="robot" default="vizzy"/> <!-- full, lower_body, foot -->
 
-  <!-- simulation parameters and robot configuration parameters -->
-  <arg name="use_yarp" default="false"/>
-  <arg name="navigation" default="false"/>
-  <arg name="launch_moveit" default="true"/>
-  <arg name="slam" default="false"/>
-  <!--<arg name="pose" default="-x -3.65 -y 17.7 -z 0.20 -R 0.0 -P 0.0 -Y 1.57"/>-->
-  <arg name="pose" default="-x 2.0 -y -0.0 -z 0.1 -R 0.0 -P 0.0 -Y 0"/>
-  <arg name="paused" default="false"/>
-  <arg name="use_sim_time" default="true"/>
+  <!-- Parameters -->
+
+  <!-- Robot name -->
+  <arg name="robot" default="vizzy"/>
+  <!-- Robot namespace -->
+  <arg name="ns" default="vizzy"/>
+  <!-- Robot base frame id -->
+  <arg name="base_frame_id" default="base_footprint"/>
+  <!-- Robot odometry frame id -->
+  <arg name="odom_frame_id" default="odom"/>
+  <!-- Robot pose relative to the map -->
+  <arg name="pose" default="-x 0.0 -y 0.0 -z 0.0 -R 0.0 -P 0.0 -Y 3.1415"/>
+  <!-- Robot semantic description file -->
+  <arg name="urdf_file" value="vizzy.urdf.xacro"/>
+
+  <arg name="simulation" value="true"/>
+
+  <!-- Load Yarp plugins for real robot execution -->
+  <arg name="use_yarp" value="false"/>
+
+  <!-- Gazebo parameters -->
   <arg name="gui" default="true"/>
-  <arg name="world" default="isr_5th_floor.world" />
-  <arg name="map_frame" default="map" />
-  <arg name="tf_prefix" default="" />
-  <arg name="map_file" default="isr_7th_floor_simulation.yaml" />
-  <arg name="base_frame_id" default="base_footprint" />
-  <arg name="odom_frame_id" default="odom" />
-  <arg name="map_topic" default="/map" />
-  <arg name="head_only" default="false"/>
-  <arg name="ns" default="vizzy" />
-  <arg name="fake_localization" default="false"/>
+  <arg name="paused" default="false"/>
+  <!-- Synchronize ROS and simulation time -->
+  <arg name="use_sim_time" default="true"/>
+  <!-- Load full inertial and collision model or a simplified model -->
+  <arg name="use_full_gazebo_model" default="false"/>
 
-  <arg name="vizzy_control_config_file" default="$(find vizzy_control)/config/frames.yaml"/>
-  <arg name="simulation" default="true" />
-  <arg name="fixation_point_in" default="fixation_point" /> 
+  <!-- rviz -->
+  <arg name="rviz" default="true"/>
 
-  <arg name="reactive_2d_navigation" default="false"/>
+  <!-- MoveIt! planner -->
+  <arg name="moveit" default="false"/>
+
+  <!-- Teleop -->
   <arg name="teleop" default="false"/>
 
-  <arg name="custom_obstacles" default="true" />
-  <arg name="obstacles_map_file" default="isr_7th_floor_simulation_obst.yaml" />
+  <!-- Navigation -->
+  <arg name="navigation" default="false"/>
+  <arg name="map_topic" default="/map"/>
+  <arg name="map_file" default="isr_7th_floor_simulation.yaml"/>
+  <!-- Provide a map with previously acquired obstacles -->
+  <arg name="custom_obstacles" default="true"/>
+  <arg name="obstacles_map_file" default="isr_7th_floor_simulation_obst.yaml"/>
+  <!-- Use lighter fake localization for simulation -->
+  <arg name="fake_localization" default="true"/>
 
-  <!-- bringup robot -->
-  <group if="$(arg head_only)">
-    <include file="$(find vizzy_gazebo)/launch/gazebo.launch">
-      <arg name="use_yarp" value="$(arg use_yarp)"/>
-      <arg name="robot" value="$(arg robot)"/>
-      <arg name="pose" value="$(arg pose)"/>
-      <arg name="paused" value="$(arg paused)"/>
-      <arg name="use_sim_time" value="$(arg use_sim_time)" />
-      <arg name="gui" value="$(arg gui)" />
-      <arg name="world" value="$(arg world)" />
-      <arg name="urdf_file" value="vizzy_head_only.urdf.xacro"/>
-    </include>
-  </group>
-  <group unless="$(arg head_only)">
-    <include file="$(find vizzy_gazebo)/launch/gazebo.launch">
-      <arg name="use_yarp" value="$(arg use_yarp)"/>
-      <arg name="robot" value="$(arg robot)"/>
-      <arg name="pose" value="$(arg pose)"/>
-      <arg name="paused" value="$(arg paused)"/>
-      <arg name="use_sim_time" value="$(arg use_sim_time)" />
-      <arg name="gui" value="$(arg gui)" />
-      <arg name="world" value="$(arg world)" />
-      <arg name="urdf_file" value="vizzy.urdf.xacro"/>
-    </include>
-  </group>
+  <!-- Map -->
+  <arg name="world" default="isr_5th_floor.world"/>
+  <arg name="map_frame" default="map"/>
 
-  <!-- launch moveit -->
-  <group if="$(arg launch_moveit)">
-    <group if="$(arg head_only)">
-      <include file="$(find vizzy_control)/launch/two_arms_trajectory_action_server.launch"/>
-      <include file="$(find vizzy_head_moveit_config)/launch/moveit.launch"/>
-    </group>
-    <group unless="$(arg head_only)">
-      <include file="$(find vizzy_moveit_config)/launch/moveit.launch"/>
-    </group>
-  </group>
+  <!-- Robot capabilities -->
+  <arg name="disable_3d_sensor" default="false"/>
+  
+  <!-- Gaze action -->
+  <arg name="vizzy_control_config_file" default="$(find vizzy_control)/config/frames.yaml"/>
+  <arg name="fixation_point_in" default="fixation_point"/>
 
-  <!-- launch navigation -->
-  <group if="$(arg navigation)">
-    <!-- launch the laser filter to get rid of readings from the robot itself -->
-    <node name="hokuyo_laser_filters" pkg="laser_filters" type="scan_to_scan_filter_chain">
-      <rosparam command="load" file="$(find vizzy_sensors)/config/hokuyo_filters.yaml" />
+  <!-- TODO: Explain twist2nav2d -->
+  <arg name="twist2nav2d" default="false"/>
+
+  <!-- Derived parameters -->
+  
+  <!-- Disable laser sensors -->
+  <arg     if="$(arg navigation)" name="disable_laser" default="false"/>
+  <arg unless="$(arg navigation)" name="disable_laser" default="true"/>
+  <!-- Change default fixed frame for rviz -->
+  <arg     if="$(arg navigation)" name="rviz_fixed_frame" value="map"/>
+  <arg unless="$(arg navigation)" name="rviz_fixed_frame" value="base_footprint"/>
+  <!-- Gaze depends on MoveIt! -->
+  <arg     if="$(arg moveit)" name="launch_gaze" value="true"/>
+  <arg unless="$(arg moveit)" name="launch_gaze" value="false"/>
+
+  <!-- Launch gazebo -->
+  <include file="$(find vizzy_gazebo)/launch/gazebo.launch">
+    <arg name="robot" value="$(arg robot)"/>
+    <arg name="pose" value="$(arg pose)"/>
+    <arg name="urdf_file" value="$(arg urdf_file)"/>
+    <arg name="use_yarp" value="$(arg use_yarp)"/>
+    <arg name="gui" value="$(arg gui)"/>
+    <arg name="paused" value="$(arg paused)"/>
+    <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+    <arg name="world" value="$(arg world)"/>
+    <arg name="use_full_gazebo_model" value="$(arg use_full_gazebo_model)"/>
+    <arg name="disable_laser" value="$(arg disable_laser)"/>
+    <arg name="disable_3d_sensor" value="$(arg disable_3d_sensor)"/>
+  </include>
+
+  <!-- Launch rviz -->
+  <group if="$(arg rviz)">
+    <node name="rviz" pkg="rviz" type="rviz"
+      args="-f $(arg rviz_fixed_frame)">
     </node>
+  </group>
 
+  <!-- Launch navigation -->
+  <group if="$(arg navigation)">
+
+    <!-- Launch laser filters -->
+    <node name="hokuyo_laser_filters" pkg="laser_filters" type="scan_to_scan_filter_chain">
+      <rosparam command="load" file="$(find vizzy_sensors)/config/hokuyo_filters.yaml"/>
+    </node>
     <node name="hokuyo_laser_filters_rear" pkg="laser_filters" type="scan_to_scan_filter_chain">
-      <rosparam command="load" file="$(find vizzy_sensors)/config/hokuyo_filters.yaml" />
+      <rosparam command="load" file="$(find vizzy_sensors)/config/hokuyo_filters.yaml"/>
       <remap from="scan" to="scan_rear"/>
       <remap from="scan_filtered" to="scan_filtered_rear"/>
     </node>
 
-    <group if="$(arg slam)">
-      <!-- TO DO -->
+    <!-- Launch map server with a previously acquired map -->
+    <node name="map_server" pkg="map_server" type="map_server"
+      args="$(find vizzy_navigation)/maps/$(arg map_file)"/>
+    <!-- Obstacle map -->
+    <group if="$(arg custom_obstacles)" ns="obst">
+      <node name="obstacle_map_server" pkg="map_server" type="map_server"
+        args="$(find vizzy_navigation)/maps/$(arg obstacles_map_file)" >
+        <remap from="map" to="map_obstacles"/>
+      </node>
     </group>
-    <group unless="$(arg slam)">
-      <!-- launch pre obtained map to the environment -->
-      <node name="map_server" pkg="map_server" type="map_server" args="$(find vizzy_navigation)/maps/$(arg map_file)" />
 
-      <group if="$(arg custom_obstacles)" ns="obst">
-	<node name="obstacle_map_server" pkg="map_server" type="map_server" args="$(find vizzy_navigation)/maps/$(arg obstacles_map_file)" >
-	  <remap from="map" to="map_obstacles"/>		
-	</node>
-      </group>
+    <!-- Launch Timed Elastic Band (teb) local planner -->
+    <include file="$(find vizzy_navigation)/launch/navigation_teb_local.launch">
+      <arg name="map_topic" value="$(arg map_topic)"/>
+    </include>
 
-      <group unless="$(arg reactive_2d_navigation)">
-        <!-- move_base using local eband planner -->
-        <include file="$(find vizzy_navigation)/launch/navigation_teb_local.launch">
-          <arg name="map_topic" value="$(arg map_topic)" />
-        </include>
-      </group>
-      <group if="$(arg reactive_2d_navigation)">
-
-        <!-- Node: Local obstacles builder -->
-  	<node pkg="mrpt_local_obstacles" type="mrpt_local_obstacles_node" name="mrpt_local_obstacles_node" output="screen">
-          <param name="source_topics_2dscan" value="scan_filtered"/>
-          <param name="show_gui" value="true"/>
-        </node>
-
-        <!-- Node: Pure Reactive Navigator -->
-        <node pkg="mrpt_reactivenav2d" type="mrpt_reactivenav2d_node" name="mrpt_reactivenav2d_node" output="screen" respawn="true">
-          <!-- *Important*: This external config file holds the most important navigation settings -->
-          <param name="cfg_file_reactive" value="$(find vizzy_navigation)/config/reactive2d_config.ini"/> 
-          <param name="frameid_robot" value="base_footprint"/> 
-
-          <!-- This is to allow the reactive responsive to RVIZ GUI commands -->
-          <remap from="reactive_nav_goal" to="/move_base_simple/goal" />
-          <remap from="cmd_vel" to="/vizzy/cmd_vel" />
-          <!-- Enable logs to ~/.ros/reactivenav.logs , use navlog-viewer to open them -->
-          <!--		<param name="save_nav_log" value="true"/> -->
-
-          <!-- Robot shape: Load from geometry_msgs::Polygon topic -->
-          <param name="topic_robot_shape" value="laser_footprint" />
-        </node>
-      </group>
-
-      <group if="$(arg fake_localization)">
-      <!-- lighter localization package for simulation -->
-        <node name="fake_localization" pkg="fake_localization" type="fake_localization">
-	    <remap from="base_pose_ground_truth" to="odom"/>
-	    <param name="global_frame_id" value="$(arg map_frame)" />
-	    <param name="base_frame_id" value="$(arg base_frame_id)" />
-	    <param name="odom_frame_id" value="$(arg odom_frame_id)" />
-	</node>
-      </group>
-      <group unless="$(arg fake_localization)">
-        <!-- localization package -->
-        <include file="$(find vizzy_navigation)/launch/amcl_simulation.launch"/>
-      </group>
+    <!-- Localization determines TF between base_footprint and map -->
+    <group if="$(arg fake_localization)">
+      <!-- Lighter localization package for simulation -->
+      <node name="fake_localization" pkg="fake_localization" type="fake_localization">
+        <remap from="base_pose_ground_truth" to="odom"/>
+        <param name="global_frame_id" value="$(arg map_frame)"/>
+        <param name="base_frame_id" value="$(arg base_frame_id)"/>
+        <param name="odom_frame_id" value="$(arg odom_frame_id)"/>
+      </node>
     </group>
+    <group unless="$(arg fake_localization)">
+      <!-- Launch Adaptive Monte Carlo Localization (amcl) -->
+      <include file="$(find vizzy_navigation)/launch/amcl_simulation.launch"/>
+    </group>
+
   </group>
 
-  <!-- launch gaze action -->
-  <include file="$(find vizzy_control)/launch/gaze.launch">
-    <arg name="config_file" value="$(arg vizzy_control_config_file)" />
-    <arg name="simulation" value="$(arg simulation)" />
-    <arg name="fixation_point_in" value="$(arg fixation_point_in)" />
-  </include>
-
-  <!-- launch teleop -->
+  <!-- Launch teleop -->
   <group if="$(arg teleop)">
     <include file="$(find vizzy_navigation)/launch/teleop_joy_simulation.launch">
       <arg name="cmd_out_topic" value="twist2nav2d"/>
-      <arg name="ns" value="$(arg ns)" />
+      <arg name="ns" value="$(arg ns)"/>
     </include>
   </group>
 
-  <group>
-  <node name="twist2nav2d" pkg="vizzy_navigation" type="reroute_twist2nav2d_node">
-    <remap from="twist_topic" to="$(arg ns)/twist2nav2d"/>
-    <remap from="nav2d_topic" to="cmd"/>
-    <remap from="cmd_topic" to="$(arg ns)/cmd_vel" />
-  </node>
-  <rosparam file="$(find vizzy_navigation)/param/general.yaml"/>
-  <node name="Operator" pkg="nav2d_operator" type="operator">
-    <rosparam file="$(find vizzy_navigation)/param/operator.yaml"/>
-    <rosparam file="$(find vizzy_navigation)/param/costmap.yaml" ns="local_map" />
-    <remap from="cmd_vel" to = "$(arg ns)/cmd_vel"/>
-  </node>
+
+  <!-- Launch MoveIt! -->
+  <!-- TODO: Update moveit package with new urdf description, preferably including hands -->
+  <group if="$(arg moveit)">
+    <include file="$(find vizzy_moveit_config)/launch/moveit.launch"/>
+  </group>
+  
+  <!-- Launch gaze action (needs MoveIt!) -->
+  <group if="$(arg launch_gaze)">
+    <include file="$(find vizzy_control)/launch/gaze.launch">
+      <arg name="simulation" value="$(arg simulation)"/>
+      <arg name="config_file" value="$(arg vizzy_control_config_file)"/>
+      <arg name="fixation_point_in" value="$(arg fixation_point_in)"/>
+    </include>
   </group>
 
-  
+  <!-- TODO: Why is this necessary? -->
+  <group if="$(arg twist2nav2d)">
+    <node name="twist2nav2d" pkg="vizzy_navigation" type="reroute_twist2nav2d_node">
+      <remap from="twist_topic" to="$(arg ns)/twist2nav2d"/>
+      <remap from="nav2d_topic" to="cmd"/>
+      <remap from="cmd_topic" to="$(arg ns)/cmd_vel" />
+    </node>
+    <rosparam file="$(find vizzy_navigation)/param/general.yaml"/>
+    <node name="Operator" pkg="nav2d_operator" type="operator">
+      <rosparam file="$(find vizzy_navigation)/param/operator.yaml"/>
+      <rosparam file="$(find vizzy_navigation)/param/costmap.yaml" ns="local_map" />
+      <remap from="cmd_vel" to = "$(arg ns)/cmd_vel"/>
+    </node>
+  </group>
 
 </launch>
