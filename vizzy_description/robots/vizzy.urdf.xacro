@@ -60,6 +60,8 @@
       scale="1.0 1.0 1.0"
       ros_topic="scan"
       update_rate="40"
+      visualize="false"
+      resolution="0.03"
       min_angle="${-(5 * M_PI)/12}"
       max_angle="${(5 * M_PI)/12}"
       max_range="30">
@@ -71,6 +73,8 @@
       scale="0.0254 0.0254 0.0254"
       ros_topic="scan_rear"
       update_rate="10"
+      visualize="false"
+      resolution="0.03"
       min_angle="${-(5 * M_PI)/12}"
       max_angle="${(5 * M_PI)/12}"
       max_range="4">
