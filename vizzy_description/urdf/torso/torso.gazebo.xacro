@@ -1,17 +1,20 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
+
   <xacro:macro name="torso_gazebo">
 
     <gazebo reference="waist_link">
       <mu1>0.2</mu1>
       <mu2>0.2</mu2>
     </gazebo>
- 		<gazebo reference="waist_joint">
-			<kd value="1.0" />
-			<kp value="1000000.0" />
-			<stopCfm value="1000000.0" />
-			<fudgeFactor value="1.0" />
-			<provideFeedback value="true"/>
-		</gazebo>
+
+    <gazebo reference="waist_joint">
+      <kd value="1.0" />
+      <kp value="1000000.0" />
+      <stopCfm value="1000000.0" />
+      <fudgeFactor value="1.0" />
+      <provideFeedback value="true"/>
+    </gazebo>
+
   </xacro:macro>
 </robot>
