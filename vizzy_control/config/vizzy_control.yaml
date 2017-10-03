@@ -12,7 +12,7 @@ vizzy:
   waist_position_controller:
     type: velocity_controllers/JointPositionController
     joint: waist_joint
-    pid: {p: 1.0, i: 0.0, d: 0.0}
+    pid: {p: 100.0, i: 0.0, d: 0.0}
 
   # Head Position Controllers
   neck_pan_position_controller:
