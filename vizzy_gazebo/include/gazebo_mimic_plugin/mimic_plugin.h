@@ -10,8 +10,8 @@ class MimicPlugin : public ModelPlugin
 
 	public:
         MimicPlugin();
-		~MimicPlugin();
-		void Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf );
+	~MimicPlugin();
+	void Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf );
         void UpdateChild();
 
         std::string mimic_joint_name_;
