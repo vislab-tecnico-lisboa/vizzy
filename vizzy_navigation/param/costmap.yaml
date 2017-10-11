@@ -28,14 +28,24 @@ inflater:
   cost_scaling_factor: 14.0
 
 
+
 laserobstacles:
-  observation_sources: scan scan_rear
+  observation_sources: scan
   scan: {data_type: LaserScan, topic: scan_filtered, marking: true, clearing: true}
-  scan_rear: {data_type: LaserScan, topic: scan_filtered_rear, marking: true, clearing: true}
-  obstacle_range: 4.0
-  raytrace_range: 4.5
+  obstacle_range: 25.0
+  raytrace_range: 30.0
   marking: true
   clearing: true
+  
+laserobstaclesrear:
+  observation_sources: scan_rear
+  scan_rear: {data_type: LaserScan, topic: scan_filtered_rear, marking: true, clearing: true}
+  obstacle_range: 3.5
+  raytrace_range: 4.0
+  marking: true
+  clearing: true
+
+
 
 kinectobstacles:
   observation_sources: pointcloud_sensor_in pointcloud_sensor_clear
