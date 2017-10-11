@@ -1142,38 +1142,19 @@ Visualization Manager:
       Use Fixed Frame: true
       Use rainbow: true
       Value: false
-    - Alpha: 0.699999988
-      Class: rviz/Map
-      Color Scheme: map
-      Draw Behind: false
-      Enabled: true
-      Name: projected_map
-      Topic: /projected_map
-      Unreliable: false
-      Use Timestamp: false
-      Value: true
-    - Alpha: 0.699999988
-      Class: octomap_rviz_plugin/OccupancyMap
-      Color Scheme: map
-      Draw Behind: false
-      Enabled: false
-      Max. Octree Depth: 16
-      Name: OccupancyMap
-      Octomap Binary Topic: ""
-      Unreliable: false
-      Use Timestamp: false
-      Value: false
     - Class: octomap_rviz_plugin/OccupancyGrid
       Enabled: true
-      Max. Height Display: inf
+      Max. Height Display: 3.40282347e+38
       Max. Octree Depth: 16
-      Min. Height Display: -inf
+      Min. Height Display: -3.40282347e+38
+
       Name: OccupancyGrid
       Octomap Topic: /octomap_full
       Queue Size: 5
       Value: true
       Voxel Alpha: 1
       Voxel Coloring: Cell Probability
+
       Voxel Rendering: All Voxels
   Enabled: true
   Global Options:
@@ -1199,13 +1180,15 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 7.95057011
+      Distance: 19.685318
+
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
+
         X: 2.3983593
         Y: -0.643254936
         Z: 0.303271979
@@ -1213,6 +1196,7 @@ Visualization Manager:
       Focal Shape Size: 0.0500000007
       Name: Current View
       Near Clip Distance: 0.00999999978
+
       Pitch: 0.274797738
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
@@ -1221,7 +1205,7 @@ Visualization Manager:
 Window Geometry:
   Displays:
     collapsed: false
-  Height: 1056
+  Height: 1428
   Hide Left Dock: false
   Hide Right Dock: false
   LeftCortical:
@@ -1229,6 +1213,7 @@ Window Geometry:
   LeftRetinal:
     collapsed: false
   MotionPlanning:
+
     collapsed: false
   MotionPlanning - Slider:
     collapsed: false
