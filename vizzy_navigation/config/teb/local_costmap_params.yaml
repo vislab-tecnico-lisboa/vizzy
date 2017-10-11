@@ -12,6 +12,7 @@ local_costmap:
    track_unknown_space: true
    plugins:
      - {name: laserobstacles, type: "costmap_2d::VoxelLayer"}
+     - {name: laserobstaclesrear, type: "costmap_2d::VoxelLayer"}
      - {name: kinectobstacles, type: "costmap_2d::VoxelLayer"}
      - {name: inflater, type: "costmap_2d::InflationLayer"}
 
