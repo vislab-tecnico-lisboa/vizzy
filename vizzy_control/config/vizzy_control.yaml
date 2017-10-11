@@ -12,7 +12,7 @@ vizzy:
   waist_position_controller:
     type: velocity_controllers/JointPositionController
     joint: waist_joint
-    pid: {p: 1.0, i: 0.0, d: 0.0}
+    pid: {p: 100.0, i: 0.0, d: 0.0}
 
   # Head Position Controllers
   neck_pan_position_controller:
@@ -236,35 +236,35 @@ vizzy:
       - l_wrist_flection_joint
     gains:
       l_shoulder_scapula_joint:
-        p: 100.0
+        p: 500.0
         i: 0.0
         d: 0.0
       l_shoulder_flection_joint:
-        p: 10.0
+        p: 500.0
         i: 0.0
         d: 0.0
       l_shoulder_abduction_joint:
-        p: 10.0
+        p: 100.0
         i: 0.0
         d: 0.0
       l_shoulder_rotation_joint:
-        p: 10.0
+        p: 100.0
         i: 0.0
         d: 0.0
       l_elbow_flection_joint:
-        p: 10.0
+        p: 100.0
         i: 0.0
         d: 0.0
       l_forearm_pronation_joint:
-        p: 10.0
+        p: 100.0
         i: 0.0
         d: 0.0
       l_wrist_abduction_joint:
-        p: 10.0
+        p: 100.0
         i: 0.0
         d: 0.0
       l_wrist_flection_joint:
-        p: 10.0
+        p: 100.0
         i: 0.0
         d: 0.0
     constraints:
@@ -307,37 +307,37 @@ vizzy:
       - r_wrist_flection_joint
     gains:
       r_shoulder_scapula_joint:
-        p: 10.0
-        i: 0.0
-        d: 0.0
+        p: 500.0
+        i: 0.1
+        d: 0.1
       r_shoulder_flection_joint:
-        p: 10.0
-        i: 0.0
-        d: 0.0
+        p: 500.0
+        i: 0.1
+        d: 0.1
       r_shoulder_abduction_joint:
-        p: 10.0
-        i: 0.0
-        d: 0.0
+        p: 100.0
+        i: 0.1
+        d: 0.1
       r_shoulder_rotation_joint:
-        p: 10.0
-        i: 0.0
-        d: 0.0
+        p: 100.0
+        i: 0.1
+        d: 0.1
       r_elbow_flection_joint:
-        p: 10.0
-        i: 0.0
-        d: 0.0
+        p: 100.0
+        i: 0.1
+        d: 0.1
       r_forearm_pronation_joint:
-        p: 10.0
-        i: 0.0
-        d: 0.0
+        p: 100.0
+        i: 0.1
+        d: 0.1
       r_wrist_abduction_joint:
-        p: 10.0
-        i: 0.0
-        d: 0.0
+        p: 100.0
+        i: 0.1
+        d: 0.1
       r_wrist_flection_joint:
-        p: 10.0
-        i: 0.0
-        d: 0.0
+        p: 100.0
+        i: 0.1
+        d: 0.1
     constraints:
       goal_time: 1000.0                   # Override default
       r_shoulder_scapula_joint:

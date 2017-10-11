@@ -19,7 +19,7 @@
   <arg name="odom_frame_id" default="$(arg tf_prefix)/odom" />
   <arg name="map_topic" default="/map" />
   <arg name="visualization" default="true" />
-  <arg name="head_only" default="false"/>
+
   <arg name="teleop" default="false"/>
   <arg name="move_robot_config_file" default="$(find vizzy_control)/config/frames.yaml"/>
   <arg name="perfect_calibration" default="true"/>
@@ -29,12 +29,12 @@
   <include file="$(find vizzy_launch)/launch/vizzy_simulation.launch">
     <arg name="navigation" value="$(arg navigation)"/>
     <arg name="map_frame" value="$(arg map_frame)" />
-    <arg name="tf_prefix" value="$(arg tf_prefix)" />
+
     <arg name="base_frame_id" value="$(arg base_frame_id)" />
     <arg name="odom_frame_id" value="$(arg odom_frame_id)" />
     <arg name="map_topic" value="$(arg map_topic)" />
-    <arg name="launch_moveit" value="$(arg launch_moveit)" />
-    <arg name="head_only" value="$(arg head_only)"/>
+
+
     <arg name="pose" value="$(arg pose)"/>
     <arg name="world" value="$(arg world)" />
     <arg name="teleop" value="$(arg teleop)"/>
@@ -48,7 +48,7 @@
   </include>
 
   <!-- launch vizualization on rviz -->
-  <group if="$(arg visualization)">
+  <!--<group if="$(arg visualization)">
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find vizzy_demos)/rviz/active_stereo.rviz" />
-  </group>
+  </group>-->
 </launch>
