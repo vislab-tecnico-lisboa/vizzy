@@ -93,7 +93,7 @@ Other dependencies needed (in a convenient one-liner)
     sudo apt install ros-$version-position-controllers &&
     sudo apt install ros-$version-joint-trajectory-controller &&
     sudo apt install ros-$version-eband-local-planner &&
-    sudo apt install 'ros-$version-opencv*' &&
+    sudo apt install ros-$version-opencv* &&
     sudo apt install ros-$version-gazebo-ros-control &&
     sudo apt install ros-$version-laser-filters &&
     sudo apt install libsuitesparse-dev &&
