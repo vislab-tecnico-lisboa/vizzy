@@ -151,6 +151,10 @@ Furthermore, without a X11 session the PulseAudio server will not launch automat
 
 This should be launched automatically, but if the audio is not working you should check if the pulseaudio server is running. If not, execute the previous command and it should work.
 
+To control the audio volume use
+
+    alsamixer
+
 Now you can access audio configurations via ssh -X. Useful commands:
 
     gnome-control-center
