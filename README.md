@@ -136,6 +136,10 @@ Feel free to play with the arguments as you want or to change the low-level laun
 To access pulseaudio and all the sound options through the network you need to make it discoverable. For that use:
 
     paprefs
+    
+Add the vizzy user to the audio group
+
+    sudo usermod -aG audio,pulse,pulse-access `whoami`
 
 In order to access the audio configurations via SSH you need to define the the following environment variable on Vizzy:
 
