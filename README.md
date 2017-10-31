@@ -82,8 +82,8 @@ We are currently migrating the eband planner to teb planner.
 Other dependencies needed (in a convenient one-liner)
     
     version=kinetic &&
-    sudo apt install 'ros-$version-gazebo-*' &&
-    sudo apt install 'ros-$version-moveit-*' &&
+    sudo apt install ros-$version-gazebo-* &&
+    sudo apt install ros-$version-moveit-* &&
     sudo apt install ros-$version-move-base &&
     sudo apt install ros-$version-amcl &&
     sudo apt install ros-$version-joy &&
