@@ -43,6 +43,7 @@
   <include file="$(find vizzy_gazebo)/launch/vizzy_spawn.launch">
     <arg name="pose" value="$(arg pose)"/>
     <arg name="robot" value="$(arg robot)"/>
+    <arg name="use_yarp" value="$(arg use_yarp)"/>
     <arg name="urdf_file" value="$(arg urdf_file)"/>
     <arg name="use_full_gazebo_model" value="$(arg use_full_gazebo_model)"/>
     <arg name="disable_laser" value="$(arg disable_laser)"/>
