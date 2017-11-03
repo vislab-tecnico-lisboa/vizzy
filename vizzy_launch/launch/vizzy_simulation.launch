@@ -22,7 +22,7 @@
   <arg name="simulation" value="true"/>
 
   <!-- Load Yarp plugins for real robot execution -->
-  <arg name="use_yarp" value="false"/>
+  <arg name="use_yarp" default="false"/>
 
   <!-- Gazebo parameters -->
   <arg name="gui" default="true"/>
