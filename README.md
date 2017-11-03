@@ -82,8 +82,8 @@ We are currently migrating the eband planner to teb planner.
 Other dependencies needed (in a convenient one-liner)
     
     version=kinetic &&
-    sudo apt install 'ros-$version-gazebo-*' &&
-    sudo apt install 'ros-$version-moveit-*' &&
+    sudo apt install ros-$version-gazebo-* &&
+    sudo apt install ros-$version-moveit-* &&
     sudo apt install ros-$version-move-base &&
     sudo apt install ros-$version-amcl &&
     sudo apt install ros-$version-joy &&
@@ -93,7 +93,7 @@ Other dependencies needed (in a convenient one-liner)
     sudo apt install ros-$version-position-controllers &&
     sudo apt install ros-$version-joint-trajectory-controller &&
     sudo apt install ros-$version-eband-local-planner &&
-    sudo apt install 'ros-$version-opencv*' &&
+    sudo apt install ros-$version-opencv* &&
     sudo apt install ros-$version-gazebo-ros-control &&
     sudo apt install ros-$version-laser-filters &&
     sudo apt install libsuitesparse-dev &&
@@ -136,6 +136,10 @@ Feel free to play with the arguments as you want or to change the low-level laun
 To access pulseaudio and all the sound options through the network you need to make it discoverable. For that use:
 
     paprefs
+    
+Add the vizzy user to the audio group
+
+    sudo usermod -aG audio,pulse,pulse-access `whoami`
 
 In order to access the audio configurations via SSH you need to define the the following environment variable on Vizzy:
 
@@ -146,6 +150,10 @@ Furthermore, without a X11 session the PulseAudio server will not launch automat
     pulseaudio -D
 
 This should be launched automatically, but if the audio is not working you should check if the pulseaudio server is running. If not, execute the previous command and it should work.
+
+To control the audio volume use
+
+    alsamixer
 
 Now you can access audio configurations via ssh -X. Useful commands:
 
