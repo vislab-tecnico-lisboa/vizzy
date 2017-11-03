@@ -18,7 +18,7 @@ find_package(OpenCV)
 
 #SET(GCC_COVERAGE_COMPILE_FLAGS "-Wno-delete-non-virtual-dtor -Wno-reorder")
 #list(APPEND CMAKE_CXX_FLAGS ${GCC_COVERAGE_COMPILE_FLAGS})
-#SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${GCC_COVERAGE_COMPILE_FLAGS}" )
+#SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -std=c++11" )
 #set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${YARP_MODULE_PATH} ${ICUB_MODULE_PATH})
 
 #set(ICUB_APPLICATIONS_PREFIX "${CMAKE_SOURCE_DIR}/bin"  CACHE PATH "Application path prefix")
@@ -34,6 +34,7 @@ SOURCE_GROUP("Header Files" FILES ${folder_header})
 INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR} ${iKin_INCLUDE_DIRS} ${YARP_INCLUDE_DIRS} ${IPOPT_INCLUDE_DIRS} ${fKin_INCLUDE_DIRS})
 #message("${fKin_INCLUDE_DIRS}")
 
+ADD_DEFINITIONS(${IPOPT_DEFINITIONS})
 # Set up our main executable.
 IF (folder_source)
   ADD_EXECUTABLE(${PROJECTNAME} ${folder_source} ${folder_header})
@@ -55,5 +56,6 @@ set_target_properties(
   "${RELEASE_DEFINES}"
   COMPILE_FLAGS
   "-Wall -static"
+  LINK_FLAGS "${IPOPT_LINK_FLAGS}" 
   )
 
