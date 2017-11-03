@@ -90,7 +90,7 @@ int main(int argc, char *argv[])
     IControlMode2 *iMode2=0;
     IMotor *imot=0;
     ITorqueControl *itorque=0;
-    IOpenLoopControl *iopenloop=0;
+    //IOpenLoopControl *iopenloop=0;
     IImpedanceControl *iimp=0;
     IInteractionMode *iInteract=0;
     IMotorEncoders *iMotEnc=0;
