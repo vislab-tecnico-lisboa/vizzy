@@ -69,6 +69,13 @@ add_dependencies(gaze_client vizzy_msgs_generate_messages_cpp)
 target_link_libraries(gaze_client
    ${catkin_LIBRARIES}
 )
+
+add_executable(gaze_client_wasd src/GazeClientWASD.cpp)
+add_dependencies(gaze_client_wasd vizzy_msgs_generate_messages_cpp)
+## Specify libraries to link a library or executable target against
+target_link_libraries(gaze_client_wasd
+   ${catkin_LIBRARIES}
+)
 ## Declare a cpp library
 add_library(fixation_point_lib
    src/FixationPoint.cpp
