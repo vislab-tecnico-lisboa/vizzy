@@ -1,3 +1,5 @@
+/*By Rui Figueiredo*/
+
 #ifndef GAZECLIENT_H
 #define GAZECLIENT_H
 #include <ros/ros.h>
