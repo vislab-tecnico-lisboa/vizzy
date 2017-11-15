@@ -258,7 +258,7 @@ bool VizzyArmRoutines::updateModule() {
                 cout << "Grabbing user hand" << endl;
                 pos->setRefSpeeds(velocities_waving.data());
                 command = grabing_hand_pose;
-                while(!done) {
+                while(!done) { 
                     pos->checkMotionDone(&done);
                     Time::delay(0.00001);   // Alterado
                 }
