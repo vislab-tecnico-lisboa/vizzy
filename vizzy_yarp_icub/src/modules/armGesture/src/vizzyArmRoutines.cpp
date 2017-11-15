@@ -37,7 +37,6 @@ bool VizzyArmRoutines::attach(RpcServer &source)
 bool VizzyArmRoutines::configure(yarp::os::ResourceFinder &rf) {
     _closing = false;
     /* module name */
-	Vector velocities_waving, velocities_stretching;
     moduleName = rf.check("name", Value("vizzyArmRoutines"),
                           "Module name (string)").asString();
     robotName = rf.check("robot", Value("vizzy"),"Robot name (string)").asString();
@@ -92,6 +91,7 @@ bool VizzyArmRoutines::configure(yarp::os::ResourceFinder &rf) {
     pos->getAxes(&nj);
 	velocities_waving.resize(nj);
     velocities_stretching.resize(nj);
+    velocities_handshaking.resize(nj);
     // Setting Control Mode - Position
     for(int i=0;i< nj;i++)
         ictrl->setControlMode(i,VOCAB_CM_POSITION);
@@ -101,7 +101,7 @@ bool VizzyArmRoutines::configure(yarp::os::ResourceFinder &rf) {
     velocities_waving[0] = 10.0; // shoulder
     velocities_waving[4] = 30.0; // prosupination - wave joint
 
-    // Setting Motor velocities for handshake motion
+    // Setting Motor velocities for arm stretching motion
 
     velocities_stretching[0] = 15;
     velocities_stretching[1] = 40;
@@ -114,6 +114,12 @@ bool VizzyArmRoutines::configure(yarp::os::ResourceFinder &rf) {
     velocities_stretching[8] = 20;
     velocities_stretching[9] = 20;
     velocities_stretching[10] = 35;
+
+
+    // Setting Motor velocities for handshaking motion
+
+    velocities_handshaking = velocities_waving;
+
 
 
 
@@ -146,13 +152,13 @@ bool VizzyArmRoutines::configure(yarp::os::ResourceFinder &rf) {
 
     // Case 2 - Arm stretched
     arm_forward_pose[0] =2.25*CTRL_RAD2DEG;
-    arm_forward_pose[1] = *CTRL_RAD2DEG;
-    arm_forward_pose[2] = 1.14261*CTRL_RAD2DEG;
-    arm_forward_pose[3] = 0.0*CTRL_RAD2DEG;
-    arm_forward_pose[4] = 0.87361*CTRL_RAD2DEG;
-    arm_forward_pose[5] = 0.033366*CTRL_RAD2DEG;
-    arm_forward_pose[6] = -0.542265*CTRL_RAD2DEG;
-    arm_forward_pose[7] = -0.260872*CTRL_RAD2DEG;
+    arm_forward_pose[1] = 110*CTRL_RAD2DEG;
+    arm_forward_pose[2] = 2.06*CTRL_RAD2DEG;
+    arm_forward_pose[3] = -61.18*CTRL_RAD2DEG;
+    arm_forward_pose[4] = 15.68*CTRL_RAD2DEG;
+    arm_forward_pose[5] = -69.63*CTRL_RAD2DEG;
+    arm_forward_pose[6] = 34*CTRL_RAD2DEG;
+    arm_forward_pose[7] = -0.7*CTRL_RAD2DEG;
     arm_forward_pose[8] = 37.5*CTRL_RAD2DEG;
     arm_forward_pose[9] = 45*CTRL_RAD2DEG;
     arm_forward_pose[10] = 69.75*CTRL_RAD2DEG;
@@ -235,7 +241,7 @@ bool VizzyArmRoutines::updateModule() {
                 //Stretch arm forward
                 cout << "Stretching arm forward" << endl;
                 
-                pos->setRefSpeeds(velocities_waving.data());
+                pos->setRefSpeeds(velocities_stretching.data());
                 command = arm_forward_pose;
                 pos->positionMove(command.data());
                 while(!done) {
@@ -250,10 +256,26 @@ bool VizzyArmRoutines::updateModule() {
                 //Perform handshake
                 cout << "Performing handshake..." << endl;
                 cout << "Grabbing user hand" << endl;
-
+                pos->setRefSpeeds(velocities_waving.data());
+                command = grabing_hand_pose;
+                while(!done) {
+                    pos->checkMotionDone(&done);
+                    Time::delay(0.00001);   // Alterado
+                }
+                done = false;
 
                 cout << "Performing waving motion" << endl;
-
+                for(int i=0;i< 5; i++) {
+                    if(i%2==0) {
+                        command[4]=wave_home_pose[4]+10;
+                        pos->positionMove(command.data());
+                    }
+                    else {
+                        command[4]=wave_home_pose[4]-10;
+                        pos->positionMove(command.data());
+                    }
+                    Time::delay(0.6);
+                }
 
                 cout << "Letting go of user hand" << endl;
 
@@ -288,11 +310,4 @@ bool VizzyArmRoutines::close() {
 
     command_sub.close();
     return true;
-}
-
-void VizzyArmRoutines::setJointsVelocities()
-{
-
-
-
 }
