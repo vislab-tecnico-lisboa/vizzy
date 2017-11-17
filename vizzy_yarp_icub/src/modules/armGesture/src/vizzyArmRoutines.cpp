@@ -151,23 +151,23 @@ bool VizzyArmRoutines::configure(yarp::os::ResourceFinder &rf) {
     wave_home_pose[7] = -0.260872*CTRL_RAD2DEG;
 
     // Case 2 - Arm stretched
-    arm_forward_pose[0] =1.5349*CTRL_RAD2DEG;
-    arm_forward_pose[1] = 110.24*CTRL_RAD2DEG;
-    arm_forward_pose[2] = 4.89*CTRL_RAD2DEG;
-    arm_forward_pose[3] = -8.5*CTRL_RAD2DEG;
-    arm_forward_pose[4] = 0*CTRL_RAD2DEG;
-    arm_forward_pose[5] = -10*CTRL_RAD2DEG;
-    arm_forward_pose[6] = 28*CTRL_RAD2DEG;
-    arm_forward_pose[7] = -16*CTRL_RAD2DEG;
-    arm_forward_pose[8] = 37.5*CTRL_RAD2DEG;
-    arm_forward_pose[9] = 45*CTRL_RAD2DEG;
-    arm_forward_pose[10] = 69.75*CTRL_RAD2DEG;
+    arm_forward_pose[0] =1.5349;
+    arm_forward_pose[1] = 110.24;
+    arm_forward_pose[2] = 4.89;
+    arm_forward_pose[3] = -8.5;
+    arm_forward_pose[4] = 0;
+    arm_forward_pose[5] = -10;
+    arm_forward_pose[6] = 28;
+    arm_forward_pose[7] = -16;
+    arm_forward_pose[8] = 37.5;
+    arm_forward_pose[9] = 45;
+    arm_forward_pose[10] = 69.75;
 
     //Case 3 - Grab hand
     grabing_hand_pose = arm_forward_pose;
-    grabing_hand_pose[8] = 111*CTRL_RAD2DEG;
-    grabing_hand_pose[9] = 103.5*CTRL_RAD2DEG;
-    grabing_hand_pose[10] = 193.5*CTRL_RAD2DEG;
+    grabing_hand_pose[8] = 111;
+    grabing_hand_pose[9] = 103.5;
+    grabing_hand_pose[10] = 193.5;
 
 
 
