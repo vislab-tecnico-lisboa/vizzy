@@ -8,13 +8,14 @@
   <param name="tf_prefix" value="$(arg tf_prefix)" />
 
   <!-- run the hokuyo driver with the laser link as the frame id -->
-  <node machine="$(arg vizzy_machine_name)" name="$(arg name)_node" pkg="hokuyo_node" type="hokuyo_node">
-    <param name="port" value="$(arg port)" />
+  <node machine="$(arg vizzy_machine_name)" name="$(arg name)_node" pkg="urg_node" type="urg_node">
+    <param name="serial_port" value="$(arg port)" />
     <param name="frame_id" value="$(arg name)_laser_link" />
     <remap from="scan" to="$(arg scan_name)" />
     <!-- <param name="frame_id" value="$(arg tf_prefix)/$(arg name)_laser_link" /> -->
-    <param name="min_ang" value="-1.309" /> <!-- -5pi/12-->
-    <param name="max_ang" value="1.309" /> <!-- 5pi/12 -->
+    <param name="angle_min" value="-1.309" /> <!-- -5pi/12-->
+    <param name="angle_max" value="1.309" /> <!-- 5pi/12 -->
   </node>
-  
+
+ 
 </launch>
