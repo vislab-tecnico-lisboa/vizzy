@@ -55,7 +55,8 @@ class VizzyArmRoutines: public RFModule, public VIZZYARMROUTINES_IDL {
     IPositionControl *pos;
     IEncoders *encs;
     IControlMode2 *ictrl;
-    yarp::sig::Vector command, encoders, home_pose, wave_home_pose;
+    yarp::sig::Vector command, encoders, home_pose, wave_home_pose, grabing_hand_pose, arm_forward_pose, handshaking_pose;
+    yarp::sig::Vector velocities_waving, velocities_stretching, velocities_handshaking;
 private:
     bool _closing;
 public:
@@ -65,6 +66,7 @@ public:
     bool updateModule();
     bool interruptModule();
     bool close();
+    void setJointsVelocities(yarp::sig::Vector &velocities);
 
     // IDL functions
     bool attach(yarp::os::RpcServer &source);
