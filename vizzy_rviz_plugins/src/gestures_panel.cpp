@@ -9,7 +9,7 @@ November, 2017
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QPushButton>
-#include <std_msgs/UInt16.h>
+#include <std_msgs/Int16.h>
 #include "../include/vizzy_rviz_plugins/gestures_panel.hpp"
 
 
@@ -29,7 +29,7 @@ GesturesPanel::GesturesPanel(QWidget *parent)
   QHBoxLayout* topic_layout = new QHBoxLayout();
   topic_layout->addWidget( new QLabel( "Output Topic:" ));
   output_topic_editor_ = new QLineEdit;
-  output_topic_editor_->setText("/vizzy/gesture");
+  output_topic_editor_->setText("/vizzyArmRoutines/command");
   topic_layout->addWidget(output_topic_editor_ );
 
   QVBoxLayout* gestures_layout= new QVBoxLayout();
@@ -54,7 +54,7 @@ GesturesPanel::GesturesPanel(QWidget *parent)
 
 void GesturesPanel::wave()
 {
-  std_msgs::UInt16 command;
+  std_msgs::Int16 command;
   command.data=1;
   vizzy_arm_publisher.publish(command);
   return;
@@ -62,14 +62,14 @@ void GesturesPanel::wave()
 
 void GesturesPanel::stretch()
 {
-  std_msgs::UInt16 command;
+  std_msgs::Int16 command;
   command.data=2;
   vizzy_arm_publisher.publish(command);
 }
 
 void GesturesPanel::handshake()
 {
-  std_msgs::UInt16 command;
+  std_msgs::Int16 command;
   command.data=3;
   vizzy_arm_publisher.publish(command);
 }
@@ -92,7 +92,7 @@ void GesturesPanel::setTopic(const QString &new_topic)
     }
     else
     {
-      vizzy_arm_publisher = nh_.advertise<std_msgs::UInt16>( output_topic_.toStdString(), 1 );
+      vizzy_arm_publisher = nh_.advertise<std_msgs::Int16>( output_topic_.toStdString(), 1 );
     }
 
     Q_EMIT configChanged();
