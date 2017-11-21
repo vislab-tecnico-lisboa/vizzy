@@ -3,6 +3,7 @@
 <launch>
   <arg name="vizzy_machine_name" default="vizzy-desktop"/>
   <arg name="vizzy_machine_address" default="10.10.1.80"/>
+  <arg name="operator" default="false"/>
   <arg name="env-loader" default="/home/vizzy/catkin_workspace/devel/env.sh"/>
   <machine name="$(arg vizzy_machine_name)" address="$(arg vizzy_machine_address)" env-loader="$(arg env-loader)" user="vizzy"/>
 
@@ -170,7 +171,7 @@
     </include>
   </group>
 
-  <group>
+  <group if="$(arg operator)">
   <node name="twist2nav2d" pkg="vizzy_navigation" type="reroute_twist2nav2d_node">
     <remap from="twist_topic" to="$(arg ns)/twist2nav2d"/>
     <remap from="nav2d_topic" to="cmd"/>
