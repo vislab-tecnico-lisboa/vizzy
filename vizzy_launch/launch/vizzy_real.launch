@@ -173,6 +173,7 @@
 
   <group if="$(arg operator)">
   <node name="twist2nav2d" pkg="vizzy_navigation" type="reroute_twist2nav2d_node">
+  <node name="twist2nav2d" pkg="vizzy_navigation" type="reroute_twist2nav2d_node">
     <remap from="twist_topic" to="$(arg ns)/twist2nav2d"/>
     <remap from="nav2d_topic" to="cmd"/>
     <remap from="cmd_topic" to="$(arg ns)/cmd_vel" />
