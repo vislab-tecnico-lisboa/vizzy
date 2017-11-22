@@ -130,7 +130,7 @@
     </group>
     <group unless="$(arg slam)">
       <!-- launch pre obtained map to the environment -->
-      <node machine="$(arg vizzy_machine_name)" name="map_server" pkg="map_server" type="map_server" args="$(arg vizzy_navigation_absolute_path)/maps/$(arg map_file)" />
+      <node machine="$(arg vizzy_machine_name)" name="map_server" pkg="map_server" type="map_server" args="$(find vizzy_navigation)/maps/$(arg map_file)" />
 
       <group if="$(arg custom_obstacles)" ns="obst">
 	<node name="obstacle_map_server" pkg="map_server" type="map_server" args="$(find vizzy_navigation)/maps/$(arg obstacles_map_file)" >
