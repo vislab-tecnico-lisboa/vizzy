@@ -7,8 +7,8 @@
   <!-- Camera parameters -->
   <arg name="left_camera_name" default="l_camera" />
   <arg name="right_camera_name" default="r_camera" />
-  <arg name="left_camera_guid" default="00b09d01007ad693" />
-  <arg name="right_camera_guid" default="00b09d01007ad691" />
+  <arg name="left_camera_guid" default="00b09d01007ad691" />
+  <arg name="right_camera_guid" default="00b09d01007ad693" />
   <arg name="left_camera_file" default="left_camera_params.yaml" />
   <arg name="right_camera_file" default="right_camera_params.yaml" />
   
@@ -92,7 +92,7 @@
 	  </include>
 
 	  <!-- Right camera -->
-	  <include file="$(find vizzy_robot)/launch/camera.launch">
+<!--	  <include file="$(find vizzy_robot)/launch/camera.launch">
 	    <arg name="camera" value="$(arg right_camera_name)" />
 	    <arg name="frame_id" value="r_camera_vision_link" />
             <arg name="guid" value="$(arg right_camera_guid)" />
@@ -110,6 +110,6 @@
 	    <arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)" />
 	    <arg name="ns" value="$(arg ns)" />
 	    <arg name="camera_file" value="$(arg right_camera_file)" />
-	  </include>
+	  </include> -->
 	</group>
 </launch>
