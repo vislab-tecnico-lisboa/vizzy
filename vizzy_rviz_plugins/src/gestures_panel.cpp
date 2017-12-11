@@ -20,9 +20,11 @@ GesturesPanel::GesturesPanel(QWidget *parent)
 {
 
   //Configure the push buttons for the handshakes
+  home_button = new QPushButton("Home position", this);
   wave_button = new QPushButton("Wave", this);
   stretch_button = new QPushButton("Stretch arm", this);
   handshake_button = new QPushButton("Handshake", this);
+  askshake_button = new QPushButton("Ask for handshake", this);
 
   // Next we lay out the "output topic" text entry field using a
   // QLabel and a QLineEdit in a QHBoxLayout.
@@ -33,9 +35,11 @@ GesturesPanel::GesturesPanel(QWidget *parent)
   topic_layout->addWidget(output_topic_editor_ );
 
   QVBoxLayout* gestures_layout= new QVBoxLayout();
+  gestures_layout->addWidget(home_button);
   gestures_layout->addWidget(wave_button);
   gestures_layout->addWidget(stretch_button);
   gestures_layout->addWidget(handshake_button);
+  gestures_layout->addWidget(askshake_button);
 
   QVBoxLayout* panel_layout = new QVBoxLayout();
   panel_layout->addLayout(topic_layout);
@@ -44,12 +48,22 @@ GesturesPanel::GesturesPanel(QWidget *parent)
   setLayout( panel_layout );
 
   //Connect objects with signals
+  connect(home_button, SIGNAL (released()), this, SLOT(home()));
   connect(wave_button, SIGNAL (released()), this, SLOT (wave()));
   connect(stretch_button, SIGNAL (released()), this, SLOT (stretch()));
   connect(handshake_button, SIGNAL (released()), this, SLOT (handshake()));
+  connect(askshake_button, SIGNAL (released()), this, SLOT (askshake()));
   connect( output_topic_editor_, SIGNAL( editingFinished() ), this, SLOT( updateTopic() ));
 
   updateTopic();
+}
+
+void GesturesPanel::home()
+{
+  std_msgs::Int16 command;
+  command.data=0;
+  vizzy_arm_publisher.publish(command);
+  return;
 }
 
 void GesturesPanel::wave()
@@ -72,6 +86,13 @@ void GesturesPanel::handshake()
   std_msgs::Int16 command;
   command.data=3;
   vizzy_arm_publisher.publish(command);
+}
+
+void GesturesPanel::askshake()
+{
+  std_msgs::Int16 command;
+  command.data=4;
+  vizzy_arm_publisher.publish(command);  
 }
 
 void GesturesPanel::updateTopic()
