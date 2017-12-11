@@ -237,7 +237,7 @@ bool VizzyArmRoutines::updateModule() {
                         pos->positionMove(command.data());
                         cout << "right" << endl;
                     }
-                    Time::delay(0.2);
+                    Time::delay(0.6);
                 }
                 command=home_pose;
                 pos->positionMove(command.data());
@@ -308,6 +308,34 @@ bool VizzyArmRoutines::updateModule() {
                 }
                 cout << "Handshake performed" << endl;
                 break;
+            case 4:
+                cout << "Asking for shake" << endl;
+                pos->setRefSpeeds(velocities_stretching.data());
+
+                //Just to be sure that it's on the right position...
+                command = arm_forward_pose;
+                pos->positionMove(command.data());
+                while(!done) {
+                    pos->checkMotionDone(&done);
+                    Time::delay(0.00001);   // Alterado
+                }
+                done = false;
+
+                for(int i=0;i< 5; i++) {
+                    if(i%2==0) {
+                        command[4]=arm_forward_pose[4]+10;
+                        command[6]= arm_forward_pose[6] + 6; //34-28
+                        pos->positionMove(command.data());
+                    }
+                    else {
+                        command[4]=arm_forward_pose[4];
+                        command[6]= arm_forward_pose[6]; //34-28
+                        pos->positionMove(command.data());
+                    }
+                    Time::delay(0.6);
+                }                
+
+
             default:
                 cout << "unknown command" << endl;
         }

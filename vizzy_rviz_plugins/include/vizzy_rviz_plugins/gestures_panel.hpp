@@ -43,16 +43,20 @@ protected:
    void sendCommand(int command);
 
 private:
+   QPushButton *home_button;
    QPushButton *wave_button;
    QPushButton *stretch_button;
+   QPushButton *askshake_button;
    QPushButton *handshake_button;
 
 public Q_SLOTS:
 
   void setTopic( const QString& topic );
+  void home();
   void wave();
   void stretch();
   void handshake();
+  void askshake();
 
 
 protected Q_SLOTS:
