@@ -213,24 +213,32 @@ public:
              Time::delay(0.01);   // Alterado
           }*/
          arm->goToPoseSync(initial_position,initial_orientation);
-         bool done = true;
+         bool done = false;
          //arm->checkMotionDone(&done);
          /*while(!done) {
              arm->checkMotionDone(&done);
 	     cout << "Not done!!" << endl;
              Time::delay(0.01);   // Alterado
          }*/
-	 //arm->waitMotionDone(0.01);
-	 Time::delay(5.0);
+     double timeout = 5.0;
+     done = arm->waitMotionDone(0.1,timeout);
+     //arm->waitMotionDone(0.01);
+     //Time::delay(5.0);
          cout << "Home position done!!" << endl;
          /*while (!connected_port){
            connected_port = Network::connect(sensor_remote_port, sensor_local_port);
            cout << "Waiting for port!!" << done << endl;
            Time::delay(1);
          }*/
+         if(!done){
+            yWarning("Something went wrong with the initial approach, using timeout");
+            done = arm->waitMotionDone(0.1,timeout);
+         }
          if (done){
              current_state=1;
          }
+
+
      }
      else if (current_state==1){
          arm->getPose(initial_position,initial_orientation);
@@ -292,8 +300,29 @@ public:
                  iMode2->setControlMode(j,VOCAB_CM_POSITION_DIRECT);
              }
              iMode2_torso->setControlMode(0,VOCAB_CM_POSITION_DIRECT);*/
-             arm->goToPoseSync(new_position,current_orientation);
+
+
+
+
+
+             //arm->goToPoseSync(new_position,current_orientation);
+             double timeHere;
+             arm->getTrajTime(&timeHere);
+             arm->setTrajTime(1.0);
+             Vector xdot(3); // move the end-effector along x-axis at specified velocity
+             xdot[0] = 0.0;    // 0.09 [m/s]
+             xdot[1] = -0.02;
+             xdot[2] = 0.0;
+             Vector odot(4); // no rotation is required
+             odot=0.0; // [rad/s]
+             arm->setTaskVelocities(xdot,odot);
+
+             yDebug("waiting 2.5 seconds");
+             Time::delay(2.0);
+             arm->stopControl();
+             arm->setTrajTime(timeHere);
              Vector xdhat,odhat, qdhat;
+
              arm->getDesired(xdhat, odhat, qdhat);
              accumulated_distance=initial_position[1]-xdhat[1];
              cout << "Going to: (" << xdhat.toString().c_str() << ")" << endl;
