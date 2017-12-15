@@ -41,9 +41,11 @@ protected:
   bool randomTarget;
   Vector initial_position;
   Vector initial_orientation;
+  Vector cartesian_velocity;
   double distance;
   double contact_tol;
   Vector control_reference;
+  double trajtime;
   int current_state;
   bool connected_port;
   BufferedPort<Bottle> sensor_readings;
@@ -68,7 +70,7 @@ public:
     sensor_remote_port = rf.find("sensRemotPort").asString().c_str();
     sensor_local_port = rf.find("sensLocalPort").asString().c_str();
     double tol = rf.find("tol").asDouble();
-    double trajtime = rf.find("trajtime").asDouble();
+    trajtime = rf.find("trajtime").asDouble();
     Bottle &grp=rf.findGroup("init_position");
     initial_position.resize(3);
     for (int i=0; i<3; i++){
@@ -86,6 +88,12 @@ public:
     for (int i=0; i<3; i++){
     control_reference[i]=grp2.get(1+i).asDouble();
     std::cout << "Control reference: " << control_reference[i] << std::endl;
+    }
+    cartesian_velocity.resize(3);
+    Bottle &grp3=rf.findGroup("cart_velocity");
+    for (int i=0; i<3; i++){
+    cartesian_velocity[i]=grp3.get(1+i).asDouble();
+    std::cout << "Cartesian velocity: " << cartesian_velocity[i] << std::endl;
     }
     distance = rf.find("distance").asDouble();
     contact_tol = rf.find("contact_tol").asDouble();
@@ -129,7 +137,7 @@ public:
 
     // open the view
     client.view(arm);
-    arm->setTrajTime(trajtime);
+    //arm->setTrajTime(trajtime);
     arm->setInTargetTol(tol);
     //double part_speeds[8] = {30.0,30.0,30.0,30.0,30.0,30.0,30.0,30.0};
     double part_speeds[8] = {12.0,12.0,12.0,12.0,12.0,12.0,12.0,12.0};
@@ -233,6 +241,7 @@ public:
          if(!done){
             yWarning("Something went wrong with the initial approach, using timeout");
             done = arm->waitMotionDone(0.1,timeout);
+	    done = true;
          }
          if (done){
              current_state=1;
@@ -308,17 +317,17 @@ public:
              //arm->goToPoseSync(new_position,current_orientation);
              double timeHere;
              arm->getTrajTime(&timeHere);
-             arm->setTrajTime(1.0);
+             arm->setTrajTime(trajtime);
              Vector xdot(3); // move the end-effector along x-axis at specified velocity
              xdot[0] = 0.0;    // 0.09 [m/s]
              xdot[1] = -0.02;
              xdot[2] = 0.0;
              Vector odot(4); // no rotation is required
              odot=0.0; // [rad/s]
-             arm->setTaskVelocities(xdot,odot);
+             arm->setTaskVelocities(cartesian_velocity,odot);
 
              yDebug("waiting 2.5 seconds");
-             Time::delay(2.0);
+             Time::delay(trajtime*1.5);
              arm->stopControl();
              arm->setTrajTime(timeHere);
              Vector xdhat,odhat, qdhat;
