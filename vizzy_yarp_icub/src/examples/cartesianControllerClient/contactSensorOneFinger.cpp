@@ -65,6 +65,22 @@ public:
   /**********************************************************/
   bool configure(ResourceFinder &rf)
   {
+    Vector oy(4), oz(4);
+    oy[0]=0.0; oy[1]=1.0; oy[2]=0.0; oy[3]=+M_PI;
+    oz[0]=1.0; oz[1]=0.0; oz[2]=0.0; oz[3]=-M_PI/2.0;
+    Matrix Ry=yarp::math::axis2dcm(oy);        // from axis/angle to rotation matrix notation
+    Matrix Rz=yarp::math::axis2dcm(oz);
+    Matrix R=Rz*Ry;                            // compose the two rotations keeping the order
+    Vector o=yarp::math::dcm2axis(R);
+    std::cout << "orientation for tapping : " << o.toString() << std::endl;
+
+    Vector oy1(4);
+    oy1[0]=0.0; oy1[1]=0.0; oy1[2]=1.0; oy1[3]=-M_PI;
+    Matrix Ry1=yarp::math::axis2dcm(oy1);        // from axis/angle to rotation matrix notation
+    Matrix R1=Ry1;                            // compose the two rotations keeping the order
+    Vector o1=yarp::math::dcm2axis(R1);
+    std::cout << "orientation for pushing : " << o1.toString() << std::endl;
+
     string remote = rf.find("remote").asString().c_str();
     string local = rf.find("local").asString().c_str();
     sensor_remote_port = rf.find("sensRemotPort").asString().c_str();
