@@ -124,7 +124,7 @@
     </group>
 
     <!-- Launch Timed Elastic Band (teb) local planner -->
-    <include file="$(find vizzy_navigation)/launch/navigation_teb_local.launch">
+    <include file="$(find vizzy_navigation)/launch/move_base_eband_local.launch">
       <arg name="map_topic" value="$(arg map_topic)"/>
     </include>
 
