@@ -293,11 +293,11 @@ bool moveArm(){
        ros::AsyncSpinner spinner(1);
        spinner.start();
        moveit::planning_interface::MoveGroup::Plan my_plan;
-       success = group.plan(my_plan);
-       ROS_INFO("Set Plan: %s", success? "SUCCESS" : "FAILED");
+       moveit::planning_interface::MoveItErrorCode success_ = group.plan(my_plan);
+       ROS_INFO("Set Plan: %s", success_? "SUCCESS" : "FAILED");
 
        if(success){
-           int32_t error = moveit::planning_interface::MoveItErrorCode::FAILURE;
+           moveit::planning_interface::MoveItErrorCode error = moveit::planning_interface::MoveItErrorCode::FAILURE;
            error=group.move();
            if(error!= moveit::planning_interface::MoveItErrorCode::SUCCESS){
                success=false;
