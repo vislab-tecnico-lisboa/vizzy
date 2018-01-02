@@ -21,7 +21,7 @@
       W, S controls the linear velocity of the robots and pressing the Shift boosts this velocity.
       A, D controls the angular velocity. Q and E command the angular velocity with boosted values.
 
-      Use the '<' key to activate/deactive the tool.
+      Use the 'less than' key to activate/deactive the tool.
     </description>
   </class>
 </library>
