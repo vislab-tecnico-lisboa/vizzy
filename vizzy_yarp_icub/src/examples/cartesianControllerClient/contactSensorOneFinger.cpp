@@ -103,15 +103,15 @@ public:
             std::cout << "Home orientation: " << home_orientation[i] << std::endl;
         }
         Bottle &grp4=rf.findGroup("initial_position");
-        home_position.resize(3);
+        initial_position.resize(3);
         for (int i=0; i<3; i++){
-            home_position[i]=grp4.get(1+i).asDouble();
+            initial_position[i]=grp4.get(1+i).asDouble();
             std::cout << "Initial position: " << initial_position[i] << std::endl;
         }
-        home_orientation.resize(4);
+        initial_orientation.resize(4);
         Bottle &grp5=rf.findGroup("initial_orientation");
         for (int i=0; i<4; i++){
-            home_orientation[i]=grp5.get(1+i).asDouble();
+            initial_orientation[i]=grp5.get(1+i).asDouble();
             std::cout << "Initial orientation: " << initial_orientation[i] << std::endl;
         }
         control_reference.resize(3);
@@ -283,6 +283,10 @@ public:
                 done = arm->waitMotionDone(0.1,timeout);
                 done = true;
             }
+            arm->getPose(home_position,home_orientation);
+            cout << "Initial position: " << home_position[0] << " y: " << home_position[1] << " z:" << home_position[2] << endl;
+            cout << "Initial orientation: or1: " << home_orientation[0] << " or2: "<< home_orientation[1] << " or3: " <<home_orientation[2] << " angle:" << home_orientation[3]<< endl;
+
             if (done){
                 current_state=1;
             }
@@ -291,8 +295,8 @@ public:
         }
         else if (current_state==1){
             arm->getPose(home_position,home_orientation);
-            cout << home_position[0] << " y: " << home_position[1] << " z:" << home_position[2] << endl;
-            cout << " or1: " << home_orientation[0] << " or2: "<< home_orientation[1] << " or3: " <<home_orientation[2] << " angle:" << home_orientation[3]<< endl;
+            //cout << home_position[0] << " y: " << home_position[1] << " z:" << home_position[2] << endl;
+            //cout << " or1: " << home_orientation[0] << " or2: "<< home_orientation[1] << " or3: " <<home_orientation[2] << " angle:" << home_orientation[3]<< endl;
             Bottle* readingSensor = sensor_readings.read(false);
             accumulated_distance = 0.0;
             current_state=2;
@@ -338,8 +342,8 @@ public:
             if (deltaZ<0 && error > contact_tol && accumulated_distance<0.1){
                 //move the arm the delta value forward
                 arm->getPose(current_position,current_orientation);
-                cout << current_position[0] << " y: " << current_position[1] << " z:" << current_position[2] << endl;
-                cout << " or1: " << current_orientation[0] << " or2: "<< current_orientation[1] << " or3: " <<current_orientation[2] << " angle:" << current_orientation[3]<< endl;
+                //cout << current_position[0] << " y: " << current_position[1] << " z:" << current_position[2] << endl;
+                //cout << " or1: " << current_orientation[0] << " or2: "<< current_orientation[1] << " or3: " <<current_orientation[2] << " angle:" << current_orientation[3]<< endl;
                 Vector new_position(3);
                 new_position = current_position;
                 new_position[1]-=0.02;
