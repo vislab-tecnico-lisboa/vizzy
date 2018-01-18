@@ -221,8 +221,9 @@ public:
     bool updateModule()
     {
         if(current_state==0){
+            double timeout = 4.0;
+	    accumulated_distance=0.0;
             double *tmp = new double[n_joints];
-            double timeout;
             //--
             //BEGIN Setting the motor control in POSITION mode for each joint
             //--
@@ -237,11 +238,14 @@ public:
             //BEGIN Setting the motor angular positions for each joint
             //--
             //Initial values left arm joints
-            double joints_arm[8] = {-12.13,30.78,12.6,-22.0,66.15,-39.1,23.61,0.7};
+            double joints_arm[8] = {-12,30,12,-22,66,-39,23,0.0};
             ipos->positionMove(joints_arm);
             bool motionDone_arm=false;
-            while (motionDone_arm==false){
+	    double init_time=Time::now();
+	    double current_time;
+            while (motionDone_arm==false && current_time-init_time<timeout*2.0){
                 ipos->checkMotionDone(&motionDone_arm);
+		current_time = Time::now();
             }
             //--
             //BEGIN Setting the motor control in POSITION_DIRECT mode for each joint
@@ -277,7 +281,6 @@ public:
             //--
             //END Setting the home position in cartesian task space
             //--
-            timeout = 5.0;
             arm->goToPoseSync(initial_position,initial_orientation);
             bool done = false;
             done = arm->waitMotionDone(0.1,timeout);
