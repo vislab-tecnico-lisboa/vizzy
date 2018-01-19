@@ -374,10 +374,17 @@ public:
                 arm->setTaskVelocities(cartesian_velocity,odot);
 
                 yDebug("waiting 2.5 seconds");
-                Time::delay(trajtime*1.5);
+                Time::delay(trajtime);
+		double init_time=Time::now();
+	    	double current_time;
+		Vector xdhat,odhat, qdhat;
+            	/*while (current_time-init_time<trajtime){
+                    arm->getDesired(xdhat, odhat, qdhat);
+		    cout << "While waiting going to: (" << xdhat.toString().c_str() << ")" << endl;
+		    current_time = Time::now();
+            	}*/
                 arm->stopControl();
                 arm->setTrajTime(timeHere);
-                Vector xdhat,odhat, qdhat;
 
                 arm->getDesired(xdhat, odhat, qdhat);
                 accumulated_distance_y=home_position[1]-xdhat[1];
