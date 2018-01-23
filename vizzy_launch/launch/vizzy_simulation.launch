@@ -52,7 +52,7 @@
   <arg name="fake_localization" default="true"/>
 
   <!-- Map -->
-  <arg name="world" default="isr_5th_floor.world"/>
+  <arg name="world" default="isr_7th_floor.world"/>
   <arg name="map_frame" default="map"/>
 
   <!-- Robot capabilities -->
