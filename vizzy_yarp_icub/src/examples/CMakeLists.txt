@@ -6,5 +6,6 @@
 add_subdirectory(cartesianControllerClient)
 add_subdirectory(testCartesianControllerServer)
 add_subdirectory(iKinGaze_ROS_bridge)
+add_subdirectory(tactileYarpRosBridge)
 
 
