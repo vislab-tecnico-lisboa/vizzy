@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+
+<launch>
+  <!-- TRACKING -->
+  <!--<node pkg="tf" type="static_transform_publisher" name="base_footprint_to_vizzy" args="-2.190 -6.265 0 3.14 0 0 /map /map_opti 50" />-->
+
+  <!-- Launch the kinect or not. If launched, the kinect data will be used for obstacle avoidance -->
+  <arg name="with_kinect" default="false"/>
+
+  <!-- simulation parameters and robot configuration parameters -->
+  <arg name="navigation" default="true"/>
+  <arg name="slam" default="true"/>
+  <!--<arg name="pose" default="-x -3.65 -y 17.7 -z 0.20 -R 0.0 -P 0.0 -Y 1.57"/>-->
+  <arg name="map_frame" default="map" />
+  <arg name="tf_prefix" default="" />
+  <arg name="base_frame_id" default="$(arg tf_prefix)/base_footprint" />
+  <arg name="odom_frame_id" default="$(arg tf_prefix)/odom" />
+  <arg name="map_topic" default="/map" />
+  <arg name="use_moveit" default="true" />
+  <arg name="visualization" default="false" />
+  <arg name="ns" default="vizzy" />
+  <arg name="ros_cameras_on" default="false" />
+  <arg name="map_file" default="mapa_piso7_NOVO_AWESOME.yaml" />
+  <arg name="use_yarp" default="false"/>
+  <arg name="world" default="isr_7th_floor.world"/>
+
+  <include file="$(find vizzy_launch)/launch/vizzy_simulation.launch">
+        <arg name="navigation" value="$(arg navigation)"/>
+        <!--<arg name="pose" default="-x -3.65 -y 17.7 -z 0.20 -R 0.0 -P 0.0 -Y 1.57"/>-->
+        <arg name="map_frame" value="$(arg map_frame)" />
+        <arg name="base_frame_id" value="$(arg base_frame_id)" />
+        <arg name="odom_frame_id" value="$(arg odom_frame_id)" />
+        <arg name="map_topic" value="$(arg map_topic)" />
+        <arg name="map_file" value="$(arg map_file)" />
+	<arg name="use_yarp" value="$(arg use_yarp)"/>
+	<arg name="world" value="$(arg world)"/>
+  </include>
+
+  <!-- launch vizualization on rviz -->
+  <group if="$(arg visualization)">
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find vizzy_demos)/rviz/map_creation.rviz" />
+  </group>
+
+ <node name="slam_gmapping" pkg="gmapping" type="slam_gmapping">
+    <param name="scan" value="/scan_filtered" />
+ </node>
+
+
+</launch>
