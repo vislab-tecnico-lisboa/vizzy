@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0)
 find_package(YARP REQUIRED)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-add_executable(receiver receiver.cpp)
-target_link_libraries(receiver ${YARP_LIBRARIES})
+add_executable(tactileSensorReceiver receiver.cpp)
+target_link_libraries(tactieleSensorReceiver ${YARP_LIBRARIES})
