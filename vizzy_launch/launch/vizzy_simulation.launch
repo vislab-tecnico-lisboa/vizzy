@@ -47,9 +47,9 @@
   <arg name="map_file" default="isr_7th_floor_simulation.yaml"/>
   <!-- Provide a map with previously acquired obstacles -->
   <arg name="custom_obstacles" default="true"/>
-  <arg name="obstacles_map_file" default="isr_7th_floor_simulation_obst.yaml"/>
+  <arg name="obstacles_map_file" default="isr_7th_floor_simulation.yaml"/>
   <!-- Use lighter fake localization for simulation -->
-  <arg name="fake_localization" default="true"/>
+  <arg name="fake_localization" default="false"/>
 
   <!-- Map -->
   <arg name="world" default="isr_7th_floor.world"/>
