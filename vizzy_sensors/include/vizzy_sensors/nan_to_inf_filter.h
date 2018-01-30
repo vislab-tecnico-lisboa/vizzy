@@ -33,7 +33,7 @@ namespace vizzy_sensors
           // TODO: remove once navigation handles inf_is_valid again
           if (filtered_scan.ranges[count] == std::numeric_limits<float>::infinity() ||
               filtered_scan.ranges[count] >= input_scan.range_max) {
-            filtered_scan.ranges[count] = input_scan.range_max - 0.0001;
+            //filtered_scan.ranges[count] = input_scan.range_max - 0.0001;
           }
         }
 
