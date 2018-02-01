@@ -17,12 +17,12 @@ include(iCubHelpers)
 set(folder_source main.cpp)
 source_group("Source Files" FILES ${folder_source})
 
-include_directories(${ICUB_INCLUDE_DIRS} ${YARP_INCLUDE_DIRS})
+include_directories(${ICUB_INCLUDE_DIRS} ${YARP_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR})
 
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${ICUB_LINK_FLAGS}")
 
 add_executable(${PROJECTNAME} ${folder_source})
-add_executable(cartContrClientContactSensor contactSensorOneFinger.cpp)
+add_executable(cartContrClientContactSensor ForceReadingThread.cpp contactSensorOneFinger.cpp)
 target_link_libraries(${PROJECTNAME} ${YARP_LIBRARIES})
 target_link_libraries(cartContrClientContactSensor ${YARP_LIBRARIES})
 #install(TARGETS ${PROJECTNAME} DESTINATION ${ICUB_APPLICATIONS_PREFIX})
