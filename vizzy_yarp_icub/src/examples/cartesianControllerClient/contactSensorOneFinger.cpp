@@ -381,15 +381,21 @@ public:
                 arm->setTaskVelocities(cartesian_velocity,odot);
 
                 yDebug("waiting 2.5 seconds");
-                Time::delay(trajtime);
+                //Time::delay(trajtime);
+
+
+
 		double init_time=Time::now();
 	    	double current_time;
 		Vector xdhat,odhat, qdhat;
-            	/*while (current_time-init_time<trajtime){
-                    arm->getDesired(xdhat, odhat, qdhat);
-		    cout << "While waiting going to: (" << xdhat.toString().c_str() << ")" << endl;
-		    current_time = Time::now();
-            	}*/
+        Vector index_finger_force(3);
+                while (current_time-init_time<trajtime){
+                    //arm->getDesired(xdhat, odhat, qdhat);
+            //cout << "While waiting going to: (" << xdhat.toString().c_str() << ")" << endl;
+            //current_time = Time::now();
+                    sensor_reading_thread.get_force(index_finger_force);
+                    std::cout << "Fz: " << index_finger_force[2] << std::endl;
+                }
                 arm->stopControl();
                 arm->setTrajTime(timeHere);
 
