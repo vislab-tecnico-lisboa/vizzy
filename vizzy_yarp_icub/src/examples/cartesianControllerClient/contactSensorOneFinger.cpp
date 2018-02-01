@@ -22,7 +22,7 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
-
+#include "ForceReadingThread.h"
 using namespace std;
 using namespace yarp::os;
 using namespace yarp::dev;
@@ -67,6 +67,8 @@ protected:
     double accumulated_distance_z;
     double accumulated_distance;
     VectorOf<int> jntArm;
+    yarp::os::Subscriber<vizzy_tactile_TactSensorArray> force_sensor_port;
+    ForceReadingThread sensor_reading_thread;
 public:
     /**********************************************************/
     bool configure(ResourceFinder &rf)
@@ -170,6 +172,11 @@ public:
         if (!client.open(option) || !ok)
             return false;
 
+        while (!force_sensor_port.topic("/tactileForceField")) {
+              cerr<< "Failed to connect to subscriber to /tactileForceField\n";
+              Time::delay(0.01);
+          }
+        sensor_reading_thread = ForceReadingThread(&force_sensor_port);
         // open the view
         client.view(arm);
         //arm->setTrajTime(trajtime);
@@ -471,7 +478,7 @@ int main(int argc, char *argv[])
         cout << "Error: yarp server does not seem available" << endl;
         return -1;
     }
-
+    yarp::os::Node node("/yarp/contactSensorControl");
     ResourceFinder rf;
     rf.setVerbose(true);
     rf.setDefaultContext("vizzyCartesianControllerClient");
