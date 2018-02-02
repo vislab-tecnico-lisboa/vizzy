@@ -23,6 +23,9 @@
 #include <iomanip>
 #include <string>
 #include "ForceReadingThread.h"
+#include <vizzy_tactile_TactSensor.h>
+#include <vizzy_tactile_TactSensorArray.h>
+#include <yarp/os/Subscriber.h>
 using namespace std;
 using namespace yarp::os;
 using namespace yarp::dev;
@@ -32,6 +35,7 @@ using namespace yarp::math;
 /**
  * This class implements the client.
  */
+
 class ClientModule : public RFModule
 {
 protected:
@@ -67,8 +71,9 @@ protected:
     double accumulated_distance_z;
     double accumulated_distance;
     VectorOf<int> jntArm;
+    //DataProcessor force_sensor_port;
     yarp::os::Subscriber<vizzy_tactile_TactSensorArray> force_sensor_port;
-    ForceReadingThread sensor_reading_thread;
+    ForceReadingThread *sensor_reading_thread;
 public:
     /**********************************************************/
     bool configure(ResourceFinder &rf)
@@ -165,25 +170,36 @@ public:
         dd_torso.open(options_torso);
         cout << "Torso driver done!!" << endl;
         bool ok;
+        while (!force_sensor_port.topic("/tactileForceField")) {
+              cerr<< "Failed to connect to subscriber to /tactileForceField\n";
+              Time::delay(0.01);
+        }
+        //ForceReadingThread sensor_reading_thread(&force_sensor_port);
+        sensor_reading_thread = new ForceReadingThread(&force_sensor_port);
+        //sensor_reading_thread(&force_sensor_port)
+        //sensor_reading_thread.setSubscriber;
+        //DataProcessor force_sensor_port();
+        //force_sensor_port.useCallback();
+        std::cout << "Use callback done!" << std::endl;
+        
         ok = dd.view(ipos);
         ok &= dd.view(iMode2);
         ok &= dd_torso.view(ipos_torso);
         ok &= dd_torso.view(iMode2_torso);
+        ok&=sensor_reading_thread->start();
+        cout << "Init one done!!" << endl;
         if (!client.open(option) || !ok)
             return false;
-
-        while (!force_sensor_port.topic("/tactileForceField")) {
-              cerr<< "Failed to connect to subscriber to /tactileForceField\n";
-              Time::delay(0.01);
-          }
-        sensor_reading_thread = ForceReadingThread(&force_sensor_port);
         // open the view
         client.view(arm);
+        //cout << "Init two done!!" << endl;
         //arm->setTrajTime(trajtime);
         arm->setInTargetTol(tol);
+        //cout << "Init three done!!" << endl;
         //double part_speeds[8] = {30.0,30.0,30.0,30.0,30.0,30.0,30.0,30.0};
         double part_speeds[8] = {12.0,12.0,12.0,12.0,12.0,12.0,12.0,12.0};
         ipos->setRefSpeeds(part_speeds);
+        //cout << "Init four done!!" << endl;
         for (int i=0; i<8; i++)
             jntArm.push_back(i);
         Vector dof;
@@ -211,13 +227,14 @@ public:
         connected_port=false;
         current_position.resize(3);
         current_orientation.resize(4);
-        cout << "Init done!!" << endl;
+        //cout << "Init RC done!!" << endl;
         return true;
     }
 
     /**********************************************************/
     bool close()
     {
+        sensor_reading_thread->threadRelease();
         if (client.isValid())
             client.close();
 
@@ -250,10 +267,13 @@ public:
             bool motionDone_arm=false;
 	    double init_time=Time::now();
 	    double current_time;
-            while (motionDone_arm==false && current_time-init_time<timeout*2.0){
+            yWarning("Before position control timeout");
+            //while (motionDone_arm==false && current_time-init_time<timeout*2.0){
+            while (current_time-init_time<timeout*2.0){
                 ipos->checkMotionDone(&motionDone_arm);
 		current_time = Time::now();
             }
+            yWarning("After position control timeout");
             //--
             //BEGIN Setting the motor control in POSITION_DIRECT mode for each joint
             //--
@@ -288,8 +308,10 @@ public:
             //--
             //END Setting the home position in cartesian task space
             //--
+            yWarning("Before goToPoseSync");
             arm->goToPoseSync(initial_position,initial_orientation);
             bool done = false;
+            yWarning("Before timeout");
             done = arm->waitMotionDone(0.1,timeout);
             cout << "Initial position done!!" << endl;
             if(!done){
@@ -392,9 +414,10 @@ public:
                 while (current_time-init_time<trajtime){
                     //arm->getDesired(xdhat, odhat, qdhat);
             //cout << "While waiting going to: (" << xdhat.toString().c_str() << ")" << endl;
-            //current_time = Time::now();
-                    sensor_reading_thread.get_force(index_finger_force);
-                    std::cout << "Fz: " << index_finger_force[2] << std::endl;
+                    current_time = Time::now();
+                    sensor_reading_thread->get_force(index_finger_force);
+                    //index_finger_force = force_sensor_port.currForce;
+                    //std::cout << "Fz: " << index_finger_force[2]<< std::endl;
                 }
                 arm->stopControl();
                 arm->setTrajTime(timeHere);
@@ -436,7 +459,7 @@ public:
     /**********************************************************/
     double getPeriod()
     {
-        return 0.4;
+        return 0.8;
     }
 
     bool respond(const Bottle &command, Bottle &reply)
@@ -471,6 +494,11 @@ public:
                 }
             }
         }
+        return true;
+    }
+
+    bool interruptModule(){
+        std::cout << "Closing the module" << std::endl;
         return true;
     }
 };
