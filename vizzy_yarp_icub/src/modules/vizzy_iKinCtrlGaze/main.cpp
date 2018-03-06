@@ -445,7 +445,7 @@
 
 #include <map>
 
-#define GAZECTRL_SERVER_VER 1.1
+#define GAZECTRL_SERVER_VER 1.2
 
 using namespace std;
 using namespace yarp::os;

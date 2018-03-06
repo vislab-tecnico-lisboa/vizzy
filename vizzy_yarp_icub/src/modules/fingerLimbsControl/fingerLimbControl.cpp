@@ -80,23 +80,28 @@ public:
             printf("%s", Drivers::factory().toString().c_str());
             return 0;
         }
-        bool ok;
-        ok = robotDevice.view(pos);
-        ok = ok && robotDevice.view(encs);
-        ok = ok && robotDevice.view(ictrl);
-        if (!ok) {
-            printf("Problems acquiring interfaces\n");
-            return false;
-        }
-        while (!force_sensor_port.topic("/tactileForceField")) {
+	while (!force_sensor_port.topic("/tactileForceField")) {
               cerr<< "Failed to connect to subscriber to /tactileForceField\n";
               Time::delay(0.01);
         }
         //ForceReadingThread sensor_reading_thread(&force_sensor_port);
         sensor_reading_thread = new ForceReadingThread(&force_sensor_port);
+        bool ok;
+        ok = robotDevice.view(pos);
+        ok = ok && robotDevice.view(encs);
+        ok = ok && robotDevice.view(ictrl);
+	ok&=sensor_reading_thread->start();
+        if (!ok) {
+            printf("Problems acquiring interfaces\n");
+            return false;
+        }
+        
         int nj=0;
         pos->getAxes(&nj);
         encoders.resize(nj);
+        double part_speeds[11] = {10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,20.0,20.0,20.0};
+        pos->setRefSpeeds(part_speeds);
+	std::cout << "initialization done" << std::endl;
         return true;
     }
 
@@ -115,17 +120,18 @@ public:
     {
         encs->getEncoders(encoders.data());
         Vector index_finger_force(3);
-        sensor_reading_thread->get_force(index_finger_force);
-        std::cout << "Fz: " << index_finger_force[2]<< std::endl;
-        if (index_finger_force[2]>1.0)
-            pos->positionMove(8,encoders[8]+5.0);
+	//std::cout << "Before reading force" << std::endl;
+        sensor_reading_thread->get_force(0,index_finger_force);
+        //std::cout << "Fz: " << index_finger_force[2]<< std::endl;
+        if (index_finger_force[2]>40.0)
+            pos->positionMove(10,encoders[10]+5.0);
         return true;
     }
 
     /**********************************************************/
     double getPeriod()
     {
-        return 0.8;
+        return 0.01;
     }
 
     bool interruptModule(){
@@ -147,7 +153,7 @@ int main(int argc, char *argv[])
     ResourceFinder rf;
     rf.setVerbose(true);
     rf.setDefaultContext("vizzyFingerLimbControl");
-    rf.setDefaultConfigFile("finger_control.ini");
+    rf.setDefaultConfigFile("vizzyConfig_rightArm.ini");
     rf.configure(argc,argv);
     rf.setDefault("remote", "server");
     rf.setDefault("local", "client");
