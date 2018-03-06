@@ -8,6 +8,7 @@ bool ForceReadingThread::threadInit()
 {
     std::cout << "Starting thread1" << std::endl;
     yarp::os::Time::delay(0.01);
+    array = new std::vector<vizzy_tactile_TactSensor>();
     return true;
 }
 void ForceReadingThread::setSubscriber(yarp::os::Subscriber<vizzy_tactile_TactSensorArray> *my_topic__){
@@ -23,18 +24,27 @@ void ForceReadingThread::run(){
         //vizzy_tactile_TactSensorArray d;
         //access d
         //d = reading1Mux->sensorArray;
-        std::vector<vizzy_tactile_TactSensor> array = reading1Mux.sensorArray;
-        currForce = array[0].force;
+	//std::cout << "Before reading value" << std::endl;
+	int arraySize = reading1Mux.sensorArray.size();
+	//array->resize(arraySize);
+	//std::cout << "Array size: " << arraySize << std::endl;
+        *array = reading1Mux.sensorArray;
+        geometry_msgs_Vector3 currForce = array->at(0).displacement;
         //std::cout << "Fx : " << currForce.x << " Fy : " << currForce.y << " Fz : " << currForce.z << std::endl;
     }
 
 }
 
-void ForceReadingThread::get_force(yarp::sig::Vector& force){
+void ForceReadingThread::get_force(int index, yarp::sig::Vector& force){
     guard.lock();
-    force[0]=currForce.x;
-    force[1]=currForce.y;
-    force[2]=currForce.z;
+    if (array->size()>0){
+    //std::vector<vizzy_tactile_TactSensor>& vecRef = *array; // vector is not copied here
+    geometry_msgs_Vector3 currForce = array->at(index).displacement;
+    force[0]=currForce.x;//array->at(index).displacement.x;
+    force[1]=currForce.y;//array->at(index).displacement.y;
+    force[2]=currForce.z;//array->at(index).displacement.z;
+    //std::cout << "x: " << force[0] << " y: " << force[1] << " z: " << force[2] << std::endl; 
+    }
     guard.unlock();
 }
 

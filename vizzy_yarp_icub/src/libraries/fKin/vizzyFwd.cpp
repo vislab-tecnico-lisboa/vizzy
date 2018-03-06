@@ -94,7 +94,7 @@ void vizzyEye::allocate(const string &_type, const std::string &_root_link)
       pushLink(new iKinLink( 0, 	0,	M_PI/2.0,	0.0, -20.0*CTRL_DEG2RAD, 20.0*CTRL_DEG2RAD));//link1
       pushLink(new iKinLink( 0, 	-0.37,	M_PI/2.0,	0.0, -53.0*CTRL_DEG2RAD, 53.0*CTRL_DEG2RAD));//link2
       pushLink(new iKinLink( 0.13261, 	0, 	M_PI,		19.0*M_PI/17, -18.0*CTRL_DEG2RAD, 37.0*CTRL_DEG2RAD));//link3
-      pushLink(new iKinLink( 0, 	0.102,	M_PI/2.0,	-15.0*M_PI/17, -38.0*CTRL_DEG2RAD, 38.0*CTRL_DEG2RAD));//link4
+      pushLink(new iKinLink( 0, 	0.1015,	M_PI/2.0,	-15.0*M_PI/17, -38.0*CTRL_DEG2RAD, 38.0*CTRL_DEG2RAD));//link4
       pushLink(new iKinLink( 0, 	0, 	M_PI/2.0,	-M_PI/2.0, -38.0*CTRL_DEG2RAD, 38.0*CTRL_DEG2RAD));//link5
     }
     else if (iKinLimb::getType()=="right")
@@ -113,7 +113,7 @@ void vizzyEye::allocate(const string &_type, const std::string &_root_link)
       pushLink(new iKinLink( 0, 0, M_PI/2.0, 0.0, -20.0*CTRL_DEG2RAD, 20.0*CTRL_DEG2RAD));//link1
       pushLink(new iKinLink( 0, -0.37, M_PI/2.0, 0.0, -53.0*CTRL_DEG2RAD, 53.0*CTRL_DEG2RAD));//link2
       pushLink(new iKinLink( 0.13261, 0, M_PI, 19.0*M_PI/17, -18.0*CTRL_DEG2RAD, 37.0*CTRL_DEG2RAD));//link3
-      pushLink(new iKinLink( 0, -0.102, M_PI/2.0, -15.0*M_PI/17, -38.0*CTRL_DEG2RAD, 38.0*CTRL_DEG2RAD));//link4
+      pushLink(new iKinLink( 0, -0.1015, M_PI/2.0, -15.0*M_PI/17, -38.0*CTRL_DEG2RAD, 38.0*CTRL_DEG2RAD));//link4
       pushLink(new iKinLink( 0, 0, M_PI/2.0, -M_PI/2.0, -38.0*CTRL_DEG2RAD, 38.0*CTRL_DEG2RAD));//link5
     }
     Matrix HN(4,4);
