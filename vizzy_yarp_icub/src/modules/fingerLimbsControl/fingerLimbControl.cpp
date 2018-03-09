@@ -23,8 +23,8 @@
 #include <iomanip>
 #include <string>
 #include "ForceReadingThread.h"
-#include <vizzy_tactile_TactSensor.h>
-#include <vizzy_tactile_TactSensorArray.h>
+#include <TactSensor.h>
+#include <TactSensorArray.h>
 #include <yarp/os/Subscriber.h>
 
 #include "pid.h"
@@ -53,7 +53,7 @@ protected:
     IControlMode2 *ictrl;
 
     VectorOf<int> jntArm;
-    yarp::os::Subscriber<vizzy_tactile_TactSensorArray> force_sensor_port;
+    yarp::os::Subscriber<TactSensorArray> force_sensor_port;
     yarp::sig::Vector command, encoders;
     ForceReadingThread *sensor_reading_thread;
 public:
@@ -184,7 +184,7 @@ public:
             }        
         }
 
-        //change to enconders 8, 9 and 10  
+        //change to enconders 8, 9 and 10 
         //pos->positionMove(8,encoders[8]+joint_inc[0]);
         //pos->positionMove(9,encoders[9]+joint_inc[1]);
         //pos->positionMove(10,encoders[10]+joint_inc[2]);
