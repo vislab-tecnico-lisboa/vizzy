@@ -21,7 +21,7 @@ include_directories(${ICUB_INCLUDE_DIRS} ${YARP_INCLUDE_DIRS} ${CMAKE_CURRENT_SO
 
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${ICUB_LINK_FLAGS}")
 
-add_executable(${PROJECTNAME} ForceReadingThread.cpp fingerLimbControl.cpp)
+add_executable(${PROJECTNAME} pid.cpp ForceReadingThread.cpp fingerLimbControl.cpp)
 target_link_libraries(${PROJECTNAME} ${YARP_LIBRARIES})
 #install(TARGETS ${PROJECTNAME} DESTINATION ${ICUB_APPLICATIONS_PREFIX})
 

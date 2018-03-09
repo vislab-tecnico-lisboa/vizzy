@@ -1,14 +1,16 @@
 // This is an automatically generated file.
-// Generated from this vizzy_tactile_TactSensor.msg definition:
+// Generated from this TactSensor.msg definition:
+//   [vizzy_tactile/TactSensor]:
 //   string frame_id
 //   geometry_msgs/Vector3 force
 //   geometry_msgs/Vector3 displacement
+//   geometry_msgs/Vector3 field
 //   
 // Instances of this class can be read and written with YARP ports,
 // using a ROS-compatible format.
 
-#ifndef YARPMSG_TYPE_vizzy_tactile_TactSensor
-#define YARPMSG_TYPE_vizzy_tactile_TactSensor
+#ifndef YARPMSG_TYPE_TactSensor
+#define YARPMSG_TYPE_TactSensor
 
 #include <string>
 #include <vector>
@@ -18,16 +20,18 @@
 #include "std_msgs_Header.h"
 #include "geometry_msgs_Vector3.h"
 
-class vizzy_tactile_TactSensor : public yarp::os::idl::WirePortable {
+class TactSensor : public yarp::os::idl::WirePortable {
 public:
   std::string frame_id;
   geometry_msgs_Vector3 force;
   geometry_msgs_Vector3 displacement;
+  geometry_msgs_Vector3 field;
 
-  vizzy_tactile_TactSensor() :
+  TactSensor() :
     frame_id(""),
     force(),
-    displacement()
+    displacement(),
+    field()
   {
   }
 
@@ -40,6 +44,9 @@ public:
 
     // *** displacement ***
     displacement.clear();
+
+    // *** field ***
+    field.clear();
   }
 
   bool readBare(yarp::os::ConnectionReader& connection) YARP_OVERRIDE {
@@ -53,13 +60,16 @@ public:
 
     // *** displacement ***
     if (!displacement.read(connection)) return false;
+
+    // *** field ***
+    if (!field.read(connection)) return false;
     return !connection.isError();
   }
 
   bool readBottle(yarp::os::ConnectionReader& connection) YARP_OVERRIDE {
     connection.convertTextMode();
     yarp::os::idl::WireReader reader(connection);
-    if (!reader.readListHeader(3)) return false;
+    if (!reader.readListHeader(4)) return false;
 
     // *** frame_id ***
     if (!reader.readString(frame_id)) return false;
@@ -69,6 +79,9 @@ public:
 
     // *** displacement ***
     if (!displacement.read(connection)) return false;
+
+    // *** field ***
+    if (!field.read(connection)) return false;
     return !connection.isError();
   }
 
@@ -88,12 +101,15 @@ public:
 
     // *** displacement ***
     if (!displacement.write(connection)) return false;
+
+    // *** field ***
+    if (!field.write(connection)) return false;
     return !connection.isError();
   }
 
   bool writeBottle(yarp::os::ConnectionWriter& connection) YARP_OVERRIDE {
     connection.appendInt(BOTTLE_TAG_LIST);
-    connection.appendInt(3);
+    connection.appendInt(4);
 
     // *** frame_id ***
     connection.appendInt(BOTTLE_TAG_STRING);
@@ -105,6 +121,9 @@ public:
 
     // *** displacement ***
     if (!displacement.write(connection)) return false;
+
+    // *** field ***
+    if (!field.write(connection)) return false;
     connection.convertTextMode();
     return !connection.isError();
   }
@@ -117,14 +136,16 @@ public:
 
   // This class will serialize ROS style or YARP style depending on protocol.
   // If you need to force a serialization style, use one of these classes:
-  typedef yarp::os::idl::BareStyle<vizzy_tactile_TactSensor> rosStyle;
-  typedef yarp::os::idl::BottleStyle<vizzy_tactile_TactSensor> bottleStyle;
+  typedef yarp::os::idl::BareStyle<TactSensor> rosStyle;
+  typedef yarp::os::idl::BottleStyle<TactSensor> bottleStyle;
 
   // Give source text for class, ROS will need this
   yarp::os::ConstString getTypeText() {
-    return "string frame_id\n\
+    return "[vizzy_tactile/TactSensor]:\n\
+string frame_id\n\
 geometry_msgs/Vector3 force\n\
 geometry_msgs/Vector3 displacement\n\
+geometry_msgs/Vector3 field\n\
 \n================================================================================\n\
 MSG: geometry_msgs/Vector3\n\
 # This represents a vector in free space. \n\
@@ -141,8 +162,8 @@ float64 z";
 
   // Name the class, ROS will need this
   yarp::os::Type getType() YARP_OVERRIDE {
-    yarp::os::Type typ = yarp::os::Type::byName("vizzy_tactile/TactSensor","vizzy_tactile/TactSensor");
-    typ.addProperty("md5sum",yarp::os::Value("1c6eb4af01a1ab814514891dca5916ec"));
+    yarp::os::Type typ = yarp::os::Type::byName("TactSensor","TactSensor");
+    typ.addProperty("md5sum",yarp::os::Value("77f754a6a592e9feea7376d420ae2ebd"));
     typ.addProperty("message_definition",yarp::os::Value(getTypeText()));
     return typ;
   }
