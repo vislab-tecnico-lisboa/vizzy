@@ -1,13 +1,14 @@
 // This is an automatically generated file.
-// Generated from this vizzy_tactile_TactSensorArray.msg definition:
+// Generated from this TactSensorArray.msg definition:
+//   [vizzy_tactile/TactSensorArray]:
 //   Header header
 //   TactSensor[] sensorArray
 //   
 // Instances of this class can be read and written with YARP ports,
 // using a ROS-compatible format.
 
-#ifndef YARPMSG_TYPE_vizzy_tactile_TactSensorArray
-#define YARPMSG_TYPE_vizzy_tactile_TactSensorArray
+#ifndef YARPMSG_TYPE_TactSensorArray
+#define YARPMSG_TYPE_TactSensorArray
 
 #include <string>
 #include <vector>
@@ -16,14 +17,14 @@
 #include "TickTime.h"
 #include "std_msgs_Header.h"
 #include "geometry_msgs_Vector3.h"
-#include "vizzy_tactile_TactSensor.h"
+#include "TactSensor.h"
 
-class vizzy_tactile_TactSensorArray : public yarp::os::idl::WirePortable {
+class TactSensorArray : public yarp::os::idl::WirePortable {
 public:
   std_msgs_Header header;
-  std::vector<vizzy_tactile_TactSensor> sensorArray;
+  std::vector<TactSensor> sensorArray;
 
-  vizzy_tactile_TactSensorArray() :
+  TactSensorArray() :
     header(),
     sensorArray()
   {
@@ -111,12 +112,13 @@ public:
 
   // This class will serialize ROS style or YARP style depending on protocol.
   // If you need to force a serialization style, use one of these classes:
-  typedef yarp::os::idl::BareStyle<vizzy_tactile_TactSensorArray> rosStyle;
-  typedef yarp::os::idl::BottleStyle<vizzy_tactile_TactSensorArray> bottleStyle;
+  typedef yarp::os::idl::BareStyle<TactSensorArray> rosStyle;
+  typedef yarp::os::idl::BottleStyle<TactSensorArray> bottleStyle;
 
   // Give source text for class, ROS will need this
   yarp::os::ConstString getTypeText() {
-    return "Header header\n\
+    return "[vizzy_tactile/TactSensorArray]:\n\
+Header header\n\
 TactSensor[] sensorArray\n\
 \n================================================================================\n\
 MSG: std_msgs/Header\n\
@@ -136,10 +138,12 @@ time stamp\n\
 # 1: global frame\n\
 string frame_id\n\
 \n================================================================================\n\
-MSG: vizzy_tactile/TactSensor\n\
+MSG: TactSensor\n\
+[vizzy_tactile/TactSensor]:\n\
 string frame_id\n\
 geometry_msgs/Vector3 force\n\
 geometry_msgs/Vector3 displacement\n\
+geometry_msgs/Vector3 field\n\
 \n================================================================================\n\
 MSG: geometry_msgs/Vector3\n\
 # This represents a vector in free space. \n\
@@ -156,8 +160,8 @@ float64 z";
 
   // Name the class, ROS will need this
   yarp::os::Type getType() YARP_OVERRIDE {
-    yarp::os::Type typ = yarp::os::Type::byName("vizzy_tactile/TactSensorArray","vizzy_tactile/TactSensorArray");
-    typ.addProperty("md5sum",yarp::os::Value("40c7988b85a42b61d8d1763f322a0e2b"));
+    yarp::os::Type typ = yarp::os::Type::byName("TactSensorArray","TactSensorArray");
+    typ.addProperty("md5sum",yarp::os::Value("52f07a98d4d1810ffab54d16cfaf470c"));
     typ.addProperty("message_definition",yarp::os::Value(getTypeText()));
     return typ;
   }
