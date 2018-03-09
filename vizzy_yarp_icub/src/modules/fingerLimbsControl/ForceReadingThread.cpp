@@ -29,7 +29,7 @@ void ForceReadingThread::run(){
 	//array->resize(arraySize);
 	//std::cout << "Array size: " << arraySize << std::endl;
         *array = reading1Mux.sensorArray;
-        geometry_msgs_Vector3 currForce = array->at(0).displacement;
+        geometry_msgs_Vector3 currForce = array->at(0).force;
         //std::cout << "Fx : " << currForce.x << " Fy : " << currForce.y << " Fz : " << currForce.z << std::endl;
     }
 
@@ -39,7 +39,7 @@ void ForceReadingThread::get_force(int index, yarp::sig::Vector& force){
     guard.lock();
     if (array->size()>0){
     //std::vector<vizzy_tactile_TactSensor>& vecRef = *array; // vector is not copied here
-    geometry_msgs_Vector3 currForce = array->at(index).displacement;
+    geometry_msgs_Vector3 currForce = array->at(index).force;
     force[0]=currForce.x;//array->at(index).displacement.x;
     force[1]=currForce.y;//array->at(index).displacement.y;
     force[2]=currForce.z;//array->at(index).displacement.z;
