@@ -298,8 +298,49 @@
     </collision>
   </xacro:macro>
   
-  <!-- Wrist Flection -->
-  <xacro:macro name="vizzy_wrist_flection_link_inertial"
+  <!-- Wrist Flection (for detailed right hand) -->
+  <xacro:macro name="vizzy_wrist_flection_link_inertial">
+    <inertial>
+      <origin
+        xyz="-1.1031E-10 0.0010189 -0.018796"
+        rpy="0 0 0" />
+      <mass
+        value="0.11337" />
+      <inertia
+        ixx="1.8801E-05"
+        ixy="-1.2487E-13"
+        ixz="4.3746E-14"
+        iyy="1.7551E-05"
+        iyz="6.7867E-07"
+        izz="1.3766E-05" />
+    </inertial>
+  </xacro:macro>
+
+  <xacro:macro name="vizzy_wrist_flection_link_collision">
+    <collision>
+      <xacro:if value="$(arg use_full_gazebo_model)">
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://vizzy_description/meshes/arm/r_wrist_flection_link.STL" />
+        </geometry>
+      </xacro:if>
+      <xacro:unless value="$(arg use_full_gazebo_model)">
+        <!-- TODO -->
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <cylinder length="0.01" radius="0.001"/>
+        </geometry>
+      </xacro:unless>
+    </collision>
+  </xacro:macro>
+
+  <!-- Wrist Flection (for simple hand) -->
+  <xacro:macro name="vizzy_wrist_flection_simple_link_inertial"
     params="reflect rpy">
     <inertial>
       <origin
@@ -317,7 +358,7 @@
     </inertial>
   </xacro:macro>
 
-  <xacro:macro name="vizzy_wrist_flection_link_collision"
+  <xacro:macro name="vizzy_wrist_flection_simple_link_collision"
     params="reflect rpy prefix">
     <collision>
       <xacro:if value="$(arg use_full_gazebo_model)">
@@ -337,29 +378,6 @@
           <box size="0.11 0.015 0.1"/>
         </geometry>
       </xacro:unless>
-    </collision>
-  </xacro:macro>
-
-  <!-- Palm -->
-  <xacro:macro name="vizzy_palm_link_inertial">
-    <inertial>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <mass value="0.1"/>
-      <inertia
-        ixx="1.0" ixy="0.0" ixz="0.0"
-        iyy="1.0" iyz="0.0"
-        izz="1.0" />
-    </inertial>
-  </xacro:macro>
-
-  <xacro:macro name="vizzy_palm_link_collision">
-    <collision>
-      <origin xyz="0 0 0" rpy="0 0 0" />
-      <geometry>
-        <cylinder length="0.001" radius="0.001" />
-      </geometry>
     </collision>
   </xacro:macro>
 

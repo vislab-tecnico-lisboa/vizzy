@@ -7,9 +7,9 @@
   <!-- Load a fully detailed hand model with properly modeled links and joints -->
   <xacro:arg name="use_full_hand_model" default="false"/>
   <!-- Disable laser sensors -->
-  <xacro:arg name="disable_laser" default="false"/>
+  <xacro:arg name="disable_laser" default="true"/>
   <!-- Disable depth camera -->
-  <xacro:arg name="disable_3d_sensor" default="false"/>
+  <xacro:arg name="disable_3d_sensor" default="true"/>
 
   <!-- Includes -->
 
@@ -21,25 +21,34 @@
   <!-- Hokuyo URG-04LX laser scanner -->
   <xacro:include filename="$(find vizzy_description)/urdf/sensors/hokuyo_04lx_laser.urdf.xacro"/>
   <!-- TODO: Update Asus Xiton Live Pro -->
-  <xacro:include filename="$(find vizzy_description)/urdf/sensors/asus_camera.urdf.xacro" />
+  <xacro:include filename="$(find vizzy_description)/urdf/sensors/asus_camera.urdf.xacro"/>
 
   <!-- Robot body -->
 
   <!-- Base -->
-  <xacro:include filename="$(find vizzy_description)/urdf/base/base.urdf.xacro" />
+  <xacro:include filename="$(find vizzy_description)/urdf/base/base.urdf.xacro">
+    <xacro:arg name="use_full_gazebo_model" value="$(arg use_full_gazebo_model)"/>
+  </xacro:include>
   <!-- Torso -->
-  <xacro:include filename="$(find vizzy_description)/urdf/torso/torso.urdf.xacro" />
+  <xacro:include filename="$(find vizzy_description)/urdf/torso/torso.urdf.xacro">
+    <xacro:arg name="use_full_gazebo_model" value="$(arg use_full_gazebo_model)"/>
+  </xacro:include>
   <!-- Head -->
- <xacro:include filename="$(find vizzy_description)/urdf/head/head.urdf.xacro"/>
+ <xacro:include filename="$(find vizzy_description)/urdf/head/head.urdf.xacro" >
+    <xacro:arg name="use_full_gazebo_model" value="$(arg use_full_gazebo_model)"/>
+  </xacro:include>
   <!-- Arms -->
-  <xacro:include filename="$(find vizzy_description)/urdf/arm/arm.urdf.xacro" />
+  <xacro:include filename="$(find vizzy_description)/urdf/arm/arm.urdf.xacro" >
+    <xacro:arg name="use_full_gazebo_model" value="$(arg use_full_gazebo_model)"/>
+    <xacro:arg name="use_full_hand_model" value="$(arg use_full_hand_model)"/>
+  </xacro:include>
 
   <!-- Gazebo plugins -->
 
   <!-- ROS -->
-  <xacro:include filename="$(find vizzy_description)/plugins/ros.gazebo.xacro" />
+  <xacro:include filename="$(find vizzy_description)/plugins/ros.gazebo.xacro"/>
   <!-- Yarp -->
-  <xacro:include filename="$(find vizzy_description)/plugins/yarp.gazebo.xacro" />
+  <xacro:include filename="$(find vizzy_description)/plugins/yarp.gazebo.xacro"/>
 
   <!-- Instantiate base -->
   <xacro:base name="base"/>
@@ -47,7 +56,6 @@
   <xacro:torso name="torso" parent="base_link"/>
   <!-- Instantiate head -->
   <xacro:head name="head" parent="waist_link"/>
-
   <!-- Instantiate arms -->
   <xacro:arm name="left_arm" parent="waist_link"/>
   <xacro:arm name="right_arm" parent="waist_link"/>

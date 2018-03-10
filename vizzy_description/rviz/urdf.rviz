@@ -30,6 +30,7 @@ Panels:
     Name: Time
     SyncMode: 0
     SyncSource: ""
+
 Visualization Manager:
   Class: ""
   Displays:
