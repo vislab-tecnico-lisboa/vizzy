@@ -16,6 +16,11 @@
   </xacro:include>
   <xacro:include filename="$(find vizzy_description)/urdf/arm/arm.transmission.xacro" />
 
+  <!-- Hands -->
+  <xacro:include filename="$(find vizzy_description)/urdf/hand/right_hand.urdf.xacro">
+    <xacro:arg name="use_full_gazebo_model" value="$(arg use_full_gazebo_model)"/>
+  </xacro:include>
+  
   <xacro:macro name="arm"
     params="name parent">
 
@@ -23,6 +28,7 @@
 
     <!-- Left arm -->
     <xacro:if value="${name == 'left_arm'}">
+      <xacro:property name="side" value="left"/>
       <xacro:property name="prefix" value="l"/>
       <xacro:property name="reflect" value="-1"/>
       <xacro:property name="shoulder_scapula_l_rpy" value="0 0 0"/>
@@ -38,6 +44,7 @@
     </xacro:if>
     <!-- Right arm -->
     <xacro:if value="${name == 'right_arm'}">
+      <xacro:property name="side" value="right"/>
       <xacro:property name="prefix" value="r"/>
       <xacro:property name="reflect" value="1"/>
       <xacro:property name="shoulder_scapula_l_rpy" value="0 ${-M_PI} ${M_PI}"/>
@@ -51,6 +58,13 @@
       <xacro:property name="wrist_flection_l_rpy" value="0 ${M_PI} ${-M_PI/2}"/>
       <xacro:property name="palm_j_rpy" value="0 ${M_PI/2} 0"/>
     </xacro:if>
+    <!-- Detailed hand -->
+    <xacro:if value="$(arg use_full_hand_model)">
+      <xacro:property name="detailed_hand" value="true"/>
+    </xacro:if>
+    <xacro:unless value="$(arg use_full_hand_model)">
+      <xacro:property name="detailed_hand" value="true"/>
+    </xacro:unless>
 
     <!-- Shoulder scapula -->
     <link name="${prefix}_shoulder_scapula_link">
@@ -283,18 +297,59 @@
       <dynamics damping="0.0" friction="0.1"/>
     </joint>
 
-    <!-- Fully detailed model of the hand -->
-    <xacro:if value="$(arg use_full_hand_model)">
+    
+    <!--
+    ////////////////////////////////////////////////////////////////////
+    
+      Hands
+    
+    ////////////////////////////////////////////////////////////////////
+    -->
 
-      <!-- TODO: Add detailed hand -->
+    <!-- Detailed right Hand -->
+    <xacro:if value="${(prefix == 'r') and (detailed_hand == 'true')}">
+
+      <!-- Wrist flection -->
+      <link name="r_wrist_flection_link">
+        <vizzy_wrist_flection_link_inertial/>
+        <visual>
+          <origin
+            xyz="0.007 0 0"
+            rpy="0 ${-M_PI/2} ${M_PI}" />
+          <geometry>
+            <mesh
+              filename="package://vizzy_description/meshes/arm/r_wrist_flection_link.STL" />
+          </geometry>
+          <material name="light_gray_3"/>
+        </visual>
+         <vizzy_wrist_flection_link_collision/>
+      </link>
+
+      <joint name="${prefix}_wrist_flection_joint"
+        type="revolute">
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0"/>
+        <parent
+          link="${prefix}_wrist_abduction_link"/>
+        <child
+          link="${prefix}_wrist_flection_link"/>
+        <axis
+          xyz="0 0 1"/>
+        <limit lower="-0.610865238" upper="0.610865238" effort="10" velocity="3" />
+        <dynamics damping="0.0" friction="0.1"/>
+      </joint>
+
+      <xacro:right_hand parent="r_wrist_flection_link"/>
 
     </xacro:if>
+     
     <!-- Simplified rigid model of the hand -->
-    <xacro:unless value="$(arg use_full_hand_model)">
+    <xacro:unless value="${(prefix == 'r') and (detailed_hand == 'true')}">
 
       <!-- Wrist flection -->
       <link name="${prefix}_wrist_flection_link">
-        <vizzy_wrist_flection_link_inertial
+        <vizzy_wrist_flection_simple_link_inertial
           reflect="${reflect}" rpy="${wrist_flection_l_rpy}"/>
         <visual>
           <origin
@@ -302,11 +357,11 @@
             rpy="${wrist_flection_l_rpy}"/>
           <geometry>
             <mesh
-              filename="package://vizzy_description/meshes/arm/${prefix}_wrist_flection.dae"/>
+              filename="package://vizzy_description/meshes/arm/${prefix}_wrist_flection_simple.dae"/>
           </geometry>
           <material name="light_gray_3"/>
         </visual>
-        <vizzy_wrist_flection_link_collision
+        <vizzy_wrist_flection_simple_link_collision
           reflect="${reflect}" rpy="${wrist_flection_l_rpy}" prefix="${prefix}"/>
       </link>
 
@@ -324,28 +379,6 @@
         <limit lower="-0.610865238" upper="0.610865238" effort="10" velocity="3" />
         <dynamics damping="0.0" friction="0.1"/>
       </joint>
-
-      <!-- Palm (virtual) -->
-      <!-- TODO: add?
-      <link name="${prefix}_palm_link">
-        <vizzy_palm_link_inertial/>
-        <visual>
-          <origin xyz="0 0 0" rpy="0 0 0" />
-          <geometry>
-            <box size="0.001 0.001 0.001" />
-          </geometry>
-        </visual>
-        <vizzy_palm_link_collision/>
-      </link>
-
-      <joint name="${prefix}_palm_joint" type="fixed">
-        <origin
-          xyz="0 0 0"
-          rpy="${palm_j_rpy}"/>
-        <parent link="${prefix}_wrist_flection_link"/>
-        <child link="${prefix}_palm_link" />
-      </joint>
-      -->
 
     </xacro:unless>
 

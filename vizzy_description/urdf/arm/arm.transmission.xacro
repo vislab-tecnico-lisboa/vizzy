@@ -86,18 +86,16 @@
       </actuator>
     </transmission>
 
-    <xacro:unless value="$(arg use_full_hand_model)">
-      <transmission name="${prefix}_wrist_flection_transmission">
-        <type>transmission_interface/SimpleTransmission</type>
-        <joint name="${prefix}_wrist_flection_joint">
-          <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-        </joint>
-        <actuator name="${prefix}_wrist_flection_motor">
-          <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-          <mechanicalReduction>1</mechanicalReduction>
-        </actuator>
-      </transmission>
-    </xacro:unless>
+    <transmission name="${prefix}_wrist_flection_transmission">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${prefix}_wrist_flection_joint">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="${prefix}_wrist_flection_motor">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
 
   </xacro:macro>
 
