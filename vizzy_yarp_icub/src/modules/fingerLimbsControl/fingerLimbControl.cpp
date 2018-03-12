@@ -130,28 +130,48 @@ public:
         for(int sensor_i = 0; sensor_i < 11; sensor_i++) {
             Vector sensor_comp(3); // x y z of each sensor
             sensor_reading_thread->get_force(sensor_i,sensor_comp);
-            sensor_force[sensor_i]= std::abs(sensor_comp[0])+std::abs(sensor_comp[1])+std::abs(sensor_comp[2]);           
+	    if (sensor_i == 4){
+		//std::cout << "x: " << sensor_comp[0] << "y: " << sensor_comp[1] << "z: " << sensor_comp[2] << std::endl;
+		sensor_force[sensor_i]= std::abs(sensor_comp[1])+std::abs(sensor_comp[2]); // the x component in this sensor is weird, check this
+	    }
+            else{   
+                sensor_force[sensor_i]= std::abs(sensor_comp[0])+std::abs(sensor_comp[1])+std::abs(sensor_comp[2]);
+            }
+	            
         }
 
         // Controling with a PID for each motor
 
         PID pid_finger = PID(0.1, 20, -20, 0.4, 0.01, 0.4); //if they are different create the 3
 
-        double finger_set[3] = {6, 5.4, 3.4};       // force setpoints 
+        //double finger_set[3] = {6, 5.4, 3.4};       // force setpoints 
+        double finger_set[3] = {5.2, 4.4, 3.4};       // new force setpoints 
         double finger_force[3] = {0, 0, 0};         // current force values
         double joint_inc[3] = {0, 0, 0};
 
         double inc_max = 10;                           // max joint increment
-        double joint_max = 250;                        // max joint value for fingers (min is 0)
+        double joint_max = 150;                        // max joint value for fingers (min is 0)
         double force_error = 0.5;                      // accepeted force error [N]
 
         finger_force[0] = sensor_force[0]+sensor_force[1]+sensor_force[2];
         finger_force[1] = sensor_force[3]+sensor_force[4]+sensor_force[5];  //ignoring the tip
-        finger_force[2] = sensor_force[7]+sensor_force[8]+sensor_force[9]+sensor_force[10];      
+        finger_force[2] = sensor_force[7]+sensor_force[8]+sensor_force[9]; // ignoring the tip     
       
-        std::cout << "Thumb Force: " << finger_force[0] << "Setpoint: " << finger_set[0] << std::endl;
-        std::cout << "Index Force: " << finger_force[1] << "Setpoint: " << finger_set[1] << std::endl;
-        std::cout << "Others Force: "<< finger_force[2] << "Setpoint: " << finger_set[2] << std::endl;
+        //std::cout << "Thumb Force: " << finger_force[0] << "Setpoint: " << finger_set[0] << std::endl;
+        //std::cout << "Index Force: " << finger_force[1] << "Setpoint: " << finger_set[1] << std::endl;
+        //std::cout << "Others Force: "<< finger_force[2] << "Setpoint: " << finger_set[2] << std::endl;
+	std::cout << std::setprecision(3) << std::fixed;
+
+	//std::cout << "Thumb: " << finger_force[0] << "Index: " << finger_force[1] << "Mid: " << finger_force[2] << std::endl;
+
+	//std::cout << "Thumb 1: " << sensor_force[0] << "2: " << sensor_force[1] << "3: " << sensor_force[2] << std::endl;
+	std::cout << "Thumb - Force: " << finger_force[0]<< " Motor: " << encoders[8] << std::endl;
+	
+        //std::cout << "Index 1: " << sensor_force[3] << "2: " << sensor_force[4] << "3: " << sensor_force[5] << " Total: " << finger_force[1]<< std::endl;
+	std::cout << "Index - Force: " << finger_force[1]<< " Motor: " << encoders[9] << std::endl;
+	
+	//std::cout << "Mid 1: " << sensor_force[7] << "2: " << sensor_force[8] << "3: " << sensor_force[9] << std::endl;
+	std::cout << "Mid - Force: " << finger_force[2]<< " Motor: " << encoders[10] << std::endl;
 
         for (int finger_i = 0; finger_i < 3; finger_i++) {
 
@@ -175,19 +195,19 @@ public:
                 if (encoders[8+finger_i] + joint_inc[finger_i] < 0){
                     joint_inc[finger_i] = 0 - encoders[8+finger_i];
                 }
-                std::cout << "Value: " << encoders[8+finger_i] << "Increment: " << joint_inc[finger_i] << std::endl;      
+                //std::cout << "Value: " << encoders[8+finger_i] << "Increment: " << joint_inc[finger_i] << std::endl;      
             }
 
             else {
                 joint_inc[finger_i]=0;
-                std::cout << "Finger " << finger_i << " is ok!" << std::endl;
+                //std::cout << "Finger " << finger_i << " is ok!" << std::endl;
             }        
         }
 
-        //change to enconders 8, 9 and 10 
-        //pos->positionMove(8,encoders[8]+joint_inc[0]);
-        //pos->positionMove(9,encoders[9]+joint_inc[1]);
-        //pos->positionMove(10,encoders[10]+joint_inc[2]);
+        //change the enconders 8, 9 and 10 
+        pos->positionMove(8,encoders[8]+joint_inc[0]);
+        pos->positionMove(9,encoders[9]+joint_inc[1]);
+        pos->positionMove(10,encoders[10]+joint_inc[2]);
 
         return true;
     }
@@ -195,7 +215,7 @@ public:
     /**********************************************************/
     double getPeriod()
     {
-        return 0.01;
+        return 0.1;
     }
 
     bool interruptModule(){
