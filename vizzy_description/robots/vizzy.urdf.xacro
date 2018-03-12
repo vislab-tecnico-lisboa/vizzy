@@ -116,4 +116,5 @@
   <xacro:unless value="$(arg use_yarp)">
     <xacro:ros_control_gazebo/>
   </xacro:unless>
+
 </robot>

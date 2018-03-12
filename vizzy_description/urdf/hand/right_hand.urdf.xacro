@@ -1289,6 +1289,7 @@
       <axis
         xyz="0 0 0" />
     </joint>
+    <!--
     <link
       name="r_thumb_phal_3_link">
       <inertial>
@@ -1400,6 +1401,7 @@
       <axis
         xyz="0 0 0" />
     </joint>
+    -->
     <link
       name="r_thumb_phal_4_link">
       <inertial>
@@ -1444,10 +1446,10 @@
       name="r_thumb_phal_4_joint"
       type="revolute">
       <origin
-        xyz="-0.0135 -0.007 0"
-        rpy="-3.1416 -8.3267E-17 -1.4545E-16" />
+        xyz="-0.0332692 0 0"
+        rpy="0 0 0" />
       <parent
-        link="r_thumb_phal_3_link_fix" />
+        link="r_thumb_phal_2_link" />
       <child
         link="r_thumb_phal_4_link" />
       <axis

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<robot  name="vizzy_hand" xmlns:xacro="http://ros.org/wiki/xacro" >
+
+  <!-- Includes -->
+
+  <!-- Misc common stuff such as constant definitions -->
+  <xacro:include filename="$(find vizzy_description)/urdf/common.urdf.xacro"/>
+  <!-- Hand -->
+  <xacro:include filename="$(find vizzy_description)/urdf/hand/right_hand.urdf.xacro">
+    <xacro:arg name="use_full_gazebo_model" value="$(arg use_full_gazebo_model)"/>
+  </xacro:include>
+
+  <!-- Root link, on the ground just below the robot origin -->
+  <link name="base_footprint">
+  </link>
+
+  <xacro:right_hand parent="base_footprint"/>
+
+</robot>
