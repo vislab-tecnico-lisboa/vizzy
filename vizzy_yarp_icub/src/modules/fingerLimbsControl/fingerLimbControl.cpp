@@ -59,6 +59,18 @@ protected:
     yarp::sig::Vector command, encoders;
     ForceReadingThread *sensor_reading_thread;
 
+    double finger_set[3];       // new force setpoints 
+    double finger_force[3];         // current force values
+    double joint_inc[3];
+    double inc_max;                           // max joint increment
+    double joint_max;                        // max joint value for fingers (min is 0)
+    double force_error;                      // accepeted force error [N]
+
+    Vector sensor_force;
+
+    // Controling with a PID for each motor
+    PID pid_finger = PID(0.1, 20, -20, 0.4, 0.01, 0.4); //if they are different create the 3
+
     yarp::os::RpcServer rpcServerPort;
 
 public:
@@ -112,6 +124,23 @@ public:
         pos->setRefSpeeds(part_speeds);
 	std::cout << "initialization done" << std::endl;
 
+        //double finger_set[3] = {6, 5.4, 3.4};       // force setpoints 
+        finger_set[0] = 5.2; // new force setpoints 
+        finger_set[1] = 4.4;
+        finger_set[2] = 3.4;
+        finger_force[0] = 0.0; // current force values
+        finger_force[1] = 0.0;
+        finger_force[2] = 0.0;
+        joint_inc[0] = 0.0;
+        joint_inc[1] = 0.0;
+        joint_inc[2] = 0.0;
+
+        inc_max = 10;                           // max joint increment
+        joint_max = 150;                        // max joint value for fingers (min is 0)
+        force_error = 0.5;                      // accepeted force error [N]
+
+        sensor_force.resize(11); // 11 active sensors 
+
         rpcServerPort.open("/"+moduleName+"/rpc:i");
         attach(rpcServerPort);
 
@@ -135,34 +164,19 @@ public:
     {
         encs->getEncoders(encoders.data());
 
-	    //std::cout << "Before reading force" << std::endl;
-        Vector sensor_force(11); // 11 active sensors 
-
         for(int sensor_i = 0; sensor_i < 11; sensor_i++) {
             Vector sensor_comp(3); // x y z of each sensor
             sensor_reading_thread->get_force(sensor_i,sensor_comp);
+
 	    if (sensor_i == 4){
-		//std::cout << "x: " << sensor_comp[0] << "y: " << sensor_comp[1] << "z: " << sensor_comp[2] << std::endl;
-		sensor_force[sensor_i]= std::abs(sensor_comp[1])+std::abs(sensor_comp[2]); // the x component in this sensor is weird, check this
+    		//std::cout << "x: " << sensor_comp[0] << "y: " << sensor_comp[1] << "z: " << sensor_comp[2] << std::endl;
+            sensor_force[sensor_i]= std::abs(sensor_comp[1])+std::abs(sensor_comp[2]); // the x component in this sensor is weird, check this
 	    }
             else{   
                 sensor_force[sensor_i]= std::abs(sensor_comp[0])+std::abs(sensor_comp[1])+std::abs(sensor_comp[2]);
             }
 	            
         }
-
-        // Controling with a PID for each motor
-
-        PID pid_finger = PID(0.1, 20, -20, 0.4, 0.01, 0.4); //if they are different create the 3
-
-        //double finger_set[3] = {6, 5.4, 3.4};       // force setpoints 
-        double finger_set[3] = {5.2, 4.4, 3.4};       // new force setpoints 
-        double finger_force[3] = {0, 0, 0};         // current force values
-        double joint_inc[3] = {0, 0, 0};
-
-        double inc_max = 10;                           // max joint increment
-        double joint_max = 150;                        // max joint value for fingers (min is 0)
-        double force_error = 0.5;                      // accepeted force error [N]
 
         finger_force[0] = sensor_force[0]+sensor_force[1]+sensor_force[2];
         finger_force[1] = sensor_force[3]+sensor_force[4]+sensor_force[5];  //ignoring the tip
@@ -171,54 +185,18 @@ public:
         //std::cout << "Thumb Force: " << finger_force[0] << "Setpoint: " << finger_set[0] << std::endl;
         //std::cout << "Index Force: " << finger_force[1] << "Setpoint: " << finger_set[1] << std::endl;
         //std::cout << "Others Force: "<< finger_force[2] << "Setpoint: " << finger_set[2] << std::endl;
-	std::cout << std::setprecision(3) << std::fixed;
+        std::cout << std::setprecision(3) << std::fixed;
 
-	//std::cout << "Thumb: " << finger_force[0] << "Index: " << finger_force[1] << "Mid: " << finger_force[2] << std::endl;
+        //std::cout << "Thumb: " << finger_force[0] << "Index: " << finger_force[1] << "Mid: " << finger_force[2] << std::endl;
 
-	//std::cout << "Thumb 1: " << sensor_force[0] << "2: " << sensor_force[1] << "3: " << sensor_force[2] << std::endl;
-	std::cout << "Thumb - Force: " << finger_force[0]<< " Motor: " << encoders[8] << std::endl;
-	
-        //std::cout << "Index 1: " << sensor_force[3] << "2: " << sensor_force[4] << "3: " << sensor_force[5] << " Total: " << finger_force[1]<< std::endl;
-	std::cout << "Index - Force: " << finger_force[1]<< " Motor: " << encoders[9] << std::endl;
-	
-	//std::cout << "Mid 1: " << sensor_force[7] << "2: " << sensor_force[8] << "3: " << sensor_force[9] << std::endl;
-	std::cout << "Mid - Force: " << finger_force[2]<< " Motor: " << encoders[10] << std::endl;
+        //std::cout << "Thumb 1: " << sensor_force[0] << "2: " << sensor_force[1] << "3: " << sensor_force[2] << std::endl;
+        std::cout << "Thumb - Force: " << finger_force[0]<< " Motor: " << encoders[8] << std::endl;
 
-        for (int finger_i = 0; finger_i < 3; finger_i++) {
+            //std::cout << "Index 1: " << sensor_force[3] << "2: " << sensor_force[4] << "3: " << sensor_force[5] << " Total: " << finger_force[1]<< std::endl;
+        std::cout << "Index - Force: " << finger_force[1]<< " Motor: " << encoders[9] << std::endl;
 
-            //condition for doing control or keeping
-            if (std::abs(finger_force[finger_i] - finger_set[finger_i]) > force_error) {
-                        
-                double temp_pid = pid_finger.calculate(finger_set[finger_i], finger_force[finger_i]);
-
-                //relation factor between the force and the motor angle
-                joint_inc[finger_i] = temp_pid * 10; // isto não dá para incluir no kp? deve dar pois
-
-                //conditions for incrmentation - No increment larger than inc_max
-                if (std::abs(joint_inc[finger_i]) > inc_max){
-                    joint_inc[finger_i] = inc_max*(joint_inc[finger_i]/std::abs(joint_inc[finger_i]));
-                }
-
-                //conditions for joint: 0 < angles < joint_max
-                if (encoders[8+finger_i] + joint_inc[finger_i] > joint_max){
-                    joint_inc[finger_i] = joint_max-encoders[8+finger_i]; 
-                }
-                if (encoders[8+finger_i] + joint_inc[finger_i] < 0){
-                    joint_inc[finger_i] = 0 - encoders[8+finger_i];
-                }
-                //std::cout << "Value: " << encoders[8+finger_i] << "Increment: " << joint_inc[finger_i] << std::endl;      
-            }
-
-            else {
-                joint_inc[finger_i]=0;
-                //std::cout << "Finger " << finger_i << " is ok!" << std::endl;
-            }        
-        }
-
-        //change the enconders 8, 9 and 10 
-        pos->positionMove(8,encoders[8]+joint_inc[0]);
-        pos->positionMove(9,encoders[9]+joint_inc[1]);
-        pos->positionMove(10,encoders[10]+joint_inc[2]);
+        //std::cout << "Mid 1: " << sensor_force[7] << "2: " << sensor_force[8] << "3: " << sensor_force[9] << std::endl;
+        std::cout << "Mid - Force: " << finger_force[2]<< " Motor: " << encoders[10] << std::endl;
 
         return true;
     }
@@ -244,11 +222,74 @@ public:
 
     bool grab(const std::string &type)
     {
+        if (type=="one")
+        {
+            for (int finger_i = 0; finger_i < 3; finger_i++)
+            {
+                //condition for doing control or keeping
+                if (std::abs(finger_force[finger_i] - finger_set[finger_i]) > force_error)
+                {
+                    double temp_pid = pid_finger.calculate(finger_set[finger_i], finger_force[finger_i]);
+
+                    //relation factor between the force and the motor angle
+                    joint_inc[finger_i] = temp_pid * 10; // isto não dá para incluir no kp? deve dar pois
+
+                    //conditions for incrmentation - No increment larger than inc_max
+                    if (std::abs(joint_inc[finger_i]) > inc_max){
+                        joint_inc[finger_i] = inc_max*(joint_inc[finger_i]/std::abs(joint_inc[finger_i]));
+                    }
+
+                    //conditions for joint: 0 < angles < joint_max
+                    if (encoders[8+finger_i] + joint_inc[finger_i] > joint_max){
+                        joint_inc[finger_i] = joint_max-encoders[8+finger_i]; 
+                    }
+                    if (encoders[8+finger_i] + joint_inc[finger_i] < 0){
+                        joint_inc[finger_i] = 0 - encoders[8+finger_i];
+                    }
+                    //std::cout << "Value: " << encoders[8+finger_i] << "Increment: " << joint_inc[finger_i] << std::endl;      
+                }
+                else
+                {
+                    joint_inc[finger_i]=0;
+                    //std::cout << "Finger " << finger_i << " is ok!" << std::endl;
+                }
+            } // end for
+
+            //change the enconders 8, 9 and 10 
+            pos->positionMove(8,encoders[8]+joint_inc[0]);
+            pos->positionMove(9,encoders[9]+joint_inc[1]);
+            pos->positionMove(10,encoders[10]+joint_inc[2]);
+        }
+        else if (type=="two")
+        {
+            // TODO tiago
+            const double grabTwo8 = 0.0;
+            const double grabTwo9 = 0.0;
+            const double grabTwo10 = 0.0;
+
+            pos->positionMove(8, grabTwo8);
+            pos->positionMove(9, grabTwo9);
+            pos->positionMove(10, grabTwo10);
+        }
+        else
+        {
+            std::cout << "not implemented" << std::endl;
+        }
+
         return true;
     }
 
     bool release()
     {
+        // TODO tiago
+        const double releaseTwo8 = 0.0;
+        const double releaseTwo9 = 0.0;
+        const double releaseTwo10 = 0.0;
+
+        pos->positionMove(8, releaseTwo8);
+        pos->positionMove(9, releaseTwo9);
+        pos->positionMove(10, releaseTwo10);
+
         return true;
     }
 };
