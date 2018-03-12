@@ -18,6 +18,7 @@
 #include <yarp/sig/all.h>
 #include <yarp/math/Math.h>
 #include <yarp/math/Rand.h>
+#include "fingerLimbControl_IDL.h"
 
 #include <iostream>
 #include <iomanip>
@@ -40,7 +41,8 @@ using namespace yarp::math;
  * This class implements the client.
  */
 
-class ClientModule : public RFModule
+class ClientModule : public RFModule,
+                     public fingerLimbControl_IDL
 {
 protected:
     string moduleName;
@@ -56,6 +58,9 @@ protected:
     yarp::os::Subscriber<TactSensorArray> force_sensor_port;
     yarp::sig::Vector command, encoders;
     ForceReadingThread *sensor_reading_thread;
+
+    yarp::os::RpcServer rpcServerPort;
+
 public:
     /**********************************************************/
     bool configure(ResourceFinder &rf)
@@ -106,12 +111,18 @@ public:
         double part_speeds[11] = {10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,20.0,20.0,20.0};
         pos->setRefSpeeds(part_speeds);
 	std::cout << "initialization done" << std::endl;
+
+        rpcServerPort.open("/"+moduleName+"/rpc:i");
+        attach(rpcServerPort);
+
         return true;
     }
 
     /**********************************************************/
     bool close()
     {
+        rpcServerPort.close();
+
         sensor_reading_thread->threadRelease();
         if (robotDevice.isValid())
             robotDevice.close();
@@ -219,7 +230,25 @@ public:
     }
 
     bool interruptModule(){
-        std::cout << "Closing the module" << std::endl;
+        rpcServerPort.interrupt();
+
+        std::cout << "Interrupting the module" << std::endl;
+        return true;
+    }
+
+    // IDL functions
+    bool attach(yarp::os::RpcServer &source)
+    {
+        return this->yarp().attachAsServer(source);
+    }
+
+    bool grab(const std::string &type)
+    {
+        return true;
+    }
+
+    bool release()
+    {
         return true;
     }
 };
@@ -246,5 +275,3 @@ int main(int argc, char *argv[])
     ClientModule client;
     return client.runModule(rf);
 }
-
-
