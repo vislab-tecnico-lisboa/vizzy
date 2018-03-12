@@ -27,7 +27,7 @@ void ForceReadingThread::run(){
 	//std::cout << "Before reading value" << std::endl;
 	int arraySize = reading1Mux.sensorArray.size();
 	array->resize(arraySize);
-	std::cout << "Array size: " << arraySize << std::endl;
+	//std::cout << "Array size: " << arraySize << std::endl;
         *array = reading1Mux.sensorArray;
         geometry_msgs_Vector3 currForce = array->at(0).force;
         //std::cout << "Fx : " << currForce.x << " Fy : " << currForce.y << " Fz : " << currForce.z << std::endl;
