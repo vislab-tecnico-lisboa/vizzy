@@ -1,3 +1,4 @@
+#include <iostream>
 #include "ForceReadingThread.h"
 
 ForceReadingThread::ForceReadingThread(yarp::os::Subscriber<TactSensorArray> *my_topic__):semStart(0) {
@@ -52,4 +53,3 @@ void ForceReadingThread::threadRelease()
 {
     std::cout << "Goodbye from force sensor reading thread" << std::endl;
 }
-
