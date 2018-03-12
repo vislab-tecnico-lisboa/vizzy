@@ -14,6 +14,10 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ICUB_MODULE_PATH})
 include(iCubOptions)
 include(iCubHelpers)
 
+# Thrift IDL
+include(YarpIDL)
+yarp_add_idl(IDL_GEN_FILES ${PROJECTNAME}.thrift)
+
 set(folder_source main.cpp)
 source_group("Source Files" FILES ${folder_source})
 
@@ -21,8 +25,6 @@ include_directories(${ICUB_INCLUDE_DIRS} ${YARP_INCLUDE_DIRS} ${CMAKE_CURRENT_SO
 
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${ICUB_LINK_FLAGS}")
 
-add_executable(${PROJECTNAME} pid.cpp ForceReadingThread.cpp fingerLimbControl.cpp)
+add_executable(${PROJECTNAME} pid.cpp ForceReadingThread.cpp fingerLimbControl.cpp ${PROJECTNAME}.thrift ${IDL_GEN_FILES})
 target_link_libraries(${PROJECTNAME} ${YARP_LIBRARIES})
 #install(TARGETS ${PROJECTNAME} DESTINATION ${ICUB_APPLICATIONS_PREFIX})
-
-
