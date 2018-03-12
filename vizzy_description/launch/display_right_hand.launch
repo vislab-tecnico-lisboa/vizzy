@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<launch>
+  
+  <!-- Use graphical interface to set the joints positions --> 
+  <arg name="gui" default="True" />
+  <!-- Rviz configuration file -->
+  <arg name="config_file" default="$(find vizzy_description)/rviz/right_hand_urdf.rviz"/>
+
+  <!-- Load the URDF into the ROS Parameter Server -->
+  <param
+    name="robot_description"
+    command="$(find xacro)/xacro --inorder $(find vizzy_description)/robots/vizzy_hand_only.urdf.xacro" />
+  
+  <param
+    name="use_gui"
+    value="$(arg gui)" />
+  
+  <node
+    name="joint_state_publisher"
+    pkg="joint_state_publisher"
+    type="joint_state_publisher" />
+  
+  <node
+    name="robot_state_publisher"
+    pkg="robot_state_publisher"
+    type="state_publisher" />
+  
+  <node
+    name="rviz"
+    pkg="rviz"
+    type="rviz"
+    args="-d $(arg config_file)"/>
+
+</launch>

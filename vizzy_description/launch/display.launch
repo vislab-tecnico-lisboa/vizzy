@@ -31,4 +31,5 @@
     pkg="rviz"
     type="rviz"
     args="-d $(arg config_file)"/>
+
 </launch>
