@@ -59,6 +59,7 @@ class Handshaker():
                 goal = vizzy_msgs.msg.GazeGoal()
                 goal.type = vizzy_msgs.msg.GazeGoal.HOME
                 self.client.send_goal(goal)
+                self.sm.state_execution()
 
             rate.sleep()
 
