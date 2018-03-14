@@ -47,7 +47,7 @@ class Handshaker():
         self.client.send_goal(self.goal)
 
         #detect a waving gesture, but only if the last one happened some time ago
-        if (person.body_part[4].y < person.body_part[0].y) and (self.sm._time_since_last_gesture-rospy.get_time() > 10):
+        if (person.body_part[4].confidence > 0.3) and (person.body_part[4].y < person.body_part[0].y) and (self.sm._time_since_last_gesture-rospy.get_time() > 10):
             self.sm.event_handler(self.sm._WAVING)
 
 
