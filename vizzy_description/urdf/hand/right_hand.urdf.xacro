@@ -38,11 +38,6 @@
           <mesh
             filename="package://vizzy_description/meshes/hand/r_hand_base_link.STL" />
         </geometry>
-        <material
-          name="">
-          <color
-            rgba="0.796078431372549 0.823529411764706 0.937254901960784 1" />
-        </material>
       </visual>
       <collision>
         <origin
@@ -92,11 +87,6 @@
           <mesh
             filename="package://vizzy_description/meshes/hand/r_min_phal_1_link.STL" />
         </geometry>
-        <material
-          name="">
-          <color
-            rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
-        </material>
       </visual>
       <collision>
         <origin
@@ -203,11 +193,6 @@
           <mesh
             filename="package://vizzy_description/meshes/hand/r_min_phal_2_link.STL" />
         </geometry>
-        <material
-          name="">
-          <color
-            rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
-        </material>
       </visual>
       <collision>
         <origin
@@ -314,11 +299,6 @@
           <mesh
             filename="package://vizzy_description/meshes/hand/r_min_phal_3_link.STL" />
         </geometry>
-        <material
-          name="">
-          <color
-            rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
-        </material>
       </visual>
       <collision>
         <origin
@@ -425,11 +405,6 @@
           <mesh
             filename="package://vizzy_description/meshes/hand/r_med_phal_1_link.STL" />
         </geometry>
-        <material
-          name="">
-          <color
-            rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
-        </material>
       </visual>
       <collision>
         <origin
@@ -536,11 +511,6 @@
           <mesh
             filename="package://vizzy_description/meshes/hand/r_med_phal_2_link.STL" />
         </geometry>
-        <material
-          name="">
-          <color
-            rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
-        </material>
       </visual>
       <collision>
         <origin
@@ -647,11 +617,6 @@
           <mesh
             filename="package://vizzy_description/meshes/hand/r_med_phal_3_link.STL" />
         </geometry>
-        <material
-          name="">
-          <color
-            rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
-        </material>
       </visual>
       <collision>
         <origin
@@ -758,11 +723,6 @@
           <mesh
             filename="package://vizzy_description/meshes/hand/r_ind_phal_1_link.STL" />
         </geometry>
-        <material
-          name="">
-          <color
-            rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
-        </material>
       </visual>
       <collision>
         <origin
@@ -869,11 +829,6 @@
           <mesh
             filename="package://vizzy_description/meshes/hand/r_ind_phal_2_link.STL" />
         </geometry>
-        <material
-          name="">
-          <color
-            rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
-        </material>
       </visual>
       <collision>
         <origin
@@ -980,11 +935,6 @@
           <mesh
             filename="package://vizzy_description/meshes/hand/r_ind_phal_3_link.STL" />
         </geometry>
-        <material
-          name="">
-          <color
-            rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
-        </material>
       </visual>
       <collision>
         <origin
@@ -1091,11 +1041,6 @@
           <mesh
             filename="package://vizzy_description/meshes/hand/r_thumb_phal_1_link.STL" />
         </geometry>
-        <material
-          name="">
-          <color
-            rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
-        </material>
       </visual>
       <collision>
         <origin
@@ -1149,11 +1094,6 @@
           <mesh
             filename="package://vizzy_description/meshes/hand/r_thumb_phal_1_link_fix.STL" />
         </geometry>
-        <material
-          name="">
-          <color
-            rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
-        </material>
       </visual>
       <collision>
         <origin
@@ -1202,11 +1142,6 @@
           <mesh
             filename="package://vizzy_description/meshes/hand/r_thumb_phal_2_link.STL" />
         </geometry>
-        <material
-          name="">
-          <color
-            rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
-        </material>
       </visual>
       <collision>
         <origin
@@ -1289,22 +1224,21 @@
       <axis
         xyz="0 0 0" />
     </joint>
-    <!--
     <link
       name="r_thumb_phal_3_link">
       <inertial>
         <origin
-          xyz="-0.0146795008539003 0.000321779082924474 -1.60568615682546E-05"
+          xyz="-0.0125548640176916 0.00056252197857469 -1.90460476551368E-05"
           rpy="0 0 0" />
         <mass
-          value="0.0093590453864441" />
+          value="0.00838713518345204" />
         <inertia
-          ixx="3.25448933286868E-07"
-          ixy="-7.67923909556657E-09"
-          ixz="-2.9182709100671E-10"
-          iyy="7.82460440615413E-07"
-          iyz="5.74839171195636E-10"
-          izz="7.70225558928889E-07" />
+          ixx="2.60505570751336E-07"
+          ixy="-2.79008349627709E-08"
+          ixz="1.74829416361065E-10"
+          iyy="4.40992619187728E-07"
+          iyz="6.2543048992729E-10"
+          izz="4.45479141195201E-07" />
       </inertial>
       <visual>
         <origin
@@ -1314,11 +1248,6 @@
           <mesh
             filename="package://vizzy_description/meshes/hand/r_thumb_phal_3_link.STL" />
         </geometry>
-        <material
-          name="">
-          <color
-            rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
-        </material>
       </visual>
       <collision>
         <origin
@@ -1334,10 +1263,10 @@
       name="r_thumb_phal_3_joint"
       type="revolute">
       <origin
-        xyz="-0.01625 -0.007 0"
-        rpy="-3.1416 7.494E-16 -5.6162E-17" />
+        xyz="-0.0332692 0 0"
+        rpy="0 0 0" />
       <parent
-        link="r_thumb_phal_2_link_fix" />
+        link="r_thumb_phal_2_link" />
       <child
         link="r_thumb_phal_3_link" />
       <axis
@@ -1352,17 +1281,17 @@
       name="r_thumb_phal_3_link_fix">
       <inertial>
         <origin
-          xyz="-0.0118618974128648 -0.00596650611581801 -5.37425902391586E-11"
+          xyz="0.00766697409984854 -0.00206053700829757 1.96358397597241E-09"
           rpy="0 0 0" />
         <mass
-          value="0.00257761324342116" />
+          value="0.000998338233225828" />
         <inertia
-          ixx="9.21932604321348E-08"
-          ixy="3.10961295113261E-08"
-          ixz="-1.64616534423459E-15"
-          iyy="1.23080606212339E-07"
-          iyz="-8.32014412402861E-16"
-          izz="9.04321801244888E-08" />
+          ixx="2.82420018878066E-08"
+          ixy="-1.55555519770169E-08"
+          ixz="-6.64276685302323E-14"
+          iyy="3.53307383140706E-08"
+          iyz="6.32120231059822E-14"
+          izz="4.58878333785307E-08" />
       </inertial>
       <visual>
         <origin
@@ -1392,8 +1321,8 @@
       name="r_thumb_phal_3_joint_fix"
       type="fixed">
       <origin
-        xyz="-0.013 -0.007 0"
-        rpy="3.1416 -2.7756E-17 -1.8946E-16" />
+        xyz="-0.012935 -0.007 0"
+        rpy="-5.7918E-16 -5.8287E-16 -3.1416" />
       <parent
         link="r_thumb_phal_3_link" />
       <child
@@ -1401,119 +1330,11 @@
       <axis
         xyz="0 0 0" />
     </joint>
-    -->
-    <link
-      name="r_thumb_phal_4_link">
-      <inertial>
-        <origin
-          xyz="-0.0125548640176916 0.00056252197857469 -1.90460476551368E-05"
-          rpy="0 0 0" />
-        <mass
-          value="0.00838713518345204" />
-        <inertia
-          ixx="2.60505570751336E-07"
-          ixy="-2.79008349627709E-08"
-          ixz="1.74829416361065E-10"
-          iyy="4.40992619187728E-07"
-          iyz="6.2543048992729E-10"
-          izz="4.45479141195201E-07" />
-      </inertial>
-      <visual>
-        <origin
-          xyz="0 0 0"
-          rpy="0 0 0" />
-        <geometry>
-          <mesh
-            filename="package://vizzy_description/meshes/hand/r_thumb_phal_4_link.STL" />
-        </geometry>
-        <material
-          name="">
-          <color
-            rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
-        </material>
-      </visual>
-      <collision>
-        <origin
-          xyz="0 0 0"
-          rpy="0 0 0" />
-        <geometry>
-          <mesh
-            filename="package://vizzy_description/meshes/hand/r_thumb_phal_4_link.STL" />
-        </geometry>
-      </collision>
-    </link>
-    <joint
-      name="r_thumb_phal_4_joint"
-      type="revolute">
-      <origin
-        xyz="-0.0332692 0 0"
-        rpy="0 0 0" />
-      <parent
-        link="r_thumb_phal_2_link" />
-      <child
-        link="r_thumb_phal_4_link" />
-      <axis
-        xyz="0 0 1" />
-      <limit
-        lower="0"
-        upper="1.57"
-        effort="0"
-        velocity="0" />
-    </joint>
-    <link
-      name="r_thumb_phal_4_link_fix">
-      <inertial>
-        <origin
-          xyz="0.00766697409984854 -0.00206053700829757 1.96358397597241E-09"
-          rpy="0 0 0" />
-        <mass
-          value="0.000998338233225828" />
-        <inertia
-          ixx="2.82420018878066E-08"
-          ixy="-1.55555519770169E-08"
-          ixz="-6.64276685302323E-14"
-          iyy="3.53307383140706E-08"
-          iyz="6.32120231059822E-14"
-          izz="4.58878333785307E-08" />
-      </inertial>
-      <visual>
-        <origin
-          xyz="0 0 0"
-          rpy="0 0 0" />
-        <geometry>
-          <mesh
-            filename="package://vizzy_description/meshes/hand/r_thumb_phal_4_link_fix.STL" />
-        </geometry>
-        <material
-          name="">
-          <color
-            rgba="1 1 1 1" />
-        </material>
-      </visual>
-      <collision>
-        <origin
-          xyz="0 0 0"
-          rpy="0 0 0" />
-        <geometry>
-          <mesh
-            filename="package://vizzy_description/meshes/hand/r_thumb_phal_4_link_fix.STL" />
-        </geometry>
-      </collision>
-    </link>
-    <joint
-      name="r_thumb_phal_4_joint_fix"
-      type="fixed">
-      <origin
-        xyz="-0.012935 -0.007 0"
-        rpy="-5.7918E-16 -5.8287E-16 -3.1416" />
-      <parent
-        link="r_thumb_phal_4_link" />
-      <child
-        link="r_thumb_phal_4_link_fix" />
-      <axis
-        xyz="0 0 0" />
-    </joint>
 
   </xacro:macro>
+
+  <!-- Gazebo extensions -->
+  <xacro:right_hand_transmissions/>
+  <xacro:right_hand_gazebo/>
 
 </robot>

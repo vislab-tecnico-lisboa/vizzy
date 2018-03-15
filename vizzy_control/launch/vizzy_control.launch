@@ -1,69 +1,70 @@
 <?xml version="1.0"?>
 <launch>
-	<arg name="use_yarp" default="false"/>
+    <arg name="use_yarp" default="false"/>
 
-	<group if="$(arg use_yarp)">
- 		<!-- launch the joint state publisher to default values -->
-		<node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher">
-			<rosparam param="source_list">["/vizzy_upper_body/joint_states","joint_states"]</rosparam>
-		<remap from="/joint_states" to="/vizzy/joint_states" />
-		</node>
-	</group>
+    <group if="$(arg use_yarp)">
+        <!-- launch the joint state publisher to default values -->
+        <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher">
+            <rosparam param="source_list">["/vizzy_upper_body/joint_states","joint_states"]</rosparam>
+        <remap from="/joint_states" to="/vizzy/joint_states" />
+        </node>
+    </group>
+
     <!-- Load joint controller configurations from YAML file to parameter server -->
     <rosparam file="$(find vizzy_control)/config/vizzy_control.yaml" command="load"/>
-	<!-- bringup ROS controllers -->
- 	<group unless="$(arg use_yarp)">
+    <!-- bringup ROS controllers -->
+    <group unless="$(arg use_yarp)">
 
+      <!-- Load the controllers -->
+      <!--
+      <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" ns="/vizzy" args="
+        waist_position_controller 
+        neck_tilt_position_controller 
+        neck_pan_position_controller 
+        eyes_tilt_position_controller 
+        l_eye_position_controller
+        r_eye_position_controller
 
-	  <!-- Load the controllers -->
-	  <!--<node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
-	    output="screen" ns="/vizzy" args="
-		waist_position_controller 
-		neck_tilt_position_controller 
-		neck_pan_position_controller 
-		eyes_tilt_position_controller 
-		l_eye_position_controller
-	        r_eye_position_controller
+        l_shoulder_scapula_position_controller
+        l_shoulder_flection_position_controller
+        l_shoulder_rotation_position_controller
+        l_elbow_flection_position_controller
+        l_forearm_pronation_position_controller
+        l_wrist_abduction_position_controller
+        l_wrist_flection_position_controller
 
-		l_shoulder_scapula_position_controller
-	        l_shoulder_flection_position_controller
-	        l_shoulder_rotation_position_controller
-	        l_elbow_flection_position_controller
-	        l_forearm_pronation_position_controller
-	        l_wrist_abduction_position_controller
-	        l_wrist_flection_position_controller
+        r_shoulder_scapula_position_controller
+        r_shoulder_flection_position_controller
+        r_shoulder_rotation_position_controller
+        r_elbow_flection_position_controller
+        r_forearm_pronation_position_controller
+        r_wrist_abduction_position_controller
+        r_wrist_flection_position_controller
+        
+        joint_state_controller" />
+      -->
 
-		r_shoulder_scapula_position_controller
-	        r_shoulder_flection_position_controller
-	        r_shoulder_rotation_position_controller
-	        r_elbow_flection_position_controller
-	        r_forearm_pronation_position_controller
-	        r_wrist_abduction_position_controller
-	        r_wrist_flection_position_controller
-                joint_state_controller" />-->
+      <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" ns="/vizzy" args="
+        joint_state_controller
+        waist_position_controller
+        neck_pan_position_controller
+        neck_tilt_position_controller
+        eyes_tilt_position_controller
+        l_eye_position_controller
+        r_eye_position_controller
+        left_arm_trajectory_controller
+        right_arm_trajectory_controller
+        r_min_phal_1_position_controller
+        r_med_phal_1_position_controller
+        r_ind_phal_1_position_controller
+        r_thumb_phal_1_position_controller
+        r_thumb_phal_2_position_controller"/>
 
-	  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
-	    output="screen" ns="/vizzy" args="
-		joint_state_controller
-		waist_position_controller
-		neck_pan_position_controller
-        	neck_tilt_position_controller
-        	eyes_tilt_position_controller
-        	l_eye_position_controller
-        	r_eye_position_controller
-		left_arm_trajectory_controller
-		right_arm_trajectory_controller"/>
-		<!--
-		r_min_phal_1_position_controller
-		r_med_phal_1_position_controller
-		r_ind_phal_1_position_controller
-		r_thumb_phal_1_position_controller
-		r_thumb_phal_2_position_controller"/>
-		-->
   </group>
 
-	<!-- convert joint states to TF transforms for rviz, etc -->
+    <!-- convert joint states to TF transforms for rviz, etc -->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
-		<remap from="/joint_states" to="/vizzy/joint_states" />
+        <remap from="/joint_states" to="/vizzy/joint_states" />
   </node>
+
 </launch>
