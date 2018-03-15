@@ -1,4 +1,73 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
+  <!-- Instance mimic plugins for underactuated finger control -->
+  <xacro:macro name="right_hand_gazebo">
+
+    <!-- Min underactuated finger -->
+    <gazebo>
+      <plugin name="mimic_plugin" filename="libgazebo_mimic_plugin.so">
+        <joint>r_min_phal_1_joint</joint>
+        <mimicJoint>r_min_phal_2_joint</mimicJoint>
+        <multiplier>0.5</multiplier>
+      </plugin>
+    </gazebo>
+    <gazebo>
+      <plugin name="mimic_plugin" filename="libgazebo_mimic_plugin.so">
+        <joint>r_min_phal_1_joint</joint>
+        <mimicJoint>r_min_phal_3_joint</mimicJoint>
+        <multiplier>0.5</multiplier>
+      </plugin>
+    </gazebo>
+
+    <!-- Med underactuated finger -->
+    <gazebo>
+      <plugin name="mimic_plugin" filename="libgazebo_mimic_plugin.so">
+        <joint>r_med_phal_1_joint</joint>
+        <mimicJoint>r_med_phal_2_joint</mimicJoint>
+        <multiplier>0.5</multiplier>
+      </plugin>
+    </gazebo>
+    <gazebo>
+      <plugin name="mimic_plugin" filename="libgazebo_mimic_plugin.so">
+        <joint>r_med_phal_1_joint</joint>
+        <mimicJoint>r_med_phal_3_joint</mimicJoint>
+        <multiplier>0.5</multiplier>
+      </plugin>
+    </gazebo>
+
+    <!-- Ind underactuated finger -->
+    <gazebo>
+      <plugin name="mimic_plugin" filename="libgazebo_mimic_plugin.so">
+        <joint>r_ind_phal_1_joint</joint>
+        <mimicJoint>r_ind_phal_2_joint</mimicJoint>
+        <multiplier>0.5</multiplier>
+      </plugin>
+    </gazebo>
+    <gazebo>
+      <plugin name="mimic_plugin" filename="libgazebo_mimic_plugin.so">
+        <joint>r_ind_phal_1_joint</joint>
+        <mimicJoint>r_ind_phal_3_joint</mimicJoint>
+        <multiplier>0.5</multiplier>
+      </plugin>
+    </gazebo>
+
+    <!-- Thumb underactuated finger -->
+    <gazebo>
+      <plugin name="mimic_plugin" filename="libgazebo_mimic_plugin.so">
+        <joint>r_thumb_phal_2_joint</joint>
+        <mimicJoint>r_thumb_phal_3_joint</mimicJoint>
+        <multiplier>0.5</multiplier>
+      </plugin>
+    </gazebo>
+    <gazebo>
+      <plugin name="mimic_plugin" filename="libgazebo_mimic_plugin.so">
+        <joint>r_thumb_phal_2_joint</joint>
+        <mimicJoint>r_thumb_phal_4_joint</mimicJoint>
+        <multiplier>0.5</multiplier>
+      </plugin>
+    </gazebo>
+
+  </xacro:macro>
+
 </robot> 
