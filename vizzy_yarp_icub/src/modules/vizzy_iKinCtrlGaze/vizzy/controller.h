@@ -1,7 +1,7 @@
 /* 
  * Copyright (C) 2010 RobotCub Consortium, European Commission FP6 Project IST-004370
- * Author: Ugo Pattacini
- * email:  ugo.pattacini@iit.it
+ * Author: Ugo Pattacini, Alessandro Roncone
+ * email:  ugo.pattacini@iit.it, alessandro.roncone@iit.it
  * website: www.robotcub.org
  * Permission is granted to copy, distribute, and/or modify this program
  * under the terms of the GNU General Public License, version 2 or any
@@ -20,26 +20,21 @@
 #define __CONTROLLER_H__
 
 #include <string>
+#include <set>
 
-#include <yarp/os/Port.h>
-#include <yarp/os/RateThread.h>
-#include <yarp/os/Semaphore.h>
-#include <yarp/os/Stamp.h>
-#include <yarp/sig/Vector.h>
-#include <yarp/sig/Matrix.h>
+#include <yarp/os/all.h>
+#include <yarp/sig/all.h>
+#include <yarp/dev/all.h>
 #include <yarp/math/Math.h>
-#include <yarp/dev/ControlBoardInterfaces.h>
-#include <yarp/dev/PolyDriver.h>
-
 
 #include <iCub/ctrl/minJerkCtrl.h>
 #include <iCub/ctrl/pids.h>
+#include <iCub/utils.h>
 
-#include <vizzy/utils.h>
-
-#define GAZECTRL_MOTIONDONE_NECK_QTHRES     0.300   // [deg]
+#define GAZECTRL_SWOFFCOND_DISABLESLOT      10      // [-]
+#define GAZECTRL_MOTIONDONE_NECK_QTHRES     0.500   // [deg]
 #define GAZECTRL_MOTIONDONE_EYES_QTHRES     0.100   // [deg]
-#define GAZECTRL_MOTIONSTART_XTHRES         0.001   // [m]
+#define GAZECTRL_CRITICVER_STABILIZATION    4.0     // [deg]
 
 using namespace std;
 using namespace yarp::os;
@@ -51,77 +46,94 @@ using namespace iCub::iKin;
 
 
 // The thread launched by the application which is
-// in charge of computing the velocities profile.
-class Controller : public RateThread
+// in charge of computing the control commands.
+class Controller : public GazeComponent, public RateThread
 {
 protected:
-    vizzyHeadCenter   *neck;
-    vizzyEye          *eyeL,      *eyeR;
-    iKinChain        *chainNeck, *chainEyeL, *chainEyeR;
-    PolyDriver       *drvTorso,  *drvHead;
-    IControlMode2    *modHead;
-    IPositionControl *posHead;
-    IVelocityControl *velHead;
-    exchangeData     *commData;
-    xdPort           *port_xd;
+    vizzyHeadCenter     *neck;
+    //iCubInertialSensor *imu;
+    iKinChain          *chainNeck, *chainEyeL, *chainEyeR;
+    PolyDriver         *drvTorso,  *drvHead;
+    IControlMode2      *modHead;
+    IPositionControl2  *posHead;
+    IVelocityControl2  *velHead;
+    IPositionDirect    *posNeck;    
+    ExchangeData       *commData;
 
-    minJerkVelCtrl   *mjCtrlNeck;
-    minJerkVelCtrl   *mjCtrlEyes;
-    Integrator       *Int;    
+    minJerkVelCtrl     *mjCtrlNeck;
+    minJerkVelCtrl     *mjCtrlEyes;
+    Integrator         *IntState;
+    Integrator         *IntPlan;
+    Integrator         *IntStabilizer;
 
-    Port  port_x;
-    Port  port_q;
-    BufferedPort<Bottle>  port_event;
+    BufferedPort<Vector> port_x;
+    BufferedPort<Vector> port_q;
+    BufferedPort<Bottle> port_event;
+    BufferedPort<Bottle> port_debug;
     Stamp txInfo_x;
     Stamp txInfo_q;
     Stamp txInfo_pose;
     Stamp txInfo_event;
+    Stamp txInfo_debug;
 
-    Semaphore mutexChain;
-    Semaphore mutexCtrl;
-    Semaphore mutexData;
-    string robotName;
-    string localName;
-    string camerasFile;
-    ResourceFinder rf_camera;
-    bool tiltDone;
-    bool panDone;
-    bool verDone;
+    Mutex mutexRun;
+    Mutex mutexChain;
+    Mutex mutexCtrl;
+    Mutex mutexData;
+    Mutex mutexLook;
+    Event eventLook;
+    unsigned int period;
     bool unplugCtrlEyes;
-    bool Robotable;
+    bool ctrlInhibited;
+    bool motionDone;
+    bool reliableGyro;
+    bool stabilizeGaze;
     int nJointsTorso;
     int nJointsHead;
-    double saccadeStartTime;
+    double ctrlActiveRisingEdgeTime;
+    double saccadeStartTime;    
+    double printAccTime;
     double neckTime;
     double eyesTime;
-    double eyeTiltMin;
-    double eyeTiltMax;
-    double minAbsVel;
-    bool headV2;
-    unsigned int period;
+    double pathPerc;
+    double min_abs_vel;
+    double startupMinVer;
+    double q_stamp;
     double Ts;
-    double printAccTime;
 
     Matrix lim;
     Vector qddeg,qdeg,vdeg;
-    Vector v,vNeck,vEyes,vdegOld;
-    Vector qd,qdNeck,qdEyes;
+    Vector v,vNeck,vEyes;
+    Vector q0,qd,qdNeck,qdEyes;
     Vector fbTorso,fbHead,fbNeck,fbEyes;
+    VectorOf<int> neckJoints,eyesJoints;
+    VectorOf<int> jointsToSet;
 
-    void findMinimumAllowedVergence();
-    //void notifyEvent(const string &event, const double checkPoint=-1.0);
+    multiset<double> motionOngoingEvents;
+    multiset<double> motionOngoingEventsCurrent;
+
+    Vector computedxFP(const Matrix &H, const Vector &v, const Vector &w, const Vector &x_FP);
+    Vector computeNeckVelFromdxFP(const Vector &fp, const Vector &dfp);
+    Vector computeEyesVelFromdxFP(const Vector &dfp);
+    bool   areJointsHealthyAndSet();
+    void   setJointsCtrlMode();
+    void   stopLimb(const bool execStopPosition=true);
+    void   notifyEvent(const string &event, const double checkPoint=-1.0);
+    void   motionOngoingEventsHandling();
+    void   motionOngoingEventsFlush();
+    void   stopControlHelper();
 
 public:
-    Controller(PolyDriver *_drvTorso, PolyDriver *_drvHead, exchangeData *_commData,
-               const string &_robotName, const string &_localName, ResourceFinder &_camerasFile,
-               const double _neckTime, const double _eyesTime, const double _eyeTiltMin,
-               const double _eyeTiltMax, const double _minAbsVel, const bool _headV2, const string &_root_link,
-               const unsigned int _period);
+    Controller(PolyDriver *_drvTorso, PolyDriver *_drvHead, ExchangeData *_commData,
+               const double _neckTime, const double _eyesTime,
+               const double _min_abs_vel, const string &_root_link, const unsigned int _period);
 
+    void   findMinimumAllowedVergence();
+    void   minAllowedVergenceChanged();
     void   resetCtrlEyes();
-    void   doSaccade(Vector &ang, Vector &vel);
-    void   stopLimbsVel();
-    void   set_xdport(xdPort *_port_xd) { port_xd=_port_xd; }
+    void   doSaccade(const Vector &ang, const Vector &vel);
+    bool   look(const Vector &x);
+    void   stopControl();    
     void   printIter(Vector &xd, Vector &fp, Vector &qd, Vector &q, Vector &v, double printTime);
     bool   threadInit();
     void   afterStart(bool s);
@@ -133,14 +145,17 @@ public:
     double getTeyes() const;
     void   setTneck(const double execTime);
     void   setTeyes(const double execTime);
-    bool   isMotionDone() const;
+    bool   isMotionDone();
     void   setTrackingMode(const bool f);
     bool   getTrackingMode() const;
+    bool   setGazeStabilization(const bool f);
+    bool   getGazeStabilization() const;
     bool   getDesired(Vector &des);
     bool   getVelocity(Vector &vel);
     bool   getPose(const string &poseSel, Vector &x, Stamp &stamp);
-    void   setJointsCtrlMode();
-    bool   areJointsHealthyAndSet();
+    bool   registerMotionOngoingEvent(const double checkPoint);
+    bool   unregisterMotionOngoingEvent(const double checkPoint);
+    Bottle listMotionOngoingEvents();
 };
 
 
