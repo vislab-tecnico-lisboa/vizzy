@@ -1,7 +1,7 @@
 /* 
  * Copyright (C) 2010 RobotCub Consortium, European Commission FP6 Project IST-004370
- * Author: Ugo Pattacini
- * email:  ugo.pattacini@iit.it
+ * Author: Ugo Pattacini, Alessandro Roncone
+ * email:  ugo.pattacini@iit.it, alessandro.roncone@iit.it
  * website: www.robotcub.org
  * Permission is granted to copy, distribute, and/or modify this program
  * under the terms of the GNU General Public License, version 2 or any
@@ -21,19 +21,11 @@
 
 #include <string>
 
-#include <yarp/os/BufferedPort.h>
-#include <yarp/os/Semaphore.h>
-#include <yarp/os/Stamp.h>
-#include <yarp/os/RateThread.h>
-#include <yarp/os/Bottle.h>
-#include <yarp/os/Time.h>
-#include <yarp/sig/Vector.h>
-#include <yarp/sig/Matrix.h>
+#include <yarp/os/all.h>
+#include <yarp/sig/all.h>
 #include <yarp/math/Math.h>
 
 #include <iCub/ctrl/pids.h>
-
-
 #include <vizzy/gazeNlp.h>
 #include <vizzy/utils.h>
 
@@ -48,34 +40,27 @@ using namespace iCub::iKin;
 // The thread launched by the application which is
 // in charge of localizing target 3D position from
 // image coordinates.
-class Localizer : public RateThread
+class Localizer : public GazeComponent, public RateThread
 {
 protected:
-    Semaphore             mutex;
-    exchangeData         *commData;
-    xdPort               *port_xd;
+    Mutex                 mutex;
+    ExchangeData         *commData;
     BufferedPort<Bottle>  port_mono;
     BufferedPort<Bottle>  port_stereo;
     BufferedPort<Bottle>  port_anglesIn;
     BufferedPort<Vector>  port_anglesOut;
-    //Port ros_port_anglesOut;
     Stamp txInfo_ang;
 
-    string localName;
-    string camerasFile;
-    bool headV2;
     unsigned int period;
-    ResourceFinder rf_camera;
-    
-    vizzyEye  *eyeL;
-    vizzyEye  *eyeR;
-    
+
     Matrix eyeCAbsFrame;
     Matrix invEyeCAbsFrame;
     double eyesHalfBaseline;
 
     Matrix *PrjL, *invPrjL;
     Matrix *PrjR, *invPrjR;
+    int     widthL, heightL;
+    int     widthR, heightR;
     double  cxl, cyl;
     double  cxr, cyr;
 
@@ -88,11 +73,9 @@ protected:
     void handleAnglesOutput();
 
 public:
-    Localizer(exchangeData *_commData, const string &_localName,
-              ResourceFinder &_camerasFile, const bool _headV2,
-              const string &_root_link, const unsigned int _period);
+    Localizer(ExchangeData *_commData,  const string &_root_link,const unsigned int _period);
 
-    void   set_xdport(xdPort *_port_xd) { port_xd=_port_xd; }
+    double getDistFromVergence(const double ver);
     void   getPidOptions(Bottle &options);
     void   setPidOptions(const Bottle &options);
     bool   projectPoint(const string &type, const Vector &x, Vector &px);
@@ -103,6 +86,8 @@ public:
     bool   triangulatePoint(const Vector &pxl, const Vector &pxr, Vector &x);
     Vector getAbsAngles(const Vector &x);
     Vector get3DPoint(const string &type, const Vector &ang);
+    bool   getIntrinsicsMatrix(const string &type, Matrix &M, int &w, int &h);
+    bool   setIntrinsicsMatrix(const string &type, const Matrix &M, const int w, const int h);
     bool   threadInit();
     void   afterStart(bool s);
     void   run();
