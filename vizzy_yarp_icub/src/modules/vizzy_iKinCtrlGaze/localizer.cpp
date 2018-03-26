@@ -267,7 +267,7 @@ bool Localizer::projectPoint(const string &type, const Vector &x, Vector &px)
     bool isLeft=(type=="left");
 
     Matrix  *Prj=(isLeft?PrjL:PrjR);
-    iCubEye *eye=(isLeft?eyeL:eyeR);
+    vizzyEye *eye=(isLeft?eyeL:eyeR);
 
     if (Prj!=NULL)
     {
@@ -280,9 +280,9 @@ bool Localizer::projectPoint(const string &type, const Vector &x, Vector &px)
         q[2]=head[1];
         q[3]=head[2];
         if (isLeft)
-            q[4]=(head[3]+head[4]/2.0;
+            q[4]=(head[3]+head[4])/2.0;
         else
-            q[4]=(head[3]-head[4]/2.0;
+            q[4]=(head[3]-head[4])/2.0;
         
         Vector xo=x;
         // impose homogeneous coordinates
@@ -319,7 +319,7 @@ bool Localizer::projectPoint(const string &type, const double u, const double v,
     bool isLeft=(type=="left");
 
     Matrix  *invPrj=(isLeft?invPrjL:invPrjR);
-    iCubEye *eye=(isLeft?eyeL:eyeR);
+    vizzyEye *eye=(isLeft?eyeL:eyeR);
 
     if (invPrj!=NULL)
     {
@@ -332,9 +332,9 @@ bool Localizer::projectPoint(const string &type, const double u, const double v,
         q[2]=head[1];
         q[3]=head[2];
         if (isLeft)
-            q[4]=(head[3]+head[4]/2.0;
+            q[4]=(head[3]+head[4])/2.0;
         else
-            q[4]=(head[3]-head[4]/2.0;
+            q[4]=(head[3]-head[4])/2.0;
 
         Vector p(3);
         p[0]=z*u;
@@ -370,7 +370,7 @@ bool Localizer::projectPoint(const string &type, const double u, const double v,
     }
 
     bool isLeft=(type=="left");
-    iCubEye *eye=(isLeft?eyeL:eyeR);
+    vizzyEye *eye=(isLeft?eyeL:eyeR);
 
     if (projectPoint(type,u,v,1.0,x))
     {
