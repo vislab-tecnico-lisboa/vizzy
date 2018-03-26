@@ -21,8 +21,8 @@
 #include <algorithm>
 #include <sstream>
 
-#include <iCub/utils.h>
-#include <iCub/solver.h>
+#include <vizzy/utils.h>
+#include <vizzy/solver.h>
 
 #define MUTEX_XD            0
 #define MUTEX_QD            1

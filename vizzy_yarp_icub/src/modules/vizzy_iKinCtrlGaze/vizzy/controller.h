@@ -29,7 +29,7 @@
 
 #include <iCub/ctrl/minJerkCtrl.h>
 #include <iCub/ctrl/pids.h>
-#include <iCub/utils.h>
+#include <vizzy/utils.h>
 
 #define GAZECTRL_SWOFFCOND_DISABLESLOT      10      // [-]
 #define GAZECTRL_MOTIONDONE_NECK_QTHRES     0.500   // [deg]
@@ -51,7 +51,7 @@ class Controller : public GazeComponent, public RateThread
 {
 protected:
     vizzyHeadCenter     *neck;
-    //iCubInertialSensor *imu;
+    vizzyInertialSensor *imu;
     iKinChain          *chainNeck, *chainEyeL, *chainEyeR;
     PolyDriver         *drvTorso,  *drvHead;
     IControlMode2      *modHead;

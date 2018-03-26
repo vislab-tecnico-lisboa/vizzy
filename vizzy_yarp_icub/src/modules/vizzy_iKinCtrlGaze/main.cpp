@@ -569,9 +569,9 @@ Windows, Linux
 #include <yarp/sig/all.h>
 #include <yarp/dev/all.h>
 
-#include <iCub/localizer.h>
-#include <iCub/solver.h>
-#include <iCub/controller.h>
+#include <vizzy/localizer.h>
+#include <vizzy/solver.h>
+#include <vizzy/controller.h>
 
 #define GAZECTRL_SERVER_VER     1.2
 
@@ -675,7 +675,7 @@ protected:
 
         // solver part
         slv->getCurNeckPitchRange(context.neckPitchMin,context.neckPitchMax);
-        slv->getCurNeckRollRange(context.neckRollMin,context.neckRollMax);
+        //slv->getCurNeckRollRange(context.neckRollMin,context.neckRollMax);
         slv->getCurNeckYawRange(context.neckYawMin,context.neckYawMax);
         context.neckAngleUserTolerance=slv->getNeckAngleUserTolerance();
         context.eyesBoundVer=commData.eyesBoundVer;
@@ -708,7 +708,7 @@ protected:
 
             // solver part
             slv->bindNeckPitch(context.neckPitchMin,context.neckPitchMax);
-            slv->bindNeckRoll(context.neckRollMin,context.neckRollMax);
+            //slv->bindNeckRoll(context.neckRollMin,context.neckRollMax);
             slv->bindNeckYaw(context.neckYawMin,context.neckYawMax);
             slv->setNeckAngleUserTolerance(context.neckAngleUserTolerance);
             eyesRefGen->manageBindEyes(context.eyesBoundVer);
@@ -1097,6 +1097,7 @@ public:
         string ctrlName;
         string headName;
         string torsoName;
+        string root_link;
         double neckTime;
         double eyesTime;
         double min_abs_vel;
@@ -1124,11 +1125,12 @@ public:
         eyesTime=trajTimeGroup.check("eyes",Value(0.25)).asDouble();
         min_abs_vel=CTRL_DEG2RAD*fabs(rf.check("min_abs_vel",Value(0.0)).asDouble());
         ping_robot_tmo=rf.check("ping_robot_tmo",Value(40.0)).asDouble();
+        root_link = rf.check("root", Value("waist")).asString();
 
-        commData.robotName=rf.check("robot",Value("icub")).asString().c_str();
+        commData.robotName=rf.check("robot",Value("vizzy")).asString().c_str();
         commData.eyeTiltLim[0]=eyeTiltGroup.check("min",Value(-12.0)).asDouble();
         commData.eyeTiltLim[1]=eyeTiltGroup.check("max",Value(15.0)).asDouble();
-        commData.head_version=constrainHeadVersion(rf.check("head_version",Value(1.0)).asDouble());
+        commData.head_version=constrainHeadVersion(rf.check("head_version",Value(2.0)).asDouble());
         commData.verbose=rf.check("verbose");
         commData.saccadesOn=(rf.check("saccades",Value("on")).asString()=="on");
         commData.neckPosCtrlOn=(rf.check("neck_position_control",Value("on")).asString()=="on");
@@ -1244,10 +1246,10 @@ public:
 
         // create and start threads
         // creation order does matter (for the minimum allowed vergence computation) !!
-        ctrl=new Controller(drvTorso,drvHead,&commData,neckTime,eyesTime,min_abs_vel,10);
-        loc=new Localizer(&commData,10);
-        eyesRefGen=new EyePinvRefGen(drvTorso,drvHead,&commData,ctrl,counterRotGain,20);
-        slv=new Solver(drvTorso,drvHead,&commData,eyesRefGen,loc,ctrl,20);
+        ctrl=new Controller(drvTorso,drvHead,&commData,neckTime,eyesTime,min_abs_vel,root_link,10);
+        loc=new Localizer(&commData,root_link,10);
+        eyesRefGen=new EyePinvRefGen(drvTorso,drvHead,&commData,ctrl,counterRotGain,root_link,20);
+        slv=new Solver(drvTorso,drvHead,&commData,eyesRefGen,loc,ctrl,root_link,20);
 
         commData.port_xd=new xdPort(slv);
         commData.port_xd->open((commData.localStemName+"/xd:i").c_str());
@@ -1359,16 +1361,6 @@ public:
                         {
                             double min_deg,max_deg;
                             slv->getCurNeckPitchRange(min_deg,max_deg);
-
-                            reply.addVocab(ack);
-                            reply.addDouble(min_deg);
-                            reply.addDouble(max_deg);
-                            return true;
-                        }
-                        else if (type==VOCAB4('r','o','l','l'))
-                        {
-                            double min_deg,max_deg;
-                            slv->getCurNeckRollRange(min_deg,max_deg);
 
                             reply.addVocab(ack);
                             reply.addDouble(min_deg);
@@ -1878,14 +1870,6 @@ public:
                             reply.addVocab(ack);
                             return true;
                         }
-                        else if (joint==VOCAB4('r','o','l','l'))
-                        {
-                            double min=command.get(2).asDouble();
-                            double max=command.get(3).asDouble();
-                            slv->bindNeckRoll(min,max);
-                            reply.addVocab(ack);
-                            return true;
-                        }
                         else if (joint==VOCAB3('y','a','w'))
                         {
                             double min=command.get(2).asDouble();
@@ -1915,12 +1899,6 @@ public:
                         if (joint==VOCAB4('p','i','t','c'))
                         {
                             slv->clearNeckPitch();
-                            reply.addVocab(ack);
-                            return true;
-                        }
-                        else if (joint==VOCAB4('r','o','l','l'))
-                        {
-                            slv->clearNeckRoll();
                             reply.addVocab(ack);
                             return true;
                         }
@@ -2134,7 +2112,7 @@ int main(int argc, char *argv[])
 {
     ResourceFinder rf;
     rf.setVerbose();
-    rf.setDefaultContext("iKinGazeCtrl");
+    rf.setDefaultContext("vizzy_iKinGazeCtrl");
     rf.setDefaultConfigFile("config.ini");
     rf.configure(argc,argv);
 
