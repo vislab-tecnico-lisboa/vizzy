@@ -218,11 +218,11 @@ public:
     bool eval_g(Ipopt::Index n, const Ipopt::Number* x, bool new_x, Ipopt::Index m,
                 Ipopt::Number* g)
     {
-        /*computeQuantities(x);
+        computeQuantities(x);
 
         g[0]=cosAng;
         g[1]=(chain(1).getMin()-qRest[1])*fPitch-(x[1]-qRest[1]);
-        g[2]=x[1]-qRest[1]-(chain(1).getMax()-qRest[1])*fPitch;*/
+        g[2]=x[1]-qRest[1]-(chain(1).getMax()-qRest[1])*fPitch;
 
         return true;
     }
@@ -232,7 +232,7 @@ public:
                     Ipopt::Index m, Ipopt::Index nele_jac, Ipopt::Index* iRow,
                     Ipopt::Index *jCol, Ipopt::Number* values)
     {
-        /*if (!values)
+        if (!values)
         {
             iRow[0]=0; jCol[0]=0;
             iRow[1]=0; jCol[1]=1;
@@ -257,14 +257,14 @@ public:
             values[3]=(chain(1).getMin()-qRest[1])*dfPitch;
 
             // dg[1]/dRoll
-            values[4]=-1.0;
+            //values[4]=-1.0;
 
             // dg[2]/dPitch
-            values[5]=-(chain(1).getMax()-qRest[1])*dfPitch;
+            values[4]=-(chain(1).getMax()-qRest[1])*dfPitch;
 
             // dg[2]/dRoll
-            values[6]=1.0;
-        }*/
+            //values[6]=1.0;
+        }
 
         return true;
     }
@@ -276,75 +276,6 @@ public:
                 Ipopt::Index *jCol, Ipopt::Number *values)
     {
 
-        if (!values)
-        {
-            Ipopt::Index idx=0;
-
-            for (Ipopt::Index row=0; row<n; row++)
-            {
-                for (Ipopt::Index col=0; col<=row; col++)
-                {
-                    iRow[idx]=row;
-                    jCol[idx]=col;
-                    idx++;
-                }
-            }
-        }
-        else
-        {
-            // Given the task: min f(q)=1/2*||xd-F(q)||^2
-            // the Hessian Hij is: <dF/dqi,dF/dqj> - <d2F/dqidqj,e>
-
-            computeQuantities(x);
-
-            chain.prepareForHessian();
-
-            if (weight2ndTask!=0.0)
-                chain2ndTask.prepareForHessian();
-
-            Ipopt::Index idx=0;
-
-            for (Ipopt::Index row=0; row<n; row++)
-            {
-                for (Ipopt::Index col=0; col<=row; col++)
-                {
-                    // warning: row and col are swapped due to asymmetry
-                    // of orientation part within the hessian
-                    yarp::sig::Vector h=chain.fastHessian_ij(col,row);
-                    yarp::sig::Vector h_xyz(3), h_ang(3), h_zero(3,0.0);
-                    h_xyz[0]=h[0];
-                    h_xyz[1]=h[1];
-                    h_xyz[2]=h[2];
-                    h_ang[0]=h[3];
-                    h_ang[1]=h[4];
-                    h_ang[2]=h[5];
-
-                    yarp::sig::Vector *h_1st;
-                    if (ctrlPose==IKINCTRL_POSE_FULL)
-                        h_1st=&h_ang;
-                    else
-                        h_1st=&h_zero;
-
-                    values[idx]=obj_factor*(dot(*J_1st,row,*J_1st,col)-dot(*h_1st,*e_1st));
-                    values[idx]+=lambda[0]*(dot(J_xyz,row,J_xyz,col)-dot(h_xyz,e_xyz));
-
-                    if ((weight2ndTask!=0.0) && (row<(int)dim_2nd) && (col<(int)dim_2nd))
-                    {
-                        // warning: row and col are swapped due to asymmetry
-                        // of orientation part within the hessian
-                        yarp::sig::Vector h2=chain2ndTask.fastHessian_ij(col,row);
-                        yarp::sig::Vector h_2nd(3);
-                        h_2nd[0]=(w_2nd[0]*w_2nd[0])*h2[0];
-                        h_2nd[1]=(w_2nd[1]*w_2nd[1])*h2[1];
-                        h_2nd[2]=(w_2nd[2]*w_2nd[2])*h2[2];
-
-                        values[idx]+=obj_factor*weight2ndTask*(dot(J_2nd,row,J_2nd,col)-dot(h_2nd,e_2nd));
-                    }
-
-                    idx++;
-                }
-            }
-        }
         return true;
     }
 

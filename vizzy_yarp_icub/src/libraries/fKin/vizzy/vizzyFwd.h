@@ -117,11 +117,11 @@ public:
 class vizzyHeadCenter : public iKinLimb
 {
 protected:
-    void allocate(const string &_type, const string &_root_link);
+    void allocate(const std::string &_type, const std::string &_root_link);
 
 public:
     vizzyHeadCenter()                            { allocate("right","waist"); }
-    vizzyHeadCenter(const string &_type,const string &_root_link) { allocate(_type,_root_link);   }
+    vizzyHeadCenter(const std::string &_type,const std::string &_root_link) { allocate(_type,_root_link);   }
     vizzyHeadCenter(const vizzyHeadCenter &head) { clone(head);       }
 };
 

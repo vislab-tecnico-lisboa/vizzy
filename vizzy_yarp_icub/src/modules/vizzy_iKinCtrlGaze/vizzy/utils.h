@@ -29,6 +29,7 @@
 #include <yarp/math/SVD.h>
 
 #include <vizzy/gazeNlp.h>
+#include <vizzy/vizzyFwd.h>
 
 using namespace std;
 using namespace yarp::os;

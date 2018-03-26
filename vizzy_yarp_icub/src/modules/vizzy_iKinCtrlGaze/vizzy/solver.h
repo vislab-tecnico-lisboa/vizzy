@@ -56,8 +56,8 @@ using namespace iCub::iKin;
 class EyePinvRefGen : public GazeComponent, public RateThread
 {
 protected:
-    iCubHeadCenter       *neck;
-    iCubInertialSensor   *imu;
+    vizzyHeadCenter       *neck;
+    vizzyInertialSensor   *imu;
     iKinChain            *chainNeck, *chainEyeL, *chainEyeR;    
     PolyDriver           *drvTorso, *drvHead;
     ExchangeData         *commData;
@@ -91,7 +91,7 @@ protected:
 
 public:
     EyePinvRefGen(PolyDriver *_drvTorso, PolyDriver *_drvHead, ExchangeData *_commData,
-                  Controller *_ctrl, const Vector &_counterRotGain, const unsigned int _period);
+                  Controller *_ctrl, const Vector &_counterRotGain, const string &_root_link,const unsigned int _period);
 
     void   enable()  { genOn=true;  }
     void   disable() { genOn=false; }
@@ -116,8 +116,8 @@ public:
 class Solver : public GazeComponent, public RateThread
 {
 protected:    
-    iCubHeadCenter     *neck;
-    iCubInertialSensor *imu;
+    vizzyHeadCenter     *neck;
+    vizzyInertialSensor *imu;
     iKinChain          *chainNeck, *chainEyeL, *chainEyeR;    
     GazeIpOptMin       *invNeck;
     PolyDriver         *drvTorso, *drvHead;
@@ -157,13 +157,13 @@ public:
     // Returns a measure of neck angle required to reach the target
     double neckTargetRotAngle(const Vector &xd);
     void   bindNeckPitch(const double min_deg, const double max_deg);
-    void   bindNeckRoll(const double min_deg, const double max_deg);
+    //void   bindNeckRoll(const double min_deg, const double max_deg);
     void   bindNeckYaw(const double min_deg, const double max_deg);
     void   getCurNeckPitchRange(double &min_deg, double &max_deg);
-    void   getCurNeckRollRange(double &min_deg, double &max_deg);
+    //void   getCurNeckRollRange(double &min_deg, double &max_deg);
     void   getCurNeckYawRange(double &min_deg, double &max_deg);
     void   clearNeckPitch();
-    void   clearNeckRoll();
+    //void   clearNeckRoll();
     void   clearNeckYaw();
     double getNeckAngleUserTolerance() const;
     void   setNeckAngleUserTolerance(const double angle);    
