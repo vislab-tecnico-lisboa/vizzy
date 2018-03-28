@@ -1126,7 +1126,7 @@ public:
         min_abs_vel=CTRL_DEG2RAD*fabs(rf.check("min_abs_vel",Value(0.0)).asDouble());
         ping_robot_tmo=rf.check("ping_robot_tmo",Value(40.0)).asDouble();
         root_link = rf.check("root", Value("waist")).asString();
-
+        yInfo("Controller configured for root link %s",root_link.c_str());
         commData.robotName=rf.check("robot",Value("vizzy")).asString().c_str();
         commData.eyeTiltLim[0]=eyeTiltGroup.check("min",Value(-12.0)).asDouble();
         commData.eyeTiltLim[1]=eyeTiltGroup.check("max",Value(15.0)).asDouble();
