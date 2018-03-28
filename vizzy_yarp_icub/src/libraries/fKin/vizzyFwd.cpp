@@ -77,8 +77,8 @@ void vizzyEye::allocate(const string &_type, const std::string &_root_link)
         setH0(H0);
 
       //pushLink(new iKinLink(  R,      D,      alpha,     theta,       minAngle,         maxAngle));
-
-    if (iKinLimb::getType()=="left")
+    yInfo(iKinLimb::getType());
+    if (iKinLimb::getType()=="left" || iKinLimb::getType()=="left_v2" || iKinLimb::getType()=="left_v1")
     {
       /*
        Left eye
@@ -97,7 +97,7 @@ void vizzyEye::allocate(const string &_type, const std::string &_root_link)
       pushLink(new iKinLink( 0, 	0.1015,	M_PI/2.0,	-15.0*M_PI/17, -38.0*CTRL_DEG2RAD, 38.0*CTRL_DEG2RAD));//link4
       pushLink(new iKinLink( 0, 	0, 	M_PI/2.0,	-M_PI/2.0, -38.0*CTRL_DEG2RAD, 38.0*CTRL_DEG2RAD));//link5
     }
-    else if (iKinLimb::getType()=="right")
+    else if (iKinLimb::getType()=="right" || iKinLimb::getType()=="right_v2" || iKinLimb::getType()=="right_v1")
     {
       /*
        Right eye
@@ -228,7 +228,7 @@ void vizzyHeadCenter::allocate(const string &_type,const string &_root_link)
     }
     setH0(H0);
 
-#if 0
+/*#if 0
     pushLink(new iKinLink(    0.0,   0.0, M_PI/2.0,  0.0, -20.0*CTRL_DEG2RAD, 20.0*CTRL_DEG2RAD));
     pushLink(new iKinLink(    0.0, -0.37, M_PI/2.0,  0.0, -53.0*CTRL_DEG2RAD, 53.0*CTRL_DEG2RAD));
     pushLink(new iKinLink(0.13221,   0.0, M_PI,     M_PI, -18.0*CTRL_DEG2RAD, 37.0*CTRL_DEG2RAD));
@@ -243,7 +243,7 @@ void vizzyHeadCenter::allocate(const string &_type,const string &_root_link)
     setHN(HN);
 
     blockLink(0,0.0);   // block the torso link
-#else
+#else*/
     pushLink(new iKinLink(    0.0,   0.0, M_PI/2.0,  0.0, -20.0*CTRL_DEG2RAD, 20.0*CTRL_DEG2RAD));
     pushLink(new iKinLink(    0.0, -0.37, M_PI/2.0,  0.0, -53.0*CTRL_DEG2RAD, 53.0*CTRL_DEG2RAD));
     pushLink(new iKinLink(0.13221,   0.0,     M_PI, M_PI, -18.0*CTRL_DEG2RAD, 37.0*CTRL_DEG2RAD));
@@ -262,7 +262,7 @@ void vizzyHeadCenter::allocate(const string &_type,const string &_root_link)
     blockLink(0,0.0);   // block the torso link
     blockLink(3,0.0);   // block the eyes links
     blockLink(4,0.0);   // block the eyes links
-#endif
+//#endif
 }
 
 /************************************************************************/
