@@ -37,10 +37,11 @@ Controller::Controller(PolyDriver *_drvTorso, PolyDriver *_drvHead, ExchangeData
     neck=new vizzyHeadCenter("right_"+commData->headVersion2String(),_root_link);
     eyeL=new vizzyEye("left_"+commData->headVersion2String(),_root_link);
     eyeR=new vizzyEye("right_"+commData->headVersion2String(),_root_link);
-    //imu=new iCubInertialSensor(commData->headVersion2String());
-
+    imu=new vizzyInertialSensor(commData->headVersion2String());
+    yInfo("Left eye DOF : %u",eyeL->getDOF());
+    yInfo("Right eye DOF : %u",eyeR->getDOF());
     // remove constraints on the links: logging purpose
-    //imu->setAllConstraints(false);
+    imu->setAllConstraints(false);
 
     // release links
     neck->releaseLink(0); eyeL->releaseLink(0); eyeR->releaseLink(0);
@@ -112,12 +113,12 @@ Controller::Controller(PolyDriver *_drvTorso, PolyDriver *_drvHead, ExchangeData
     lim(nJointsHead-1,0)=commData->minAllowedVergence;
     getFeedback(fbTorso,fbHead,drvTorso,drvHead,commData);
 
-    fbNeck=fbHead.subVector(0,2);
+    fbNeck=fbHead.subVector(1,2);
     fbEyes=fbHead.subVector(3,5);
     qdNeck.resize(2,0.0); qdEyes.resize(3,0.0);
     vNeck.resize(2,0.0);  vEyes.resize(3,0.0);
     v.resize(nJointsHead,0.0);
-
+    vdeg.resize(nJointsHead,0.0);
     // Set the task execution time
     setTeyes(eyesTime);
     setTneck(neckTime);
@@ -125,7 +126,7 @@ Controller::Controller(PolyDriver *_drvTorso, PolyDriver *_drvHead, ExchangeData
     mjCtrlNeck=new minJerkVelCtrlForIdealPlant(Ts,fbNeck.length());
     mjCtrlEyes=new minJerkVelCtrlForIdealPlant(Ts,fbEyes.length());
     IntState=new Integrator(Ts,fbHead,lim);
-    IntPlan=new Integrator(Ts,fbNeck,lim.submatrix(0,2,0,1));//Needs to be checked!!!
+    IntPlan=new Integrator(Ts,fbNeck,lim.submatrix(1,2,0,1));//Needs to be checked!!!
     IntStabilizer=new Integrator(Ts,zeros(vNeck.length()));
 
     neckJoints.resize(2);
@@ -797,7 +798,7 @@ void Controller::run()
             vEyes=mjCtrlEyes->computeCmd(eyesTime,qdEyes-fbEyes)+commData->get_counterv();
 
         // stabilization
-        /*if (commData->stabilizationOn)
+        if (commData->stabilizationOn)
         {
             Vector gyro=CTRL_DEG2RAD*commData->get_imu().subVector(6,8);
             Vector dx=computedxFP(imu->getH(cat(fbTorso,fbNeck)),zeros(fbNeck.length()),gyro,x);
@@ -817,11 +818,11 @@ void Controller::run()
                 IntStabilizer->reset(zeros(vNeck.length()));
                 reliableGyro=true;
             }
-        }*/
+        }
 
         IntPlan->integrate(vNeck);
     }
-    /*else if (stabilizeGaze)
+    else if (stabilizeGaze)
     {
         Vector gyro=CTRL_DEG2RAD*commData->get_imu().subVector(6,8);
         Vector dx=computedxFP(imu->getH(cat(fbTorso,fbNeck)),zeros(fbNeck.length()),gyro,x);
@@ -831,7 +832,7 @@ void Controller::run()
         vEyes=computeEyesVelFromdxFP(dx);
 
         IntPlan->integrate(vNeck);
-    }*/
+    }
     else 
     {
         vNeck=0.0;
@@ -864,7 +865,7 @@ void Controller::run()
         {
             posdeg=(CTRL_RAD2DEG)*IntPlan->get();
             posNeck->setPositions(neckJoints.size(),neckJoints.getFirst(),posdeg.data());
-            velHead->velocityMove(eyesJoints.size(),eyesJoints.getFirst(),vdeg.subVector(3,5).data());
+            velHead->velocityMove(eyesJoints.size(),eyesJoints.getFirst(),vdeg.subVector(2,4).data());
         }
         else
             velHead->velocityMove(vdeg.data());

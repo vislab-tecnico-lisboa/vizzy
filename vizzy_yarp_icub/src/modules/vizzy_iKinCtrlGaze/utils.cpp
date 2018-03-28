@@ -557,7 +557,7 @@ Matrix alignJointsBounds(iKinChain *chain, PolyDriver *drvTorso,
     IControlLimits *lims;
 
     double min, max;
-    int nJointsTorso=3;    
+    int nJointsTorso=1;
 
     if (drvTorso!=NULL)
     {
@@ -588,7 +588,7 @@ Matrix alignJointsBounds(iKinChain *chain, PolyDriver *drvTorso,
         if (lims->getLimits(i,&min,&max))
         {
             // limit eye's tilt due to eyelids
-            if (i==3)
+            if (i==2)
             {
                 min=std::max(min,eyeTiltLim[0]);
                 max=std::min(max,eyeTiltLim[1]);

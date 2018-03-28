@@ -25,7 +25,8 @@
 #include <yarp/math/Math.h>
 
 #include <iCub/iKin/iKinHlp.h>
-#include <iCub/iKin/iKinFwd.h>
+#include <vizzy/vizzyFwd.h>
+//#include <iCub/iKin/iKinFwd.h>
 #include <iCub/iKin/iKinInv.h>
 #include <iCub/iKin/iKinIpOpt.h>
 
