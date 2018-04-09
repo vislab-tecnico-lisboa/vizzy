@@ -191,7 +191,7 @@ public:
     bool eval_f(Ipopt::Index n, const Ipopt::Number* x, bool new_x,
                 Ipopt::Number& obj_value)
     {
-        obj_value=0.0;
+        /*obj_value=0.0;
 
         for (Ipopt::Index i=0; i<n; i++)
         {
@@ -200,7 +200,9 @@ public:
         }
 
         obj_value*=0.5;
-
+        */
+        computeQuantities(x);
+        obj_value=cosAng;
         return true;
     }
 
@@ -208,8 +210,14 @@ public:
     bool eval_grad_f(Ipopt::Index n, const Ipopt::Number* x, bool new_x,
                      Ipopt::Number* grad_f)
     {
+        /*for (Ipopt::Index i=0; i<n; i++)
+            grad_f[i]=x[i]-qRest[i];*/
+        computeQuantities(x);
         for (Ipopt::Index i=0; i<n; i++)
-            grad_f[i]=x[i]-qRest[i];
+        {
+            grad_f[i]=(dot(AnaJacobZ,i,Hxd,3)+dot(Hxd,2,GeoJacobP,i))/mod
+                    -(cosAng*dot(Hxd,3,GeoJacobP,i))/(mod*mod);
+        }
 
         return true;
     }
@@ -218,11 +226,11 @@ public:
     bool eval_g(Ipopt::Index n, const Ipopt::Number* x, bool new_x, Ipopt::Index m,
                 Ipopt::Number* g)
     {
-        computeQuantities(x);
+        /*computeQuantities(x);
 
         g[0]=cosAng;
         g[1]=(chain(1).getMin()-qRest[1])*fPitch-(x[1]-qRest[1]);
-        g[2]=x[1]-qRest[1]-(chain(1).getMax()-qRest[1])*fPitch;
+        g[2]=x[1]-qRest[1]-(chain(1).getMax()-qRest[1])*fPitch;*/
 
         return true;
     }
@@ -232,7 +240,7 @@ public:
                     Ipopt::Index m, Ipopt::Index nele_jac, Ipopt::Index* iRow,
                     Ipopt::Index *jCol, Ipopt::Number* values)
     {
-        if (!values)
+        /*if (!values)
         {
             iRow[0]=0; jCol[0]=0;
             iRow[1]=0; jCol[1]=1;
@@ -251,7 +259,7 @@ public:
             // dg[0]/dxi
             for (Ipopt::Index i=0; i<n; i++)
                 values[i]=(dot(AnaJacobZ,i,Hxd,3)+dot(Hxd,2,GeoJacobP,i))/mod
-                          -(cosAng*dot(Hxd,3,GeoJacobP,i))/(mod*mod);
+                        -(cosAng*dot(Hxd,3,GeoJacobP,i))/(mod*mod);
 
             // dg[1]/dPitch
             values[3]=(chain(1).getMin()-qRest[1])*dfPitch;
@@ -264,7 +272,7 @@ public:
 
             // dg[2]/dRoll
             //values[6]=1.0;
-        }
+        }*/
 
         return true;
     }
@@ -275,7 +283,6 @@ public:
                 bool new_lambda, Ipopt::Index nele_hess, Ipopt::Index *iRow,
                 Ipopt::Index *jCol, Ipopt::Number *values)
     {
-
         return true;
     }
 
@@ -342,7 +349,7 @@ Vector GazeIpOptMin::solve(const Vector &q0, Vector &xd, const Vector &gDir)
     yInfo("3");
     nlp->set_bound_inf(lowerBoundInf,upperBoundInf);
     yInfo("4");
-    nlp->setGravityDirection(gDir);
+    //nlp->setGravityDirection(gDir);
     yInfo("5");
     
     static_cast<Ipopt::IpoptApplication*>(App)->OptimizeTNLP(GetRawPtr(nlp));

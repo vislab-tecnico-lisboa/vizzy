@@ -864,6 +864,7 @@ void Controller::run()
         if (commData->neckPosCtrlOn)
         {
             posdeg=(CTRL_RAD2DEG)*IntPlan->get();
+            //yInfo("Curr neck 0 %f, 1 %f",posdeg.data()[0],posdeg.data()[1]);
             posNeck->setPositions(neckJoints.size(),neckJoints.getFirst(),posdeg.data());
             velHead->velocityMove(eyesJoints.size(),eyesJoints.getFirst(),vdeg.subVector(2,4).data());
         }
