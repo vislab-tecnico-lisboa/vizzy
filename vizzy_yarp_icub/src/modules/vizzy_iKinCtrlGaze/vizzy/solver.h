@@ -1,8 +1,8 @@
 /* 
  * Copyright (C) 2010 RobotCub Consortium, European Commission FP6 Project IST-004370
- * Author: Ugo Pattacini, Alessandro Roncone
- * email:  ugo.pattacini@iit.it, alessandro.roncone@iit.it
- * website: www.robotcub.org
+ * Author: Ugo Pattacini, Alessandro Roncone, Plinio Moreno, Duarte Aragão
+ * email:  ugo.pattacini@iit.it, alessandro.roncone@iit.it, plinio@isr.tecnico.ulisboa.pt, daragao@gmail.com
+ * website: http://vislab.isr.tecnico.ulisboa.pt
  * Permission is granted to copy, distribute, and/or modify this program
  * under the terms of the GNU General Public License, version 2 or any
  * later version published by the Free Software Foundation.
