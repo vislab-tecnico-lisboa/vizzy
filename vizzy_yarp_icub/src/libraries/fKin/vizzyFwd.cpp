@@ -58,13 +58,13 @@ void vizzyEye::allocate(const string &_type, const std::string &_root_link)
     H0.zero();
     if (_root_link=="base_link")
     {
-	//1.0 0.0 0.0 0.189861 0.0 0.000004 -1.0 0.0 -0.0 1.0 -0.000004 0.535797 0.0 0.0 0.0 1.0)
+        //1.0 0.0 0.0 0.189861 0.0 0.000004 -1.0 0.0 -0.0 1.0 -0.000004 0.535797 0.0 0.0 0.0 1.0)
         H0(0,0)=1.0;
         H0(1,2)=-1.0;
         H0(2,1)=1.0;
         H0(3,3)=1.0;
-	H0(0,3)=0.189861;
-	H0(2,3)=0.535797;
+        H0(0,3)=0.189861;
+        H0(2,3)=0.535797;
     }
     else if (_root_link=="waist")
     {
@@ -74,13 +74,13 @@ void vizzyEye::allocate(const string &_type, const std::string &_root_link)
         H0(3,3)=1.0;
     }
 
-        setH0(H0);
+    setH0(H0);
 
-      //pushLink(new iKinLink(  R,      D,      alpha,     theta,       minAngle,         maxAngle));
-
-    if (iKinLimb::getType()=="left")
+    //pushLink(new iKinLink(  R,      D,      alpha,     theta,       minAngle,         maxAngle));
+    yInfo(iKinLimb::getType());
+    if (iKinLimb::getType()=="left" || iKinLimb::getType()=="left_v2" || iKinLimb::getType()=="left_v1")
     {
-      /*
+        /*
        Left eye
        Link    alpha   R       theta    D
        0       Pi/2    0       0        0       0/0     virtual link !!!NOT NEEDED!!!
@@ -91,15 +91,15 @@ void vizzyEye::allocate(const string &_type, const std::string &_root_link)
        //5       0       0.05    0        0       -38/38  M5 → End-effector
        5       0       0       Pi/2     Pi/2       -38/38  M5 → End-effector
        */
-      pushLink(new iKinLink( 0, 	0,	M_PI/2.0,	0.0, -20.0*CTRL_DEG2RAD, 20.0*CTRL_DEG2RAD));//link1
-      pushLink(new iKinLink( 0, 	-0.37,	M_PI/2.0,	0.0, -53.0*CTRL_DEG2RAD, 53.0*CTRL_DEG2RAD));//link2
-      pushLink(new iKinLink( 0.13261, 	0, 	M_PI,		19.0*M_PI/17, -18.0*CTRL_DEG2RAD, 37.0*CTRL_DEG2RAD));//link3
-      pushLink(new iKinLink( 0, 	0.1015,	M_PI/2.0,	-15.0*M_PI/17, -38.0*CTRL_DEG2RAD, 38.0*CTRL_DEG2RAD));//link4
-      pushLink(new iKinLink( 0, 	0, 	M_PI/2.0,	-M_PI/2.0, -38.0*CTRL_DEG2RAD, 38.0*CTRL_DEG2RAD));//link5
+        pushLink(new iKinLink( 0, 	0,	M_PI/2.0,	0.0, -20.0*CTRL_DEG2RAD, 20.0*CTRL_DEG2RAD));//link1
+        pushLink(new iKinLink( 0, 	-0.37,	M_PI/2.0,	0.0, -53.0*CTRL_DEG2RAD, 53.0*CTRL_DEG2RAD));//link2
+        pushLink(new iKinLink( 0.13261, 	0, 	M_PI,		19.0*M_PI/17, -18.0*CTRL_DEG2RAD, 37.0*CTRL_DEG2RAD));//link3
+        pushLink(new iKinLink( 0, 	0.1015,	M_PI/2.0,	-15.0*M_PI/17, -38.0*CTRL_DEG2RAD, 38.0*CTRL_DEG2RAD));//link4
+        pushLink(new iKinLink( 0, 	0, 	M_PI/2.0,	-M_PI/2.0, -38.0*CTRL_DEG2RAD, 38.0*CTRL_DEG2RAD));//link5
     }
-    else if (iKinLimb::getType()=="right")
+    else if (iKinLimb::getType()=="right" || iKinLimb::getType()=="right_v2" || iKinLimb::getType()=="right_v1")
     {
-      /*
+        /*
        Right eye
        Link    alpha   R       theta    D
        0       Pi/2    0       0        0       0/0     virtual link !!!NOT NEEDED!!!
@@ -110,11 +110,11 @@ void vizzyEye::allocate(const string &_type, const std::string &_root_link)
        //5       0       0.05    0        0       -38/38  M5 → End-effector
        5       0       0       Pi/2     Pi/2       -38/38  M5 → End-effector
        */
-      pushLink(new iKinLink( 0, 0, M_PI/2.0, 0.0, -20.0*CTRL_DEG2RAD, 20.0*CTRL_DEG2RAD));//link1
-      pushLink(new iKinLink( 0, -0.37, M_PI/2.0, 0.0, -53.0*CTRL_DEG2RAD, 53.0*CTRL_DEG2RAD));//link2
-      pushLink(new iKinLink( 0.13261, 0, M_PI, 19.0*M_PI/17, -18.0*CTRL_DEG2RAD, 37.0*CTRL_DEG2RAD));//link3
-      pushLink(new iKinLink( 0, -0.1015, M_PI/2.0, -15.0*M_PI/17, -38.0*CTRL_DEG2RAD, 38.0*CTRL_DEG2RAD));//link4
-      pushLink(new iKinLink( 0, 0, M_PI/2.0, -M_PI/2.0, -38.0*CTRL_DEG2RAD, 38.0*CTRL_DEG2RAD));//link5
+        pushLink(new iKinLink( 0, 0, M_PI/2.0, 0.0, -20.0*CTRL_DEG2RAD, 20.0*CTRL_DEG2RAD));//link1
+        pushLink(new iKinLink( 0, -0.37, M_PI/2.0, 0.0, -53.0*CTRL_DEG2RAD, 53.0*CTRL_DEG2RAD));//link2
+        pushLink(new iKinLink( 0.13261, 0, M_PI, 19.0*M_PI/17, -18.0*CTRL_DEG2RAD, 37.0*CTRL_DEG2RAD));//link3
+        pushLink(new iKinLink( 0, -0.1015, M_PI/2.0, -15.0*M_PI/17, -38.0*CTRL_DEG2RAD, 38.0*CTRL_DEG2RAD));//link4
+        pushLink(new iKinLink( 0, 0, M_PI/2.0, -M_PI/2.0, -38.0*CTRL_DEG2RAD, 38.0*CTRL_DEG2RAD));//link5
     }
     Matrix HN(4,4);
     HN.zero();
@@ -200,6 +200,54 @@ void vizzyEyeNeckRef::allocate(const string &_type)
     linkList.erase(linkList.begin(),linkList.begin()+2);
 }
 
+void vizzyHeadCenter::allocate(const string &_type,const string &_root_link)
+{
+    iKinLimb::allocate(_type);
+
+    // Vizzy head kinematics
+
+    // accounting for the virtual link
+    Matrix H0(4,4);
+    H0.zero();
+    if (_root_link=="base_link")
+    {
+        //1.0 0.0 0.0 0.189861 0.0 0.000004 -1.0 0.0 -0.0 1.0 -0.000004 0.535797 0.0 0.0 0.0 1.0)
+        H0(0,0)=1.0;
+        H0(1,2)=-1.0;
+        H0(2,1)=1.0;
+        H0(3,3)=1.0;
+        H0(0,3)=0.189861;
+        H0(2,3)=0.535797;
+    }
+    else if (_root_link=="waist")
+    {
+        H0(0,0)=1.0;
+        H0(1,2)=-1.0;
+        H0(2,1)=1.0;
+        H0(3,3)=1.0;
+    }
+    setH0(H0);
+
+    pushLink(new iKinLink(    0.0,   0.0, M_PI/2.0,  0.0, -20.0*CTRL_DEG2RAD, 20.0*CTRL_DEG2RAD));
+    pushLink(new iKinLink(    0.0, -0.37, M_PI/2.0,  0.0, -53.0*CTRL_DEG2RAD, 53.0*CTRL_DEG2RAD));
+    pushLink(new iKinLink(0.13221,   0.0,     M_PI, M_PI, -18.0*CTRL_DEG2RAD, 37.0*CTRL_DEG2RAD));
+    pushLink(new iKinLink(    0.0,   0.0,      0.0,  0.0, -38.0*CTRL_DEG2RAD, 18.0*CTRL_DEG2RAD));
+    pushLink(new iKinLink(    0.0,   0.0,      0.0,  0.0, -38.0*CTRL_DEG2RAD, 38.0*CTRL_DEG2RAD));
+
+    // align head-centered z-axis with the eyes z-axis
+    Matrix HN(4,4);
+    HN.zero();
+    HN(2,0)=-1.0;
+    HN(1,1)=1.0;
+    HN(0,2)=1.0;
+    HN(3,3)=1.0;
+    setHN(HN);
+
+    blockLink(0,0.0);   // block the torso link
+    blockLink(3,0.0);   // block the eyes links
+    blockLink(4,0.0);   // block the eyes links
+}
+
 /************************************************************************/
 vizzyInertialSensor::vizzyInertialSensor()
 {
@@ -237,13 +285,13 @@ void vizzyInertialSensor::allocate(const string &_type, const std::string &_root
     H0.zero();
     if (_root_link=="base_link")
     {
-	//1.0 0.0 0.0 0.189861 0.0 0.000004 -1.0 0.0 -0.0 1.0 -0.000004 0.535797 0.0 0.0 0.0 1.0)
+        //1.0 0.0 0.0 0.189861 0.0 0.000004 -1.0 0.0 -0.0 1.0 -0.000004 0.535797 0.0 0.0 0.0 1.0)
         H0(0,0)=1.0;
         H0(1,2)=-1.0;
         H0(2,1)=1.0;
         H0(3,3)=1.0;
-	H0(0,3)=0.189861;
-	H0(2,3)=0.535797;
+        H0(0,3)=0.189861;
+        H0(2,3)=0.535797;
     }
     else if (_root_link=="waist")
     {
