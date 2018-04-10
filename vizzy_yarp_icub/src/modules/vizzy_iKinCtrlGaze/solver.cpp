@@ -1,5 +1,6 @@
 /* 
  * Copyright (C) 2010 RobotCub Consortium, European Commission FP6 Project IST-004370
+ * Copyright (C) 2011 Computer and Robot Vision Laboratory
  * Authors: Ugo Pattacini, Alessandro Roncone, Plinio Moreno, Duarte Aragão
  * email:  ugo.pattacini@iit.it, alessandro.roncone@iit.it, plinio@isr.tecnico.ulisboa.pt, daragao@gmail.com
  * website: http://vislab.isr.tecnico.ulisboa.pt
@@ -242,22 +243,6 @@ Vector EyePinvRefGen::getEyesCounterVelocity(const Matrix &eyesJ, const Vector &
             gyro[1]*cross(H,1,H,3)+
             gyro[2]*cross(H,2,H,3));
 
-    // ********** implement OCR
-    /*H=chainNeck->getH();
-    Matrix HN=eye(4,4);
-    HN(0,3)=fp[0]-H(0,3);
-    HN(1,3)=fp[1]-H(1,3);
-    HN(2,3)=fp[2]-H(2,3);
-
-    yInfo("Before compensating neck");
-    chainNeck->setHN(HN);
-    yInfo("Before compensating neck 1 %d",chainNeck->GeoJacobian().cols());
-    yInfo("Before compensating neck 1 %d",chainNeck->GeoJacobian().rows());
-    Vector ocr_fprelv=chainNeck->GeoJacobian()*commData->get_v().subVector(0,2);
-    yInfo("Before compensating neck 2");
-    ocr_fprelv=ocr_fprelv.subVector(0,2);
-    yInfo("Before compensating neck 3");
-    chainNeck->setHN(eye(4,4));*/
     Matrix H0=chainNeck->getH(1,true);
     Matrix H1=chainNeck->getH(2,true);
     Matrix H2=chainNeck->getH(3,true);
@@ -320,8 +305,6 @@ void EyePinvRefGen::run()
         // update neck chain
         chainNeck->setAng(nJointsTorso+0,fbHead[0]);
         chainNeck->setAng(nJointsTorso+1,fbHead[1]);
-        //chainNeck->setAng(nJointsTorso+2,fbHead[2]);
-        //yInfo("Before asking for saccades");
         // ask for saccades (if possible)
         if (commData->saccadesOn && (saccadesRxTargets!=commData->port_xd->get_rx()) &&
                 !commData->saccadeUnderway && (Time::now()-saccadesClock>commData->saccadesInhibitionPeriod))
