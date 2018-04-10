@@ -1,5 +1,6 @@
 /* 
  * Copyright (C) 2010 RobotCub Consortium, European Commission FP6 Project IST-004370
+* Copyright (C) 2011 Computer and Robot Vision Laboratory
  * Author: Ugo Pattacini, Alessandro Roncone, Plinio Moreno, Duarte Aragão
  * email:  ugo.pattacini@iit.it, alessandro.roncone@iit.it, plinio@isr.tecnico.ulisboa.pt, daragao@gmail.com
  * website: http://vislab.isr.tecnico.ulisboa.pt
@@ -149,9 +150,6 @@ public:
                       Ipopt::Index& nnz_h_lag, IndexStyleEnum& index_style)
     {
         n=dim;
-        //m=3;
-        //nnz_jac_g=n+2*(n-1);
-        //nnz_h_lag=0;
         m=nnz_jac_g=nnz_h_lag=0;
         index_style=TNLP::C_STYLE;
         
@@ -188,30 +186,23 @@ public:
     }
 
     /************************************************************************/
+    /* The optimization problem is to minimize the angle between the current
+     * gaze point and the commanded gaze point with respect to the center of
+     *  the head */
     bool eval_f(Ipopt::Index n, const Ipopt::Number* x, bool new_x,
                 Ipopt::Number& obj_value)
     {
-        /*obj_value=0.0;
-
-        for (Ipopt::Index i=0; i<n; i++)
-        {
-            double tmp=x[i]-qRest[i];
-            obj_value+=tmp*tmp;
-        }
-
-        obj_value*=0.5;
-        */
         computeQuantities(x);
         obj_value=cosAng;
         return true;
     }
 
     /************************************************************************/
+    /* The gradient of the cost function */
+
     bool eval_grad_f(Ipopt::Index n, const Ipopt::Number* x, bool new_x,
                      Ipopt::Number* grad_f)
     {
-        /*for (Ipopt::Index i=0; i<n; i++)
-            grad_f[i]=x[i]-qRest[i];*/
         computeQuantities(x);
         for (Ipopt::Index i=0; i<n; i++)
         {
@@ -223,14 +214,10 @@ public:
     }
 
     /************************************************************************/
+    /* The optimization problem does not have any constraints */
     bool eval_g(Ipopt::Index n, const Ipopt::Number* x, bool new_x, Ipopt::Index m,
                 Ipopt::Number* g)
     {
-        /*computeQuantities(x);
-
-        g[0]=cosAng;
-        g[1]=(chain(1).getMin()-qRest[1])*fPitch-(x[1]-qRest[1]);
-        g[2]=x[1]-qRest[1]-(chain(1).getMax()-qRest[1])*fPitch;*/
 
         return true;
     }
@@ -240,39 +227,6 @@ public:
                     Ipopt::Index m, Ipopt::Index nele_jac, Ipopt::Index* iRow,
                     Ipopt::Index *jCol, Ipopt::Number* values)
     {
-        /*if (!values)
-        {
-            iRow[0]=0; jCol[0]=0;
-            iRow[1]=0; jCol[1]=1;
-            iRow[2]=0; jCol[2]=2;
-
-            iRow[3]=1; jCol[3]=0;
-            iRow[4]=1; jCol[4]=1;
-
-            iRow[5]=2; jCol[5]=0;
-            iRow[6]=2; jCol[6]=1;
-        }
-        else
-        {
-            computeQuantities(x);
-
-            // dg[0]/dxi
-            for (Ipopt::Index i=0; i<n; i++)
-                values[i]=(dot(AnaJacobZ,i,Hxd,3)+dot(Hxd,2,GeoJacobP,i))/mod
-                        -(cosAng*dot(Hxd,3,GeoJacobP,i))/(mod*mod);
-
-            // dg[1]/dPitch
-            values[3]=(chain(1).getMin()-qRest[1])*dfPitch;
-
-            // dg[1]/dRoll
-            //values[4]=-1.0;
-
-            // dg[2]/dPitch
-            values[4]=-(chain(1).getMax()-qRest[1])*dfPitch;
-
-            // dg[2]/dRoll
-            //values[6]=1.0;
-        }*/
 
         return true;
     }
@@ -345,7 +299,6 @@ Vector GazeIpOptMin::solve(const Vector &q0, Vector &xd, const Vector &gDir)
     nlp=new HeadCenter_NLP(chain,q0,xd);
     nlp->set_scaling(obj_scaling,x_scaling,g_scaling);
     nlp->set_bound_inf(lowerBoundInf,upperBoundInf);
-    //nlp->setGravityDirection(gDir);
     
     static_cast<Ipopt::IpoptApplication*>(App)->OptimizeTNLP(GetRawPtr(nlp));
     return nlp->get_qd();
