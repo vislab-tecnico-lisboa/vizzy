@@ -342,18 +342,12 @@ public:
 Vector GazeIpOptMin::solve(const Vector &q0, Vector &xd, const Vector &gDir)
 {
     Ipopt::SmartPtr<HeadCenter_NLP> nlp;
-    yInfo("1");
     nlp=new HeadCenter_NLP(chain,q0,xd);
-    yInfo("2");
     nlp->set_scaling(obj_scaling,x_scaling,g_scaling);
-    yInfo("3");
     nlp->set_bound_inf(lowerBoundInf,upperBoundInf);
-    yInfo("4");
     //nlp->setGravityDirection(gDir);
-    yInfo("5");
     
     static_cast<Ipopt::IpoptApplication*>(App)->OptimizeTNLP(GetRawPtr(nlp));
-    yInfo("6");
     return nlp->get_qd();
 }
 
