@@ -1,15 +1,14 @@
 /* 
  * Copyright (C) 2010 RobotCub Consortium, European Commission FP6 Project IST-004370
- * Copyright (C) 2011 Computer and Robot Vision Laboratory
- * Author: Ugo Pattacini, Alessandro Roncone, Plinio Moreno, Duarte Aragão
- * email:  ugo.pattacini@iit.it, alessandro.roncone@iit.it, plinio@isr.tecnico.ulisboa.pt, daragao@gmail.com
- * website: http://vislab.isr.tecnico.ulisboa.pt
+ * Author: Ugo Pattacini
+ * email:  ugo.pattacini@iit.it
+ * website: www.robotcub.org
  * Permission is granted to copy, distribute, and/or modify this program
  * under the terms of the GNU General Public License, version 2 or any
  * later version published by the Free Software Foundation.
  *
  * A copy of the license can be found at
- * http://www.robotcub.org/icub/license/gpl.txt
+ * http://www.robotcub.org/vizzy/license/gpl.txt
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -17,11 +16,10 @@
  * Public License for more details
 */
 
-#include <cmath>
-#include <limits>
 #include <algorithm>
-#include <sstream>
 
+#include <yarp/os/Time.h>
+#include <yarp/dev/ControlBoardInterfaces.h>
 #include <vizzy/utils.h>
 #include <vizzy/solver.h>
 
@@ -33,18 +31,15 @@
 #define MUTEX_V             5
 #define MUTEX_COUNTERV      6
 #define MUTEX_FPFRAME       7
-#define MUTEX_IMU           8
 
 
 /************************************************************************/
-xdPort::xdPort(void *_slv)
+xdPort::xdPort(const Vector &xd0, void *_slv)
 {   
+    xdDelayed=xd=xd0;
     isNewDelayed=isNew=false;
-    locked=false;
     closing=false;
     rx=0;
-
-    useCallback();
 
     slv=_slv;
     if (slv!=NULL)
@@ -53,17 +48,10 @@ xdPort::xdPort(void *_slv)
 
 
 /************************************************************************/
-void xdPort::init(const Vector &xd0)
-{
-    xdDelayed=xd=xd0;
-}
-
-
-/************************************************************************/
 xdPort::~xdPort()
 {
     closing=true;
-    triggerNeck.signal();
+    syncEvent.signal();
 
     if (slv!=NULL)
         stop();
@@ -73,41 +61,41 @@ xdPort::~xdPort()
 /************************************************************************/
 void xdPort::onRead(Bottle &b)
 {
-    LockGuard lg(mutex_0);
-    if (locked)
-        return;
-        
-    int n=std::min(b.size(),(int)xd.length());
+    mutex_0.wait();
+
+    int bLen=b.size();
+    int xdLen=xd.length();
+    int n=bLen>xdLen ? xdLen : bLen;    
+
     for (int i=0; i<n; i++)
         xd[i]=b.get(i).asDouble();
 
     isNew=true;
     rx++;
 
-    triggerNeck.signal();
+    mutex_0.post();
+
+    syncEvent.signal();
 }
 
 
 /************************************************************************/
-bool xdPort::set_xd(const Vector &_xd)
+void xdPort::set_xd(const Vector &_xd)
 {
-    LockGuard lg(mutex_0);
-    if (locked)
-        return false;
-
+    mutex_0.wait();
     xd=_xd;
     isNew=true;
-    rx++;
-    triggerNeck.signal();
-    return true;
+    mutex_0.post();
+    syncEvent.signal();
 }
 
 
 /************************************************************************/
 Vector xdPort::get_xd()
 {
-    LockGuard lg(mutex_0);
+    mutex_0.wait();
     Vector _xd=xd;
+    mutex_0.post();
     return _xd;
 }
 
@@ -115,8 +103,9 @@ Vector xdPort::get_xd()
 /************************************************************************/
 Vector xdPort::get_xdDelayed()
 {
-    LockGuard lg(mutex_1);
+    mutex_1.wait();
     Vector _xdDelayed=xdDelayed;
+    mutex_1.post();
     return _xdDelayed;
 }
 
@@ -126,372 +115,331 @@ void xdPort::run()
 {
     while (!isStopping() && !closing)
     {
-        triggerNeck.reset();
-        triggerNeck.wait();
+        syncEvent.reset();
+        syncEvent.wait();
+
+        Vector theta=static_cast<Solver*>(slv)->neckTargetRotAngles(xd);
 
         double timeDelay=0.0;
-        double theta=static_cast<Solver*>(slv)->neckTargetRotAngle(xd);
-        if (theta<NECKSOLVER_RESTORINGANGLE)
+        if (norm(theta)<NECKSOLVER_RESTORINGANGLE*CTRL_DEG2RAD)
             timeDelay=NECKSOLVER_ACTIVATIONDELAY;
 
         Time::delay(timeDelay);
 
-        LockGuard lg(mutex_1);
+        mutex_1.wait();
+
         xdDelayed=xd;
         isNewDelayed=true;
+
+        mutex_1.post();
     }
 }
 
 
 /************************************************************************/
-ExchangeData::ExchangeData()
+exchangeData::exchangeData()
 {
-    imu.resize(12,0.0);
-    port_xd=NULL;
-
-    ctrlActive=false;
-    trackingModeOn=false;
+    isCtrlActive=false;
+    canCtrlBeDisabled=true;
     saccadeUnderway=false;
-    minAllowedVergence=0.0;    
-    eyesBoundVer=-1.0;
-    neckSolveCnt=0;
-
-    saccadesInhibitionPeriod=SACCADES_INHIBITION_PERIOD;
-    saccadesActivationAngle=SACCADES_ACTIVATION_ANGLE;
-
-    eyeTiltLim.resize(2);
-    eyeTiltLim[0]=-std::numeric_limits<double>::max();
-    eyeTiltLim[1]=std::numeric_limits<double>::max();
-
-    robotName="";
-    localStemName="";
-    head_version=1.0;
-    tweakOverwrite=true;
-    tweakFile="";
+    minAllowedVergence=0.0;
 }
 
 
 /************************************************************************/
-void ExchangeData::resize_v(const int sz, const double val)
+void exchangeData::resize_v(const int sz, const double val)
 {
-    LockGuard lg(mutex[MUTEX_V]);
+    mutex[MUTEX_V].wait();
     v.resize(sz,val);
+    mutex[MUTEX_V].post();
 }
 
 
 /************************************************************************/
-void ExchangeData::resize_counterv(const int sz, const double val)
+void exchangeData::resize_counterv(const int sz, const double val)
 {
-    LockGuard lg(mutex[MUTEX_COUNTERV]);
+    mutex[MUTEX_COUNTERV].wait();
     counterv.resize(sz,val);
+    mutex[MUTEX_COUNTERV].post();
 }
 
 
 /************************************************************************/
-void ExchangeData::set_xd(const Vector &_xd)
+void exchangeData::set_xd(const Vector &_xd)
 {
-    LockGuard lg(mutex[MUTEX_XD]);
+    mutex[MUTEX_XD].wait();
     xd=_xd;
+    mutex[MUTEX_XD].post();
 }
 
 
 /************************************************************************/
-void ExchangeData::set_qd(const Vector &_qd)
+void exchangeData::set_qd(const Vector &_qd)
 {
-    LockGuard lg(mutex[MUTEX_QD]);
+    mutex[MUTEX_QD].wait();
     qd=_qd;
+    mutex[MUTEX_QD].post();
 }
 
 
 /************************************************************************/
-void ExchangeData::set_qd(const int i, const double val)
+void exchangeData::set_qd(const int i, const double val)
 {
-    LockGuard lg(mutex[MUTEX_QD]);
+    mutex[MUTEX_QD].wait();
     qd[i]=val;
+    mutex[MUTEX_QD].post();
 }
 
 
 /************************************************************************/
-void ExchangeData::set_x(const Vector &_x)
+void exchangeData::set_x(const Vector &_x)
 {
-    LockGuard lg(mutex[MUTEX_X]);
+    mutex[MUTEX_X].wait();
     x=_x;
+    mutex[MUTEX_X].post();
 }
 
 
 /************************************************************************/
-void ExchangeData::set_x(const Vector &_x, const double stamp)
+void exchangeData::set_x(const Vector &_x, const double stamp)
 {
-    LockGuard lg(mutex[MUTEX_X]);
+    mutex[MUTEX_X].wait();
     x=_x;
     x_stamp=stamp;
+    mutex[MUTEX_X].post();
 }
 
 
 /************************************************************************/
-void ExchangeData::set_q(const Vector &_q)
+void exchangeData::set_q(const Vector &_q)
 {
-    LockGuard lg(mutex[MUTEX_Q]);
+    mutex[MUTEX_Q].wait();
     q=_q;
+    mutex[MUTEX_Q].post();
 }
 
 
 /************************************************************************/
-void ExchangeData::set_torso(const Vector &_torso)
+void exchangeData::set_torso(const Vector &_torso)
 {
-    LockGuard lg(mutex[MUTEX_TORSO]);
+    mutex[MUTEX_TORSO].wait();
     torso=_torso;
+    mutex[MUTEX_TORSO].post();
 }
 
 
 /************************************************************************/
-void ExchangeData::set_v(const Vector &_v)
+void exchangeData::set_v(const Vector &_v)
 {
-    LockGuard lg(mutex[MUTEX_V]);
+    mutex[MUTEX_V].wait();
     v=_v;
+    mutex[MUTEX_V].post();
 }
 
 
 /************************************************************************/
-void ExchangeData::set_counterv(const Vector &_counterv)
+void exchangeData::set_counterv(const Vector &_counterv)
 {
-    LockGuard lg(mutex[MUTEX_COUNTERV]);
+    mutex[MUTEX_COUNTERV].wait();
     counterv=_counterv;
+    mutex[MUTEX_COUNTERV].post();
 }
 
 
 /************************************************************************/
-void ExchangeData::set_fpFrame(const Matrix &_S)
+void exchangeData::set_fpFrame(const Matrix &_S)
 {
-    LockGuard lg(mutex[MUTEX_FPFRAME]);
+    mutex[MUTEX_FPFRAME].wait();
     S=_S;
+    mutex[MUTEX_FPFRAME].post();
 }
 
 
 /************************************************************************/
-void ExchangeData::set_imu(const Vector &_imu)
+Vector exchangeData::get_xd()
 {
-    LockGuard lg(mutex[MUTEX_IMU]);
-    imu=_imu;
-}
-
-
-/************************************************************************/
-Vector ExchangeData::get_xd()
-{
-    LockGuard lg(mutex[MUTEX_XD]);
+    mutex[MUTEX_XD].wait();
     Vector _xd=xd;
+    mutex[MUTEX_XD].post();
+
     return _xd;
 }
 
 
 /************************************************************************/
-Vector ExchangeData::get_qd()
+Vector exchangeData::get_qd()
 {
-    LockGuard lg(mutex[MUTEX_QD]);
+    mutex[MUTEX_QD].wait();
     Vector _qd=qd;
+    mutex[MUTEX_QD].post();
+
     return _qd;
 }
 
 
 /************************************************************************/
-Vector ExchangeData::get_x()
+Vector exchangeData::get_x()
 {
-    LockGuard lg(mutex[MUTEX_X]);
+    mutex[MUTEX_X].wait();
     Vector _x=x;
+    mutex[MUTEX_X].post();
+
     return _x;
 }
 
 
 /************************************************************************/
-Vector ExchangeData::get_x(double &stamp)
+Vector exchangeData::get_x(double &stamp)
 {
-    LockGuard lg(mutex[MUTEX_X]);
+    mutex[MUTEX_X].wait();
     Vector _x=x;
     stamp=x_stamp;
+    mutex[MUTEX_X].post();
+
     return _x;
 }
 
 
 /************************************************************************/
-Vector ExchangeData::get_q()
+Vector exchangeData::get_q()
 {
-    LockGuard lg(mutex[MUTEX_Q]);
+    mutex[MUTEX_Q].wait();
     Vector _q=q;
+    mutex[MUTEX_Q].post();
+
     return _q;
 }
 
 
 /************************************************************************/
-Vector ExchangeData::get_torso()
+Vector exchangeData::get_torso()
 {
-    LockGuard lg(mutex[MUTEX_TORSO]);
+    mutex[MUTEX_TORSO].wait();
     Vector _torso=torso;
+    mutex[MUTEX_TORSO].post();
+
     return _torso;
 }
 
 
 /************************************************************************/
-Vector ExchangeData::get_v()
+Vector exchangeData::get_v()
 {
-    LockGuard lg(mutex[MUTEX_V]);
+    mutex[MUTEX_V].wait();
     Vector _v=v;
+    mutex[MUTEX_V].post();
+
     return _v;
 }
 
 
 /************************************************************************/
-Vector ExchangeData::get_counterv()
+Vector exchangeData::get_counterv()
 {
-    LockGuard lg(mutex[MUTEX_COUNTERV]);
+    mutex[MUTEX_COUNTERV].wait();
     Vector _counterv=counterv;
+    mutex[MUTEX_COUNTERV].post();
+
     return _counterv;
 }
 
 
 /************************************************************************/
-Matrix ExchangeData::get_fpFrame()
+Matrix exchangeData::get_fpFrame()
 {
-    LockGuard lg(mutex[MUTEX_FPFRAME]);
+    mutex[MUTEX_FPFRAME].wait();
     Matrix _S=S;
+    mutex[MUTEX_FPFRAME].post();
+
     return _S;
 }
 
 
 /************************************************************************/
-Vector ExchangeData::get_imu()
-{
-    LockGuard lg(mutex[MUTEX_IMU]);
-    Vector _imu=imu;
-    return _imu;
-}
-
-
-/************************************************************************/
-string ExchangeData::headVersion2String()
-{
-    ostringstream str;
-    str<<"v"<<head_version;
-    return str.str();
-}
-
-
-/************************************************************************/
-IMUPort::IMUPort() : commData(NULL)
-{
-    useCallback();
-}
-
-
-/************************************************************************/
-void IMUPort::setExchangeData(ExchangeData *commData)
-{
-    this->commData=commData;
-}
-
-
-/************************************************************************/
-void IMUPort::onRead(Vector &imu)
-{
-    if (commData!=NULL)
-        commData->set_imu(imu);
-}
-
-
-/************************************************************************/
-bool GazeComponent::getExtrinsicsMatrix(const string &type, Matrix &M)
-{
-    if (type=="left")
-    {
-        M=eyeL->asChain()->getHN();
-        return true;
-    }
-    else if (type=="right")
-    {
-        M=eyeR->asChain()->getHN();
-        return true;
-    }
-    else
-        return false;
-}
-
-
-/************************************************************************/
-bool GazeComponent::setExtrinsicsMatrix(const string &type, const Matrix &M)
-{
-    if (type=="left")
-    {
-        eyeL->asChain()->setHN(M);
-        return true;
-    }
-    else if (type=="right")
-    {
-        eyeR->asChain()->setHN(M);
-        return true;
-    }
-    else
-        return false;
-}
-
-
-/************************************************************************/
-bool getCamParams(const ResourceFinder &rf, const string &type,
-                  Matrix **Prj, int &w, int &h, const bool verbose)
+bool getCamPrj(const ResourceFinder &rf, const string &type, Matrix **Prj)
 {
     ResourceFinder &_rf=const_cast<ResourceFinder&>(rf);
     *Prj=NULL;
-
     if (!_rf.isConfigured())
         return false;
 
-    string message=_rf.findFile("from").c_str();
-    if (!message.empty())
+    string camerasFile=_rf.findFile("from").c_str();
+    if (!camerasFile.empty())
     {
-        message+=": intrinsic parameters for "+type;
-        Bottle &parType=_rf.findGroup(type.c_str());
-        if (parType.check("w")  && parType.check("h") &&
-            parType.check("fx") && parType.check("fy") &&
-            parType.check("cx") && parType.check("cy"))
-        {
-            w=parType.find("w").asInt();
-            h=parType.find("h").asInt();
-            double fx=parType.find("fx").asDouble();
-            double fy=parType.find("fy").asDouble();
-            double cx=parType.find("cx").asDouble();
-            double cy=parType.find("cy").asDouble();
+        Bottle parType=_rf.findGroup(type.c_str());
+        string warning="Intrinsic parameters for "+type+" group not found";
 
-            if (verbose)
+            if (parType.check("cx") && parType.check("cy") &&
+                parType.check("fx") && parType.check("fy"))
             {
-                yInfo("%s found:",message.c_str());
-                yInfo("w  = %d",w);
-                yInfo("h  = %d",h);
-                yInfo("fx = %g",fx);
-                yInfo("fy = %g",fy);
-                yInfo("cx = %g",cx);
-                yInfo("cy = %g",cy);
+                double cx=parType.find("cx").asDouble();
+                double cy=parType.find("cy").asDouble();
+                double fx=parType.find("fx").asDouble();
+                double fy=parType.find("fy").asDouble();
+
+                Matrix K=eye(3,3);
+                Matrix Pi=zeros(3,4);
+
+                K(0,0)=fx; K(1,1)=fy;
+                K(0,2)=cx; K(1,2)=cy; 
+                
+                Pi(0,0)=Pi(1,1)=Pi(2,2)=1.0; 
+
+                *Prj=new Matrix;
+                **Prj=K*Pi;
+                return true;
             }
-
-            *Prj=new Matrix(eye(3,4));
-
-            Matrix &K=**Prj;
-            K(0,0)=fx; K(1,1)=fy;
-            K(0,2)=cx; K(1,2)=cy;
-
-            return true;
-        }
+            else
+                fprintf(stdout,"%s\n",warning.c_str());
     }
-    else
-    {
-        message=_rf.find("from").asString().c_str();
-        message+=": intrinsic parameters for "+type;
-    }
-
-    if (verbose)
-        yWarning("%s not found!",message.c_str());
-
     return false;
 }
 
+
+/***********************************************************************
+bool getAlignHN(const string &camerasFile, const string &type, iKinChain *chain)
+{
+    if (chain!=NULL)
+    {
+        Property par;
+        string warning="Aligning matrix for "+type+" group not found";
+        if (par.fromConfigFile(camerasFile.c_str()))
+        {
+            Bottle parType=par.findGroup(type.c_str());
+            if (parType.size()>0)
+            {
+                if (Bottle *bH=parType.find("HN").asList())
+                {
+                    int i=0;
+                    int j=0;
+
+                    Matrix HN(4,4); HN=0.0;
+                    for (int cnt=0; (cnt<bH->size()) && (cnt<HN.rows()*HN.cols()); cnt++)
+                    {    
+                        HN(i,j)=bH->get(cnt).asDouble();
+                        if (++j>=HN.cols())
+                        {
+                            i++;
+                            j=0;
+                        }
+                    }
+
+                    // enforce the homogeneous property
+                    HN(3,0)=HN(3,1)=HN(3,2)=0.0;
+                    HN(3,3)=1.0;
+
+                    chain->setHN(HN);
+                    return true;
+                }
+            }
+        }
+
+        fprintf(stdout,"%s\n",warning.c_str());
+    }
+
+    return false;
+}
+***********************************************/
 
 /************************************************************************/
 bool getAlignHN(const ResourceFinder &rf, const string &type,
@@ -505,35 +453,38 @@ bool getAlignHN(const ResourceFinder &rf, const string &type,
         {
             message+=": aligning matrix for "+type;
             Bottle &parType=_rf.findGroup(type.c_str());
-            if (Bottle *bH=parType.find("HN").asList())
+            if (!parType.isNull())
             {
-                int i=0;
-                int j=0;
-
-                Matrix HN(4,4); HN=0.0;
-                for (int cnt=0; (cnt<bH->size()) && (cnt<HN.rows()*HN.cols()); cnt++)
+                if (Bottle *bH=parType.find("HN").asList())
                 {
-                    HN(i,j)=bH->get(cnt).asDouble();
-                    if (++j>=HN.cols())
+                    int i=0;
+                    int j=0;
+
+                    Matrix HN(4,4); HN=0.0;
+                    for (int cnt=0; (cnt<bH->size()) && (cnt<HN.rows()*HN.cols()); cnt++)
                     {
-                        i++;
-                        j=0;
+                        HN(i,j)=bH->get(cnt).asDouble();
+                        if (++j>=HN.cols())
+                        {
+                            i++;
+                            j=0;
+                        }
                     }
+
+                    // enforce the homogeneous property
+                    HN(3,0)=HN(3,1)=HN(3,2)=0.0;
+                    HN(3,3)=1.0;
+
+                    chain->setHN(HN);
+
+                    if (verbose)
+                    {
+                        fprintf(stdout,"%s found:",message.c_str());
+                        fprintf(stdout,"%s",HN.toString(3,3).c_str());
+                    }
+
+                    return true;
                 }
-
-                // enforce the homogeneous property
-                HN(3,0)=HN(3,1)=HN(3,2)=0.0;
-                HN(3,3)=1.0;
-
-                chain->setHN(HN);
-
-                if (verbose)
-                {
-                    yInfo("%s found:",message.c_str());
-                    yInfo("%s",HN.toString(3,3).c_str());
-                }
-
-                return true;
             }
         }
         else
@@ -543,16 +494,18 @@ bool getAlignHN(const ResourceFinder &rf, const string &type,
         }
 
         if (verbose)
-            yWarning("%s not found!",message.c_str());
+            fprintf(stdout,"%s not found!",message.c_str());
     }
 
     return false;
 }
 
 
+
+
 /************************************************************************/
-Matrix alignJointsBounds(iKinChain *chain, PolyDriver *drvTorso,
-                         PolyDriver *drvHead, const Vector &eyeTiltLim)
+Matrix alignJointsBounds(iKinChain *chain, PolyDriver *drvTorso, PolyDriver *drvHead,
+                         const double eyeTiltMin, const double eyeTiltMax)
 {
     IEncoders      *encs;
     IControlLimits *lims;
@@ -568,13 +521,10 @@ Matrix alignJointsBounds(iKinChain *chain, PolyDriver *drvTorso,
 
         for (int i=0; i<nJointsTorso; i++)
         {   
-            if (lims->getLimits(i,&min,&max))
-            {
-                (*chain)[nJointsTorso-1-i].setMin(CTRL_DEG2RAD*min); // reversed order
-                (*chain)[nJointsTorso-1-i].setMax(CTRL_DEG2RAD*max);
-            }
-            else
-                yError("unable to retrieve limits for torso joint #%d",i);
+            lims->getLimits(i,&min,&max);
+        
+            (*chain)[nJointsTorso-1-i].setMin(CTRL_DEG2RAD*min); // reversed order
+            (*chain)[nJointsTorso-1-i].setMax(CTRL_DEG2RAD*max);
         }
     }
 
@@ -586,27 +536,24 @@ Matrix alignJointsBounds(iKinChain *chain, PolyDriver *drvTorso,
 
     for (int i=0; i<nJointsHead; i++)
     {   
-        if (lims->getLimits(i,&min,&max))
+        lims->getLimits(i,&min,&max);
+
+        // limit eye's tilt due to eyelids
+        if (i==2)
         {
-            // limit eye's tilt due to eyelids
-            if (i==2)
-            {
-                min=std::max(min,eyeTiltLim[0]);
-                max=std::min(max,eyeTiltLim[1]);
-            }
-
-            lim(i,0)=CTRL_DEG2RAD*min;
-            lim(i,1)=CTRL_DEG2RAD*max;
-
-            // just one eye's got only 5 dofs
-            if (i<nJointsHead-1)
-            {
-                (*chain)[nJointsTorso+i].setMin(lim(i,0));
-                (*chain)[nJointsTorso+i].setMax(lim(i,1));
-            }
+            min=std::max(min,eyeTiltMin);
+            max=std::min(max,eyeTiltMax);
         }
-        else
-            yError("unable to retrieve limits for head joint #%d",i);
+
+        lim(i,0)=CTRL_DEG2RAD*min;
+        lim(i,1)=CTRL_DEG2RAD*max;
+
+        // just one eye's got only 5 dofs
+        if (i<nJointsHead-1)
+        {
+            (*chain)[nJointsTorso+i].setMin(lim(i,0));
+            (*chain)[nJointsTorso+i].setMax(lim(i,1));
+        }
     }
 
     return lim;
@@ -639,14 +586,14 @@ void updateTorsoBlockedJoints(iKinChain *chain, const Vector &fbTorso)
 /************************************************************************/
 void updateNeckBlockedJoints(iKinChain *chain, const Vector &fbNeck)
 {
-    for (int i=0; i<3; i++)
-         chain->setBlockingValue(3+i,fbNeck[i]);
+    for (int i=0; i<2; i++)
+         chain->setBlockingValue(1+i,fbNeck[i]);
 }
 
 
 /************************************************************************/
 bool getFeedback(Vector &fbTorso, Vector &fbHead, PolyDriver *drvTorso,
-                 PolyDriver *drvHead, ExchangeData *commData, double *timeStamp)
+                 PolyDriver *drvHead, exchangeData *commData, double *timeStamp)
 {
     IEncodersTimed *encs;
 
@@ -674,16 +621,18 @@ bool getFeedback(Vector &fbTorso, Vector &fbHead, PolyDriver *drvTorso,
     drvHead->view(encs);
     if (encs->getEncodersTimed(fb.data(),stamps.data()+nJointsTorso))
     {
-        for (int i=0; i<nJointsHead; i++)
+        for (int i=0; i<nJointsHead; i++){
             fbHead[i]=CTRL_DEG2RAD*fb[i];
+        }
     }
     else
         ret=false;
     
     // impose vergence != 0.0
     if (commData!=NULL)
-        fbHead[nJointsHead-1]=std::max(fbHead[nJointsHead-1],commData->minAllowedVergence);
-    
+        if (fbHead[nJointsHead-1]<commData->get_minAllowedVergence())
+            fbHead[nJointsHead-1]=commData->get_minAllowedVergence();
+
     // retrieve the highest encoders time stamp
     if (timeStamp!=NULL)
         *timeStamp=findMax(stamps);
