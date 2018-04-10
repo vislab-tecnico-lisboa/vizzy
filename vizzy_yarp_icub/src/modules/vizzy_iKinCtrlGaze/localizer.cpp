@@ -1,14 +1,15 @@
 /* 
  * Copyright (C) 2010 RobotCub Consortium, European Commission FP6 Project IST-004370
- * Author: Ugo Pattacini
- * email:  ugo.pattacini@iit.it
- * website: www.robotcub.org
+ * Copyright (C) 2011 Computer and Robot Vision Laboratory
+ * Author: Ugo Pattacini, Alessandro Roncone, Plinio Moreno, Duarte Aragão
+ * email:  ugo.pattacini@iit.it, alessandro.roncone@iit.it, plinio@isr.tecnico.ulisboa.pt, daragao@gmail.com
+ * website: http://vislab.isr.tecnico.ulisboa.pt
  * Permission is granted to copy, distribute, and/or modify this program
  * under the terms of the GNU General Public License, version 2 or any
  * later version published by the Free Software Foundation.
  *
  * A copy of the license can be found at
- * http://www.robotcub.org/vizzy/license/gpl.txt
+ * http://www.robotcub.org/icub/license/gpl.txt
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -16,26 +17,21 @@
  * Public License for more details
 */
 
-#include <stdio.h>
+#include <cmath>
+#include <algorithm>
 
 #include <yarp/math/SVD.h>
 #include <vizzy/localizer.h>
 #include <vizzy/solver.h>
 
-/*Localizer::Localizer(exchangeData *_commData, const unsigned int _period) :
-RateThread(_period), commData(_commData), period(_period)*/
 
 /************************************************************************/
-Localizer::Localizer(exchangeData *_commData, const string &_localName,
-                     ResourceFinder &_camerasFile, const bool _headV2,
-                     const string &_root_link, const unsigned int _period) :
-                     RateThread(_period), commData(_commData), localName(_localName),
-                     headV2(_headV2),  period(_period)
+Localizer::Localizer(ExchangeData *_commData,  const string &_root_link,const unsigned int _period) :
+                     RateThread(_period), commData(_commData), period(_period)
 {
-    this->rf_camera=_camerasFile;
-    vizzyHeadCenter eyeC(headV2?"right_v2":"right",_root_link);
-    eyeL=new vizzyEye(headV2?"left_v2":"left",_root_link);
-    eyeR=new vizzyEye(headV2?"right_v2":"right",_root_link);
+    vizzyHeadCenter eyeC("right_"+commData->headVersion2String(),_root_link);
+    eyeL=new vizzyEye("left_"+commData->headVersion2String(),_root_link);
+    eyeR=new vizzyEye("right_"+commData->headVersion2String(),_root_link);
 
     // remove constraints on the links
     // we use the chains for logging purpose
@@ -45,11 +41,18 @@ Localizer::Localizer(exchangeData *_commData, const string &_localName,
     // release links
     eyeL->releaseLink(0); eyeC.releaseLink(0); eyeR->releaseLink(0);
     eyeL->releaseLink(1); eyeC.releaseLink(1); eyeR->releaseLink(1);
-    eyeL->releaseLink(2); /*eyeC.releaseLink(2);*/ eyeR->releaseLink(2);
+    eyeL->releaseLink(2);/* eyeC.releaseLink(2);*/ eyeR->releaseLink(2);
 
     // add aligning matrices read from configuration file
-    getAlignHN(rf_camera,"ALIGN_KIN_LEFT",eyeL->asChain(),true);
-    getAlignHN(rf_camera,"ALIGN_KIN_RIGHT",eyeR->asChain(),true);
+    getAlignHN(commData->rf_cameras,"ALIGN_KIN_LEFT",eyeL->asChain(),true);
+    getAlignHN(commData->rf_cameras,"ALIGN_KIN_RIGHT",eyeR->asChain(),true);
+
+    // overwrite aligning matrices iff specified through tweak values
+    if (commData->tweakOverwrite)
+    {
+        getAlignHN(commData->rf_tweak,"ALIGN_KIN_LEFT",eyeL->asChain(),true);
+        getAlignHN(commData->rf_tweak,"ALIGN_KIN_RIGHT",eyeR->asChain(),true);
+    }
 
     // get the absolute reference frame of the head
     Vector q(eyeC.getDOF(),0.0);
@@ -57,29 +60,49 @@ Localizer::Localizer(exchangeData *_commData, const string &_localName,
     // ... and its inverse
     invEyeCAbsFrame=SE3inv(eyeCAbsFrame);
 
-    // get the lenght of the half of the eyes baseline
+    // get the length of the half of the eyes baseline
     eyesHalfBaseline=0.5*norm(eyeL->EndEffPose().subVector(0,2)-eyeR->EndEffPose().subVector(0,2));
 
-    // get camera projection matrix from the camerasFile
-    if (getCamPrj(rf_camera,"CAMERA_CALIBRATION_LEFT",&PrjL))
-    {
-        Matrix &Prj=*PrjL;
-        cxl=Prj(0,2);
-        cyl=Prj(1,2);
+    bool ret;
 
-        invPrjL=new Matrix(pinv(Prj.transposed()).transposed());
+    // get camera projection matrix
+    ret=getCamParams(commData->rf_cameras,"CAMERA_CALIBRATION_LEFT",&PrjL,widthL,heightL,true);
+    if (commData->tweakOverwrite)
+    {
+        Matrix *Prj;
+        if (getCamParams(commData->rf_tweak,"CAMERA_CALIBRATION_LEFT",&Prj,widthL,heightL,true))
+        {
+            delete PrjL;
+            PrjL=Prj;
+        }
+    }
+
+    if (ret)
+    {
+        cxl=(*PrjL)(0,2);
+        cyl=(*PrjL)(1,2);
+        invPrjL=new Matrix(pinv(PrjL->transposed()).transposed());
     }
     else
         PrjL=invPrjL=NULL;
 
-    // get camera projection matrix from the camerasFile
-    if (getCamPrj(rf_camera,"CAMERA_CALIBRATION_RIGHT",&PrjR))
+    // get camera projection matrix
+    ret=getCamParams(commData->rf_cameras,"CAMERA_CALIBRATION_RIGHT",&PrjR,widthR,heightR,true);
+    if (commData->tweakOverwrite)
     {
-        Matrix &Prj=*PrjR;
-        cxr=Prj(0,2);
-        cyr=Prj(1,2);
+        Matrix *Prj;
+        if (getCamParams(commData->rf_tweak,"CAMERA_CALIBRATION_RIGHT",&Prj,widthR,heightR,true))
+        {
+            delete PrjR;
+            PrjR=Prj;
+        }
+    }
 
-        invPrjR=new Matrix(pinv(Prj.transposed()).transposed());
+    if (ret)
+    {
+        cxr=(*PrjR)(0,2);
+        cyr=(*PrjR)(1,2);
+        invPrjR=new Matrix(pinv(PrjR->transposed()).transposed());
     }
     else
         PrjR=invPrjR=NULL;
@@ -97,28 +120,18 @@ Localizer::Localizer(exchangeData *_commData, const string &_localName,
     Vector z0(1,0.5);
     pid->reset(z0);
     dominantEye="left";
-
-    port_xd=NULL;
 }
 
 
 /************************************************************************/
 bool Localizer::threadInit()
 { 
-    port_mono.open((localName+"/mono:i").c_str());
-    port_stereo.open((localName+"/stereo:i").c_str());
-    port_anglesIn.open((localName+"/angles:i").c_str());
-    port_anglesOut.open((localName+"/angles:o").c_str());
-    /*ros_port_anglesOut.setWriteOnly();
-    ros_port_anglesOut.open("/vizzy_gaze_controller/angles_out@/vizzy_iKinGazeCtrl_ros");
-    while(ros_port_anglesOut.getOutputCount() == 0) {
-        Time::delay(1);
-        std::cout << ".\n";
-    }
-    std::cout << "Connection successfuly established." << std::endl;*/
-    //Time::delay(5);
-    fprintf(stdout,"Starting Localizer at %d ms\n",period);
+    port_mono.open((commData->localStemName+"/mono:i").c_str());
+    port_stereo.open((commData->localStemName+"/stereo:i").c_str());
+    port_anglesIn.open((commData->localStemName+"/angles:i").c_str());
+    port_anglesOut.open((commData->localStemName+"/angles:o").c_str());
 
+    yInfo("Starting Localizer at %d ms",period);
     return true;
 }
 
@@ -127,41 +140,34 @@ bool Localizer::threadInit()
 void Localizer::afterStart(bool s)
 {
     if (s)
-        fprintf(stdout,"Localizer started successfully\n");
+        yInfo("Localizer started successfully");
     else
-        fprintf(stdout,"Localizer did not start\n");
+        yError("Localizer did not start!");
 }
 
 
 /************************************************************************/
 void Localizer::getPidOptions(Bottle &options)
 {
-    mutex.wait();
-
+    LockGuard lg(mutex);
     pid->getOptions(options);
     Bottle &bDominantEye=options.addList();
     bDominantEye.addString("dominantEye");
     bDominantEye.addString(dominantEye.c_str());
-
-    mutex.post();
 }
 
 
 /************************************************************************/
 void Localizer::setPidOptions(const Bottle &options)
 {
-    mutex.wait();
-
+    LockGuard lg(mutex);
     pid->setOptions(options);
-    Bottle &opt=const_cast<Bottle&>(options);
-    if (opt.check("dominantEye"))
+    if (options.check("dominantEye"))
     {
-        string domEye=opt.find("dominantEye").asString().c_str();
+        string domEye=options.find("dominantEye").asString().c_str();
         if ((domEye=="left") || (domEye=="right"))
             dominantEye=domEye;
     }
-
-    mutex.post();
 }
 
 
@@ -187,11 +193,11 @@ Vector Localizer::getAbsAngles(const Vector &x)
 /************************************************************************/
 Vector Localizer::get3DPoint(const string &type, const Vector &ang)
 {
+    LockGuard lg(mutex);
     double azi=ang[0];
     double ele=ang[1];
     double ver=ang[2];
 
-    //Vector q(8,0.0);
     Vector q(5,0.0);
     if (type=="rel")
     {
@@ -199,48 +205,28 @@ Vector Localizer::get3DPoint(const string &type, const Vector &ang)
         Vector head=commData->get_q();
 
         q[0]=torso[0];
-        /*q[1]=torso[1];
-        q[2]=torso[2];
-        q[3]=head[0];
-        q[4]=head[1];
-        q[5]=head[2];
-        q[6]=head[3];
-        q[7]=head[4];
-
-        ver+=head[5];*/
         q[1]=head[0];
         q[2]=head[1];
         q[3]=head[2];
         q[4]=head[3];
 
+
         ver+=head[4];
     }
     
     // impose vergence != 0.0
-    if (ver<commData->get_minAllowedVergence())
-        ver=commData->get_minAllowedVergence();
+    ver=std::max(ver,commData->minAllowedVergence);    
 
-    mutex.wait();
-
-    //q[7]+=ver/2.0;
-    // temporary fix while the firmware is updated
     q[4]=(q[4]+ver)/2.0;
-    //q[4]+=ver/2.0;
     eyeL->setAng(q);
 
-    //q[7]-=ver;
-    // temporary fix while the firmware is updated
     q[4]=(q[4]-ver)/2.0;
-    //q[4]-=ver;
     eyeR->setAng(q);
 
-    Vector fp(4);
-    fp[3]=1.0;  // impose homogeneous coordinates
-
     // compute new fp due to changed vergence
-    computeFixationPointOnly(*(eyeL->asChain()),*(eyeR->asChain()),fp);
-
-    mutex.post();
+    Vector fp;
+    CartesianHelper::computeFixationPointData(*(eyeL->asChain()),*(eyeR->asChain()),fp);
+    fp.push_back(1.0);  // impose homogeneous coordinates    
 
     // compute rotational matrix to
     // account for elevation and azimuth
@@ -264,16 +250,18 @@ Vector Localizer::get3DPoint(const string &type, const Vector &ang)
         xd=eyeCAbsFrame*(R*fph);    // apply rotation and retrieve fp wrt root frame
     }
 
-    return xd.subVector(0,2);
+    xd.pop_back();
+    return xd;
 }
 
 
 /************************************************************************/
 bool Localizer::projectPoint(const string &type, const Vector &x, Vector &px)
 {
+    LockGuard lg(mutex);
     if (x.length()<3)
     {
-        fprintf(stdout,"Not enough values given for the point!\n");
+        yError("Not enough values given for the point!");
         return false;
     }
 
@@ -282,54 +270,43 @@ bool Localizer::projectPoint(const string &type, const Vector &x, Vector &px)
     Matrix  *Prj=(isLeft?PrjL:PrjR);
     vizzyEye *eye=(isLeft?eyeL:eyeR);
 
-    if (Prj)
+    if (Prj!=NULL)
     {
         Vector torso=commData->get_torso();
         Vector head=commData->get_q();
 
-        //Vector q(8);
         Vector q(5);
         q[0]=torso[0];
-        /*q[1]=torso[1];
-        q[2]=torso[2];
-        q[3]=head[0];
-        q[4]=head[1];
-        q[5]=head[2];
-        q[6]=head[3];*/
         q[1]=head[0];
         q[2]=head[1];
         q[3]=head[2];
-
         if (isLeft)
-            //q[7]=head[4]+head[5]/2.0;
-            // temporary fix while the firmware is updated
-	    q[4]=(head[3]+head[4])/2.0;
-            //q[4]=head[3]+head[4]/2.0;
+            q[4]=(head[3]+head[4])/2.0;
         else
-            //q[7]=head[4]-head[5]/2.0;
-	    // temporary fix while the firmware is updated
-	    q[4]=(head[3]-head[4])/2.0;
-            //q[4]=head[3]-head[4]/2.0;
+            q[4]=(head[3]-head[4])/2.0;
         
         Vector xo=x;
+        // impose homogeneous coordinates
         if (xo.length()<4)
-            xo.push_back(1.0);  // impose homogeneous coordinates
+            xo.push_back(1.0);
+        else
+        {
+            xo=xo.subVector(0,3); 
+            xo[3]=1.0;
+        }
 
         // find position wrt the camera frame
-        mutex.wait();
         Vector xe=SE3inv(eye->getH(q))*xo;
-        mutex.post();
 
         // find the 2D projection
         px=*Prj*xe;
         px=px/px[2];
-        px=px.subVector(0,1);
-
+        px.pop_back();
         return true;
     }
     else
     {
-        fprintf(stdout,"Unspecified projection matrix for %s camera!\n",type.c_str());
+        yError("Unspecified projection matrix for %s camera!",type.c_str());
         return false;
     }
 }
@@ -339,39 +316,26 @@ bool Localizer::projectPoint(const string &type, const Vector &x, Vector &px)
 bool Localizer::projectPoint(const string &type, const double u, const double v,
                              const double z, Vector &x)
 {
+    LockGuard lg(mutex);
     bool isLeft=(type=="left");
 
     Matrix  *invPrj=(isLeft?invPrjL:invPrjR);
     vizzyEye *eye=(isLeft?eyeL:eyeR);
 
-    if (invPrj)
+    if (invPrj!=NULL)
     {
         Vector torso=commData->get_torso();
         Vector head=commData->get_q();
 
-        //Vector q(8);
         Vector q(5);
-         q[0]=torso[0];
-         /*q[1]=torso[1];
-         q[2]=torso[2];
-         q[3]=head[0];
-         q[4]=head[1];
-         q[5]=head[2];
-         q[6]=head[3];*/
-         q[1]=head[0];
-         q[2]=head[1];
-         q[3]=head[2];
-
+        q[0]=torso[0];
+        q[1]=head[0];
+        q[2]=head[1];
+        q[3]=head[2];
         if (isLeft)
-        	//q[7]=head[4]+head[5]/2.0;
-		// temporary fix while the firmware is updated
-        	q[4]=(head[3]+head[4])/2.0;
-        	//q[4]=head[3]+head[4]/2.0;
+            q[4]=(head[3]+head[4])/2.0;
         else
-        	//q[7]=head[4]-head[5]/2.0;
-		// temporary fix while the firmware is updated
-		q[4]=(head[3]-head[4])/2.0;
-        	//q[4]=head[3]-head[4]/2.0;
+            q[4]=(head[3]-head[4])/2.0;
 
         Vector p(3);
         p[0]=z*u;
@@ -383,16 +347,14 @@ bool Localizer::projectPoint(const string &type, const double u, const double v,
         Vector xe=*invPrj*p;
         xe[3]=1.0;  // impose homogeneous coordinates
 
-        // find position wrt the root frame
-        mutex.wait();
-        x=(eye->getH(q)*xe).subVector(0,2);
-        mutex.post();
-
+        // find position wrt the root frame        
+        x=eye->getH(q)*xe;
+        x.pop_back();
         return true;
     }
     else
     {
-        fprintf(stdout,"Unspecified projection matrix for %s camera!\n",type.c_str());
+        yError("Unspecified projection matrix for %s camera!",type.c_str());
         return false;
     }
 }
@@ -404,7 +366,7 @@ bool Localizer::projectPoint(const string &type, const double u, const double v,
 {
     if (plane.length()<4)
     {
-        fprintf(stdout,"Not enough values given for the projection plane!\n");
+        yError("Not enough values given for the projection plane!");
         return false;
     }
 
@@ -413,6 +375,8 @@ bool Localizer::projectPoint(const string &type, const double u, const double v,
 
     if (projectPoint(type,u,v,1.0,x))
     {
+        LockGuard lg(mutex);
+
         // pick up a point belonging to the plane
         Vector p0(3,0.0);
         if (plane[0]!=0.0)
@@ -423,7 +387,7 @@ bool Localizer::projectPoint(const string &type, const double u, const double v,
             p0[2]=-plane[3]/plane[2];
         else
         {
-            fprintf(stdout,"Error while specifying projection plane!\n");
+            yError("Error while specifying projection plane!");
             return false;
         }
 
@@ -433,11 +397,8 @@ bool Localizer::projectPoint(const string &type, const double u, const double v,
         n[1]=plane[1];
         n[2]=plane[2];
 
-        mutex.wait();
-        Vector e=eye->EndEffPose().subVector(0,2);
-        mutex.post();
-
         // compute the projection
+        Vector e=eye->EndEffPose().subVector(0,2);
         Vector v=x-e;
         x=e+(dot(p0-e,n)/dot(v,n))*v;
 
@@ -451,9 +412,10 @@ bool Localizer::projectPoint(const string &type, const double u, const double v,
 /************************************************************************/
 bool Localizer::triangulatePoint(const Vector &pxl, const Vector &pxr, Vector &x)
 {
+    LockGuard lg(mutex);
     if ((pxl.length()<2) || (pxr.length()<2))
     {
-        fprintf(stdout,"Not enough values given for the pixels!\n");
+        yError("Not enough values given for the pixels!");
         return false;
     }
 
@@ -462,34 +424,18 @@ bool Localizer::triangulatePoint(const Vector &pxl, const Vector &pxr, Vector &x
         Vector torso=commData->get_torso();
         Vector head=commData->get_q();
 
-        /*Vector qL(8);
-        qL[0]=torso[0];
-        qL[1]=torso[1];
-        qL[2]=torso[2];
-        qL[3]=head[0];
-        qL[4]=head[1];
-        qL[5]=head[2];
-        qL[6]=head[3];
-        qL[7]=head[4]+head[5]/2.0;*/
-
         Vector qL(5);
         qL[0]=torso[0];
         qL[1]=head[0];
         qL[2]=head[1];
         qL[3]=head[2];
-        //qL[4]=head[3]+head[4]/2.0;
-	qL[4]=(head[3]+head[4])/2.0;
-
+        qL[4]=(head[3]+head[4])/2.0;
 
         Vector qR=qL;
-        //qR[7]-=head[5];
-        //qR[4]-=head[4];
-	qL[4]=(head[3]-head[4])/2.0;
-
-        mutex.wait();
+        qR[4]=(head[3]-head[4])/2.0;
+        
         Matrix HL=SE3inv(eyeL->getH(qL));
         Matrix HR=SE3inv(eyeR->getH(qR));
-        mutex.post();
 
         Matrix tmp=zeros(3,4); tmp(2,2)=1.0;
         tmp(0,2)=pxl[0]; tmp(1,2)=pxl[1];
@@ -519,9 +465,17 @@ bool Localizer::triangulatePoint(const Vector &pxl, const Vector &pxr, Vector &x
     }
     else
     {
-        fprintf(stdout,"Unspecified projection matrix for at least one camera!\n");
+        yError("Unspecified projection matrix for at least one camera!");
         return false;
     }
+}
+
+
+/************************************************************************/
+double Localizer::getDistFromVergence(const double ver)
+{
+    double tg=tan(CTRL_DEG2RAD*ver/2.0);
+    return eyesHalfBaseline*sqrt(1.0+1.0/(tg*tg));
 }
 
 
@@ -537,31 +491,29 @@ void Localizer::handleMonocularInput()
             double v=mono->get(2).asDouble();
             double z;
 
+            bool ok=false;
             if (mono->get(3).isDouble())
+            {
                 z=mono->get(3).asDouble();
-            else if (mono->get(3).asString()=="ver")
-            {
-                double ver=CTRL_DEG2RAD*mono->get(4).asDouble();
-                double tg=tan(ver/2.0);
-                z=eyesHalfBaseline*sqrt(1.0+1.0/(tg*tg));
+                ok=true;
             }
-            else
+            else if ((mono->get(3).asString()=="ver") && (mono->size()>=5))
             {
-                fprintf(stdout,"Got wrong mono information!\n");
-                return;
+                double ver=mono->get(4).asDouble();
+                z=getDistFromVergence(ver);
+                ok=true;
             }
 
-            Vector fp;
-            if (projectPoint(type,u,v,z,fp))
+            if (ok)
             {
-                if (port_xd!=NULL)
-                    port_xd->set_xd(fp);
-                else
-                    fprintf(stdout,"Internal error occured!\n");
+                Vector fp;
+                if (projectPoint(type,u,v,z,fp))
+                    commData->port_xd->set_xd(fp);
+                return;
             }
         }
-        else
-            fprintf(stdout,"Got wrong mono information!\n");
+
+        yError("Got wrong monocular information!");
     }
 }
 
@@ -599,23 +551,18 @@ void Localizer::handleStereoInput()
                     fb=ul-cxl;
                 }
                 
-                mutex.wait();
+                mutex.lock();
                 Vector z=pid->compute(ref,fb);
-                mutex.post();
+                mutex.unlock();
 
                 if (projectPoint(dominantEye,u,v,z[0],fp))
-                {
-                    if (port_xd!=NULL)
-                        port_xd->set_xd(fp);
-                    else
-                        fprintf(stdout,"Internal error occured!\n");
-                }
+                    commData->port_xd->set_xd(fp);
             }
             else
-                fprintf(stdout,"Got wrong stereo information!\n");
+                yError("Got wrong stereo information!");
         }
         else
-            fprintf(stdout,"Unspecified projection matrix!\n");
+            yError("Unspecified projection matrix!");
     }
 }
 
@@ -635,14 +582,10 @@ void Localizer::handleAnglesInput()
             ang[2]=CTRL_DEG2RAD*angles->get(3).asDouble();
 
             Vector xd=get3DPoint(type,ang);
-        
-            if (port_xd!=NULL)
-                port_xd->set_xd(xd);
-            else
-                fprintf(stdout,"Internal error occured!\n");
+            commData->port_xd->set_xd(xd);
         }
         else
-            fprintf(stdout,"Got wrong angles information!\n");
+            yError("Got wrong angles information!");
     }
 }
 
@@ -659,20 +602,85 @@ void Localizer::handleAnglesOutput()
         port_anglesOut.prepare()=CTRL_RAD2DEG*getAbsAngles(x);
         port_anglesOut.setEnvelope(txInfo_ang);
         port_anglesOut.write();
-	/*Bottle angles_message = Bottle();
-	Bottle& list_1 = angles_message.addList();
-	list_1.add(txInfo_ang.getCount());
-	Bottle& list_2 = angles_message.addList();
-	Vector angles_converted(CTRL_RAD2DEG*getAbsAngles(x));
-	for (int my_i=0;my_i<x.size();my_i++){
-	    list_2.add(angles_converted[my_i]);
-	}
-        ros_port_anglesOut.write(angles_message);
-	Time::delay(0.1);
-	ros_port_anglesOut.write(angles_message);
-	ros_port_anglesOut.write(angles_message);*/
-
     }
+}
+
+
+/************************************************************************/
+bool Localizer::getIntrinsicsMatrix(const string &type, Matrix &M,
+                                    int &w, int &h)
+{
+    if (type=="left")
+    {
+        if (PrjL!=NULL)
+        {
+            M=*PrjL;
+            w=widthL;
+            h=heightL;
+            return true;
+        }
+        else
+            return false;
+    }
+    else if (type=="right")
+    {
+        if (PrjR!=NULL)
+        {
+            M=*PrjR;
+            w=widthR;
+            h=heightR;
+            return true;
+        }
+        else
+            return false;
+    }
+    else
+        return false;
+}
+
+
+/************************************************************************/
+bool Localizer::setIntrinsicsMatrix(const string &type, const Matrix &M,
+                                    const int w, const int h)
+{
+    if (type=="left")
+    {
+        if (PrjL!=NULL)
+        {
+            *PrjL=M;
+            *invPrjL=pinv(M.transposed()).transposed();
+        }
+        else
+        {
+            PrjL=new Matrix(M);
+            invPrjL=new Matrix(pinv(M.transposed()).transposed());
+        }
+
+        widthL=w;
+        heightL=h;
+
+        return true;
+    }
+    else if (type=="right")
+    {
+        if (PrjR!=NULL)
+        {
+            *PrjR=M;
+            *invPrjR=pinv(M.transposed()).transposed();
+        }
+        else
+        {
+            PrjR=new Matrix(M);
+            invPrjR=new Matrix(pinv(M.transposed()).transposed());
+        }
+
+        widthR=w;
+        heightR=h;
+
+        return true;
+    }
+    else
+        return false;
 }
 
 
