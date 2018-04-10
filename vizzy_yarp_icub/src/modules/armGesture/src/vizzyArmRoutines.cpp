@@ -177,7 +177,7 @@ bool VizzyArmRoutines::configure(yarp::os::ResourceFinder &rf) {
     grabing_hand_pose[7] = 18.2;    
     grabing_hand_pose[8] = 118;
     grabing_hand_pose[9] = 104;
-    grabing_hand_pose[10] = 185;
+    grabing_hand_pose[10] = 135;
 
 
 

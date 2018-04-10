@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<launch>
+<arg name="navigation" default="true"/>
+    <!-- Launch Vizzy -->
+    <include file="$(find vizzy_launch)/launch/vizzy_real.launch">
+	  <arg name="navigation" value="$(arg navigation)"/>
+    </include>
+    
+    <!-- Launch the VizzyArmsRoutines for waving and handshake gestures-->
+    <node name="armroutines" pkg="vizzy_speech_servers" type="vizzyArmsRoutine.sh" />
+
+    <!-- Launch openpose -->
+    <include file="$(find openpose_ros_node)/launch/videostream.launch">
+    </include>
+
+    <!-- Launch the web server -->
+    <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch">
+    </include>
+
+    <!-- Launch the nuance speech action client-->
+    <node pkg="vizzy_speech_servers" type="nuance_tts_action_server.py"
+	    name="nuance_speech_tts" output="screen">
+    </node>
+
+    <!-- Launch openpose-to-rehablab -->
+    <node name="openpose_to_rehablab" pkg="openpose_to_reahablab" type="openpose_to_reahablab_node" />
+
+    <!-- Launch demo -->
+    <node name="openpose_handshake" pkg="vizzy_behaviour" type="openpose_handshake.py" />
+
+</launch>
