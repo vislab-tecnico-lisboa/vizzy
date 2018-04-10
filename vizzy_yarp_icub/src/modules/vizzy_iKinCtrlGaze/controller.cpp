@@ -1,5 +1,6 @@
 /* 
  * Copyright (C) 2010 RobotCub Consortium, European Commission FP6 Project IST-004370
+ * Copyright (C) 2011 Computer and Robot Vision Laboratory
  * Author: Ugo Pattacini, Alessandro Roncone, Plinio Moreno, Duarte Aragão
  * email:  ugo.pattacini@iit.it, alessandro.roncone@iit.it, plinio@isr.tecnico.ulisboa.pt, daragao@gmail.com
  * website: http://vislab.isr.tecnico.ulisboa.pt
@@ -46,7 +47,7 @@ Controller::Controller(PolyDriver *_drvTorso, PolyDriver *_drvHead, ExchangeData
     // release links
     neck->releaseLink(0); eyeL->releaseLink(0); eyeR->releaseLink(0);
     neck->releaseLink(1); eyeL->releaseLink(1); eyeR->releaseLink(1);
-    /*neck->releaseLink(2);*/ eyeL->releaseLink(2); eyeR->releaseLink(2);
+    eyeL->releaseLink(2); eyeR->releaseLink(2);
 
     // Get the chain objects
     chainNeck=neck->asChain();
@@ -126,7 +127,7 @@ Controller::Controller(PolyDriver *_drvTorso, PolyDriver *_drvHead, ExchangeData
     mjCtrlNeck=new minJerkVelCtrlForIdealPlant(Ts,fbNeck.length());
     mjCtrlEyes=new minJerkVelCtrlForIdealPlant(Ts,fbEyes.length());
     IntState=new Integrator(Ts,fbHead,lim);
-    IntPlan=new Integrator(Ts,fbNeck,lim.submatrix(1,2,0,1));//Needs to be checked!!!
+    IntPlan=new Integrator(Ts,fbNeck,lim.submatrix(1,2,0,1));
     IntStabilizer=new Integrator(Ts,zeros(vNeck.length()));
 
     neckJoints.resize(2);
@@ -864,7 +865,6 @@ void Controller::run()
         if (commData->neckPosCtrlOn)
         {
             posdeg=(CTRL_RAD2DEG)*IntPlan->get();
-            //yInfo("Curr neck 0 %f, 1 %f",posdeg.data()[0],posdeg.data()[1]);
             posNeck->setPositions(neckJoints.size(),neckJoints.getFirst(),posdeg.data());
             velHead->velocityMove(eyesJoints.size(),eyesJoints.getFirst(),vdeg.subVector(2,4).data());
         }

@@ -1,5 +1,6 @@
 /* 
  * Copyright (C) 2010 RobotCub Consortium, European Commission FP6 Project IST-004370
+ * Copyright (C) 2011 Computer and Robot Vision Laboratory
  * Author: Ugo Pattacini, Alessandro Roncone, Plinio Moreno, Duarte Aragão
  * email:  ugo.pattacini@iit.it, alessandro.roncone@iit.it, plinio@isr.tecnico.ulisboa.pt, daragao@gmail.com
  * website: http://vislab.isr.tecnico.ulisboa.pt

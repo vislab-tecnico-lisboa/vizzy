@@ -1,5 +1,6 @@
 /* 
  * Copyright (C) 2010 RobotCub Consortium, European Commission FP6 Project IST-004370
+ * Copyright (C) 2011 Computer and Robot Vision Laboratory
  * Author: Ugo Pattacini, Alessandro Roncone, Plinio Moreno, Duarte Aragão
  * email:  ugo.pattacini@iit.it, alessandro.roncone@iit.it, plinio@isr.tecnico.ulisboa.pt, daragao@gmail.com
  * website: http://vislab.isr.tecnico.ulisboa.pt
@@ -157,13 +158,10 @@ public:
     // Returns a measure of neck angle required to reach the target
     double neckTargetRotAngle(const Vector &xd);
     void   bindNeckPitch(const double min_deg, const double max_deg);
-    //void   bindNeckRoll(const double min_deg, const double max_deg);
     void   bindNeckYaw(const double min_deg, const double max_deg);
     void   getCurNeckPitchRange(double &min_deg, double &max_deg);
-    //void   getCurNeckRollRange(double &min_deg, double &max_deg);
     void   getCurNeckYawRange(double &min_deg, double &max_deg);
     void   clearNeckPitch();
-    //void   clearNeckRoll();
     void   clearNeckYaw();
     double getNeckAngleUserTolerance() const;
     void   setNeckAngleUserTolerance(const double angle);    
