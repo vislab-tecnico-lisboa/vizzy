@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2010 RobotCub Consortium, European Commission FP6 Project IST-004370
- * Author: Ugo Pattacini, Alessandro Roncone
- * email:  ugo.pattacini@iit.it, alessandro.roncone@iit.it
- * website: www.robotcub.org
+ * Author: Ugo Pattacini, Alessandro Roncone, Plinio Moreno, Duarte Aragão
+ * email:  ugo.pattacini@iit.it, alessandro.roncone@iit.it, plinio@isr.tecnico.ulisboa.pt, daragao@gmail.com
+ * website: http://vislab.isr.tecnico.ulisboa.pt
  * Permission is granted to copy, distribute, and/or modify this program
  * under the terms of the GNU General Public License, version 2 or any
  * later version published by the Free Software Foundation.
@@ -25,7 +25,7 @@ Gaze controller based on iKin.
 
 Copyright (C) 2010 RobotCub Consortium
 
-Authors: Ugo Pattacini, Alessandro Roncone
+Authors: Ugo Pattacini, Alessandro Roncone, Plinio Moreno, Duarte Aragão
 
 CopyPolicy: Released under the terms of the GNU GPL v2.0.
 
@@ -556,7 +556,7 @@ HN (0.0 1.0 2.0 ... 15.0)  // list of 4x4 doubles (per rows)
 \section tested_os_sec Tested OS
 Windows, Linux
 
-\author Ugo Pattacini, Alessandro Roncone
+\author Ugo Pattacini, Alessandro Roncone, Plinio Moreno, Duarte Aragão
 */
 
 #include <cmath>
