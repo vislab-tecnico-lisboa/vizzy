@@ -12,8 +12,6 @@ MimicPlugin::MimicPlugin():  ModelPlugin()
 
 MimicPlugin::~MimicPlugin()
 {
-    event::Events::DisconnectWorldUpdateBegin(this->updateConnection);
-
     kill_sim = true;
 }
 
