@@ -40,13 +40,19 @@
         </geometry>
       </visual>
       <collision>
-        <origin
-          xyz="0 0 0"
-          rpy="0 0 0" />
-        <geometry>
-          <mesh
-            filename="package://vizzy_description/meshes/hand/r_hand_base_link.STL" />
-        </geometry>
+        <xacro:if value="$(arg use_full_gazebo_model)">
+          <origin xyz="0 0 0" rpy="0 0 0" />
+          <geometry>
+            <mesh
+              filename="package://vizzy_description/meshes/hand/r_hand_base_link.STL" />
+          </geometry>
+        </xacro:if>
+        <xacro:unless value="$(arg use_full_gazebo_model)">
+          <origin xyz="0 -0.0134 0" rpy="0 0 0" />
+          <geometry>
+            <box size="0.090 0.030 0.085"/>
+          </geometry>
+        </xacro:unless>
       </collision>
     </link>
     <joint
@@ -89,13 +95,21 @@
         </geometry>
       </visual>
       <collision>
-        <origin
-          xyz="0 0 0"
-          rpy="0 0 0" />
-        <geometry>
-          <mesh
-            filename="package://vizzy_description/meshes/hand/r_min_phal_1_link.STL" />
-        </geometry>
+        <xacro:if value="$(arg use_full_gazebo_model)">
+          <origin
+            xyz="0 0 0"
+            rpy="0 0 0" />
+          <geometry>
+            <mesh
+              filename="package://vizzy_description/meshes/hand/r_min_phal_1_link.STL" />
+          </geometry>
+        </xacro:if>
+        <xacro:unless value="$(arg use_full_gazebo_model)">
+          <origin xyz="-0.0176 0 0" rpy="0 0 0" />
+          <geometry>
+            <box size="0.0445 0.014 0.014"/>
+          </geometry>
+        </xacro:unless>
       </collision>
     </link>
     <joint
@@ -195,13 +209,21 @@
         </geometry>
       </visual>
       <collision>
-        <origin
-          xyz="0 0 0"
-          rpy="0 0 0" />
-        <geometry>
-          <mesh
-            filename="package://vizzy_description/meshes/hand/r_min_phal_2_link.STL" />
-        </geometry>
+        <xacro:if value="$(arg use_full_gazebo_model)">
+          <origin
+            xyz="0 0 0"
+            rpy="0 0 0" />
+          <geometry>
+            <mesh
+              filename="package://vizzy_description/meshes/hand/r_min_phal_2_link.STL" />
+          </geometry>
+        </xacro:if>
+        <xacro:unless value="$(arg use_full_gazebo_model)">
+          <origin xyz="-0.0145 0 0" rpy="0 0 0" />
+          <geometry>
+            <box size="0.0380 0.014 0.014"/>
+          </geometry>
+        </xacro:unless>
       </collision>
     </link>
     <joint
@@ -301,13 +323,21 @@
         </geometry>
       </visual>
       <collision>
-        <origin
-          xyz="0 0 0"
-          rpy="0 0 0" />
-        <geometry>
-          <mesh
-            filename="package://vizzy_description/meshes/hand/r_min_phal_3_link.STL" />
-        </geometry>
+        <xacro:if value="$(arg use_full_gazebo_model)">
+          <origin
+            xyz="0 0 0"
+            rpy="0 0 0" />
+          <geometry>
+            <mesh
+              filename="package://vizzy_description/meshes/hand/r_min_phal_3_link.STL" />
+          </geometry>
+        </xacro:if>
+        <xacro:unless value="$(arg use_full_gazebo_model)">
+          <origin xyz="-0.010 0 0" rpy="0 0 0" />
+          <geometry>
+            <box size="0.029 0.014 0.014"/>
+          </geometry>
+        </xacro:unless>
       </collision>
     </link>
     <joint
@@ -407,13 +437,21 @@
         </geometry>
       </visual>
       <collision>
-        <origin
-          xyz="0 0 0"
-          rpy="0 0 0" />
-        <geometry>
-          <mesh
-            filename="package://vizzy_description/meshes/hand/r_med_phal_1_link.STL" />
-        </geometry>
+        <xacro:if value="$(arg use_full_gazebo_model)">
+          <origin
+            xyz="0 0 0"
+            rpy="0 0 0" />
+          <geometry>
+            <mesh
+              filename="package://vizzy_description/meshes/hand/r_med_phal_1_link.STL" />
+          </geometry>
+        </xacro:if>
+        <xacro:unless value="$(arg use_full_gazebo_model)">
+          <origin xyz="-0.0176 0 0" rpy="0 0 0" />
+          <geometry>
+            <box size="0.0445 0.014 0.014"/>
+          </geometry>
+        </xacro:unless>
       </collision>
     </link>
     <joint
@@ -513,13 +551,21 @@
         </geometry>
       </visual>
       <collision>
-        <origin
-          xyz="0 0 0"
-          rpy="0 0 0" />
-        <geometry>
-          <mesh
-            filename="package://vizzy_description/meshes/hand/r_med_phal_2_link.STL" />
-        </geometry>
+        <xacro:if value="$(arg use_full_gazebo_model)">
+          <origin
+            xyz="0 0 0"
+            rpy="0 0 0" />
+          <geometry>
+            <mesh
+              filename="package://vizzy_description/meshes/hand/r_med_phal_2_link.STL" />
+          </geometry>
+        </xacro:if>
+        <xacro:unless value="$(arg use_full_gazebo_model)">
+          <origin xyz="-0.0145 0 0" rpy="0 0 0" />
+          <geometry>
+            <box size="0.0380 0.014 0.014"/>
+          </geometry>
+        </xacro:unless>
       </collision>
     </link>
     <joint
@@ -619,13 +665,21 @@
         </geometry>
       </visual>
       <collision>
-        <origin
-          xyz="0 0 0"
-          rpy="0 0 0" />
-        <geometry>
-          <mesh
-            filename="package://vizzy_description/meshes/hand/r_med_phal_3_link.STL" />
-        </geometry>
+        <xacro:if value="$(arg use_full_gazebo_model)">
+          <origin
+            xyz="0 0 0"
+            rpy="0 0 0" />
+          <geometry>
+            <mesh
+              filename="package://vizzy_description/meshes/hand/r_med_phal_3_link.STL" />
+          </geometry>
+        </xacro:if>
+        <xacro:unless value="$(arg use_full_gazebo_model)">
+          <origin xyz="-0.010 0 0" rpy="0 0 0" />
+          <geometry>
+            <box size="0.029 0.014 0.014"/>
+          </geometry>
+        </xacro:unless>
       </collision>
     </link>
     <joint
@@ -725,13 +779,21 @@
         </geometry>
       </visual>
       <collision>
-        <origin
-          xyz="0 0 0"
-          rpy="0 0 0" />
-        <geometry>
-          <mesh
-            filename="package://vizzy_description/meshes/hand/r_ind_phal_1_link.STL" />
-        </geometry>
+        <xacro:if value="$(arg use_full_gazebo_model)">
+          <origin
+            xyz="0 0 0"
+            rpy="0 0 0" />
+          <geometry>
+            <mesh
+              filename="package://vizzy_description/meshes/hand/r_ind_phal_1_link.STL" />
+          </geometry>
+        </xacro:if>
+        <xacro:unless value="$(arg use_full_gazebo_model)">
+          <origin xyz="-0.0176 0 0" rpy="0 0 0" />
+          <geometry>
+            <box size="0.0445 0.014 0.014"/>
+          </geometry>
+        </xacro:unless>
       </collision>
     </link>
     <joint
@@ -831,13 +893,21 @@
         </geometry>
       </visual>
       <collision>
-        <origin
-          xyz="0 0 0"
-          rpy="0 0 0" />
-        <geometry>
-          <mesh
-            filename="package://vizzy_description/meshes/hand/r_ind_phal_2_link.STL" />
-        </geometry>
+        <xacro:if value="$(arg use_full_gazebo_model)">
+          <origin
+            xyz="0 0 0"
+            rpy="0 0 0" />
+          <geometry>
+            <mesh
+              filename="package://vizzy_description/meshes/hand/r_ind_phal_2_link.STL" />
+          </geometry>
+        </xacro:if>
+        <xacro:unless value="$(arg use_full_gazebo_model)">
+          <origin xyz="-0.0145 0 0" rpy="0 0 0" />
+          <geometry>
+            <box size="0.0380 0.014 0.014"/>
+          </geometry>
+        </xacro:unless>
       </collision>
     </link>
     <joint
@@ -937,13 +1007,21 @@
         </geometry>
       </visual>
       <collision>
-        <origin
-          xyz="0 0 0"
-          rpy="0 0 0" />
-        <geometry>
-          <mesh
-            filename="package://vizzy_description/meshes/hand/r_ind_phal_3_link.STL" />
-        </geometry>
+        <xacro:if value="$(arg use_full_gazebo_model)">
+          <origin
+            xyz="0 0 0"
+            rpy="0 0 0" />
+          <geometry>
+            <mesh
+              filename="package://vizzy_description/meshes/hand/r_ind_phal_3_link.STL" />
+          </geometry>
+        </xacro:if>
+        <xacro:unless value="$(arg use_full_gazebo_model)">
+          <origin xyz="-0.010 0 0" rpy="0 0 0" />
+          <geometry>
+            <box size="0.029 0.014 0.014"/>
+          </geometry>
+        </xacro:unless>
       </collision>
     </link>
     <joint
@@ -1043,13 +1121,21 @@
         </geometry>
       </visual>
       <collision>
-        <origin
-          xyz="0 0 0"
-          rpy="0 0 0" />
-        <geometry>
-          <mesh
-            filename="package://vizzy_description/meshes/hand/r_thumb_phal_1_link.STL" />
-        </geometry>
+        <xacro:if value="$(arg use_full_gazebo_model)">
+          <origin
+            xyz="0 0 0"
+            rpy="0 0 0" />
+          <geometry>
+            <mesh
+              filename="package://vizzy_description/meshes/hand/r_thumb_phal_1_link.STL" />
+          </geometry>
+        </xacro:if>
+        <xacro:unless value="$(arg use_full_gazebo_model)">
+          <origin xyz="-0.00326 0 0" rpy="0 0 0" />
+          <geometry>
+            <box size="0.01551 0.014 0.014"/>
+          </geometry>
+        </xacro:unless>
       </collision>
     </link>
     <joint
@@ -1096,13 +1182,22 @@
         </geometry>
       </visual>
       <collision>
-        <origin
-          xyz="0 0 0"
-          rpy="0 0 0" />
-        <geometry>
-          <mesh
-            filename="package://vizzy_description/meshes/hand/r_thumb_phal_1_link_fix.STL" />
-        </geometry>
+        <xacro:if value="$(arg use_full_gazebo_model)">
+          <origin
+            xyz="0 0 0"
+            rpy="0 0 0" />
+          <geometry>
+            <mesh
+              filename="package://vizzy_description/meshes/hand/r_thumb_phal_1_link_fix.STL" />
+          </geometry>
+        </xacro:if>
+        <xacro:unless value="$(arg use_full_gazebo_model)">
+          <!-- TODO -->
+          <origin xyz="0 0 0.003" rpy="0 ${M_PI/2} 0" />
+          <geometry>
+            <box size="0.01852 0.014 0.014"/>
+          </geometry>
+        </xacro:unless>
       </collision>
     </link>
     <joint
@@ -1144,13 +1239,21 @@
         </geometry>
       </visual>
       <collision>
-        <origin
-          xyz="0 0 0"
-          rpy="0 0 0" />
-        <geometry>
-          <mesh
-            filename="package://vizzy_description/meshes/hand/r_thumb_phal_2_link.STL" />
-        </geometry>
+        <xacro:if value="$(arg use_full_gazebo_model)">
+          <origin
+            xyz="0 0 0"
+            rpy="0 0 0" />
+          <geometry>
+            <mesh
+              filename="package://vizzy_description/meshes/hand/r_thumb_phal_2_link.STL" />
+          </geometry>
+        </xacro:if>
+        <xacro:unless value="$(arg use_full_gazebo_model)">
+          <origin xyz="-0.01775 0 0" rpy="0 0 0" />
+          <geometry>
+            <box size="0.0445 0.014 0.014"/>
+          </geometry>
+        </xacro:unless>
       </collision>
     </link>
     <joint
@@ -1250,20 +1353,28 @@
         </geometry>
       </visual>
       <collision>
-        <origin
-          xyz="0 0 0"
-          rpy="0 0 0" />
-        <geometry>
-          <mesh
-            filename="package://vizzy_description/meshes/hand/r_thumb_phal_3_link.STL" />
-        </geometry>
+        <xacro:if value="$(arg use_full_gazebo_model)">
+          <origin
+            xyz="0 0 0"
+            rpy="0 0 0" />
+          <geometry>
+            <mesh
+              filename="package://vizzy_description/meshes/hand/r_thumb_phal_3_link.STL" />
+          </geometry>
+        </xacro:if>
+        <xacro:unless value="$(arg use_full_gazebo_model)">
+          <origin xyz="-0.010 0 0" rpy="0 0 0" />
+          <geometry>
+            <box size="0.029 0.014 0.014"/>
+          </geometry>
+        </xacro:unless>
       </collision>
     </link>
     <joint
       name="r_thumb_phal_3_joint"
       type="revolute">
       <origin
-        xyz="-0.0332692 0 0"
+        xyz="-0.03300 0 0"
         rpy="0 0 0" />
       <parent
         link="r_thumb_phal_2_link" />

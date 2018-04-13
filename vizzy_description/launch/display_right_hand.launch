@@ -9,7 +9,7 @@
   <!-- Load the URDF into the ROS Parameter Server -->
   <param
     name="robot_description"
-    command="$(find xacro)/xacro --inorder $(find vizzy_description)/robots/vizzy_hand_only.urdf.xacro" />
+    command="$(find xacro)/xacro --inorder $(find vizzy_description)/robots/vizzy_hand_only.urdf.xacro use_full_gazebo_model:=false" />
   
   <param
     name="use_gui"
