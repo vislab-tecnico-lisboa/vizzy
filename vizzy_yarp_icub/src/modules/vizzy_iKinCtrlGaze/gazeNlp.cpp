@@ -218,8 +218,8 @@ void vizzyHeadCenter::allocate(const string &_type,const string &_root_link)
     blockLink(0,0.0);   // block the torso link
 #else
     pushLink(new iKinLink(    0.0,   0.0, M_PI/2.0,  0.0, -20.0*CTRL_DEG2RAD, 20.0*CTRL_DEG2RAD));
-    pushLink(new iKinLink(    0.0, -0.37, M_PI/2.0,  0.0, -53.0*CTRL_DEG2RAD, 53.0*CTRL_DEG2RAD));
-    pushLink(new iKinLink(0.13221,   0.0,     M_PI, M_PI, -18.0*CTRL_DEG2RAD, 37.0*CTRL_DEG2RAD));
+    pushLink(new iKinLink(    0.0, -0.42, M_PI/2.0,  0.0, -53.0*CTRL_DEG2RAD, 53.0*CTRL_DEG2RAD));
+    pushLink(new iKinLink(0.116,   0.0,     M_PI, M_PI, -18.0*CTRL_DEG2RAD, 37.0*CTRL_DEG2RAD));
     pushLink(new iKinLink(    0.0,   0.0,      0.0,  0.0, -38.0*CTRL_DEG2RAD, 18.0*CTRL_DEG2RAD));
     pushLink(new iKinLink(    0.0,   0.0,      0.0,  0.0, -38.0*CTRL_DEG2RAD, 38.0*CTRL_DEG2RAD));
 
