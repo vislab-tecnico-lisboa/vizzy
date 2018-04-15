@@ -304,6 +304,7 @@ void Controller::run()
 {
     // verify if any saccade is still underway
     mutexCtrl.wait();
+    if (Robotable){
     modHead->setControlMode(0,VOCAB_CM_VELOCITY);
     modHead->setControlMode(1,VOCAB_CM_VELOCITY);
     modHead->setControlMode(2,VOCAB_CM_VELOCITY);
@@ -321,6 +322,7 @@ void Controller::run()
             posHead->checkMotionDone(4,&verDone);
 
         commData->get_isSaccadeUnderway()=!(tiltDone&&panDone&&verDone);
+    }
     }
     mutexCtrl.post();
     
