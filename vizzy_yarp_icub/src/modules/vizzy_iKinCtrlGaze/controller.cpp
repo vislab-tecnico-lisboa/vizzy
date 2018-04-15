@@ -273,10 +273,9 @@ void Controller::doSaccade(Vector &ang, Vector &vel)
     posHead->setRefSpeed(4,CTRL_RAD2DEG*vel[2]);
 
     // enforce joints bounds
-    ang[0]=std::min(std::max(lim(3,0),ang[0]),lim(3,1));
-    ang[1]=std::min(std::max(lim(4,0),ang[1]),lim(4,1));
-    ang[2]=std::min(std::max(lim(5,0),ang[2]),lim(5,1));
-
+    ang[0]=std::min(std::max(lim(2,0),ang[0]),lim(2,1));
+    ang[1]=std::min(std::max(lim(3,0),ang[1]),lim(3,1));
+    ang[2]=std::min(std::max(lim(4,0),ang[2]),lim(4,1));
     posHead->positionMove(2,CTRL_RAD2DEG*ang[0]);
     posHead->positionMove(3,CTRL_RAD2DEG*ang[1]);
     posHead->positionMove(4,CTRL_RAD2DEG*ang[2]);
