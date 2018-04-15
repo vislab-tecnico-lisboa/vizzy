@@ -12,9 +12,11 @@ add_executable(readAndWriteTopicsTest ReadAndWriteTopicsTest.cpp)
 add_executable(fixationPointActionBridge FixationPointRosAction.cpp)
 add_executable(fixationPointStatusBridge FixationPointRosStatus.cpp)
 add_executable(ballPointBridge ParticleFilterBallPointRos.cpp)
+add_executable(gazeSimulationBridge gazesimulationbridge.cpp)
 
 # link with YARP libraries
 target_link_libraries(readAndWriteTopicsTest ${YARP_LIBRARIES})
 target_link_libraries(fixationPointActionBridge ${YARP_LIBRARIES})
 target_link_libraries(fixationPointStatusBridge ${YARP_LIBRARIES})
 target_link_libraries(ballPointBridge ${YARP_LIBRARIES})
+target_link_libraries(gazeSimulationBridge ${YARP_LIBRARIES})

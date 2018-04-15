@@ -36,7 +36,7 @@
   <arg name="rviz" default="true"/>
 
   <!-- MoveIt! planner -->
-  <arg name="moveit" default="false"/>
+  <arg name="moveit" default="true"/>
 
   <!-- Teleop -->
   <arg name="teleop" default="false"/>
@@ -76,6 +76,10 @@
   <!-- Gaze depends on MoveIt! -->
   <arg     if="$(arg moveit)" name="launch_gaze" value="true"/>
   <arg unless="$(arg moveit)" name="launch_gaze" value="false"/>
+
+  <!-- Gaze in simulation with yarp runs like the real robot! -->
+  <arg     if="$(arg use_yarp)" name="launch_gaze_yarp" value="true"/>
+  <arg unless="$(arg use_yarp)" name="launch_gaze_yarp" value="false"/>
 
   <!-- Launch gazebo -->
   <include file="$(find vizzy_gazebo)/launch/gazebo.launch">
@@ -162,11 +166,21 @@
   
   <!-- Launch gaze action (needs MoveIt!) -->
   <group if="$(arg launch_gaze)">
+    <group if="$(arg launch_gaze_yarp)">
     <include file="$(find vizzy_control)/launch/gaze.launch">
-      <arg name="simulation" value="$(arg simulation)"/>
+      <arg name="simulation" value="false"/>
+      <arg name="config_file" value="$(arg vizzy_control_config_file)"/>
+      <arg name="fixation_point_in" value="$(arg fixation_point_in)"/>
+      <arg name="fixation_point_out" default="fixation_point_goal_ros"/>
+    </include>
+    </group>
+    <group unless="$(arg launch_gaze_yarp)">
+    <include file="$(find vizzy_control)/launch/gaze.launch">
+      <arg name="simulation" value="true"/>
       <arg name="config_file" value="$(arg vizzy_control_config_file)"/>
       <arg name="fixation_point_in" value="$(arg fixation_point_in)"/>
     </include>
+    </group>
   </group>
 
   <!-- TODO: Why is this necessary? -->
@@ -185,3 +199,4 @@
   </group>
 
 </launch>
+
