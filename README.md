@@ -24,13 +24,13 @@ Note that for simulation purposes one can ignore all YARP dependencies as explai
 
 * Operating System (one of the two)
   * [Ubuntu 12.04](http://releases.ubuntu.com/12.04/) - Deprecated !!! forces the user to install ROS Hydro that currently is able to run everything
-  * [Ubuntu 14.04](http://releases.ubuntu.com/14.04/) - forces the user to install [ROS Indigo](http://wiki.ros.org/indigo/Installation/Ubuntu) that is the fully functional and currently supported version
-  * [Ubuntu 16.04](http://releases.ubuntu.com/16.04/) - We are currently in the process of migrating to Ubuntu 16.04 and ROS Kinetic-Kame
+  * [Ubuntu 14.04](http://releases.ubuntu.com/14.04/) - Deprecated !! forces the user to install [ROS Indigo](http://wiki.ros.org/indigo/Installation/Ubuntu) that is the fully functional and currently supported version
+  * [Ubuntu 16.04](http://releases.ubuntu.com/16.04/) - Currently supported version, Ubuntu 16.04 and ROS Kinetic-Kame
 * Middleware
   * [ROS](http://www.ros.org/) - depending on the installed OS (Hydro for Ubuntu 12.04, Indigo for Ubuntu 14.04 or Kinetic for 16.04)
   * [YARP](http://wiki.icub.org/yarpdoc/) - we try to keep everything working with the most recent version of YARP
 * Other Dependencies
-  * [GAZEBO](http://gazebosim.org/) - It needs GAZEBO 5 to run the gazebo-yarp-plugins. Currently tested in Gazebo 7.
+  * [GAZEBO](http://gazebosim.org/) - It needs GAZEBO greather or equal than 5 to run the gazebo-yarp-plugins. Currently tested in Gazebo 7 and 9 as well.
   * [gazebo-yarp-plugins](https://github.com/robotology/gazebo-yarp-plugins) - we try to keep everything working with the most recent version of gazebo-yarp-plugins
 
 At any time you might need to install some more specific dependencies (like some missing ROS packages). Please open an issue in case you can't solve these or other dependencies.
@@ -83,6 +83,7 @@ Other dependencies needed (in a convenient one-liner)
     
     version=kinetic &&
     sudo apt install ros-$version-gazebo-* &&
+    sudo apt install ros-$version-image-proc &&
     sudo apt install ros-$version-moveit-* &&
     sudo apt install ros-$version-move-base &&
     sudo apt install ros-$version-amcl &&
@@ -118,7 +119,7 @@ For now let's focus on simulation. Open a terminal:
 
     roslaunch vizzy_launch vizzy_simulation.launch
 
-This configuration starts Vizzy in the ROS-mode, meaning that all the controllers are emulated using ROS. This configuration works only with Gazebo 2.x and ROS indigo (The default install procedure of ROS indigo)
+This configuration starts Vizzy in the ROS-mode, meaning that all the controllers are emulated using ROS. This configuration works with Gazebo 7.x and ROS kinetic (The default install procedure of ROS kinetic) and also with Gazebo 9 and ROS kinetic
 
 The upper body controllers simulated by the [gazebo-yarp-plugins](https://github.com/robotology/gazebo-yarp-plugins) can be started by
 
