@@ -63,7 +63,7 @@
       <xacro:property name="detailed_hand" value="true"/>
     </xacro:if>
     <xacro:unless value="$(arg use_full_hand_model)">
-      <xacro:property name="detailed_hand" value="true"/>
+      <xacro:property name="detailed_hand" value="false"/>
     </xacro:unless>
 
     <!-- Shoulder scapula -->
