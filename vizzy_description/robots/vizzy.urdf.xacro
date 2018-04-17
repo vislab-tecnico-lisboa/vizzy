@@ -4,6 +4,8 @@
   <!-- Load Yarp plugins for real robot execution -->
   <xacro:arg name="use_yarp" default="false"/>
 
+  <!-- Load full inertial and collision model or a simplified model -->
+  <xacro:arg name="use_full_gazebo_model" default="false"/>
   <!-- Load a fully detailed hand model with properly modeled links and joints -->
   <xacro:arg name="use_full_hand_model" default="false"/>
   <!-- Disable laser sensors -->
