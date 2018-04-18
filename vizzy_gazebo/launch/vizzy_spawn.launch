@@ -6,6 +6,7 @@
   <arg name="urdf_file" default="vizzy.urdf.xacro"/>
   <arg name="use_yarp" default="false"/>
   <arg name="use_full_gazebo_model" default="false"/>
+  <arg name="use_full_hand_model" default="false"/>
 
   <arg name="disable_laser" default="false"/>
   <arg name="disable_3d_sensor" default="false"/>
@@ -14,6 +15,7 @@
   <param name="robot_description" command="$(find xacro)/xacro --inorder $(find vizzy_description)/robots/$(arg urdf_file)
     use_yarp:=$(arg use_yarp)
     use_full_gazebo_model:=$(arg use_full_gazebo_model)
+    use_full_hand_model:=$(arg use_full_hand_model)
     disable_laser:=$(arg disable_laser)
     disable_3d_sensor:=$(arg disable_3d_sensor)"/>
 

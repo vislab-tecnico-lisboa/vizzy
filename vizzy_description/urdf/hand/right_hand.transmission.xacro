@@ -6,7 +6,7 @@
   
   <xacro:macro name="right_hand_transmissions">
 
-    <transmission name="r_min_phal_1_transmission">
+  	<transmission name="r_min_phal_1_transmission">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="r_min_phal_1_joint">
         <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
@@ -47,7 +47,6 @@
       </actuator>
     </transmission>
 
-
     <transmission name="r_ind_phal_1_transmission">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="r_ind_phal_1_joint">
@@ -77,8 +76,6 @@
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
-
-
 
     <transmission name="r_thumb_phal_1_transmission">
       <type>transmission_interface/SimpleTransmission</type>
@@ -110,17 +107,6 @@
       </actuator>
     </transmission>
 
-    <transmission name="r_thumb_phal_4_transmission">
-      <type>transmission_interface/SimpleTransmission</type>
-      <joint name="r_thumb_phal_4_joint">
-        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
-      </joint>
-      <actuator name="r_thumb_phal_4_motor">
-        <mechanicalReduction>1</mechanicalReduction>
-      </actuator>
-    </transmission>
-
   </xacro:macro>
 
 </robot>
-

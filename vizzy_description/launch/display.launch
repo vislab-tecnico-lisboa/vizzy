@@ -8,8 +8,8 @@
 
   <!-- Load the URDF into the ROS Parameter Server -->
   <param name="robot_description"
-		command="$(find xacro)/xacro --inorder $(find vizzy_description)/robots/vizzy.urdf.xacro use_yarp:=true"/>
-	 
+    command="$(find xacro)/xacro --inorder $(find vizzy_description)/robots/vizzy.urdf.xacro use_yarp:=true"/>
+   
   <!-- Use graphical interface to set the joints positions --> 
   <param
     name="use_gui"
@@ -31,4 +31,5 @@
     pkg="rviz"
     type="rviz"
     args="-d $(arg config_file)"/>
+
 </launch>
