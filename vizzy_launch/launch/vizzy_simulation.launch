@@ -44,7 +44,7 @@
   <arg name="teleop" default="false"/>
 
   <!-- Navigation -->
-  <arg name="navigation" default="false"/>
+  <arg name="navigation" default="true"/>
   <arg name="map_topic" default="/map"/>
   <arg name="map_file" default="isr_7th_floor_simulation.yaml"/>
   <!-- Provide a map with previously acquired obstacles -->
@@ -59,7 +59,7 @@
 
   <!-- Robot capabilities -->
   <arg name="disable_3d_sensor" default="false"/>
-  
+
   <!-- Gaze action -->
   <arg name="vizzy_control_config_file" default="$(find vizzy_control)/config/frames.yaml"/>
   <arg name="fixation_point_in" default="fixation_point"/>
@@ -68,7 +68,7 @@
   <arg name="twist2nav2d" default="false"/>
 
   <!-- Derived parameters -->
-  
+
   <!-- Disable laser sensors -->
   <arg     if="$(arg navigation)" name="disable_laser" default="false"/>
   <arg unless="$(arg navigation)" name="disable_laser" default="true"/>
@@ -166,7 +166,7 @@
   <group if="$(arg moveit)">
     <include file="$(find vizzy_moveit_config)/launch/moveit.launch"/>
   </group>
-  
+
   <!-- Launch gaze action (needs MoveIt!) -->
   <group if="$(arg launch_gaze)">
     <group if="$(arg launch_gaze_yarp)">
@@ -202,4 +202,3 @@
   </group>
 
 </launch>
-
