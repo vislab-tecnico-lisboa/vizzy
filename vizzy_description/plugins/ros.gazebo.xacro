@@ -18,7 +18,7 @@
         filename="libgazebo_ros_diff_drive.so">
         <leftJoint>r_wheel_joint</leftJoint> <!-- SWITCHED ON PURPOSE - TODO: FIND WHY right and left wheels have to be switch for the plugin to work properly-->
         <rightJoint>l_wheel_joint</rightJoint>
-        <wheelSeparation>0.4580</wheelSeparation>
+        <wheelSeparation>0.5380</wheelSeparation>
         <wheelDiameter>0.39628</wheelDiameter>
         <torque>20</torque>
         <legacyMode>true</legacyMode>
