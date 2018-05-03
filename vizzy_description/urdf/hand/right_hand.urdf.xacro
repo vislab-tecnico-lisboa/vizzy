@@ -7,6 +7,8 @@
   <!-- Load full inertial and collision model or a simplified model -->
   <xacro:arg name="use_full_gazebo_model" default="false"/>
 
+  <xacro:include filename="$(find vizzy_description)/urdf/hand/right_hand.transmission.xacro" />
+
   <!-- Define xacro macro -->
   <xacro:macro name="right_hand" params="parent">
 
@@ -133,8 +135,8 @@
       <limit
         lower="0"
         upper="1.57"
-        effort="0"
-        velocity="0" />
+        effort="10.6"
+        velocity="1.6" />
     </joint>
     <link
       name="r_min_phal_1_link_fix">
@@ -261,8 +263,8 @@
       <limit
         lower="0"
         upper="1.57"
-        effort="0"
-        velocity="0" />
+        effort="10.6"
+        velocity="1.6" />
     </joint>
     <link
       name="r_min_phal_2_link_fix">
@@ -389,8 +391,8 @@
       <limit
         lower="0"
         upper="1.57"
-        effort="0"
-        velocity="0" />
+        effort="10.6"
+        velocity="1.6" />
     </joint>
     <link
       name="r_min_phal_3_link_fix">
@@ -517,8 +519,8 @@
       <limit
         lower="0"
         upper="1.57"
-        effort="0"
-        velocity="0" />
+        effort="10.6"
+        velocity="1.6" />
     </joint>
     <link
       name="r_med_phal_1_link_fix">
@@ -645,8 +647,8 @@
       <limit
         lower="0"
         upper="1.57"
-        effort="0"
-        velocity="0" />
+        effort="10.6"
+        velocity="1.6" />
     </joint>
     <link
       name="r_med_phal_2_link_fix">
@@ -773,8 +775,8 @@
       <limit
         lower="0"
         upper="1.57"
-        effort="0"
-        velocity="0" />
+        effort="10.6"
+        velocity="1.6" />
     </joint>
     <link
       name="r_med_phal_3_link_fix">
@@ -901,8 +903,8 @@
       <limit
         lower="0"
         upper="1.57"
-        effort="0"
-        velocity="0" />
+        effort="10.6"
+        velocity="1.6" />
     </joint>
     <link
       name="r_ind_phal_1_link_fix">
@@ -1029,8 +1031,8 @@
       <limit
         lower="0"
         upper="1.57"
-        effort="0"
-        velocity="0" />
+        effort="10.6"
+        velocity="1.6" />
     </joint>
     <link
       name="r_ind_phal_2_link_fix">
@@ -1157,8 +1159,8 @@
       <limit
         lower="0"
         upper="1.57"
-        effort="0"
-        velocity="0" />
+        effort="10.6"
+        velocity="1.6" />
     </joint>
     <link
       name="r_ind_phal_3_link_fix">
@@ -1285,8 +1287,8 @@
       <limit
         lower="0"
         upper="1.57"
-        effort="0"
-        velocity="0" />
+        effort="10.6"
+        velocity="1.6" />
     </joint>
     <link
       name="r_thumb_phal_1_link_fix">
@@ -1412,8 +1414,8 @@
       <limit
         lower="0"
         upper="1.57"
-        effort="0"
-        velocity="0" />
+        effort="10.6"
+        velocity="1.6" />
     </joint>
     <link
       name="r_thumb_phal_2_link_fix">
@@ -1494,8 +1496,8 @@
       <limit
         lower="0"
         upper="1.57"
-        effort="0"
-        velocity="0" />
+        effort="10.6"
+        velocity="1.6" />
     </joint>
     
     <link
@@ -1609,6 +1611,9 @@
       <axis
         xyz="0 0 0" />
     </joint>
+
+    <!-- Gazebo extensions -->
+    <xacro:right_hand_transmissions/>
 
   </xacro:macro>
 
