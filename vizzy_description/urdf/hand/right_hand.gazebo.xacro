@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
-  <!-- Instance mimic plugins for underactuated finger control -->
+  <!-- TODO: Model underactuated fingers 
+  	e.g. by instancing mimic joint plugin -->
   <xacro:macro name="right_hand_gazebo">
 
   </xacro:macro>
