@@ -120,4 +120,8 @@
     <xacro:ros_control_gazebo/>
   </xacro:unless>
 
+  <xacro:if value="$(arg use_full_hand_model)">
+    <xacro:gazebo_mimic_plugin/>
+  </xacro:if>
+
 </robot>
