@@ -48,7 +48,9 @@
   <!-- Gazebo plugins -->
 
   <!-- ROS -->
-  <xacro:include filename="$(find vizzy_description)/plugins/ros.gazebo.xacro"/>
+  <xacro:include filename="$(find vizzy_description)/plugins/ros.gazebo.xacro">
+    <xacro:arg name="use_full_hand_model" value="$(arg use_full_hand_model)"/>
+  </xacro:include>
   <!-- Yarp -->
   <xacro:include filename="$(find vizzy_description)/plugins/yarp.gazebo.xacro"/>
 
@@ -101,7 +103,6 @@
   </xacro:unless>
 
   <!-- Instantiate plugins common to ROS and Yarp -->
-
   <xacro:ros_differential_drive_gazebo/>
   <xacro:camera_plugin name="l_camera" prefix="l"/>
   <xacro:camera_plugin name="r_camera" prefix="r"/>
