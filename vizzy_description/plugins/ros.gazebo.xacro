@@ -39,6 +39,31 @@
     </gazebo>
   </xacro:macro>
 
+  <!-- Mimic plugin to model underactuated joints -->
+  <xacro:macro name="gazebo_mimic_plugin">
+    <gazebo>
+      <plugin name="hand_mimic_plugin" filename="libgazebo_mimic_plugin.so">
+        <!-- Fingers -->
+        <actuatedJoint name="r_thumb_phal_1_joint">
+          <mimicJoint name="r_thumb_phal_2_joint" multiplier="0.5" />
+          <mimicJoint name="r_thumb_phal_3_joint" multiplier="0.5" />
+        </actuatedJoint>
+        <actuatedJoint name="r_ind_phal_1_joint">
+          <mimicJoint name="r_ind_phal_2_joint" multiplier="0.5" />
+          <mimicJoint name="r_ind_phal_3_joint" multiplier="0.5" />
+        </actuatedJoint>
+        <!-- Vizzy's med and min fingers are coupled and act as one -->
+        <actuatedJoint name="r_med_phal_1_joint">
+          <mimicJoint name="r_med_phal_2_joint" multiplier="0.5" />
+          <mimicJoint name="r_med_phal_3_joint" multiplier="0.5" />
+          <mimicJoint name="r_min_phal_1_joint" multiplier="0.5" />
+          <mimicJoint name="r_min_phal_3_joint" multiplier="0.5" />
+          <mimicJoint name="r_min_phal_2_joint" multiplier="0.5" />
+        </actuatedJoint>
+      </plugin>
+    </gazebo>
+  </xacro:macro>
+
   <!-- camera plugin -->
   <xacro:macro name="camera_plugin" params="name prefix">
     <gazebo reference="${prefix}_camera_link">
