@@ -109,7 +109,7 @@
             rpy="0 0 0" />
           <geometry>
             <mesh
-              filename="package://vizzy_description/meshes/hand/r_hand/min_phal_1_link.STL" />
+              filename="package://vizzy_description/meshes/hand/r_min_phal_1_link.STL" />
           </geometry>
         </xacro:if>
         <xacro:unless value="$(arg use_full_gazebo_model)">
@@ -175,7 +175,7 @@
             rpy="0 0 0" />
           <geometry>
             <mesh
-              filename="package://vizzy_description/meshes/hand/r_hand/r_min_phal_1_link_fix.STL" />
+              filename="package://vizzy_description/meshes/hand/r_r_min_phal_1_link_fix.STL" />
           </geometry>
         </xacro:if>
         <xacro:unless value="$(arg use_full_gazebo_model)">
@@ -237,7 +237,7 @@
             rpy="0 0 0" />
           <geometry>
             <mesh
-              filename="package://vizzy_right_hand/min_phal_2_link.STL" />
+              filename="package://vizzy_description/meshes/hand/r_min_phal_2_link.STL" />
           </geometry>
         </xacro:if>
         <xacro:unless value="$(arg use_full_gazebo_model)">
@@ -303,7 +303,7 @@
             rpy="0 0 0" />
           <geometry>
             <mesh
-              filename="package://vizzy_description/meshes/hand/r_hand/r_min_phal_2_link_fix.STL" />
+              filename="package://vizzy_description/meshes/hand/r_r_min_phal_2_link_fix.STL" />
           </geometry>
         </xacro:if>
         <xacro:unless value="$(arg use_full_gazebo_model)">
@@ -431,7 +431,7 @@
             rpy="0 0 0" />
           <geometry>
             <mesh
-              filename="package://vizzy_description/meshes/hand/r_hand/r_min_phal_3_link_fix.STL" />
+              filename="package://vizzy_description/meshes/hand/r_r_min_phal_3_link_fix.STL" />
           </geometry>
         </xacro:if>
         <xacro:unless value="$(arg use_full_gazebo_model)">
@@ -493,7 +493,7 @@
             rpy="0 0 0" />
           <geometry>
             <mesh
-              filename="package://vizzy_description/meshes/hand/r_hand/med_phal_1_link.STL" />
+              filename="package://vizzy_description/meshes/hand/r_med_phal_1_link.STL" />
           </geometry>
         </xacro:if>
         <xacro:unless value="$(arg use_full_gazebo_model)">
@@ -559,7 +559,7 @@
             rpy="0 0 0" />
           <geometry>
             <mesh
-              filename="package://vizzy_description/meshes/hand/r_hand/r_med_phal_1_link_fix.STL" />
+              filename="package://vizzy_description/meshes/hand/r_r_med_phal_1_link_fix.STL" />
           </geometry>
         </xacro:if>
         <xacro:unless value="$(arg use_full_gazebo_model)">
@@ -621,7 +621,7 @@
             rpy="0 0 0" />
           <geometry>
             <mesh
-              filename="package://vizzy_right_hand/med_phal_2_link.STL" />
+              filename="package://vizzy_description/meshes/hand/r_med_phal_2_link.STL" />
           </geometry>
         </xacro:if>
         <xacro:unless value="$(arg use_full_gazebo_model)">
@@ -687,7 +687,7 @@
             rpy="0 0 0" />
           <geometry>
             <mesh
-              filename="package://vizzy_description/meshes/hand/r_hand/r_med_phal_2_link_fix.STL" />
+              filename="package://vizzy_description/meshes/hand/r_r_med_phal_2_link_fix.STL" />
           </geometry>
         </xacro:if>
         <xacro:unless value="$(arg use_full_gazebo_model)">
@@ -815,7 +815,7 @@
             rpy="0 0 0" />
           <geometry>
             <mesh
-              filename="package://vizzy_description/meshes/hand/r_hand/r_med_phal_3_link_fix.STL" />
+              filename="package://vizzy_description/meshes/hand/r_r_med_phal_3_link_fix.STL" />
           </geometry>
         </xacro:if>
         <xacro:unless value="$(arg use_full_gazebo_model)">
@@ -877,7 +877,7 @@
             rpy="0 0 0" />
           <geometry>
             <mesh
-              filename="package://vizzy_description/meshes/hand/r_hand/ind_phal_1_link.STL" />
+              filename="package://vizzy_description/meshes/hand/r_ind_phal_1_link.STL" />
           </geometry>
         </xacro:if>
         <xacro:unless value="$(arg use_full_gazebo_model)">
@@ -943,7 +943,7 @@
             rpy="0 0 0" />
           <geometry>
             <mesh
-              filename="package://vizzy_description/meshes/hand/r_hand/r_ind_phal_1_link_fix.STL" />
+              filename="package://vizzy_description/meshes/hand/r_r_ind_phal_1_link_fix.STL" />
           </geometry>
         </xacro:if>
         <xacro:unless value="$(arg use_full_gazebo_model)">
@@ -1005,7 +1005,7 @@
             rpy="0 0 0" />
           <geometry>
             <mesh
-              filename="package://vizzy_right_hand/ind_phal_2_link.STL" />
+              filename="package://vizzy_description/meshes/hand/r_ind_phal_2_link.STL" />
           </geometry>
         </xacro:if>
         <xacro:unless value="$(arg use_full_gazebo_model)">
@@ -1071,7 +1071,7 @@
             rpy="0 0 0" />
           <geometry>
             <mesh
-              filename="package://vizzy_description/meshes/hand/r_hand/r_ind_phal_2_link_fix.STL" />
+              filename="package://vizzy_description/meshes/hand/r_r_ind_phal_2_link_fix.STL" />
           </geometry>
         </xacro:if>
         <xacro:unless value="$(arg use_full_gazebo_model)">
@@ -1199,7 +1199,7 @@
             rpy="0 0 0" />
           <geometry>
             <mesh
-              filename="package://vizzy_description/meshes/hand/r_hand/r_ind_phal_3_link_fix.STL" />
+              filename="package://vizzy_description/meshes/hand/r_r_ind_phal_3_link_fix.STL" />
           </geometry>
         </xacro:if>
         <xacro:unless value="$(arg use_full_gazebo_model)">
@@ -1327,7 +1327,7 @@
             rpy="0 0 0" />
           <geometry>
             <mesh
-              filename="package://vizzy_description/meshes/hand/r_hand/thumb_phal_1_link_fix.STL" />
+              filename="package://vizzy_description/meshes/hand/r_thumb_phal_1_link_fix.STL" />
           </geometry>
         </xacro:if>
         <xacro:unless value="$(arg use_full_gazebo_model)">
@@ -1454,7 +1454,7 @@
             rpy="0 0 0" />
           <geometry>
             <mesh
-              filename="package://vizzy_description/meshes/hand/r_hand/r_thumb_phal_2_link_fix.STL" />
+              filename="package://vizzy_description/meshes/hand/r_r_thumb_phal_2_link_fix.STL" />
           </geometry>
         </xacro:if>
         <xacro:unless value="$(arg use_full_gazebo_model)">
@@ -1586,7 +1586,7 @@
             rpy="0 0 0" />
           <geometry>
             <mesh
-              filename="package://vizzy_description/meshes/hand/r_hand/r_thumb_phal_3_link_fix.STL" />
+              filename="package://vizzy_description/meshes/hand/r_r_thumb_phal_3_link_fix.STL" />
           </geometry>
         </xacro:if>
         <xacro:unless value="$(arg use_full_gazebo_model)">
