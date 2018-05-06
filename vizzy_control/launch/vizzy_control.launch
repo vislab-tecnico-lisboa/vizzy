@@ -6,18 +6,9 @@
 
     <!-- Only launch hand controllers if full hand is loaded -->
     <arg if="$(arg use_full_hand_model)" name="launch_hand_controllers" 
-      value="r_min_phal_1_position_controller
-        r_min_phal_2_position_controller
-        r_min_phal_3_position_controller
-        r_med_phal_1_position_controller
-        r_med_phal_2_position_controller
-        r_med_phal_3_position_controller
+      value="r_med_phal_1_position_controller
         r_ind_phal_1_position_controller
-        r_ind_phal_2_position_controller
-        r_ind_phal_3_position_controller
-        r_thumb_phal_1_position_controller
-        r_thumb_phal_2_position_controller
-        r_thumb_phal_3_position_controller"/>
+        r_thumb_phal_1_position_controller"/>
     <arg unless="$(arg use_full_hand_model)" name="launch_hand_controllers" value=""/>
 
     <group if="$(arg use_yarp)">
