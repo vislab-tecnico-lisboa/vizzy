@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <root xmlns:xacro="http://ros.org/wiki/xacro">
-  
-  <!-- head, torso and arms controllers plugin -->
+
+  <!-- Controller plugin for head, torso and arms -->
   <xacro:macro name="ros_control_gazebo">
     <gazebo>
       <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
@@ -16,7 +16,7 @@
       <plugin
         name="differential_drive_controller"
         filename="libgazebo_ros_diff_drive.so">
-        <leftJoint>r_wheel_joint</leftJoint> <!-- SWITCHED ON PURPOSE - TODO: FIND WHY right and left wheels have to be switch for the plugin to work properly-->
+        <leftJoint>r_wheel_joint</leftJoint>
         <rightJoint>l_wheel_joint</rightJoint>
         <wheelSeparation>0.5380</wheelSeparation>
         <wheelDiameter>0.39628</wheelDiameter>
@@ -35,6 +35,31 @@
         <publishWheelTF>true</publishWheelTF>
         <publishWheelJointState>true</publishWheelJointState>
         <rosDebugLevel>na</rosDebugLevel>
+      </plugin>
+    </gazebo>
+  </xacro:macro>
+
+  <!-- Mimic plugin to model underactuated joints -->
+  <xacro:macro name="gazebo_mimic_plugin">
+    <gazebo>
+      <plugin name="hand_mimic_plugin" filename="libgazebo_mimic_plugin.so">
+        <!-- Fingers -->
+        <actuatedJoint name="r_thumb_phal_1_joint">
+          <mimicJoint name="r_thumb_phal_2_joint" multiplier="0.5" />
+          <mimicJoint name="r_thumb_phal_3_joint" multiplier="0.5" />
+        </actuatedJoint>
+        <actuatedJoint name="r_ind_phal_1_joint">
+          <mimicJoint name="r_ind_phal_2_joint" multiplier="0.5" />
+          <mimicJoint name="r_ind_phal_3_joint" multiplier="0.5" />
+        </actuatedJoint>
+        <!-- Vizzy's med and min fingers are coupled and act as one -->
+        <actuatedJoint name="r_med_phal_1_joint">
+          <mimicJoint name="r_med_phal_2_joint" multiplier="0.5" />
+          <mimicJoint name="r_med_phal_3_joint" multiplier="0.5" />
+          <mimicJoint name="r_min_phal_1_joint" multiplier="1.0" />
+          <mimicJoint name="r_min_phal_3_joint" multiplier="0.5" />
+          <mimicJoint name="r_min_phal_2_joint" multiplier="0.5" />
+        </actuatedJoint>
       </plugin>
     </gazebo>
   </xacro:macro>

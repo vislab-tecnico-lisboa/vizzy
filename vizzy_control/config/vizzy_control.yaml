@@ -5,59 +5,30 @@ vizzy:
     publish_rate: 50
 
   #
-  # Position controllers - TODO: Replace by effort
+  # Position controllers
   #
 
   # Torso Position Controllers
   waist_position_controller:
     type: velocity_controllers/JointPositionController
     joint: waist_joint
-    pid: {p: 100.0, i: 0.0, d: 0.0}
-
-  # Right Hand Position Controllers
-  #
-  # TODO: Implement controller after hand update
-  #
-  # r_min_phal_1_position_controller:
-  #   type: velocity_controllers/JointPositionController
-  #   joint: r_min_phal_1_joint
-  #   pid: {p: 100.0, i: 0.0, d: 0.0, i_clamp: 0.0}
-
-  # r_med_phal_1_position_controller:
-  #   type: velocity_controllers/JointPositionController
-  #   joint: r_med_phal_1_joint
-  #   pid: {p: 100.0, i: 0.0, d: 0.0, i_clamp: 0.0}
-
-  # r_ind_phal_1_position_controller:
-  #   type: velocity_controllers/JointPositionController
-  #   joint: r_ind_phal_1_joint
-  #   pid: {p: 100.0, i: 0.0, d: 0.0, i_clamp: 0.0}
-
-  # r_thumb_phal_1_position_controller:
-  #   type: velocity_controllers/JointPositionController
-  #   joint: r_thumb_phal_1_joint
-  #   pid: {p: 100.0, i: 0.0, d: 0.0, i_clamp: 0.0}
-
-  # r_thumb_phal_2_position_controller:
-  #   type: velocity_controllers/JointPositionController
-  #   joint: r_thumb_phal_2_joint
-  #   pid: {p: 100.0, i: 0.0, d: 0.0, i_clamp: 0.0}
+    pid: {p: 10.0, i: 0.0, d: 0.0}
 
   # Head Position Controllers
   neck_pan_position_controller:
     type: velocity_controllers/JointPositionController
     joint: neck_pan_joint
-    pid: {p: 100.0, i: 0.01, d: 0.01}
+    pid: {p: 10.0, i: 0.0, d: 0.0}
 
   neck_tilt_position_controller:
     type: velocity_controllers/JointPositionController
     joint: neck_tilt_joint
-    pid: {p: 100.0, i: 0.01, d: 0.01}
+    pid: {p: 10.0, i: 0.0, d: 0.0}
 
   eyes_tilt_position_controller:
     type: velocity_controllers/JointPositionController
     joint: eyes_tilt_joint
-    pid: {p: 100.0, i: 0.01, d: 0.01}
+    pid: {p: 10.0, i: 0.0, d: 0.0}
 
   l_eye_position_controller:
     type: velocity_controllers/JointPositionController
@@ -114,7 +85,7 @@ vizzy:
   r_shoulder_flection_position_controller:
     type: velocity_controllers/JointPositionController
     joint: r_shoulder_flection_joint
-    pid: {p: 1.0, i: 0.01, d: 0}
+    pid: {p: 1.0, i: 0.0, d: 0}
 
   r_shoulder_rotation_position_controller:
     type: velocity_controllers/JointPositionController
@@ -153,12 +124,12 @@ vizzy:
     gains:
       neck_pan_joint:
         p: 3.0
-        i: 0.01
-        d: 0.01
+        i: 0.0
+        d: 0.0
       neck_tilt_joint:
         p: 10.0
-        i: 0.01
-        d: 0.01
+        i: 0.0
+        d: 0.0
       eyes_tilt_joint:
         p: 10.0
         i: 0.1
@@ -213,12 +184,12 @@ vizzy:
     gains:
       neck_pan_joint:
         p: 50.0
-        i: 0.01
-        d: 0.01
+        i: 0.0
+        d: 0.0
       neck_tilt_joint:
         p: 50.0
-        i: 0.01
-        d: 0.01
+        i: 0.0
+        d: 0.0
       eyes_tilt_joint:
         p: 50.0
         i: 0.1
@@ -273,27 +244,27 @@ vizzy:
         i: 0.0
         d: 0.0
       l_shoulder_abduction_joint:
-        p: 100.0
+        p: 10.0
         i: 0.0
         d: 0.0
       l_shoulder_rotation_joint:
-        p: 100.0
+        p: 10.0
         i: 0.0
         d: 0.0
       l_elbow_flection_joint:
-        p: 100.0
+        p: 10.0
         i: 0.0
         d: 0.0
       l_forearm_pronation_joint:
-        p: 100.0
+        p: 10.0
         i: 0.0
         d: 0.0
       l_wrist_abduction_joint:
-        p: 100.0
+        p: 10.0
         i: 0.0
         d: 0.0
       l_wrist_flection_joint:
-        p: 100.0
+        p: 10.0
         i: 0.0
         d: 0.0
     constraints:
@@ -336,35 +307,35 @@ vizzy:
       - r_wrist_flection_joint
     gains:
       r_shoulder_scapula_joint:
-        p: 500.0
+        p: 50.0
         i: 0.1
         d: 0.1
       r_shoulder_flection_joint:
-        p: 500.0
+        p: 50.0
         i: 0.1
         d: 0.1
       r_shoulder_abduction_joint:
-        p: 100.0
+        p: 10.0
         i: 0.1
         d: 0.1
       r_shoulder_rotation_joint:
-        p: 100.0
+        p: 10.0
         i: 0.1
         d: 0.1
       r_elbow_flection_joint:
-        p: 100.0
+        p: 10.0
         i: 0.1
         d: 0.1
       r_forearm_pronation_joint:
-        p: 100.0
+        p: 10.0
         i: 0.1
         d: 0.1
       r_wrist_abduction_joint:
-        p: 100.0
+        p: 10.0
         i: 0.1
         d: 0.1
       r_wrist_flection_joint:
-        p: 100.0
+        p: 10.0
         i: 0.1
         d: 0.1
     constraints:
