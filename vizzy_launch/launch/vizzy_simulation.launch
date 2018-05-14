@@ -38,7 +38,8 @@
   <arg name="rviz" default="true"/>
 
   <!-- MoveIt! planner -->
-  <arg name="moveit" default="true"/>
+  <!-- TODO: Fix MoveIt! configs -->
+  <arg name="moveit" default="false"/>
 
   <!-- Teleop -->
   <arg name="teleop" default="false"/>
