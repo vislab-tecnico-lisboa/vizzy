@@ -76,6 +76,78 @@
       <limit lower="-2.014159265" upper="2.45771823" effort="100.0" velocity="5.0"/>
     </joint>
 
+    <!-- Head Shells -->
+    <!-- TODO: Update inertia and collision -->
+    <link name="head_shell_link">
+      <visual>
+        <origin
+          xyz="0 0.41 0"
+          rpy="${M_PI/2} ${M_PI/2} 0"/>
+        <geometry>
+          <mesh
+            filename="package://vizzy_description/meshes/head/head.dae"/>
+        </geometry>
+        <material name="light_gray_1"/>
+      </visual>
+      <inertial>
+        <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.01"/>
+      </inertial>
+      <collision>
+        <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+        <geometry>
+          <cylinder length="0.001" radius="0.005"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="head_shell_joint"
+      type="fixed">
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0"/>
+      <parent
+        link="neck_tilt_link"/>
+      <child
+        link="head_shell_link"/>
+    </joint>
+
+    <link name="face_shell_link">
+      <visual>
+        <origin
+          xyz="-0.394 0.69 0.0995"
+          rpy="0 ${M_PI/2} 0"/>
+        <geometry>
+          <mesh
+            filename="package://vizzy_description/meshes/head/face.dae"/>
+        </geometry>
+        <material name="light_gray_1"/>
+      </visual>
+      <inertial>
+        <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.01"/>
+      </inertial>
+      <collision>
+        <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+        <geometry>
+          <cylinder length="0.001" radius="0.005"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="face_shell_joint"
+      type="fixed">
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0"/>
+      <parent
+        link="neck_tilt_link"/>
+      <child
+        link="face_shell_link"/>
+    </joint>
+
     <!-- Eyes tilt -->
     <link name="eyes_tilt_link">
       <xacro:vizzy_eyes_tilt_link_inertial/>

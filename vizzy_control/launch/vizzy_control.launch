@@ -1,21 +1,46 @@
 <?xml version="1.0"?>
 <launch>
+
     <arg name="use_yarp" default="false"/>
+    <arg name="use_full_hand_model" default="false"/>
+
+    <!-- Only launch hand controllers if full hand is loaded -->
+    <arg if="$(arg use_full_hand_model)" name="launch_hand_controllers" 
+      value="r_med_phal_1_position_controller
+        r_ind_phal_1_position_controller
+        r_thumb_phal_1_position_controller"/>
+    <arg unless="$(arg use_full_hand_model)" name="launch_hand_controllers" value=""/>
 
     <group if="$(arg use_yarp)">
-        <!-- launch the joint state publisher to default values -->
-        <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher">
-            <rosparam param="source_list">["/vizzy_upper_body/joint_states","joint_states"]</rosparam>
-        <remap from="/joint_states" to="/vizzy/joint_states" />
-        </node>
+      <!-- Launch the joint state publisher to default values -->
+      <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher">
+        <rosparam param="source_list">["/vizzy_upper_body/joint_states","joint_states"]</rosparam>
+      <remap from="/joint_states" to="/vizzy/joint_states" />
+      </node>
     </group>
 
     <!-- Load joint controller configurations from YAML file to parameter server -->
     <rosparam file="$(find vizzy_control)/config/vizzy_control.yaml" command="load"/>
+    <group if="$(arg use_full_hand_model)">
+      <rosparam file="$(find vizzy_control)/config/vizzy_control_hand.yaml" command="load"/>
+    </group>
+
     <!-- bringup ROS controllers -->
     <group unless="$(arg use_yarp)">
 
       <!-- Load the controllers -->
+      <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" ns="/vizzy" args="
+        joint_state_controller
+        waist_position_controller
+        neck_pan_position_controller
+        neck_tilt_position_controller
+        eyes_tilt_position_controller
+        l_eye_position_controller
+        r_eye_position_controller
+        left_arm_trajectory_controller
+        right_arm_trajectory_controller
+        $(arg launch_hand_controllers)"/>
+
       <!--
       <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" ns="/vizzy" args="
         waist_position_controller 
@@ -43,28 +68,6 @@
         
         joint_state_controller" />
       -->
-
-      <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" ns="/vizzy" args="
-        joint_state_controller
-        waist_position_controller
-        neck_pan_position_controller
-        neck_tilt_position_controller
-        eyes_tilt_position_controller
-        l_eye_position_controller
-        r_eye_position_controller
-        left_arm_trajectory_controller
-        right_arm_trajectory_controller"/>
-
-    <!--
-        TODO: Implement controller after hand update
-    -->
-    <!--    
-        r_min_phal_1_position_controller
-        r_med_phal_1_position_controller
-        r_ind_phal_1_position_controller
-        r_thumb_phal_1_position_controller
-        r_thumb_phal_2_position_controller"/>
-    -->
 
   </group>
 

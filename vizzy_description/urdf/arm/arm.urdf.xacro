@@ -318,7 +318,7 @@
             rpy="0 ${-M_PI/2} ${M_PI}" />
           <geometry>
             <mesh
-              filename="package://vizzy_description/meshes/arm/r_wrist_flection_link.STL" />
+              filename="package://vizzy_description/meshes/arm/r_wrist_flection_link.dae" />
           </geometry>
           <material name="light_gray_3"/>
         </visual>

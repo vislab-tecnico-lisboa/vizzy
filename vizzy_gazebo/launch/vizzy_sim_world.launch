@@ -7,7 +7,7 @@
   <arg name="use_sim_time" default="true"/>
 
   <arg name="debug" default="false"/>
-  <arg name="verbose" default="false"/>
+  <arg name="verbose" default="true"/>
 
   <arg name="world" default="empty.world"/>
   <arg name="extra_gazebo_args" default=""/>

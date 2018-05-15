@@ -1,55 +1,165 @@
-#include <gazebo_mimic_plugin/mimic_plugin.h>
+/*!
+    \file mimic_plugin.cc
+    \brief Gazebo mimic plugin
+    
+    Gazebo plugin for joint mimicking behaviour
 
-using namespace gazebo;
+    \author João Borrego : jsbruglie
+*/
 
-MimicPlugin::MimicPlugin():  ModelPlugin()
+#include <mimic_plugin/mimic_plugin.h>
+
+namespace gazebo {
+
+/// \brief Class for joint and respective mimics data.
+class JointGroup
 {
-    kill_sim = false;
+    /// Actuated joint
+    public: physics::JointPtr actuated;
+    /// Vector of mimic joints
+    public: std::vector<physics::JointPtr> mimic;
+    /// Vector of corresponding mimic joint's multipliers
+    public: std::vector<double> multipliers;
 
-    joint_.reset();
-    mimic_joint_.reset();
+    public: JointGroup(physics::JointPtr joint)
+    {
+        this->actuated = joint;
+    }
+};
+
+/// \brief Class for private hand plugin data.
+class MimicPluginPrivate
+{
+    /// Connection to world update event
+    public: event::ConnectionPtr update_connection;
+    /// Model to which the plugin is attached
+    public: physics::ModelPtr model;
+    /// Array of joint groups
+    public: std::vector<JointGroup> groups;
+};
+
+// Register this plugin with the simulator
+GZ_REGISTER_MODEL_PLUGIN(MimicPlugin)
+
+/////////////////////////////////////////////////
+MimicPlugin::MimicPlugin() : ModelPlugin(),
+    data_ptr(new MimicPluginPrivate)
+{
+    gzdbg << "[MimicPlugin] Started plugin." << std::endl;
 }
 
+/////////////////////////////////////////////////
 MimicPlugin::~MimicPlugin()
 {
-    kill_sim = true;
+
+    gzdbg << "[MimicPlugin] Unloaded plugin." << std::endl;
 }
 
-void MimicPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf )
+/////////////////////////////////////////////////
+void MimicPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
 {
-    this->model_ = _parent;
-    this->world_ = this->model_->GetWorld();
+    // Validate model to which plugin is attached
+    if (_model->GetJointCount() != 0) {
+        this->data_ptr->model = _model;
+    } else {
+        gzerr << "[MimicPlugin] Invalid model." << std::endl;
+        return;
+    }
 
-    joint_name_ = "joint";
-    if (_sdf->HasElement("joint"))
-        joint_name_ = _sdf->GetElement("joint")->Get<std::string>();
+    // Extract parameters from SDF element
 
-    mimic_joint_name_ = "mimicJoint";
-    if (_sdf->HasElement("mimicJoint"))
-        mimic_joint_name_ = _sdf->GetElement("mimicJoint")->Get<std::string>();
+    // Finger joints
+    if (loadJointGroups(_sdf) != true) return;
 
-    multiplier_ = 1.0;
-    if (_sdf->HasElement("multiplier"))
-        multiplier_ = _sdf->GetElement("multiplier")->Get<double>();
+    // Connect to world update event
+    this->data_ptr->update_connection = event::Events::ConnectWorldUpdateBegin(
+        std::bind(&MimicPlugin::onUpdate, this));
 
-    // Get the name of the parent model
-    std::string modelName = _sdf->GetParent()->Get<std::string>("name");
-
-    // Listen to the update event. This event is broadcast every
-    // simulation iteration.
-    this->updateConnection = event::Events::ConnectWorldUpdateBegin(
-                boost::bind(&MimicPlugin::UpdateChild, this));
-    gzdbg << "Plugin model name: " << modelName << "\n";
-
-    joint_ = model_->GetJoint(joint_name_);
-    mimic_joint_ = model_->GetJoint(mimic_joint_name_);
+    gzdbg << "[MimicPlugin] Loaded plugin." << std::endl;
 }
 
-void MimicPlugin::UpdateChild()
+/////////////////////////////////////////////////
+bool MimicPlugin::loadMimicJoints(sdf::ElementPtr _sdf, JointGroup & group)
 {
-    //mimic_joint_->SetAngle(0, math::Angle(joint_->GetAngle(0).Radian()*multiplier_));
-    //mimic_joint_->SetPosition(0, joint_->GetAngle(0).Radian()*multiplier_);
+    std::string mimic_name;
+    double multiplier;
+
+    if (_sdf->HasElement(PARAM_MIMIC_JOINT))
+    {
+        sdf::ElementPtr mimic_sdf;
+        for (mimic_sdf = _sdf->GetElement(PARAM_MIMIC_JOINT);
+            mimic_sdf != NULL;
+            mimic_sdf = mimic_sdf->GetNextElement())
+        {
+            if (mimic_sdf->HasAttribute(PARAM_NAME) &&
+                mimic_sdf->HasAttribute(PARAM_MULTIPLIER))
+            {
+                mimic_sdf->GetAttribute(PARAM_NAME)->Get<std::string>(mimic_name);
+                mimic_sdf->GetAttribute(PARAM_MULTIPLIER)->Get<double>(multiplier);
+                group.mimic.push_back(this->data_ptr->model->GetJoint(mimic_name));
+                group.multipliers.push_back(multiplier);
+
+                gzdbg << "Mimic joint " << mimic_name << " k = " << multiplier << std::endl;
+            }
+            else if (mimic_sdf->GetName() == PARAM_MIMIC_JOINT)
+            {
+                gzerr << "[MimicPlugin] No joint name provided." << std::endl;
+                return false;
+            }
+        }
+    }
 }
 
-GZ_REGISTER_MODEL_PLUGIN(MimicPlugin);
 
+/////////////////////////////////////////////////
+bool MimicPlugin::loadJointGroups(sdf::ElementPtr _sdf)
+{
+    std::string joint_name;
+    int inserted = 0;
+
+    if (_sdf->HasElement(PARAM_JOINT_GROUP))
+    {
+        sdf::ElementPtr joint_sdf;
+        for (joint_sdf = _sdf->GetElement(PARAM_JOINT_GROUP);
+            joint_sdf != NULL;
+            joint_sdf = joint_sdf->GetNextElement())
+        {
+            if (joint_sdf->HasAttribute(PARAM_NAME))
+            {
+                joint_sdf->GetAttribute(PARAM_NAME)->Get<std::string>(joint_name);
+                this->data_ptr->groups.emplace_back(this->data_ptr->model->GetJoint(joint_name));
+                gzdbg << "Actuated joint " << joint_name << std::endl;
+                loadMimicJoints(joint_sdf, this->data_ptr->groups.at(inserted++));
+            }
+            else if (joint_sdf->GetName() == PARAM_JOINT_GROUP)
+            {
+                gzerr << "[MimicPlugin] No joint name provided." << std::endl;
+                return false;
+            }
+        }
+    }
+    else
+    {
+        gzerr << "[MimicPlugin] No joints specified." << std::endl;
+        return false;
+    }
+    return true;
+}
+
+/////////////////////////////////////////////////
+void MimicPlugin::onUpdate()
+{
+    for (int i = 0; i < this->data_ptr->groups.size(); i++)
+    {
+        physics::JointPtr actuated = this->data_ptr->groups.at(i).actuated;
+        double position = actuated->Position();
+        for (int j = 0; j < this->data_ptr->groups.at(i).mimic.size(); j++)
+        {
+            physics::JointPtr mimic_joint = this->data_ptr->groups.at(i).mimic.at(j);
+            double multiplier = this->data_ptr->groups.at(i).multipliers.at(j);
+            mimic_joint->SetPosition(0, position * multiplier);
+        }
+    }
+}
+
+}

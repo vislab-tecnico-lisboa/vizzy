@@ -55,7 +55,8 @@
 
   <!-- Bringup controllers -->
   <include file="$(find vizzy_control)/launch/vizzy_control.launch">
-     <arg name="use_yarp" value="$(arg use_yarp)"/>
+    <arg name="use_yarp" value="$(arg use_yarp)"/>
+    <arg name="use_full_hand_model" value="$(arg use_full_hand_model)"/>
   </include>
 
   <!-- Camera driver nodelet -->

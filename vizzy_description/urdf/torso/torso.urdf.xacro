@@ -27,7 +27,7 @@
       </inertial>
       <visual>
         <origin
-          xyz="0.0 0.113 0.0"
+          xyz="0.0 0.0 -0.067322"
           rpy="0.0 ${M_PI} 0.0" />
         <geometry>
           <mesh
@@ -38,7 +38,7 @@
       <collision>
         <xacro:if value="$(arg use_full_gazebo_model)">
           <origin
-            xyz="0. 0.113 0."
+            xyz="0.0 0.0 -0.067322"
             rpy="0.0 ${M_PI} 0.0" />
           <geometry>
             <mesh
