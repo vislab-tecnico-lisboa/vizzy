@@ -39,10 +39,10 @@ laserobstacles:
   
 laserobstaclesrear:
   observation_sources: scan_rear
-  scan_rear: {data_type: LaserScan, topic: scan_filtered_rear, marking: true, clearing: true}
+  scan_rear: {data_type: LaserScan, topic: scan_filtered_rear, marking: false, clearing: true}
   obstacle_range: 3.5
   raytrace_range: 4.0
-  marking: true
+  marking: false 
   clearing: true
 
 

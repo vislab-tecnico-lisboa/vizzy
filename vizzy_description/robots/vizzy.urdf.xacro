@@ -9,9 +9,9 @@
   <!-- Load a fully detailed hand model with properly modeled links and joints -->
   <xacro:arg name="use_full_hand_model" default="false"/>
   <!-- Disable laser sensors -->
-  <xacro:arg name="disable_laser" default="true"/>
+  <xacro:arg name="disable_laser" default="false"/>
   <!-- Disable depth camera -->
-  <xacro:arg name="disable_3d_sensor" default="true"/>
+  <xacro:arg name="disable_3d_sensor" default="false"/>
 
   <!-- Includes -->
 

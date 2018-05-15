@@ -27,7 +27,7 @@
     <param name="update_min_a" value="0.6"/>
     <param name="resample_interval" value="2"/>
     <param name="transform_tolerance" value="0.2"/>
-    <param name="recovery_alpha_slow" value="0.005"/>
+    <param name="recovery_alpha_slow" value="0.08"/>
     <param name="recovery_alpha_fast" value="0.1"/> 
     <param name="initial_pose_x" value="$(arg initial_pose_x)"/> 
     <param name="initial_pose_y" value="$(arg initial_pose_y)"/> 
@@ -54,7 +54,7 @@
     <!-- Odometry model parameters -->
     <param name="odom_model_type" value="diff"/>
     <param name="odom_alpha1" value="0.3"/>
-    <param name="odom_alpha2" value="0.0872"/>
+    <param name="odom_alpha2" value="0.08"/>
     <param name="odom_alpha3" value="0.2"/>
     <param name="odom_alpha4" value="0.2"/>
     
