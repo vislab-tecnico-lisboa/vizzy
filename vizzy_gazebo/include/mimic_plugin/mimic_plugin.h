@@ -11,6 +11,7 @@
 #define _MIMIC_PLUGIN_HH_
 
 // Gazebo
+#include <gazebo/gazebo.hh>
 #include <gazebo/common/Plugin.hh>
 #include <gazebo/physics/physics.hh>
 

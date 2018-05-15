@@ -152,12 +152,24 @@ void MimicPlugin::onUpdate()
     for (int i = 0; i < this->data_ptr->groups.size(); i++)
     {
         physics::JointPtr actuated = this->data_ptr->groups.at(i).actuated;
-        double position = actuated->Position();
+
+        // Compatibility with Gazebo 7
+        #if GAZEBO_MAJOR_VERSION < 8
+            math::Angle angle = actuated->GetAngle(0).Radian();
+        #else
+            double position = actuated->Position();
+        #endif
+        
         for (int j = 0; j < this->data_ptr->groups.at(i).mimic.size(); j++)
         {
             physics::JointPtr mimic_joint = this->data_ptr->groups.at(i).mimic.at(j);
             double multiplier = this->data_ptr->groups.at(i).multipliers.at(j);
-            mimic_joint->SetPosition(0, position * multiplier);
+            
+            #if GAZEBO_MAJOR_VERSION < 8
+                mimic_joint->SetPosition(0, angle * multiplier);
+            #else
+                mimic_joint->SetPosition(0, position * multiplier);
+            #endif
         }
     }
 }
