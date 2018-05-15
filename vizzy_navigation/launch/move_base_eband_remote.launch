@@ -17,8 +17,8 @@
     <param name="base_local_planner" value="eband_local_planner/EBandPlannerROS" />
 
     <param name="global_costmap/map_topic" value="$(arg map_topic)"/>
-    <param name="recovery_behavior_enabled" value="false"/>
-    <param name="clearing_rotation_allowed" value="false"/>
+    <param name="recovery_behavior_enabled" value="true"/>
+    <param name="clearing_rotation_allowed" value="true"/>
     <remap from="/cmd_vel" to="/vizzy/cmd_vel" />
   </node>
 </launch>

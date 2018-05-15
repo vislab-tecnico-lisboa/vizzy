@@ -1,2 +1,39 @@
 footprint: [0.4,0.5,0.4,-0.5,-0.3,-0.5,-0.3,0.5]
-# recovery_behavior_enabled: false
+
+recovery_behavior_enabled: 'true' 
+recovery_behaviors:
+    - name: 'super_conservative_reset'
+      type: 'clear_costmap_recovery/ClearCostmapRecovery'
+    - name: 'conservative_reset'
+      type: 'clear_costmap_recovery/ClearCostmapRecovery'
+    - name: 'rotate_recovery'
+      type: 'rotate_recovery/RotateRecovery'
+    - name: 'aggressive_reset'
+      type: 'clear_costmap_recovery/ClearCostmapRecovery'
+    - name: 'move_slow_and_clear'
+      type: 'move_slow_and_clear/MoveSlowAndClear'
+
+super_conservative_reset:
+    reset_distance: 5.0
+    layer_names: ["laserobstacles"]
+
+conservative_reset:
+    reset_distance: 3.0
+    layer_names: ["laserobstacles"]
+
+aggressive_reset:
+    reset_distance: 1.5
+    layer_names: ["laserobstacles"]
+
+rotate_recovery:
+    sim_granularity: 0.017 #default
+    frequency: 20.0 #default
+
+move_slow_and_clear:
+    param_name_trans_vel: "max_vel_lin"
+    param_name_rot_vel: "max_vel_th"
+    clearing_distance: 0.5
+    limited_trans_speed: 0.25
+    limited_rot_speed: 0.45
+    limited_distance: 0.3
+    planner_namespace: "EBandPlannerROS"
