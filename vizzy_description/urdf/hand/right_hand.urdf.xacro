@@ -7,6 +7,8 @@
   <!-- Load full inertial and collision model or a simplified model -->
   <xacro:arg name="use_full_gazebo_model" default="false"/>
 
+  <xacro:include filename="$(find vizzy_description)/urdf/hand/right_hand.transmission.xacro" />
+
   <!-- Define xacro macro -->
   <xacro:macro name="right_hand" params="parent">
 
@@ -46,7 +48,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://vizzy_description/meshes/hand/r_hand_base_link.STL" />
+            filename="package://vizzy_description/meshes/hand/r_hand_base_link.dae" />
         </geometry>
         <material
           name="">
@@ -59,7 +61,7 @@
           <origin xyz="0 0 0" rpy="0 0 0" />
           <geometry>
             <mesh
-              filename="package://vizzy_description/meshes/hand/r_hand_base_link.STL" />
+              filename="package://vizzy_description/meshes/hand/r_hand_base_link.dae" />
           </geometry>
         </xacro:if>
         <xacro:unless value="$(arg use_full_gazebo_model)">
@@ -92,7 +94,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://vizzy_description/meshes/hand/r_min_phal_1_link.STL" />
+            filename="package://vizzy_description/meshes/hand/r_min_phal_1_link.dae" />
         </geometry>
         <material
           name="">
@@ -107,7 +109,7 @@
             rpy="0 0 0" />
           <geometry>
             <mesh
-              filename="package://vizzy_description/meshes/hand/r_hand/min_phal_1_link.STL" />
+              filename="package://vizzy_description/meshes/hand/r_min_phal_1_link.dae" />
           </geometry>
         </xacro:if>
         <xacro:unless value="$(arg use_full_gazebo_model)">
@@ -131,10 +133,10 @@
       <axis
         xyz="1 0 0" />
       <limit
-        lower="0"
+        lower="-0.1"
         upper="1.57"
-        effort="0"
-        velocity="0" />
+        effort="2.11"
+        velocity="2.11" />
     </joint>
     <link
       name="r_min_phal_1_link_fix">
@@ -158,7 +160,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://vizzy_description/meshes/hand/r_min_phal_1_link_fix.STL" />
+            filename="package://vizzy_description/meshes/hand/r_min_phal_1_link_fix.dae" />
         </geometry>
         <material
           name="">
@@ -173,7 +175,7 @@
             rpy="0 0 0" />
           <geometry>
             <mesh
-              filename="package://vizzy_description/meshes/hand/r_hand/r_min_phal_1_link_fix.STL" />
+              filename="package://vizzy_description/meshes/hand/r_r_min_phal_1_link_fix.dae" />
           </geometry>
         </xacro:if>
         <xacro:unless value="$(arg use_full_gazebo_model)">
@@ -220,7 +222,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://vizzy_description/meshes/hand/r_min_phal_2_link.STL" />
+            filename="package://vizzy_description/meshes/hand/r_min_phal_2_link.dae" />
         </geometry>
         <material
           name="">
@@ -235,7 +237,7 @@
             rpy="0 0 0" />
           <geometry>
             <mesh
-              filename="package://vizzy_right_hand/min_phal_2_link.STL" />
+              filename="package://vizzy_description/meshes/hand/r_min_phal_2_link.dae" />
           </geometry>
         </xacro:if>
         <xacro:unless value="$(arg use_full_gazebo_model)">
@@ -261,8 +263,8 @@
       <limit
         lower="0"
         upper="1.57"
-        effort="0"
-        velocity="0" />
+        effort="2.11"
+        velocity="2.11" />
     </joint>
     <link
       name="r_min_phal_2_link_fix">
@@ -286,7 +288,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://vizzy_description/meshes/hand/r_min_phal_2_link_fix.STL" />
+            filename="package://vizzy_description/meshes/hand/r_min_phal_2_link_fix.dae" />
         </geometry>
         <material
           name="">
@@ -301,7 +303,7 @@
             rpy="0 0 0" />
           <geometry>
             <mesh
-              filename="package://vizzy_description/meshes/hand/r_hand/r_min_phal_2_link_fix.STL" />
+              filename="package://vizzy_description/meshes/hand/r_r_min_phal_2_link_fix.dae" />
           </geometry>
         </xacro:if>
         <xacro:unless value="$(arg use_full_gazebo_model)">
@@ -348,7 +350,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://vizzy_description/meshes/hand/r_min_phal_3_link.STL" />
+            filename="package://vizzy_description/meshes/hand/r_min_phal_3_link.dae" />
         </geometry>
         <material
           name="">
@@ -363,7 +365,7 @@
             rpy="0 0 0" />
           <geometry>
             <mesh
-              filename="package://vizzy_description/meshes/hand/r_min_phal_3_link.STL" />
+              filename="package://vizzy_description/meshes/hand/r_min_phal_3_link.dae" />
           </geometry>
         </xacro:if>
         <xacro:unless value="$(arg use_full_gazebo_model)">
@@ -389,8 +391,8 @@
       <limit
         lower="0"
         upper="1.57"
-        effort="0"
-        velocity="0" />
+        effort="2.11"
+        velocity="2.11" />
     </joint>
     <link
       name="r_min_phal_3_link_fix">
@@ -414,7 +416,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://vizzy_description/meshes/hand/r_min_phal_3_link_fix.STL" />
+            filename="package://vizzy_description/meshes/hand/r_min_phal_3_link_fix.dae" />
         </geometry>
         <material
           name="">
@@ -429,7 +431,7 @@
             rpy="0 0 0" />
           <geometry>
             <mesh
-              filename="package://vizzy_description/meshes/hand/r_hand/r_min_phal_3_link_fix.STL" />
+              filename="package://vizzy_description/meshes/hand/r_r_min_phal_3_link_fix.dae" />
           </geometry>
         </xacro:if>
         <xacro:unless value="$(arg use_full_gazebo_model)">
@@ -476,7 +478,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://vizzy_description/meshes/hand/r_med_phal_1_link.STL" />
+            filename="package://vizzy_description/meshes/hand/r_med_phal_1_link.dae" />
         </geometry>
         <material
           name="">
@@ -491,7 +493,7 @@
             rpy="0 0 0" />
           <geometry>
             <mesh
-              filename="package://vizzy_description/meshes/hand/r_hand/med_phal_1_link.STL" />
+              filename="package://vizzy_description/meshes/hand/r_med_phal_1_link.dae" />
           </geometry>
         </xacro:if>
         <xacro:unless value="$(arg use_full_gazebo_model)">
@@ -515,10 +517,10 @@
       <axis
         xyz="1 0 0" />
       <limit
-        lower="0"
+        lower="-0.1"
         upper="1.57"
-        effort="0"
-        velocity="0" />
+        effort="2.11"
+        velocity="2.11" />
     </joint>
     <link
       name="r_med_phal_1_link_fix">
@@ -542,7 +544,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://vizzy_description/meshes/hand/r_med_phal_1_link_fix.STL" />
+            filename="package://vizzy_description/meshes/hand/r_med_phal_1_link_fix.dae" />
         </geometry>
         <material
           name="">
@@ -557,7 +559,7 @@
             rpy="0 0 0" />
           <geometry>
             <mesh
-              filename="package://vizzy_description/meshes/hand/r_hand/r_med_phal_1_link_fix.STL" />
+              filename="package://vizzy_description/meshes/hand/r_r_med_phal_1_link_fix.dae" />
           </geometry>
         </xacro:if>
         <xacro:unless value="$(arg use_full_gazebo_model)">
@@ -604,7 +606,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://vizzy_description/meshes/hand/r_med_phal_2_link.STL" />
+            filename="package://vizzy_description/meshes/hand/r_med_phal_2_link.dae" />
         </geometry>
         <material
           name="">
@@ -619,7 +621,7 @@
             rpy="0 0 0" />
           <geometry>
             <mesh
-              filename="package://vizzy_right_hand/med_phal_2_link.STL" />
+              filename="package://vizzy_description/meshes/hand/r_med_phal_2_link.dae" />
           </geometry>
         </xacro:if>
         <xacro:unless value="$(arg use_full_gazebo_model)">
@@ -645,8 +647,8 @@
       <limit
         lower="0"
         upper="1.57"
-        effort="0"
-        velocity="0" />
+        effort="2.11"
+        velocity="2.11" />
     </joint>
     <link
       name="r_med_phal_2_link_fix">
@@ -670,7 +672,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://vizzy_description/meshes/hand/r_med_phal_2_link_fix.STL" />
+            filename="package://vizzy_description/meshes/hand/r_med_phal_2_link_fix.dae" />
         </geometry>
         <material
           name="">
@@ -685,7 +687,7 @@
             rpy="0 0 0" />
           <geometry>
             <mesh
-              filename="package://vizzy_description/meshes/hand/r_hand/r_med_phal_2_link_fix.STL" />
+              filename="package://vizzy_description/meshes/hand/r_r_med_phal_2_link_fix.dae" />
           </geometry>
         </xacro:if>
         <xacro:unless value="$(arg use_full_gazebo_model)">
@@ -732,7 +734,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://vizzy_description/meshes/hand/r_med_phal_3_link.STL" />
+            filename="package://vizzy_description/meshes/hand/r_med_phal_3_link.dae" />
         </geometry>
         <material
           name="">
@@ -747,7 +749,7 @@
             rpy="0 0 0" />
           <geometry>
             <mesh
-              filename="package://vizzy_description/meshes/hand/r_med_phal_3_link.STL" />
+              filename="package://vizzy_description/meshes/hand/r_med_phal_3_link.dae" />
           </geometry>
         </xacro:if>
         <xacro:unless value="$(arg use_full_gazebo_model)">
@@ -773,8 +775,8 @@
       <limit
         lower="0"
         upper="1.57"
-        effort="0"
-        velocity="0" />
+        effort="2.11"
+        velocity="2.11" />
     </joint>
     <link
       name="r_med_phal_3_link_fix">
@@ -798,7 +800,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://vizzy_description/meshes/hand/r_med_phal_3_link_fix.STL" />
+            filename="package://vizzy_description/meshes/hand/r_med_phal_3_link_fix.dae" />
         </geometry>
         <material
           name="">
@@ -813,7 +815,7 @@
             rpy="0 0 0" />
           <geometry>
             <mesh
-              filename="package://vizzy_description/meshes/hand/r_hand/r_med_phal_3_link_fix.STL" />
+              filename="package://vizzy_description/meshes/hand/r_r_med_phal_3_link_fix.dae" />
           </geometry>
         </xacro:if>
         <xacro:unless value="$(arg use_full_gazebo_model)">
@@ -860,7 +862,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://vizzy_description/meshes/hand/r_ind_phal_1_link.STL" />
+            filename="package://vizzy_description/meshes/hand/r_ind_phal_1_link.dae" />
         </geometry>
         <material
           name="">
@@ -875,7 +877,7 @@
             rpy="0 0 0" />
           <geometry>
             <mesh
-              filename="package://vizzy_description/meshes/hand/r_hand/ind_phal_1_link.STL" />
+              filename="package://vizzy_description/meshes/hand/r_ind_phal_1_link.dae" />
           </geometry>
         </xacro:if>
         <xacro:unless value="$(arg use_full_gazebo_model)">
@@ -899,10 +901,10 @@
       <axis
         xyz="1 0 0" />
       <limit
-        lower="0"
+        lower="-0.1"
         upper="1.57"
-        effort="0"
-        velocity="0" />
+        effort="2.11"
+        velocity="2.11" />
     </joint>
     <link
       name="r_ind_phal_1_link_fix">
@@ -926,7 +928,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://vizzy_description/meshes/hand/r_ind_phal_1_link_fix.STL" />
+            filename="package://vizzy_description/meshes/hand/r_ind_phal_1_link_fix.dae" />
         </geometry>
         <material
           name="">
@@ -941,7 +943,7 @@
             rpy="0 0 0" />
           <geometry>
             <mesh
-              filename="package://vizzy_description/meshes/hand/r_hand/r_ind_phal_1_link_fix.STL" />
+              filename="package://vizzy_description/meshes/hand/r_r_ind_phal_1_link_fix.dae" />
           </geometry>
         </xacro:if>
         <xacro:unless value="$(arg use_full_gazebo_model)">
@@ -988,7 +990,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://vizzy_description/meshes/hand/r_ind_phal_2_link.STL" />
+            filename="package://vizzy_description/meshes/hand/r_ind_phal_2_link.dae" />
         </geometry>
         <material
           name="">
@@ -1003,7 +1005,7 @@
             rpy="0 0 0" />
           <geometry>
             <mesh
-              filename="package://vizzy_right_hand/ind_phal_2_link.STL" />
+              filename="package://vizzy_description/meshes/hand/r_ind_phal_2_link.dae" />
           </geometry>
         </xacro:if>
         <xacro:unless value="$(arg use_full_gazebo_model)">
@@ -1029,8 +1031,8 @@
       <limit
         lower="0"
         upper="1.57"
-        effort="0"
-        velocity="0" />
+        effort="2.11"
+        velocity="2.11" />
     </joint>
     <link
       name="r_ind_phal_2_link_fix">
@@ -1054,7 +1056,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://vizzy_description/meshes/hand/r_ind_phal_2_link_fix.STL" />
+            filename="package://vizzy_description/meshes/hand/r_ind_phal_2_link_fix.dae" />
         </geometry>
         <material
           name="">
@@ -1069,7 +1071,7 @@
             rpy="0 0 0" />
           <geometry>
             <mesh
-              filename="package://vizzy_description/meshes/hand/r_hand/r_ind_phal_2_link_fix.STL" />
+              filename="package://vizzy_description/meshes/hand/r_r_ind_phal_2_link_fix.dae" />
           </geometry>
         </xacro:if>
         <xacro:unless value="$(arg use_full_gazebo_model)">
@@ -1116,7 +1118,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://vizzy_description/meshes/hand/r_ind_phal_3_link.STL" />
+            filename="package://vizzy_description/meshes/hand/r_ind_phal_3_link.dae" />
         </geometry>
         <material
           name="">
@@ -1131,7 +1133,7 @@
             rpy="0 0 0" />
           <geometry>
             <mesh
-              filename="package://vizzy_description/meshes/hand/r_ind_phal_3_link.STL" />
+              filename="package://vizzy_description/meshes/hand/r_ind_phal_3_link.dae" />
           </geometry>
         </xacro:if>
         <xacro:unless value="$(arg use_full_gazebo_model)">
@@ -1157,8 +1159,8 @@
       <limit
         lower="0"
         upper="1.57"
-        effort="0"
-        velocity="0" />
+        effort="2.11"
+        velocity="2.11" />
     </joint>
     <link
       name="r_ind_phal_3_link_fix">
@@ -1182,7 +1184,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://vizzy_description/meshes/hand/r_ind_phal_3_link_fix.STL" />
+            filename="package://vizzy_description/meshes/hand/r_ind_phal_3_link_fix.dae" />
         </geometry>
         <material
           name="">
@@ -1197,7 +1199,7 @@
             rpy="0 0 0" />
           <geometry>
             <mesh
-              filename="package://vizzy_description/meshes/hand/r_hand/r_ind_phal_3_link_fix.STL" />
+              filename="package://vizzy_description/meshes/hand/r_r_ind_phal_3_link_fix.dae" />
           </geometry>
         </xacro:if>
         <xacro:unless value="$(arg use_full_gazebo_model)">
@@ -1244,7 +1246,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://vizzy_description/meshes/hand/r_thumb_phal_1_link.STL" />
+            filename="package://vizzy_description/meshes/hand/r_thumb_phal_1_link.dae" />
         </geometry>
         <material
           name="">
@@ -1259,7 +1261,7 @@
             rpy="0 0 0" />
           <geometry>
             <mesh
-              filename="package://vizzy_description/meshes/hand/r_thumb_phal_1_link.STL" />
+              filename="package://vizzy_description/meshes/hand/r_thumb_phal_1_link.dae" />
           </geometry>
         </xacro:if>
         <xacro:unless value="$(arg use_full_gazebo_model)">
@@ -1283,10 +1285,10 @@
       <axis
         xyz="0 0 1" />
       <limit
-        lower="0"
+        lower="-0.1"
         upper="1.57"
-        effort="0"
-        velocity="0" />
+        effort="2.11"
+        velocity="2.11" />
     </joint>
     <link
       name="r_thumb_phal_1_link_fix">
@@ -1310,7 +1312,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://vizzy_description/meshes/hand/r_thumb_phal_1_link_fix.STL" />
+            filename="package://vizzy_description/meshes/hand/r_thumb_phal_1_link_fix.dae" />
         </geometry>
         <material
           name="">
@@ -1325,7 +1327,7 @@
             rpy="0 0 0" />
           <geometry>
             <mesh
-              filename="package://vizzy_description/meshes/hand/r_hand/thumb_phal_1_link_fix.STL" />
+              filename="package://vizzy_description/meshes/hand/r_thumb_phal_1_link_fix.dae" />
           </geometry>
         </xacro:if>
         <xacro:unless value="$(arg use_full_gazebo_model)">
@@ -1371,7 +1373,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://vizzy_description/meshes/hand/r_thumb_phal_2_link.STL" />
+            filename="package://vizzy_description/meshes/hand/r_thumb_phal_2_link.dae" />
         </geometry>
         <material
           name="">
@@ -1386,7 +1388,7 @@
             rpy="0 0 0" />
           <geometry>
             <mesh
-              filename="package://vizzy_description/meshes/hand/r_thumb_phal_2_link.STL" />
+              filename="package://vizzy_description/meshes/hand/r_thumb_phal_2_link.dae" />
           </geometry>
         </xacro:if>
         <xacro:unless value="$(arg use_full_gazebo_model)">
@@ -1412,8 +1414,8 @@
       <limit
         lower="0"
         upper="1.57"
-        effort="0"
-        velocity="0" />
+        effort="2.11"
+        velocity="2.11" />
     </joint>
     <link
       name="r_thumb_phal_2_link_fix">
@@ -1437,7 +1439,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://vizzy_description/meshes/hand/r_thumb_phal_2_link_fix.STL" />
+            filename="package://vizzy_description/meshes/hand/r_thumb_phal_2_link_fix.dae" />
         </geometry>
         <material
           name="">
@@ -1452,7 +1454,7 @@
             rpy="0 0 0" />
           <geometry>
             <mesh
-              filename="package://vizzy_description/meshes/hand/r_hand/r_thumb_phal_2_link_fix.STL" />
+              filename="package://vizzy_description/meshes/hand/r_r_thumb_phal_2_link_fix.dae" />
           </geometry>
         </xacro:if>
         <xacro:unless value="$(arg use_full_gazebo_model)">
@@ -1494,8 +1496,8 @@
       <limit
         lower="0"
         upper="1.57"
-        effort="0"
-        velocity="0" />
+        effort="2.11"
+        velocity="2.11" />
     </joint>
     
     <link
@@ -1520,7 +1522,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://vizzy_description/meshes/hand/r_thumb_phal_3_link.STL" />
+            filename="package://vizzy_description/meshes/hand/r_thumb_phal_3_link.dae" />
         </geometry>
         <material
           name="">
@@ -1535,7 +1537,7 @@
             rpy="0 0 0" />
           <geometry>
             <mesh
-              filename="package://vizzy_description/meshes/hand/r_thumb_phal_3_link.STL" />
+              filename="package://vizzy_description/meshes/hand/r_thumb_phal_3_link.dae" />
           </geometry>
         </xacro:if>
         <xacro:unless value="$(arg use_full_gazebo_model)">
@@ -1569,7 +1571,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://vizzy_description/meshes/hand/r_thumb_phal_3_link_fix.STL" />
+            filename="package://vizzy_description/meshes/hand/r_thumb_phal_3_link_fix.dae" />
         </geometry>
         <material
           name="">
@@ -1584,7 +1586,7 @@
             rpy="0 0 0" />
           <geometry>
             <mesh
-              filename="package://vizzy_description/meshes/hand/r_hand/r_thumb_phal_3_link_fix.STL" />
+              filename="package://vizzy_description/meshes/hand/r_r_thumb_phal_3_link_fix.dae" />
           </geometry>
         </xacro:if>
         <xacro:unless value="$(arg use_full_gazebo_model)">
@@ -1609,6 +1611,9 @@
       <axis
         xyz="0 0 0" />
     </joint>
+
+    <!-- Gazebo extensions -->
+    <xacro:right_hand_transmissions/>
 
   </xacro:macro>
 
