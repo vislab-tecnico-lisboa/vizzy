@@ -9,7 +9,9 @@ from std_msgs.msg import String
 import sys
 from sound_play.msg import SoundRequest
 from sound_play.libsoundplay import SoundClient
-
+import woz_dialog_msgs.msg
+import actionlib
+from actionlib_msgs.msg import *
 # Node example class.
 class SlackVizzyBot():
     # Must have __init__(self) function for a class, similar to a C++ class constructor.
@@ -17,7 +19,7 @@ class SlackVizzyBot():
 
         # Create a publisher for our custom message.
         rospy.Subscriber("/vizzy/slack/from_slack_to_ros", String, self.callback)
-        self.soundhandle = SoundClient()
+        self.speech_client = actionlib.SimpleActionClient('nuance_speech_tts',woz_dialog_msgs.msg.SpeechAction)
 
         # Main while loop.
         while not rospy.is_shutdown():
@@ -30,8 +32,11 @@ class SlackVizzyBot():
         message_split = data.data.split()
         if message_split[0] == 'vizzy':
             if message_split[1] == 'say':
-                voice = 'voice_kal_diphone'
-                self.soundhandle.say(' '.join(message_split[2:]),voice,4)
+                goal = woz_dialog_msgs.msg.SpeechAction()
+                goal.voice = 'Joaquim'
+                goal.language = 'pt_PT'
+                goal.message = ' '.join(message_split[2:])
+                self.speech_client.send_goal(goal)
             if message_split[1] == 'navigate' and message_split[2] == 'to':
                 destination = " ".join(message_split[3:])
                 print("I want to go to " + destination)
