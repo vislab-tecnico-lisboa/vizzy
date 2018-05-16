@@ -14,7 +14,7 @@
 #
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-    
+
 # Import required Python code.
 import time
 import roslib
@@ -26,19 +26,19 @@ import sys
 class SlackTest():
     # Must have __init__(self) function for a class, similar to a C++ class constructor.
     def __init__(self):
-	
+
         # Create a publisher for our custom message.
         self.pub = rospy.Publisher('from_ros_to_slack', String, queue_size=10)
-	rospy.Subscriber("from_slack_to_ros", String, self.callback)
+        rospy.Subscriber("from_slack_to_ros", String, self.callback)
 
         # Main while loop.
         while not rospy.is_shutdown():
-	    # Sleep for a while before publishing new messages. Division is so rate != period.
+        # Sleep for a while before publishing new messages. Division is so rate != period.
             rospy.sleep(5.0)
 
     def callback(self, data):
-        self.pub.publish("You just say : " + data.data)
-	#rospy.loginfo(rospy.get_caller_id() + "I heard %s %s", data.data, self.channel)
+        #self.pub.publish("You just say : " + data.data)
+	    rospy.loginfo(rospy.get_caller_id() + "I heard %s ", data.data)
 
 
 # Main function.

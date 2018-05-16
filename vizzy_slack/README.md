@@ -83,5 +83,11 @@ This topic subscribe what you say in [Slack](https://slack.com/).
 
 
 
+### 
+
+In order to use the laucher you will need to set up the env variable SLACK_TOKEN with the token able to acess to the vislab slack
+```
+export SLACK_TOKEN='xoxp-XXXXXXX'
+```
 
 
