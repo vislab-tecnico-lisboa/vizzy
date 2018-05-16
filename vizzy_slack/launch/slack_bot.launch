@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="_token" default="xoxp-321694288900-322770664199-364189923889-93d9863c4e28dd7d2b3768a96d54414b" /> 
+
+    <arg name="_channel" default="rosintegrationtest" />
+    <arg name="_username" default="Vizzy" />
+
+    <node name="vizzy_slack_bot" pkg="vizzy_slack" type="slack_ros.py">
+        <param name="token" value="$(arg _token)" />
+        <param name="channel" value="$(arg _channel)" />
+        <param name="username" value="$(arg _username)" />
+    </node>
+
+</launch>
