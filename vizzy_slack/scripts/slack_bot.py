@@ -32,7 +32,7 @@ class SlackVizzyBot():
         message_split = data.data.split()
         if message_split[0] == 'vizzy':
             if message_split[1] == 'say':
-                goal = woz_dialog_msgs.msg.SpeechAction()
+                goal = woz_dialog_msgs.msg.SpeechGoal()
                 goal.voice = 'Joaquim'
                 goal.language = 'pt_PT'
                 goal.message = ' '.join(message_split[2:])
