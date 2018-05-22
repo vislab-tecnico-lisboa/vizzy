@@ -5,12 +5,13 @@ import rospy
 import actionlib
 from time import sleep
 from actionlib_msgs.msg import *
-from geometry_msgs.msg import Pose, Point, Quaternion, Twist
+from geometry_msgs.msg import Pose, Point, Quaternion, Twist, PointStamped
 from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
 import vizzy_msgs.msg
 from random import randint
 import woz_dialog_msgs.msg
 from copy import deepcopy
+import math
 
 class WayPoint:
     def __init__(self):
@@ -23,10 +24,20 @@ class WayPoint:
     	self.name = ""
     	self.speechString = "silence_5s"
 
+   
+
 class RandomWalker():
+    def callback(self, data):
+        self.closestPerson = data.point
+
     def __init__(self):
         rospy.init_node('random_walker', anonymous=False)
         rospy.on_shutdown(self.shutdown)
+
+        self.closestPerson = Point()
+
+        #Subscribe to closest points
+        rospy.Subscriber("/closest_person", PointStamped, self.callback)
 
 
         #Create waypoint list
@@ -45,6 +56,7 @@ class RandomWalker():
         quadro_ist.name = "Quadro IST"
         quadro_ist.speechString = "_________Quadro interessante"
         waypoints.append(quadro_ist)
+        
 
 
 
@@ -220,7 +232,8 @@ class RandomWalker():
         pilhas.speechString = "Isto dá-me fome"
         waypoints.append(pilhas)
 
-        gaze_active = rospy.get_param("~gaze_active", False)
+        self.gaze_active = rospy.get_param("~gaze_active", True)
+        self.comlicenca_active = rospy.get_param("~comlicenca_active", True)
 
         #Initialize
         self.cmd_vel_pub = rospy.Publisher('cmd_vel', Twist)
@@ -276,13 +289,32 @@ class RandomWalker():
         self.move_base.send_goal(waypoint.goal)
 
         #While the robot does not get to the goal position randomly gaze at people
-        while not self.move_base.get_state() == GoalStatus.SUCCEEDED:
+        while self.move_base.get_state() == GoalStatus.ACTIVE:
             print('moving')
-            sleep(0.5)
-            self.move_base.wait_for_result()
+            sleep(1.0)
+            self.move_base.wait_for_result(rospy.Duration(1.0))
 
             #Gaze at people if gaze active
-            #if gaze_active:
+            if self.gaze_active:
+                gaze_person = vizzy_msgs.msg.GazeGoal()
+                gaze_person.type = vizzy_msgs.msg.GazeGoal.CARTESIAN
+                gaze_person.fixation_point_error_tolerance = 0.01
+                gaze_person.fixation_point.header.frame_id='l_camera_link'
+                gaze_person.fixation_point.point.x = self.closestPerson.x
+                gaze_person.fixation_point.point.y = self.closestPerson.y
+                gaze_person.fixation_point.point.z = self.closestPerson.z
+                self.gaze_client.send_goal(gaze_person)
+
+            
+            if self.comlicenca_active:
+                if math.sqrt(math.pow(self.closestPerson.x, 2)+math.pow(self.closestPerson.y, 2)) < 1.4:
+                    speech_goal = woz_dialog_msgs.msg.SpeechGoal()
+                    speech_goal.voice = 'Joaquim'
+                    speech_goal.language = 'pt_PT'
+                    speech_goal.message = "Com licença"
+                    self.speech_client.send_goal(speech_goal)
+                    self.speech_client.wait_for_result()
+                
 
 	
 
