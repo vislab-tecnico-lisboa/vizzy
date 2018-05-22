@@ -21,7 +21,7 @@ class WayPoint:
     	self.gaze.fixation_point_error_tolerance = 0.01
     	self.gaze.fixation_point.header.frame_id='l_camera_link'
     	self.name = ""
-    	self.speechString = "silence_5s"
+    	self.speechString = "silence5s"
 
 class RandomWalker():
     def __init__(self):
@@ -55,7 +55,7 @@ class RandomWalker():
         nem_carne_nem_peixe.gaze.fixation_point.point.y = -0.601618178873
         nem_carne_nem_peixe.gaze.fixation_point.point.z = 0.224095496349
         nem_carne_nem_peixe.name = "Nem carne nem peixe"
-        nem_carne_nem_peixe.speechString = "silence_5s"
+        nem_carne_nem_peixe.speechString = "silence5s"
         waypoints.append(nem_carne_nem_peixe)
 
         
@@ -124,7 +124,7 @@ class RandomWalker():
         maquina_comida2.gaze.fixation_point.point.y = -0.0830495813139
         maquina_comida2.gaze.fixation_point.point.z = -1.02727840068
         maquina_comida2.name = "Maquina da comida2"
-        maquina_comida2.speechString = "silence_5s"
+        maquina_comida2.speechString = "silence5s"
         waypoints.append(maquina_comida2)
 
         
@@ -206,7 +206,7 @@ class RandomWalker():
         tv_elevadores.gaze.fixation_point.point.y = 0.140865129254
         tv_elevadores.gaze.fixation_point.point.z = 0.766451514858
         tv_elevadores.name = "TV dos elevadores"
-        tv_elevadores.speechString = "silence_5s"
+        tv_elevadores.speechString = "silence5s"
         waypoints.append(tv_elevadores)
 
 
@@ -256,9 +256,10 @@ class RandomWalker():
             speech_goal = woz_dialog_msgs.msg.SpeechGoal()
             speech_goal.voice = 'Joaquim'
             speech_goal.language = 'pt_PT'
-            speech_goal.message = way.speechString
-            self.speech_client.send_goal("silence5s")
+            speech_goal.message ="silence5s"
+            self.speech_client.send_goal(speech_goal)
             self.speech_client.wait_for_result()
+            speech_goal.message = way.speechString
             self.speech_client.send_goal(speech_goal)
             self.speech_client.wait_for_result()
 
@@ -276,7 +277,7 @@ class RandomWalker():
         self.move_base.send_goal(waypoint.goal)
 
         #While the robot does not get to the goal position randomly gaze at people
-        while not self.move_base.get_state() == GoalStatus.SUCCEEDED:
+        while not self.move_base.get_state() == GoalStatus.SUCCEEDED and not rospy.is_shutdown():
             print('moving')
             sleep(0.5)
             self.move_base.wait_for_result()
