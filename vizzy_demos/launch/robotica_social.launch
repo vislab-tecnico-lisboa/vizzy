@@ -16,4 +16,8 @@
     <node pkg="vizzy_speech_servers" type="nuance_tts_action_server.py"
 	    name="nuance_speech_tts" output="screen">
     </node>
+
+    <include file="$(find pedestrian_detector)/launch/pedestrian_detector.launch">
+        <param name="follower" value="false"/>
+    </include>
 </launch>
