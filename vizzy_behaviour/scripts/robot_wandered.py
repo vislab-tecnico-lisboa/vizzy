@@ -304,6 +304,10 @@ class RandomWalker():
                 gaze_person.fixation_point.point.y = self.closestPerson.y
                 gaze_person.fixation_point.point.z = self.closestPerson.z
                 self.gaze_client.send_goal(gaze_person)
+                self.gaze_active.wait_for_result()
+                sleep(1.2)
+                gaze_person.type = vizzy_msgs.msg.GazeGoal.HOME
+                self.gaze_client.send_goal(gaze_person)
 
             
             if self.comlicenca_active:
