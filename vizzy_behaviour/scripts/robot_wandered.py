@@ -21,7 +21,7 @@ class WayPoint:
     	self.gaze.fixation_point_error_tolerance = 0.01
     	self.gaze.fixation_point.header.frame_id='l_camera_link'
     	self.name = ""
-    	self.speechString = ""
+    	self.speechString = "silence_5s"
 
 class RandomWalker():
     def __init__(self):
@@ -41,9 +41,9 @@ class RandomWalker():
         quadro_ist.goal = deepcopy(goal)
         quadro_ist.gaze.fixation_point.point.x = 1.5
         quadro_ist.gaze.fixation_point.point.y =-0.161539276911 
-        quadro_ist.gaze.fixation_point.point.z =0.619330521451 
+        quadro_ist.gaze.fixation_point.point.z = 0.619330521451 
         quadro_ist.name = "Quadro IST"
-        quadro_ist.speechString = "Quadro interessante"
+        quadro_ist.speechString = "_________Quadro interessante"
         waypoints.append(quadro_ist)
 
 
@@ -55,7 +55,7 @@ class RandomWalker():
         nem_carne_nem_peixe.gaze.fixation_point.point.y = -0.143173355285
         nem_carne_nem_peixe.gaze.fixation_point.point.z = -0.12538726112
         nem_carne_nem_peixe.name = "Nem carne nem peixe"
-        nem_carne_nem_peixe.speechString = ""
+        nem_carne_nem_peixe.speechString = "silence_5s"
         waypoints.append(nem_carne_nem_peixe)
 
         
@@ -67,7 +67,7 @@ class RandomWalker():
         escadas_estudo.gaze.fixation_point.point.y = -0.19578182639
         escadas_estudo.gaze.fixation_point.point.z = -0.0652612527037
         escadas_estudo.name = "Escadas da sala de estudo"
-        escadas_estudo.speechString = "Cuidado com as escadas"
+        escadas_estudo.speechString = "_________Cuidado com as escadas"
         waypoints.append(escadas_estudo)
 
         
@@ -78,7 +78,7 @@ class RandomWalker():
         placar_viva_ritmo.gaze.fixation_point.point.y = -0.173235377375
         placar_viva_ritmo.gaze.fixation_point.point.z = 0.498420726409
         placar_viva_ritmo.name = "Placar do Viva o Ritmo"
-        placar_viva_ritmo.speechString = "Viva o ritmo... Interessante"
+        placar_viva_ritmo.speechString = "_________Viva o ritmo... Interessante."
         waypoints.append(placar_viva_ritmo)
 
         
@@ -89,7 +89,7 @@ class RandomWalker():
         placar_aluger.gaze.fixation_point.point.y = 0.247631986153
         placar_aluger.gaze.fixation_point.point.z = -0.403470379372
         placar_aluger.name = "Placar de aluguer"
-        placar_aluger.speechString = "Olha, pessoas a alugar coisas."
+        placar_aluger.speechString = "_________Olha, pessoas a alugar coisas."
         waypoints.append(placar_aluger)
 
         
@@ -101,7 +101,7 @@ class RandomWalker():
         placar_wc.gaze.fixation_point.point.y = -0.255905735466
         placar_wc.gaze.fixation_point.point.z = -0.132903105059
         placar_wc.name = "Placar do WC"
-        placar_wc.speechString = "Não consigo ler o que está neste placard"
+        placar_wc.speechString = "_________Não consigo ler o que está neste placard"
         waypoints.append(placar_wc)
 
         
@@ -112,7 +112,7 @@ class RandomWalker():
         maquina_comida.gaze.fixation_point.point.y = 0.104837718987
         maquina_comida.gaze.fixation_point.point.z = 0.791535363655
         maquina_comida.name = "Maquina da comida"
-        maquina_comida.speechString = "Parece ser bom. Mas não consigo comer."
+        maquina_comida.speechString = "_________Parece ser bom. Mas não consigo comer."
         waypoints.append(maquina_comida)
 
         
@@ -124,7 +124,7 @@ class RandomWalker():
         maquina_comida2.gaze.fixation_point.point.y = -0.0830495813139
         maquina_comida2.gaze.fixation_point.point.z = -1.02727840068
         maquina_comida2.name = "Maquina da comida2"
-        
+        maquina_comida2.speechString = "silence_5s"
         waypoints.append(maquina_comida2)
 
         
@@ -148,7 +148,7 @@ class RandomWalker():
         maquina_coca_cola.gaze.fixation_point.point.y = -0.278452184481
         maquina_coca_cola.gaze.fixation_point.point.z = 0.34810557026
         maquina_coca_cola.name = "Maquina coca-cola"
-        maquina_coca_cola.speechString = "Olha, coca-cola"
+        maquina_coca_cola.speechString = "_________Olha, coca-cola"
         waypoints.append(maquina_coca_cola)
 
         
@@ -160,7 +160,7 @@ class RandomWalker():
         maquina_cafe.gaze.fixation_point.point.y = -0.0379565481792
         maquina_cafe.gaze.fixation_point.point.z = 0.0700224520074
         maquina_cafe.name = "Maquina do cafe"
-        maquina_cafe.speechString = "Sou alérgico ao café. E a líquidos no geral."
+        maquina_cafe.speechString = "_________Sou alérgico ao café. E a líquidos no geral."
         waypoints.append(maquina_cafe)
 
         
@@ -171,7 +171,7 @@ class RandomWalker():
         placard_multibanco.gaze.fixation_point.point.y = 0.187508077078
         placard_multibanco.gaze.fixation_point.point.z = 0.55854680238
         placard_multibanco.name = "Placard do multibanco"
-        placard_multibanco.speechString = "Um"
+        placard_multibanco.speechString = "_________Um"
         waypoints.append(placard_multibanco)
 
         
@@ -206,7 +206,7 @@ class RandomWalker():
         tv_elevadores.gaze.fixation_point.point.y = 0.140865129254
         tv_elevadores.gaze.fixation_point.point.z = 0.766451514858
         tv_elevadores.name = "TV dos elevadores"
-        tv_elevadores.speechString = ""
+        tv_elevadores.speechString = "silence_5s"
         waypoints.append(tv_elevadores)
 
 
@@ -220,9 +220,6 @@ class RandomWalker():
         pilhas.speechString = "Isto dá-me fome"
         waypoints.append(pilhas)
 
-	for w in waypoints:
-	    print(w.name)
-    
         gaze_active = rospy.get_param("~gaze_active", False)
 
         #Initialize
@@ -237,26 +234,33 @@ class RandomWalker():
 
         self.speech_client = actionlib.SimpleActionClient('nuance_speech_tts',woz_dialog_msgs.msg.SpeechAction)
         rospy.loginfo("Connected to speech server")
-
         rospy.loginfo("Starting to wander around")
 
         while not rospy.is_shutdown():
-            #Move to a random point 
+            
+            home_goal = vizzy_msgs.msg.GazeGoal()
+            home_goal.type = vizzy_msgs.msg.GazeGoal.HOME
+            self.gaze_client.send_goal(home_goal)
+
             i = randint(0, len(waypoints)-1)
-	    print('index: ' + str(i))
+            print('index: ' + str(i))
             way = waypoints[i]
             print('Moving to '+way.name)
             self.move(way)
 	  
             print('gazing')
             self.gaze_client.send_goal(way.gaze)
-	    self.gaze_client.wait_for_result()
-	    sleep(2) 
+
+            self.gaze_client.wait_for_result()
+            sleep(2) 
             speech_goal = woz_dialog_msgs.msg.SpeechGoal()
             speech_goal.voice = 'Joaquim'
             speech_goal.language = 'pt_PT'
             speech_goal.message = way.speechString
-            #self.speech_client.send_goal(speech_goal)
+            self.speech_client.send_goal("silence5s")
+            self.speech_client.wait_for_result()
+            self.speech_client.send_goal(speech_goal)
+            self.speech_client.wait_for_result()
 
 
     def shutdown(self):
@@ -268,18 +272,17 @@ class RandomWalker():
 
 
     def move(self, waypoint):
+
         self.move_base.send_goal(waypoint.goal)
 
         #While the robot does not get to the goal position randomly gaze at people
-
-        #print('moving') 
-        self.move_base.wait_for_result()
+        while not self.move_base.get_state() == GoalStatus.SUCCEEDED:
+            print('moving')
+            sleep(0.5)
+            self.move_base.wait_for_result()
 
             #Gaze at people if gaze active
             #if gaze_active:
-
-
-
 
 	
 
