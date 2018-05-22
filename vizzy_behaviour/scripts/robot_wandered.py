@@ -52,8 +52,8 @@ class RandomWalker():
         goal.target_pose.pose = Pose(Point(6.8226184845, -0.382613778114, 0.0), Quaternion(0.0, 0.0, 0.994299805782, -0.10662033681))
         nem_carne_nem_peixe.goal = deepcopy(goal)
         nem_carne_nem_peixe.gaze.fixation_point.point.x = 1.5
-        nem_carne_nem_peixe.gaze.fixation_point.point.y = -0.143173355285
-        nem_carne_nem_peixe.gaze.fixation_point.point.z = -0.12538726112
+        nem_carne_nem_peixe.gaze.fixation_point.point.y = -0.601618178873
+        nem_carne_nem_peixe.gaze.fixation_point.point.z = 0.224095496349
         nem_carne_nem_peixe.name = "Nem carne nem peixe"
         nem_carne_nem_peixe.speechString = ""
         waypoints.append(nem_carne_nem_peixe)
