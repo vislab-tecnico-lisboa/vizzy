@@ -78,7 +78,7 @@ class RandomWalker():
         placar_viva_ritmo.gaze.fixation_point.point.y = -0.173235377375
         placar_viva_ritmo.gaze.fixation_point.point.z = 0.498420726409
         placar_viva_ritmo.name = "Placar do Viva o Ritmo"
-        placar_viva_ritmo.speechString = "_________Viva o ritmo... Interessante."
+        placar_viva_ritmo.speechString = "silence5s"
         waypoints.append(placar_viva_ritmo)
 
         
@@ -86,8 +86,8 @@ class RandomWalker():
         goal.target_pose.pose = Pose(Point(14.8170385361, -2.95126199722, 0.0), Quaternion(0.0, 0.0, -0.761200110734, 0.648517071031))
         placar_aluger.goal = deepcopy(goal)
         placar_aluger.gaze.fixation_point.point.x = 1.5
-        placar_aluger.gaze.fixation_point.point.y = 0.247631986153
-        placar_aluger.gaze.fixation_point.point.z = -0.403470379372
+        placar_aluger.gaze.fixation_point.point.y = 0.0973222810166 
+        placar_aluger.gaze.fixation_point.point.z = 0.960639952322 
         placar_aluger.name = "Placar de aluguer"
         placar_aluger.speechString = "_________Olha, pessoas a alugar coisas."
         waypoints.append(placar_aluger)
@@ -182,7 +182,7 @@ class RandomWalker():
         escadas_seguranca.gaze.fixation_point.point.y = -0.0755340082393
         escadas_seguranca.gaze.fixation_point.point.z = 0.37065283186
         escadas_seguranca.name = "Escadas da seguranca"
-        escadas_seguranca.speechString = "Não consigo subir escadas"
+        escadas_seguranca.speechString = "_________Não consigo subir escadas"
         waypoints.append(escadas_seguranca)
     
 
@@ -193,7 +193,7 @@ class RandomWalker():
         relogio.gaze.fixation_point.point.y = 0.0836535250107
         relogio.gaze.fixation_point.point.z = 0.905399122557
         relogio.name = "Relogio"
-        relogio.speechString = "Tic tac"
+        relogio.speechString = "_________Tic Tac Tic Tac"
 
         waypoints.append(relogio)
 
@@ -217,7 +217,7 @@ class RandomWalker():
         pilhas.gaze.fixation_point.point.y =0.304327019719 
         pilhas.gaze.fixation_point.point.z =0.856358791421 
         pilhas.name = "Pilhas"           
-        pilhas.speechString = "Isto dá-me fome"
+        pilhas.speechString = "_________Isto dá-me fome"
         waypoints.append(pilhas)
 
         gaze_active = rospy.get_param("~gaze_active", False)
@@ -252,16 +252,18 @@ class RandomWalker():
             self.gaze_client.send_goal(way.gaze)
 
             self.gaze_client.wait_for_result()
-            sleep(2) 
+            sleep(1) 
             speech_goal = woz_dialog_msgs.msg.SpeechGoal()
             speech_goal.voice = 'Joaquim'
             speech_goal.language = 'pt_PT'
             speech_goal.message ="silence5s"
             self.speech_client.send_goal(speech_goal)
-            self.speech_client.wait_for_result()
+            #self.speech_client.wait_for_result()
+            sleep(5)
             speech_goal.message = way.speechString
             self.speech_client.send_goal(speech_goal)
-            self.speech_client.wait_for_result()
+            sleep(2)
+            #self.speech_client.wait_for_result()
 
 
     def shutdown(self):
