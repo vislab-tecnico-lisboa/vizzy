@@ -18,13 +18,14 @@ The real robot uses two different middlewares for distinct body parts (YARP for 
 * [vizzy_sensors](vizzy_sensors): Package holding the Hokuyo filters for better scannings.
 * [vizzy_yarp_icub](vizzy_yarp_icub): YARP based controllers, drivers, libraries and modules. Cartesian controllers, gaze controller, ball tracker grasping demo, yoga demo.
 
+## External Packages
+* [vizzy_speech](https://github.com/vislab-tecnico-lisboa/vizzy_speech): Cointains the node to made vizzy speak.
+
 ## Environment
 
 Note that for simulation purposes one can ignore all YARP dependencies as explained on the repository description.
 
-* Operating System (one of the two)
-  * [Ubuntu 12.04](http://releases.ubuntu.com/12.04/) - Deprecated !!! forces the user to install ROS Hydro that currently is able to run everything
-  * [Ubuntu 14.04](http://releases.ubuntu.com/14.04/) - Deprecated !! forces the user to install [ROS Indigo](http://wiki.ros.org/indigo/Installation/Ubuntu) that is the fully functional and currently supported version
+* Operating System
   * [Ubuntu 16.04](http://releases.ubuntu.com/16.04/) - Currently supported version, Ubuntu 16.04 and ROS Kinetic-Kame
 * Middleware
   * [ROS](http://www.ros.org/) - depending on the installed OS (Hydro for Ubuntu 12.04, Indigo for Ubuntu 14.04 or Kinetic for 16.04)
