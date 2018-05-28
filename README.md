@@ -28,7 +28,7 @@ Note that for simulation purposes one can ignore all YARP dependencies as explai
 * Operating System
   * [Ubuntu 16.04](http://releases.ubuntu.com/16.04/) - Currently supported version, Ubuntu 16.04 and ROS Kinetic-Kame
 * Middleware
-  * [ROS](http://www.ros.org/) - depending on the installed OS (Hydro for Ubuntu 12.04, Indigo for Ubuntu 14.04 or Kinetic for 16.04)
+  * [ROS](http://www.ros.org/) - Currently supported version Kinetic for Ubuntu 16.04
   * [YARP](http://wiki.icub.org/yarpdoc/) - we try to keep everything working with the most recent version of YARP
 * Other Dependencies
   * [GAZEBO](http://gazebosim.org/) - It needs GAZEBO greather or equal than 5 to run the gazebo-yarp-plugins. Currently tested in Gazebo 7 and 9 as well.
