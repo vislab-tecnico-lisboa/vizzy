@@ -102,7 +102,7 @@
           <cameraName>vizzy/${prefix}_camera</cameraName>
           <imageTopicName>image_raw</imageTopicName>
           <cameraInfoTopicName>camera_info</cameraInfoTopicName>
-          <frameName>${prefix}_camera_link</frameName>
+          <frameName>${prefix}_camera_vision_link</frameName>
           <!--
           <distortion>
           <k1>-0.4738</k1>
