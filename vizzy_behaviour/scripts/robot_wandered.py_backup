@@ -263,9 +263,7 @@ class RandomWalker():
             print('index: ' + str(i))
             way = waypoints[i]
             print('Moving to '+way.name)
-            test = self.move(way)
-	    if not test:
-	        continue
+            self.move(way)
 	  
             print('gazing')
             self.gaze_client.send_goal(way.gaze)
@@ -318,8 +316,6 @@ class RandomWalker():
                 sleep(1.7)
 		gaze_person.type = vizzy_msgs.msg.GazeGoal.HOME
                 self.gaze_client.send_goal(gaze_person)
-		if self.move_base.get_state() == GoalStatus.ABORTED or self.move_base.get_state() == GoalStatus.PREEMPTED or self.move_base.get_state() == GoalStatus.REJECTED:
-		    return False
 
             
             if self.comlicenca_active and count_licenca < 0:
@@ -347,9 +343,8 @@ class RandomWalker():
 	    self.closestPerson.x = 10.0
             self.closestPerson.y = 0.0
             self.closestPerson.z = 1.5 
+
 	
-	return True
-		
 
 if __name__ == '__main__':
     try:
