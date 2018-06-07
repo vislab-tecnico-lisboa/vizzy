@@ -22,7 +22,7 @@ conservative_reset:
     layer_names: ["laserobstacles"]
 
 aggressive_reset:
-    reset_distance: 1.5
+    reset_distance: 0.5
     layer_names: ["laserobstacles"]
 
 rotate_recovery:
@@ -37,3 +37,4 @@ move_slow_and_clear:
     limited_rot_speed: 0.45
     limited_distance: 0.3
     planner_namespace: "EBandPlannerROS"
+    layer_names: ["laserobstacles"]

@@ -35,6 +35,9 @@ class RandomWalker():
         rospy.on_shutdown(self.shutdown)
 
         self.closestPerson = Point()
+	self.closestPerson.x = 10.0
+	self.closestPerson.y = 0.0
+	self.closestPerson.z = 1.5
 
         #Subscribe to closest points
         rospy.Subscriber("/closest_person", PointStamped, self.callback)
@@ -234,8 +237,9 @@ class RandomWalker():
 
         self.gaze_active = rospy.get_param("~gaze_active", True)
         self.comlicenca_active = rospy.get_param("~comlicenca_active", True)
-
-        #Initialize
+        self.beep_comlicenca_active = rospy.get_param("~beep_comlicenca_active", False)
+        
+	#Initialize
         self.cmd_vel_pub = rospy.Publisher('cmd_vel', Twist)
         self.move_base = actionlib.SimpleActionClient("move_base", MoveBaseAction)
         self.move_base.wait_for_server(rospy.Duration(60))
@@ -259,12 +263,14 @@ class RandomWalker():
             print('index: ' + str(i))
             way = waypoints[i]
             print('Moving to '+way.name)
-            self.move(way)
+            test = self.move(way)
+	    if not test:
+	        continue
 	  
             print('gazing')
             self.gaze_client.send_goal(way.gaze)
 
-            self.gaze_client.wait_for_result()
+            #self.gaze_client.wait_for_result()
             sleep(1) 
             speech_goal = woz_dialog_msgs.msg.SpeechGoal()
             speech_goal.voice = 'Joaquim'
@@ -290,40 +296,60 @@ class RandomWalker():
     def move(self, waypoint):
 
         self.move_base.send_goal(waypoint.goal)
-
+	count_licenca = -1
         #While the robot does not get to the goal position randomly gaze at people
-        while self.move_base.get_state() == GoalStatus.ACTIVE and not rospy.is_shutdown():
+        while not self.move_base.get_state() == GoalStatus.SUCCEEDED and not self.move_base.get_state() == GoalStatus.LOST and not self.move_base.get_state() == GoalStatus.REJECTED and not self.move_base.get_state() == GoalStatus.ABORTED and not self.move_base.get_state() == GoalStatus.PREEMPTED and not rospy.is_shutdown():
             print('moving')
-            sleep(1.0)
-            self.move_base.wait_for_result(rospy.Duration(1.0))
-
+            sleep(0.3)
+            #self.move_base.wait_for_result(rospy.Duration(1.0))
+	    print(math.sqrt(math.pow(self.closestPerson.x, 2)+math.pow(self.closestPerson.y, 2)))
             #Gaze at people if gaze active
-            if self.gaze_active:
-                gaze_person = vizzy_msgs.msg.GazeGoal()
+            if self.gaze_active and math.sqrt(math.pow(self.closestPerson.x, 2)+math.pow(self.closestPerson.y, 2)) < 5.0 and self.gaze_active and math.sqrt(math.pow(self.closestPerson.x, 2)+math.pow(self.closestPerson.y, 2)) > 1.5:
+		print('gazing at person') 
+		gaze_person = vizzy_msgs.msg.GazeGoal()
                 gaze_person.type = vizzy_msgs.msg.GazeGoal.CARTESIAN
                 gaze_person.fixation_point_error_tolerance = 0.01
-                gaze_person.fixation_point.header.frame_id='l_camera_link'
+                gaze_person.fixation_point.header.frame_id="base_footprint"
                 gaze_person.fixation_point.point.x = self.closestPerson.x
                 gaze_person.fixation_point.point.y = self.closestPerson.y
-                gaze_person.fixation_point.point.z = self.closestPerson.z
+                gaze_person.fixation_point.point.z = self.closestPerson.z*1.03
                 self.gaze_client.send_goal(gaze_person)
-                self.gaze_active.wait_for_result()
-                sleep(1.2)
-                gaze_person.type = vizzy_msgs.msg.GazeGoal.HOME
+                #self.gaze_client.wait_for_result()
+                sleep(1.7)
+		gaze_person.type = vizzy_msgs.msg.GazeGoal.HOME
                 self.gaze_client.send_goal(gaze_person)
+		if self.move_base.get_state() == GoalStatus.ABORTED or self.move_base.get_state() == GoalStatus.PREEMPTED or self.move_base.get_state() == GoalStatus.REJECTED:
+		    return False
 
             
-            if self.comlicenca_active:
-                if math.sqrt(math.pow(self.closestPerson.x, 2)+math.pow(self.closestPerson.y, 2)) < 1.4:
+            if self.comlicenca_active and count_licenca < 0:
+                if math.sqrt(math.pow(self.closestPerson.x, 2)+math.pow(self.closestPerson.y, 2)) < 2.2:
                     speech_goal = woz_dialog_msgs.msg.SpeechGoal()
+		    self.closestPerson.x = 10.0
+		    self.closestPerson.y = 0.0
+		    self.closestPerson.z = 1.5
                     speech_goal.voice = 'Joaquim'
                     speech_goal.language = 'pt_PT'
-                    speech_goal.message = "Com licença"
+		    speech_goal.message ="silence1s"
+		    self.speech_client.send_goal(speech_goal)
+		    self.speech_client.wait_for_result()
+		    if not self.beep_comlicenca_active:
+			speech_goal.message = "Com licença"
+		    else:
+			speech_goal.message = "silence5s"
+
                     self.speech_client.send_goal(speech_goal)
                     self.speech_client.wait_for_result()
-                
+		    sleep(1.0)
+		    count_licenca = 10
 
+	    count_licenca = count_licenca-1 
+	    self.closestPerson.x = 10.0
+            self.closestPerson.y = 0.0
+            self.closestPerson.z = 1.5 
 	
+	return True
+		
 
 if __name__ == '__main__':
     try:
