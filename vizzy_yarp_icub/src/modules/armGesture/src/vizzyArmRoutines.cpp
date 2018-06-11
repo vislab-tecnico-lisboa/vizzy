@@ -11,6 +11,11 @@
 #include "vizzyArmRoutines.h"
 #include "Int16.h"
 
+float max_coeffs[3] = { 1.0, 0.53};
+float min_coeffs[4] = {0.0, 0.17, 0.25};
+float sleeps[7] = {0.65, 0.42, 0.30, 0.22, 0};
+
+
 using namespace yarp::os;
 using namespace std;
 using namespace yarp::math;
@@ -117,11 +122,11 @@ bool VizzyArmRoutines::configure(yarp::os::ResourceFinder &rf) {
 
 
 
-    // Setting Motor velocities for handshaking motion
+    // Setting Motor velocities for waving motion
 
     velocities_handshaking = velocities_waving;
-    velocities_handshaking[4] = velocities_waving[4]/2;
-    velocities_handshaking[6] = velocities_waving[6]/2;
+    velocities_handshaking[4] = velocities_waving[4]*1.24;
+    velocities_handshaking[6] = velocities_waving[6]*1.24;
 
 
 
@@ -133,6 +138,7 @@ bool VizzyArmRoutines::configure(yarp::os::ResourceFinder &rf) {
     wave_home_pose.resize(nj);
     arm_forward_pose.resize(nj);
     grabing_hand_pose.resize(nj);
+    letgot_hand_pose.resize(nj);
     while(!encs->getEncoders(encoders.data()))
     {
             Time::delay(0.01);
@@ -156,9 +162,9 @@ bool VizzyArmRoutines::configure(yarp::os::ResourceFinder &rf) {
     arm_forward_pose[1] = 73.5;
     arm_forward_pose[2] = 0;
     arm_forward_pose[3] = -8.5;
-    arm_forward_pose[4] = 47.25;
+    arm_forward_pose[4] = 47.25-5.0;
     arm_forward_pose[5] = -10.2;
-    arm_forward_pose[6] = 28;
+    arm_forward_pose[6] = 28-3.0;
     arm_forward_pose[7] = 18.2;
     arm_forward_pose[8] = 37.5;
     arm_forward_pose[9] = 45;
@@ -173,11 +179,25 @@ bool VizzyArmRoutines::configure(yarp::os::ResourceFinder &rf) {
     grabing_hand_pose[3] = -8.5;
     grabing_hand_pose[4] = 40;
     grabing_hand_pose[5] = -10.2;
-    grabing_hand_pose[6] = 28;
+    grabing_hand_pose[6] = 28-3.0;
     grabing_hand_pose[7] = 18.2;    
     grabing_hand_pose[8] = 118;
     grabing_hand_pose[9] = 104;
     grabing_hand_pose[10] = 135;
+
+    //Case 4 - Grab hand
+
+    letgot_hand_pose[0] =-3.6;
+    letgot_hand_pose[1] = 79;
+    letgot_hand_pose[2] = 0;
+    letgot_hand_pose[3] = -8.5;
+    letgot_hand_pose[4] = 40;
+    letgot_hand_pose[5] = -10.2;
+    letgot_hand_pose[6] = 28-3.0;
+    letgot_hand_pose[7] = 18.2;    
+    letgot_hand_pose[8] = 37.5;
+    letgot_hand_pose[9] = 45;
+    letgot_hand_pose[10] = 69.75;
 
 
 
@@ -266,7 +286,7 @@ bool VizzyArmRoutines::updateModule() {
                 //Perform handshake
                 cout << "Performing handshake..." << endl;
                 cout << "Grabbing user hand" << endl;
-                pos->setRefSpeeds(velocities_waving.data());
+                pos->setRefSpeeds(velocities_handshaking.data());
                 command = grabing_hand_pose;
                 pos->positionMove(command.data());
                 while(!done) { 
@@ -275,23 +295,24 @@ bool VizzyArmRoutines::updateModule() {
                 }
                 done = false;
 
-                cout << "Performing waving motion" << endl;
+                cout << "Performing shaking motion" << endl;
                 for(int i=0;i< 5; i++) {
                     if(i%2==0) {
-                        command[4]=grabing_hand_pose[4]+10;
-                        command[6]= grabing_hand_pose[6] + 6; //34-28
+                        command[4]= grabing_hand_pose[4]+30*min_coeffs[i/2];
+                        command[6]= grabing_hand_pose[6] + 18*min_coeffs[i/2]; //34-28
                         pos->positionMove(command.data());
                     }
                     else {
-                        command[4]=grabing_hand_pose[4];
-                        command[6]= grabing_hand_pose[6]; //34-28
+                        command[4]= grabing_hand_pose[4]+30*max_coeffs[i/2];
+                        command[6]= grabing_hand_pose[6]+18*max_coeffs[i/2]; //34-28
                         pos->positionMove(command.data());
                     }
-                    Time::delay(0.6);
+                    Time::delay(sleeps[i]*1.2);
                 }
 
                 cout << "Letting go of user hand" << endl;
-                command = arm_forward_pose;
+                pos->setRefSpeeds(velocities_waving.data());
+                command = letgot_hand_pose;
                 pos->positionMove(command.data());
                 while(!done) {
                     pos->checkMotionDone(&done);
@@ -310,7 +331,7 @@ bool VizzyArmRoutines::updateModule() {
                 break;
             case 4:
                 cout << "Asking for shake" << endl;
-                pos->setRefSpeeds(velocities_stretching.data());
+                pos->setRefSpeeds(velocities_handshaking.data());
 
                 //Just to be sure that it's on the right position...
                 command = arm_forward_pose;
@@ -321,18 +342,19 @@ bool VizzyArmRoutines::updateModule() {
                 }
                 done = false;
 
+
                 for(int i=0;i< 5; i++) {
                     if(i%2==0) {
-                        command[4]=arm_forward_pose[4]+10;
-                        command[6]= arm_forward_pose[6] + 6; //34-28
+                        command[4]=arm_forward_pose[4]+30*min_coeffs[i/2];
+                        command[6]= arm_forward_pose[6] + 18*min_coeffs[i/2]; //34-28
                         pos->positionMove(command.data());
                     }
                     else {
-                        command[4]=arm_forward_pose[4];
-                        command[6]= arm_forward_pose[6]; //34-28
+                        command[4]=arm_forward_pose[4]+30*max_coeffs[i/2];
+                        command[6]= arm_forward_pose[6]+18*max_coeffs[i/2]; //34-28
                         pos->positionMove(command.data());
                     }
-                    Time::delay(0.6);
+                    Time::delay(sleeps[i]*1.2);
                 }                
 
 
