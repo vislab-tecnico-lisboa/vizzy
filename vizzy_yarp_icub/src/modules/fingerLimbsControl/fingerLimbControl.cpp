@@ -103,7 +103,7 @@ public:
             printf("%s", Drivers::factory().toString().c_str());
             return 0;
         }
-	while (!force_sensor_port.topic("/tactileForceField")) {
+	    while (!force_sensor_port.topic("/tactileForceField")) {
               cerr<< "Failed to connect to subscriber to /tactileForceField\n";
               Time::delay(0.01);
         }
@@ -213,7 +213,7 @@ public:
 	if (make_control==1)
 	{
 		for (int finger_i = 0; finger_i < 3; finger_i++)
-            	{
+            {
                 //condition for doing control or keeping
                 if (std::abs(finger_force[finger_i] - finger_set[finger_i]) > force_error)
                 {
@@ -241,7 +241,7 @@ public:
                     joint_inc[finger_i]=0;
                     //std::cout << "Finger " << finger_i << " is ok!" << std::endl;
                 }
-            	} // end for
+            } // end for
 
             //change the enconders 8, 9 and 10 
             pos->positionMove(8,encoders[8]+joint_inc[0]);

@@ -48,6 +48,7 @@ private:
    QPushButton *stretch_button;
    QPushButton *askshake_button;
    QPushButton *handshake_button;
+   QPushButton *handshake_pid_button;
 
 public Q_SLOTS:
 
@@ -57,6 +58,7 @@ public Q_SLOTS:
   void stretch();
   void handshake();
   void askshake();
+  void handshake_pid();
 
 
 protected Q_SLOTS:
