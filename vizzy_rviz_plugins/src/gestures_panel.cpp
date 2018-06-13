@@ -23,8 +23,10 @@ GesturesPanel::GesturesPanel(QWidget *parent)
   home_button = new QPushButton("Home position", this);
   wave_button = new QPushButton("Wave", this);
   stretch_button = new QPushButton("Stretch arm", this);
-  handshake_button = new QPushButton("Handshake", this);
+  handshake_button = new QPushButton("Handshake fixed", this);
   askshake_button = new QPushButton("Ask for handshake", this);
+  handshake_pid_button = new QPushButton("Handshake PID", this);
+
 
   // Next we lay out the "output topic" text entry field using a
   // QLabel and a QLineEdit in a QHBoxLayout.
@@ -40,6 +42,8 @@ GesturesPanel::GesturesPanel(QWidget *parent)
   gestures_layout->addWidget(stretch_button);
   gestures_layout->addWidget(handshake_button);
   gestures_layout->addWidget(askshake_button);
+  gestures_layout->addWidget(handshake_pid_button);
+
 
   QVBoxLayout* panel_layout = new QVBoxLayout();
   panel_layout->addLayout(topic_layout);
@@ -52,7 +56,8 @@ GesturesPanel::GesturesPanel(QWidget *parent)
   connect(wave_button, SIGNAL (released()), this, SLOT (wave()));
   connect(stretch_button, SIGNAL (released()), this, SLOT (stretch()));
   connect(handshake_button, SIGNAL (released()), this, SLOT (handshake()));
-  connect(askshake_button, SIGNAL (released()), this, SLOT (askshake()));
+  connect(handshake_button, SIGNAL (released()), this, SLOT (handshake()));
+  connect(handshake_pid_button, SIGNAL (released()), this, SLOT (handshake_pid()));
   connect( output_topic_editor_, SIGNAL( editingFinished() ), this, SLOT( updateTopic() ));
 
   updateTopic();
@@ -93,6 +98,13 @@ void GesturesPanel::askshake()
   std_msgs::Int16 command;
   command.data=4;
   vizzy_arm_publisher.publish(command);  
+}
+
+void GesturesPanel::handshake_pid()
+{
+  std_msgs::Int16 command;
+  command.data=5;
+  vizzy_arm_publisher.publish(command);
 }
 
 void GesturesPanel::updateTopic()
