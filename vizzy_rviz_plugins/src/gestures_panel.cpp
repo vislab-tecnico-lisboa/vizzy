@@ -56,7 +56,6 @@ GesturesPanel::GesturesPanel(QWidget *parent)
   connect(wave_button, SIGNAL (released()), this, SLOT (wave()));
   connect(stretch_button, SIGNAL (released()), this, SLOT (stretch()));
   connect(handshake_button, SIGNAL (released()), this, SLOT (handshake()));
-  connect(handshake_button, SIGNAL (released()), this, SLOT (handshake()));
   connect(handshake_pid_button, SIGNAL (released()), this, SLOT (handshake_pid()));
   connect( output_topic_editor_, SIGNAL( editingFinished() ), this, SLOT( updateTopic() ));
 
