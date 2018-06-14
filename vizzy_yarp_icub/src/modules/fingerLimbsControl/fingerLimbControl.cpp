@@ -139,7 +139,7 @@ public:
 
         inc_max = 10;                           // max joint increment
         joint_max = 180;                        // max joint value for fingers (min is 0)
-        force_error = 0.5;                      // accepeted force error [N]
+        force_error = 0.5;                      // accepted force error [N]
 	make_control = 0;
 
         sensor_force.resize(11); // 11 active sensors 

@@ -4,6 +4,24 @@
 ControlThread::ControlThread(yarp::os::Subscriber<TactSensorArray> *my_topic__, IEncoders *encs__,
     IPositionControl *pos__):semStart(0), encs(encs__),  pos(pos__){
     setSubscriber(my_topic__);
+    sensor_force.resize(11);
+    force_error = 0.5;                      // accepted force error [N]
+    finger_set[0] = 1.05+force_error+0.3; // new force setpoints 
+    finger_set[1] = 1.34+force_error+0.3;
+    finger_set[2] = 1.35+force_error+0.3;
+    finger_force[0] = 0.0; // current force values
+    finger_force[1] = 0.0;
+    finger_force[2] = 0.0;
+    joint_inc[0] = 0.0;
+    joint_inc[1] = 0.0;
+    joint_inc[2] = 0.0;
+    joint_max[0] = 140.0;
+    joint_max[1] = 180.0;
+    joint_max[2] = 180.0;
+    inc_max = 80;                           // max joint increment
+    //joint_max = 180;                        // max joint value for fingers (min is 0)
+
+
 }
 ControlThread::~ControlThread(){}
 bool ControlThread::threadInit()
@@ -11,6 +29,9 @@ bool ControlThread::threadInit()
     std::cout << "Starting thread1" << std::endl;
     yarp::os::Time::delay(0.01);
     array = new std::vector<TactSensor>();
+    int nj=0;
+    pos->getAxes(&nj);
+    encoders.resize(nj);
     return true;
 }
 void ControlThread::setSubscriber(yarp::os::Subscriber<TactSensorArray> *my_topic__){
@@ -20,22 +41,24 @@ void ControlThread::setSubscriber(yarp::os::Subscriber<TactSensorArray> *my_topi
 
 void ControlThread::run(){
     while(!isStopping()) {
+
+    TactSensorArray reading1Mux;
+    my_topic->read(reading1Mux);
+    int arraySize = reading1Mux.sensorArray.size();
+    array->resize(arraySize);
+    *array = reading1Mux.sensorArray;
+    geometry_msgs_Vector3 currForce = array->at(0).force;
+
+    /*Get sensor data*/
+    encs->getEncoders(encoders.data());
+
         if(controlActive)
         {
-            TactSensorArray reading1Mux;
-            my_topic->read(reading1Mux);
-            int arraySize = reading1Mux.sensorArray.size();
-            array->resize(arraySize);
-            *array = reading1Mux.sensorArray;
-            geometry_msgs_Vector3 currForce = array->at(0).force;
-
-            /*Get sensor data*/
-
-            encs->getEncoders(encoders.data());
-
+	
             for(int sensor_i = 0; sensor_i < 11; sensor_i++) {
                
-                sensor_force[sensor_i]= std::abs(array->at(sensor_i).force.x)+std::abs(array->at(sensor_i).force.y)+std::abs(array->at(sensor_i).force.z);
+                //sensor_force[sensor_i]= std::abs(array->at(sensor_i).force.x)+std::abs(array->at(sensor_i).force.y)+std::abs(array->at(sensor_i).force.z);
+                sensor_force[sensor_i]= std::abs(array->at(sensor_i).force.z);
      
                 if (sensor_force[sensor_i]>10){    //just in case some sensor breaks during experiment
                 sensor_force[sensor_i]=10;
@@ -46,9 +69,18 @@ void ControlThread::run(){
                         
             }
 
-            finger_force[0] = sensor_force[0]+sensor_force[1]+sensor_force[2];
-            finger_force[1] = sensor_force[3]+sensor_force[4]+sensor_force[5]+sensor_force[6]; 
-            finger_force[2] = sensor_force[7]+sensor_force[8]+sensor_force[9]+sensor_force[10];
+            finger_force[0] = sensor_force[0]+sensor_force[1]; //+sensor_force[2];
+            finger_force[1] = sensor_force[3]+sensor_force[5]; //+sensor_force[4]+sensor_force[5]+sensor_force[6]; 
+            finger_force[2] = sensor_force[7]+sensor_force[8]; //+sensor_force[9]+sensor_force[10];
+
+	std::cout << "Thumb 1: " << sensor_force[0] << "2: " << sensor_force[1] << "3: " << sensor_force[2] << std::endl;
+	std::cout << "Thumb - Force: " << finger_force[0]<< " Motor: " << encoders[8] << std::endl;
+
+	std::cout << "Index 1: " << sensor_force[3] << "2: " << sensor_force[4] << "3: " << sensor_force[5] << " Total: " << finger_force[1]<< std::endl;
+	std::cout << "Index - Force: " << finger_force[1]<< " Motor: " << encoders[9] << std::endl;
+
+	//std::cout << "Mid 1: " << sensor_force[7] << "2: " << sensor_force[8] << "3: " << sensor_force[9] << std::endl;
+	std::cout << "Mid - Force: " << finger_force[2]<< " Motor: " << encoders[10] << std::endl;
 
             for (int finger_i = 0; finger_i < 3; finger_i++)
                 {
@@ -66,8 +98,8 @@ void ControlThread::run(){
                         }
 
                         //conditions for joint: 0 < angles < joint_max
-                        if (encoders[8+finger_i] + joint_inc[finger_i] > joint_max){
-                            joint_inc[finger_i] = joint_max-encoders[8+finger_i]; 
+                        if (encoders[8+finger_i] + joint_inc[finger_i] > joint_max[finger_i]){
+                            joint_inc[finger_i] = joint_max[finger_i]-encoders[8+finger_i]; 
                         }
                         if (encoders[8+finger_i] + joint_inc[finger_i] < 0){
                             joint_inc[finger_i] = 0 - encoders[8+finger_i];
@@ -81,7 +113,7 @@ void ControlThread::run(){
                     }
                 } // end for
 
-            //change the enconders 8, 9 and 10 
+            //change the enconders 8, 9 and 10
             pos->positionMove(8,encoders[8]+joint_inc[0]);
             pos->positionMove(9,encoders[9]+joint_inc[1]);
             pos->positionMove(10,encoders[10]+joint_inc[2]);
@@ -96,11 +128,13 @@ void ControlThread::run(){
 void ControlThread::EnableControl()
 {
     controlActive = true;
+    std::cout << "Enabling PID" << std::endl;
 }
 
 void ControlThread::DisableControl()
 {
     controlActive = false;
+    std::cout << "Disabling PID" << std::endl;
 }
 
 

@@ -128,6 +128,9 @@ bool VizzyArmRoutines::configure(yarp::os::ResourceFinder &rf) {
     velocities_handshaking = velocities_waving;
     velocities_handshaking[4] = velocities_waving[4]*1.24;
     velocities_handshaking[6] = velocities_waving[6]*1.24;
+    velocities_handshaking[8] = 40;
+    velocities_handshaking[9] = 40;
+    velocities_handshaking[10] = 40;
 
 
 
@@ -216,14 +219,16 @@ bool VizzyArmRoutines::configure(yarp::os::ResourceFinder &rf) {
     pid_hand_pose[10] = 69.75;
     
     int numTries = 0;
-    while (!force_sensor_port.topic("/tactileForceField") || numTries < 10) {
+    while (!force_sensor_port.topic("/tactileForceField") && numTries < 10) {
             cerr<< "Failed to connect to subscriber to /tactileForceField\n";
             Time::delay(0.5);
             numTries++;
     }
 
-    if(numTries < 10)
+    if(numTries < 10){
         fingerLimbControl = new ControlThread(&force_sensor_port, encs, pos);
+        fingerLimbControl->start();
+    }
 
 
 	// TO BE IMPLEMENTED
@@ -390,19 +395,26 @@ bool VizzyArmRoutines::updateModule() {
                   //Perform handshake
                 pos->setRefSpeeds(velocities_handshaking.data());
 
+                cout << "Grabbing user hand" << endl;
                 fingerLimbControl->EnableControl();
+
+                Time::delay(6.0);
 
                 cout << "Performing shaking motion" << endl;
                 for(int i=0;i< 5; i++) {
                     if(i%2==0) {
-                        command[4]= grabing_hand_pose[4]+30*min_coeffs[i/2];
-                        command[6]= grabing_hand_pose[6] + 18*min_coeffs[i/2]; //34-28
-                        pos->positionMove(command.data());
+                        //command[4]= grabing_hand_pose[4]+30*min_coeffs[i/2];
+                        //command[6]= grabing_hand_pose[6] + 18*min_coeffs[i/2]; //34-28
+                        //pos->positionMove(command.data());
+                        pos->positionMove(4,grabing_hand_pose[4]+30*min_coeffs[i/2]);
+                        pos->positionMove(6,grabing_hand_pose[6]+30*min_coeffs[i/2]);
                     }
                     else {
-                        command[4]= grabing_hand_pose[4]+30*max_coeffs[i/2];
-                        command[6]= grabing_hand_pose[6]+18*max_coeffs[i/2]; //34-28
-                        pos->positionMove(command.data());
+                        pos->positionMove(4,grabing_hand_pose[4]+30*max_coeffs[i/2]);
+                        pos->positionMove(6,grabing_hand_pose[6]+30*max_coeffs[i/2]);
+                        //command[4]= grabing_hand_pose[4]+30*max_coeffs[i/2];
+                        //command[6]= grabing_hand_pose[6]+18*max_coeffs[i/2]; //34-28
+                        //pos->positionMove(command.data());
                     }
                     Time::delay(sleeps[i]*1.2);
                 }
@@ -426,7 +438,8 @@ bool VizzyArmRoutines::updateModule() {
                     pos->checkMotionDone(&done);
                     Time::delay(0.00001);   // Alterado
                 }
-                cout << "Handshake performed" << endl;  
+                cout << "Handshake performed" << endl;
+                break;
 
             default:
                 cout << "unknown command" << endl;
