@@ -20,7 +20,7 @@ ControlThread::ControlThread(yarp::os::Subscriber<TactSensorArray> *my_topic__, 
     joint_max[2] = 180.0;
     inc_max = 80;                           // max joint increment
     //joint_max = 180;                        // max joint value for fingers (min is 0)
-
+    controlActive=false;
 
 }
 ControlThread::~ControlThread(){}
