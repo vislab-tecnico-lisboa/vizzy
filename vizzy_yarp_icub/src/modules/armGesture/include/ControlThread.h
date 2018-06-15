@@ -48,8 +48,10 @@ private:
     double joint_inc[3];
     double inc_max;                           // max joint increment
     double joint_max[3];                        // max joint value for fingers (min is 0)
+    double sensor_set[11];
     double force_error;                      // accepeted force error [N]
-	bool make_control;
+    bool make_control;
+    bool naiveSumControl;
 	
     Vector sensor_force;
 
