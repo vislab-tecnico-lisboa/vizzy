@@ -6,12 +6,23 @@ ControlThread::ControlThread(yarp::os::Subscriber<TactSensorArray> *my_topic__, 
     setSubscriber(my_topic__);
     sensor_force.resize(11);
     force_error = 0.5;                      // accepted force error [N]
-    finger_set[0] = 1.05+force_error+0.3; // new force setpoints 
-    finger_set[1] = 1.34+force_error+0.3;
-    finger_set[2] = 1.35+force_error+0.3;
+    finger_set[0] = 1.05+force_error;//+force_error+0.3; // new force setpoints 
+    finger_set[1] = 1.34+force_error;//+force_error+0.3;
+    finger_set[2] = 1.35+force_error;//+force_error+0.3;
     finger_force[0] = 0.0; // current force values
     finger_force[1] = 0.0;
     finger_force[2] = 0.0;
+    sensor_set[0]=0.9525;
+    sensor_set[1]=0.35;
+    sensor_set[2]=0.124;
+    sensor_set[3]=0.5469;
+    sensor_set[4]=0.7921;
+    sensor_set[5]=0.7921;
+    sensor_set[6]=0.5367;
+    sensor_set[7]=0.7;
+    sensor_set[8]=0.65;
+    sensor_set[9]=0.1211;
+    sensor_set[10]=0.1358;
     joint_inc[0] = 0.0;
     joint_inc[1] = 0.0;
     joint_inc[2] = 0.0;
@@ -21,6 +32,7 @@ ControlThread::ControlThread(yarp::os::Subscriber<TactSensorArray> *my_topic__, 
     inc_max = 80;                           // max joint increment
     //joint_max = 180;                        // max joint value for fingers (min is 0)
     controlActive=false;
+    naiveSumControl=false;
 
 }
 ControlThread::~ControlThread(){}
@@ -58,7 +70,14 @@ void ControlThread::run(){
             for(int sensor_i = 0; sensor_i < 11; sensor_i++) {
                
                 //sensor_force[sensor_i]= std::abs(array->at(sensor_i).force.x)+std::abs(array->at(sensor_i).force.y)+std::abs(array->at(sensor_i).force.z);
-                sensor_force[sensor_i]= std::abs(array->at(sensor_i).force.z);
+		if (naiveSumControl){
+		    sensor_force[sensor_i]= std::abs(array->at(sensor_i).force.z);
+		}
+		else {
+		    sensor_force[sensor_i]= std::abs(array->at(sensor_i).force.z);
+		    if (std::abs(array->at(sensor_i).force.z) > sensor_set[sensor_i])
+			sensor_force[sensor_i]= sensor_set[sensor_i];
+		}
      
                 if (sensor_force[sensor_i]>10){    //just in case some sensor breaks during experiment
                 sensor_force[sensor_i]=10;
@@ -68,7 +87,6 @@ void ControlThread::run(){
                 }
                         
             }
-
             finger_force[0] = sensor_force[0]+sensor_force[1]; //+sensor_force[2];
             finger_force[1] = sensor_force[3]+sensor_force[5]; //+sensor_force[4]+sensor_force[5]+sensor_force[6]; 
             finger_force[2] = sensor_force[7]+sensor_force[8]; //+sensor_force[9]+sensor_force[10];
