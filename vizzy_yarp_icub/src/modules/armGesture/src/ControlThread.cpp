@@ -12,6 +12,7 @@ ControlThread::ControlThread(yarp::os::Subscriber<TactSensorArray> *my_topic__, 
     finger_force[0] = 0.0; // current force values
     finger_force[1] = 0.0;
     finger_force[2] = 0.0;
+    // Set points per sensor
     sensor_set[0]=0.9525;
     sensor_set[1]=0.35;
     sensor_set[2]=0.124;
@@ -75,6 +76,8 @@ void ControlThread::run(){
 		}
 		else {
 		    sensor_force[sensor_i]= std::abs(array->at(sensor_i).force.z);
+		    //If the measurement of the sensor is larger than the set point, use the set point to avoid saturation of the finger control signal
+		    //before reaching the total force of the finger
 		    if (std::abs(array->at(sensor_i).force.z) > sensor_set[sensor_i])
 			sensor_force[sensor_i]= sensor_set[sensor_i];
 		}
