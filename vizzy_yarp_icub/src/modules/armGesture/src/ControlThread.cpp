@@ -6,9 +6,9 @@ ControlThread::ControlThread(yarp::os::Subscriber<TactSensorArray> *my_topic__, 
     setSubscriber(my_topic__);
     sensor_force.resize(11);
     force_error = 0.5;                      // accepted force error [N]
-    finger_set[0] = 1.05+force_error;//+force_error+0.3; // new force setpoints 
-    finger_set[1] = 1.34+force_error;//+force_error+0.3;
-    finger_set[2] = 1.35+force_error;//+force_error+0.3;
+    finger_set[0] = 4.75;//+force_error+0.3; // new force setpoints 
+    finger_set[1] = 2.75;//+force_error+0.3;
+    finger_set[2] = 3.5;//+force_error+0.3;
     finger_force[0] = 0.0; // current force values
     finger_force[1] = 0.0;
     finger_force[2] = 0.0;
@@ -30,10 +30,10 @@ ControlThread::ControlThread(yarp::os::Subscriber<TactSensorArray> *my_topic__, 
     joint_max[0] = 140.0;
     joint_max[1] = 180.0;
     joint_max[2] = 180.0;
-    inc_max = 80;                           // max joint increment
+    inc_max = 180;                           // max joint increment
     //joint_max = 180;                        // max joint value for fingers (min is 0)
     controlActive=false;
-    naiveSumControl=false;
+    naiveSumControl=true;
 
 }
 ControlThread::~ControlThread(){}
@@ -72,7 +72,7 @@ void ControlThread::run(){
                
                 //sensor_force[sensor_i]= std::abs(array->at(sensor_i).force.x)+std::abs(array->at(sensor_i).force.y)+std::abs(array->at(sensor_i).force.z);
 		if (naiveSumControl){
-		    sensor_force[sensor_i]= std::abs(array->at(sensor_i).force.z);
+		    sensor_force[sensor_i]= std::sqrt(array->at(sensor_i).force.z*array->at(sensor_i).force.z+array->at(sensor_i).force.x*array->at(sensor_i).force.x+array->at(sensor_i).force.y*array->at(sensor_i).force.y);
 		}
 		else {
 		    sensor_force[sensor_i]= std::abs(array->at(sensor_i).force.z);
@@ -138,7 +138,8 @@ void ControlThread::run(){
             pos->positionMove(8,encoders[8]+joint_inc[0]);
             pos->positionMove(9,encoders[9]+joint_inc[1]);
             pos->positionMove(10,encoders[10]+joint_inc[2]);
-
+            
+            yarp::os::Time::delay(0.01);
 
         }  
     

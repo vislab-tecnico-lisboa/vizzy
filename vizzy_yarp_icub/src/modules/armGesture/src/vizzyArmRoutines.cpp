@@ -394,11 +394,12 @@ bool VizzyArmRoutines::updateModule() {
                 cout << "Handshaking with PID and shaking hand" << endl;
                   //Perform handshake
                 pos->setRefSpeeds(velocities_handshaking.data());
-
+                command = grabing_hand_pose;
+                pos->positionMove(command.data());
                 cout << "Grabbing user hand" << endl;
                 fingerLimbControl->EnableControl();
 
-                Time::delay(6.0);
+                Time::delay(3.5);
 
                 cout << "Performing shaking motion" << endl;
                 for(int i=0;i< 5; i++) {
