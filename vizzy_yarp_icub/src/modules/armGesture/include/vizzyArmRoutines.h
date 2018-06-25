@@ -3,7 +3,9 @@
 /*
  * Copyright: (C) 2016 VisLab, Institute for Systems and Robotics,
  *                Instituto Superior Técnico, Universidade de Lisboa, Lisbon, Portugal
- * Author: Pedro Vicente <pvicente@isr.tecnico.ulisboa.pt>
+ * Authors: Pedro Vicente <pvicente@isr.tecnico.ulisboa.pt>
+ *         Joao Avelino <javelino@isr.tecnico.ulisboa.pt>
+ *         Plinio Moreno <plinio@isr.tecnico.ulisboa.pt>
  * CopyPolicy: Released under the terms of the GNU GPL v3.0
  *
  */
@@ -26,10 +28,20 @@
 #include <yarp/sig/Vector.h>
 
 #include <yarp/math/Math.h>
-#include <cmath>
+#include "VIZZYARMROUTINES_IDL.h"
 
 #include "Int16.h"
-#include "VIZZYARMROUTINES_IDL.h"
+
+#include <iostream>
+#include <iomanip>
+#include <string>
+#include "ControlThread.h"
+#include <TactSensor.h>
+#include <TactSensorArray.h>
+#include <yarp/os/Subscriber.h>
+
+#include "pid.h"
+#include <cmath> 
 
 #define CTRL_RAD2DEG 180.0/M_PI;
 
@@ -38,6 +50,7 @@ using namespace std;
 using namespace yarp::dev;
 
 class VizzyArmRoutines: public RFModule, public VIZZYARMROUTINES_IDL {
+       
     string moduleName;
     string robotName;
     string armName;
@@ -49,16 +62,20 @@ class VizzyArmRoutines: public RFModule, public VIZZYARMROUTINES_IDL {
     Node *rosNode;
     // Subscriber
     Subscriber<Int16> command_sub;
+    yarp::os::Subscriber<TactSensorArray> force_sensor_port;
     // Stuff to Arm Controller
     Property options;
     PolyDriver robotDevice;
     IPositionControl *pos;
     IEncoders *encs;
     IControlMode2 *ictrl;
-    yarp::sig::Vector command, encoders, home_pose, wave_home_pose, grabing_hand_pose, arm_forward_pose, handshaking_pose;
+    ControlThread *fingerLimbControl;
+    yarp::sig::Vector command, encoders, home_pose, wave_home_pose, grabing_hand_pose, arm_forward_pose, handshaking_pose, release_hand_pose, pid_hand_pose;
     yarp::sig::Vector velocities_waving, velocities_stretching, velocities_handshaking;
+    
 private:
     bool _closing;
+    bool hand_force_control;
 public:
     
     double getPeriod();

@@ -24,9 +24,9 @@ int main(int argc, char *argv[]) {
         fprintf(stdout,"Error: yarp server does not seem available\n");
         return 1;
     }
+    yarp::os::Node node("/yarp/vizzyArmRoutines");
 
     VizzyArmRoutines module;
-
     ResourceFinder rf;
     rf.setVerbose(true);
     rf.setDefaultConfigFile("vizzyArmRoutines.ini");
