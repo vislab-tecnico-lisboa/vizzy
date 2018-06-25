@@ -47,6 +47,8 @@ bool VizzyArmRoutines::configure(yarp::os::ResourceFinder &rf) {
                           "Module name (string)").asString();
     robotName = rf.check("robot", Value("vizzy"),"Robot name (string)").asString();
 	armName = rf.check("arm", Value("right"),"Arm name (string)").asString();
+    hand_force_control = rf.check("fingerControlEnabled", Value("false"),"finger Control Enabled").asBool();
+    std::cout << "HAND FORCE CONTROL ENABLED: " << hand_force_control << std::endl;
     setName(moduleName.c_str());
 
     /* port names */
@@ -188,7 +190,7 @@ bool VizzyArmRoutines::configure(yarp::os::ResourceFinder &rf) {
     grabing_hand_pose[7] = 18.2;    
     grabing_hand_pose[8] = 118;
     grabing_hand_pose[9] = 105;
-    grabing_hand_pose[10] = 185;
+    grabing_hand_pose[10] = 165;
 
     //Case 4 - Release hand
 
@@ -219,17 +221,15 @@ bool VizzyArmRoutines::configure(yarp::os::ResourceFinder &rf) {
     pid_hand_pose[10] = 69.75;
     
     int numTries = 0;
-    while (!force_sensor_port.topic("/tactileForceField") && numTries < 10) {
-            cerr<< "Failed to connect to subscriber to /tactileForceField\n";
-            Time::delay(0.5);
-            numTries++;
-    }
-
-    if(numTries < 10){
+    //hand_force_control=false;
+    if (hand_force_control){
+        while (!force_sensor_port.topic("/tactileForceField")) {
+                cerr<< "Failed to connect to subscriber to /tactileForceField\n";
+                Time::delay(0.5);
+        }
         fingerLimbControl = new ControlThread(&force_sensor_port, encs, pos);
         fingerLimbControl->start();
     }
-
 
 	// TO BE IMPLEMENTED
     return true;
@@ -391,55 +391,58 @@ bool VizzyArmRoutines::updateModule() {
                 break;
 
             case 5:
-                cout << "Handshaking with PID and shaking hand" << endl;
-                  //Perform handshake
-                pos->setRefSpeeds(velocities_handshaking.data());
-                command = grabing_hand_pose;
-                pos->positionMove(command.data());
-                cout << "Grabbing user hand" << endl;
-                fingerLimbControl->EnableControl();
+                if (hand_force_control)
+                {
+                    cout << "Handshaking with PID and shaking hand" << endl;
+                      //Perform handshake
+                    pos->setRefSpeeds(velocities_handshaking.data());
+                    command = grabing_hand_pose;
+                    pos->positionMove(command.data());
+                    cout << "Grabbing user hand" << endl;
+                    fingerLimbControl->EnableControl();
 
-                Time::delay(3.5);
+                    Time::delay(3.5);
 
-                cout << "Performing shaking motion" << endl;
-                for(int i=0;i< 5; i++) {
-                    if(i%2==0) {
-                        //command[4]= grabing_hand_pose[4]+30*min_coeffs[i/2];
-                        //command[6]= grabing_hand_pose[6] + 18*min_coeffs[i/2]; //34-28
-                        //pos->positionMove(command.data());
-                        pos->positionMove(4,grabing_hand_pose[4]+30*min_coeffs[i/2]);
-                        pos->positionMove(6,grabing_hand_pose[6]+30*min_coeffs[i/2]);
+                    cout << "Performing shaking motion" << endl;
+                    for(int i=0;i< 5; i++) {
+                        if(i%2==0) {
+                            //command[4]= grabing_hand_pose[4]+30*min_coeffs[i/2];
+                            //command[6]= grabing_hand_pose[6] + 18*min_coeffs[i/2]; //34-28
+                            //pos->positionMove(command.data());
+                            pos->positionMove(4,grabing_hand_pose[4]+30*min_coeffs[i/2]);
+                            pos->positionMove(6,grabing_hand_pose[6]+30*min_coeffs[i/2]);
+                        }
+                        else {
+                            pos->positionMove(4,grabing_hand_pose[4]+30*max_coeffs[i/2]);
+                            pos->positionMove(6,grabing_hand_pose[6]+30*max_coeffs[i/2]);
+                            //command[4]= grabing_hand_pose[4]+30*max_coeffs[i/2];
+                            //command[6]= grabing_hand_pose[6]+18*max_coeffs[i/2]; //34-28
+                            //pos->positionMove(command.data());
+                        }
+                        Time::delay(sleeps[i]*1.2);
                     }
-                    else {
-                        pos->positionMove(4,grabing_hand_pose[4]+30*max_coeffs[i/2]);
-                        pos->positionMove(6,grabing_hand_pose[6]+30*max_coeffs[i/2]);
-                        //command[4]= grabing_hand_pose[4]+30*max_coeffs[i/2];
-                        //command[6]= grabing_hand_pose[6]+18*max_coeffs[i/2]; //34-28
-                        //pos->positionMove(command.data());
+
+                    fingerLimbControl->DisableControl();
+
+                    cout << "Letting go of user hand" << endl;
+                    pos->setRefSpeeds(velocities_waving.data());
+                    command = release_hand_pose;
+                    pos->positionMove(command.data());
+                    while(!done) {
+                        pos->checkMotionDone(&done);
+                        Time::delay(0.00001);   // Alterado
                     }
-                    Time::delay(sleeps[i]*1.2);
+                    done = false;                
+                    cout << "Returning to home position" << endl;
+                    pos->setRefSpeeds(velocities_stretching.data());
+                    command=home_pose;
+                    pos->positionMove(command.data());
+                    while(!done) {
+                        pos->checkMotionDone(&done);
+                        Time::delay(0.00001);   // Alterado
+                    }
+                    cout << "Handshake performed" << endl;
                 }
-
-                fingerLimbControl->DisableControl();
-
-                cout << "Letting go of user hand" << endl;
-                pos->setRefSpeeds(velocities_waving.data());
-                command = release_hand_pose;
-                pos->positionMove(command.data());
-                while(!done) {
-                    pos->checkMotionDone(&done);
-                    Time::delay(0.00001);   // Alterado
-                }
-                done = false;                
-                cout << "Returning to home position" << endl;
-                pos->setRefSpeeds(velocities_stretching.data());
-                command=home_pose;
-                pos->positionMove(command.data());
-                while(!done) {
-                    pos->checkMotionDone(&done);
-                    Time::delay(0.00001);   // Alterado
-                }
-                cout << "Handshake performed" << endl;
                 break;
 
             default:

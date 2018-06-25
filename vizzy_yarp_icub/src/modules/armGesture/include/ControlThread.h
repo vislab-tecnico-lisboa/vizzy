@@ -57,7 +57,7 @@ private:
 
     // Controling with a PID for each motor
     //PID pid_finger = PID(0.1, 20, -20, 3.4, 0.1, 0.5); //if they are different create the 3
-    PID pid_finger = PID(0.05, 30, -30, 5.0, 0.01, 0.1); //if they are different create the 3
+    PID pid_finger = PID(0.05, 30, -30, 5.0, 0.0, 0.05); //if they are different create the 3
 
     IPositionControl *pos;
 };

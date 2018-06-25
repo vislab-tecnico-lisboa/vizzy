@@ -6,9 +6,9 @@ ControlThread::ControlThread(yarp::os::Subscriber<TactSensorArray> *my_topic__, 
     setSubscriber(my_topic__);
     sensor_force.resize(11);
     force_error = 0.5;                      // accepted force error [N]
-    finger_set[0] = 4.75;//+force_error+0.3; // new force setpoints 
-    finger_set[1] = 2.75;//+force_error+0.3;
-    finger_set[2] = 3.5;//+force_error+0.3;
+    finger_set[0] = 5.0-2.5;//+force_error+0.3; // new force setpoints 
+    finger_set[1] = 2.5;//+force_error+0.3;
+    finger_set[2] = 2.2;//+force_error+0.3;
     finger_force[0] = 0.0; // current force values
     finger_force[1] = 0.0;
     finger_force[2] = 0.0;
@@ -27,9 +27,9 @@ ControlThread::ControlThread(yarp::os::Subscriber<TactSensorArray> *my_topic__, 
     joint_inc[0] = 0.0;
     joint_inc[1] = 0.0;
     joint_inc[2] = 0.0;
-    joint_max[0] = 140.0;
-    joint_max[1] = 180.0;
-    joint_max[2] = 180.0;
+    joint_max[0] = 128.0;
+    joint_max[1] = 125.0;
+    joint_max[2] = 170.0;
     inc_max = 180;                           // max joint increment
     //joint_max = 180;                        // max joint value for fingers (min is 0)
     controlActive=false;

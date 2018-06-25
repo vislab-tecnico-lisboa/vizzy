@@ -75,6 +75,7 @@ class VizzyArmRoutines: public RFModule, public VIZZYARMROUTINES_IDL {
     
 private:
     bool _closing;
+    bool hand_force_control;
 public:
     
     double getPeriod();
