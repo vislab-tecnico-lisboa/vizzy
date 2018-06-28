@@ -2,7 +2,6 @@
 <launch>
   <arg name="vizzy_machine_name" default="vizzy-desktop"/>
   <arg name="vizzy_machine_address" default="10.10.1.80"/>
-<!--  <arg name="vizzy_machine_name" default="$(arg vizzy_machine_name)" /> -->
   <arg name="env-loader" default="/home/vizzy/catkin_workspace/devel/env.sh"/>
   <machine name="$(arg vizzy_machine_name)" address="$(arg vizzy_machine_address)" env-loader="$(arg env-loader)" user="vizzy"/>
 
@@ -53,28 +52,24 @@
 </node>
 <node pkg="nodelet" type="nodelet" name="framerate_nodelet" args="load ueye/FramerateNodelet ueye_manager"/>
 
-
   <!-- Bayer color decoding -->
-<!--
   <node machine="$(arg vizzy_machine_name)" ns="$(arg ns)" pkg="nodelet" type="nodelet" name="$(arg camera)_image_proc_debayer" args="load image_proc/debayer $(arg camera)_camera_nodelet_manager" output="screen" >
     <remap from="image_color" to="$(arg camera)/image_color" />
     <remap from="image_mono" to="$(arg camera)/image_mono" />
     <remap from="image_raw" to="$(arg camera)/image_raw" />
   </node>
--->
+
   <!-- mono rectification -->
-<!--
   <node machine="$(arg vizzy_machine_name)" ns="$(arg ns)" pkg="nodelet" type="nodelet" name="$(arg camera)_image_proc_rect" args="load image_proc/rectify $(arg camera)_camera_nodelet_manager" output="screen">
     <remap from="image_mono" to="$(arg camera)/image_mono" />
     <remap from="image_rect" to="$(arg camera)/image_rect" />
   </node>
--->
+
   <!-- color rectification -->
-<!--
   <node machine="$(arg vizzy_machine_name)" ns="$(arg ns)" pkg="nodelet" type="nodelet" name="$(arg camera)_image_proc_rect_color" args="load image_proc/rectify $(arg camera)_camera_nodelet_manager">
     <remap from="image_mono" to="$(arg camera)/image_color" />
     <remap from="image_rect" to="$(arg camera)/image_rect_color" />
   </node>
--->
-  <!--<node name="$(arg camera)_throttle_node" pkg="topic_tools" type="throttle" args="messages $(arg camera)/image_raw $(arg throttle_rate) $(arg camera)/image_throttled" />-->
+
+
 </launch>
