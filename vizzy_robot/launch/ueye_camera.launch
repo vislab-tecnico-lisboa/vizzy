@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="vizzy_machine_name" default="vizzy-desktop"/>
+  <arg name="vizzy_machine_address" default="10.10.1.80"/>
+<!--  <arg name="vizzy_machine_name" default="$(arg vizzy_machine_name)" /> -->
+  <arg name="env-loader" default="/home/vizzy/catkin_workspace/devel/env.sh"/>
+  <machine name="$(arg vizzy_machine_name)" address="$(arg vizzy_machine_address)" env-loader="$(arg env-loader)" user="vizzy"/>
+
+  <arg name="camera" default="left_camera" />
+  <arg name="video_mode" default="640x480_rgb8" />
+  <arg name="frame_rate" default="15" />
+  <arg name="frame_id" default="camera" />
+  <arg name="guid" default="00b09d01007ad691" />
+  <arg name="camera_file" default="left_camera_params.yaml" />
+
+  <arg name="ns" default="vizzy" />
+
+  <!-- see cfg/mono.cfg for detail -->
+	<arg name="camera_id"		default="0" />
+	<arg name="auto_exposure"	default="false" />
+	<arg name="auto_gain"		default="false" />
+	<arg name="color"		default="6" /> <!-- 0:MONO8, 1:MONO16, 2:YUV, 3:YCbCr, 4:BGR5, 5:BGR565, 6:BGR8, 7:BGRA8, 9:BGRY8, 9:RGB8, 10:RGBA8, 11, RGBY8 -->
+	<arg name="config_path"		default="" />
+	<arg name="exposure_time"	default="85" />
+	<arg name="force_streaming"	default="false" />
+	<arg name="frame_id"		default="/camera" />
+	<arg name="frame_rate"		default="30" />
+	<arg name="gain"		default="100" />
+	<arg name="gain_boost"		default="false" />
+	<arg name="hardware_gamma"	default="true" />
+	<arg name="pixel_clock"		default="86" />
+	<arg name="trigger"		default="0" /> <!-- 0:AUTO, 1:HARDWARE_RISING, 2:HARDWARE_FALLING -->
+	<arg name="zoom"		default="1" />
+
+  <!-- nodelet manager process -->
+  <node machine="$(arg vizzy_machine_name)" ns="$(arg ns)" pkg="nodelet" type="nodelet" name="$(arg camera)_camera_nodelet_manager" args="manager" output="screen"/>
+
+  <!-- camera driver nodelet -->
+	<node pkg="nodelet" type="nodelet" name="camera_nodelet" args="load ueye/CameraNodelet ueye_manager" >
+		<param name="cameraId"		value="$(arg camera_id)" />
+		<param name="auto_exposure"	value="$(arg auto_exposure)" />
+		<param name="auto_gain"		value="$(arg auto_gain)" />
+		<param name="color"		value="$(arg color)" />
+		<param name="config_path"	value="$(arg config_path)" />
+		<param name="exposure_time"	value="$(arg exposure_time)" />
+		<param name="force_streaming"	value="$(arg force_streaming)" />
+		<param name="frame_id"		value="$(arg frame_id)" />
+		<param name="frame_rate"	value="$(arg frame_rate)" />
+		<param name="gain"		value="$(arg gain)" />
+		<param name="gain_boost"	value="$(arg gain_boost)" />
+		<param name="hardware_gamma"	value="$(arg hardware_gamma)" />
+		<param name="pixel_clock"	value="$(arg pixel_clock)" />
+		<param name="trigger"		value="$(arg trigger)" />
+		<param name="zoom"		value="$(arg zoom)" />
+    <remap from="camera" to="$(arg camera)" />
+    <param name="camera_info_url" value="file://$(find vizzy_robot)/config/$(arg camera_file)" />
+    <rosparam file="$(find vizzy_robot)/config/camera_params.yaml" command="load"/>
+	</node>
+
+
+  <!-- Bayer color decoding -->
+  <node machine="$(arg vizzy_machine_name)" ns="$(arg ns)" pkg="nodelet" type="nodelet" name="$(arg camera)_image_proc_debayer" args="load image_proc/debayer $(arg camera)_camera_nodelet_manager" output="screen" >
+    <remap from="image_color" to="$(arg camera)/image_color" />
+    <remap from="image_mono" to="$(arg camera)/image_mono" />
+    <remap from="image_raw" to="$(arg camera)/image_raw" />
+  </node>
+
+  <!-- mono rectification -->
+  <node machine="$(arg vizzy_machine_name)" ns="$(arg ns)" pkg="nodelet" type="nodelet" name="$(arg camera)_image_proc_rect" args="load image_proc/rectify $(arg camera)_camera_nodelet_manager" output="screen">
+    <remap from="image_mono" to="$(arg camera)/image_mono" />
+    <remap from="image_rect" to="$(arg camera)/image_rect" />
+  </node>
+
+  <!-- color rectification -->
+  <node machine="$(arg vizzy_machine_name)" ns="$(arg ns)" pkg="nodelet" type="nodelet" name="$(arg camera)_image_proc_rect_color" args="load image_proc/rectify $(arg camera)_camera_nodelet_manager">
+    <remap from="image_mono" to="$(arg camera)/image_color" />
+    <remap from="image_rect" to="$(arg camera)/image_rect_color" />
+  </node>
+
+  <!--<node name="$(arg camera)_throttle_node" pkg="topic_tools" type="throttle" args="messages $(arg camera)/image_raw $(arg throttle_rate) $(arg camera)/image_throttled" />-->
+</launch>
