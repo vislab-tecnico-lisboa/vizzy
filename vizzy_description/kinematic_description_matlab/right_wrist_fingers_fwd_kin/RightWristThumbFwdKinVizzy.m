@@ -27,10 +27,8 @@
 %
 % Output:
 %
-%       T_Ro0: rigid transformation from root to the 0th reference frame of
-%       the DH notation
 %       T_0n:  rigid transformation from the 0th reference frame of the DH
-%       notation to the last reference frame of the DH notation
+%       notation (wrist) to the last reference frame of the DH notation
 %       rpy_Rn: matrix that contains the roll-pitch-yaw angles that perform
 %       the rotations equivalent to the DH Hartenberg matrix for every DH
 %       matrix, from the root to the end effector (for URDF file spec)
@@ -44,7 +42,7 @@ LinkColor2 = [1 0 0];   %RGB color of the second link
 LinkColor3 = [1 0 0];   %RGB color of the third link
 JntColor   = [.7 .7 .7];%RGB color of the joints
 
-
+phalanx = [];
 %Reference frames attached to links
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %               Thumb                       *
@@ -53,25 +51,30 @@ G_00=evalDHMatrix(56.995	,	-4.5,	pi/2,	-pi/2+atan2(1.11,3.42));
 rpy_Rn = [];
 % [roll,pitch,yaw] = dcm2angle(G_00(1:3,1:3)','ZYX');
 % rpy_Rn = [rpy_Rn; roll,pitch,yaw];
-G_01=evalDHMatrix(	0,0,	0,	ttheta(1)-105*pi/180);%+atan2(1.11,3.42)
+G_01=evalDHMatrix(	0,0,	0,	-105*pi/180);%+atan2(1.11,3.42)
 [roll,pitch,yaw] = dcm2angle(G_01(1:3,1:3)','ZYX');
+phalanx = [phalanx;G_01(4,1:3)];
 % rpy_Rn = [rpy_Rn; roll,pitch,yaw];
- G_sL0 = G_00;%[1 0 0 0; 0 0 1 0; 0 1 0 0; 0 0 0 1]
+% G_sL0 = G_00;%[1 0 0 0; 0 0 1 0; 0 1 0 0; 0 0 0 1]
+G_sL0 = root_to_wrist_mat*G_00;
 G_sL1 = G_sL0*G_01;
 
-G_12=evalDHMatrix(	-22.5,	0,	pi/2,	ttheta(2)-pi/2);
+G_12=evalDHMatrix(	-22.5,	0,	pi/2,	ttheta(1)-pi/2);
 [roll,pitch,yaw] = dcm2angle(G_12(1:3,1:3)','ZYX');
 rpy_Rn = [rpy_Rn; roll,pitch,yaw];
+phalanx = [phalanx;G_12(4,1:3)];
 
-G_34=evalDHMatrix(	-33,	0,	0,	ttheta(3));
+G_34=evalDHMatrix(	-33,	0,	0,	ttheta(2));
 [roll,pitch,yaw] = dcm2angle(G_34(1:3,1:3)','ZYX');
 rpy_Rn = [rpy_Rn; roll,pitch,yaw];
+G_45 = evalDHMatrix(	-28.48,	0,	0,	ttheta(3));
 % 
 G_sL2 = G_sL1*G_12;
 G_sL4   = G_sL2  * G_34;
+G_sL5 = G_sL4 * G_45;
 % 
 % T_Ro0 = G_sL0;
-T_0n  = G_01*G_12*G_34;
+T_0n  = G_01*G_12*G_34*G_45;
 
 if (display==1)
     jnt2 = DrawCylinder(ljnt, rjnt, G_sL0*[1 0 0 0; 0 1 0 0; 0 0 1 -ljnt/2; 0 0 0 1], JntColor, 100, 0.5);
@@ -86,6 +89,7 @@ if (display==1)
 %     hold on
     jnt3 = DrawCylinder(ljnt, rjnt, G_sL4*[1 0 0 0; 0 1 0 0; 0 0 1 -ljnt/2; 0 0 0 1], JntColor, 100, 0.5);
     DrawRefFrame(G_sL4,3)
+    DrawRefFrame(G_sL5,4)
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     axis('equal')
     xlabel('x')
