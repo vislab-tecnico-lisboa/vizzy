@@ -173,7 +173,7 @@ bool VizzyArmRoutines::configure(yarp::os::ResourceFinder &rf) {
     arm_forward_pose[5] = -10.2;
     arm_forward_pose[6] = 28-3.0;
     arm_forward_pose[7] = 18.2;
-    arm_forward_pose[8] = 37.5;
+    arm_forward_pose[8] = 47.5;
     arm_forward_pose[9] = 45;
     arm_forward_pose[10] = 69.75;
 
@@ -188,8 +188,8 @@ bool VizzyArmRoutines::configure(yarp::os::ResourceFinder &rf) {
     grabing_hand_pose[5] = -10.2;
     grabing_hand_pose[6] = 28-3.0;
     grabing_hand_pose[7] = 18.2;    
-    grabing_hand_pose[8] = 118;
-    grabing_hand_pose[9] = 105;
+    grabing_hand_pose[8] = 120;
+    grabing_hand_pose[9] = 95;
     grabing_hand_pose[10] = 165;
 
     //Case 4 - Release hand
@@ -202,7 +202,7 @@ bool VizzyArmRoutines::configure(yarp::os::ResourceFinder &rf) {
     release_hand_pose[5] = -10.2;
     release_hand_pose[6] = 28-3.0;
     release_hand_pose[7] = 18.2;    
-    release_hand_pose[8] = 37.5;
+    release_hand_pose[8] = 47.5;
     release_hand_pose[9] = 45;
     release_hand_pose[10] = 69.75;
 
