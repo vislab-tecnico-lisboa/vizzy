@@ -1,5 +1,5 @@
 #include "ros/ros.h"
-#include <moveit/move_group_interface/move_group.h>
+#include <moveit/move_group_interface/move_group_interface.h>
 #include <pluginlib/class_loader.h>
 #include <moveit/robot_model_loader/robot_model_loader.h>
 #include <moveit/planning_interface/planning_interface.h>
@@ -267,7 +267,7 @@ bool moveArm(){
     ROS_INFO("Move arm");
     bool success=true;
 
-    moveit::planning_interface::MoveGroup group("right_arm");
+    moveit::planning_interface::MoveGroupInterface group("right_arm");
     group.setPlannerId("RRTConnectkConfigDefault");
     group.setPlanningTime(5);
     group.setStartState(*group.getCurrentState());
@@ -292,7 +292,7 @@ bool moveArm(){
 
        ros::AsyncSpinner spinner(1);
        spinner.start();
-       moveit::planning_interface::MoveGroup::Plan my_plan;
+       moveit::planning_interface::MoveGroupInterface::Plan my_plan;
        moveit::planning_interface::MoveItErrorCode success_ = group.plan(my_plan);
        ROS_INFO("Set Plan: %s", success_? "SUCCESS" : "FAILED");
 
