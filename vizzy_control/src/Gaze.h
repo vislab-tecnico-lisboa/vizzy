@@ -14,7 +14,7 @@
 #include <moveit/kinematic_constraints/utils.h>
 #include <moveit_msgs/DisplayTrajectory.h>
 #include <moveit_msgs/PlanningScene.h>
-#include <moveit/move_group_interface/move_group.h>
+#include <moveit/move_group_interface/move_group_interface.h>
 #include <moveit/planning_scene_interface/planning_scene_interface.h>
 #include <moveit_msgs/DisplayRobotState.h>
 #include <moveit_msgs/DisplayTrajectory.h>
@@ -36,7 +36,9 @@
 #include <actionlib/server/simple_action_server.h>
 #include <vizzy_msgs/GazeAction.h>
 #include <tf/transform_listener.h>
-
+#include "tf2_ros/transform_listener.h"
+#include "tf2_ros/message_filter.h"
+#include "tf2_geometry_msgs/tf2_geometry_msgs.h"
 #include <moveit/planning_scene_monitor/planning_scene_monitor.h>
 #include "opencv2/core/core.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
@@ -58,8 +60,8 @@ class Gaze
     boost::shared_ptr<message_filters::Synchronizer<MySuppressionSyncPolicy> > gaze_sync;
 
     //Message filter to sync tfs with image
-    boost::shared_ptr<tf::MessageFilter<sensor_msgs::Image> > left_image_filter;
-    boost::shared_ptr<tf::MessageFilter<sensor_msgs::Image> > right_image_filter;
+    boost::shared_ptr<tf2_ros::MessageFilter<sensor_msgs::Image> > left_image_filter;
+    boost::shared_ptr<tf2_ros::MessageFilter<sensor_msgs::Image> > right_image_filter;
 
     void suppresion(const sensor_msgs::Image::ConstPtr & left_image_msg,
                     const sensor_msgs::Image::ConstPtr & right_image_msg);
@@ -94,8 +96,8 @@ protected:
 
 
     planning_scene_monitor::CurrentStateMonitorPtr state_monitor;
-    boost::shared_ptr<tf::TransformListener> tf_listener;
-
+    boost::shared_ptr<tf2_ros::TransformListener> tf_listener;
+    tf2_ros::Buffer tfBuffer;
     ros::NodeHandle nh_;
     ros::NodeHandle private_node_handle;
 
@@ -123,7 +125,7 @@ protected:
 
     std::vector<double> oculocephalic_joint_values;
     std::vector<std::string> oculocephalic_joint_names;
-    moveit::planning_interface::MoveGroup* oculocephalic_group;
+    moveit::planning_interface::MoveGroupInterface* oculocephalic_group;
 
 public:
     double half_base_line;

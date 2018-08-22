@@ -22,24 +22,19 @@ GazeSimulation::GazeSimulation(const std::string & name, const ros::NodeHandle &
 
     ROS_INFO("Done.");
 
-    tf::StampedTransform transform;
+    geometry_msgs::TransformStamped transform;
 
     while(nh_.ok())
     {
         try
         {
-            tf_listener->waitForTransform(head_origin_frame, neck_frame, ros::Time(0), ros::Duration(10.0) );
-            tf_listener->lookupTransform(head_origin_frame, neck_frame, ros::Time(0), transform);
-            tf::Vector3 origin;
-            origin=transform.getOrigin();
-            y_offset=origin.getY();
+            transform=tfBuffer.lookupTransform(head_origin_frame, neck_frame, ros::Time(0), ros::Duration(10.0) );
+            y_offset=transform.transform.translation.y;
 
-            tf_listener->waitForTransform(eyes_center_frame, head_origin_frame, ros::Time(0), ros::Duration(10.0) );
-            tf_listener->lookupTransform(eyes_center_frame, head_origin_frame, ros::Time(0), transform);
-            origin=transform.getOrigin();
-            z_offset=origin.getZ();
+            transform=tfBuffer.lookupTransform(eyes_center_frame, head_origin_frame, ros::Time(0), ros::Duration(10.0) );
+            z_offset=transform.transform.translation.z;
         }
-        catch (tf::TransformException &ex)
+        catch (tf2::TransformException &ex)
         {
             ROS_WARN("%s",ex.what());
             continue;
@@ -73,8 +68,8 @@ bool GazeSimulation::moveCartesian()
         try
         {
             ros::Time current_time = ros::Time::now();
-            tf_listener->waitForTransform(neck_frame, current_time, goal_msg->fixation_point.header.frame_id, goal_msg->fixation_point.header.stamp, world_frame, ros::Duration(10.0) );
-            tf_listener->transformPoint(neck_frame, current_time, goal_msg->fixation_point, world_frame, goal_point);
+            tfBuffer.lookupTransform(neck_frame, current_time, goal_msg->fixation_point.header.frame_id, goal_msg->fixation_point.header.stamp, world_frame, ros::Duration(10.0) );
+            tfBuffer.transform(goal_msg->fixation_point, goal_point, world_frame);
         }
         catch (tf::TransformException &ex)
         {
@@ -97,31 +92,30 @@ bool GazeSimulation::moveCartesian()
     eyes_tilt_angle.data=0.0;
     version_angle.data=0.0;
 
-    tf::StampedTransform transform;
+    geometry_msgs::TransformStamped transform;
 
     while(nh_.ok())
     {
         try
         {
-            tf_listener->waitForTransform(right_eye_frame, left_eye_frame, ros::Time(0), ros::Duration(1.0) );
-            tf_listener->lookupTransform(right_eye_frame, left_eye_frame, ros::Time(0), transform);
+            transform=tfBuffer.lookupTransform(right_eye_frame, left_eye_frame, ros::Time(0), ros::Duration(1.0) );
         }
-        catch (tf::TransformException &ex)
+        catch (tf2::TransformException &ex)
         {
             continue;
         }
         break;
     }
-    tf::Vector3 origin=transform.getOrigin();
-    half_base_line=(double)origin.length()/2.0; // meters
+    geometry_msgs::Vector3 origin=transform.transform.translation;
+    half_base_line=(double)sqrt(origin.x*origin.x+origin.y*origin.y+origin.z*origin.z)/2.0; // meters
 
     Eigen::Vector3d fixation_point;
 
-    fixation_point(0)=goal_point.point.x;
-    fixation_point(1)=goal_point.point.y;
-    fixation_point(2)=goal_point.point.z;
-    Eigen::Vector3d fixation_point_normalized=fixation_point.normalized();
+    fixation_point.x()=goal_point.point.x;
+    fixation_point.y()=goal_point.point.y;
+    fixation_point.z()=goal_point.point.z;
 
+    Eigen::Vector3d fixation_point_normalized=fixation_point.normalized();
     if(fixation_point_normalized.x()!=fixation_point_normalized.x())
     {
         neck_pan_angle.data=0.0;
@@ -225,10 +219,10 @@ void GazeSimulation::analysisCB(const control_msgs::JointControllerState::ConstP
         try
         {
             ros::Time current_time = ros::Time::now();
-            tf_listener->waitForTransform(world_frame, current_time, fixation_point_msg->header.frame_id, fixation_point_msg->header.stamp, world_frame, ros::Duration(1.0) );
-            tf_listener->transformPoint(world_frame, current_time, *fixation_point_msg, world_frame, fixation_point_);
-            tf_listener->waitForTransform(world_frame, current_time, goal_msg->fixation_point.header.frame_id, goal_msg->fixation_point.header.stamp, world_frame, ros::Duration(1.0) );
-            tf_listener->transformPoint(world_frame, current_time, goal_msg->fixation_point, world_frame, goal_point_);
+            tfBuffer.lookupTransform(world_frame, current_time, fixation_point_msg->header.frame_id, fixation_point_msg->header.stamp, world_frame, ros::Duration(1.0) );
+            tfBuffer.transform( *fixation_point_msg, fixation_point_, world_frame);
+            tfBuffer.lookupTransform(world_frame, current_time, goal_msg->fixation_point.header.frame_id, goal_msg->fixation_point.header.stamp, world_frame, ros::Duration(1.0) );
+            tfBuffer.transform(goal_msg->fixation_point, goal_point_, world_frame);
         }
         catch (tf::TransformException &ex)
         {
