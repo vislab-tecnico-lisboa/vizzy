@@ -1,9 +1,6 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(vizzy_control)
 
-find_package(catkin REQUIRED)
-
-
 find_package(catkin REQUIRED COMPONENTS
   cv_bridge
   geometry_msgs
@@ -11,10 +8,10 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   sensor_msgs
   std_msgs
-  tf
+  tf2
   image_transport
   pcl_ros
-  tf_conversions
+  tf2_ros
   message_generation
   nodelet
   vizzy_msgs
