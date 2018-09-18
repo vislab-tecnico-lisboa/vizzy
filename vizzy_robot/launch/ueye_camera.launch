@@ -6,8 +6,7 @@
   <machine name="$(arg vizzy_machine_name)" address="$(arg vizzy_machine_address)" env-loader="$(arg env-loader)" user="vizzy"/>
 
   <arg name="camera" default="left_camera" />
-  <arg name="video_mode" default="640x480_rgb8" />
-  <arg name="frame_rate" default="15" />
+  <arg name="frame_rate" default="30" />
   <arg name="frame_id" default="camera" />
   <arg name="guid" default="00b09d01007ad691" />
   <arg name="camera_file" default="left_camera_params.yaml" />
@@ -23,14 +22,14 @@
   <arg name="gain"		default="100" />
   <arg name="gain_boost"		default="false" />
   <arg name="hardware_gamma"	default="true" />
-  <arg name="pixel_clock"		default="86" />
+  <arg name="pixel_clock"		default="276" />
   <arg name="trigger"		default="0" /> <!-- 0:AUTO, 1:HARDWARE_RISING, 2:HARDWARE_FALLING -->
   <arg name="zoom"		default="1" />
 
-   <node machine="$(arg vizzy_machine_name)" ns="$(arg ns)" pkg="nodelet" type="nodelet" name="ueye_manager" args="manager" output="screen"/>
+  <node machine="$(arg vizzy_machine_name)" ns="$(arg ns)" pkg="nodelet" type="nodelet" name="$(arg camera)_camera_nodelet_manager" args="manager" output="screen"/>
 
   <!-- camera driver nodelet -->
-  <node machine="$(arg vizzy_machine_name)" ns="$(arg ns)" pkg="nodelet" type="nodelet" name="camera_nodelet" args="load ueye/CameraNodelet ueye_manager" >
+  <node machine="$(arg vizzy_machine_name)" ns="$(arg ns)" pkg="nodelet" type="nodelet" name="camera_nodelet" args="load ueye/CameraNodelet $(arg camera)_camera_nodelet_manager" >
 	<param name="cameraId"		value="$(arg camera_id)" />
 	<param name="auto_exposure"	value="$(arg auto_exposure)" />
 	<param name="auto_gain"		value="$(arg auto_gain)" />
@@ -48,9 +47,8 @@
 	<param name="zoom"		value="$(arg zoom)" />
 	<remap from="image_raw" to="$(arg camera)/image_raw" />
 	<param name="camera_info_url" value="file://$(find vizzy_robot)/config/$(arg camera_file)" />
-    	<rosparam file="$(find vizzy_robot)/config/camera_params.yaml" command="load"/>
+    	<!--<rosparam file="$(find vizzy_robot)/config/camera_params.yaml" command="load"/>-->
 </node>
-<node pkg="nodelet" type="nodelet" name="framerate_nodelet" args="load ueye/FramerateNodelet ueye_manager"/>
 
   <!-- Bayer color decoding -->
   <node machine="$(arg vizzy_machine_name)" ns="$(arg ns)" pkg="nodelet" type="nodelet" name="$(arg camera)_image_proc_debayer" args="load image_proc/debayer $(arg camera)_camera_nodelet_manager" output="screen" >
