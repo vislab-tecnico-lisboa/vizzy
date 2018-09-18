@@ -3,15 +3,26 @@
   <arg name="vizzy_machine_name" default="vizzy-desktop"/>
   <arg name="vizzy_machine_address" default="10.10.1.80"/>
   <arg name="env-loader" default="/home/vizzy/catkin_workspace/devel/env.sh"/>
-  <machine name="$(arg vizzy_machine_name)" address="$(arg vizzy_machine_address)" env-loader="$(arg env-loader)" user="vizzy"/>
+  <machine name="$(arg vizzy_machine_name)" 
+           address="$(arg vizzy_machine_address)" 
+           env-loader="$(arg env-loader)" 
+           user="vizzy"
+  />
+
+
   <!-- Camera parameters -->
   <arg name="left_camera_name" default="l_camera" />
   <arg name="right_camera_name" default="r_camera" />
-  <arg name="left_camera_guid" default="00b09d01007ad691" />
-  <arg name="right_camera_guid" default="00b09d01007ad693" />
+  
+  <arg name="left_camera_guid" default="00b09d01007ad691" />  <!-- Deprecated, used only for the old camera, remove when install the new one -->
+
+  <arg name="left_camera_id" default="" /> <!-- fill with the right one when install the camera in left eye -->
+  <arg name="right_camera_id" default="" /> <!-- fill with the right one when install the camera in left eye -->
+  
   <arg name="left_camera_file" default="left_camera_params.yaml" />
   <arg name="right_camera_file" default="right_camera_params.yaml" />
 
+  <!-- Deprecated, used only for the old camera, remove when install the new one -->
   <arg name="video_mode" default="640x480_rgb8" /> <!-- raw format7_mode4-->
   <arg name="frame_rate" default="15.0" />
   <arg name="gain" default="0.312"/>
@@ -38,67 +49,67 @@
   <arg name="ros_cameras_on" default="true" />
 
 
-	<!-- launch the auxiliary configuration (shared between h/w and simulation) -->
-	<include file="$(find vizzy_robot)/launch/auxiliary.vizzy.launch.xml">
-		<arg name="tf_prefix" value="$(arg tf_prefix)" />
-		<arg name="use_yarp" value="$(arg use_yarp)" />
-  	<arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)" />
-	</include>
-
-	<!-- launch the segway base -->
-  <include file="$(find vizzy_robot)/launch/segway_base.launch">
-  		<arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)" />
+  <!-- launch the auxiliary configuration (shared between h/w and simulation) -->
+  <include file="$(find vizzy_robot)/launch/auxiliary.vizzy.launch.xml">
+    <arg name="tf_prefix" value="$(arg tf_prefix)" />
+    <arg name="use_yarp" value="$(arg use_yarp)" />
+    <arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)" />
   </include>
 
-  	<!-- launch the hokuyo sensor -->
-	<include file="$(find vizzy_robot)/launch/hokuyo.launch">
-	    <arg name="name" value="nav_hokuyo" />
-	    <arg name="port" value="/dev/ttyACM0" />
-	    <arg name="tf_prefix" value="$(arg tf_prefix)" />
-	    <arg name="scan_name" value="scan" />
-  		<arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)" />
-	    <!-- <arg name="publish_tf" value="false" /> already published by urdf -->
-	</include>
+  <!-- launch the segway base -->
+  <include file="$(find vizzy_robot)/launch/segway_base.launch">
+      <arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)" />
+  </include>
 
-	<include file="$(find vizzy_robot)/launch/hokuyo.launch">
-	    <arg name="name" value="nav_hokuyo_rear" />
-	    <arg name="port" value="/dev/ttyACM1" />
-	    <arg name="scan_name" value="scan_rear" />
-	    <arg name="tf_prefix" value="$(arg tf_prefix)" />
-  		<arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)" />
-	    <!-- <arg name="publish_tf" value="false" /> already published by urdf -->
-	</include>
+    <!-- launch the hokuyo sensor -->
+  <include file="$(find vizzy_robot)/launch/hokuyo.launch">
+      <arg name="name" value="nav_hokuyo" />
+      <arg name="port" value="/dev/ttyACM0" />
+      <arg name="tf_prefix" value="$(arg tf_prefix)" />
+      <arg name="scan_name" value="scan" />
+      <arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)" />
+      <!-- <arg name="publish_tf" value="false" /> already published by urdf -->
+  </include>
 
-	<group if="$(arg ros_cameras_on)">
-	 	<!-- Left camera -->
+  <include file="$(find vizzy_robot)/launch/hokuyo.launch">
+      <arg name="name" value="nav_hokuyo_rear" />
+      <arg name="port" value="/dev/ttyACM1" />
+      <arg name="scan_name" value="scan_rear" />
+      <arg name="tf_prefix" value="$(arg tf_prefix)" />
+      <arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)" />
+      <!-- <arg name="publish_tf" value="false" /> already published by urdf -->
+  </include>
+
+  <group if="$(arg ros_cameras_on)">
+    <!-- Left camera -->
           <include file="$(find vizzy_robot)/launch/camera.launch">
-	    <arg name="camera" value="$(arg left_camera_name)" />
+      <arg name="camera" value="$(arg left_camera_name)" />
             <arg name="frame_id" value="l_camera_vision_link" />
-	    <arg name="guid" value="$(arg left_camera_guid)" />
-	    <arg name="video_mode" value="$(arg video_mode)"/>
-	    <arg name="frame_rate" value="$(arg frame_rate)"/>
-            <arg name="gain" value="$(arg gain)"/>
-            <arg name="shutter" value="$(arg shutter)"/>
-            <arg name="white_balance_BU" value="$(arg white_balance_BU)"/>
-            <arg name="white_balance_RV" value="$(arg white_balance_RV)"/>
-            <arg name="hue" value="$(arg hue)"/>
-            <arg name="gamma" value="$(arg gamma)"/>
-            <arg name="saturation" value="$(arg saturation)"/>
-            <arg name="sharpness" value="$(arg sharpness)"/>
-            <arg name="brightness" value="$(arg brightness)"/>
-	    <arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)" />
-	    <arg name="ns" value="$(arg ns)" />
-	    <arg name="camera_file" value="$(arg left_camera_file)" />
-	  </include>
+      <arg name="guid" value="$(arg left_camera_guid)" />
+      <arg name="video_mode" value="$(arg video_mode)"/>
+      <arg name="frame_rate" value="$(arg frame_rate)"/>
+      <arg name="gain" value="$(arg gain)"/>
+      <arg name="shutter" value="$(arg shutter)"/>
+      <arg name="white_balance_BU" value="$(arg white_balance_BU)"/>
+      <arg name="white_balance_RV" value="$(arg white_balance_RV)"/>
+      <arg name="hue" value="$(arg hue)"/>
+      <arg name="gamma" value="$(arg gamma)"/>
+      <arg name="saturation" value="$(arg saturation)"/>
+      <arg name="sharpness" value="$(arg sharpness)"/>
+      <arg name="brightness" value="$(arg brightness)"/>
+      <arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)" />
+      <arg name="ns" value="$(arg ns)" />
+      <arg name="camera_file" value="$(arg left_camera_file)" />
+    </include>
 
-	  <!-- Right camera -->
-	  <include file="$(find vizzy_robot)/launch/ueye_camera.launch">
-	    <arg name="camera" value="$(arg right_camera_name)" />
-	    <arg name="frame_id" value="r_camera_vision_link" />
-	    <arg name="frame_rate" value="$(arg frame_rate)" />
-	    <arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)" />
-	    <arg name="ns" value="$(arg ns)" />
-	    <arg name="camera_file" value="$(arg right_camera_file)" />
-	  </include> 
-	</group>
+    <!-- Right camera -->
+    <include file="$(find vizzy_robot)/launch/ueye_camera.launch">
+      <arg name="camera" value="$(arg right_camera_name)" />
+      <arg name="frame_id" value="r_camera_vision_link" />
+      <arg name="frame_rate" value="$(arg frame_rate)" />
+      <arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)" />
+      <arg name="ns" value="$(arg ns)" />
+      <arg name="camera_file" value="$(arg right_camera_file)" />
+    </include> 
+  </group>
 </launch>
