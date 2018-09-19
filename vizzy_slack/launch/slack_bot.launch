@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="_token" default="$(env SLACK_TOKEN)"/>
+
+    <arg name="_channel" default="CAQ13MXMW" />
+    <arg name="_username" default="Vizzy" />
+
+    <node name="vizzy_slack_listener" pkg="vizzy_slack" type="slack_ros.py" output="screen">
+        <param name="token" value="$(arg _token)" />
+        <param name="channel" value="$(arg _channel)" />
+        <param name="username" value="$(arg _username)" />
+    </node>
+
+    <node name="vizzy_slack_bot" pkg="vizzy_slack" type="slack_bot.py" output="screen">
+    </node>
+
+</launch>

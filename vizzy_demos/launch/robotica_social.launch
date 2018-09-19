@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<launch>
+<arg name="navigation" default="true"/>
+    <!-- Launch Vizzy -->
+    <include file="$(find vizzy_launch)/launch/vizzy_real.launch">
+	  <arg name="navigation" value="$(arg navigation)"/>
+	  <arg name="map_file" value="old_fil.yaml"/>
+	  <arg name="obstacles_map_file" value="old_fil_obst.yaml"/>
+    </include>
+
+    <!-- Launch the web server -->
+    <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch">
+    </include>
+
+    <!-- Launch the nuance speech action client-->
+    <node pkg="vizzy_speech_servers" type="nuance_tts_action_server.py"
+	    name="nuance_speech_tts" output="screen">
+    </node>
+
+    <include file="$(find pedestrian_detector)/launch/pedestrian_detector.launch">
+        <param name="follower" value="false"/>
+    </include>
+</launch>

@@ -14,24 +14,19 @@
   <arg name="world" default="isr_5th_floor.world" />
   <arg name="yarp" default="false"/>
   <arg name="map_frame" default="map" />
-  <arg name="tf_prefix" default="" />
-  <arg name="base_frame_id" default="$(arg tf_prefix)/base_footprint" />
-  <arg name="odom_frame_id" default="$(arg tf_prefix)/odom" />
+  <arg name="base_frame_id" default="$(arg base_footprint" />
+  <arg name="odom_frame_id" default="$(arg odom" />
   <arg name="map_topic" default="/map" />
   <arg name="visualization" default="true" />
-  <arg name="head_only" default="false"/>
   <arg name="fake_localization" default="false"/>
   <arg name="map_file" default="isr_7th_floor_simulation.yaml" />
 
   <include file="$(find vizzy_launch)/launch/vizzy_simulation.launch">
     <arg name="navigation" value="$(arg navigation)"/>
     <arg name="map_frame" value="$(arg map_frame)" />
-    <arg name="tf_prefix" value="$(arg tf_prefix)" />
     <arg name="base_frame_id" value="$(arg base_frame_id)" />
     <arg name="odom_frame_id" value="$(arg odom_frame_id)" />
     <arg name="map_topic" value="$(arg map_topic)" />
-    <arg name="launch_moveit" value="$(arg launch_moveit)" />
-    <arg name="head_only" value="$(arg head_only)"/>
     <arg name="pose" value="$(arg pose)"/>
     <arg name="world" value="$(arg world)" />
     <arg name="fake_localization" value="$(arg fake_localization)"/>
@@ -39,7 +34,7 @@
   </include>
 
   <!-- launch vizualization on rviz -->
-  <group if="$(arg visualization)">
+  <!--<group if="$(arg visualization)">
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find vizzy_demos)/rviz/navigation_seventh_floor.rviz" />
-  </group>
+  </group>-->
 </launch>

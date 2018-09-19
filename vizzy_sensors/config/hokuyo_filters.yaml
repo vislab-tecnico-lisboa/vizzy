@@ -10,5 +10,5 @@ scan_filter_chain:
   type: vizzy_sensors/VizzyFootprintFilter
   params:
     footprint_frame: base_footprint
-    footprint: [0.4,0.1,0.4,-0.1,-0.3,-0.1,-0.3,0.1]
+    footprint: [0.1,0.1,0.1,-0.1,-0.3,-0.1,-0.3,0.1]
 
