@@ -84,8 +84,8 @@
     <arg name="right_camera_name" value="$(arg right_camera_name)" />
     <arg name="ns" value="$(arg ns)" />
     <arg name="ros_cameras_on" value="$(arg ros_cameras_on)" />
-    <arg name="left_camera_file" value="$(arg left_camera_file)" />
-    <arg name="right_camera_file" value="$(arg right_camera_file)" />
+    <arg name="left_camera_file" value="$(find vizzy_robot)/config/$(arg left_camera_file)" />
+    <arg name="right_camera_file" value="$(find vizzy_robot)/config/$(arg right_camera_file)" />
 
     <arg name="video_mode" value="$(arg video_mode)"/>
     <arg name="frame_rate" value="$(arg frame_rate)"/>

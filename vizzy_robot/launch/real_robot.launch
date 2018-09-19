@@ -20,7 +20,7 @@
   <arg name="right_camera_id" default="" /> <!-- fill with the right one when install the camera in left eye -->
   
   <arg name="left_camera_file" default="left_camera_params.yaml" />
-  <arg name="right_camera_file" default="right_camera_params.yaml" />
+  <arg name="right_camera_file" default="$(find vizzy_robot)/config/right_camera_params.yaml" />
 
   <!-- Deprecated, used only for the old camera, remove when install the new one -->
   <arg name="video_mode" default="640x480_rgb8" /> <!-- raw format7_mode4-->
@@ -104,12 +104,11 @@
 
     <!-- Right camera -->
     <include file="$(find vizzy_robot)/launch/ueye_camera.launch">
-      <arg name="camera" value="$(arg right_camera_name)" />
+      <arg name="camera_name" value="$(arg right_camera_name)" />
       <arg name="frame_id" value="r_camera_vision_link" />
-      <arg name="frame_rate" value="$(arg frame_rate)" />
       <arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)" />
       <arg name="ns" value="$(arg ns)" />
-      <arg name="camera_file" value="$(arg right_camera_file)" />
+      <arg name="camera_intrinsics_file" value="$(arg right_camera_file)" />
     </include> 
   </group>
 </launch>
