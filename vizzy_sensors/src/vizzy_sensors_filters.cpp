@@ -10,6 +10,6 @@
 
 #include "pluginlib/class_list_macros.h"
 
-PLUGINLIB_REGISTER_CLASS(vizzy_sensors/VizzyFootprintFilter, vizzy_sensors::VizzyFootprintFilter, filters::FilterBase<sensor_msgs::LaserScan>)
-PLUGINLIB_REGISTER_CLASS(vizzy_sensors/NanToInfFilter, vizzy_sensors::NanToInfFilter, filters::FilterBase<sensor_msgs::LaserScan>)
-PLUGINLIB_REGISTER_CLASS(vizzy_sensors/ScanAngleFilter, vizzy_sensors::ScanAngleFilter, filters::FilterBase<sensor_msgs::LaserScan>)
+PLUGINLIB_EXPORT_CLASS(vizzy_sensors::VizzyFootprintFilter, filters::FilterBase<sensor_msgs::LaserScan>)
+PLUGINLIB_EXPORT_CLASS(vizzy_sensors::NanToInfFilter, filters::FilterBase<sensor_msgs::LaserScan>)
+PLUGINLIB_EXPORT_CLASS(vizzy_sensors::ScanAngleFilter, filters::FilterBase<sensor_msgs::LaserScan>)

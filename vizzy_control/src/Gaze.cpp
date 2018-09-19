@@ -7,14 +7,14 @@ Gaze::Gaze(const std::string & name, const ros::NodeHandle & nh) :
     as_(nh_, name, false),
     private_node_handle("~"),
     action_name_(name),
-    tf_listener(new tf::TransformListener(ros::Duration(40.0))),
+    tfBuffer(ros::Duration(3.0)),
     last_fixation_point(Eigen::Vector3d::Constant(std::numeric_limits<double>::max())),
-    oculocephalic_group(new moveit::planning_interface::MoveGroup("oculocephalic")),
+    oculocephalic_group(new moveit::planning_interface::MoveGroupInterface("oculocephalic")),
     active(false),
     it(nh),
     first_suppresion(true)
 {
-
+    tf_listener=boost::shared_ptr<tf2_ros::TransformListener> (new tf2_ros::TransformListener(tfBuffer));
     oculocephalic_joint_names=oculocephalic_group->getActiveJoints();
     oculocephalic_joint_values.resize(oculocephalic_joint_names.size());
     std::fill(oculocephalic_joint_values.begin(), oculocephalic_joint_values.end(), 0);
@@ -32,8 +32,8 @@ Gaze::Gaze(const std::string & name, const ros::NodeHandle & nh) :
     right_image_sub=boost::shared_ptr<message_filters::Subscriber<sensor_msgs::Image> > (new message_filters::Subscriber<sensor_msgs::Image>(nh_, "right_camera_in", queue_size_));
 
     //TF's synchronized with the image
-    left_image_filter=boost::shared_ptr<tf::MessageFilter<sensor_msgs::Image> > (new tf::MessageFilter<sensor_msgs::Image>(*left_image_sub, *tf_listener, base_frame_id, queue_size_));
-    right_image_filter=boost::shared_ptr<tf::MessageFilter<sensor_msgs::Image> > (new tf::MessageFilter<sensor_msgs::Image>(*right_image_sub, *tf_listener, base_frame_id, queue_size_));
+    left_image_filter=boost::shared_ptr<tf2_ros::MessageFilter<sensor_msgs::Image> > (new tf2_ros::MessageFilter<sensor_msgs::Image>(*left_image_sub, tfBuffer, base_frame_id, queue_size_,nh_));
+    right_image_filter=boost::shared_ptr<tf2_ros::MessageFilter<sensor_msgs::Image> > (new tf2_ros::MessageFilter<sensor_msgs::Image>(*right_image_sub, tfBuffer, base_frame_id, queue_size_,nh_));
 
     gaze_sync=boost::shared_ptr<message_filters::Synchronizer<MySuppressionSyncPolicy> > (new message_filters::Synchronizer<MySuppressionSyncPolicy>(MySuppressionSyncPolicy(queue_size_),
                                                                                                                                *left_image_filter,
@@ -82,10 +82,10 @@ void Gaze::publishFixationPointGoal()
         try
         {
             ros::Time current_time = ros::Time::now();
-            tf_listener->waitForTransform(world_frame, current_time, goal_msg->fixation_point.header.frame_id, goal_msg->fixation_point.header.stamp, world_frame, ros::Duration(0.05) );
-            tf_listener->transformPoint(world_frame, current_time, goal_msg->fixation_point, world_frame, goal_point_world_viz);
+            tfBuffer.lookupTransform(world_frame, current_time, goal_msg->fixation_point.header.frame_id, goal_msg->fixation_point.header.stamp, world_frame, ros::Duration(0.05) );
+            tfBuffer.transform(goal_msg->fixation_point, goal_point_world_viz, world_frame);
         }
-        catch (tf::TransformException &ex)
+        catch (tf2::TransformException &ex)
         {
             //ROS_WARN("%s",ex.what());
             return;
