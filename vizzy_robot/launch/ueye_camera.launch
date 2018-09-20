@@ -11,7 +11,7 @@
   />
 
   <arg name="ns" default="vizzy" />
-  <arg name="camera_name" default="r_camera" />
+  <arg name="camera_name" default="camera" />
   <arg name="frame_id" default="camera"/>
   <arg name="camera_id"		default="0" />
   <arg name="camera_intrinsics_file"	default="$(find vizzy_robot)/config/right_camera_params.yaml" />
@@ -22,17 +22,13 @@
         args="manager" output="screen"
   />
 
-  <node name="check_ueye_api" pkg="ueye_cam" type="check_ueye_api" required="true" />
-
-
-  
   <node  machine="$(arg vizzy_machine_name)" ns="$(arg ns)"
          pkg="nodelet" type="nodelet" name="ueye_cam_nodelet"
-        args="load ueye_cam/ueye_cam_nodelet $(arg camera_name)_camera_nodelet_manager">
+         args="load ueye_cam/ueye_cam_nodelet $(arg camera_name)_camera_nodelet_manager">
     <param name="camera_name" type="str" value="$(arg camera_name)" /> <!-- == namespace for topics and services -->
     <param name="camera_topic" type="str" value="image_raw" />
     <param name="camera_id" type="int" value="$(arg camera_id)" /> <!-- 0 = any camera; 1+: camera ID -->
-    <param name="camera_intrinsics_file" type="string" value="$(arg camera_intrinsics_file)" /> <!-- default: ~/.ros/camera_info/<camera_name>.yaml -->
+    <param name="camera_intrinsics_file" type="string" value="$(arg camera_intrinsics_file)" /> 
     <param name="frame_name" value="$(arg frame_id)"/>
     <param name="ext_trigger_mode" type="bool" value="False" /> 
 
@@ -74,20 +70,23 @@
   </node>
 
   <!-- Bayer color decoding -->
-    <node machine="$(arg vizzy_machine_name)" ns="$(arg ns)" pkg="nodelet" type="nodelet" name="$(arg camera_name)_image_proc_debayer" args="load image_proc/debayer $(arg camera_name)_camera_nodelet_manager" output="screen" >
-            <remap from="image_color" to="$(arg camera_name)/image_color" />
-                <remap from="image_mono" to="$(arg camera_name)/image_mono" />
-                    <remap from="image_raw" to="$(arg camera_name)/image_raw" />
-                      </node>
+  <node machine="$(arg vizzy_machine_name)" ns="$(arg ns)" pkg="nodelet" 
+        type="nodelet" name="$(arg camera_name)_image_proc_debayer" 
+        args="load image_proc/debayer $(arg camera_name)_camera_nodelet_manager" 
+        output="screen" >
+        
+        <remap from="image_color" to="$(arg camera_name)/image_color" />
+        <remap from="image_mono" to="$(arg camera_name)/image_mono" />
+        <remap from="image_raw" to="$(arg camera_name)/image_raw" />
+  </node>
   <!-- color rectification -->
   <node machine="$(arg vizzy_machine_name)" 
         ns="$(arg ns)" pkg="nodelet" type="nodelet" 
         name="$(arg camera_name)_image_proc_rect_color" 
         args="load image_proc/rectify $(arg camera_name)_camera_nodelet_manager">
 
-    <remap from="image_mono" to="$(arg camera_name)/image_color" />
-    <remap from="image_rect" to="$(arg camera_name)/image_rect_color" />
-  
+        <remap from="image_mono" to="$(arg camera_name)/image_color" />
+        <remap from="image_rect" to="$(arg camera_name)/image_rect_color" />
   </node>
 
 
