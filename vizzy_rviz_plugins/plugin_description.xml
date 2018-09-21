@@ -6,6 +6,13 @@
         A panel with buttons that make Vizzy do gestures.
       </description>
     </class>
+    <class name="vizzy_rviz_plugins/HINTT_Panel"
+           type="vizzy_rviz_plugins::HINTT_Panel"
+           base_class_type="rviz::Panel">
+      <description>
+        Panel with buttons for prize delivery
+      </description>
+    </class>
   <class name="vizzy_rviz_plugins/ClickableGazeDisplay"
          type="vizzy_rviz_plugins::ClickableGazeDisplay"
          base_class_type="rviz::Display">
