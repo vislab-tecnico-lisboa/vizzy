@@ -46,8 +46,8 @@
 	<!--<param name="auto_exposure" value="0"/>-->
 
     	<remap from="camera" to="$(arg camera)" />
-        <param name="camera_info_url" value="file://$(find vizzy_robot)/config/$(arg camera_file)" />
-    	<rosparam file="$(find vizzy_robot)/config/camera_params.yaml" command="load"/>
+        <param name="camera_info_url" value="file://$(arg camera_file)" />
+    	<!--<rosparam file="$(find vizzy_robot)/config/camera_params.yaml" command="load"/>-->
         <!--<rosparam file="$(find vizzy_robot)/config/$(arg camera_file)" />-->
   </node>
     

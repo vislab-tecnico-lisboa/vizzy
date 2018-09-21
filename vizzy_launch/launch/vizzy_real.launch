@@ -5,7 +5,11 @@
   <arg name="vizzy_machine_address" default="10.10.1.80"/>
   <arg name="operator" default="false"/>
   <arg name="env-loader" default="/home/vizzy/catkin_workspace/devel/env.sh"/>
-  <machine name="$(arg vizzy_machine_name)" address="$(arg vizzy_machine_address)" env-loader="$(arg env-loader)" user="vizzy"/>
+  
+  <machine name="$(arg vizzy_machine_name)" 
+           address="$(arg vizzy_machine_address)" 
+           env-loader="$(arg env-loader)" user="vizzy"
+  />
 
 
   <!-- robot configuration parameters -->
@@ -25,46 +29,10 @@
   <arg name="map_topic" default="/map" />
   <arg name="map_file" default="mapa_piso7_NOVO_AWESOME.yaml" />
   <arg name="use_moveit" default="true" />
-  <arg name="left_camera_name" default="l_camera" />
-  <arg name="right_camera_name" default="r_camera" />
-  <arg name="left_camera_file" default="left_camera_params.yaml" />
-  <arg name="right_camera_file" default="right_camera_params.yaml" />
-  <arg name="with_kinect" default="false" />
+
   <arg name="custom_obstacles" default="true" />
   <arg name="obstacles_map_file" default="mapa_piso7_NOVO_AWESOME_obst.yaml" />
 
-  <!-- camera parameters -->
-  <arg name="video_mode" default="640x480_rgb8" /> <!-- raw format7_mode4-->
-  <arg name="frame_rate" default="15.0" />
-  <!--Min -10 Max 4095-->
-  <!-- <arg name="gain" default="211"/> --><!-- Works well indoors and at Vislab -->
-  <arg name="gain" default="0"/> <!-- For very bright environments with natural and artificial light -->
-  <!--Min 0 Max 4095-->
-  <!-- <arg name="shutter" default="419"/> -->
-  <arg name="shutter" default="419"/>
-  <!--Min 0 Max 4095-->
-  <arg name="white_balance_BU" default="661"/> <!-- For very bright environments with natural and artificial light -->
-  <!--<arg name="white_balance_BU" default="704"/>--> <!-- Works well indoors and at Vislab -->
-  <!--Min 0 Max 4095-->
-  <arg name="white_balance_RV" default="460"/> <!-- For very bright environments with natural and artificial light -->
-  <!--<arg name="white_balance_RV" default="550"/>--> <!-- Works well indoors and at Vislab -->
-  <!--Min 0 Max 4095-->
-  <arg name="hue" default="1894.6"/> <!-- For very bright environments with natural and artificial light -->
-  <!--<arg name="hue" default="2031"/>--> <!-- Works well indoors and at Vislab -->
-  <!--Min 0 Max 10-->
-  <!-- <arg name="gamma" default="10"/> -->
-  <arg name="gamma" default="10"/>
-  <!--Min 0 Max 4095-->
-  <arg name="saturation" default="3396"/> <!-- For very bright environments with natural and artificial light -->
-  <!--<arg name="saturation" default="3201"/>--> <!-- Works well indoors and at Vislab -->
-  <!--Min 0 Max 4095-->
-  <!--<arg name="sharpness" default="2047.5"/>--> <!-- Works well indoors and at Vislab -->
-  <arg name="sharpness" default="4095"/> <!-- For very bright environments with natural and artificial light -->
-  <!--Min 0 Max 255-->
-   <arg name="brightness" default="0"/>  <!-- For very bright environments with natural and artificial light -->
-  <!--<arg name="brightness" default="255"/>--> <!-- Works well indoors and at Vislab -->
-
-  <arg name="vizzy_navigation_absolute_path" default="/home/vizzy/catkin_workspace/src/vizzy/vizzy_navigation" />
   <arg name="ns" default="vizzy" />
   <arg name="ros_cameras_on" default="true" />
 
@@ -75,36 +43,15 @@
 
   <arg name="reactive_2d_navigation" default="false"/>
   <arg name="teleop" default="true"/>
+
   <!-- bringup robot -->
   <include file="$(find vizzy_robot)/launch/real_robot.launch">
     <arg name="map_frame" value="$(arg map_frame)" />
     <arg name="tf_prefix" value="$(arg tf_prefix)" />
     <arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)"/>
-    <arg name="left_camera_name" value="$(arg left_camera_name)" />
-    <arg name="right_camera_name" value="$(arg right_camera_name)" />
     <arg name="ns" value="$(arg ns)" />
     <arg name="ros_cameras_on" value="$(arg ros_cameras_on)" />
-    <arg name="left_camera_file" value="$(find vizzy_robot)/config/$(arg left_camera_file)" />
-    <arg name="right_camera_file" value="$(find vizzy_robot)/config/$(arg right_camera_file)" />
-
-    <arg name="video_mode" value="$(arg video_mode)"/>
-    <arg name="frame_rate" value="$(arg frame_rate)"/>
-    <arg name="gain" value="$(arg gain)"/>
-    <arg name="shutter" value="$(arg shutter)"/>
-    <arg name="white_balance_BU" value="$(arg white_balance_BU)"/>
-    <arg name="white_balance_RV" value="$(arg white_balance_RV)"/>
-    <arg name="hue" value="$(arg hue)"/>
-    <arg name="gamma" value="$(arg gamma)"/>
-    <arg name="saturation" value="$(arg saturation)"/>
-    <arg name="sharpness" value="$(arg sharpness)"/>
-    <arg name="brightness" value="$(arg brightness)"/>
   </include>
-
-
-  <!-- launch the depth camera -->
-  <group if="$(arg with_kinect)">
-    <include file="$(find vizzy_sensors)/launch/asus.launch"/>
-  </group>
 
   <!-- launch moveit -->
   <group if="$(arg use_moveit)">
@@ -115,7 +62,8 @@
   <!-- launch navigation -->
   <group if="$(arg navigation)">
     <!-- launch the laser filter to get rid of readings from the robot itself -->
-   <node machine="$(arg vizzy_machine_name)" name="hokuyo_laser_filters" pkg="laser_filters" type="scan_to_scan_filter_chain">
+   <node machine="$(arg vizzy_machine_name)" name="hokuyo_laser_filters" 
+         pkg="laser_filters" type="scan_to_scan_filter_chain">
      <rosparam command="load" file="$(find vizzy_sensors)/config/hokuyo_filters.yaml" />
    </node>
 
@@ -128,21 +76,28 @@
     <group if="$(arg slam)">
       <!-- TO DO -->
     </group>
+
     <group unless="$(arg slam)">
       <!-- launch pre obtained map to the environment -->
-      <node machine="$(arg vizzy_machine_name)" name="map_server" pkg="map_server" type="map_server" args="$(find vizzy_navigation)/maps/$(arg map_file)" />
+      <node machine="$(arg vizzy_machine_name)" 
+            name="map_server" pkg="map_server" 
+            type="map_server" args="$(find vizzy_navigation)/maps/$(arg map_file)" 
+      />
 
       <group if="$(arg custom_obstacles)" ns="obst">
-	<node name="obstacle_map_server" pkg="map_server" type="map_server" args="$(find vizzy_navigation)/maps/$(arg obstacles_map_file)" >
-	  <remap from="map" to="map_obstacles"/>		
-	</node>
+        <node name="obstacle_map_server" 
+              pkg="map_server" 
+              type="map_server" 
+              args="$(find vizzy_navigation)/maps/$(arg obstacles_map_file)" >
+          <remap from="map" to="map_obstacles"/>    
+        </node>
       </group>
 
       <!-- move_base using local eband planner -->
       <group unless="$(arg reactive_2d_navigation)">
         <!-- move_base using local eband planner -->
         <include file="$(find vizzy_navigation)/launch/move_base_eband_remote.launch">
-  	  <arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)"/>
+      <arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)"/>
           <arg name="map_topic" value="$(arg map_topic)" />
         </include>
       </group>
@@ -150,7 +105,7 @@
 
       <!-- localization package -->
       <include file="$(find vizzy_navigation)/launch/amcl.launch">
-  			<arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)"/>
+        <arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)"/>
       </include>
     </group>
   </group>
