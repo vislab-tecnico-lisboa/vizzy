@@ -49,6 +49,11 @@ using namespace yarp::os;
 using namespace std;
 using namespace yarp::dev;
 
+constexpr std::array<double, 11> letter_start_open_pose_arr    {0.494, -0.733, 15.400, 1.700, 51.449, 0.002, 0.000, 0.001, 0.000,  0.000,    0.000};
+constexpr std::array<double, 11> letter_start_closed_pose_arr  {0.494, -0.733, 15.400, 1.700, 51.449, 0.002, 0.000, 0.001, 0.000,  0.000,   209.081};
+constexpr std::array<double, 11> letter_finnish_closed_pose_arr{1.539, 99.598, 9.799,  0.000, 16.800, 0.000, 0.000, 21.701,0.000,  0.000,   209.081};
+constexpr std::array<double, 11> letter_finnish_open_pose_arr  {1.539, 99.598, 9.799,  0.000, 16.800, 0.000, 0.000, 21.701,0.000,  0.000,   0.000};
+
 class VizzyArmRoutines: public RFModule, public VIZZYARMROUTINES_IDL {
        
     string moduleName;
@@ -70,7 +75,16 @@ class VizzyArmRoutines: public RFModule, public VIZZYARMROUTINES_IDL {
     IEncoders *encs;
     IControlMode2 *ictrl;
     ControlThread *fingerLimbControl;
-    yarp::sig::Vector command, encoders, home_pose, wave_home_pose, grabing_hand_pose, arm_forward_pose, handshaking_pose, release_hand_pose, pid_hand_pose;
+
+    double joint_mod{0.0};
+
+    yarp::sig::Vector command, encoders, home_pose, wave_home_pose, grabing_hand_pose, arm_forward_pose, handshaking_pose, release_hand_pose, pid_hand_pose, 
+                      letter_start_open_pose{letter_start_open_pose_arr.size(), letter_start_open_pose_arr.data()},
+                      letter_start_closed_pose{letter_start_closed_pose_arr.size(), letter_start_closed_pose_arr.data()},
+                      letter_finnish_closed_pose{letter_finnish_closed_pose_arr.size(), letter_finnish_closed_pose_arr.data()},
+                      letter_finnish_open_pose{letter_finnish_open_pose_arr.size(), letter_finnish_open_pose_arr.data()};
+
+;
     yarp::sig::Vector velocities_waving, velocities_stretching, velocities_handshaking;
     
 private:

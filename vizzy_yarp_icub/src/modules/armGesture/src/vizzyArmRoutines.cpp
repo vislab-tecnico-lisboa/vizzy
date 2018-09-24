@@ -219,7 +219,7 @@ bool VizzyArmRoutines::configure(yarp::os::ResourceFinder &rf) {
     pid_hand_pose[8] = 37.5;
     pid_hand_pose[9] = 45;
     pid_hand_pose[10] = 69.75;
-    
+
     int numTries = 0;
     //hand_force_control=false;
     if (hand_force_control){
@@ -443,6 +443,58 @@ bool VizzyArmRoutines::updateModule() {
                     }
                     cout << "Handshake performed" << endl;
                 }
+                break;
+            case 8: 
+                cout << "Grasping Letter" << endl;
+
+                pos->setRefSpeeds(velocities_waving.data());
+
+                command = letter_start_closed_pose;
+                pos->positionMove(command.data());
+                while(!done) {
+                    pos->checkMotionDone(&done);
+                    Time::delay(0.00001);   // Alterado
+                }
+                cout << "Letter Grasping DONE" << endl;
+                break;
+
+            case 9: 
+                cout << "Giving Letter" << endl;
+
+                pos->setRefSpeeds(velocities_waving.data());
+
+                command = letter_finnish_closed_pose;
+                pos->positionMove(command.data());
+                while(!done) {
+                    pos->checkMotionDone(&done);
+                    Time::delay(0.00001);   // Alterado
+                }
+                cout << "Letter Grasping DONE" << endl;
+                break;
+
+
+            case 10: 
+                cout << "Dropping Letter" << endl;
+
+                pos->setRefSpeeds(velocities_waving.data());
+
+                command = letter_finnish_open_pose;
+                pos->positionMove(command.data());
+                while(!done) {
+                    pos->checkMotionDone(&done);
+                    Time::delay(0.00001);   // Alterado
+                }
+                cout << "Letter Grasping DONE" << endl;
+                break;
+
+            case 11: 
+                cout << "increasing joint" << endl;
+                joint_mod += 1.0;
+                break;
+
+            case 12: 
+                cout << "decreasing joint" << endl;
+                joint_mod -= 1.0;
                 break;
 
             default:
