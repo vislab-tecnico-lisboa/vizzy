@@ -34,13 +34,13 @@ protected:
    // One-line text editor for entering the outgoing ROS topic name.
    QLineEdit* output_topic_editor_right_;
    QLineEdit* output_topic_editor_left_;
-   QSpinBox* delay_editor_;
+//   QSpinBox* delay_editor_;
 
    
    // The current name of the output topic.
    QString output_topic_left_;
    QString output_topic_right_;
-   int delay_;
+//   int delay_;
    
   
 
@@ -57,23 +57,30 @@ private:
    //Push buttons for gestures
    QPushButton *home_button_;
 
-   QPushButton *hat_start_;
-   QPushButton *hat_finish_;
+//   QPushButton *hat_start_;
+//   QPushButton *hat_finish_;
 
    QPushButton *letter_start_;
    QPushButton *letter_finish_;
+   QPushButton *letter_drop_;
+   
+   QPushButton *joint_inc_;
+   QPushButton *joint_dec_;
 
 public Q_SLOTS:
 
   void setTopicRight( const QString& topic );
-  void setTopicLeft( const QString& topic );
+  //void setTopicLeft( const QString& topic );
   void home();
 
-  void hatStart();
-  void hatFinish();
+//  void hatStart();
+//  void hatFinish();
 
   void letterStart();
   void letterStop();
+  void letterDrop();
+  void jointIncrement();
+  void jointDecrement();
 
   void command(int cmd);
 
@@ -81,9 +88,8 @@ public Q_SLOTS:
 protected Q_SLOTS:
 
   void updateRightTopic();
-  void updateLeftTopic();
-  void updateDelay();
-  
+  //void updateLeftTopic();
+//  void updateDelay();
 
 
 };

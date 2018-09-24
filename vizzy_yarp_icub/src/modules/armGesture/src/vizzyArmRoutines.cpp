@@ -448,8 +448,8 @@ bool VizzyArmRoutines::updateModule() {
                 cout << "Grasping Letter" << endl;
 
                 pos->setRefSpeeds(velocities_waving.data());
-
                 command = letter_start_closed_pose;
+                command[10] = letter_start_closed_pose_arr[10]+joint_mod;
                 pos->positionMove(command.data());
                 while(!done) {
                     pos->checkMotionDone(&done);
@@ -459,11 +459,12 @@ bool VizzyArmRoutines::updateModule() {
                 break;
 
             case 9: 
-                cout << "Giving Letter" << endl;
+                cout << "Raising Letter" << endl;
 
                 pos->setRefSpeeds(velocities_waving.data());
 
                 command = letter_finnish_closed_pose;
+                command[10] = letter_finnish_closed_pose[10]+joint_mod;
                 pos->positionMove(command.data());
                 while(!done) {
                     pos->checkMotionDone(&done);
@@ -488,13 +489,13 @@ bool VizzyArmRoutines::updateModule() {
                 break;
 
             case 11: 
-                cout << "increasing joint" << endl;
                 joint_mod += 1.0;
+                cout << "increasing last joint:" << joint_mod << endl;
                 break;
 
             case 12: 
-                cout << "decreasing joint" << endl;
                 joint_mod -= 1.0;
+                cout << "decreasing last joint:" << joint_mod << endl;
                 break;
 
             default:
