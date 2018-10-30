@@ -15,16 +15,16 @@
   <arg name="frame_id" default="camera"/>
   <arg name="camera_id"		default="0" />
   <arg name="camera_intrinsics_file"	default="$(find vizzy_robot)/config/right_camera_params.yaml" />
-  
+  <arg name="frame_rate" default="10"/> 
 
   <node machine="$(arg vizzy_machine_name)" ns="$(arg ns)" 
-        pkg="nodelet" type="nodelet" name="$(arg camera_name)_camera_nodelet_manager" 
+        pkg="nodelet" type="nodelet" name="$(arg camera_name)_nodelet_manager" 
         args="manager" output="screen"
   />
 
-  <node  machine="$(arg vizzy_machine_name)" ns="$(arg ns)"
-         pkg="nodelet" type="nodelet" name="ueye_cam_nodelet"
-         args="load ueye_cam/ueye_cam_nodelet $(arg camera_name)_camera_nodelet_manager">
+    <node  machine="$(arg vizzy_machine_name)" ns="$(arg ns)"
+         pkg="nodelet" type="nodelet" name="$(arg camera_name)_ueye_cam_nodelet"
+         args="load ueye_cam/ueye_cam_nodelet $(arg camera_name)_nodelet_manager">
     <param name="camera_name" type="str" value="$(arg camera_name)" /> <!-- == namespace for topics and services -->
     <param name="camera_topic" type="str" value="image_raw" />
     <param name="camera_id" type="int" value="$(arg camera_id)" /> <!-- 0 = any camera; 1+: camera ID -->
@@ -61,7 +61,7 @@
     <param name="flash_duration" type="int" value="1000" /> <!-- in us -->
     
     <param name="auto_frame_rate" type="bool" value="False" />
-    <param name="frame_rate" type="double" value="20.0" />
+    <param name="frame_rate" type="double" value="$(arg frame_rate)" />
     <param name="output_rate" type="double" value="0.0" /> <!-- >0: throttle rate for publishing frames -->
     <param name="pixel_clock" type="int" value="320" />
 
@@ -72,7 +72,7 @@
   <!-- Bayer color decoding -->
   <node machine="$(arg vizzy_machine_name)" ns="$(arg ns)" pkg="nodelet" 
         type="nodelet" name="$(arg camera_name)_image_proc_debayer" 
-        args="load image_proc/debayer $(arg camera_name)_camera_nodelet_manager" 
+        args="load image_proc/debayer $(arg camera_name)_nodelet_manager" 
         output="screen" >
         
         <remap from="image_color" to="$(arg camera_name)/image_color" />
@@ -83,7 +83,7 @@
   <node machine="$(arg vizzy_machine_name)" 
         ns="$(arg ns)" pkg="nodelet" type="nodelet" 
         name="$(arg camera_name)_image_proc_rect_color" 
-        args="load image_proc/rectify $(arg camera_name)_camera_nodelet_manager">
+        args="load image_proc/rectify $(arg camera_name)_nodelet_manager">
 
         <remap from="image_mono" to="$(arg camera_name)/image_color" />
         <remap from="image_rect" to="$(arg camera_name)/image_rect_color" />

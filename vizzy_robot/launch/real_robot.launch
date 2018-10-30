@@ -56,32 +56,24 @@
   
 	<group if="$(arg ros_cameras_on)">
 	 	 <!-- Left camera -->
-      <include file="$(find vizzy_robot)/launch/camera.launch">
-        <arg name="camera" value="l_camera" />
-        <arg name="frame_id" value="l_camera_vision_link" />
-        <arg name="guid" value="00b09d01007ad691" />
-        <arg name="video_mode" value="640x480_rgb8"/>
-        <arg name="frame_rate" value="15"/>
-        <arg name="gain" value="0"/>
-        <arg name="shutter" value="0.592"/>
-        <arg name="white_balance_BU" value="0.474"/>
-        <arg name="white_balance_RV" value="0.648"/>
-        <arg name="hue" value="0.48"/>
-        <arg name="gamma" value="0.4"/>
-        <arg name="saturation" value="0.826"/>
-        <arg name="sharpness" value="0.5"/>
-        <arg name="brightness" value="0"/>
-        <arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)" />
-        <arg name="ns" value="$(arg ns)" />
-        <arg name="camera_file" value="$(find vizzy_robot)/config/left_camera_params.yaml" />
-      </include>
+      <include file="$(find vizzy_robot)/launch/ueye_camera.launch">
+          <arg name="camera_name" value="l_camera" />
+          <arg name="camera_id" value="2" />
+          <arg name="frame_id" value="l_camera_vision_link" />
+          <arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)" />
+          <arg name="ns" value="$(arg ns)" />
+          <arg name="frame_rate" value="10"/>
+          <arg name="camera_intrinsics_file" value="$(find vizzy_robot)/config/left_camera_params.yaml" />
+       </include>
 
       <!-- Right camera -->
       <include file="$(find vizzy_robot)/launch/ueye_camera.launch">
         <arg name="camera_name" value="r_camera" />
+        <arg name="camera_id" value="1"/>
         <arg name="frame_id" value="r_camera_vision_link" />
         <arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)" />
         <arg name="ns" value="$(arg ns)" />
+        <arg name="frame_rate" value="10"/>
         <arg name="camera_intrinsics_file" value="$(find vizzy_robot)/config/right_camera_params.yaml" />
       </include> 
   </group>
