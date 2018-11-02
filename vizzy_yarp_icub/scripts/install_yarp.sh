@@ -23,6 +23,8 @@ add_variables () {
 }
 
 
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+
 printf "[Vizzy]: Hello %s. I'm Vizzy and I'm going to help you to instal YARP and YARP related stuff that I need for simulation. I'm here to make your life easier! :) \n\n\n" "$USER"
 
 YARP_REPOSITORIES=$HOME/yarp_repositories
@@ -250,7 +252,16 @@ printf "[Vizzy]: Let's install dependencies if they are not installed...\n"
 sudo apt-get install -y coinor-libipopt-dev
 sudo apt-get install -y libgtkmm-2.4-dev
 sudo apt-get install -y git
-
+sudo apt-get install -y libeigen3-dev
+sudo apt-get install -y libace-dev
+sudo apt-get install -y libgsl-dev
+sudo apt-get install -y libedit-dev
+sudo apt-get install -y cmake
+sudo apt-get install -y cmake-curses-gui
+sudo apt-get install qtbase5-dev qtdeclarative5-dev qtmultimedia5-dev \
+  qtdeclarative5-qtquick2-plugin qtdeclarative5-window-plugin \
+  qtdeclarative5-qtmultimedia-plugin qtdeclarative5-controls-plugin \
+  qtdeclarative5-dialogs-plugin libqt5svg5
 
 echo "[Vizzy]: Now let's install and compile a tested version of YARP"
 cd $YARP_REPOSITORIES
@@ -326,7 +337,6 @@ fi
 printf "\n\n [Vizzy]: Now lets download the vizzy tactile repository\n\n"
 
 #Get the catkin ws
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 CATKIN_WS="$(echo $DIR | awk -F "/src/vizzy" '{print $1}')"
 
 cd $CATKIN_WS/src
@@ -350,10 +360,10 @@ cd $CATKIN_WS/src/vizzy/vizzy_yarp_icub/src/modules/armGesture/include
 yarpidl_rosmsg --out . Int16
 yarpidl_rosmsg --out . TactSensorArray 
 
-cd $CATKIN_WS/src/vizzy_yarp_icub/
-mkdir build && cd build
+cd $CATKIN_WS/src/vizzy/vizzy_yarp_icub/
+mkdir -p build && rm -rf build/* && cd build
 cmake -DALLOW_IDL_GENERATION=ON -DCMAKE_CXX_STANDARD=11 ..
-make -j($nproc)
+make -j$(nproc)
 
 if [ $? -eq 0 ]; then
     printf "\n [Vizzy]: My YARP modules were successfully compiled!\n"
