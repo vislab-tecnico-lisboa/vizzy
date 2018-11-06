@@ -4,15 +4,29 @@
 #Many thanks to Pedro Vicente, Carlos Cardoso and Plinio Moreno
 #Tested on Ubuntu 16.04
 
+install_gazebo_yarp_plugins () {
+
+YARP_REPOSITORIES=$1
+cd $YARP_REPOSITORIES
+git clone https://github.com/robotology/gazebo-yarp-plugins.git
+cd gazebo-yarp-plugins && git checkout 3bc9b82d07a0f510666753309be560a426a559dd
+mkdir build install && cd build
+cmake ../ -DCMAKE_INSTALL_PREFIX=$YARP_REPOSITORIES/install
+make -j$(nproc)
+make install
+echo "export GAZEBO_PLUGIN_PATH=\${GAZEBO_PLUGIN_PATH}:$YARP_REPOSITORIES/install/lib" >> $HOME/.yarp_env
+source $HOME/.yarp_env
+
+}
+
 add_variables () {
-	    YARP_REPOSITORIES=$1
+	    YARP_REPOSITORIES=$1 DIR=$2
+	    VIZZY_YARP_DIR="$(echo $DIR | awk -F "scripts" '{print $1}')" 
 	    echo "export YARP_ROOT=$YARP_REPOSITORIES/yarp" >> $HOME/.yarp_env
 	    echo "export YARP_DIR=\$YARP_ROOT/build" >> $HOME/.yarp_env
 	    echo "export YARP_ROBOT_NAME=vizzy" >> $HOME/.yarp_env
 	    echo "export ICUB_ROOT=$YARP_REPOSITORIES/icub-main" >> $HOME/.yarp_env
 	    echo "export ICUB_DIR=\$ICUB_ROOT/build" >> $HOME/.yarp_env
-	    DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
-	    VIZZY_YARP_DIR="$(echo $DIR | awk -F "install_yarp_script" '{print $1}')" 
 	    echo "export VIZZY_YARP_ICUB_ROOT=$VIZZY_YARP_DIR" >> $HOME/.yarp_env
 	    echo "export VIZZY_YARP_ICUB_DIR=\$VIZZY_YARP_ICUB_ROOT/build" >> $HOME/.yarp_env
 	    echo "export ICUBcontrib_DIR=$YARP_REPOSITORIES/icub-contrib-common/build" >> $HOME/.yarp_env
@@ -172,7 +186,7 @@ fi
 if [ ! -f "$HOME/.yarp_env" ]; then
   echo "[Vizzy]: .yarp_env does not exist. Creating it!"
   touch $HOME/.yarp_env
-  add_variables $YARP_REPOSITORIES
+  add_variables $YARP_REPOSITORIES $DIR
 else
   echo "[Vizzy]: .yarp_env exists..."
   echo "[Vizzy]: It has the following content:"
@@ -185,13 +199,13 @@ else
     case $opt in
 	"Add variables")
 	    printf "[Vizzy]: Ok! Let's add the variables!\n"
-	    add_variables $YARP_REPOSITORIES
+	    add_variables $YARP_REPOSITORIES $DIR
 	    break
             ;;
 	"Delete content and add variables")
 	    rm $HOME/.yarp_env
 	    touch $HOME/.yarp_env
-	    add_variables $YARP_REPOSITORIES
+	    add_variables $YARP_REPOSITORIES $DIR
 	    break
 	    ;;
 	"Continue without adding variables")
@@ -333,6 +347,32 @@ else
     exit
 fi
 
+print "\nNow lets check gazebo-yarp-plugins\n"
+
+
+cd $YARP_REPOSITORIES
+#First check if the GAZEBO_PLUGIN_PATH variable is set
+
+if [ -z ${GAZEBO_PLUGIN_PATH+x} ]; then
+  echo "GAZEBO_PLUGIN_PATH is unset";
+  install_gazebo_yarp_plugins $YARP_REPOSITORIES
+else
+  echo "GAZEBO_PLUGIN_PATH '$GAZEBO_PLUGIN_PATH'";
+  #If the variable is set we need to check out of it contains the path to gazebo-yarp-plugins with one of the .so's we are expecting to have... It might be set for other plugins!
+  FILELIST=($(echo $GAZEBO_PLUGIN_PATH | awk -v RS":" '{print $1}'))
+  found=0
+  for i in "${FILELIST[@]}"
+  do
+    if [ -f $i/libgazebo_yarp_worldinterface.so ]; then
+        found=1
+	break;
+    fi
+  done
+  if [ $found = 0 ]; then
+    install_gazebo_yarp_plugins $YARP_REPOSITORIES
+  fi
+fi
+
 
 printf "\n\n [Vizzy]: Now lets download the vizzy tactile repository\n\n"
 
@@ -371,6 +411,8 @@ else
     printf "\n [Vizzy]: Oh no... an error :(\n"
     exit
 fi
+
+source $HOME/.yarp_env
 
 printf "\n [Vizzy]: The END!\n"
 
