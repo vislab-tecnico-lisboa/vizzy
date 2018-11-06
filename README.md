@@ -83,6 +83,7 @@ We are currently migrating the eband planner to teb planner.
 Other dependencies needed (in a convenient one-liner)
     
     version=kinetic &&
+    sudo apt-get install ros-$version-tf2-geometry-msgs
     sudo apt install ros-$version-gazebo-* &&
     sudo apt install ros-$version-image-proc &&
     sudo apt install ros-$version-moveit-* &&
