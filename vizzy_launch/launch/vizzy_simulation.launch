@@ -39,7 +39,7 @@
 
   <!-- MoveIt! planner -->
   <!-- TODO: Fix MoveIt! configs -->
-  <arg name="moveit" default="false"/>
+  <arg name="moveit" default="true"/>
 
   <!-- Teleop -->
   <arg name="teleop" default="false"/>
