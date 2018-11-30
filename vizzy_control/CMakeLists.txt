@@ -89,6 +89,11 @@ target_link_libraries(follow_trajectory_action_server
    ${catkin_LIBRARIES}
 )
 
+## Declare a cpp executable
+add_executable(cartesian_action_server src/VizzyCartActionServerNode.cpp src/VizzyCartesianActionServer.cpp)
+target_link_libraries(cartesian_action_server
+   ${catkin_LIBRARIES}
+)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes

@@ -7,6 +7,14 @@ find_package(YARP REQUIRED)
 include_directories(${YARP_INCLUDE_DIRS})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
+execute_process(COMMAND yarpidl_rosmsg Pose WORKING_DIRECTORY "${PROJECT_BINARY_DIR}/yarpidl_rosmsg_files" OUTPUT_QUIET)
+execute_process(COMMAND yarpidl_rosmsg Float64 WORKING_DIRECTORY "${PROJECT_BINARY_DIR}/yarpidl_rosmsg_files" OUTPUT_QUIET)
+execute_process(COMMAND yarpidl_rosmsg JointTrajectory WORKING_DIRECTORY "${PROJECT_BINARY_DIR}/yarpidl_rosmsg_files" OUTPUT_QUIET)
+execute_process(COMMAND yarpidl_rosmsg Bool WORKING_DIRECTORY "${PROJECT_BINARY_DIR}/yarpidl_rosmsg_files" OUTPUT_QUIET)
+execute_process(COMMAND yarpidl_rosmsg Int16 WORKING_DIRECTORY "${PROJECT_BINARY_DIR}/yarpidl_rosmsg_files" OUTPUT_QUIET)
+execute_process(COMMAND yarpidl_rosmsg motorsArray.msg WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}" OUTPUT_QUIET)
+
+include_directories(${PROJECT_BINARY_DIR}/yarpidl_rosmsg_files)
 # set up our program
 add_executable(headMotorsInterface head_motors_interface.cpp)
 add_executable(leftArmMotorsInterface left_arm_motors_interface.cpp)
@@ -14,6 +22,7 @@ add_executable(leftArmMotorsInterfaceOneTopic left_arm_motors_interface_one_topi
 add_executable(leftArmFollowTrajBridge left_arm_trajectory_action_bridge.cpp)
 add_executable(followTrajectoryBridge follow_trajectory_action_bridge.cpp)
 add_executable(pos2_posDirTest position_direct_test_left_arm.cpp)
+add_executable(cartesianRosBridge cartesian_controller_action_bridge.cpp)
 
 # link with YARP libraries
 target_link_libraries(headMotorsInterface ${YARP_LIBRARIES})
@@ -22,3 +31,4 @@ target_link_libraries(leftArmMotorsInterfaceOneTopic ${YARP_LIBRARIES})
 target_link_libraries(leftArmFollowTrajBridge ${YARP_LIBRARIES})
 target_link_libraries(followTrajectoryBridge ${YARP_LIBRARIES})
 target_link_libraries(pos2_posDirTest ${YARP_LIBRARIES})
+target_link_libraries(cartesianRosBridge ${YARP_LIBRARIES})

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="left_arm_name" default="left_shoulder_arm" />
+  <arg name="right_arm_name" default="right_shoulder_arm" /> 
+
+ <node ns="/vizzy/right_arm_cartesian_controller" pkg="vizzy_control" type="cartesian_action_server" name="cartesian_action">
+	<rosparam file="$(find vizzy_control)/param/right_arm_follow_traj.yaml"/>
+  </node>
+
+<node ns="/vizzy/left_arm_cartesian_controller" pkg="vizzy_control" type="cartesian_action_server" name="cartesian_action">
+	<rosparam file="$(find vizzy_control)/param/left_arm_follow_traj.yaml"/>
+  </node>
+</launch>
