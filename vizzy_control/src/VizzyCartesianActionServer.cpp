@@ -15,7 +15,7 @@ VizzyCartesianActionServer::VizzyCartesianActionServer(const std::string &name, 
     : action_server_(nh, name, false), private_node_handle("~")
 {
     private_node_handle.getParam("robot_part", robot_part);
-    stop_execution = node_handle_.advertise<std_msgs::Bool>("/" + robot_part + "cartesian_pose_cancel", 1);
+    stop_execution = node_handle_.advertise<std_msgs::Bool>("/" + robot_part + "_cartesian_pose_cancel", 1);
     pose_from_user = node_handle_.advertise<geometry_msgs::Pose>("/" + robot_part + "_cartesian_pose_from_ros", 1);
     action_server_.registerGoalCallback(boost::bind(&VizzyCartesianActionServer::goalCallback, this));
     action_server_.registerPreemptCallback(boost::bind(&VizzyCartesianActionServer::preemptCB, this));
@@ -48,7 +48,7 @@ void VizzyCartesianActionServer::actionBridgeCallback(const std_msgs::Int16::Con
         ROS_INFO("Could not reach the cartesian end effector goal.");
         result.state_reached = false;
         result.end_effector_pose = current_pose;
-        action_server_.setSucceeded(result);
+        action_server_.setAborted(result);
     }
     else if (msg->data == 1)
     {

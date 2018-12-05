@@ -5,7 +5,7 @@
 #include <yarp/sig/all.h>
 #include <yarp/math/Math.h>
 #include "Bool.h"
-#include "Pose.h"
+#include "geometry_msgs_Pose.h"
 #include "Int16.h"
 //#include <yarp/os/Subscriber.h>
 using namespace std;
@@ -77,7 +77,7 @@ int main(int argc, char *argv[])
     IControlMode2 *iMode2;
     IControlMode2 *iMode2_torso;
     VectorOf<int> jntArm;
-    yarp::os::Subscriber<Pose> pose_reading_port;
+    yarp::os::Subscriber<geometry_msgs_Pose> pose_reading_port;
     StatusThread *pose_status_thread;
     double home_joint_position[8];
     string robot = rf.find("robot").asString().c_str();
@@ -107,27 +107,31 @@ int main(int argc, char *argv[])
     options_torso.put("local", "/" + robot + "/" + "torso" + "/_pos_interface");
     options_torso.put("part", "torso");
 
-    yarp::os::Subscriber<Pose> subscriber_pose_part;
+    dd.open(options);
+    cout << "Arm driver done!!" << endl;
+    dd_torso.open(options_torso);
+    cout << "Torso driver done!!" << endl;
+    yarp::os::Subscriber<geometry_msgs_Pose> subscriber_pose_part;
     yarp::os::Subscriber<Bool> subscriber_cancel_part;
-    yarp::os::Publisher<Pose> publisher_feedback_part;
+    yarp::os::Publisher<geometry_msgs_Pose> publisher_feedback_part;
     yarp::os::Publisher<Int16> publisher_result_bridge_part;
     bool ok = true;
     ok &= client.open(option);
-    ok = dd.view(ipos);
+    ok &= dd.view(ipos);
     ok &= dd.view(iMode2);
     ok &= dd_torso.view(ipos_torso);
     ok &= dd_torso.view(iMode2_torso);
     double part_speeds[8] = {12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 12.0};
     ipos->setRefSpeeds(part_speeds);
     //cout << "Init four done!!" << endl;
+    // open the view
+    client.view(arm);
     for (int i = 0; i < 8; i++)
         jntArm.push_back(i);
     Vector dof;
     arm->getDOF(dof);
     if (!ok)
-        return false;
-    // open the view
-    client.view(arm);
+        return 0;
     StatusThread cancel_topic_thread;
     cancel_topic_thread.setSubscriber(&subscriber_cancel_part);
 
@@ -136,8 +140,8 @@ int main(int argc, char *argv[])
     portsConnected.resize(4);
     int totalConnections = 0;
     portsConnected.assign(4, false);
-    totalConnections += 3;
-
+    totalConnections += 4;
+    Node node("/yarp/"+ part + "_cartesian_bridge");
     while (!allConnected)
     {
         int connectedNumber = totalConnections;
@@ -171,14 +175,16 @@ int main(int argc, char *argv[])
         Time::delay(1);
     }
     ok &= cancel_topic_thread.start();
-    Pose *pose_data;
-    Pose feedback_msg_to_ros;
+    if (!ok)
+        return 0;
+    geometry_msgs_Pose *pose_data;
+    geometry_msgs_Pose feedback_msg_to_ros;
     Int16 result_msg_to_ros;
     Vector current_position;
     current_position.resize(3);
     Vector current_orientation;
     current_orientation.resize(4);
-    Pose current_pose;
+    geometry_msgs_Pose current_pose;
     double timeout = 3.0;
     while (true)
     {
