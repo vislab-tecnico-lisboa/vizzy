@@ -44,6 +44,8 @@
   <arg name="reactive_2d_navigation" default="false"/>
   <arg name="teleop" default="true"/>
 
+
+  <arg name="auto_gain" default="false"/>
   <!-- bringup robot -->
   <include file="$(find vizzy_robot)/launch/real_robot.launch">
     <arg name="map_frame" value="$(arg map_frame)" />
