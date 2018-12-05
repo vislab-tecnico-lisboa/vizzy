@@ -153,13 +153,16 @@
 
   </group>
 
+
+
   <!-- Launch teleop -->
-  <group if="$(arg teleop)">
-    <include file="$(find vizzy_navigation)/launch/teleop_joy_simulation.launch">
-      <arg name="cmd_out_topic" value="twist2nav2d"/>
-      <arg name="ns" value="$(arg ns)"/>
-    </include>
-  </group>
+  
+  <node pkg="assisted_teleop" name="assisted_teleop" type="assisted_teleop" respawn="false" output="screen">
+    <rosparam file="$(find vizzy_robot)/config/assisted_teleop.yaml" command="load" />
+    <remap from="teleop_cmd_vel" to="teleop/command" />
+    <remap from="cmd_vel" to="vizzy/cmd_vel" />
+  </node>
+  
 
 
   <!-- Launch MoveIt! -->
