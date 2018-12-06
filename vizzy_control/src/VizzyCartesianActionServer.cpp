@@ -74,6 +74,14 @@ void VizzyCartesianActionServer::goalCallback()
         my_nan_pose.position.z = std::nan("");
         pose_from_user.publish(my_nan_pose);
     }
+    else if (goal_msg->type == vizzy_msgs::CartesianGoal::VELOCITY){
+        geometry_msgs::Pose my_nan_pose;
+        my_nan_pose = goal_msg->end_effector_pose;
+        my_nan_pose.orientation.y = std::nan("");
+        my_nan_pose.orientation.z = std::nan("");
+        my_nan_pose.orientation.w = std::nan("");
+        pose_from_user.publish(my_nan_pose);
+    }
     return;
 }
 
@@ -82,6 +90,7 @@ void VizzyCartesianActionServer::preemptCB()
     ROS_INFO("joint_velocity_controller: Preempted");
     // set the action state to preempted
     action_active = false;
+    // In this case preempted is equivalent to go to home position
     geometry_msgs::Pose my_nan_pose;
     my_nan_pose.position.x = std::nan("");
     my_nan_pose.position.y = std::nan("");

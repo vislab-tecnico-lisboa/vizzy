@@ -39,6 +39,8 @@ def main():
     goal.end_effector_pose.orientation.w = 1.0
 
     client.send_goal(goal)
+    client.wait_for_result()
+    print client.get_result()
 
 
 
