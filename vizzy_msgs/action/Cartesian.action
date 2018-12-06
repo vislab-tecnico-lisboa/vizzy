@@ -1,6 +1,7 @@
 #goal definition
 uint8 CARTESIAN=0
 uint8 HOME=1
+uint8 VELOCITY=2
 uint8 type
 
 geometry_msgs/Pose end_effector_pose
