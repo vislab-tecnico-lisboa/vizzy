@@ -92,7 +92,7 @@ int main(int argc, char *argv[])
   while (true) {
 	//printf("Hello, from thread1\n");
 	std::cout << "Hello from left arm !!" << std::endl;
-	motorsArray *data;
+    motorsArray *data;
 	//data->data.resize(8);
         data = subscriber_left_arm.read(); //data->data*180.0/3.141592
 	if (data != NULL){

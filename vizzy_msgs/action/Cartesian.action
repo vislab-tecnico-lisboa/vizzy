@@ -1,0 +1,16 @@
+#goal definition
+uint8 CARTESIAN=0
+uint8 HOME=1
+uint8 VELOCITY=2
+uint8 type
+
+geometry_msgs/Pose end_effector_pose
+
+---
+#result definition
+bool state_reached
+geometry_msgs/Pose end_effector_pose
+---
+#feedback
+geometry_msgs/Pose current_e_eff_pose
+
