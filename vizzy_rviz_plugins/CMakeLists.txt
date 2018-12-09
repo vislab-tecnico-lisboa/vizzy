@@ -135,6 +135,7 @@ if(rviz_QT_VERSION VERSION_LESS "5")
   include/vizzy_rviz_plugins/clickable_gaze_display.h
   include/vizzy_rviz_plugins/wasd_teleop_tool.h
   include/vizzy_rviz_plugins/gestures_panel.hpp
+  include/vizzy_rviz_plugins/grasp_panel.hpp
 )
 else()
   message(STATUS "Using Qt5 based on the rviz_QT_VERSION: ${rviz_QT_VERSION}")
@@ -145,6 +146,7 @@ else()
   include/vizzy_rviz_plugins/clickable_gaze_display.h
   include/vizzy_rviz_plugins/wasd_teleop_tool.h
   include/vizzy_rviz_plugins/gestures_panel.hpp
+  include/vizzy_rviz_plugins/grasp_panel.hpp
 )
 endif()
 
@@ -156,6 +158,7 @@ set(SOURCE_FILES
   src/clickable_gaze_display.cpp
   src/wasd_teleop_tool.cpp
   src/gestures_panel.cpp
+  src/grasp_panel.cpp
   ${MOC_FILES}
 )
 
