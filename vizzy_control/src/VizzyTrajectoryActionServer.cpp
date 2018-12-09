@@ -38,7 +38,8 @@ void VizzyFollowTrajectoryActionServer::actionBridgeCallback(const std_msgs::Int
       control_msgs::FollowJointTrajectoryResult result;
       ROS_INFO("Could not reach the goal.");
       result.error_code = control_msgs::FollowJointTrajectoryResult::PATH_TOLERANCE_VIOLATED;
-      action_server_.setSucceeded(result);
+      action_server_.setAborted(result);
+      //action_server_.setSucceeded(result);
     }
     else if (msg->data==1){
       control_msgs::FollowJointTrajectoryResult result;
