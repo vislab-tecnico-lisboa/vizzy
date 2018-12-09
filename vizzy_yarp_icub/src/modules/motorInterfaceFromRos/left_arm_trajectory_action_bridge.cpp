@@ -11,9 +11,9 @@
 #include <yarp/os/Log.h>
 
 #include <string>
-#include "trajectory_msgs_JointTrajectory.h"
-#include "std_msgs_Bool.h"
-#include "std_msgs_Int16.h"
+#include "JointTrajectory.h"
+#include "Bool.h"
+#include "Int16.h"
 #include <math.h>
 using namespace yarp::dev;
 using namespace yarp::os;
@@ -25,7 +25,7 @@ class Thread1 : public Thread {
 public:
 //    Thread1():Thread(){}
     Thread1(){}
-    Thread1(yarp::os::Subscriber<std_msgs_Bool> *my_topic__){
+    Thread1(yarp::os::Subscriber<Bool> *my_topic__){
 	setSubscriber(my_topic__);
     }
     virtual bool threadInit()
@@ -34,7 +34,7 @@ public:
 	Time::delay(0.01);
         return true;
     }
-    virtual void setSubscriber(yarp::os::Subscriber<std_msgs_Bool> *my_topic__){
+    virtual void setSubscriber(yarp::os::Subscriber<Bool> *my_topic__){
 	my_topic = my_topic__;
     }
     //called by start after threadInit, s is true iff the thread started
@@ -44,7 +44,7 @@ public:
 	while (!isStopping()) {
         //printf("Hello, from thread1\n");
 	std::cout << "Hello from left arm thread:" << std::endl;
-	std_msgs_Bool *data;
+    Bool *data;
         data = my_topic->read();
 	if (data != NULL && data->data)
 	    client_status=1;
@@ -55,16 +55,16 @@ public:
         printf("Goodbye from thread1\n");
     }
 private:
-    yarp::os::Subscriber<std_msgs_Bool> *my_topic;
+    yarp::os::Subscriber<Bool> *my_topic;
 };
 
 int main(int argc, char *argv[]) 
 {
     Network yarp;
 
-    yarp::os::Subscriber<trajectory_msgs_JointTrajectory> subscriber_trajectory_left_arm;
-    yarp::os::Subscriber<std_msgs_Bool> subscriber_stop_left_arm;
-    yarp::os::Publisher<std_msgs_Int16> publisher_result_left_arm;
+    yarp::os::Subscriber<JointTrajectory> subscriber_trajectory_left_arm;
+    yarp::os::Subscriber<Bool> subscriber_stop_left_arm;
+    yarp::os::Publisher<Int16> publisher_result_left_arm;
     Property options;
     //options.put("robot", "vizzySim");//Needs to be read from a config file
     options.put("robot", "vizzy");//Needs to be read from a config file
@@ -160,8 +160,8 @@ int main(int argc, char *argv[])
     std::cout << "." << std::endl;
     Time::delay(1);
   }
-  trajectory_msgs_JointTrajectory *traj_data;
-  std_msgs_Int16 feedback_msg_to_ros;
+  JointTrajectory *traj_data;
+  Int16 feedback_msg_to_ros;
   double trajectory_start;
   double trajectory_elapsed_time;
   double expected_trajectory_time;
