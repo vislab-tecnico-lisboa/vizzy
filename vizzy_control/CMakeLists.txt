@@ -91,6 +91,7 @@ target_link_libraries(follow_trajectory_action_server
 
 ## Declare a cpp executable
 add_executable(cartesian_action_server src/VizzyCartActionServerNode.cpp src/VizzyCartesianActionServer.cpp)
+add_dependencies(cartesian_action_server vizzy_msgs_generate_messages_cpp)
 target_link_libraries(cartesian_action_server
    ${catkin_LIBRARIES}
 )
