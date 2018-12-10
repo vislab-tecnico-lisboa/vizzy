@@ -7,7 +7,13 @@ find_package(catkin REQUIRED
     roscpp
     sensor_msgs
     geometry_msgs
-    nav2d_operator)
+    nav2d_operator
+    dynamic_reconfigure)
+
+  #add dynamic reconfigure api
+ generate_dynamic_reconfigure_options(
+  cfg/Docking.cfg
+ )
 
 
 catkin_package(
@@ -15,9 +21,13 @@ catkin_package(
     sensor_msgs
     geometry_msgs
     roscpp
+    dynamic_reconfigure
 )
 
 include_directories(include ${catkin_INCLUDE_DIRS})
+
+
+
 
 ## Declare a cpp executable
 add_executable(teleop_joy_node src/teleop_joy.cpp)
@@ -32,7 +42,14 @@ target_link_libraries(reroute_twist2nav2d_node
   ${catkin_LIBRARIES}
 )
 
-add_dependencies(reroute_twist2nav2d_node nav2d_operator_generate_messages_cpp ${catkin_EXPORTED_TARGETS})
+add_executable(docking_controller src/docking_controller.cpp src/docking_controller_ros.cpp src/docking_controller_node.cpp)
+target_link_libraries(docking_controller
+  ${Boost_LIBRARIES}
+  ${catkin_LIBRARIES}
+)
+add_dependencies(docking_controller ${PROJECT_NAME}_gencfg)
+
+add_dependencies(reroute_twist2nav2d_node nav2d_operator_generate_messages_cpp ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_gencfg)
 
 foreach(dir config launch rviz)
   install(DIRECTORY ${dir}/ 
