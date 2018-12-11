@@ -114,7 +114,6 @@ void GraspPanel::putinbox()
 
 void GraspPanel::giveaway()
 {
-
 }
 
 void GraspPanel::updateTopic()
