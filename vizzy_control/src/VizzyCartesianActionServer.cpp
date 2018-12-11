@@ -16,7 +16,7 @@ VizzyCartesianActionServer::VizzyCartesianActionServer(const std::string &name, 
 {
     private_node_handle.getParam("robot_part", robot_part);
     stop_execution = node_handle_.advertise<std_msgs::Bool>("/" + robot_part + "_cartesian_pose_cancel", 1);
-    pose_from_user = node_handle_.advertise<geometry_msgs::Pose>("/" + robot_part + "_cartesian_pose_from_ros", 1);
+    goal_from_user = node_handle_.advertise<vizzy_msgs::CartesianGoal>("/" + robot_part + "_cartesian_pose_from_ros", 1);
     action_server_.registerGoalCallback(boost::bind(&VizzyCartesianActionServer::goalCallback, this));
     action_server_.registerPreemptCallback(boost::bind(&VizzyCartesianActionServer::preemptCB, this));
     info_from_bridge = node_handle_.subscribe("/" + robot_part + "_cartesian_pose_result", 1, &VizzyCartesianActionServer::actionBridgeCallback, this);
@@ -29,11 +29,11 @@ VizzyCartesianActionServer::~VizzyCartesianActionServer()
 {
 }
 
-void VizzyCartesianActionServer::feedbackCallback(const geometry_msgs::Pose::ConstPtr &msg)
+void VizzyCartesianActionServer::feedbackCallback(const vizzy_msgs::CartesianFeedbackConstPtr &msg)
 {
     //current_pose = *msg;
-    feedback_.current_e_eff_pose = *msg;
-    current_pose = *msg;
+    feedback_.current_e_eff_pose = msg->current_e_eff_pose;
+    current_pose = msg->current_e_eff_pose;
     action_server_.publishFeedback(feedback_);
 }
 
@@ -65,8 +65,9 @@ void VizzyCartesianActionServer::goalCallback()
 {
     action_active = true;
     goal_msg = action_server_.acceptNewGoal();
-    if (goal_msg->type == vizzy_msgs::CartesianGoal::CARTESIAN)
-        pose_from_user.publish(goal_msg->end_effector_pose);
+    goal_from_user.publish(goal_msg);
+    /*if (goal_msg->type == vizzy_msgs::CartesianGoal::CARTESIAN)
+        goal_from_user.publish(goal_msg);
     else if (goal_msg->type == vizzy_msgs::CartesianGoal::HOME){
         geometry_msgs::Pose my_nan_pose;
         my_nan_pose.position.x = std::nan("");
@@ -81,7 +82,7 @@ void VizzyCartesianActionServer::goalCallback()
         my_nan_pose.orientation.z = std::nan("");
         my_nan_pose.orientation.w = std::nan("");
         pose_from_user.publish(my_nan_pose);
-    }
+    }*/
     return;
 }
 
@@ -91,11 +92,13 @@ void VizzyCartesianActionServer::preemptCB()
     // set the action state to preempted
     action_active = false;
     // In this case preempted is equivalent to go to home position
-    geometry_msgs::Pose my_nan_pose;
+    vizzy_msgs::CartesianGoalPtr goal_msg_preempt;
+    goal_msg_preempt->type = vizzy_msgs::CartesianGoal::PREEMPT;
+    /*geometry_msgs::Pose my_nan_pose;
     my_nan_pose.position.x = std::nan("");
     my_nan_pose.position.y = std::nan("");
-    my_nan_pose.position.z = std::nan("");
-    pose_from_user.publish(my_nan_pose);
+    my_nan_pose.position.z = std::nan("");*/
+    goal_from_user.publish(goal_msg_preempt);
     action_server_.setPreempted();
     return;
 }
