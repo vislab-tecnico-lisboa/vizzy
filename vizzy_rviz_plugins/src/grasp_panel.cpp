@@ -56,7 +56,7 @@ GraspPanel::GraspPanel(QWidget *parent)
 
   //Initialize goal action to update the goal from other nodes (example: ball tracker)
   goal_sub_ = nh_.subscribe<geometry_msgs::PoseStamped>(input_topic_editor_->text().toStdString(), 1, &GraspPanel::poseCallback, this);
-
+  goal_pub_ = nh_.advertise<geometry_msgs::PoseStamped>("/grasp_goal_vis", 1);
 
   QVBoxLayout* gestures_layout= new QVBoxLayout();
   gestures_layout->addWidget(go_to_goal);
@@ -151,7 +151,23 @@ void GraspPanel::poseCallback(const geometry_msgs::PoseStamped::ConstPtr& msg)
   y_spin_->setValue(goal_pos_y_*100);
   z_spin_->setValue(goal_pos_z_*100);
 
+  geometry_msgs::PoseStamped pose_viz;
 
+  pose_viz.header.frame_id="base_link";
+
+  pose_viz.pose.position.x = goal_pos_x_+goal_pos_x_offset_;
+  pose_viz.pose.position.y = goal_pos_y_+goal_pos_y_offset_;
+  pose_viz.pose.position.z = goal_pos_z_+goal_pos_z_offset_;
+
+  double o_x = goal_orient_x_+goal_orient_x_offset_;
+  double o_y = goal_orient_y_+goal_orient_y_offset_;
+  double o_z = goal_orient_z_+goal_orient_z_offset_;
+  pose_viz.pose.orientation.x = o_x;
+  pose_viz.pose.orientation.y = o_y;
+  pose_viz.pose.orientation.z = o_z; 
+  pose_viz.pose.orientation.w = std::sqrt(1.0-(o_x*o_x+o_y*o_y+o_z*o_z));
+
+  goal_pub_.publish(pose_viz);
 
 }
 
@@ -276,15 +292,66 @@ void GraspPanel::freezeUnfreeze()
 void GraspPanel::updateGoalX()
 {
   goal_pos_x_ = (double) (x_spin_->value())/100.0;
+  geometry_msgs::PoseStamped pose_viz;
+
+  pose_viz.header.frame_id="base_link";
+
+  pose_viz.pose.position.x = goal_pos_x_+goal_pos_x_offset_;
+  pose_viz.pose.position.y = goal_pos_y_+goal_pos_y_offset_;
+  pose_viz.pose.position.z = goal_pos_z_+goal_pos_z_offset_;
+
+  double o_x = goal_orient_x_+goal_orient_x_offset_;
+  double o_y = goal_orient_y_+goal_orient_y_offset_;
+  double o_z = goal_orient_z_+goal_orient_z_offset_;
+  pose_viz.pose.orientation.x = o_x;
+  pose_viz.pose.orientation.y = o_y;
+  pose_viz.pose.orientation.z = o_z; 
+  pose_viz.pose.orientation.w = std::sqrt(1.0-(o_x*o_x+o_y*o_y+o_z*o_z));
+
+  goal_pub_.publish(pose_viz);
 }
 
 void GraspPanel::updateGoalY()
 {
+  geometry_msgs::PoseStamped pose_viz;
+
+  pose_viz.header.frame_id="base_link";
+
+  pose_viz.pose.position.x = goal_pos_x_+goal_pos_x_offset_;
+  pose_viz.pose.position.y = goal_pos_y_+goal_pos_y_offset_;
+  pose_viz.pose.position.z = goal_pos_z_+goal_pos_z_offset_;
+
+  double o_x = goal_orient_x_+goal_orient_x_offset_;
+  double o_y = goal_orient_y_+goal_orient_y_offset_;
+  double o_z = goal_orient_z_+goal_orient_z_offset_;
+  pose_viz.pose.orientation.x = o_x;
+  pose_viz.pose.orientation.y = o_y;
+  pose_viz.pose.orientation.z = o_z; 
+  pose_viz.pose.orientation.w = std::sqrt(1.0-(o_x*o_x+o_y*o_y+o_z*o_z));
+
+  goal_pub_.publish(pose_viz);
   goal_pos_y_ = (double) (y_spin_->value())/100.0;
 }
 
 void GraspPanel::updateGoalZ()
 {
+  geometry_msgs::PoseStamped pose_viz;
+
+  pose_viz.header.frame_id="base_link";
+
+  pose_viz.pose.position.x = goal_pos_x_+goal_pos_x_offset_;
+  pose_viz.pose.position.y = goal_pos_y_+goal_pos_y_offset_;
+  pose_viz.pose.position.z = goal_pos_z_+goal_pos_z_offset_;
+
+  double o_x = goal_orient_x_+goal_orient_x_offset_;
+  double o_y = goal_orient_y_+goal_orient_y_offset_;
+  double o_z = goal_orient_z_+goal_orient_z_offset_;
+  pose_viz.pose.orientation.x = o_x;
+  pose_viz.pose.orientation.y = o_y;
+  pose_viz.pose.orientation.z = o_z; 
+  pose_viz.pose.orientation.w = std::sqrt(1.0-(o_x*o_x+o_y*o_y+o_z*o_z));
+
+  goal_pub_.publish(pose_viz);
   goal_pos_z_ = (double) (z_spin_->value())/100.0;
 }
 
