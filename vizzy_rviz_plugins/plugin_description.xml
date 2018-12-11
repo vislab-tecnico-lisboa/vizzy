@@ -24,4 +24,11 @@
       Use the 'less than' key to activate/deactive the tool.
     </description>
   </class>
+    <class name="vizzy_rviz_plugins/GraspPanel"
+           type="vizzy_rviz_plugins::GraspPanel"
+           base_class_type="rviz::Panel">
+      <description>
+        A panel with buttons for grasping stuff
+      </description>
+    </class>
 </library>
