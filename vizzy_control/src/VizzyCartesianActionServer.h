@@ -28,7 +28,7 @@ class VizzyCartesianActionServer
     void goalCallback();
     actionlib::SimpleActionServer<vizzy_msgs::CartesianAction> action_server_;
     void actionBridgeCallback(const std_msgs::Int16::ConstPtr& msg);
-    void feedbackCallback(const geometry_msgs::Pose::ConstPtr &msg);
+    void feedbackCallback(const vizzy_msgs::CartesianFeedbackConstPtr &msg);
     void preemptCB();
  private:
     bool action_active;
@@ -37,7 +37,7 @@ class VizzyCartesianActionServer
     ros::Subscriber info_from_bridge;
     ros::Publisher trajectory_from_move_it;
     ros::Publisher stop_execution;
-    ros::Publisher pose_from_user;
+    ros::Publisher goal_from_user;
     ros::Subscriber feedback_from_bridge;
     vizzy_msgs::CartesianGoalConstPtr goal_msg;
     ros::NodeHandle private_node_handle;
