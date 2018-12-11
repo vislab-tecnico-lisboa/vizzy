@@ -16,11 +16,8 @@ December, 2018
 namespace vizzy_rviz_plugins {
 
 GraspPanel::GraspPanel(QWidget *parent)
-  : rviz::Panel(parent)
+  : rviz::Panel(parent), tfBuffer(), tfListener(tfBuffer)
 {
-
-
-
 
   //Configure the push buttons for the handshakes
   go_to_goal = new QPushButton("Go to goal!", this);
@@ -134,17 +131,32 @@ GraspPanel::GraspPanel(QWidget *parent)
 
 void GraspPanel::poseCallback(const geometry_msgs::PoseStamped::ConstPtr& msg)
 {
-
+  
   if(freeze_goal_)
     return;
 
-  goal_pos_x_ = msg->pose.position.x;
-  goal_pos_y_ = msg->pose.position.y;
-  goal_pos_z_ = msg->pose.position.z;
+  geometry_msgs::TransformStamped transformStamped;
+  try{
+  transformStamped = tfBuffer.lookupTransform("base_link", msg->header.frame_id,
+                              ros::Time(0));
+  }
+  catch (tf2::TransformException &ex) {
+    ROS_WARN("%s",ex.what());
+    ros::Duration(1.0).sleep();
+  }
 
-  goal_orient_x_ = msg->pose.orientation.x;
-  goal_orient_y_ = msg->pose.orientation.y;
-  goal_orient_z_ = msg->pose.orientation.z;
+  geometry_msgs::PoseStamped onBase;
+
+  tf2::doTransform(*msg, onBase, transformStamped);
+
+
+  goal_pos_x_ = onBase.pose.position.x;
+  goal_pos_y_ = onBase.pose.position.y;
+  goal_pos_z_ = onBase.pose.position.z;
+
+  goal_orient_x_ = onBase.pose.orientation.x;
+  goal_orient_y_ = onBase.pose.orientation.y;
+  goal_orient_z_ = onBase.pose.orientation.z;
 
 
   x_spin_->setValue(goal_pos_x_*100);
