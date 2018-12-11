@@ -9,7 +9,6 @@ December, 2018
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QPushButton>
-#include <std_msgs/Int16.h>
 #include "../include/vizzy_rviz_plugins/grasp_panel.hpp"
 
 
@@ -19,7 +18,11 @@ GraspPanel::GraspPanel(QWidget *parent)
   : rviz::Panel(parent)
 {
 
+
+
+
   //Configure the push buttons for the handshakes
+  go_to_goal = new QPushButton("Go to goal!", this);
   home_button = new QPushButton("Home position", this);
   grab_button = new QPushButton("Grab", this);
   release_button = new QPushButton("Release", this);
@@ -27,15 +30,20 @@ GraspPanel::GraspPanel(QWidget *parent)
   giveaway_button = new QPushButton("Give away", this);
 
 
-  // Next we lay out the "output topic" text entry field using a
+  // Next we lay out the "action" text entry field using a
   // QLabel and a QLineEdit in a QHBoxLayout.
   QHBoxLayout* topic_layout = new QHBoxLayout();
-  topic_layout->addWidget( new QLabel( "Output Topic:" ));
+  topic_layout->addWidget( new QLabel( "Action client:" ));
   output_topic_editor_ = new QLineEdit;
-  output_topic_editor_->setText("/vizzyGrasp/command");
+  output_topic_editor_->setText("/vizzy/left_arm_cartesian_controller/cartesian_action");
   topic_layout->addWidget(output_topic_editor_ );
 
+  //Initialize action client
+  ac = std::make_shared<cartesian_client>(output_topic_editor_->text().toStdString(), true);
+
+
   QVBoxLayout* gestures_layout= new QVBoxLayout();
+  gestures_layout->addWidget(go_to_goal);
   gestures_layout->addWidget(home_button);
   gestures_layout->addWidget(grab_button);
   gestures_layout->addWidget(release_button);
@@ -55,46 +63,58 @@ GraspPanel::GraspPanel(QWidget *parent)
   connect(release_button, SIGNAL (released()), this, SLOT (release()));
   connect(putinbox_button, SIGNAL (released()), this, SLOT (putinbox()));
   connect(giveaway_button, SIGNAL (released()), this, SLOT (giveaway()));
+  connect(go_to_goal, SIGNAL (released()), this, SLOT (gotoGoal()));
   connect( output_topic_editor_, SIGNAL( editingFinished() ), this, SLOT( updateTopic() ));
 
   updateTopic();
 }
 
+void GraspPanel::gotoGoal()
+{
+  vizzy_msgs::CartesianGoal goal;
+  goal.type = goal.CARTESIAN;
+  goal.end_effector_pose.position.x = goal_orient_x_;
+  goal.end_effector_pose.position.y = goal_orient_y_;
+  goal.end_effector_pose.position.z = goal_orient_z_;
+  
+  goal.end_effector_pose.orientation.x = goal_orient_x_;
+  goal.end_effector_pose.orientation.y = goal_orient_y_;
+  goal.end_effector_pose.orientation.z = goal_orient_z_;
+  goal.end_effector_pose.orientation.w = goal_orient_w_;
+
+  ac->sendGoal(goal);
+}
+
 void GraspPanel::home()
 {
-  std_msgs::Int16 command;
-  command.data=0;
-  vizzy_arm_publisher.publish(command);
-  return;
+  vizzy_msgs::CartesianGoal goal;
+  goal.type = goal.HOME;
+  ac->sendGoal(goal);
 }
 
 void GraspPanel::grab()
 {
-  std_msgs::Int16 command;
-  command.data=1;
-  vizzy_arm_publisher.publish(command);
-  return;
+  vizzy_msgs::CartesianGoal goal;
+  goal.type = goal.GRAB;
+  ac->sendGoal(goal);
 }
 
 void GraspPanel::release()
 {
-  std_msgs::Int16 command;
-  command.data=2;
-  vizzy_arm_publisher.publish(command);
+  vizzy_msgs::CartesianGoal goal;
+  goal.type = goal.RELEASE;
+  ac->sendGoal(goal);
 }
 
 void GraspPanel::putinbox()
 {
-  std_msgs::Int16 command;
-  command.data=3;
-  vizzy_arm_publisher.publish(command);
+
+
 }
 
 void GraspPanel::giveaway()
 {
-  std_msgs::Int16 command;
-  command.data=4;
-  vizzy_arm_publisher.publish(command);  
+
 }
 
 void GraspPanel::updateTopic()
@@ -105,17 +125,19 @@ void GraspPanel::updateTopic()
 void GraspPanel::setTopic(const QString &new_topic)
 {
   // Only take action if the name has changed.
-  if( new_topic != output_topic_ )
+  if( new_topic != output_action_ )
   {
-    output_topic_ = new_topic;
+    output_action_ = new_topic;
     // If the topic is the empty string, don't publish anything.
-    if( output_topic_ == "" )
+    if( output_action_ == "" )
     {
-      vizzy_arm_publisher.shutdown();
+      ac->cancelAllGoals();
+      ac = std::make_shared<cartesian_client>("null", true);
     }
     else
     {
-      vizzy_arm_publisher = nh_.advertise<std_msgs::Int16>( output_topic_.toStdString(), 1 );
+      ac->cancelAllGoals();
+      ac = std::make_shared<cartesian_client>(output_action_.toStdString(), true);      
     }
 
     Q_EMIT configChanged();
@@ -125,7 +147,7 @@ void GraspPanel::setTopic(const QString &new_topic)
 void GraspPanel::save( rviz::Config config ) const
 {
   rviz::Panel::save( config );
-  config.mapSetValue( "Topic", output_topic_ );
+  config.mapSetValue( "Topic", output_action_ );
 }
 
 // Load all configuration data for this panel from the given Config object.
