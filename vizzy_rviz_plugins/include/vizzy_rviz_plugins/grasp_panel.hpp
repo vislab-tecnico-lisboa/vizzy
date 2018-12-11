@@ -21,6 +21,7 @@ December, 2018
 #include <vizzy_msgs/CartesianActionFeedback.h>
 #include <vizzy_msgs/CartesianActionResult.h>
 #include <geometry_msgs/PoseStamped.h>
+#include <tf2_ros/transform_listener.h>
 
 typedef actionlib::SimpleActionClient<vizzy_msgs::CartesianAction> cartesian_client;
 
@@ -100,7 +101,9 @@ private:
   double goal_pos_z_offset_ = 0;
   double goal_orient_x_offset_ = 0;
   double goal_orient_y_offset_ = 0;
-  double goal_orient_z_offset_ = 0; 
+  double goal_orient_z_offset_ = 0;
+  tf2_ros::Buffer tfBuffer;
+  tf2_ros::TransformListener tfListener;
 
   void poseCallback(const geometry_msgs::PoseStamped::ConstPtr& msg);
 
