@@ -57,7 +57,12 @@ protected:
     ros::NodeHandle nh_;
     ros::Subscriber goal_sub_;
 
+    //For visualization
+    ros::Publisher goal_pub_;
+
     std::shared_ptr<cartesian_client> ac;
+
+
 
    
 private:
@@ -98,7 +103,6 @@ private:
   double goal_orient_z_offset_ = 0; 
 
   void poseCallback(const geometry_msgs::PoseStamped::ConstPtr& msg);
-
 
 
 
