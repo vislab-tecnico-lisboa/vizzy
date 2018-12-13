@@ -63,9 +63,6 @@ protected:
     ros::NodeHandle nh_;
     ros::Subscriber goal_sub_;
 
-    //For visualization
-    ros::Publisher goal_pub_;
-
     std::shared_ptr<cartesian_client> ac;
 
 
@@ -121,12 +118,13 @@ private:
   double goal_orient_w_offset_ = 0;
 
   InteractiveMarker int_marker_;
+  boost::shared_ptr<interactive_markers::InteractiveMarkerServer> server_;
   
   tf2_ros::Buffer tfBuffer;
   tf2_ros::TransformListener tfListener;
 
   void poseCallback(const geometry_msgs::PoseStamped::ConstPtr& msg);
-
+  void processFeedback( const visualization_msgs::InteractiveMarkerFeedbackConstPtr &feedback );
 
 
 public Q_SLOTS:

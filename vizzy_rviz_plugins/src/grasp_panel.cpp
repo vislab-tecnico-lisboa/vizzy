@@ -19,6 +19,10 @@ GraspPanel::GraspPanel(QWidget *parent)
   : rviz::Panel(parent), tfBuffer(), tfListener(tfBuffer)
 {
 
+  //Interactive Marker Server
+  server_.reset( new interactive_markers::InteractiveMarkerServer("basic_controls","",false) );
+  ros::Duration(0.1).sleep();
+
   //Configure the push buttons for the handshakes
   go_to_goal = new QPushButton("Go to goal!", this);
   home_button = new QPushButton("Home position", this);
@@ -53,7 +57,6 @@ GraspPanel::GraspPanel(QWidget *parent)
 
   //Initialize goal action to update the goal from other nodes (example: ball tracker)
   goal_sub_ = nh_.subscribe<geometry_msgs::PoseStamped>(input_topic_editor_->text().toStdString(), 1, &GraspPanel::poseCallback, this);
-  goal_pub_ = nh_.advertise<geometry_msgs::PoseStamped>("/grasp_goal_vis", 1);
 
   QVBoxLayout* gestures_layout= new QVBoxLayout();
   gestures_layout->addWidget(go_to_goal);
@@ -172,9 +175,102 @@ GraspPanel::GraspPanel(QWidget *parent)
   //insert the end effector
   makeEndEffectorControl(int_marker_);
   int_marker_.controls[0].interaction_mode = visualization_msgs::InteractiveMarkerControl::MOVE_ROTATE_3D;
+  int_marker_.pose.orientation.w = 1.0;
 
+  InteractiveMarkerControl control;
+  control.orientation.w = 1;
+  control.orientation.x = 1;
+  control.orientation.y = 0;
+  control.orientation.z = 0;
+  control.name = "rotate_x";
+  control.interaction_mode = InteractiveMarkerControl::ROTATE_AXIS;
+  int_marker_.controls.push_back(control);
+  control.name = "move_x";
+  control.interaction_mode = InteractiveMarkerControl::MOVE_AXIS;
+  int_marker_.controls.push_back(control);
+
+  control.orientation.w = 1;
+  control.orientation.x = 0;
+  control.orientation.y = 1;
+  control.orientation.z = 0;
+  control.name = "rotate_z";
+  control.interaction_mode = InteractiveMarkerControl::ROTATE_AXIS;
+  int_marker_.controls.push_back(control);
+  control.name = "move_z";
+  control.interaction_mode = InteractiveMarkerControl::MOVE_AXIS;
+  int_marker_.controls.push_back(control);
+
+  control.orientation.w = 1;
+  control.orientation.x = 0;
+  control.orientation.y = 0;
+  control.orientation.z = 1;
+  control.name = "rotate_y";
+  control.interaction_mode = InteractiveMarkerControl::ROTATE_AXIS;
+  int_marker_.controls.push_back(control);
+  control.name = "move_y";
+  control.interaction_mode = InteractiveMarkerControl::MOVE_AXIS;
+  int_marker_.controls.push_back(control);
+
+  server_->insert(int_marker_);
+  server_->setCallback(int_marker_.name, boost::bind(&GraspPanel::processFeedback, this, _1));
+
+  server_->applyChanges();
 
 }
+
+void GraspPanel::processFeedback( const visualization_msgs::InteractiveMarkerFeedbackConstPtr &feedback )
+{
+
+  if(!freeze_goal_)
+    return;
+  else
+  {
+    geometry_msgs::TransformStamped transformStamped;
+    geometry_msgs::PoseStamped onMarkerFrame;
+    onMarkerFrame.header.frame_id = feedback->header.frame_id;
+    onMarkerFrame.pose = feedback->pose;
+
+    geometry_msgs::PoseStamped onBase;
+
+    try{
+    transformStamped = tfBuffer.lookupTransform("base_link", onMarkerFrame.header.frame_id,
+                                ros::Time(0));
+    tf2::doTransform(onMarkerFrame, onBase, transformStamped);
+
+    }
+    catch (tf2::TransformException &ex) {
+      ROS_WARN("%s",ex.what());
+      ros::Duration(1.0).sleep();
+      return;
+    }
+
+    goal_pos_x_ = onBase.pose.position.x;
+    goal_pos_y_ = onBase.pose.position.y;
+    goal_pos_z_ = onBase.pose.position.z;
+
+    goal_orient_x_ = onBase.pose.orientation.x;
+    goal_orient_y_ = onBase.pose.orientation.y;
+    goal_orient_z_ = onBase.pose.orientation.z;
+
+
+    x_spin_->setValue(goal_pos_x_);
+    y_spin_->setValue(goal_pos_y_);
+    z_spin_->setValue(goal_pos_z_);
+    double o_x = goal_orient_x_+goal_orient_x_offset_;
+    double o_y = goal_orient_y_+goal_orient_y_offset_;
+    double o_z = goal_orient_z_+goal_orient_z_offset_;
+    double w = std::sqrt(1.0-(o_x*o_x+o_y*o_y+o_z*o_z));
+
+    x_angle_spin_->setValue(goal_orient_x_);
+    y_angle_spin_->setValue(goal_orient_y_);
+    z_angle_spin_->setValue(goal_orient_z_);
+    w_angle_spin_->setValue(w);
+  }
+
+
+  server_->applyChanges();
+}
+
 
 void GraspPanel::updateMarkerPose()
 {
@@ -218,14 +314,6 @@ void GraspPanel::poseCallback(const geometry_msgs::PoseStamped::ConstPtr& msg)
   y_spin_->setValue(goal_pos_y_);
   z_spin_->setValue(goal_pos_z_);
 
-  geometry_msgs::PoseStamped pose_viz;
-
-  pose_viz.header.frame_id="base_link";
-
-  pose_viz.pose.position.x = goal_pos_x_+goal_pos_x_offset_;
-  pose_viz.pose.position.y = goal_pos_y_+goal_pos_y_offset_;
-  pose_viz.pose.position.z = goal_pos_z_+goal_pos_z_offset_;
-
   double o_x = goal_orient_x_+goal_orient_x_offset_;
   double o_y = goal_orient_y_+goal_orient_y_offset_;
   double o_z = goal_orient_z_+goal_orient_z_offset_;
@@ -237,13 +325,18 @@ void GraspPanel::poseCallback(const geometry_msgs::PoseStamped::ConstPtr& msg)
   z_angle_spin_->setValue(goal_orient_z_);
   w_angle_spin_->setValue(w);
 
+  int_marker_.pose.position.x = goal_pos_x_;
+  int_marker_.pose.position.y = goal_pos_y_;
+  int_marker_.pose.position.z = goal_pos_z_;
 
-  pose_viz.pose.orientation.x = o_x;
-  pose_viz.pose.orientation.y = o_y;
-  pose_viz.pose.orientation.z = o_z; 
-  pose_viz.pose.orientation.w = w;
+  int_marker_.pose.orientation.x = o_x;
+  int_marker_.pose.orientation.y = o_y;
+  int_marker_.pose.orientation.z = o_z;
+  int_marker_.pose.orientation.w = w;
 
-  goal_pub_.publish(pose_viz);
+  server_->clear();
+  server_->insert(int_marker_);
+  server_->applyChanges();
 
 }
 
@@ -368,71 +461,19 @@ void GraspPanel::freezeUnfreeze()
 void GraspPanel::updateGoalX()
 {
   goal_pos_x_ = (double) (x_spin_->value());
-  geometry_msgs::PoseStamped pose_viz;
 
-  pose_viz.header.frame_id="base_link";
-
-  pose_viz.pose.position.x = goal_pos_x_+goal_pos_x_offset_;
-  pose_viz.pose.position.y = goal_pos_y_+goal_pos_y_offset_;
-  pose_viz.pose.position.z = goal_pos_z_+goal_pos_z_offset_;
-
-  double o_x = goal_orient_x_+goal_orient_x_offset_;
-  double o_y = goal_orient_y_+goal_orient_y_offset_;
-  double o_z = goal_orient_z_+goal_orient_z_offset_;
-  pose_viz.pose.orientation.x = o_x;
-  pose_viz.pose.orientation.y = o_y;
-  pose_viz.pose.orientation.z = o_z; 
-  pose_viz.pose.orientation.w = std::sqrt(1.0-(o_x*o_x+o_y*o_y+o_z*o_z));
-
-  goal_pub_.publish(pose_viz);
 }
 
 void GraspPanel::updateGoalY()
 {
   goal_pos_y_ = (double) (y_spin_->value());
-
-  geometry_msgs::PoseStamped pose_viz;
-
-  pose_viz.header.frame_id="base_link";
-
-  pose_viz.pose.position.x = goal_pos_x_+goal_pos_x_offset_;
-  pose_viz.pose.position.y = goal_pos_y_+goal_pos_y_offset_;
-  pose_viz.pose.position.z = goal_pos_z_+goal_pos_z_offset_;
-
-  double o_x = goal_orient_x_+goal_orient_x_offset_;
-  double o_y = goal_orient_y_+goal_orient_y_offset_;
-  double o_z = goal_orient_z_+goal_orient_z_offset_;
-  pose_viz.pose.orientation.x = o_x;
-  pose_viz.pose.orientation.y = o_y;
-  pose_viz.pose.orientation.z = o_z; 
-  pose_viz.pose.orientation.w = std::sqrt(1.0-(o_x*o_x+o_y*o_y+o_z*o_z));
-
-  goal_pub_.publish(pose_viz);
-
 }
 
 void GraspPanel::updateGoalZ()
 {
 
   goal_pos_z_ = (double) (z_spin_->value());
-
-  geometry_msgs::PoseStamped pose_viz;
-
-  pose_viz.header.frame_id="base_link";
-
-  pose_viz.pose.position.x = goal_pos_x_+goal_pos_x_offset_;
-  pose_viz.pose.position.y = goal_pos_y_+goal_pos_y_offset_;
-  pose_viz.pose.position.z = goal_pos_z_+goal_pos_z_offset_;
-
-  double o_x = goal_orient_x_+goal_orient_x_offset_;
-  double o_y = goal_orient_y_+goal_orient_y_offset_;
-  double o_z = goal_orient_z_+goal_orient_z_offset_;
-  pose_viz.pose.orientation.x = o_x;
-  pose_viz.pose.orientation.y = o_y;
-  pose_viz.pose.orientation.z = o_z; 
-  pose_viz.pose.orientation.w = std::sqrt(1.0-(o_x*o_x+o_y*o_y+o_z*o_z));
-
-  goal_pub_.publish(pose_viz);
+  
 }
 
 
@@ -468,8 +509,8 @@ Marker GraspPanel::makeEndEffector( InteractiveMarker &msg )
 
   marker.type = Marker::ARROW;
   marker.scale.x = msg.scale * 0.45;
-  marker.scale.y = msg.scale * 0.45;
-  marker.scale.z = msg.scale * 0.45;
+  marker.scale.y = msg.scale * 0.25;
+  marker.scale.z = msg.scale * 0.25;
   marker.color.r = 0.5;
   marker.color.g = 0.5;
   marker.color.b = 0.5;
