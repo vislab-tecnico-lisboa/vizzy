@@ -329,28 +329,7 @@ int main(int argc, char *argv[])
             double init_time = Time::now();
             double current_time;
             yWarning("Before position control timeout");
-            //while (motionDone_arm==false && current_time-init_time<timeout*2.0){
-            while (current_time - init_time < timeout * 2.0)
-            {
-                ipos->checkMotionDone(&motionDone_arm);
-                current_time = Time::now();
-            }
-            yWarning("After position control timeout");
-            //--
-            //BEGIN Setting the motor control in POSITION_DIRECT mode for each joint
-            //--
-            //VectorOf<int> modes;
-            modes.resize(8, VOCAB_CM_POSITION_DIRECT);
-            iMode2->setControlModes(jntArm.size(), jntArm.getFirst(), modes.getFirst());
-            iMode2_torso->setControlMode(0,VOCAB_CM_POSITION_DIRECT);
-            //--
-            // END Setting the motor control in POSITION_DIRECT mode for each joint
-            //--
-            arm_encs->getEncoders(current_encoders);
-            Vector current_position_error;
-            current_position_error = current_encoders - home_joint_position;
-            //arm->getPose(current_position, current_orientation);
-            yarp::math::Quaternion orientation;
+	    yarp::math::Quaternion orientation;
             double my_timeout=4.0;
             while (!motionDone_arm && my_timeout>0)
             {
@@ -366,11 +345,34 @@ int main(int argc, char *argv[])
                 current_pose.current_e_eff_pose.pose.orientation.y = orientation.y();
                 current_pose.current_e_eff_pose.pose.orientation.z = orientation.z();
                 current_pose.current_e_eff_pose.pose.orientation.w = orientation.w();
+		//yWarning("Before publishing feedback");
                 publisher_feedback_part.write(current_pose);
+		//yWarning("After publishing feedback");
                 Time::delay(0.05);
                 my_timeout-=0.05;
                 //done = true;
             }
+            //while (motionDone_arm==false && current_time-init_time<timeout*2.0){
+            /*while (current_time - init_time < timeout * 2.0)
+            {
+                ipos->checkMotionDone(&motionDone_arm);
+                current_time = Time::now();
+		}*/
+            yWarning("After position control timeout");
+            //--
+            //BEGIN Setting the motor control in POSITION_DIRECT mode for each joint
+            //--
+            //VectorOf<int> modes;
+            modes.resize(8, VOCAB_CM_POSITION_DIRECT);
+            iMode2->setControlModes(jntArm.size(), jntArm.getFirst(), modes.getFirst());
+            iMode2_torso->setControlMode(0,VOCAB_CM_POSITION_DIRECT);
+            //--
+            // END Setting the motor control in POSITION_DIRECT mode for each joint
+            //--
+            arm_encs->getEncoders(current_encoders);
+            Vector current_position_error;
+            current_position_error = current_encoders - home_joint_position;
+            //arm->getPose(current_position, current_orientation);
 
             if (norm2(current_position_error) < position_error_threshold)
             {
@@ -460,7 +462,10 @@ int main(int argc, char *argv[])
             jntHand.push_back(8);
             jntHand.push_back(9);
             jntHand.push_back(10);
-            iMode2->setControlModes(3, jntHand.getFirst(), modes.getFirst());
+            //iMode2->setControlModes(3, jntHand.getFirst(), modes.getFirst());
+	    for (size_t n=0;n<3;n++){
+	      iMode2->setControlMode(n+8,VOCAB_CM_POSITION);
+	    }
             //--
             // END Setting the motor control in POSITION mode for each joint
             //--
@@ -520,7 +525,10 @@ int main(int argc, char *argv[])
             jntHand.push_back(8);
             jntHand.push_back(9);
             jntHand.push_back(10);
-            iMode2->setControlModes(3, jntHand.getFirst(), modes.getFirst());
+            //iMode2->setControlModes(3, jntHand.getFirst(), modes.getFirst());
+	    for (size_t n=0;n<3;n++){
+	      iMode2->setControlMode(n+8,VOCAB_CM_POSITION);
+	    }
             //--
             // END Setting the motor control in POSITION mode for each joint
             //--
