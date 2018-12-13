@@ -12,7 +12,7 @@
 using namespace std;
 
 VizzyCartesianActionServer::VizzyCartesianActionServer(const std::string &name, const ros::NodeHandle &nh)
-    : action_server_(nh, name, false), private_node_handle("~")
+    : action_server_(nh, name, false), private_node_handle("~"), tfBuffer(), tfListener(tfBuffer)
 {
     private_node_handle.getParam("robot_part", robot_part);
     stop_execution = node_handle_.advertise<std_msgs::Bool>("/" + robot_part + "_cartesian_pose_cancel", 1);
@@ -33,7 +33,30 @@ void VizzyCartesianActionServer::feedbackCallback(const vizzy_msgs::CartesianFee
 {
     //current_pose = *msg;
     feedback_.current_e_eff_pose = msg->current_e_eff_pose;
-    current_pose = msg->current_e_eff_pose;
+
+    geometry_msgs::TransformStamped transformStamped;
+    geometry_msgs::PoseStamped onBase;
+
+    if(msg->current_e_eff_pose.header.frame_id == "base_link")
+    {
+        onBase = msg->current_e_eff_pose;
+    }else{
+        try{
+        transformStamped = tfBuffer.lookupTransform("base_link", msg->current_e_eff_pose.header.frame_id,
+                                    ros::Time(0));
+        tf2::doTransform(msg->current_e_eff_pose, onBase, transformStamped);
+
+        }
+        catch (tf2::TransformException &ex) {
+            ROS_WARN("%s",ex.what());
+            ros::Duration(1.0).sleep();
+            return;
+        }
+
+    }
+
+
+    current_pose = onBase;
     action_server_.publishFeedback(feedback_);
 }
 
@@ -65,7 +88,34 @@ void VizzyCartesianActionServer::goalCallback()
 {
     action_active = true;
     goal_msg = action_server_.acceptNewGoal();
-    goal_from_user.publish(goal_msg);
+
+    vizzy_msgs::CartesianGoal new_goal_msg;
+    
+
+    geometry_msgs::TransformStamped transformStamped;
+    geometry_msgs::PoseStamped onBase;
+
+    if(goal_msg->end_effector_pose.header.frame_id == "base_link")
+    {
+        onBase = goal_msg->end_effector_pose;
+    }else{
+        try{
+        transformStamped = tfBuffer.lookupTransform("base_link", goal_msg->end_effector_pose.header.frame_id,
+                                    ros::Time(0));
+        tf2::doTransform(goal_msg->end_effector_pose, onBase, transformStamped);
+
+        }
+        catch (tf2::TransformException &ex) {
+            ROS_WARN("%s",ex.what());
+            ros::Duration(1.0).sleep();
+            return;
+        }
+
+    }
+    new_goal_msg = *goal_msg;
+    new_goal_msg.end_effector_pose = onBase;
+
+    goal_from_user.publish(new_goal_msg);
     /*if (goal_msg->type == vizzy_msgs::CartesianGoal::CARTESIAN)
         goal_from_user.publish(goal_msg);
     else if (goal_msg->type == vizzy_msgs::CartesianGoal::HOME){
