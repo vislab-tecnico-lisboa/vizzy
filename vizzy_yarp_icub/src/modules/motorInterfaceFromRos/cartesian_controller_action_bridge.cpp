@@ -81,7 +81,7 @@ int main(int argc, char *argv[])
     IEncoders *arm_encs;
     IControlMode2 *iMode2_torso;
     VectorOf<int> jntArm;
-    yarp::os::Subscriber<geometry_msgs_Pose> pose_reading_port;
+    yarp::os::Subscriber<geometry_msgs_PoseStamped> pose_reading_port;
     StatusThread *pose_status_thread;
     double home_joint_position[8];
     double current_encoders[8];
@@ -236,7 +236,7 @@ int main(int argc, char *argv[])
             position[0] = pose_data->end_effector_pose.pose.position.x;
             position[1] = pose_data->end_effector_pose.pose.position.y;
             position[2] = pose_data->end_effector_pose.pose.position.z;
-            yarp::math::Quaternion orientation(pose_data->end_effector_pose.orientation.x, 
+            yarp::math::Quaternion orientation(pose_data->end_effector_pose.pose.orientation.x, 
                 pose_data->end_effector_pose.pose.orientation.y, pose_data->end_effector_pose.pose.orientation.z, pose_data->end_effector_pose.pose.orientation.w);
             arm->goToPoseSync(position, orientation.toAxisAngle());
             bool done = false;
