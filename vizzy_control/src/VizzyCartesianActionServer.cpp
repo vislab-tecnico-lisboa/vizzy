@@ -31,6 +31,7 @@ VizzyCartesianActionServer::~VizzyCartesianActionServer()
 
 void VizzyCartesianActionServer::feedbackCallback(const vizzy_msgs::CartesianFeedbackConstPtr &msg)
 {
+    ROS_ERROR("FEEDBACK CALLBACK");
     //current_pose = *msg;
     feedback_.current_e_eff_pose = msg->current_e_eff_pose;
 
