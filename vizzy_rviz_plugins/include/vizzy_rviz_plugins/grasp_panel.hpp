@@ -15,6 +15,7 @@ December, 2018
 #include <QGroupBox>
 #include <QLabel>
 #include <QSpinBox>
+#include <QDoubleSpinBox>
 #include <memory.h>
 #include <vizzy_msgs/CartesianAction.h>
 #include <vizzy_msgs/CartesianActionGoal.h>
@@ -22,11 +23,15 @@ December, 2018
 #include <vizzy_msgs/CartesianActionResult.h>
 #include <geometry_msgs/PoseStamped.h>
 #include <tf2_ros/transform_listener.h>
+#include <tf2_geometry_msgs/tf2_geometry_msgs.h>
+#include <interactive_markers/interactive_marker_server.h>
+
 
 typedef actionlib::SimpleActionClient<vizzy_msgs::CartesianAction> cartesian_client;
 
 class QLineEdit;
 
+using namespace visualization_msgs;
 
 namespace vizzy_rviz_plugins{
 
@@ -84,10 +89,20 @@ private:
   QLabel *y_label_;
   QLabel *z_label_;
 
-  QSpinBox *x_spin_;
-  QSpinBox *y_spin_;
-  QSpinBox *z_spin_;
+  QLabel *x_angle_label_;
+  QLabel *y_angle_label_;
+  QLabel *z_angle_label_;
+  QLabel *w_angle_label_;
+
+  QDoubleSpinBox *x_spin_;
+  QDoubleSpinBox *y_spin_;
+  QDoubleSpinBox *z_spin_;
   
+  QDoubleSpinBox *x_angle_spin_;
+  QDoubleSpinBox *y_angle_spin_;
+  QDoubleSpinBox *z_angle_spin_;
+  QDoubleSpinBox *w_angle_spin_;
+
   //Current Goal
   double goal_pos_x_;
   double goal_pos_y_;
@@ -95,6 +110,7 @@ private:
   double goal_orient_x_;
   double goal_orient_y_;
   double goal_orient_z_;
+  double goal_orient_w_;
 
   double goal_pos_x_offset_ = 0;
   double goal_pos_y_offset_ = 0;
@@ -102,6 +118,10 @@ private:
   double goal_orient_x_offset_ = 0;
   double goal_orient_y_offset_ = 0;
   double goal_orient_z_offset_ = 0;
+  double goal_orient_w_offset_ = 0;
+
+  InteractiveMarker int_marker_;
+  
   tf2_ros::Buffer tfBuffer;
   tf2_ros::TransformListener tfListener;
 
@@ -122,6 +142,16 @@ public Q_SLOTS:
   void updateGoalX();
   void updateGoalY();
   void updateGoalZ();
+  void updatePoseX();
+  void updatePoseY();
+  void updatePoseZ();
+  void updatePoseW();
+
+  Marker makeEndEffector( InteractiveMarker &msg );
+  InteractiveMarkerControl& makeEndEffectorControl( InteractiveMarker &msg );
+  void updateMarkerPose();
+
+
 
 protected Q_SLOTS:
 
