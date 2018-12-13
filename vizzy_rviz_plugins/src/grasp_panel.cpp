@@ -67,22 +67,48 @@ GraspPanel::GraspPanel(QWidget *parent)
 
   QGridLayout *controls_layout = new QGridLayout;
   controlsGroup_ = new QGroupBox("End effector controls (current goal)");
-  x_label_ = new QLabel(tr("x (cm):"));
-  y_label_ = new QLabel(tr("y (cm):"));
-  z_label_ = new QLabel(tr("z (cm):"));
+  x_label_ = new QLabel(tr("x (m):"));
+  y_label_ = new QLabel(tr("y (m):"));
+  z_label_ = new QLabel(tr("z (m):"));
 
-  x_spin_ = new QSpinBox();
-  x_spin_->setRange(-500, 500);
-  x_spin_->setSingleStep(1);
+  x_angle_label_ = new QLabel(tr("orientation x (quat):"));
+  y_angle_label_ = new QLabel(tr("orientation y (quat):"));
+  z_angle_label_ = new QLabel(tr("orientation z (quat):"));
+  w_angle_label_ = new QLabel(tr("orientation w (quat):"));
 
-  y_spin_ = new QSpinBox();
-  y_spin_->setRange(-500, 500);
-  y_spin_->setSingleStep(1);
 
-  z_spin_ = new QSpinBox();
-  z_spin_->setRange(-500, 500);
-  z_spin_->setSingleStep(1);
+  x_spin_ = new QDoubleSpinBox();
+  x_spin_->setRange(-5, 5);
+  x_spin_->setSingleStep(0.01);
 
+  y_spin_ = new QDoubleSpinBox();
+  y_spin_->setRange(-5, 5);
+  y_spin_->setSingleStep(0.01);
+
+  z_spin_ = new QDoubleSpinBox();
+  z_spin_->setRange(-5, 5);
+  z_spin_->setSingleStep(0.01);
+
+
+  x_angle_spin_ = new QDoubleSpinBox();
+  x_angle_spin_->setRange(-1.0, 1.0);
+  x_angle_spin_->setSingleStep(0.01);
+  x_angle_spin_->setReadOnly(true);
+
+  y_angle_spin_ = new QDoubleSpinBox();
+  y_angle_spin_->setRange(-1.0, 1.0);
+  y_angle_spin_->setSingleStep(0.01);
+  y_angle_spin_->setReadOnly(true);
+
+  z_angle_spin_ = new QDoubleSpinBox();
+  z_angle_spin_->setRange(-1.0, 1.0);
+  z_angle_spin_->setSingleStep(0.01);
+  z_angle_spin_->setReadOnly(true);
+
+  w_angle_spin_ = new QDoubleSpinBox();
+  w_angle_spin_->setRange(-1.0, 1.0);
+  w_angle_spin_->setSingleStep(0.01);
+  w_angle_spin_->setReadOnly(true);
 
   controls_layout->addWidget(x_label_, 0, 0);
   controls_layout->addWidget(x_spin_, 0, 1);
@@ -90,6 +116,16 @@ GraspPanel::GraspPanel(QWidget *parent)
   controls_layout->addWidget(y_spin_, 1, 1);
   controls_layout->addWidget(z_label_, 2, 0);
   controls_layout->addWidget(z_spin_, 2, 1);
+
+  controls_layout->addWidget(x_angle_label_, 3, 0);
+  controls_layout->addWidget(x_angle_spin_, 3, 1);
+  controls_layout->addWidget(y_angle_label_, 4, 0);
+  controls_layout->addWidget(y_angle_spin_, 4, 1);
+  controls_layout->addWidget(z_angle_label_, 5, 0);
+  controls_layout->addWidget(z_angle_spin_, 5, 1);
+  controls_layout->addWidget(w_angle_label_, 6, 0);
+  controls_layout->addWidget(w_angle_spin_, 6, 1);
+
 
   controls_out_layout->addLayout(controls_layout);
   controls_out_layout->addWidget(freeze_goal_button_);
@@ -103,8 +139,6 @@ GraspPanel::GraspPanel(QWidget *parent)
   panel_layout->addLayout(action_layout);
   panel_layout->addLayout(topic_layout);
 
-
-
   setLayout( panel_layout );
 
   //Connect objects with signals
@@ -117,15 +151,35 @@ GraspPanel::GraspPanel(QWidget *parent)
   connect( output_action_editor_, SIGNAL( editingFinished() ), this, SLOT( updateAction() ));
   connect( input_topic_editor_, SIGNAL( editingFinished() ), this, SLOT( updateTopic() ));
   
-  connect( x_spin_, SIGNAL( valueChanged(int) ), this, SLOT( updateGoalX() ));
-  connect( y_spin_, SIGNAL( valueChanged(int) ), this, SLOT( updateGoalY() ));
-  connect( z_spin_, SIGNAL( valueChanged(int) ), this, SLOT( updateGoalZ() ));
+  connect( x_spin_, SIGNAL( valueChanged(double) ), this, SLOT( updateGoalX() ));
+  connect( y_spin_, SIGNAL( valueChanged(double) ), this, SLOT( updateGoalY() ));
+  connect( z_spin_, SIGNAL( valueChanged(double) ), this, SLOT( updateGoalZ() ));
 
   connect(freeze_goal_button_, SIGNAL (released()), this, SLOT (freezeUnfreeze()));
 
 
   updateAction();
   updateTopic();
+
+
+  //Interactive markers
+  
+  int_marker_.header.frame_id = "base_link";
+  int_marker_.scale = 1;
+  int_marker_.name = "end_effector_";
+  int_marker_.description = "End effector";
+
+  //insert the end effector
+  makeEndEffectorControl(int_marker_);
+  int_marker_.controls[0].interaction_mode = visualization_msgs::InteractiveMarkerControl::MOVE_ROTATE_3D;
+
+
+}
+
+void GraspPanel::updateMarkerPose()
+{
+
+  
 }
 
 
@@ -136,18 +190,19 @@ void GraspPanel::poseCallback(const geometry_msgs::PoseStamped::ConstPtr& msg)
     return;
 
   geometry_msgs::TransformStamped transformStamped;
+  geometry_msgs::PoseStamped onBase;
+
   try{
   transformStamped = tfBuffer.lookupTransform("base_link", msg->header.frame_id,
                               ros::Time(0));
+  tf2::doTransform(*msg, onBase, transformStamped);
+
   }
   catch (tf2::TransformException &ex) {
     ROS_WARN("%s",ex.what());
     ros::Duration(1.0).sleep();
+    return;
   }
-
-  geometry_msgs::PoseStamped onBase;
-
-  tf2::doTransform(*msg, onBase, transformStamped);
 
 
   goal_pos_x_ = onBase.pose.position.x;
@@ -159,9 +214,9 @@ void GraspPanel::poseCallback(const geometry_msgs::PoseStamped::ConstPtr& msg)
   goal_orient_z_ = onBase.pose.orientation.z;
 
 
-  x_spin_->setValue(goal_pos_x_*100);
-  y_spin_->setValue(goal_pos_y_*100);
-  z_spin_->setValue(goal_pos_z_*100);
+  x_spin_->setValue(goal_pos_x_);
+  y_spin_->setValue(goal_pos_y_);
+  z_spin_->setValue(goal_pos_z_);
 
   geometry_msgs::PoseStamped pose_viz;
 
@@ -174,10 +229,19 @@ void GraspPanel::poseCallback(const geometry_msgs::PoseStamped::ConstPtr& msg)
   double o_x = goal_orient_x_+goal_orient_x_offset_;
   double o_y = goal_orient_y_+goal_orient_y_offset_;
   double o_z = goal_orient_z_+goal_orient_z_offset_;
+
+  double w = std::sqrt(1.0-(o_x*o_x+o_y*o_y+o_z*o_z));
+
+  x_angle_spin_->setValue(goal_orient_x_);
+  y_angle_spin_->setValue(goal_orient_y_);
+  z_angle_spin_->setValue(goal_orient_z_);
+  w_angle_spin_->setValue(w);
+
+
   pose_viz.pose.orientation.x = o_x;
   pose_viz.pose.orientation.y = o_y;
   pose_viz.pose.orientation.z = o_z; 
-  pose_viz.pose.orientation.w = std::sqrt(1.0-(o_x*o_x+o_y*o_y+o_z*o_z));
+  pose_viz.pose.orientation.w = w;
 
   goal_pub_.publish(pose_viz);
 
@@ -187,18 +251,18 @@ void GraspPanel::gotoGoal()
 {
   vizzy_msgs::CartesianGoal goal;
   goal.type = goal.CARTESIAN;
-  goal.end_effector_pose.position.x = goal_pos_x_+goal_pos_x_offset_;
-  goal.end_effector_pose.position.y = goal_pos_y_+goal_pos_y_offset_;
-  goal.end_effector_pose.position.z = goal_pos_z_+goal_pos_z_offset_;
+  goal.end_effector_pose.pose.position.x = goal_pos_x_+goal_pos_x_offset_;
+  goal.end_effector_pose.pose.position.y = goal_pos_y_+goal_pos_y_offset_;
+  goal.end_effector_pose.pose.position.z = goal_pos_z_+goal_pos_z_offset_;
   
 
   double o_x = goal_orient_x_+goal_orient_x_offset_;
   double o_y = goal_orient_y_+goal_orient_y_offset_;
   double o_z = goal_orient_z_+goal_orient_z_offset_;
-  goal.end_effector_pose.orientation.x = o_x;
-  goal.end_effector_pose.orientation.y = o_y;
-  goal.end_effector_pose.orientation.z = o_z; 
-  goal.end_effector_pose.orientation.w = std::sqrt(1.0-(o_x*o_x+o_y*o_y+o_z*o_z));
+  goal.end_effector_pose.pose.orientation.x = o_x;
+  goal.end_effector_pose.pose.orientation.y = o_y;
+  goal.end_effector_pose.pose.orientation.z = o_z; 
+  goal.end_effector_pose.pose.orientation.w = std::sqrt(1.0-(o_x*o_x+o_y*o_y+o_z*o_z));
 
   ac->sendGoal(goal);
 }
@@ -303,7 +367,7 @@ void GraspPanel::freezeUnfreeze()
 
 void GraspPanel::updateGoalX()
 {
-  goal_pos_x_ = (double) (x_spin_->value())/100.0;
+  goal_pos_x_ = (double) (x_spin_->value());
   geometry_msgs::PoseStamped pose_viz;
 
   pose_viz.header.frame_id="base_link";
@@ -325,6 +389,8 @@ void GraspPanel::updateGoalX()
 
 void GraspPanel::updateGoalY()
 {
+  goal_pos_y_ = (double) (y_spin_->value());
+
   geometry_msgs::PoseStamped pose_viz;
 
   pose_viz.header.frame_id="base_link";
@@ -342,11 +408,14 @@ void GraspPanel::updateGoalY()
   pose_viz.pose.orientation.w = std::sqrt(1.0-(o_x*o_x+o_y*o_y+o_z*o_z));
 
   goal_pub_.publish(pose_viz);
-  goal_pos_y_ = (double) (y_spin_->value())/100.0;
+
 }
 
 void GraspPanel::updateGoalZ()
 {
+
+  goal_pos_z_ = (double) (z_spin_->value());
+
   geometry_msgs::PoseStamped pose_viz;
 
   pose_viz.header.frame_id="base_link";
@@ -364,7 +433,6 @@ void GraspPanel::updateGoalZ()
   pose_viz.pose.orientation.w = std::sqrt(1.0-(o_x*o_x+o_y*o_y+o_z*o_z));
 
   goal_pub_.publish(pose_viz);
-  goal_pos_z_ = (double) (z_spin_->value())/100.0;
 }
 
 
@@ -392,6 +460,32 @@ void GraspPanel::load( const rviz::Config& config )
     input_topic_editor_->setText( topic );
     updateTopic();
   }
+}
+
+Marker GraspPanel::makeEndEffector( InteractiveMarker &msg )
+{
+  Marker marker;
+
+  marker.type = Marker::ARROW;
+  marker.scale.x = msg.scale * 0.45;
+  marker.scale.y = msg.scale * 0.45;
+  marker.scale.z = msg.scale * 0.45;
+  marker.color.r = 0.5;
+  marker.color.g = 0.5;
+  marker.color.b = 0.5;
+  marker.color.a = 1.0;
+
+  return marker;
+}
+
+InteractiveMarkerControl& GraspPanel::makeEndEffectorControl( InteractiveMarker &msg )
+{
+  InteractiveMarkerControl control;
+  control.always_visible = true;
+  control.markers.push_back( makeEndEffector(msg) );
+  msg.controls.push_back( control );
+
+  return msg.controls.back();
 }
 
 }
