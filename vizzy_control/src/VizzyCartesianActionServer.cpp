@@ -36,8 +36,8 @@ void VizzyCartesianActionServer::feedbackCallback(const vizzy_msgs::CartesianFee
 
     geometry_msgs::TransformStamped transformStamped;
     geometry_msgs::PoseStamped onBase;
-
-    if(msg->current_e_eff_pose.header.frame_id == "base_link")
+    std::cout << "frame: " << msg->current_e_eff_pose.header.frame_id << std::endl;    
+    if(msg->current_e_eff_pose.header.frame_id == "base_link"  || goal_msg->type==vizzy_msgs::CartesianGoal::HOME || goal_msg->type==vizzy_msgs::CartesianGoal::GRAB || goal_msg->type==vizzy_msgs::CartesianGoal::RELEASE)
     {
         onBase = msg->current_e_eff_pose;
     }else{
@@ -62,8 +62,8 @@ void VizzyCartesianActionServer::feedbackCallback(const vizzy_msgs::CartesianFee
 
 void VizzyCartesianActionServer::actionBridgeCallback(const std_msgs::Int16::ConstPtr &msg)
 {
-    if (!action_active)
-        return;
+  if (!action_active)
+      return;
     if (msg->data == 0)
     {
         vizzy_msgs::CartesianResult result;
@@ -95,7 +95,7 @@ void VizzyCartesianActionServer::goalCallback()
     geometry_msgs::TransformStamped transformStamped;
     geometry_msgs::PoseStamped onBase;
 
-    if(goal_msg->end_effector_pose.header.frame_id == "base_link")
+    if(goal_msg->end_effector_pose.header.frame_id == "base_link" || goal_msg->type==vizzy_msgs::CartesianGoal::HOME || goal_msg->type==vizzy_msgs::CartesianGoal::GRAB || goal_msg->type==vizzy_msgs::CartesianGoal::RELEASE)
     {
         onBase = goal_msg->end_effector_pose;
     }else{

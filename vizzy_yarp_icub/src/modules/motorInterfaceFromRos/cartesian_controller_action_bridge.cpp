@@ -7,7 +7,7 @@
 #include "Bool.h"
 #include "vizzy_msgs_CartesianGoal.h"
 #include "vizzy_msgs_CartesianFeedback.h"
-#include "Int16.h"
+#include "std_msgs_Int16.h"
 #include "Float32.h"
 
 //#include <yarp/os/Subscriber.h>
@@ -119,7 +119,7 @@ int main(int argc, char *argv[])
     yarp::os::Subscriber<vizzy_msgs_CartesianGoal> subscriber_pose_part;
     yarp::os::Subscriber<Bool> subscriber_cancel_part;
     yarp::os::Publisher<vizzy_msgs_CartesianFeedback> publisher_feedback_part;
-    yarp::os::Publisher<Int16> publisher_result_bridge_part;
+    yarp::os::Publisher<std_msgs_Int16> publisher_result_bridge_part;
     bool ok = true;
     ok &= client.open(option);
     ok &= dd.view(ipos);
@@ -185,7 +185,7 @@ int main(int argc, char *argv[])
         return 0;
     vizzy_msgs_CartesianGoal *pose_data;
     vizzy_msgs_CartesianFeedback feedback_msg_to_ros;
-    Int16 result_msg_to_ros;
+    std_msgs_Int16 result_msg_to_ros;
     Vector current_position;
     current_position.resize(3);
     Vector current_orientation;
@@ -263,6 +263,7 @@ int main(int argc, char *argv[])
                 //yWarning("Sending the arm to a pose");
                 arm->getPose(current_position, current_orientation);
                 arm->checkMotionDone(&done);
+		current_pose.current_e_eff_pose.header.frame_id = "base_link";
                 current_pose.current_e_eff_pose.pose.position.x = current_position[0];
                 current_pose.current_e_eff_pose.pose.position.y = current_position[1];
                 current_pose.current_e_eff_pose.pose.position.z = current_position[2];
@@ -356,6 +357,7 @@ int main(int argc, char *argv[])
                 //yWarning("Sending the arm to a pose");
                 arm->getPose(current_position, current_orientation);
                 ipos->checkMotionDone(&motionDone_arm);
+		current_pose.current_e_eff_pose.header.frame_id = "base_link";
                 current_pose.current_e_eff_pose.pose.position.x = current_position[0];
                 current_pose.current_e_eff_pose.pose.position.y = current_position[1];
                 current_pose.current_e_eff_pose.pose.position.z = current_position[2];
@@ -416,6 +418,7 @@ int main(int argc, char *argv[])
                 {
                     //yWarning("Sending the arm to a pose");
                     arm->getPose(current_position, current_orientation);
+		    current_pose.current_e_eff_pose.header.frame_id = "base_link";
                     current_pose.current_e_eff_pose.pose.position.x = current_position[0];
                     current_pose.current_e_eff_pose.pose.position.y = current_position[1];
                     current_pose.current_e_eff_pose.pose.position.z = current_position[2];
@@ -483,6 +486,7 @@ int main(int argc, char *argv[])
             {
                 //yWarning("Sending the arm to a pose");
                 ipos->checkMotionDone(&motionDone_hand);
+		current_pose.current_e_eff_pose.header.frame_id = "base_link";
                 current_pose.current_e_eff_pose.pose.position.x = current_position[0];
                 current_pose.current_e_eff_pose.pose.position.y = current_position[1];
                 current_pose.current_e_eff_pose.pose.position.z = current_position[2];
@@ -542,6 +546,7 @@ int main(int argc, char *argv[])
             {
                 //yWarning("Sending the arm to a pose");
                 ipos->checkMotionDone(&motionDone_hand);
+		current_pose.current_e_eff_pose.header.frame_id = "base_link";
                 current_pose.current_e_eff_pose.pose.position.x = current_position[0];
                 current_pose.current_e_eff_pose.pose.position.y = current_position[1];
                 current_pose.current_e_eff_pose.pose.position.z = current_position[2];

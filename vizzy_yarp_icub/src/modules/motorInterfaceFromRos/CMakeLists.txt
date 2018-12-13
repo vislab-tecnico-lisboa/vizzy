@@ -13,7 +13,7 @@ execute_process(COMMAND yarpidl_rosmsg Float32 WORKING_DIRECTORY "${PROJECT_BINA
 execute_process(COMMAND yarpidl_rosmsg Float64 WORKING_DIRECTORY "${PROJECT_BINARY_DIR}/yarpidl_rosmsg_files" OUTPUT_QUIET)
 execute_process(COMMAND yarpidl_rosmsg JointTrajectory WORKING_DIRECTORY "${PROJECT_BINARY_DIR}/yarpidl_rosmsg_files" OUTPUT_QUIET)
 execute_process(COMMAND yarpidl_rosmsg Bool WORKING_DIRECTORY "${PROJECT_BINARY_DIR}/yarpidl_rosmsg_files" OUTPUT_QUIET)
-execute_process(COMMAND yarpidl_rosmsg Int16 WORKING_DIRECTORY "${PROJECT_BINARY_DIR}/yarpidl_rosmsg_files" OUTPUT_QUIET)
+execute_process(COMMAND yarpidl_rosmsg std_msgs/Int16 WORKING_DIRECTORY "${PROJECT_BINARY_DIR}/yarpidl_rosmsg_files" OUTPUT_QUIET)
 execute_process(COMMAND yarpidl_rosmsg motorsArray.msg WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}" OUTPUT_QUIET)
 
 include_directories(${PROJECT_BINARY_DIR}/yarpidl_rosmsg_files)
