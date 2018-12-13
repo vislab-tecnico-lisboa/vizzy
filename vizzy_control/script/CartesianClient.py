@@ -14,14 +14,16 @@ def main():
     parser.add_argument('type', type=int, help='Type of action to be executed, 0-Cartesian point, 1-Home position, 2-Cartesian velocity, 3-Close hand, 4-Open hand')
     parser.add_argument('type_args', type=float, nargs='*', \
         help='If 0, you can send either the cartesian position [pos x] [pos y] [pos z] or the position and orientation [pos x] [pos y] [pos z] [quat x] [quat y] [quat z] [quat w]')
+    #parser.add_argument('frame_id',  nargs='*', \
+    #                    help='This is the reference frame of the coordinates')
     my_namespace=parser.parse_args()
     print my_namespace.type_args
 
-    if my_namespace.type==0 and len(my_namespace.type_args) < 3:
-        print('Usage: python2 CartesianClient.py 0 [pos x] [pos y] [pos z]')
+    if my_namespace.type==0 and len(my_namespace.type_args) < 3 and len(my_namespace.frame_id) != 1:
+        print('Usage: python2 CartesianClient.py 0 [pos x] [pos y] [pos z] [frame_id]')
         exit()
-    elif my_namespace.type==0 and len(my_namespace.type_args) > 3 and len(my_namespace.type_args) != 7:
-        print('Usage: python2 CartesianClient.py 0 [pos x] [pos y] [pos z] [quat x] [quat y] [quat z] [quat w]')
+    elif my_namespace.type==0 and len(my_namespace.type_args) > 3 and len(my_namespace.type_args) != 7 and len(my_namespace.frame_id) != 1:
+        print('Usage: python2 CartesianClient.py 0 [pos x] [pos y] [pos z] [quat x] [quat y] [quat z] [quat w] [frame_id]')
         exit()
     elif my_namespace.type==1 and len(my_namespace.type_args)!=0:
         print('Usage: python2 CartesianClient.py 1')
@@ -40,21 +42,23 @@ def main():
         exit()
 
     goal = vizzy_msgs.msg.CartesianGoal()
+    goal.end_effector_pose.header.frame_id = 'r_camera_vision_link'
     if my_namespace.type == 0:
         goal.type = vizzy_msgs.msg.CartesianGoal.CARTESIAN
-        goal.end_effector_pose.position.x = my_namespace.type_args[0]
-        goal.end_effector_pose.position.y = my_namespace.type_args[1]
-        goal.end_effector_pose.position.z = my_namespace.type_args[2]
+        #goal.end_effector_pose.header.frame_id = my_namespace.frame_id[0]
+        goal.end_effector_pose.pose.position.x = my_namespace.type_args[0]
+        goal.end_effector_pose.pose.position.y = my_namespace.type_args[1]
+        goal.end_effector_pose.pose.position.z = my_namespace.type_args[2]
         if len(my_namespace.type_args) > 3:
-            goal.end_effector_pose.orientation.x = my_namespace.type_args[3]
-            goal.end_effector_pose.orientation.y = my_namespace.type_args[4]
-            goal.end_effector_pose.orientation.z = my_namespace.type_args[5]
-            goal.end_effector_pose.orientation.w = my_namespace.type_args[6]
+            goal.end_effector_pose.pose.orientation.x = my_namespace.type_args[3]
+            goal.end_effector_pose.pose.orientation.y = my_namespace.type_args[4]
+            goal.end_effector_pose.pose.orientation.z = my_namespace.type_args[5]
+            goal.end_effector_pose.pose.orientation.w = my_namespace.type_args[6]
         else:
-            goal.end_effector_pose.orientation.x = 0
-            goal.end_effector_pose.orientation.y =0
-            goal.end_effector_pose.orientation.z = 0
-            goal.end_effector_pose.orientation.w = 1
+            goal.end_effector_pose.pose.orientation.x = 0
+            goal.end_effector_pose.pose.orientation.y =0
+            goal.end_effector_pose.pose.orientation.z = 0
+            goal.end_effector_pose.pose.orientation.w = 1
     elif my_namespace.type==1:
         goal.type = vizzy_msgs.msg.CartesianGoal.HOME
     elif my_namespace.type==2:
