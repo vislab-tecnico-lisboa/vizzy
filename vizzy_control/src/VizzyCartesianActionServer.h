@@ -18,6 +18,9 @@
 #include <vizzy_msgs/CartesianGoal.h>
 #include <std_msgs/Int16.h>
 #include <std_msgs/Bool.h>
+#include <tf2_ros/transform_listener.h>
+#include <tf2_geometry_msgs/tf2_geometry_msgs.h>
+
 //void actionBridgeCallback(const std_msgs::Int16::ConstPtr& msg);
 class VizzyCartesianActionServer
 {
@@ -42,8 +45,10 @@ class VizzyCartesianActionServer
     vizzy_msgs::CartesianGoalConstPtr goal_msg;
     ros::NodeHandle private_node_handle;
     std::string robot_part;
-    geometry_msgs::Pose current_pose;
+    geometry_msgs::PoseStamped current_pose;
     vizzy_msgs::CartesianFeedback feedback_;
+    tf2_ros::Buffer tfBuffer;
+    tf2_ros::TransformListener tfListener;
 };
 
 #endif  // VIZZY_CARTESIAN_ACTION_H
