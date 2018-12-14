@@ -168,7 +168,7 @@ GraspPanel::GraspPanel(QWidget *parent)
   //Interactive markers
   
   int_marker_.header.frame_id = "base_link";
-  int_marker_.scale = 1;
+  int_marker_.scale = 0.1;
   int_marker_.name = "end_effector_";
   int_marker_.description = "End effector";
 
@@ -410,9 +410,9 @@ void GraspPanel::giveaway()
 {
   vizzy_msgs::CartesianGoal goal;
   goal.type = goal.CARTESIAN;
-  goal.end_effector_pose.pose.position.x = -0.33588;
-  goal.end_effector_pose.pose.position.y = -0.24877;
-  goal.end_effector_pose.pose.position.z = 0.9050198;
+  goal.end_effector_pose.pose.position.x = 0.1748;
+  goal.end_effector_pose.pose.position.y = -0.3032;
+  goal.end_effector_pose.pose.position.z = 0.32268;
   
 
   double o_x = 0.5849;
