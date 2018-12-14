@@ -311,7 +311,10 @@ int main(int argc, char *argv[])
             //--
             VectorOf<int> modes;
             modes.resize(8, VOCAB_CM_POSITION);
-            iMode2->setControlModes(jntArm.size(), jntArm.getFirst(), modes.getFirst());
+            //iMode2->setControlModes(jntArm.size(), jntArm.getFirst(), modes.getFirst());
+	    for (size_t n=0;n<11;n++){
+	      iMode2->setControlMode(n,VOCAB_CM_POSITION);
+	    }
             iMode2_torso->setControlMode(0,VOCAB_CM_POSITION);
             //--
             // END Setting the motor control in POSITION mode for each joint
@@ -364,7 +367,10 @@ int main(int argc, char *argv[])
             //--
             //VectorOf<int> modes;
             modes.resize(8, VOCAB_CM_POSITION_DIRECT);
-            iMode2->setControlModes(jntArm.size(), jntArm.getFirst(), modes.getFirst());
+            //iMode2->setControlModes(jntArm.size(), jntArm.getFirst(), modes.getFirst());
+	    for (size_t n=0;n<11;n++){
+	      iMode2->setControlMode(n,VOCAB_CM_POSITION);
+	    }
             iMode2_torso->setControlMode(0,VOCAB_CM_POSITION_DIRECT);
             //--
             // END Setting the motor control in POSITION_DIRECT mode for each joint
