@@ -357,6 +357,9 @@ void GraspPanel::gotoGoal()
   goal.end_effector_pose.pose.orientation.z = o_z; 
   goal.end_effector_pose.pose.orientation.w = std::sqrt(1.0-(o_x*o_x+o_y*o_y+o_z*o_z));
 
+
+  goal.end_effector_pose.header.frame_id="base_link";
+
   ac->sendGoal(goal);
 }
 
@@ -385,18 +388,18 @@ void GraspPanel::putinbox()
 {
   vizzy_msgs::CartesianGoal goal;
   goal.type = goal.CARTESIAN;
-  goal.end_effector_pose.pose.position.x = 0.1748;
-  goal.end_effector_pose.pose.position.y = -0.3032;
-  goal.end_effector_pose.pose.position.z = 0.42268;
+  goal.end_effector_pose.pose.position.x = 0.148879;
+  goal.end_effector_pose.pose.position.y = -0.4964;
+  goal.end_effector_pose.pose.position.z = 0.483098;
   
 
-  double o_x = 0.73188;
-  double o_y = 0.1184;
-  double o_z = 0.6589;
+  double o_x = 0.59089;
+  double o_y = 0.5932;
+  double o_z = -0.38840;
   goal.end_effector_pose.pose.orientation.x = o_x;
   goal.end_effector_pose.pose.orientation.y = o_y;
   goal.end_effector_pose.pose.orientation.z = o_z; 
-  goal.end_effector_pose.pose.orientation.w = std::sqrt(1.0-(o_x*o_x+o_y*o_y+o_z*o_z));
+  goal.end_effector_pose.pose.orientation.w = 0.384688;
   goal.end_effector_pose.header.frame_id="base_link";
   ac->sendGoal(goal);
 
@@ -407,18 +410,18 @@ void GraspPanel::giveaway()
 {
   vizzy_msgs::CartesianGoal goal;
   goal.type = goal.CARTESIAN;
-  goal.end_effector_pose.pose.position.x = 0.1748;
-  goal.end_effector_pose.pose.position.y = -0.3032;
-  goal.end_effector_pose.pose.position.z = 0.42268;
+  goal.end_effector_pose.pose.position.x = -0.33588;
+  goal.end_effector_pose.pose.position.y = -0.24877;
+  goal.end_effector_pose.pose.position.z = 0.9050198;
   
 
-  double o_x = 0.73188;
-  double o_y = 0.1184;
-  double o_z = 0.6589;
+  double o_x = 0.5849;
+  double o_y = 0.717840;
+  double o_z = -0.34522;
   goal.end_effector_pose.pose.orientation.x = o_x;
   goal.end_effector_pose.pose.orientation.y = o_y;
   goal.end_effector_pose.pose.orientation.z = o_z; 
-  goal.end_effector_pose.pose.orientation.w = std::sqrt(1.0-(o_x*o_x+o_y*o_y+o_z*o_z));
+  goal.end_effector_pose.pose.orientation.w = 0.152995;
   goal.end_effector_pose.header.frame_id="base_link";
   ac->sendGoal(goal);
 
