@@ -18,9 +18,9 @@
     </node>
 
     <!-- Launch the cartesian server (left arm) -->
-    <node ns="/vizzy/left_arm_cartesian_controller" pkg="vizzy_control" type="cartesian_action_server" name="cartesian_action" output="screen">
+    <!--  <node ns="/vizzy/left_arm_cartesian_controller" pkg="vizzy_control" type="cartesian_action_server" name="cartesian_action" output="screen">
         <rosparam file="$(find vizzy_control)/param/left_arm_follow_traj.yaml"/>
-    </node>
+    </node> -->
 
     <!-- Launch the ball tracker -->
     <include file="$(find pf3d_tracker)/launch/pf3d_tracker.launch">
