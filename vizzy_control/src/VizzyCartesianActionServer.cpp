@@ -31,13 +31,13 @@ VizzyCartesianActionServer::~VizzyCartesianActionServer()
 
 void VizzyCartesianActionServer::feedbackCallback(const vizzy_msgs::CartesianFeedbackConstPtr &msg)
 {
-    ROS_ERROR("FEEDBACK CALLBACK");
+    //ROS_ERROR("FEEDBACK CALLBACK");
     //current_pose = *msg;
     feedback_.current_e_eff_pose = msg->current_e_eff_pose;
 
     geometry_msgs::TransformStamped transformStamped;
     geometry_msgs::PoseStamped onBase;
-    std::cout << "frame: " << msg->current_e_eff_pose.header.frame_id << std::endl;    
+    //std::cout << "frame: " << msg->current_e_eff_pose.header.frame_id << std::endl;    
     if(msg->current_e_eff_pose.header.frame_id == "base_link"  || goal_msg->type==vizzy_msgs::CartesianGoal::HOME || goal_msg->type==vizzy_msgs::CartesianGoal::GRAB || goal_msg->type==vizzy_msgs::CartesianGoal::RELEASE)
     {
         onBase = msg->current_e_eff_pose;
@@ -78,9 +78,11 @@ void VizzyCartesianActionServer::actionBridgeCallback(const std_msgs::Int16::Con
     {
         vizzy_msgs::CartesianResult result;
         ROS_INFO("Cartesian goal reached!!");
+	if (action_server_.isPreemptRequested() || action_server_.isActive()){
         result.state_reached = true;
         result.end_effector_pose = current_pose;
         action_server_.setSucceeded(result);
+	}
     }
     return;
 }
@@ -89,7 +91,7 @@ void VizzyCartesianActionServer::goalCallback()
 {
     action_active = true;
     goal_msg = action_server_.acceptNewGoal();
-
+    action_server_.isPreemptRequested();
     vizzy_msgs::CartesianGoal new_goal_msg;
     
 
@@ -143,13 +145,14 @@ void VizzyCartesianActionServer::preemptCB()
     // set the action state to preempted
     action_active = false;
     // In this case preempted is equivalent to go to home position
-    vizzy_msgs::CartesianGoalPtr goal_msg_preempt;
-    goal_msg_preempt->type = vizzy_msgs::CartesianGoal::PREEMPT;
+    vizzy_msgs::CartesianGoal goal_msg_preempt;
+    goal_msg_preempt.type = vizzy_msgs::CartesianGoal::PREEMPT;
     /*geometry_msgs::Pose my_nan_pose;
     my_nan_pose.position.x = std::nan("");
     my_nan_pose.position.y = std::nan("");
     my_nan_pose.position.z = std::nan("");*/
     goal_from_user.publish(goal_msg_preempt);
+    ROS_INFO("Before setting preempted");
     action_server_.setPreempted();
     return;
 }
