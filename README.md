@@ -102,6 +102,7 @@ Other dependencies needed (in a convenient one-liner)
     sudo apt install ros-$version-laser-filters &&
     sudo apt install libsuitesparse-dev &&
     sudo apt install ros-$version-fake-localization &&
+    sudo apt install ros-$version-ecl-geometry &&
     sudo apt install ros-$version-move-slow-and-clear
 
 You are now ready to compile the code!

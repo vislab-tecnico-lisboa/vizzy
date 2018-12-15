@@ -1,22 +1,32 @@
 cmake_minimum_required(VERSION 2.8.7)
 
-# find YARP
+# find YARP1
 find_package(YARP REQUIRED)
-
+find_package(Eigen3 REQUIRED)
 # add YARP include directories
 include_directories(${YARP_INCLUDE_DIRS})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 execute_process(COMMAND yarpidl_rosmsg vizzy_msgs/CartesianGoal WORKING_DIRECTORY "${PROJECT_BINARY_DIR}/yarpidl_rosmsg_files" OUTPUT_QUIET)
 execute_process(COMMAND yarpidl_rosmsg vizzy_msgs/CartesianFeedback WORKING_DIRECTORY "${PROJECT_BINARY_DIR}/yarpidl_rosmsg_files" OUTPUT_QUIET)
+execute_process(COMMAND yarpidl_rosmsg control_msgs/FollowJointTrajectoryGoal WORKING_DIRECTORY "${PROJECT_BINARY_DIR}/yarpidl_rosmsg_files" OUTPUT_QUIET)
+execute_process(COMMAND yarpidl_rosmsg control_msgs/FollowJointTrajectoryFeedback WORKING_DIRECTORY "${PROJECT_BINARY_DIR}/yarpidl_rosmsg_files" OUTPUT_QUIET)
 execute_process(COMMAND yarpidl_rosmsg Float32 WORKING_DIRECTORY "${PROJECT_BINARY_DIR}/yarpidl_rosmsg_files" OUTPUT_QUIET)
 execute_process(COMMAND yarpidl_rosmsg Float64 WORKING_DIRECTORY "${PROJECT_BINARY_DIR}/yarpidl_rosmsg_files" OUTPUT_QUIET)
 execute_process(COMMAND yarpidl_rosmsg JointTrajectory WORKING_DIRECTORY "${PROJECT_BINARY_DIR}/yarpidl_rosmsg_files" OUTPUT_QUIET)
 execute_process(COMMAND yarpidl_rosmsg Bool WORKING_DIRECTORY "${PROJECT_BINARY_DIR}/yarpidl_rosmsg_files" OUTPUT_QUIET)
 execute_process(COMMAND yarpidl_rosmsg std_msgs/Int16 WORKING_DIRECTORY "${PROJECT_BINARY_DIR}/yarpidl_rosmsg_files" OUTPUT_QUIET)
 execute_process(COMMAND yarpidl_rosmsg motorsArray.msg WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}" OUTPUT_QUIET)
+execute_process(COMMAND rosversion -d OUTPUT_VARIABLE ROS_VERSION OUTPUT_STRIP_TRAILING_WHITESPACE)
 
 include_directories(${PROJECT_BINARY_DIR}/yarpidl_rosmsg_files)
+include_directories(/opt/ros/${ROS_VERSION}/include)
+include_directories(/usr/include/eigen3)
+set(ROS_LIBRARIES_PATH /opt/ros/${ROS_VERSION}/lib)
+find_library(ECL_LIBRARY NAMES ecl_geometry PATHS ${ROS_LIBRARIES_PATH})
+find_library(ECL_LIBRARY_ NAMES ecl_type_traits PATHS ${ROS_LIBRARIES_PATH})
+find_library(ECL_LIBRARY__ NAMES ecl_exceptions PATHS ${ROS_LIBRARIES_PATH})
+#message("${ECL_LIBRARY} ${ECL_LIBRARY_} ${ECL_LIBRARY__}")
 # set up our program
 add_executable(headMotorsInterface head_motors_interface.cpp)
 add_executable(leftArmMotorsInterface left_arm_motors_interface.cpp)
@@ -25,6 +35,7 @@ add_executable(leftArmFollowTrajBridge left_arm_trajectory_action_bridge.cpp)
 add_executable(followTrajectoryBridge follow_trajectory_action_bridge.cpp)
 add_executable(pos2_posDirTest position_direct_test_left_arm.cpp)
 add_executable(cartesianRosBridge cartesian_controller_action_bridge.cpp)
+add_executable(followTrajectoryVelContBridge follow_trajectory_action_bridge_vel_cont.cpp)
 
 # link with YARP libraries
 target_link_libraries(headMotorsInterface ${YARP_LIBRARIES})
@@ -34,3 +45,4 @@ target_link_libraries(leftArmFollowTrajBridge ${YARP_LIBRARIES})
 target_link_libraries(followTrajectoryBridge ${YARP_LIBRARIES})
 target_link_libraries(pos2_posDirTest ${YARP_LIBRARIES})
 target_link_libraries(cartesianRosBridge ${YARP_LIBRARIES})
+target_link_libraries(followTrajectoryVelContBridge ${YARP_LIBRARIES} ${ECL_LIBRARY} ${ECL_LIBRARY__})
