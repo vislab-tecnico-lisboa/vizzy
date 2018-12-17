@@ -499,18 +499,86 @@ void GraspPanel::updateGoalX()
 {
   goal_pos_x_ = (double) (x_spin_->value());
 
+  int_marker_.pose.position.x = goal_pos_x_;
+  int_marker_.pose.position.y = goal_pos_y_;
+  int_marker_.pose.position.z = goal_pos_z_;
+
+  if(freeze_goal_)
+  {
+
+    double o_x = goal_orient_x_+goal_orient_x_offset_;
+    double o_y = goal_orient_y_+goal_orient_y_offset_;
+    double o_z = goal_orient_z_+goal_orient_z_offset_;
+    double w = std::sqrt(1.0-(o_x*o_x+o_y*o_y+o_z*o_z));
+
+  int_marker_.pose.orientation.x = o_x;
+  int_marker_.pose.orientation.y = o_y;
+  int_marker_.pose.orientation.z = o_z;
+  int_marker_.pose.orientation.w = w;
+
+  server_->clear();
+  server_->insert(int_marker_);
+  server_->applyChanges();
+  }
+
 }
 
 void GraspPanel::updateGoalY()
 {
+  
+  if(freeze_goal_)
+  {
   goal_pos_y_ = (double) (y_spin_->value());
+  
+  int_marker_.pose.position.x = goal_pos_x_;
+  int_marker_.pose.position.y = goal_pos_y_;
+  int_marker_.pose.position.z = goal_pos_z_;
+
+
+    double o_x = goal_orient_x_+goal_orient_x_offset_;
+    double o_y = goal_orient_y_+goal_orient_y_offset_;
+    double o_z = goal_orient_z_+goal_orient_z_offset_;
+    double w = std::sqrt(1.0-(o_x*o_x+o_y*o_y+o_z*o_z));
+
+  int_marker_.pose.orientation.x = o_x;
+  int_marker_.pose.orientation.y = o_y;
+  int_marker_.pose.orientation.z = o_z;
+  int_marker_.pose.orientation.w = w;
+
+  server_->clear();
+  server_->insert(int_marker_);
+  server_->applyChanges();
+  }
+
 }
 
 void GraspPanel::updateGoalZ()
 {
 
+  if(freeze_goal_)
+  {
   goal_pos_z_ = (double) (z_spin_->value());
-  
+
+
+  int_marker_.pose.position.x = goal_pos_x_;
+  int_marker_.pose.position.y = goal_pos_y_;
+  int_marker_.pose.position.z = goal_pos_z_;
+
+
+    double o_x = goal_orient_x_+goal_orient_x_offset_;
+    double o_y = goal_orient_y_+goal_orient_y_offset_;
+    double o_z = goal_orient_z_+goal_orient_z_offset_;
+    double w = std::sqrt(1.0-(o_x*o_x+o_y*o_y+o_z*o_z));
+
+  int_marker_.pose.orientation.x = o_x;
+  int_marker_.pose.orientation.y = o_y;
+  int_marker_.pose.orientation.z = o_z;
+  int_marker_.pose.orientation.w = w;
+
+  server_->clear();
+  server_->insert(int_marker_);
+  server_->applyChanges();
+  }
 }
 
 
@@ -548,9 +616,9 @@ Marker GraspPanel::makeEndEffector( InteractiveMarker &msg )
   marker.scale.x = msg.scale * 0.45;
   marker.scale.y = msg.scale * 0.25;
   marker.scale.z = msg.scale * 0.25;
-  marker.color.r = 0.5;
-  marker.color.g = 0.5;
-  marker.color.b = 0.5;
+  marker.color.r = 1.0;
+  marker.color.g = 0.0;
+  marker.color.b = 0.0;
   marker.color.a = 1.0;
 
   return marker;
