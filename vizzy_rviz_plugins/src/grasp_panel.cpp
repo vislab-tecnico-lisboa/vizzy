@@ -305,9 +305,9 @@ void GraspPanel::poseCallback(const geometry_msgs::PoseStamped::ConstPtr& msg)
   goal_pos_y_ = onBase.pose.position.y;
   goal_pos_z_ = onBase.pose.position.z;
 
-  goal_orient_x_ = onBase.pose.orientation.x;
-  goal_orient_y_ = onBase.pose.orientation.y;
-  goal_orient_z_ = onBase.pose.orientation.z;
+  goal_orient_x_ = 0.04;
+  goal_orient_y_ = -0.70;
+  goal_orient_z_ = 0.71;
 
 
   x_spin_->setValue(goal_pos_x_);
@@ -612,12 +612,13 @@ Marker GraspPanel::makeEndEffector( InteractiveMarker &msg )
 {
   Marker marker;
 
-  marker.type = Marker::ARROW;
-  marker.scale.x = msg.scale * 0.45;
-  marker.scale.y = msg.scale * 0.25;
-  marker.scale.z = msg.scale * 0.25;
-  marker.color.r = 1.0;
-  marker.color.g = 0.0;
+  marker.type = visualization_msgs::Marker::MESH_RESOURCE;
+  marker.mesh_resource = "package://vizzy_rviz_plugins/meshes/vizzy_left_hand.dae";
+  marker.scale.x = msg.scale * 5;
+  marker.scale.y = msg.scale * 5;
+  marker.scale.z = msg.scale * 5;
+  marker.color.r = 255.0/255.0;
+  marker.color.g = 223.0/255.0;
   marker.color.b = 0.0;
   marker.color.a = 1.0;
 
