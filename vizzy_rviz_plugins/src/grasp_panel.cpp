@@ -410,18 +410,18 @@ void GraspPanel::giveaway()
 {
   vizzy_msgs::CartesianGoal goal;
   goal.type = goal.CARTESIAN;
-  goal.end_effector_pose.pose.position.x = 0.1748;
-  goal.end_effector_pose.pose.position.y = -0.3032;
-  goal.end_effector_pose.pose.position.z = 0.32268;
+  goal.end_effector_pose.pose.position.x = -0.26;
+  goal.end_effector_pose.pose.position.y = -0.23;
+  goal.end_effector_pose.pose.position.z = 0.80;
   
 
-  double o_x = 0.5849;
-  double o_y = 0.717840;
-  double o_z = -0.34522;
+  double o_x = 0.70;
+  double o_y = 0.71;
+  double o_z = -0.12;
   goal.end_effector_pose.pose.orientation.x = o_x;
   goal.end_effector_pose.pose.orientation.y = o_y;
   goal.end_effector_pose.pose.orientation.z = o_z; 
-  goal.end_effector_pose.pose.orientation.w = 0.152995;
+  goal.end_effector_pose.pose.orientation.w = 0.15;
   goal.end_effector_pose.header.frame_id="base_link";
   ac->sendGoal(goal);
 
