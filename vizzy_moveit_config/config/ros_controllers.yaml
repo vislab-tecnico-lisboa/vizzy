@@ -1,0 +1,48 @@
+vizzy:
+# MoveIt-specific simulation settings
+  moveit_sim_hw_interface:
+    joint_model_group: controllers_initial_group_
+    joint_model_group_pose: controllers_initial_pose_
+# Settings for ros_control control loop
+  generic_hw_control_loop:
+    loop_hz: 300
+    cycle_time_error_threshold: 0.01
+# Settings for ros_control hardware interface
+  hardware_interface:
+    joints:
+      - b_wheel_base_joint
+      - b_wheel_joint
+      - f_wheel_base_joint
+      - f_wheel_joint
+      - l_wheel_joint
+      - r_wheel_joint
+      - waist_joint
+      - l_shoulder_scapula_joint
+      - l_shoulder_flection_joint
+      - l_shoulder_abduction_joint
+      - l_shoulder_rotation_joint
+      - l_elbow_flection_joint
+      - l_forearm_pronation_joint
+      - l_wrist_abduction_joint
+      - l_wrist_flection_joint
+      - neck_pan_joint
+      - neck_tilt_joint
+      - eyes_tilt_joint
+      - l_eye_joint
+      - r_eye_joint
+      - r_shoulder_scapula_joint
+      - r_shoulder_flection_joint
+      - r_shoulder_abduction_joint
+      - r_shoulder_rotation_joint
+      - r_elbow_flection_joint
+      - r_forearm_pronation_joint
+      - r_wrist_abduction_joint
+      - r_wrist_flection_joint
+    sim_control_mode: 1  # 0: position, 1: velocity
+# Publish all joint states
+# Creates the /joint_states topic necessary in ROS
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50
+  controller_list:
+    []
