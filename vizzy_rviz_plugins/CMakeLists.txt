@@ -139,6 +139,7 @@ if(rviz_QT_VERSION VERSION_LESS "5")
   include/vizzy_rviz_plugins/wasd_teleop_tool.h
   include/vizzy_rviz_plugins/gestures_panel.hpp
   include/vizzy_rviz_plugins/grasp_panel.hpp
+  include/vizzy_rviz_plugins/dslDataset_panel.hpp
 )
 else()
   message(STATUS "Using Qt5 based on the rviz_QT_VERSION: ${rviz_QT_VERSION}")
@@ -150,6 +151,7 @@ else()
   include/vizzy_rviz_plugins/wasd_teleop_tool.h
   include/vizzy_rviz_plugins/gestures_panel.hpp
   include/vizzy_rviz_plugins/grasp_panel.hpp
+  include/vizzy_rviz_plugins/dslDataset_panel.hpp
 )
 endif()
 
@@ -162,6 +164,7 @@ set(SOURCE_FILES
   src/wasd_teleop_tool.cpp
   src/gestures_panel.cpp
   src/grasp_panel.cpp
+  src/dslDataset_panel.cpp
   ${MOC_FILES}
 )
 

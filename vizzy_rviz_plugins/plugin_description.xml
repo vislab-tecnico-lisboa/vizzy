@@ -31,4 +31,11 @@
         A panel with buttons for grasping stuff
       </description>
     </class>
+  <class name="vizzy_rviz_plugins/dslDatasetPanel"
+         type="vizzy_rviz_plugins::dslDatasetPanel"
+         base_class_type="rviz::Panel">
+    <description>
+        A panel with buttons for collecting the Dataset of the DSL course
+    </description>
+  </class>
 </library>
