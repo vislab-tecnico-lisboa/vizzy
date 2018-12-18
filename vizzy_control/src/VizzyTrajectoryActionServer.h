@@ -26,15 +26,18 @@ class VizzyFollowTrajectoryActionServer
     void goalCallback();
     actionlib::SimpleActionServer<control_msgs::FollowJointTrajectoryAction> action_server_;
     void actionBridgeCallback(const std_msgs::Int16::ConstPtr& msg);
+    void feedbackCallback(const control_msgs::FollowJointTrajectoryFeedback::ConstPtr& msg);
     void preemptCB();
  private:
     bool action_active;
     ros::NodeHandle node_handle_;
     ros::Time last_nonstall_time_;
     ros::Subscriber info_from_bridge;
+    ros::Subscriber feedback_from_bridge;
     ros::Publisher trajectory_from_move_it;
     ros::Publisher stop_execution;
     control_msgs::FollowJointTrajectoryGoalConstPtr goal_msg;
+    control_msgs::FollowJointTrajectoryFeedback feedback_;
     ros::NodeHandle private_node_handle;
     std::string robot_part;
 };

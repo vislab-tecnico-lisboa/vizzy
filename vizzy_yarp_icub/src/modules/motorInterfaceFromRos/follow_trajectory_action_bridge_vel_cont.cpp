@@ -94,7 +94,7 @@ int main(int argc, char *argv[])
     string part = rf.find("part").asString().c_str();
     num_joints = rf.find("num_joints").asInt();
     max_acc = rf.find("max_acc").asDouble();
-    double totalError = rf.find("error_threshold_rad").asDouble();
+    double totalErrorThreshold = rf.find("error_threshold_rad").asDouble();
     Bottle &grp = rf.findGroup("joints_map");
     std::cout << "size of strings: " << grp.size() << std::endl;
     int sz = grp.size() - 1;
@@ -167,8 +167,8 @@ int main(int argc, char *argv[])
     if (part == "left_shoulder_arm" || part == "right_shoulder_arm")
         jnts = len;
     printf("Working with %d axes\n", jnts);
-    //for (size_t mot_jo=0;mot_jo<jnts;mot_jo++)
-    //	iMode2->setControlMode(mot_jo,VOCAB_CM_POSITION_DIRECT);
+    for (size_t mot_jo = 0; mot_jo < jnts; mot_jo++)
+        iMode2->setControlMode(mot_jo, VOCAB_CM_VELOCITY);
     double *tmp = new double[jnts];
     double *tmp_read = new double[jnts];
     double *current_joint_pos = new double[jnts];
@@ -190,25 +190,25 @@ int main(int argc, char *argv[])
         int connectedNumber = totalConnections;
         if (!portsConnected[0])
         {
-            portsConnected[0] = subscriber_trajectory_part.topic("/" + part + "_trajectory_from_moveit");
+            portsConnected[0] = subscriber_trajectory_part.topic("/follow_joint_traj/" + part + "_trajectory_from_moveit");
             if (portsConnected[0])
                 connectedNumber--;
         }
         if (!portsConnected[1])
         {
-            portsConnected[1] = subscriber_stop_part.topic("/" + part + "_trajectory_cancel");
+            portsConnected[1] = subscriber_stop_part.topic("/follow_joint_traj/" + part + "_trajectory_cancel");
             if (portsConnected[1])
                 connectedNumber--;
         }
         if (!portsConnected[2])
         {
-            portsConnected[2] = publisher_feedback_part.topic("/" + part + "_trajectory_feedback");
+            portsConnected[2] = publisher_feedback_part.topic("/follow_joint_traj/" + part + "_trajectory_feedback");
             if (portsConnected[2])
                 connectedNumber--;
         }
         if (!portsConnected[3])
         {
-            portsConnected[3] = publisher_result_bridge_part.topic("/" + part + "_trajectory_result");
+            portsConnected[3] = publisher_result_bridge_part.topic("/follow_joint_traj/" + part + "_trajectory_result");
             if (portsConnected[3])
                 connectedNumber--;
         }
@@ -259,91 +259,107 @@ int main(int argc, char *argv[])
         {
             trajectory_start = Time::now();
             //traj_data->trajectory.points
-            int points_size = traj_data->trajectory.points.size();
-            std::cout << "Number of points: " << points_size << std::endl;
-            expected_trajectory_time = 0.0;
-            if (!trajectory_map_read)
+            if (traj_data->goal_time_tolerance.nsec == 0 && traj_data->goal_time_tolerance.sec == 0)
             {
                 for (int my_j = 0; my_j < jnts; my_j++)
                 {
-                    joint_trajectory_map[traj_data->trajectory.joint_names.at(my_j)] = my_j;
+                    tmp[my_j] = 0.0;
                 }
-                //trajectory_map_read=true;
+                vel->velocityMove(tmp);
+                std::cout << "Action preempted: " << std::endl;
+                client_status = -1;
             }
-
-            float trajectoryPoints[jnts][points_size];
-            for (unsigned int i = 0; i < points_size; i++)
+            else
             {
-                for (int my_j = 0; my_j < jnts; my_j++)
+                int points_size = traj_data->trajectory.points.size();
+                std::cout << "Number of points: " << points_size << std::endl;
+                expected_trajectory_time = 0.0;
+                if (!trajectory_map_read)
                 {
-                    std::map<std::string, int>::iterator it = joint_trajectory_map.find(joints_name_yarp[my_j]);
-                    //tmp[my_j] = traj_data->points.at(my_i).positions.at(joint_map[my_j])*180.0/3.141592;
-                    trajectoryPoints[i][my_j] = traj_data->trajectory.points.at(i).positions.at(it->second);
-                    //tmp[my_j] = traj_data->points.at(my_i).positions.at(it->second)*180.0/3.141592;
+                    for (int my_j = 0; my_j < jnts; my_j++)
+                    {
+                        joint_trajectory_map[traj_data->trajectory.joint_names.at(my_j)] = my_j;
+                    }
+                    //trajectory_map_read=true;
                 }
-            }
-            //initialize arrays needed to fit a smooth trajectory to the given points
-            ecl::Array<double> timePoints(points_size);
-            timePoints[0] = 0.0;
-            vector<ecl::Array<double> > jointPoints;
-            jointPoints.resize(jnts);
-            float prevPoint[jnts];
-            for (unsigned int i = 0; i < jnts; i++)
-            {
-                jointPoints[i].resize(points_size);
-                jointPoints[i][0] = trajectoryPoints[i][0];
-                prevPoint[i] = trajectoryPoints[i][0];
-            }
 
-            //determine time component of trajectories for each joint
-            for (unsigned int i = 1; i < points_size; i++)
-            {
-                float maxTime = 0.0;
-                for (unsigned int j = 0; j < jnts; j++)
+                float trajectoryPoints[jnts][points_size];
+                for (unsigned int i = 0; i < points_size; i++)
                 {
-                    //calculate approximate time required to move to the next position
-                    float time = fabs(trajectoryPoints[j][i] - prevPoint[j]);
-                    if (j <= 2)
-                        time /= LARGE_ACTUATOR_VELOCITY;
-                    else
-                        time /= SMALL_ACTUATOR_VELOCITY;
-
-                    if (time > maxTime)
-                        maxTime = time;
-
-                    jointPoints[j][i] = trajectoryPoints[j][i];
-                    prevPoint[j] = trajectoryPoints[j][i];
+                    for (int my_j = 0; my_j < jnts; my_j++)
+                    {
+                        std::map<std::string, int>::iterator it = joint_trajectory_map.find(joints_name_yarp[my_j]);
+                        //tmp[my_j] = traj_data->points.at(my_i).positions.at(joint_map[my_j])*180.0/3.141592;
+                        trajectoryPoints[i][my_j] = traj_data->trajectory.points.at(i).positions.at(it->second);
+                        //tmp[my_j] = traj_data->points.at(my_i).positions.at(it->second)*180.0/3.141592;
+                    }
+                }
+                //initialize arrays needed to fit a smooth trajectory to the given points
+                ecl::Array<double> timePoints(points_size);
+                timePoints[0] = 0.0;
+                vector<ecl::Array<double>> jointPoints;
+                jointPoints.resize(jnts);
+                float prevPoint[jnts];
+                for (unsigned int i = 0; i < jnts; i++)
+                {
+                    jointPoints[i].resize(points_size);
+                    jointPoints[i][0] = trajectoryPoints[i][0];
+                    prevPoint[i] = trajectoryPoints[i][0];
                 }
 
-                timePoints[i] = timePoints[i - 1] + maxTime * TIME_SCALING_FACTOR;
-            }
+                //determine time component of trajectories for each joint
+                for (unsigned int i = 1; i < points_size; i++)
+                {
+                    float maxTime = 0.0;
+                    for (unsigned int j = 0; j < jnts; j++)
+                    {
+                        //calculate approximate time required to move to the next position
+                        float time = fabs(trajectoryPoints[j][i] - prevPoint[j]);
+                        if (j <= 2)
+                            time /= LARGE_ACTUATOR_VELOCITY;
+                        else
+                            time /= SMALL_ACTUATOR_VELOCITY;
 
-            vector<ecl::SmoothLinearSpline> splines;
-            splines.resize(6);
-            for (unsigned int i = 0; i < jnts; i++)
-            {
-                ecl::SmoothLinearSpline tempSpline(timePoints, jointPoints[i], max_curvature_);
-                splines.at(i) = tempSpline;
-            }
+                        if (time > maxTime)
+                            maxTime = time;
 
-            //control loop
-            bool trajectoryComplete = false;
-            double startTime = Time::now();
-            double t = 0;
-            float error[jnts];
-            float totalError;
-            float prevError[jnts] = {0};
-            float currentPoint;
-            //trajPoint has to be replaced with the velocity commands vector to be sent
-            //AngularInfo trajPoint;
-            //trajPoint.InitStruct();
-            //Rate has to be set properly for Vizzy
-            double rate = 600;
-            //ros::Rate rate(rate_hz_);
+                        jointPoints[j][i] = trajectoryPoints[j][i];
+                        prevPoint[j] = trajectoryPoints[j][i];
+                    }
 
-            while (!trajectoryComplete)
-            {
-                /*if (arm_comm_.isStopped())
+                    timePoints[i] = timePoints[i - 1] + maxTime * TIME_SCALING_FACTOR;
+                }
+
+                vector<ecl::SmoothLinearSpline> splines;
+                splines.resize(6);
+                for (unsigned int i = 0; i < jnts; i++)
+                {
+                    ecl::SmoothLinearSpline tempSpline(timePoints, jointPoints[i], max_curvature_);
+                    splines.at(i) = tempSpline;
+                }
+
+                //control loop
+                bool trajectoryComplete = false;
+                bool trajectoryFailed = false;
+                double startTime = Time::now();
+                double t = 0;
+                float error[jnts];
+                float totalError;
+                float prevError[jnts] = {0};
+                float currentPoint;
+                bool inLastPoint = false;
+                double lastPointTime;
+                double timeout_last_point = 4.0;
+                //trajPoint has to be replaced with the velocity commands vector to be sent
+                //AngularInfo trajPoint;
+                //trajPoint.InitStruct();
+                //Rate has to be set properly for Vizzy
+                double rate = 600;
+                //ros::Rate rate(rate_hz_);
+
+                while (!trajectoryComplete)
+                {
+                    /*if (arm_comm_.isStopped())
     {
       control_msgs::FollowJointTrajectoryResult result;
             ROS_INFO("Could not complete joint angle action because the arm is 'stopped'.");
@@ -352,9 +368,9 @@ int main(int argc, char *argv[])
             return;
     }*/
 
-                /////This needs to be checked at some point!!!
-                //check for preempt requests from clients
-                /*if (action_server_.isPreemptRequested())
+                    /////This needs to be checked at some point!!!
+                    //check for preempt requests from clients
+                    /*if (action_server_.isPreemptRequested())
     {
       //stop gripper control
       trajPoint.Actuator1 = 0.0;
@@ -373,114 +389,138 @@ int main(int argc, char *argv[])
       return;
     }*/
 
-                //get time for trajectory
-                t = Time::now() - startTime;
-                if (t > timePoints.at(timePoints.size() - 1))
-                {
-                    //use final trajectory point as the goal to calculate error until the error
-                    //is small enough to be considered successful
-                    //arm_comm_.getJointAnglesNotNormalized(current_joint_angles);
-                    enc->getEncoders(current_joint_pos);
-                    for (int my_j = 0; my_j < jnts; my_j++)
+                    //get time for trajectory
+                    t = Time::now() - startTime;
+                    if (t > timePoints.at(timePoints.size() - 1))
                     {
-                        current_joint_pos[my_j] *= DEG_TO_RAD;
-                    }
-                    /*current_joint_pos[0] = current_joint_angles.Actuator1 * DEG_TO_RAD;
+                        // Set a timer the first time that this condition is met
+                        if (!inLastPoint)
+                        {
+                            lastPointTime = Time::now();
+                            inLastPoint = true;
+                        }
+                        double current_time_last_point = Time::now();
+                        if (current_time_last_point - lastPointTime > timeout_last_point)
+                        {
+                            for (int my_j = 0; my_j < jnts; my_j++)
+                            {
+                                tmp[my_j] = 0.0;
+                            }
+                            vel->velocityMove(tmp);
+                            trajectoryComplete = true;
+                            trajectoryFailed = true;
+                            yWarning("Last trajectory point timeout! Trajectory not finished");
+
+                            //Exit while
+                            break;
+                        }
+                        //use final trajectory point as the goal to calculate error until the error
+                        //is small enough to be considered successful
+                        //arm_comm_.getJointAnglesNotNormalized(current_joint_angles);
+                        enc->getEncoders(current_joint_pos);
+                        for (int my_j = 0; my_j < jnts; my_j++)
+                        {
+                            current_joint_pos[my_j] *= DEG_TO_RAD;
+                        }
+                        /*current_joint_pos[0] = current_joint_angles.Actuator1 * DEG_TO_RAD;
       current_joint_pos[1] = current_joint_angles.Actuator2 * DEG_TO_RAD;
       current_joint_pos[2] = current_joint_angles.Actuator3 * DEG_TO_RAD;
       current_joint_pos[3] = current_joint_angles.Actuator4 * DEG_TO_RAD;
       current_joint_pos[4] = current_joint_angles.Actuator5 * DEG_TO_RAD;
       current_joint_pos[5] = current_joint_angles.Actuator6 * DEG_TO_RAD;*/
 
-                    totalError = 0;
-                    for (unsigned int i = 0; i < jnts; i++)
-                    {
-                        error[i] = (splines.at(i))(timePoints.at(timePoints.size() - 1)) - current_joint_pos[i];
-                        totalError += fabs(error[i]);
-                    }
-
-                    if (totalError < .03)
-                    {
-
-                        for (int my_j = 0; my_j < jnts; my_j++)
+                        totalError = 0;
+                        for (unsigned int i = 0; i < jnts; i++)
                         {
-                            tmp[my_j] = 0.0;
+                            error[i] = (splines.at(i))(timePoints.at(timePoints.size() - 1)) - current_joint_pos[i];
+                            totalError += fabs(error[i]);
                         }
-                        /*trajPoint.Actuator2 = 0.0;
+
+                        if (totalError < totalErrorThreshold)
+                        {
+
+                            for (int my_j = 0; my_j < jnts; my_j++)
+                            {
+                                tmp[my_j] = 0.0;
+                            }
+                            /*trajPoint.Actuator2 = 0.0;
         trajPoint.Actuator3 = 0.0;
         trajPoint.Actuator4 = 0.0;
         trajPoint.Actuator5 = 0.0;
         trajPoint.Actuator6 = 0.0;
 	arm_comm_.setJointVelocities(trajPoint);*/
-                        trajectoryComplete = true;
-                        yWarning("Trajectory complete!");
-                        //Exit while
-                        break;
+                            vel->velocityMove(tmp);
+                            trajectoryComplete = true;
+                            trajectoryFailed = false;
+                            yWarning("Trajectory complete!");
+                            //Exit while
+                            break;
+                        }
                     }
-                }
-                else
-                {
-                    //calculate error
-                    /*arm_comm_.getJointAnglesNotNormalized(current_joint_angles);
+                    else
+                    {
+                        //calculate error
+                        /*arm_comm_.getJointAnglesNotNormalized(current_joint_angles);
       current_joint_pos[0] = current_joint_angles.Actuator1 * DEG_TO_RAD;
       current_joint_pos[1] = current_joint_angles.Actuator2 * DEG_TO_RAD;
       current_joint_pos[2] = current_joint_angles.Actuator3 * DEG_TO_RAD;
       current_joint_pos[3] = current_joint_angles.Actuator4 * DEG_TO_RAD;
       current_joint_pos[4] = current_joint_angles.Actuator5 * DEG_TO_RAD;
       current_joint_pos[5] = current_joint_angles.Actuator6 * DEG_TO_RAD;*/
-                    enc->getEncoders(current_joint_pos);
+                        enc->getEncoders(current_joint_pos);
+                        for (int my_j = 0; my_j < jnts; my_j++)
+                        {
+                            current_joint_pos[my_j] *= DEG_TO_RAD;
+                        }
+                        for (unsigned int i = 0; i < jnts; i++)
+                        {
+                            error[i] = (splines.at(i))(t)-current_joint_pos[i];
+                        }
+                    }
+
+                    //calculate control input
+                    //populate the velocity command
                     for (int my_j = 0; my_j < jnts; my_j++)
                     {
-                        current_joint_pos[my_j] *= DEG_TO_RAD;
+                        tmp[my_j] = (KP * error[my_j] + KV * (error[my_j] - prevError[my_j]) * RAD_TO_DEG);
                     }
-                    for (unsigned int i = 0; i < jnts; i++)
-                    {
-                        error[i] = (splines.at(i))(t)-current_joint_pos[i];
-                    }
-                }
-
-                //calculate control input
-                //populate the velocity command
-                for (int my_j = 0; my_j < jnts; my_j++)
-                {
-                    tmp[my_j] = (KP * error[my_j] + KV * (error[my_j] - prevError[my_j]) * RAD_TO_DEG);
-                }
-                /*trajPoint.Actuator1 = (KP * error[0] + KV * (error[0] - prevError[0]) * RAD_TO_DEG);
+                    /*trajPoint.Actuator1 = (KP * error[0] + KV * (error[0] - prevError[0]) * RAD_TO_DEG);
     trajPoint.Actuator2 = (KP * error[1] + KV * (error[1] - prevError[1]) * RAD_TO_DEG);
     trajPoint.Actuator3 = (KP * error[2] + KV * (error[2] - prevError[2]) * RAD_TO_DEG);
     trajPoint.Actuator4 = (KP * error[3] + KV * (error[3] - prevError[3]) * RAD_TO_DEG);
     trajPoint.Actuator5 = (KP * error[4] + KV * (error[4] - prevError[4]) * RAD_TO_DEG);
     trajPoint.Actuator6 = (KP * error[5] + KV * (error[5] - prevError[5]) * RAD_TO_DEG);*/
 
-                //for debugging:
-                //cout << "Errors: " << error[0] << ", " << error[1] << ", " << error[2] << ", " << error[3] << ", " << error[4] << ", " << error[5] << endl;
+                    //for debugging:
+                    //cout << "Errors: " << error[0] << ", " << error[1] << ", " << error[2] << ", " << error[3] << ", " << error[4] << ", " << error[5] << endl;
 
-                //send the velocity command
-                //arm_comm_.setJointVelocities(trajPoint);//AngularInfo &joint_vel
-                vel->velocityMove(tmp);
-                for (unsigned int i = 0; i < jnts; i++)
-                {
-                    prevError[i] = error[i];
+                    //send the velocity command
+                    //arm_comm_.setJointVelocities(trajPoint);//AngularInfo &joint_vel
+                    vel->velocityMove(tmp);
+                    for (unsigned int i = 0; i < jnts; i++)
+                    {
+                        prevError[i] = error[i];
+                    }
+                    publisher_feedback_part.write(feedback_msg_to_ros);
+                    yarp::os::Time::delay(1 / rate); //rate.sleep();
                 }
 
-                yarp::os::Time::delay(1 / rate); //rate.sleep();
+                if (trajectoryComplete && !trajectoryFailed)
+                {
+                    result_to_ros.data = 1;
+                    publisher_feedback_part.write(result_to_ros);
+                    client_status = -1;
+                    std::cout << "succesful: " << std::endl;
+                }
+                else
+                {
+                    result_to_ros.data = 0;
+                    publisher_feedback_part.write(result_to_ros);
+                    std::cout << "failed! " << std::endl;
+                    client_status = -1;
+                }
+                //std::cout << "error: " << current_error << std::endl;
             }
-
-            if (trajectoryComplete)
-            {
-                result_to_ros.data = 1;
-                publisher_feedback_part.write(result_to_ros);
-                client_status = -1;
-                std::cout << "succesful: " << std::endl;
-            }
-            else
-            {
-                result_to_ros.data = 0;
-                publisher_feedback_part.write(result_to_ros);
-                std::cout << "failed! " << std::endl;
-                client_status = -1;
-            }
-            //std::cout << "error: " << current_error << std::endl;
         }
         else if (client_status == 1)
         {
