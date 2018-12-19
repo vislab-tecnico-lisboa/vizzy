@@ -4,11 +4,8 @@ December, 2018
 */
 
 #include <stdio.h>
-#include <QLineEdit>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
-#include <QLabel>
-#include <QPushButton>
 #include <math.h> 
 #include "../include/vizzy_rviz_plugins/grasp_panel.hpp"
 
@@ -54,6 +51,10 @@ GraspPanel::GraspPanel(QWidget *parent)
   input_topic_editor_->setText("/left_hand_goal");
   topic_layout->addWidget(input_topic_editor_ );
 
+  arm_combobox_ = new QComboBox;
+  arm_combobox_->addItem("Left", 0);
+  arm_combobox_->addItem("Right", 1);
+  arm_label_ = new QLabel(tr("Arm: "));
 
   //Initialize goal action to update the goal from other nodes (example: ball tracker)
   goal_sub_ = nh_.subscribe<geometry_msgs::PoseStamped>(input_topic_editor_->text().toStdString(), 1, &GraspPanel::poseCallback, this);
@@ -129,6 +130,9 @@ GraspPanel::GraspPanel(QWidget *parent)
   controls_layout->addWidget(w_angle_label_, 6, 0);
   controls_layout->addWidget(w_angle_spin_, 6, 1);
 
+  controls_layout->addWidget(arm_label_, 7, 0);
+  controls_layout->addWidget(arm_combobox_, 7, 1);
+
 
   controls_out_layout->addLayout(controls_layout);
   controls_out_layout->addWidget(freeze_goal_button_);
@@ -159,8 +163,9 @@ GraspPanel::GraspPanel(QWidget *parent)
   connect( z_spin_, SIGNAL( valueChanged(double) ), this, SLOT( updateGoalZ() ));
 
   connect(freeze_goal_button_, SIGNAL (released()), this, SLOT (freezeUnfreeze()));
+  connect(arm_combobox_, SIGNAL(currentIndexChanged(int)), this, SLOT(updateArm()));
 
-
+  
   updateAction();
   updateTopic();
 
@@ -215,6 +220,8 @@ GraspPanel::GraspPanel(QWidget *parent)
   server_->setCallback(int_marker_.name, boost::bind(&GraspPanel::processFeedback, this, _1));
 
   server_->applyChanges();
+
+  updateArm();
 
 }
 
@@ -581,6 +588,28 @@ void GraspPanel::updateGoalZ()
   }
 }
 
+void GraspPanel::updateArm()
+{
+  selectedArm = arm_combobox_->currentIndex();
+
+  if(selectedArm == 0)
+  {
+    output_action_editor_->setText("/vizzy/left_arm_cartesian_controller/cartesian_action");
+    updateAction();
+    int_marker_.controls[0].markers[0].mesh_resource = "package://vizzy_rviz_plugins/meshes/vizzy_left_hand.dae";
+  }else
+  {
+    output_action_editor_->setText("/vizzy/right_arm_cartesian_controller/cartesian_action");
+    updateAction();
+    int_marker_.controls[0].markers[0].mesh_resource = "package://vizzy_rviz_plugins/meshes/vizzy_right_hand.dae";
+  }
+
+  server_->clear();
+  server_->insert(int_marker_);
+  server_->applyChanges();
+
+}
+
 
 void GraspPanel::save( rviz::Config config ) const
 {
@@ -606,6 +635,9 @@ void GraspPanel::load( const rviz::Config& config )
     input_topic_editor_->setText( topic );
     updateTopic();
   }
+
+  updateArm();
+  
 }
 
 Marker GraspPanel::makeEndEffector( InteractiveMarker &msg )

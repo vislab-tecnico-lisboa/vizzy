@@ -109,7 +109,7 @@ int main(int argc, char *argv[])
     options_torso.put("robot", robot); //Needs to be read from a config file
     options_torso.put("device", "remote_controlboard");
     options_torso.put("remote", "/" + robot + "/" + "torso");
-    options_torso.put("local", "/" + robot + "/" + "torso" + "/_pos_interface");
+    options_torso.put("local", "/" + robot + "/" + "torso" + part +"/_pos_interface");
     options_torso.put("part", "torso");
 
     dd.open(options);
