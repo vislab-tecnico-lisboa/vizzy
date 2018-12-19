@@ -14,6 +14,7 @@ December, 2018
 #include <QPushButton>
 #include <QGroupBox>
 #include <QLabel>
+#include <QComboBox>
 #include <QSpinBox>
 #include <QDoubleSpinBox>
 #include <memory.h>
@@ -25,11 +26,11 @@ December, 2018
 #include <tf2_ros/transform_listener.h>
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
 #include <interactive_markers/interactive_marker_server.h>
-
+#include <QLineEdit>
 
 typedef actionlib::SimpleActionClient<vizzy_msgs::CartesianAction> cartesian_client;
 
-class QLineEdit;
+//class QLineEdit;
 
 using namespace visualization_msgs;
 
@@ -58,10 +59,16 @@ protected:
    // The current name of the output topic.
    QString input_topic_;
    
+   //Combo box to choose left or right arm
+   QComboBox *arm_combobox_;
+   QLabel *arm_label_;
+
+   int selectedArm;
 
    // The ROS publisher for the grasp command
     ros::NodeHandle nh_;
     ros::Subscriber goal_sub_;
+
 
     std::shared_ptr<cartesian_client> ac;
 
@@ -144,6 +151,7 @@ public Q_SLOTS:
   void updatePoseY();
   void updatePoseZ();
   void updatePoseW();
+  void updateArm();
 
   Marker makeEndEffector( InteractiveMarker &msg );
   InteractiveMarkerControl& makeEndEffectorControl( InteractiveMarker &msg );
