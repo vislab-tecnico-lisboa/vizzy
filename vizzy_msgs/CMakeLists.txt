@@ -25,6 +25,7 @@ add_message_files(
   FILES
   Tactile.msg
   TacVector.msg
+  DslDataset.msg
 )
 
 generate_messages(
