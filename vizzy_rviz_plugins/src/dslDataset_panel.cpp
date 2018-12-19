@@ -31,6 +31,8 @@ dslDatasetPanel::dslDatasetPanel(QWidget *parent)
   recording_button = new QPushButton("Start Recording", this);
   dump_button = new QPushButton("Dump current configuration", this);
 
+  do_all_button = new QPushButton("Do it ALL! ", this);
+
   // Next we lay out the "action" text entry field using a
   // QLabel and a QLineEdit in a QHBoxLayout.
   QHBoxLayout* action_layout = new QHBoxLayout();
@@ -60,6 +62,7 @@ dslDatasetPanel::dslDatasetPanel(QWidget *parent)
   gestures_layout->addWidget(action_button);
   gestures_layout->addWidget(recording_button);
   gestures_layout->addWidget(dump_button);
+  gestures_layout->addWidget(do_all_button);
 
   QVBoxLayout* controls_out_layout= new QVBoxLayout();
 
@@ -72,6 +75,7 @@ dslDatasetPanel::dslDatasetPanel(QWidget *parent)
 
   repetition_label_ = new QLabel(tr("Repetition Number:")); //
   time_label_ = new QLabel(tr("Execution Time (for action):"));
+  trial_label_ = new QLabel(tr("Trial Number:"));
 
 
   task_vel_spin_ = new QDoubleSpinBox();
@@ -79,15 +83,20 @@ dslDatasetPanel::dslDatasetPanel(QWidget *parent)
   task_vel_spin_->setSingleStep(0.01);
 
   location_spin_ = new QSpinBox();
-  location_spin_->setRange(1, 5);
+  location_spin_->setRange(1, 15);
 
   repetition_spin_ = new QSpinBox();
-  repetition_spin_->setRange(1, 5);
+  repetition_spin_->setRange(1, 20);
+
+  trial_spin_ = new QSpinBox();
+  trial_spin_->setRange(0, 500);
 
   time_spin_ = new QDoubleSpinBox();
-  time_spin_->setRange(1, 4);
+  time_spin_->setRange(1, 10);
   time_spin_->setSingleStep(0.1);
 
+  object_spin_ = new QSpinBox();
+  object_spin_->setRange(0, 25);
 
   controls_layout->addWidget(task_vel_label_, 0, 0);
   controls_layout->addWidget(task_vel_spin_, 0, 1);
@@ -97,6 +106,10 @@ dslDatasetPanel::dslDatasetPanel(QWidget *parent)
   controls_layout->addWidget(repetition_spin_, 2, 1);
   controls_layout->addWidget(time_label_, 3, 0);
   controls_layout->addWidget(time_spin_, 3, 1);
+  controls_layout->addWidget(trial_label_, 4, 0);
+  controls_layout->addWidget(trial_spin_, 4, 1);
+  controls_layout->addWidget(object_label_, 5, 0);
+  controls_layout->addWidget(object_spin_, 5, 1);
 
   controls_out_layout->addLayout(controls_layout);
   controlsGroup_->setLayout(controls_out_layout);
@@ -112,11 +125,14 @@ dslDatasetPanel::dslDatasetPanel(QWidget *parent)
   setLayout( panel_layout );
 
   //Connect objects with signals
+  connect( go_to_goal, SIGNAL (released()), this, SLOT(gotoGoal()));
   connect( home_button, SIGNAL (released()), this, SLOT(home()));
   connect( action_button, SIGNAL (released()), this, SLOT (action()));
   connect( recording_button, SIGNAL (released()), this, SLOT (recording()));
-
   connect( dump_button, SIGNAL (released()), this, SLOT (dumpParameters()));
+  connect( do_all_button, SIGNAL (released()), this, SLOT (doAll()));
+  
+
   connect( output_action_editor_, SIGNAL( editingFinished() ), this, SLOT( updateAction() ));
   connect( input_topic_editor_, SIGNAL( editingFinished() ), this, SLOT( updateTopic() ));
   
@@ -124,12 +140,18 @@ dslDatasetPanel::dslDatasetPanel(QWidget *parent)
   connect( location_spin_, SIGNAL( valueChanged(int) ), this, SLOT( updateLocation() ));
   connect( repetition_spin_, SIGNAL( valueChanged(int) ), this, SLOT( updateRepetition() ));
   connect( time_spin_, SIGNAL( valueChanged(double) ), this, SLOT( updateTime() ));
+  connect( trial_spin_, SIGNAL( valueChanged(int) ), this, SLOT( updateTrial() ));
+  connect( object_spin_, SIGNAL( valueChanged(int) ), this, SLOT( updateObject() ));
 
 
   updateAction();
   updateTopic();
+  initializeParameters();
 
-
+  infoPub = nh_.advertise<vizzy_msgs::DslDataset>("datasetInfo", 100);
+  csvfile.open("dsl-dataset.csv", std::ios_base::trunc);
+  csvfile << "Trial_ID ; Object_ID ; Location_ID ; repetition_Number ; task_vel_y ; movement_duration ; Bag_name" << std::endl;
+  csvfile.close();
   //Interactive markers
   
   int_marker_.header.frame_id = "base_link";
@@ -183,49 +205,25 @@ dslDatasetPanel::dslDatasetPanel(QWidget *parent)
 
 }
 
-void dslDatasetPanel::processFeedback( const visualization_msgs::InteractiveMarkerFeedbackConstPtr &feedback )
+void dslDatasetPanel::initializeParameters()
 {
-  ROS_WARN_STREAM("processFeedback");
-  geometry_msgs::TransformStamped transformStamped;
-  geometry_msgs::PoseStamped onMarkerFrame;
-  onMarkerFrame.header.frame_id = feedback->header.frame_id;
-  onMarkerFrame.pose = feedback->pose;
+  ROS_WARN_STREAM("Initialize Parameters");
+  time_ = 2.5;
+  time_spin_->setValue(time_);
+  repetition_number_ = 1;
+  repetition_spin_->setValue(repetition_number_);
+  location_ = 1;
+  location_spin_->setValue(location_);
+  linearVelocity_x_ = 0.0;
+  linearVelocity_y_ = 0.01;
+  task_vel_spin_->setValue(linearVelocity_y_);
+  linearVelocity_z_ = 0.0;
+  trial_ = 0;
+  trial_spin_->setValue(trial_);
+  object_ = 0;
+  object_spin_->setValue(object_);
 
-  geometry_msgs::PoseStamped onBase;
-
-  try{
-  transformStamped = tfBuffer.lookupTransform("base_link", onMarkerFrame.header.frame_id,
-                              ros::Time(0));
-  tf2::doTransform(onMarkerFrame, onBase, transformStamped);
-
-  }
-  catch (tf2::TransformException &ex) {
-    ROS_WARN("%s",ex.what());
-    ros::Duration(1.0).sleep();
-    return;
-  }
-
-  goal_pos_x_ = onBase.pose.position.x;
-  goal_pos_y_ = onBase.pose.position.y;
-  goal_pos_z_ = onBase.pose.position.z;
-
-  goal_orient_x_ = onBase.pose.orientation.x;
-  goal_orient_y_ = onBase.pose.orientation.y;
-  goal_orient_z_ = onBase.pose.orientation.z;
-
-
-  task_vel_spin_->setValue(0.0);
-  location_spin_->setValue(1);
-  repetition_spin_->setValue(1);
-  double o_x = goal_orient_x_+goal_orient_x_offset_;
-  double o_y = goal_orient_y_+goal_orient_y_offset_;
-  double o_z = goal_orient_z_+goal_orient_z_offset_;
-  double w = std::sqrt(1.0-(o_x*o_x+o_y*o_y+o_z*o_z));
-
-
-  server_->applyChanges();
 }
-
 
 void dslDatasetPanel::poseCallback(const geometry_msgs::PoseStamped::ConstPtr& msg)
 {
@@ -253,10 +251,6 @@ void dslDatasetPanel::poseCallback(const geometry_msgs::PoseStamped::ConstPtr& m
   goal_orient_x_ = onBase.pose.orientation.x;
   goal_orient_y_ = onBase.pose.orientation.y;
   goal_orient_z_ = onBase.pose.orientation.z;
-
-  task_vel_spin_->setValue(0.0);
-  location_spin_->setValue(1);
-  repetition_spin_->setValue(goal_pos_z_);
 
   double o_x = goal_orient_x_+goal_orient_x_offset_;
   double o_y = goal_orient_y_+goal_orient_y_offset_;
@@ -330,9 +324,17 @@ void dslDatasetPanel::action()
 
 void dslDatasetPanel::recording()
 {
-  ROS_WARN_STREAM("Here, I should call the system rosbag to record something during a fix time (e.g. 5 seconds)");
-
-  //rosbag record -O session2_090210.bag --duration=15
+  csvfile.open("dsl-dataset.csv", std::ios_base::app);
+  // "Trial_ID ; Object_ID ; Location_ID ; repetition_Number ; task_vel_y ; movement_duration ; Bag_name"
+  csvfile << trial_ << ";" << object_ << ";" << location_ << ";" << repetition_number_ << ";" << linearVelocity_y_ << ";" << time_ << ";dsl-dataset-trial_" << trial_ << ".bag" << std::endl;
+  ROS_WARN_STREAM("System Call to record RosBag");
+  std::string command;
+  command = "rosbag record -O bags/dsl-dataset-trial_" + std::to_string(trial_);// + " --duration=10 /rosout &";
+  command += " --duration=10 /rosout &";
+  int i = system (command.c_str());
+  trial_++;
+  trial_spin_->setValue(trial_);
+  csvfile.close();
 }
 
 void dslDatasetPanel::updateAction()
@@ -413,7 +415,23 @@ void dslDatasetPanel::updateTime()
   time_ = (double) (time_spin_->value());
   
 }
+void dslDatasetPanel::updateTrial()
+{
+  ROS_WARN_STREAM("updating trial Number");
+  trial_ = (double) (trial_spin_->value());
+  
+}
 
+void dslDatasetPanel::updateObject()
+{
+  ROS_WARN_STREAM("updating trial Number");
+  object_ = (double) (object_spin_->value());
+  repetition_number_ = 1;
+  repetition_spin_->setValue(repetition_number_);
+
+
+  
+}
 
 void dslDatasetPanel::dumpParameters()
 {
@@ -421,12 +439,26 @@ void dslDatasetPanel::dumpParameters()
   ROS_WARN_STREAM("Time: " << time_);
   ROS_WARN_STREAM("Repetition Number: " << repetition_number_);
   ROS_WARN_STREAM("Location id: " << location_);
+  ROS_WARN_STREAM("Object id: " << object_);
   ROS_WARN_STREAM("Linear Velocity y: " << linearVelocity_y_);
   ROS_WARN_STREAM("Linear Velocity x: " << linearVelocity_x_);
   ROS_WARN_STREAM("Linear Velocity z: " << linearVelocity_z_);
+  ROS_WARN_STREAM("Trial Number: " << trial_);
   
 }
+void dslDatasetPanel::doAll()
+{
+  ROS_WARN_STREAM("Doing everything!");
+  recording();
+  gotoGoal();
+  action();
+  home();
+  repetition_number_++;
+  repetition_spin_->setValue(repetition_number_);
+  ROS_WARN_STREAM("Done!");
 
+
+}
 void dslDatasetPanel::save( rviz::Config config ) const
 {
   rviz::Panel::save( config );

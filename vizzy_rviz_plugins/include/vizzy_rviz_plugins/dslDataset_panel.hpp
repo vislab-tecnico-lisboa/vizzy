@@ -9,6 +9,7 @@ December, 2018
 
 #include <ros/ros.h>
 #include <std_msgs/Float32.h>
+#include <fstream>
 #include <rviz/panel.h>
 #include <rviz/properties/ros_topic_property.h>
 #include <actionlib/client/simple_action_client.h>
@@ -23,6 +24,7 @@ December, 2018
 #include <vizzy_msgs/CartesianActionGoal.h>
 #include <vizzy_msgs/CartesianActionFeedback.h>
 #include <vizzy_msgs/CartesianActionResult.h>
+#include <vizzy_msgs/DslDataset.h>
 #include <geometry_msgs/PoseStamped.h>
 #include <tf2_ros/transform_listener.h>
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
@@ -61,10 +63,12 @@ protected:
    QString input_topic_;
    
 
-   // The ROS publisher for the grasp command
+  // The ROS publisher for the action command
     ros::NodeHandle nh_;
     ros::Subscriber goal_sub_;
 
+  // ROS publisher to save dataset information
+    ros::Publisher infoPub;
     std::shared_ptr<cartesian_client> ac;
 
 
@@ -78,6 +82,8 @@ private:
   QPushButton *go_to_goal;
   QPushButton *dump_button;
 
+  QPushButton *do_all_button;
+
   //Controls group
   void createControls(const QString &title);
   QGroupBox *controlsGroup_;
@@ -87,11 +93,14 @@ private:
   QLabel *location_label_;
   QLabel *repetition_label_;
   QLabel *time_label_;
+  QLabel *trial_label_;
 
   QDoubleSpinBox *task_vel_spin_;
+  QSpinBox *object_spin_;
   QSpinBox *location_spin_;
   QSpinBox *repetition_spin_;
   QDoubleSpinBox *time_spin_;
+  QSpinBox *trial_spin_;
 
   //Current Goal
   double goal_pos_x_;
@@ -109,8 +118,13 @@ private:
 
   // dataset Parameters
   int location_;
+  int object_;
   int repetition_number_;
   double time_;
+  int trial_;
+
+  // CSV file
+  std::ofstream csvfile;
   double goal_pos_x_offset_ = 0;
   double goal_pos_y_offset_ = 0;
   double goal_pos_z_offset_ = 0;
@@ -137,11 +151,16 @@ public Q_SLOTS:
   void recording();
   void action();
   void gotoGoal();
+  void doAll();
   void updateTaskVel();
   void updateLocation();
   void updateRepetition();
   void updateTime();
+  void updateTrial();
+  void updateObject();
   void dumpParameters();
+  void initializeParameters();
+  
 
   Marker makeEndEffector( InteractiveMarker &msg );
   InteractiveMarkerControl& makeEndEffectorControl( InteractiveMarker &msg );
