@@ -20,11 +20,7 @@ dslDatasetPanel::dslDatasetPanel(QWidget *parent)
   : rviz::Panel(parent), tfBuffer(), tfListener(tfBuffer)
 {
 
-  //Interactive Marker Server
-  server_.reset( new interactive_markers::InteractiveMarkerServer("basic_controls","",false) );
-  ros::Duration(0.1).sleep();
-
-  //Configure the push buttons for the handshakes
+  //Configure the push buttons for the Dataset Recording
   go_to_goal = new QPushButton("Initial Pose!", this);
   home_button = new QPushButton("Home position", this);
   action_button = new QPushButton("Perform action", this);
@@ -70,8 +66,8 @@ dslDatasetPanel::dslDatasetPanel(QWidget *parent)
   controlsGroup_ = new QGroupBox("Recording/execution parameters"); 
 
   task_vel_label_ = new QLabel(tr("Velocity (task velocity in y):")); //
-  object_label_ = new QLabel(tr("Object Name:"));  
-  location_label_ = new QLabel(tr("Location Number:")); //
+  object_label_ = new QLabel(tr("Object ID:"));  
+  location_label_ = new QLabel(tr("Location ID:")); //
 
   repetition_label_ = new QLabel(tr("Repetition Number:")); //
   time_label_ = new QLabel(tr("Execution Time (for action):"));
@@ -110,6 +106,11 @@ dslDatasetPanel::dslDatasetPanel(QWidget *parent)
   controls_layout->addWidget(trial_spin_, 4, 1);
   controls_layout->addWidget(object_label_, 5, 0);
   controls_layout->addWidget(object_spin_, 5, 1);
+  controls_layout->addWidget(object_spin_, 5, 1);
+  controls_layout->addWidget( new QLabel( "Object Name:" ));
+  object_name_editor_ = new QLineEdit;
+  object_name_editor_->setText("To Be Defined");
+  controls_layout->addWidget(object_name_editor_ );
 
   controls_out_layout->addLayout(controls_layout);
   controlsGroup_->setLayout(controls_out_layout);
@@ -142,7 +143,7 @@ dslDatasetPanel::dslDatasetPanel(QWidget *parent)
   connect( time_spin_, SIGNAL( valueChanged(double) ), this, SLOT( updateTime() ));
   connect( trial_spin_, SIGNAL( valueChanged(int) ), this, SLOT( updateTrial() ));
   connect( object_spin_, SIGNAL( valueChanged(int) ), this, SLOT( updateObject() ));
-
+  connect( object_name_editor_, SIGNAL( editingFinished() ), this, SLOT( updateObjectName() ));
 
   updateAction();
   updateTopic();
@@ -152,57 +153,6 @@ dslDatasetPanel::dslDatasetPanel(QWidget *parent)
   csvfile.open("dsl-dataset.csv", std::ios_base::trunc);
   csvfile << "Trial_ID ; Object_ID ; Location_ID ; repetition_Number ; task_vel_y ; movement_duration ; Bag_name" << std::endl;
   csvfile.close();
-  //Interactive markers
-  
-  int_marker_.header.frame_id = "base_link";
-  int_marker_.scale = 1;
-  int_marker_.name = "end_effector_";
-  int_marker_.description = "End effector";
-
-  //insert the end effector
-  makeEndEffectorControl(int_marker_);
-  int_marker_.controls[0].interaction_mode = visualization_msgs::InteractiveMarkerControl::MOVE_ROTATE_3D;
-  int_marker_.pose.orientation.w = 1.0;
-
-  InteractiveMarkerControl control;
-  control.orientation.w = 1;
-  control.orientation.x = 1;
-  control.orientation.y = 0;
-  control.orientation.z = 0;
-  control.name = "rotate_x";
-  control.interaction_mode = InteractiveMarkerControl::ROTATE_AXIS;
-  int_marker_.controls.push_back(control);
-  control.name = "move_x";
-  control.interaction_mode = InteractiveMarkerControl::MOVE_AXIS;
-  int_marker_.controls.push_back(control);
-
-  control.orientation.w = 1;
-  control.orientation.x = 0;
-  control.orientation.y = 1;
-  control.orientation.z = 0;
-  control.name = "rotate_z";
-  control.interaction_mode = InteractiveMarkerControl::ROTATE_AXIS;
-  int_marker_.controls.push_back(control);
-  control.name = "move_z";
-  control.interaction_mode = InteractiveMarkerControl::MOVE_AXIS;
-  int_marker_.controls.push_back(control);
-
-  control.orientation.w = 1;
-  control.orientation.x = 0;
-  control.orientation.y = 0;
-  control.orientation.z = 1;
-  control.name = "rotate_y";
-  control.interaction_mode = InteractiveMarkerControl::ROTATE_AXIS;
-  int_marker_.controls.push_back(control);
-  control.name = "move_y";
-  control.interaction_mode = InteractiveMarkerControl::MOVE_AXIS;
-  int_marker_.controls.push_back(control);
-
-  server_->insert(int_marker_);
-  server_->setCallback(int_marker_.name, boost::bind(&dslDatasetPanel::processFeedback, this, _1));
-
-  server_->applyChanges();
-
 }
 
 void dslDatasetPanel::initializeParameters()
@@ -222,6 +172,9 @@ void dslDatasetPanel::initializeParameters()
   trial_spin_->setValue(trial_);
   object_ = 0;
   object_spin_->setValue(object_);
+  object_names_ = {"bball","lemon","ocup","orange","pear","plego","sycup","wball","yball","ycup","ylego"};
+  current_object_name_ = object_names_[object_];
+  object_name_editor_->setText(current_object_name_.c_str());
 
 }
 
@@ -257,20 +210,6 @@ void dslDatasetPanel::poseCallback(const geometry_msgs::PoseStamped::ConstPtr& m
   double o_z = goal_orient_z_+goal_orient_z_offset_;
 
   double w = std::sqrt(1.0-(o_x*o_x+o_y*o_y+o_z*o_z));
-
-  int_marker_.pose.position.x = goal_pos_x_;
-  int_marker_.pose.position.y = goal_pos_y_;
-  int_marker_.pose.position.z = goal_pos_z_;
-
-  int_marker_.pose.orientation.x = o_x;
-  int_marker_.pose.orientation.y = o_y;
-  int_marker_.pose.orientation.z = o_z;
-  int_marker_.pose.orientation.w = w;
-
-  server_->clear();
-  server_->insert(int_marker_);
-  server_->applyChanges();
-
 }
 
 void dslDatasetPanel::gotoGoal()
@@ -342,6 +281,21 @@ void dslDatasetPanel::updateAction()
   setAction( output_action_editor_->text() );
 }
 
+void dslDatasetPanel::updateObjectName()
+{
+  current_object_name_ = object_name_editor_->text().toStdString();
+
+  if (object_<object_names_.size()) // Update Object Name
+  {
+    object_names_[object_] = current_object_name_;
+  }
+  else // Probably will never enter here
+  {
+    object_names_.push_back(current_object_name_);
+  }
+  //
+
+}
 void dslDatasetPanel::setAction(const QString &new_action)
 {
   // Only take action if the name has changed.
@@ -424,12 +378,20 @@ void dslDatasetPanel::updateTrial()
 
 void dslDatasetPanel::updateObject()
 {
-  ROS_WARN_STREAM("updating trial Number");
+  ROS_WARN_STREAM("updating Object");
   object_ = (double) (object_spin_->value());
   repetition_number_ = 1;
   repetition_spin_->setValue(repetition_number_);
-
-
+  if (object_<object_names_.size()) // Known Object! HARD-CODED
+  {
+    object_name_editor_->setText(object_names_[object_].c_str());
+  }
+  else
+  {
+    object_name_editor_->setText("unk obj");
+    object_names_.push_back("unkObj_" + std::to_string(object_));
+  }
+  current_object_name_ = object_names_[object_];
   
 }
 
@@ -440,6 +402,7 @@ void dslDatasetPanel::dumpParameters()
   ROS_WARN_STREAM("Repetition Number: " << repetition_number_);
   ROS_WARN_STREAM("Location id: " << location_);
   ROS_WARN_STREAM("Object id: " << object_);
+  ROS_WARN_STREAM("Object name: " << current_object_name_);
   ROS_WARN_STREAM("Linear Velocity y: " << linearVelocity_y_);
   ROS_WARN_STREAM("Linear Velocity x: " << linearVelocity_x_);
   ROS_WARN_STREAM("Linear Velocity z: " << linearVelocity_z_);
@@ -483,32 +446,6 @@ void dslDatasetPanel::load( const rviz::Config& config )
     input_topic_editor_->setText( topic );
     updateTopic();
   }
-}
-
-Marker dslDatasetPanel::makeEndEffector( InteractiveMarker &msg )
-{
-  Marker marker;
-
-  marker.type = Marker::ARROW;
-  marker.scale.x = msg.scale * 0.45;
-  marker.scale.y = msg.scale * 0.25;
-  marker.scale.z = msg.scale * 0.25;
-  marker.color.r = 0.5;
-  marker.color.g = 0.5;
-  marker.color.b = 0.5;
-  marker.color.a = 1.0;
-
-  return marker;
-}
-
-InteractiveMarkerControl& dslDatasetPanel::makeEndEffectorControl( InteractiveMarker &msg )
-{
-  InteractiveMarkerControl control;
-  control.always_visible = true;
-  control.markers.push_back( makeEndEffector(msg) );
-  msg.controls.push_back( control );
-
-  return msg.controls.back();
 }
 
 }

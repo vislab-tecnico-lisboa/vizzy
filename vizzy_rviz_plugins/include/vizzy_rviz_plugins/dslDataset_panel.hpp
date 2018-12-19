@@ -28,14 +28,11 @@ December, 2018
 #include <geometry_msgs/PoseStamped.h>
 #include <tf2_ros/transform_listener.h>
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
-#include <interactive_markers/interactive_marker_server.h>
 
 
 typedef actionlib::SimpleActionClient<vizzy_msgs::CartesianAction> cartesian_client;
 
 class QLineEdit;
-
-using namespace visualization_msgs;
 
 namespace vizzy_rviz_plugins{
 
@@ -97,6 +94,7 @@ private:
 
   QDoubleSpinBox *task_vel_spin_;
   QSpinBox *object_spin_;
+  QLineEdit *object_name_editor_;
   QSpinBox *location_spin_;
   QSpinBox *repetition_spin_;
   QDoubleSpinBox *time_spin_;
@@ -119,6 +117,8 @@ private:
   // dataset Parameters
   int location_;
   int object_;
+  std::vector<std::string> object_names_;
+  std::string current_object_name_;
   int repetition_number_;
   double time_;
   int trial_;
@@ -133,15 +133,10 @@ private:
   double goal_orient_z_offset_ = 0;
   double goal_orient_w_offset_ = 0;
 
-  InteractiveMarker int_marker_;
-  boost::shared_ptr<interactive_markers::InteractiveMarkerServer> server_;
-  
   tf2_ros::Buffer tfBuffer;
   tf2_ros::TransformListener tfListener;
 
   void poseCallback(const geometry_msgs::PoseStamped::ConstPtr& msg);
-  void processFeedback( const visualization_msgs::InteractiveMarkerFeedbackConstPtr &feedback );
-
 
 public Q_SLOTS:
 
@@ -158,15 +153,10 @@ public Q_SLOTS:
   void updateTime();
   void updateTrial();
   void updateObject();
+  void updateObjectName();
   void dumpParameters();
   void initializeParameters();
   
-
-  Marker makeEndEffector( InteractiveMarker &msg );
-  InteractiveMarkerControl& makeEndEffectorControl( InteractiveMarker &msg );
-
-
-
 protected Q_SLOTS:
 
   void updateAction();
