@@ -120,7 +120,6 @@ private:
   std::vector<std::string> object_names_;
   std::string current_object_name_;
   int repetition_number_;
-  double time_;
   int trial_;
 
   // CSV file

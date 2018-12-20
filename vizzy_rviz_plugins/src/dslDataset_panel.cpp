@@ -34,7 +34,7 @@ dslDatasetPanel::dslDatasetPanel(QWidget *parent)
   QHBoxLayout* action_layout = new QHBoxLayout();
   action_layout->addWidget( new QLabel( "Action client:" ));
   output_action_editor_ = new QLineEdit;
-  output_action_editor_->setText("/vizzy/right_arm_cartesian_controller/cartesian_action");
+  output_action_editor_->setText("/vizzy/left_arm_cartesian_controller/cartesian_action");
   action_layout->addWidget(output_action_editor_ );
 
   //Initialize action client
@@ -45,7 +45,7 @@ dslDatasetPanel::dslDatasetPanel(QWidget *parent)
   QHBoxLayout* topic_layout = new QHBoxLayout();
   topic_layout->addWidget( new QLabel( "Input goal topic:" ));
   input_topic_editor_ = new QLineEdit;
-  input_topic_editor_->setText("/right_hand_goal");
+  input_topic_editor_->setText("/left_hand_goal");
   topic_layout->addWidget(input_topic_editor_ );
 
 
@@ -74,15 +74,15 @@ dslDatasetPanel::dslDatasetPanel(QWidget *parent)
   trial_label_ = new QLabel(tr("Trial Number:"));
 
 
+  repetition_spin_ = new QSpinBox();
+  repetition_spin_->setRange(1, 20);
+
   task_vel_spin_ = new QDoubleSpinBox();
   task_vel_spin_->setRange(0, 0.10);
   task_vel_spin_->setSingleStep(0.01);
 
   location_spin_ = new QSpinBox();
   location_spin_->setRange(1, 15);
-
-  repetition_spin_ = new QSpinBox();
-  repetition_spin_->setRange(1, 20);
 
   trial_spin_ = new QSpinBox();
   trial_spin_->setRange(0, 500);
@@ -136,10 +136,10 @@ dslDatasetPanel::dslDatasetPanel(QWidget *parent)
 
   connect( output_action_editor_, SIGNAL( editingFinished() ), this, SLOT( updateAction() ));
   connect( input_topic_editor_, SIGNAL( editingFinished() ), this, SLOT( updateTopic() ));
-  
+
+  connect( repetition_spin_, SIGNAL( valueChanged(int) ), this, SLOT( updateRepetition() ));  
   connect( task_vel_spin_, SIGNAL( valueChanged(double) ), this, SLOT( updateTaskVel() ));
   connect( location_spin_, SIGNAL( valueChanged(int) ), this, SLOT( updateLocation() ));
-  connect( repetition_spin_, SIGNAL( valueChanged(int) ), this, SLOT( updateRepetition() ));
   connect( time_spin_, SIGNAL( valueChanged(double) ), this, SLOT( updateTime() ));
   connect( trial_spin_, SIGNAL( valueChanged(int) ), this, SLOT( updateTrial() ));
   connect( object_spin_, SIGNAL( valueChanged(int) ), this, SLOT( updateObject() ));
@@ -157,9 +157,17 @@ dslDatasetPanel::dslDatasetPanel(QWidget *parent)
 
 void dslDatasetPanel::initializeParameters()
 {
+
+  goal_pos_x_ = -0.52;
+  goal_pos_y_ = 0.1;
+  goal_pos_z_ = 0.8;
+  goal_orient_x_ = 0;
+  goal_orient_y_ = 0;
+  goal_orient_z_ = 0;
+  goal_orient_w_ = 1;
   ROS_WARN_STREAM("Initialize Parameters");
-  time_ = 2.5;
-  time_spin_->setValue(time_);
+  duration_traj_ = 2.5;
+  time_spin_->setValue(duration_traj_);
   repetition_number_ = 1;
   repetition_spin_->setValue(repetition_number_);
   location_ = 1;
@@ -217,20 +225,32 @@ void dslDatasetPanel::gotoGoal()
   ROS_WARN_STREAM("Going to Goal");
   vizzy_msgs::CartesianGoal goal;
   goal.type = goal.CARTESIAN;
-  goal.end_effector_pose.pose.position.x = goal_pos_x_+goal_pos_x_offset_;
-  goal.end_effector_pose.pose.position.y = goal_pos_y_+goal_pos_y_offset_;
-  goal.end_effector_pose.pose.position.z = goal_pos_z_+goal_pos_z_offset_;
+  goal.end_effector_pose.pose.position.x = goal_pos_x_;
+  goal.end_effector_pose.pose.position.y = goal_pos_y_;
+  goal.end_effector_pose.pose.position.z = goal_pos_z_;
   
 
-  double o_x = goal_orient_x_+goal_orient_x_offset_;
-  double o_y = goal_orient_y_+goal_orient_y_offset_;
-  double o_z = goal_orient_z_+goal_orient_z_offset_;
+  double o_x = goal_orient_x_;
+  double o_y = goal_orient_y_;
+  double o_z = goal_orient_z_;
   goal.end_effector_pose.pose.orientation.x = o_x;
   goal.end_effector_pose.pose.orientation.y = o_y;
   goal.end_effector_pose.pose.orientation.z = o_z; 
   goal.end_effector_pose.pose.orientation.w = std::sqrt(1.0-(o_x*o_x+o_y*o_y+o_z*o_z));
 
+  goal.end_effector_pose.header.frame_id = "base_link";//"r_camera_vision_link";  //THIS IS NEEDED?!?
+  ROS_WARN_STREAM(goal.end_effector_pose.pose);
   ac->sendGoal(goal);
+
+  bool finished_before_timeout = ac->waitForResult(ros::Duration(10.0)); // waiting 10s
+
+  if (finished_before_timeout)
+  {
+    actionlib::SimpleClientGoalState state = ac->getState();
+    ROS_WARN_STREAM("Action finished:" << state.toString().c_str());
+  }
+  else
+    ROS_INFO("Action did not finish before the time out.");
 }
 
 void dslDatasetPanel::home()
@@ -239,6 +259,15 @@ void dslDatasetPanel::home()
   vizzy_msgs::CartesianGoal goal;
   goal.type = goal.HOME;
   ac->sendGoal(goal);
+  bool finished_before_timeout = ac->waitForResult(ros::Duration(10.0)); // waiting 10s
+
+  if (finished_before_timeout)
+  {
+    actionlib::SimpleClientGoalState state = ac->getState();
+    ROS_WARN_STREAM("Action finished: " << state.toString().c_str());
+  }
+  else
+    ROS_WARN_STREAM("Action did not finish before the time out.");
 }
 
 void dslDatasetPanel::action()
@@ -258,19 +287,42 @@ void dslDatasetPanel::action()
   aux.data = linearVelocity_z_;
   goal.velocity.push_back(aux);
   goal.duration.data = duration_traj_;
+  goal.end_effector_pose.header.frame_id = "base_link";//"r_camera_vision_link";  //THIS IS NEEDED?!?
   ac->sendGoal(goal);
+
+  bool finished_before_timeout = ac->waitForResult(ros::Duration(10.0)); // waiting 10s
+
+  if (finished_before_timeout)
+  {
+    actionlib::SimpleClientGoalState state = ac->getState();
+    ROS_WARN_STREAM("Action finished: " << state.toString().c_str());
+  }
+  else
+    ROS_WARN_STREAM("Action did not finish before the time out.");
 }
 
 void dslDatasetPanel::recording()
 {
   csvfile.open("dsl-dataset.csv", std::ios_base::app);
   // "Trial_ID ; Object_ID ; Location_ID ; repetition_Number ; task_vel_y ; movement_duration ; Bag_name"
-  csvfile << trial_ << ";" << object_ << ";" << location_ << ";" << repetition_number_ << ";" << linearVelocity_y_ << ";" << time_ << ";dsl-dataset-trial_" << trial_ << ".bag" << std::endl;
+  csvfile << trial_ << ";" << object_ << ";" << location_ << ";" << repetition_number_ << ";" << linearVelocity_y_ << ";" << duration_traj_ << ";dsl-dataset-trial_" << trial_ << ".bag" << std::endl;
   ROS_WARN_STREAM("System Call to record RosBag");
   std::string command;
   command = "rosbag record -O bags/dsl-dataset-trial_" + std::to_string(trial_);// + " --duration=10 /rosout &";
-  command += " --duration=10 /rosout &";
+  command += " --duration=20 /datasetInfo /vizzy/joint_states /tf /vizzy/l_camera/camera_info /vizzy/l_camera/image_raw /camera/asus_camera/depth/image_raw &";
+
+  vizzy_msgs::DslDataset msg;
+  msg.trial_id = trial_;
+  msg.object_id = object_;
+  msg.object_name = current_object_name_;
+  msg.location_id = location_;
+  msg.repetition_num = repetition_number_;
+  msg.velocity_y = linearVelocity_y_;
+  msg.movement_duration = duration_traj_;
+
   int i = system (command.c_str());
+  ros::Duration(2.0).sleep();
+  infoPub.publish(msg);
   trial_++;
   trial_spin_->setValue(trial_);
   csvfile.close();
@@ -347,6 +399,8 @@ void dslDatasetPanel::updateTaskVel()
 {
   ROS_WARN_STREAM("updating vel");
   linearVelocity_y_ = (double) (task_vel_spin_->value());
+  repetition_number_ = 1;
+  repetition_spin_->setValue(repetition_number_);
 
 }
 
@@ -354,6 +408,8 @@ void dslDatasetPanel::updateLocation()
 {
   ROS_WARN_STREAM("updating location");
   location_ = (int) (location_spin_->value());
+  repetition_number_ = 1;
+  repetition_spin_->setValue(repetition_number_);
 }
 
 void dslDatasetPanel::updateRepetition()
@@ -366,7 +422,9 @@ void dslDatasetPanel::updateRepetition()
 void dslDatasetPanel::updateTime()
 {
   ROS_WARN_STREAM("updating time");
-  time_ = (double) (time_spin_->value());
+  duration_traj_ = (double) (time_spin_->value());
+  repetition_number_ = 1;
+  repetition_spin_->setValue(repetition_number_);
   
 }
 void dslDatasetPanel::updateTrial()
@@ -398,7 +456,7 @@ void dslDatasetPanel::updateObject()
 void dslDatasetPanel::dumpParameters()
 {
   ROS_WARN_STREAM("Dumping Current Parameters");
-  ROS_WARN_STREAM("Time: " << time_);
+  ROS_WARN_STREAM("Time: " << duration_traj_);
   ROS_WARN_STREAM("Repetition Number: " << repetition_number_);
   ROS_WARN_STREAM("Location id: " << location_);
   ROS_WARN_STREAM("Object id: " << object_);
