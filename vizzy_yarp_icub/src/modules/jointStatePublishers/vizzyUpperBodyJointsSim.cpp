@@ -124,7 +124,7 @@ int main(int argc, char *argv[]) {
     list_2.add("r_shoulder_rotation_joint");
     list_2.add("r_elbow_flection_joint");
     list_2.add("r_forearm_pronation_joint");
-    list_2.add("r_wrist_abduction_joint_virtual");
+    list_2.add("r_wrist_abduction_joint");
     list_2.add("r_wrist_flection_joint");
 
     Bottle& list_3 = message.addList();
