@@ -158,9 +158,9 @@ dslDatasetPanel::dslDatasetPanel(QWidget *parent)
 void dslDatasetPanel::initializeParameters()
 {
 
-  goal_pos_x_ = -0.52;
-  goal_pos_y_ = 0.1;
-  goal_pos_z_ = 0.8;
+  goal_pos_x_ = -0.25;
+  goal_pos_y_ = -0.15;
+  goal_pos_z_ = 0.75;
   goal_orient_x_ = 0;
   goal_orient_y_ = 0;
   goal_orient_z_ = 0;
@@ -309,7 +309,7 @@ void dslDatasetPanel::recording()
   ROS_WARN_STREAM("System Call to record RosBag");
   std::string command;
   command = "rosbag record -O bags/dsl-dataset-trial_" + std::to_string(trial_);// + " --duration=10 /rosout &";
-  command += " --duration=20 /datasetInfo /vizzy/joint_states /tf /vizzy/l_camera/camera_info /vizzy/l_camera/image_raw /camera/asus_camera/depth/image_raw &";
+  command += " --duration=20 /datasetInfo /vizzy/joint_states /tf /vizzy/l_camera/camera_info /vizzy/l_camera/image_raw /camera/asus_camera/depth/image_raw /vizzy/left_arm_cartesian_controll/cartesian_action/feedback &";
 
   vizzy_msgs::DslDataset msg;
   msg.trial_id = trial_;
