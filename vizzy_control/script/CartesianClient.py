@@ -7,19 +7,80 @@ import vizzy_msgs.msg
 import actionlib
 from actionlib_msgs.msg import *
 import sys
-
+import argparse
 
 def main():
+    parser = argparse.ArgumentParser(description='Calls the cartesian action client for Vizzy.')
+    parser.add_argument('type', type=int, help='Type of action to be executed, 0-Cartesian point, 1-Home position, 2-Cartesian velocity, 3-Close hand, 4-Open hand')
+    parser.add_argument('type_args', type=float, nargs='*', \
+        help='If 0, you can send either the cartesian position [pos x] [pos y] [pos z] or the position and orientation [pos x] [pos y] [pos z] [quat x] [quat y] [quat z] [quat w]')
+    #parser.add_argument('frame_id',  nargs='*', \
+    #                    help='This is the reference frame of the coordinates')
+    my_namespace=parser.parse_args()
+    print my_namespace.type_args
 
-
-    if len(sys.argv) < 4:
-        print('Usage: python2 CartesianClient.py [pos_x] [pos_y] [pos_z]')
+    if my_namespace.type==0 and len(my_namespace.type_args) < 3 and len(my_namespace.frame_id) != 1:
+        print('Usage: python2 CartesianClient.py 0 [pos x] [pos y] [pos z] [frame_id]')
+        exit()
+    elif my_namespace.type==0 and len(my_namespace.type_args) > 3 and len(my_namespace.type_args) != 7 and len(my_namespace.frame_id) != 1:
+        print('Usage: python2 CartesianClient.py 0 [pos x] [pos y] [pos z] [quat x] [quat y] [quat z] [quat w] [frame_id]')
+        exit()
+    elif my_namespace.type==1 and len(my_namespace.type_args)!=0:
+        print('Usage: python2 CartesianClient.py 1')
+        exit()
+    elif my_namespace.type==2 and len(my_namespace.type_args)!=4:
+        print('Usage: python2 CartesianClient.py 2 [vel x] [vel y] [vel z] [time t]')
+        exit()
+    elif my_namespace.type == 3 and len(my_namespace.type_args)!=0:
+        print('Usage: python2 CartesianClient.py 3')
+        exit()
+    elif my_namespace.type == 4 and len(my_namespace.type_args)!=0:
+        print('Usage: python2 CartesianClient.py 4')
+        exit()
+    elif my_namespace.type == 5 and len(my_namespace.type_args)!=0:
+        print('Usage: python2 CartesianClient.py 5')
         exit()
 
-
-    pos_x = float(sys.argv[1])
-    pos_y = float(sys.argv[2])
-    pos_z = float(sys.argv[3])
+    goal = vizzy_msgs.msg.CartesianGoal()
+    goal.end_effector_pose.header.frame_id = 'r_camera_vision_link'
+    if my_namespace.type == 0:
+        goal.type = vizzy_msgs.msg.CartesianGoal.CARTESIAN
+        #goal.end_effector_pose.header.frame_id = my_namespace.frame_id[0]
+        goal.end_effector_pose.pose.position.x = my_namespace.type_args[0]
+        goal.end_effector_pose.pose.position.y = my_namespace.type_args[1]
+        goal.end_effector_pose.pose.position.z = my_namespace.type_args[2]
+        if len(my_namespace.type_args) > 3:
+            goal.end_effector_pose.pose.orientation.x = my_namespace.type_args[3]
+            goal.end_effector_pose.pose.orientation.y = my_namespace.type_args[4]
+            goal.end_effector_pose.pose.orientation.z = my_namespace.type_args[5]
+            goal.end_effector_pose.pose.orientation.w = my_namespace.type_args[6]
+        else:
+            goal.end_effector_pose.pose.orientation.x = 0
+            goal.end_effector_pose.pose.orientation.y =0
+            goal.end_effector_pose.pose.orientation.z = 0
+            goal.end_effector_pose.pose.orientation.w = 1
+    elif my_namespace.type==1:
+        goal.type = vizzy_msgs.msg.CartesianGoal.HOME
+    elif my_namespace.type==2:
+        goal.type = vizzy_msgs.msg.CartesianGoal.VELOCITY
+        my_val=std_msgs.msg.Float32()
+        my_val.data = my_namespace.type_args[0]
+        goal.velocity.append(my_val)
+        my_val1=std_msgs.msg.Float32()
+        my_val1.data = my_namespace.type_args[1]
+        goal.velocity.append(my_val1)
+        my_val2=std_msgs.msg.Float32()
+        my_val2.data = my_namespace.type_args[2]
+        goal.velocity.append(my_val2)
+        my_val3=std_msgs.msg.Float32()
+        my_val3.data=my_namespace.type_args[3]
+        goal.duration = my_val3
+    elif my_namespace.type == 3:
+        goal.type = vizzy_msgs.msg.CartesianGoal.GRAB
+    elif my_namespace.type == 4:
+        goal.type = vizzy_msgs.msg.CartesianGoal.RELEASE
+    elif my_namespace.type == 5:
+        goal.type = vizzy_msgs.msg.CartesianGoal.PREEMPT
 
     
     rospy.init_node('cartesian_client')
@@ -28,15 +89,6 @@ def main():
     print('Waiting server...')
     client.wait_for_server()
     print('Found cartesian action server')
-
-    goal = vizzy_msgs.msg.CartesianGoal()
-    goal.type = vizzy_msgs.msg.CartesianGoal.CARTESIAN
-
-    #Qual e o referencial?? Nao tem header!
-    goal.end_effector_pose.position.x = pos_x
-    goal.end_effector_pose.position.y = pos_y
-    goal.end_effector_pose.position.z = pos_z
-    goal.end_effector_pose.orientation.w = 1.0
 
     client.send_goal(goal)
     client.wait_for_result()

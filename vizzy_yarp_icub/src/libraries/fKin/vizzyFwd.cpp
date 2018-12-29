@@ -92,7 +92,7 @@ void vizzyEye::allocate(const string &_type, const std::string &_root_link)
        5       0       0       Pi/2     Pi/2       -38/38  M5 → End-effector
        */
       pushLink(new iKinLink( 0, 	0,	M_PI/2.0,	0.0, -20.0*CTRL_DEG2RAD, 20.0*CTRL_DEG2RAD));//link1
-      pushLink(new iKinLink( 0, 	-0.37,	M_PI/2.0,	0.0, -53.0*CTRL_DEG2RAD, 53.0*CTRL_DEG2RAD));//link2
+      pushLink(new iKinLink( 0, 	-0.37,	M_PI/2.0,	0.0, -51.0*CTRL_DEG2RAD, 51.0*CTRL_DEG2RAD));//link2
       pushLink(new iKinLink( 0.13261, 	0, 	M_PI,		19.0*M_PI/17, -18.0*CTRL_DEG2RAD, 37.0*CTRL_DEG2RAD));//link3
       pushLink(new iKinLink( 0, 	0.1015,	M_PI/2.0,	-15.0*M_PI/17, -38.0*CTRL_DEG2RAD, 38.0*CTRL_DEG2RAD));//link4
       pushLink(new iKinLink( 0, 	0, 	M_PI/2.0,	-M_PI/2.0, -38.0*CTRL_DEG2RAD, 38.0*CTRL_DEG2RAD));//link5
@@ -111,7 +111,7 @@ void vizzyEye::allocate(const string &_type, const std::string &_root_link)
        5       0       0       Pi/2     Pi/2       -38/38  M5 → End-effector
        */
       pushLink(new iKinLink( 0, 0, M_PI/2.0, 0.0, -20.0*CTRL_DEG2RAD, 20.0*CTRL_DEG2RAD));//link1
-      pushLink(new iKinLink( 0, -0.37, M_PI/2.0, 0.0, -53.0*CTRL_DEG2RAD, 53.0*CTRL_DEG2RAD));//link2
+      pushLink(new iKinLink( 0, -0.37, M_PI/2.0, 0.0, -51.0*CTRL_DEG2RAD, 51.0*CTRL_DEG2RAD));//link2
       pushLink(new iKinLink( 0.13261, 0, M_PI, 19.0*M_PI/17, -18.0*CTRL_DEG2RAD, 37.0*CTRL_DEG2RAD));//link3
       pushLink(new iKinLink( 0, -0.1015, M_PI/2.0, -15.0*M_PI/17, -38.0*CTRL_DEG2RAD, 38.0*CTRL_DEG2RAD));//link4
       pushLink(new iKinLink( 0, 0, M_PI/2.0, -M_PI/2.0, -38.0*CTRL_DEG2RAD, 38.0*CTRL_DEG2RAD));//link5
@@ -264,7 +264,7 @@ void vizzyInertialSensor::allocate(const string &_type, const std::string &_root
      4       Pi/2    0       0.7389*Pi  0       0/0       Orientation correction
      */
     pushLink(new iKinLink(       0,      0,   M_PI/2.0,           0.0, -20.0*CTRL_DEG2RAD, 20.0*CTRL_DEG2RAD));//link1
-    pushLink(new iKinLink(       0,  -0.37,   M_PI/2.0,           0.0, -53.0*CTRL_DEG2RAD, 53.0*CTRL_DEG2RAD));//link2
+    pushLink(new iKinLink(       0,  -0.37,   M_PI/2.0,           0.0, -51.0*CTRL_DEG2RAD, 51.0*CTRL_DEG2RAD));//link2
     pushLink(new iKinLink( 0.13221,      0,       M_PI,  -0.2611*M_PI, -18.0*CTRL_DEG2RAD, 37.0*CTRL_DEG2RAD));//link3
 
     pushLink(new iKinLink(       0,      0,  M_PI/2.0,   0.7389*M_PI,                   0,                 0));//link4 (not a link)

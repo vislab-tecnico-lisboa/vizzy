@@ -12,8 +12,8 @@
   <arg name="launch_moveit" default="true"/>
   <arg name="slam" default="false"/>
   <arg name="map_frame" default="map" />
-  <arg name="base_frame_id" default="$(arg base_footprint" />
-  <arg name="odom_frame_id" default="$(arg odom" />
+  <arg name="base_frame_id" default="base_footprint" />
+  <arg name="odom_frame_id" default="odom" />
   <arg name="map_topic" default="/map" />
   <arg name="pedestrian_detection" default="false" />
   <arg name="use_moveit" default="false" />
