@@ -2,15 +2,19 @@
 uint8 CARTESIAN=0
 uint8 HOME=1
 uint8 VELOCITY=2
+uint8 GRAB=3
+uint8 RELEASE=4
+uint8 PREEMPT=5
 uint8 type
 
-geometry_msgs/Pose end_effector_pose
-
+geometry_msgs/PoseStamped end_effector_pose
+std_msgs/Float32[] velocity
+std_msgs/Float32 duration
 ---
 #result definition
 bool state_reached
-geometry_msgs/Pose end_effector_pose
+geometry_msgs/PoseStamped end_effector_pose
 ---
 #feedback
-geometry_msgs/Pose current_e_eff_pose
+geometry_msgs/PoseStamped current_e_eff_pose
 

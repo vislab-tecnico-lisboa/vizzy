@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<launch>
+<arg name="navigation" default="true"/>
+<arg name="left_arm_name" default="left_shoulder_arm" />
+
+    <!-- Launch Vizzy -->
+   <include file="$(find vizzy_launch)/launch/vizzy_real.launch">
+	  <arg name="navigation" value="$(arg navigation)"/>
+    </include>
+
+    <!-- Launch the web server -->
+    <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch">
+    </include>
+
+    <!-- Launch the nuance speech action client-->
+    <node pkg="vizzy_speech_servers" type="nuance_tts_action_server.py"
+	    name="nuance_speech_tts" output="screen">
+    </node>
+
+    <!-- Launch the cartesian server (left arm) -->
+    <!--  <node ns="/vizzy/left_arm_cartesian_controller" pkg="vizzy_control" type="cartesian_action_server" name="cartesian_action" output="screen">
+        <rosparam file="$(find vizzy_control)/param/left_arm_follow_traj.yaml"/>
+    </node> -->
+
+    <!-- Launch the ball tracker -->
+    <include file="$(find pf3d_tracker)/launch/pf3d_tracker.launch">
+        <arg name="image_in" default="/vizzy/l_camera/image_rect_color"/>
+        <arg name="camera_info" default="/vizzy/l_camera/camera_info"/>
+        <arg name="image_out" default="/vizzy/l_camera/ball_tracker"/>
+    </include>
+
+</launch>
