@@ -8,7 +8,8 @@ find_package(catkin REQUIRED
     sensor_msgs
     geometry_msgs
     nav2d_operator
-    dynamic_reconfigure)
+    dynamic_reconfigure
+    tf2)
 
   #add dynamic reconfigure api
  generate_dynamic_reconfigure_options(

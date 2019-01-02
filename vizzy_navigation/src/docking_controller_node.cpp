@@ -1,10 +1,7 @@
+/*Joao Avelino
+January 2019*/
+
 #include <docking_controller_ros.hpp>
-
-void callback(vizzy_navigation::DockingConfig &config, uint32_t level) {
-
-
-  
-}
 
 int main(int argc, char **argv)
 {
@@ -13,9 +10,15 @@ int main(int argc, char **argv)
 
   ros::NodeHandle nh;
   DockingControllerROS controllerROS(nh);
-  
-  
-  ros::spin();
+
+  ros::Rate sampling_hz(10);
+
+  while(ros::ok())
+  {
+    ros::spinOnce();
+    controllerROS.run();
+    sampling_hz.sleep();
+  }
 
 
   return 0;
