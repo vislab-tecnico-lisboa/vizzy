@@ -333,7 +333,7 @@ int main(int argc, char *argv[])
             double current_time;
             yWarning("Before position control timeout");
 	    yarp::math::Quaternion orientation;
-            double my_timeout=4.0;
+            double my_timeout=2.0;
             while (!motionDone_arm && my_timeout>0)
             {
                 //yWarning("Sending the arm to a pose");
