@@ -312,9 +312,17 @@ void GraspPanel::poseCallback(const geometry_msgs::PoseStamped::ConstPtr& msg)
   goal_pos_y_ = onBase.pose.position.y;
   goal_pos_z_ = onBase.pose.position.z;
 
-  goal_orient_x_ = 0.04;
-  goal_orient_y_ = -0.70;
-  goal_orient_z_ = 0.71;
+     if(selectedArm == 0)
+       {
+         goal_orient_x_ = 0.04;
+         goal_orient_y_ = -0.70;
+         goal_orient_z_ = 0.71;
+       }else{
+         goal_orient_x_ = 0.70;
+         goal_orient_y_ = -0.05;
+         goal_orient_z_ = 0.02;
+       }
+
 
 
   x_spin_->setValue(goal_pos_x_);
