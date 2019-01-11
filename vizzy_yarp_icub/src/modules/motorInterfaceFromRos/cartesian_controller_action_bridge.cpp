@@ -83,7 +83,7 @@ int main(int argc, char *argv[])
     VectorOf<int> jntArm;
     yarp::os::Subscriber<geometry_msgs_PoseStamped> pose_reading_port;
     StatusThread *pose_status_thread;
-    double home_joint_position[8];
+    double home_joint_position[11];
     double current_encoders[8];
     string robot = rf.find("robot").asString().c_str();
     string part = rf.find("part").asString().c_str();
@@ -91,7 +91,7 @@ int main(int argc, char *argv[])
     string local_port = rf.find("local").asString().c_str();
     double position_error_threshold = rf.find("position_error_threshold").asDouble();
     Bottle &grp1=rf.findGroup("home_joint_position");
-    for (int i=0; i<8; i++){
+    for (int i=0; i<11; i++){
         home_joint_position[i]=grp1.get(1+i).asDouble();
         std::cout << "Home joint position [" << i << "]: " << home_joint_position[i] << std::endl;
     }
@@ -127,12 +127,12 @@ int main(int argc, char *argv[])
     ok &= dd.view(iMode2);
     ok &= dd_torso.view(ipos_torso);
     ok &= dd_torso.view(iMode2_torso);
-    double part_speeds[8] = {12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 12.0};
+    double part_speeds[11] = {12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 20.0, 20.0, 20.0};
     ipos->setRefSpeeds(part_speeds);
     //cout << "Init four done!!" << endl;
     // open the view
     client.view(arm);
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < 11; i++)
         jntArm.push_back(i);
     Vector dof;
     arm->getDOF(dof);
@@ -310,7 +310,7 @@ int main(int argc, char *argv[])
             //BEGIN Setting the motor control in POSITION mode for each joint
             //--
             VectorOf<int> modes;
-            modes.resize(8, VOCAB_CM_POSITION);
+            modes.resize(11, VOCAB_CM_POSITION);
             //iMode2->setControlModes(jntArm.size(), jntArm.getFirst(), modes.getFirst());
 	    for (size_t n=0;n<11;n++){
 	      iMode2->setControlMode(n,VOCAB_CM_POSITION);
