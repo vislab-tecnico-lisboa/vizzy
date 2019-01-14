@@ -251,7 +251,7 @@ void GraspPanel::processFeedback( const visualization_msgs::InteractiveMarkerFee
       return;
     }
 
-    
+    goal_pos_x_ = onBase.pose.position.x; 
     goal_pos_y_ = onBase.pose.position.y;
     goal_pos_z_ = onBase.pose.position.z;
 
