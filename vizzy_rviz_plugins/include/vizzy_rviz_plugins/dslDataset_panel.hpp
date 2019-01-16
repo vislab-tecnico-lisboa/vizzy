@@ -17,6 +17,7 @@ December, 2018
 #include <QPushButton>
 #include <QGroupBox>
 #include <QLabel>
+#include <QComboBox>
 #include <QSpinBox>
 #include <QDoubleSpinBox>
 #include <memory.h>
@@ -50,23 +51,28 @@ class dslDatasetPanel: public rviz::Panel
 protected:
 
   // One-line text editor for entering the outgoing ROS action name.
-   QLineEdit* output_action_editor_;
-   // The current name of the output action.
-   QString output_action_;
+  QLineEdit* output_action_editor_;
+  // The current name of the output action.
+  QString output_action_;
 
   // One-line text editor for entering the outgoing ROS topic name.
-   QLineEdit* input_topic_editor_;
-   // The current name of the output topic.
-   QString input_topic_;
+  QLineEdit* input_topic_editor_;
+  // The current name of the output topic.
+  QString input_topic_;
    
 
   // The ROS publisher for the action command
-    ros::NodeHandle nh_;
-    ros::Subscriber goal_sub_;
+  ros::NodeHandle nh_;
+  ros::Subscriber goal_sub_;
 
   // ROS publisher to save dataset information
-    ros::Publisher infoPub;
-    std::shared_ptr<cartesian_client> ac;
+  ros::Publisher infoPub;
+  std::shared_ptr<cartesian_client> ac;
+
+  //Combo box to choose left or right arm
+  QComboBox *arm_combobox_;
+  QLabel *arm_label_;
+  int selectedArm;
 
 
 
@@ -155,6 +161,7 @@ public Q_SLOTS:
   void updateObjectName();
   void dumpParameters();
   void initializeParameters();
+  void updateArm();
   
 protected Q_SLOTS:
 

@@ -49,6 +49,11 @@ dslDatasetPanel::dslDatasetPanel(QWidget *parent)
   topic_layout->addWidget(input_topic_editor_ );
 
 
+  arm_combobox_ = new QComboBox;
+  arm_combobox_->addItem("Left", 0);
+  arm_combobox_->addItem("Right", 1);
+  arm_label_ = new QLabel(tr("Arm: "));
+
   //Initialize goal action to update the goal from other nodes (example: ball tracker)
   goal_sub_ = nh_.subscribe<geometry_msgs::PoseStamped>(input_topic_editor_->text().toStdString(), 1, &dslDatasetPanel::poseCallback, this);
 
@@ -78,7 +83,7 @@ dslDatasetPanel::dslDatasetPanel(QWidget *parent)
   repetition_spin_->setRange(1, 20);
 
   task_vel_spin_ = new QDoubleSpinBox();
-  task_vel_spin_->setRange(0, 0.10);
+  task_vel_spin_->setRange(-0.10, 0.10);
   task_vel_spin_->setSingleStep(0.01);
 
   location_spin_ = new QSpinBox();
@@ -106,7 +111,9 @@ dslDatasetPanel::dslDatasetPanel(QWidget *parent)
   controls_layout->addWidget(trial_spin_, 4, 1);
   controls_layout->addWidget(object_label_, 5, 0);
   controls_layout->addWidget(object_spin_, 5, 1);
-  controls_layout->addWidget(object_spin_, 5, 1);
+
+  controls_layout->addWidget(arm_label_, 6, 0);
+  controls_layout->addWidget(arm_combobox_,6 , 1);
   controls_layout->addWidget( new QLabel( "Object Name:" ));
   object_name_editor_ = new QLineEdit;
   object_name_editor_->setText("To Be Defined");
@@ -145,9 +152,13 @@ dslDatasetPanel::dslDatasetPanel(QWidget *parent)
   connect( object_spin_, SIGNAL( valueChanged(int) ), this, SLOT( updateObject() ));
   connect( object_name_editor_, SIGNAL( editingFinished() ), this, SLOT( updateObjectName() ));
 
+  connect(arm_combobox_, SIGNAL(currentIndexChanged(int)), this, SLOT(updateArm()));
+
+
   updateAction();
   updateTopic();
   initializeParameters();
+  updateArm();
 
   infoPub = nh_.advertise<vizzy_msgs::DslDataset>("datasetInfo", 100);
   csvfile.open("dsl-dataset.csv", std::ios_base::trunc);
@@ -158,13 +169,22 @@ dslDatasetPanel::dslDatasetPanel(QWidget *parent)
 void dslDatasetPanel::initializeParameters()
 {
 
-  goal_pos_x_ = -0.25;
-  goal_pos_y_ = -0.15;
-  goal_pos_z_ = 0.75;
-  goal_orient_x_ = 0;
-  goal_orient_y_ = 0;
-  goal_orient_z_ = 0;
-  goal_orient_w_ = 1;
+  if(selectedArm == 0) // left
+  {
+    goal_pos_x_ = -0.25;
+    goal_pos_y_ = -0.15;
+    goal_pos_z_ = 0.75;
+    goal_orient_x_ = 0.04;
+    goal_orient_y_ = -0.70;
+    goal_orient_z_ = 0.71;
+  }else{ // right
+    goal_pos_x_ = -0.25;
+    goal_pos_y_ = 0.15;
+    goal_pos_z_ = 0.75;
+    goal_orient_x_ = 0.70;
+    goal_orient_y_ = -0.05;
+    goal_orient_z_ = 0.02;
+  }
   ROS_WARN_STREAM("Initialize Parameters");
   duration_traj_ = 2.5;
   time_spin_->setValue(duration_traj_);
@@ -309,7 +329,7 @@ void dslDatasetPanel::recording()
   ROS_WARN_STREAM("System Call to record RosBag");
   std::string command;
   command = "rosbag record -O bags/dsl-dataset-trial_" + std::to_string(trial_);// + " --duration=10 /rosout &";
-  command += " --duration=20 /datasetInfo /vizzy/joint_states /tf /vizzy/l_camera/camera_info /vizzy/l_camera/image_raw /camera/asus_camera/depth/image_raw /vizzy/left_arm_cartesian_controll/cartesian_action/feedback &";
+  command += " --duration=20 /datasetInfo /vizzy/joint_states /tf /vizzy/l_camera/camera_info /vizzy/l_camera/image_raw/compressed /vizzy/r_camera/image_raw/compressed /camera/asus_camera/depth/image_raw /vizzy/left_arm_cartesian_controll/cartesian_action/feedback &";
 
   vizzy_msgs::DslDataset msg;
   msg.trial_id = trial_;
@@ -503,6 +523,21 @@ void dslDatasetPanel::load( const rviz::Config& config )
   {
     input_topic_editor_->setText( topic );
     updateTopic();
+  }
+}
+
+void dslDatasetPanel::updateArm()
+{
+  selectedArm = arm_combobox_->currentIndex();
+
+  if(selectedArm == 0)
+  {
+    output_action_editor_->setText("/vizzy/left_arm_cartesian_controller/cartesian_action");
+    updateAction();
+  }else
+  {
+    output_action_editor_->setText("/vizzy/right_arm_cartesian_controller/cartesian_action");
+    updateAction();
   }
 }
 
