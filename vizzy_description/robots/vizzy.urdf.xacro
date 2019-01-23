@@ -22,8 +22,8 @@
 
   <!-- Hokuyo URG-04LX laser scanner -->
   <xacro:include filename="$(find vizzy_description)/urdf/sensors/hokuyo_04lx_laser.urdf.xacro"/>
-  <!-- TODO: Update Asus Xiton Live Pro -->
-  <xacro:include filename="$(find vizzy_description)/urdf/sensors/asus_camera.urdf.xacro"/>
+  <!-- RealSense D435 -->
+  <xacro:include filename="$(find vizzy_description)/urdf/sensors/_d435.urdf.xacro"/>
 
   <!-- Robot body -->
 
@@ -96,10 +96,9 @@
 
   <!-- Instantiate depth camera -->
   <xacro:unless value="$(arg disable_3d_sensor)">
-    <xacro:sensor_asus_xtion_pro name="asus_camera" parent="waist_link"
-      ros_topic="asus_camera">
-      <origin xyz="-0.08 0.16 0.02" rpy="${-M_PI/2} ${M_PI} ${-7*(M_PI/180)}"/>
-    </xacro:sensor_asus_xtion_pro>
+    <xacro:sensor_d435 name="realsense" parent="waist_link">
+      <origin xyz="-0.09516 0.143 0.0" rpy="${-M_PI/2} ${M_PI} 0"/> <!-- In the drawing z=0.158!!!-->
+    </xacro:sensor_d435>
   </xacro:unless>
 
   <!-- Instantiate plugins common to ROS and Yarp -->

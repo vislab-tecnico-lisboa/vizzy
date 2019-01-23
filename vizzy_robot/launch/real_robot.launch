@@ -76,5 +76,10 @@
         <arg name="frame_rate" value="10"/>
         <arg name="camera_intrinsics_file" value="$(find vizzy_robot)/config/right_camera_params.yaml" />
       </include> 
+
+      <!-- Realsense -->
+      <include file="$(find realsense2_camera)/launch/rs_rgbd.launch">
+        <arg name="camera" value="realsense" />
+      </include> 
   </group>
 </launch>
