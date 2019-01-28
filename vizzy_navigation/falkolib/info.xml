@@ -1,0 +1,85 @@
+<?xml version='1.0'?>
+
+<project>
+        <name>FALKOLib</name>
+
+        <author>
+		<name>Fabjan Kallasi</name>
+		<url>http://rimlab.ce.unipr.it/Kallasi.html</url>
+	</author>
+        <author>
+		<name>Dario Lodi Rizzini</name>
+		<url>http://rimlab.ce.unipr.it/LodiRizzini.html</url>
+	</author>
+        <author>
+		<name>Stefano Caselli</name>
+		<url>http://rimlab.ce.unipr.it/Caselli.html</url>
+	</author>
+
+        <url>http://rimlab.ce.unipr.it/</url>
+
+        <briefdescription>
+         FALKOLib is a library containing keypoint detectors for the stable detection 
+         of interest points in laser measurements and two descriptors for robust associations.
+	</briefdescription>
+
+        <description>
+         Detecting features in sensor measurements and distinguishing among 
+         them is an important capability for robot localization and navigation. 
+         Despite the wide diffusion of range finders, there are few works 
+         on keypoint features for 2D LIDAR and there is potential for improvement 
+         over the existing methods. 
+         We propose two novel keypoint detectors for the stable detection of 
+         interest points in laser measurements (named FALKO and OC) 
+         and two descriptors for robust associations (named BSC and CGH). 
+         The features defined by combining keypoints and descriptors allow 
+         stable and efficient place recognition. 
+	</description>
+
+        <requirement>
+         Developed and tested under Linux (tested with GCC >= 4.8). 
+         Library dependencies: Eigen 3.0, Boost.
+         CMake is needed for building. 
+	</requirement>
+	<map>feature maps</map>
+
+	<input>The approach takes raw laser range data. 
+         Laser scans with higher resolution (0.25 deg) enables richer description of the environment.
+         Odometry can be used for testing the association between features 
+        </input>
+
+	<logformat> 
+	 Carmen log format. Raw scan data. 
+	</logformat>
+
+	<image> 
+		<url>http://rimlab.ce.unipr.it/img/falko-bsc.png</url>
+		<description>Example of feature association with FALKO detector and BSC descriptors.</description>
+		<url>http://rimlab.ce.unipr.it/img/intel-lab-falko-map.png</url>
+		<description>Example of FALKO keypoint (red points) extraction in intel-lab dataset</description>
+	</image>
+
+	<paper>
+		<title>Fast Keypoint Features from Laser Scanner for Robot Localization and Mapping</title>
+		<authorlist>F. Kallasi, D. Lodi Rizzini, and S. Caselli.</authorlist>
+		<publishedin>IEEE Robotics and Automation Letters (RA-L), 1(1):176-183</publishedin>
+		<year>2016</year>
+		<url>http://dx.doi.org/10.1109/LRA.2016.2517210</url>
+	</paper>
+
+<!--	<paper>-->
+<!--		<title>Efficient Loop Closure based on FALKO LIDAR Features for Online Robot Localization and Mapping</title>-->
+<!--		<authorlist>F. Kallasi and D. Lodi Rizzini.</authorlist>-->
+<!--		<publishedin>Subimitted to IEEE/RSJ Int. Conf. on Intelligent Robots and Systems (IROS)</publishedin>-->
+<!--		<year>2016</year>-->
+<!--	</paper>-->
+
+	<license>FALKOLib is licenced under the Creative Commons
+	(Attribution-NonCommercial-ShareAlike).</license>
+
+	<furthermore>
+         FALKOLib is designed as a stand-alone library that can be included in your projects. 
+         For any questions, comments or installation problems please contact either kallasi@ce.unipr.it or dlr@ce.unipr.it.
+	</furthermore>
+	 
+</project>
