@@ -11,12 +11,16 @@ find_package(catkin REQUIRED
     geometry_msgs
     nav2d_operator
     dynamic_reconfigure
-    tf2)
+    tf2
+    interactive_markers
+    visualization_msgs)
 
   #add dynamic reconfigure api
  generate_dynamic_reconfigure_options(
   cfg/Docking.cfg
  )
+
+find_package(yaml-cpp)
 
 find_package(Boost)  
 if (${Boost_FOUND})

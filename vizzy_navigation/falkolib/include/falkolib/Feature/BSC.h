@@ -17,6 +17,8 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with FALKOLib.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+/*Changed by Joao Avelino. I need to load the grid from a file, so all fields are now public*/
 #pragma once
 
 #include <falkolib/Feature/Descriptor.h>
@@ -67,7 +69,7 @@ namespace falkolib {
 		 */
 		void compute(std::vector<Point2d>& neigh, int centralPointIndex);
 		
-	private:
+
 		std::vector<std::vector<uint8_t> > grid;
 		int circularSectorNumber;
 		int radialRingNumber;
