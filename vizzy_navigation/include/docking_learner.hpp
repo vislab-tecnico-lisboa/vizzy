@@ -1,3 +1,6 @@
+/*Copyright 2019, Joao Avelino, All rights reserved.*/
+
+
 #ifndef DOCKING_LEARNER_HPP_
 #define DOCKING_LEARNER_HPP_
 
@@ -13,9 +16,26 @@
 #include <falkolib/Matching/NNMatcher.h>
 #include <exception>
 #include <deque>
+#include <interactive_markers/interactive_marker_server.h>
+#include <visualization_msgs/MarkerArray.h>
+#include <visualization_msgs/Marker.h>
+#include <fstream>
+#include <iostream>
 
-#include <falkolib/Feature/OCExtractor.h>
-#include <falkolib/Feature/OC.h>
+#define RED 0
+#define GREEN 1
+
+class FalkoBSCKeypoint
+{
+    public:
+    FalkoBSCKeypoint() : descriptor(0.0, 0, 0){};
+    std::string name;
+    falkolib::FALKO keypoint;
+    falkolib::BSC descriptor;
+};
+
+
+
 
 
 class DockingLearner
@@ -25,23 +45,33 @@ private:
     tf2_ros::Buffer tfBuffer_;
     tf2_ros::TransformListener tfListener_;
     ros::Subscriber laser_sub_;
-    ros::Publisher points_pub_;
-    ros::Publisher oc_pub_;
     ros::Publisher debug_pub_;
+
+    //Marker stuff
+    interactive_markers::InteractiveMarkerServer *markerServer;
+    visualization_msgs::InteractiveMarker keyPointMarker;
+    visualization_msgs::InteractiveMarker saveMarker;
+    visualization_msgs::InteractiveMarker fixedLandmark;
+
+    /*Databases of keypoints*/
+    std::vector<FalkoBSCKeypoint> keypointsDetected;
+    std::vector<FalkoBSCKeypoint> keypointsDatabase;
 
     std::deque<std::vector<double> > scan_buffer_;
     int scan_buffer_max = 1;
     int scan_buffer_size = 0;
 
     falkolib::FALKOExtractor fe_;
-    falkolib::OCExtractor oce_;
     falkolib::BSCExtractor<falkolib::FALKO> bsc_;
     falkolib::NNMatcher<falkolib::FALKO, falkolib::BSC> matcherFALKOBSC_;
 
 public:
+    void markerFeedback(const visualization_msgs::InteractiveMarkerFeedbackConstPtr &feedback);
+    void saveMarkerFeedback(const visualization_msgs::InteractiveMarkerFeedbackConstPtr &feedback);
     void laserCallback(const boost::shared_ptr<const sensor_msgs::LaserScan>& scan);
+    void addKeypointsInteractive(std::vector<FalkoBSCKeypoint> keypointslist, int color);
     DockingLearner(ros::NodeHandle nh);
-    ~DockingLearner(){};
+    ~DockingLearner();
 
     
     

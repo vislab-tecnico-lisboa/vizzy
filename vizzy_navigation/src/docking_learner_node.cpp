@@ -1,5 +1,4 @@
-/*Joao Avelino
-January 2019*/
+/*Copyright 2019, Joao Avelino, All rights reserved.*/
 
 /*This node creates a model of meaningful 2D LIDAR features for the docking station*/
 

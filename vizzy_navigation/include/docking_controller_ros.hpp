@@ -1,5 +1,4 @@
-/*Joao Avelino
-January 2019*/
+/*Copyright 2019, Joao Avelino, All rights reserved.*/
 
 #ifndef DOCKING_CONTROLLER_ROS_HPP_
 #define DOCKING_CONTROLLER_ROS_HPP_

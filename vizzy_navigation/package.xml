@@ -27,6 +27,8 @@
   <build_depend>nav2d_operator_msgs</build_depend>
   <build_depend>dynamic_reconfigure</build_depend>
   <build_depend>tf2</build_depend>  
+  <build_depend>interactive_markers</build_depend>
+  <build_depend>visualization_msgs</build_depend>
   <run_depend>dynamic_reconfigure</run_depend>
   <run_depend>amcl</run_depend>
   <run_depend>nav2d_operator</run_depend>
@@ -40,4 +42,6 @@
   <run_depend>geometry_msgs</run_depend>
   <run_depend>sensor_msgs</run_depend>
   <run_depend>tf2</run_depend>
+  <run_depend>interactive_markers</run_depend>
+  <run_depend>visualization_msgs</run_depend>
 </package>
