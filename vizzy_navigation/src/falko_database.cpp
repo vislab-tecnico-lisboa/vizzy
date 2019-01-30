@@ -42,11 +42,6 @@ YAML::Emitter& operator<< (YAML::Emitter& out, const FalkoBSCKeypoint& v)
     out << YAML::EndMap;
 }
 
-YAML::Emitter& operator<< (YAML::Emitter& out, const std::vector<FalkoBSCKeypoint>& v)
-{
-    out << YAML::BeginMap;
-    out << YAML::Key << "name";
-}
 
 void saveModel(std::string& config_file, std::vector<FalkoBSCKeypoint>& model)
 {
@@ -55,6 +50,9 @@ void saveModel(std::string& config_file, std::vector<FalkoBSCKeypoint>& model)
     out << YAML::Key << "model";
     out << YAML::Value << model;
     out << YAML::EndMap;
+    std::ofstream fout(config_file);
+    fout << out.c_str();
+
 
 }
 
