@@ -79,7 +79,7 @@ void loadModel(std::string& config_file, std::vector<falkolib::FALKO>& keypoints
 
         keypoint.point = falkolib::Point2d(x, y);
 
-
+        keypoints.push_back(keypoint);
 
         //Load descriptor
 

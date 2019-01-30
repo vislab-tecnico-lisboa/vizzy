@@ -27,6 +27,8 @@ private:
     ros::NodeHandle nh_;
     tf2_ros::Buffer tfBuffer_;
     tf2_ros::TransformListener tfListener_;
+    ros::Subscriber laser_sub_;
+    ros::Publisher docking_pub_;
 
     std::vector<falkolib::FALKO> model_keypoints_;
     std::vector<falkolib::BSC> model_descriptors_;
