@@ -8,6 +8,7 @@
 #include <falkolib/Feature/BSC.h>
 #include <falkolib/Feature/FALKO.h>
 #include <yaml-cpp/yaml.h>
+#include <fstream>
 
 class FalkoBSCKeypoint
 {

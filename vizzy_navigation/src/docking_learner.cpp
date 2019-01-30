@@ -303,7 +303,7 @@ DockingLearner::DockingLearner(ros::NodeHandle nh) : nh_(nh), tfBuffer_(), tfLis
 
     std::vector<falkolib::FALKO> keypoints;
     std::vector<falkolib::BSC> descriptors;
-    loadModel(_config_file, keypoints, descriptors);
+ /*   loadModel(_config_file, keypoints, descriptors);
     
     std::cout << "DEBUG: " << descriptors.size() << std::endl;
 
@@ -321,7 +321,7 @@ DockingLearner::DockingLearner(ros::NodeHandle nh) : nh_(nh), tfBuffer_(), tfLis
             std::cout << std::endl;
         }
     }
-
+*/
 }
 
 
