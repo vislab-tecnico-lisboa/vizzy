@@ -94,6 +94,7 @@ target_link_libraries(docking_learner
   ${Boost_LIBRARIES}
   ${catkin_LIBRARIES}
   falkolib
+  yaml-cpp
 )
 
 foreach(dir config launch rviz)
