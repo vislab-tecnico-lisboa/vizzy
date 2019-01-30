@@ -19,21 +19,13 @@
 #include <interactive_markers/interactive_marker_server.h>
 #include <visualization_msgs/MarkerArray.h>
 #include <visualization_msgs/Marker.h>
+#include <yaml-cpp/yaml.h>
 #include <fstream>
 #include <iostream>
+#include <falko_database>
 
 #define RED 0
 #define GREEN 1
-
-class FalkoBSCKeypoint
-{
-    public:
-    FalkoBSCKeypoint() : descriptor(0.0, 0, 0){};
-    std::string name;
-    falkolib::FALKO keypoint;
-    falkolib::BSC descriptor;
-};
-
 
 
 
