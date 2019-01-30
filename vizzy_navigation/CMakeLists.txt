@@ -89,7 +89,7 @@ target_link_libraries(docking_controller
 add_dependencies(docking_controller ${PROJECT_NAME}_gencfg)
 
 
-add_executable(docking_learner src/docking_learner.cpp src/docking_learner_node.cpp)
+add_executable(docking_learner src/docking_learner.cpp src/docking_learner_node.cpp src/falko_database.cpp)
 target_link_libraries(docking_learner
   ${Boost_LIBRARIES}
   ${catkin_LIBRARIES}

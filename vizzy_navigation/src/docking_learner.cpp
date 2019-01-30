@@ -2,6 +2,10 @@
 
 #include <docking_learner.hpp>
 
+
+
+
+
 void DockingLearner::addKeypointsInteractive(std::vector<FalkoBSCKeypoint> keypointslist, int color)
 {
     if(color == GREEN)
@@ -100,8 +104,7 @@ void DockingLearner::saveMarkerFeedback(const visualization_msgs::InteractiveMar
     if(feedback->event_type == visualization_msgs::InteractiveMarkerFeedback::BUTTON_CLICK)
     {
         ROS_INFO("Saving Model");
-        std::ofstream fout("model.dat", std::ios::out | std::ios::binary);
-
+        saveModel(_config_file, keypointsDatabase);
     }
 }
 
@@ -220,6 +223,11 @@ void DockingLearner::laserCallback(const boost::shared_ptr<const sensor_msgs::La
 DockingLearner::DockingLearner(ros::NodeHandle nh) : nh_(nh), tfBuffer_(), tfListener_(tfBuffer_), bsc_(16, 8)
 {
 
+    std::stringstream ss;
+    ss << ros::package::getPath("vizzy_navigation");
+    ss << "/config/docking_model.yaml";
+    _config_file = ss.str();
+
     laser_sub_ = nh_.subscribe<sensor_msgs::LaserScan>("/scan_filtered_rear", 1, &DockingLearner::laserCallback, this);
     debug_pub_ = nh_.advertise<sensor_msgs::LaserScan>("laser_filtered", 1);
 
@@ -289,6 +297,30 @@ DockingLearner::DockingLearner(ros::NodeHandle nh) : nh_(nh), tfBuffer_(), tfLis
     clickKeypoint.markers.push_back(keyPoint);
     clickKeypoint.interaction_mode = visualization_msgs::InteractiveMarkerControl::BUTTON;
     keyPointMarker.controls.push_back(clickKeypoint);
+
+
+    //Testing
+
+    std::vector<falkolib::FALKO> keypoints;
+    std::vector<falkolib::BSC> descriptors;
+    loadModel(_config_file, keypoints, descriptors);
+    
+    std::cout << "DEBUG: " << descriptors.size() << std::endl;
+
+    for(auto& desc : descriptors)
+    {   
+        std::cout << "----" << std::endl;
+        std::cout << "descriptor.ringResolution: " << desc.ringResolution << std::endl;
+        
+        for(auto& i : desc.grid)
+        {
+            for(auto& j : i)
+            {
+                std::cout << int(j) << " ";
+            }
+            std::cout << std::endl;
+        }
+    }
 
 }
 
