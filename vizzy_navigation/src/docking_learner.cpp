@@ -3,9 +3,6 @@
 #include <docking_learner.hpp>
 
 
-
-
-
 void DockingLearner::addKeypointsInteractive(std::vector<FalkoBSCKeypoint> keypointslist, int color)
 {
     if(color == GREEN)
@@ -303,25 +300,7 @@ DockingLearner::DockingLearner(ros::NodeHandle nh) : nh_(nh), tfBuffer_(), tfLis
 
     std::vector<falkolib::FALKO> keypoints;
     std::vector<falkolib::BSC> descriptors;
- /*   loadModel(_config_file, keypoints, descriptors);
-    
-    std::cout << "DEBUG: " << descriptors.size() << std::endl;
 
-    for(auto& desc : descriptors)
-    {   
-        std::cout << "----" << std::endl;
-        std::cout << "descriptor.ringResolution: " << desc.ringResolution << std::endl;
-        
-        for(auto& i : desc.grid)
-        {
-            for(auto& j : i)
-            {
-                std::cout << int(j) << " ";
-            }
-            std::cout << std::endl;
-        }
-    }
-*/
 }
 
 
