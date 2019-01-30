@@ -22,7 +22,9 @@
 #include <yaml-cpp/yaml.h>
 #include <fstream>
 #include <iostream>
-#include <falko_database>
+#include <falko_database.hpp>
+#include <ros/package.h>
+
 
 #define RED 0
 #define GREEN 1
@@ -58,15 +60,16 @@ private:
     falkolib::NNMatcher<falkolib::FALKO, falkolib::BSC> matcherFALKOBSC_;
 
 public:
+
+    std::string _config_file;
+
     void markerFeedback(const visualization_msgs::InteractiveMarkerFeedbackConstPtr &feedback);
     void saveMarkerFeedback(const visualization_msgs::InteractiveMarkerFeedbackConstPtr &feedback);
     void laserCallback(const boost::shared_ptr<const sensor_msgs::LaserScan>& scan);
     void addKeypointsInteractive(std::vector<FalkoBSCKeypoint> keypointslist, int color);
     DockingLearner(ros::NodeHandle nh);
     ~DockingLearner();
-
-    
-    
+ 
 
 };
 
