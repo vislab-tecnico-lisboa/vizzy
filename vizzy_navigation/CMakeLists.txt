@@ -97,6 +97,14 @@ target_link_libraries(docking_learner
   yaml-cpp
 )
 
+add_executable(docking_estimator src/docking_estimator.cpp src/docking_estimator_node.cpp src/falko_database.cpp)
+target_link_libraries(docking_estimator
+  ${Boost_LIBRARIES}
+  ${catkin_LIBRARIES}
+  falkolib
+  yaml-cpp
+)
+
 foreach(dir config launch rviz)
   install(DIRECTORY ${dir}/ 
     DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/${dir})
