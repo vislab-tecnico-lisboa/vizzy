@@ -14,6 +14,8 @@ int main(int argc, char **argv)
 
   ros::Rate sampling_hz(10);
 
+  dockingLearner.enable();
+
   while(ros::ok())
   {
     ros::spinOnce();

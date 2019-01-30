@@ -10,14 +10,28 @@ DockingEstimator::DockingEstimator(ros::NodeHandle nh) : nh_(nh), tfBuffer_(), t
     ss << "/config/docking_model.yaml";
     _config_file = ss.str();
 
+    std::cout << "_config_file: " << _config_file << std::endl;
+    
+
     //Load the model
     loadModel(_config_file, model_keypoints_, model_descriptors_);
+
+    std::cout << "model_keypoints_ size: " << model_keypoints_.size() << std::endl;
+    std::cout << "model_descriptors_ size: " << model_descriptors_.size() << std::endl;
+
+
+    //Subscribe the laser
+    laser_sub_ = nh_.subscribe<sensor_msgs::LaserScan>("/scan_filtered_rear", 1, &DockingEstimator::laserCallback, this);
+
+    //Publish the position 
+    docking_pub_ = nh_.advertise<geometry_msgs::PoseStamped>("/docking_pose", 1);
 
 }
 
 void DockingEstimator::laserCallback(const boost::shared_ptr<const sensor_msgs::LaserScan>& scan)
 {
-    
+
+
     if(!enabled_)
         return;
     
@@ -52,7 +66,7 @@ void DockingEstimator::laserCallback(const boost::shared_ptr<const sensor_msgs::
     std::vector<falkolib::BSC> bscDesc;
     bsc_.compute(scan_falco, extractedKeypoints, bscDesc);
 
-    matcherFALKOBSC_.setDistanceThreshold(0.1);
+    matcherFALKOBSC_.setDistanceThreshold(2.0);
     matcherFALKOBSC_.setDescriptorThreshold(15);
 
     //Associate points with the model points
@@ -61,9 +75,49 @@ void DockingEstimator::laserCallback(const boost::shared_ptr<const sensor_msgs::
 
     //Compute the transform between points
     Eigen::Affine2d transformNN;
+
+    
     falkolib::computeTransform(extractedKeypoints, model_keypoints_, asso, transformNN);
 
-    std::cout << transformNN.inverse().matrix() << std::endl;
 
+    //Convert Eigen to geometry_msgs
+
+    double xx, xy, xz, yx, yy, yz, zx, zy, zz;
+    double tx, ty, tz;
+
+    auto m = transformNN.matrix();
+
+    xx = m(0,0); xy = m(0,1); xz = 0;
+    yx = m(1,0); yy = m(1,1); yz = 0;
+    zx = 0; zy = 0; zz = 1;
+    
+    tx = m(0,2);
+    ty = m(1,2);
+    tz = 0;
+
+    tf2::Matrix3x3 tm(xx, xy, xz, yx, yy, yz, zx, zy, zz);
+    tf2::Vector3 translation(tx, ty, tz);
+    tf2::Transform transform(tm, translation);
+
+    geometry_msgs::Transform docking_poseTF;
+    docking_poseTF = tf2::toMsg(transform);
+
+    geometry_msgs::TransformStamped dpTFStamped;
+    
+    dpTFStamped.transform = docking_poseTF;
+    
+    //Transform the [0, 0, 0] point
+    geometry_msgs::PoseStamped pose;
+    pose.pose.position.x = 0;
+    pose.pose.position.y = 0;
+    pose.pose.position.z = 0;
+    pose.pose.orientation.w = 1;
+
+    geometry_msgs::PoseStamped onLaser;
+
+    tf2::doTransform(pose, onLaser, dpTFStamped);
+    onLaser.header.frame_id = "nav_hokuyo_rear_laser_link";
+
+    docking_pub_.publish(onLaser);
 
 }
