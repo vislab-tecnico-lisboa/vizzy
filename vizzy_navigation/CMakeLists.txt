@@ -64,6 +64,7 @@ falkolib/src/Feature/FALKOExtractor.cpp
 falkolib/src/Feature/OCExtractor.cpp
 falkolib/src/Feature/CGH.cpp
 falkolib/src/Feature/BSC.cpp
+falkolib/EXTERNAL/mcqd/mcqd.cpp
 )
 
 ## Declare a cpp executable

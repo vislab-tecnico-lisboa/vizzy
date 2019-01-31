@@ -166,6 +166,7 @@ void DockingLearner::laserCallback(const boost::shared_ptr<const sensor_msgs::La
 
     //Extract the FALKO keypoints 
     std::vector<falkolib::FALKO> extractedKeypoints;
+    
     fe_.extract(scan_falco, extractedKeypoints);
 
     //Extract the descriptors
@@ -217,7 +218,7 @@ void DockingLearner::laserCallback(const boost::shared_ptr<const sensor_msgs::La
 
 }
 
-DockingLearner::DockingLearner(ros::NodeHandle nh) : nh_(nh), tfBuffer_(), tfListener_(tfBuffer_), bsc_(16, 8)
+DockingLearner::DockingLearner(ros::NodeHandle nh) : nh_(nh), tfBuffer_(), tfListener_(tfBuffer_), bsc_(32, 16)
 {
 
     std::stringstream ss;

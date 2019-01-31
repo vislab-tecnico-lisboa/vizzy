@@ -52,7 +52,7 @@ private:
     std::vector<FalkoBSCKeypoint> keypointsDatabase;
 
     std::deque<std::vector<double> > scan_buffer_;
-    int scan_buffer_max = 45;
+    int scan_buffer_max = 1;
     int scan_buffer_size = 0;
 
     falkolib::FALKOExtractor fe_;

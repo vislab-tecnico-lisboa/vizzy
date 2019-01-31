@@ -2,7 +2,7 @@
 
 #include <docking_estimator.hpp>
 
-DockingEstimator::DockingEstimator(ros::NodeHandle nh) : nh_(nh), tfBuffer_(), tfListener_(tfBuffer_), bsc_(16, 8)
+DockingEstimator::DockingEstimator(ros::NodeHandle nh) : nh_(nh), tfBuffer_(), tfListener_(tfBuffer_), bsc_(32, 16)
 {
 
     std::stringstream ss;
@@ -64,10 +64,12 @@ void DockingEstimator::laserCallback(const boost::shared_ptr<const sensor_msgs::
 
     //Extract the descriptors
     std::vector<falkolib::BSC> bscDesc;
+
     bsc_.compute(scan_falco, extractedKeypoints, bscDesc);
 
-    matcherFALKOBSC_.setDistanceThreshold(2.0);
-    matcherFALKOBSC_.setDescriptorThreshold(15);
+    matcherFALKOBSC_.setDistanceThreshold(1.0);
+    matcherFALKOBSC_.setDescriptorThreshold(16);
+
 
     //Associate points with the model points
     std::vector<std::pair<int, int> > asso;
@@ -78,6 +80,17 @@ void DockingEstimator::laserCallback(const boost::shared_ptr<const sensor_msgs::
 
     
     falkolib::computeTransform(extractedKeypoints, model_keypoints_, asso, transformNN);
+
+
+    std::cout << "Number of associations: " << asso.size() << std::endl;
+
+	for (auto& match : asso) {
+		if (match.second >= 0) {
+			int i1 = match.first;
+			int i2 = match.second;
+			std::cout << "i1: " << i1 << "\ti2: " << i2 << "\t keypoints distance: " << (extractedKeypoints[i1].distance(model_keypoints_[i2])) << std::endl;
+		}
+	}
 
 
     //Convert Eigen to geometry_msgs
