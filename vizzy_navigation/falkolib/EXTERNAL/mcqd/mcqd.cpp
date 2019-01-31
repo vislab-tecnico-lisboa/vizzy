@@ -27,7 +27,7 @@
 #include <string.h>
 #include <map>
 #include <assert.h>
-#include <emotion/3rdparty/mcqd.h>
+#include <mcqd/mcqd.h>
 
 using namespace std;
 namespace mcqd_falko{
