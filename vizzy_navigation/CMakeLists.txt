@@ -13,7 +13,8 @@ find_package(catkin REQUIRED
     dynamic_reconfigure
     tf2
     interactive_markers
-    visualization_msgs)
+    visualization_msgs
+    eigen_conversions)
 
   #add dynamic reconfigure api
  generate_dynamic_reconfigure_options(
@@ -21,6 +22,8 @@ find_package(catkin REQUIRED
  )
 
 find_package(yaml-cpp)
+find_package(PCL REQUIRED)
+include_directories(${PCL_INCLUDE_DIRS})
 
 find_package(Boost)  
 if (${Boost_FOUND})
@@ -98,10 +101,11 @@ target_link_libraries(docking_learner
   yaml-cpp
 )
 
-add_executable(docking_estimator src/docking_estimator.cpp src/docking_estimator_node.cpp src/falko_database.cpp)
+add_executable(docking_estimator src/docking_estimator.cpp src/docking_estimator_node.cpp src/falko_database.cpp src/pattern_pose_estimation.cpp)
 target_link_libraries(docking_estimator
   ${Boost_LIBRARIES}
   ${catkin_LIBRARIES}
+  ${PCL_LIBRARIES}
   falkolib
   yaml-cpp
 )
