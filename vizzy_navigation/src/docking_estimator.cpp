@@ -69,7 +69,7 @@ void DockingEstimator::laserCallback(const boost::shared_ptr<const sensor_msgs::
         return;
     }
 
-    geometry_msgs::PoseStamped onLaser;
+    
     tf::poseEigenToMsg (transformNN, onLaser.pose);
 
     onLaser.header = scan->header;
@@ -79,4 +79,9 @@ void DockingEstimator::laserCallback(const boost::shared_ptr<const sensor_msgs::
     pattern_pose_estimation->cloud_output_subsampled->header.frame_id=scan->header.frame_id;
     pcl_conversions::toPCL(scan->header, pattern_pose_estimation->cloud_output_subsampled->header);
     model_pub_.publish(pattern_pose_estimation->cloud_output_subsampled);
+}
+
+geometry_msgs::PoseStamped DockingEstimator::getPatternPose()
+{
+    return onLaser;
 }

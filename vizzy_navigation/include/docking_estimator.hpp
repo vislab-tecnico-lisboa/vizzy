@@ -28,6 +28,7 @@ class DockingEstimator
 	    ros::Subscriber laser_sub_;
 	    ros::Publisher docking_pub_;
 	    ros::Publisher model_pub_;
+		geometry_msgs::PoseStamped onLaser;
 
 	    std::string _config_file;
 	    bool enabled_ = false;
@@ -38,6 +39,7 @@ class DockingEstimator
     	    pcl::PointCloud<pcl::PointNormal>::Ptr cloud_normals;
 
 	public:
+		geometry_msgs::PoseStamped getPatternPose();
 	    DockingEstimator(ros::NodeHandle nh);
 	    ~DockingEstimator(){};
 	    void laserCallback(const boost::shared_ptr<const sensor_msgs::LaserScan>& scan);
