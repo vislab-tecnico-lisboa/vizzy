@@ -24,6 +24,29 @@
       <real_time_update_rate>1000.000000</real_time_update_rate>
       <max_step_size>0.002000</max_step_size>
     </physics>
+    <model name="docking_base">
+      <link name="docking_pattern">
+        <pose>2.0 0 0 0 0 0</pose>
+        <collision name="docking_pattern_collision">
+          <geometry>
+            <mesh>
+              <uri>model://media/models/docking_pattern/meshes/models/docking_pattern.stl</uri>
+              <scale>1 1 1</scale>
+            </mesh>
+          </geometry>
+        </collision>
+        <visual name="docking_pattern_visual">
+          <geometry>
+            <mesh>
+              <uri>model://media/models/docking_pattern/meshes/models/docking_pattern.stl</uri>
+              <scale>1 1 1</scale>
+            </mesh>
+          </geometry>
+          <cast_shadows>false</cast_shadows>
+        </visual>
+      </link>
+      <static>true</static>
+    </model>
     <model name="7thmap">
       <pose>9 -10 0  0 0 0</pose>
       <static>true</static>
