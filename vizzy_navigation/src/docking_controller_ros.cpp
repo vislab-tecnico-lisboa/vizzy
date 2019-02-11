@@ -54,6 +54,29 @@ void DockingControllerROS::goalCallback(const geometry_msgs::PoseStamped::ConstP
 
 }
 
+void DockingControllerROS::updateGoal(geometry_msgs::PoseStamped& goal)
+{
+
+    docking_ctrl::Pose2D goalPose = makeTransform(goal, common_frame_);
+    controller_.updateGoal(goalPose);
+    last_update_ = goal.header.stamp;
+    controller_.running_ = true;
+
+}
+
+double DockingControllerROS::getDistanceError()
+{
+  return controller_.rho_;
+}
+
+
+double DockingControllerROS::getOrientationError()
+{
+  return controller_.beta_;
+}
+
+
+
 DockingControllerROS::~DockingControllerROS(){}
 
 void DockingControllerROS::dynamic_rec_callback(vizzy_navigation::DockingConfig &config, uint32_t level)
@@ -65,6 +88,21 @@ void DockingControllerROS::dynamic_rec_callback(vizzy_navigation::DockingConfig 
   controller_.updateGains(config.k_ro, config.k_alpha, config.k_beta);
   controller_.updateSaturations(config.lin_vel_sat, config.ang_vel_sat);
 }
+
+void DockingControllerROS::disableControl()
+{
+  controller_.running_ = false;
+  geometry_msgs::Twist cmd_vel;
+  cmd_vel.linear.x = 0;
+  cmd_vel.angular.z = 0;
+  pub_.publish(cmd_vel);
+}
+
+void DockingControllerROS::enableControl()
+{
+  controller_.running_ = true;
+}
+
 
 void DockingControllerROS::run()
 {
