@@ -17,7 +17,7 @@ void ChargingActionServer::goalCallback()
   if(goal->goal == vizzy_navigation::ChargeGoal::CHARGE)
   {
       ROS_INFO("Received new goal: Charge!");
-/*
+
       //Navigate to docking station
       feedback.state = feedback.NAVIGATING_TO_STATION;
       as_.publishFeedback(feedback);
@@ -25,7 +25,7 @@ void ChargingActionServer::goalCallback()
       ROS_INFO("Navigating to docking station");
       move_base_client_.sendGoal(goal_msg);
       
-      //move_base_client_.waitForResult();
+      move_base_client_.waitForResult();
       
 
       if(move_base_client_.getState() == actionlib::SimpleClientGoalState::SUCCEEDED)
@@ -39,7 +39,7 @@ void ChargingActionServer::goalCallback()
           as_.setAborted(result);
           return;
        }
-*/
+
       //Search for pattern
       feedback.state = feedback.SEARCHING_PATTERN;
       as_.publishFeedback(feedback);
@@ -122,7 +122,7 @@ void ChargingActionServer::goalCallback()
       controller_.disableControl();
       estimator_.disable();
 
-      return;
+
 
       //Docking
       feedback.state = feedback.DOCKING;
