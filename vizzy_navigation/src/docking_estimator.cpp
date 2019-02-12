@@ -42,8 +42,11 @@ DockingEstimator::DockingEstimator(ros::NodeHandle nh) :
 
 void DockingEstimator::laserCallback(const boost::shared_ptr<const sensor_msgs::LaserScan>& scan)
 {
+
     if(!enabled_)
         return;
+    
+    
 
     // Convert to pcl
     laser_geometry::LaserProjection projector_;
@@ -73,12 +76,13 @@ void DockingEstimator::laserCallback(const boost::shared_ptr<const sensor_msgs::
     tf::poseEigenToMsg (transformNN, onLaser.pose);
 
     onLaser.header = scan->header;
-    
     docking_pub_.publish(onLaser);
 
     pattern_pose_estimation->cloud_output_subsampled->header.frame_id=scan->header.frame_id;
     pcl_conversions::toPCL(scan->header, pattern_pose_estimation->cloud_output_subsampled->header);
     model_pub_.publish(pattern_pose_estimation->cloud_output_subsampled);
+
+    ready_ = true;
 }
 
 geometry_msgs::PoseStamped DockingEstimator::getPatternPose()
