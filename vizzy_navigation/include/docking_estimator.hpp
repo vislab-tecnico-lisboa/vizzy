@@ -32,6 +32,7 @@ class DockingEstimator
 
 	    std::string _config_file;
 	    bool enabled_ = false;
+		bool ready_ = false;
 
 	    std::shared_ptr<PatternPoseEstimation> pattern_pose_estimation;
 
@@ -43,7 +44,8 @@ class DockingEstimator
 	    DockingEstimator(ros::NodeHandle nh);
 	    ~DockingEstimator(){};
 	    void laserCallback(const boost::shared_ptr<const sensor_msgs::LaserScan>& scan);
+		bool isReady(){return ready_;};
 	    void enable(){enabled_ = true; };
-	    void disable() {enabled_ = false; };
+	    void disable() {enabled_ = false; ready_ = false;};
 };
 #endif
