@@ -4,10 +4,6 @@
 
 void ChargingActionServer::goalCallback()
 {
-<<<<<<< HEAD
-=======
-
->>>>>>> 710f1e179debdddcc9d197ac88bbacd2fadc7068
   //Get the goal
   auto goal = as_.acceptNewGoal();
   vizzy_navigation::ChargeFeedback feedback;
@@ -16,7 +12,6 @@ void ChargingActionServer::goalCallback()
   //Cancel all move base goals. It's time to charge
   move_base_client_.cancelAllGoals();
   
-<<<<<<< HEAD
     //Charge goal
     if(goal->goal == vizzy_navigation::ChargeGoal::CHARGE)
     {
@@ -42,34 +37,6 @@ void ChargingActionServer::goalCallback()
             as_.setAborted(result);
             return;
         }
-=======
-  //Charge goal
-  if(goal->goal == vizzy_navigation::ChargeGoal::CHARGE)
-  {
-      ROS_INFO("Received new goal: Charge!");
-
-      //Navigate to docking station
-      feedback.state = feedback.NAVIGATING_TO_STATION;
-      as_.publishFeedback(feedback);
-      
-      ROS_INFO("Navigating to docking station");
-      move_base_client_.sendGoal(goal_msg);
-      
-      move_base_client_.waitForResult();
-      
-
-      if(move_base_client_.getState() == actionlib::SimpleClientGoalState::SUCCEEDED)
-        {
-          ROS_INFO("Successfully navigated to docking station");
-        }
-      else
-       {
-          ROS_INFO("I can not navigate to the docking station for some reason!");
-          result.result = result.CHARGE_FAILED;
-          as_.setAborted(result);
-          return;
-       }
->>>>>>> 710f1e179debdddcc9d197ac88bbacd2fadc7068
 
       //Search for pattern
       feedback.state = feedback.SEARCHING_PATTERN;
@@ -77,10 +44,6 @@ void ChargingActionServer::goalCallback()
       ROS_INFO("Searching for pattern (not doing anything now)...");
       ROS_INFO("Pattern found (not really. this is a fake msg for now)...");
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 710f1e179debdddcc9d197ac88bbacd2fadc7068
       //Go to initial point using controller
       feedback.state = feedback.GOING_TO_INIT_POSE;
       as_.publishFeedback(feedback);
@@ -95,10 +58,6 @@ void ChargingActionServer::goalCallback()
       pose.pose.orientation.y = 0.0;
       pose.pose.orientation.z = 1.0; //The goal is rotated by 180deg from what the estimator is giving us
       pose.pose.orientation.w = 0.0;
-<<<<<<< HEAD
-=======
-  
->>>>>>> 710f1e179debdddcc9d197ac88bbacd2fadc7068
       
       bool onInitPoint = false;
       
@@ -107,7 +66,6 @@ void ChargingActionServer::goalCallback()
 
       while(!onInitPoint)
       { 
-<<<<<<< HEAD
           //Cancel everything. Stop the robot
           if(as_.isPreemptRequested())
           {
@@ -150,65 +108,11 @@ void ChargingActionServer::goalCallback()
               }
           }
           sampling_hz.sleep();
-=======
-          if(estimator_.isReady())
-          {
-            //Cancel everything. Stop the robot
-            if(as_.isPreemptRequested())
-            {
-                result.result = result.CHARGE_FAILED;
-                as_.setAborted(result);
-                controller_.disableControl();
-                estimator_.disable();
-                ROS_ERROR("Docking preempted. Stopping robot!");
-                return;
-            }else{
-                //********** Update the goal and control the robot **************
-
-                //Create the transform from laser to docking station
-                geometry_msgs::PoseStamped station = estimator_.getPatternPose();
-                
-                tf2::Stamped<tf2::Transform> transf;
-                tf2::fromMsg(station, transf);
-
-                geometry_msgs::TransformStamped dpTFStamped;
-                dpTFStamped = tf2::toMsg(transf);
-                
-                geometry_msgs::PoseStamped goalPose;
-                
-                tf2::doTransform(pose, goalPose, dpTFStamped);
-                goalPose.header = station.header;
-
-                //Do a control step
-                debug_pub_.publish(goalPose);
-                controller_.updateGoal(goalPose);
-                controller_.enableControl();
-                controller_.run();
-
-
-                //If we are close enough to the goal, we are done (1cm error and )
-                if(controller_.getDistanceError() < 0.1 && fabs(controller_.getOrientationError()) < 0.05)
-                {
-                    ROS_INFO("Robot aligned with docking station");
-                    controller_.disableControl();
-                    estimator_.disable();
-                    onInitPoint = true;
-                }
-            }
-          }
-
-        sampling_hz.sleep();
->>>>>>> 710f1e179debdddcc9d197ac88bbacd2fadc7068
       }
       
       controller_.disableControl();
       estimator_.disable();
 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 710f1e179debdddcc9d197ac88bbacd2fadc7068
       //Docking
       feedback.state = feedback.DOCKING;
       as_.publishFeedback(feedback);
@@ -223,7 +127,6 @@ void ChargingActionServer::goalCallback()
 
       while(!docked)
       {
-<<<<<<< HEAD
           //Cancel everything. Stop the robot
           if(as_.isPreemptRequested())
           {
@@ -264,52 +167,6 @@ void ChargingActionServer::goalCallback()
                   estimator_.disable();
                   docked = true;
               }
-=======
-          if(estimator_.isReady())
-          {         
-            //Cancel everything. Stop the robot
-            if(as_.isPreemptRequested())
-            {
-                result.result = result.CHARGE_FAILED;
-                as_.setAborted(result);
-                controller_.disableControl();
-                ROS_ERROR("Docking preempted. Stopping robot!");
-                return;
-            }else{
-                //********** Update the goal and control the robot **************
-
-                //Create the transform from laser to docking station
-                geometry_msgs::PoseStamped station = estimator_.getPatternPose();
-                
-                tf2::Stamped<tf2::Transform> transf;
-                tf2::fromMsg(station, transf);
-
-                geometry_msgs::TransformStamped dpTFStamped;
-                dpTFStamped = tf2::toMsg(transf);
-                
-                geometry_msgs::PoseStamped goalPose;
-                
-                tf2::doTransform(pose, goalPose, dpTFStamped);
-                goalPose.header = station.header;
-
-                //Do a control step
-                controller_.updateGoal(goalPose);
-                controller_.enableControl();
-                controller_.run();
-
-                //If we are close enough to the goal, we are done (1cm error and 2.5deg error)
-                //WE ALSO NEED TO CHECK IF THE ROBOT IS ACTUALLY CHARGING!
-
-
-                if(controller_.getDistanceError() < 0.1 && fabs(controller_.getOrientationError()) < 0.05)
-                {
-                    ROS_INFO("Robot docked!");
-                    controller_.disableControl();
-                    estimator_.disable();
-                    docked = true;
-                }
-            }
->>>>>>> 710f1e179debdddcc9d197ac88bbacd2fadc7068
           }
         sampling_hz.sleep();
       }
@@ -333,11 +190,7 @@ void ChargingActionServer::goalCallback()
       
       move_base_msgs::MoveBaseGoal goalOutside;
       goalOutside.target_pose.header.frame_id = "base_footprint";
-<<<<<<< HEAD
       goalOutside.target_pose.pose.position.x = -1.0;
-=======
-      goalOutside.target_pose.pose.position.x = -1.2;
->>>>>>> 710f1e179debdddcc9d197ac88bbacd2fadc7068
       goalOutside.target_pose.pose.position.y = 0.0;
       goalOutside.target_pose.pose.position.z = 0.0;
 
@@ -396,11 +249,7 @@ ChargingActionServer::ChargingActionServer(ros::NodeHandle nh, std::string name)
     as_.registerPreemptCallback(boost::bind(&ChargingActionServer::preemptCB, this));
 
     ROS_INFO("Waiting for move base action server");
-<<<<<<< HEAD
     move_base_client_.waitForServer();
-=======
-    //move_base_client_.waitForServer();
->>>>>>> 710f1e179debdddcc9d197ac88bbacd2fadc7068
     ROS_INFO("Found move_base action server");
     
 
@@ -416,11 +265,6 @@ ChargingActionServer::ChargingActionServer(ros::NodeHandle nh, std::string name)
     n_priv.param("docking_orient_z", goal_msg.target_pose.pose.orientation.z, 0.0);
     n_priv.param("docking_orient_w", goal_msg.target_pose.pose.orientation.w, 1.0);
 
-<<<<<<< HEAD
-=======
-    debug_pub_ = nh_.advertise<geometry_msgs::PoseStamped>("/control_goal", 1);
-
->>>>>>> 710f1e179debdddcc9d197ac88bbacd2fadc7068
     as_.start();
 
 
