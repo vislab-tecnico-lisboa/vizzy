@@ -81,6 +81,9 @@ public:
 
     bool running_;
 
+    float rho_;
+    float beta_;
+
 };
 
 //END namespace docking_ctrl

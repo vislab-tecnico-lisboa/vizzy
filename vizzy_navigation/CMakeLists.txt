@@ -14,7 +14,8 @@ find_package(catkin REQUIRED
     tf2
     interactive_markers
     visualization_msgs
-    eigen_conversions)
+    eigen_conversions
+    actionlib_msgs)
 
   #add dynamic reconfigure api
  generate_dynamic_reconfigure_options(
@@ -43,6 +44,16 @@ else(${EIGEN3_FOUND})
 endif(${EIGEN3_FOUND})
 
 
+add_action_files(
+  DIRECTORY action
+  FILES Charge.action
+)
+
+generate_messages(
+  DEPENDENCIES actionlib_msgs std_msgs  # Or other packages containing msgs
+)
+
+
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES falkolib
@@ -51,6 +62,7 @@ catkin_package(
     geometry_msgs
     roscpp
     dynamic_reconfigure
+    actionlib_msgs
 )
 
 include_directories(
@@ -103,6 +115,15 @@ target_link_libraries(docking_learner
 
 add_executable(docking_estimator src/docking_estimator.cpp src/docking_estimator_node.cpp src/falko_database.cpp src/pattern_pose_estimation.cpp)
 target_link_libraries(docking_estimator
+  ${Boost_LIBRARIES}
+  ${catkin_LIBRARIES}
+  ${PCL_LIBRARIES}
+  falkolib
+  yaml-cpp
+)
+
+add_executable(charging_action_server src/charging_action_server.cpp src/charging_action_server_node.cpp src/docking_estimator.cpp src/falko_database.cpp src/pattern_pose_estimation.cpp src/docking_controller.cpp src/docking_controller_ros.cpp)
+target_link_libraries(charging_action_server
   ${Boost_LIBRARIES}
   ${catkin_LIBRARIES}
   ${PCL_LIBRARIES}

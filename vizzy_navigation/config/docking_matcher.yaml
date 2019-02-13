@@ -1,2 +1,4 @@
-rot_thresh: 12.0
+rot_thresh: 20.0
 tran_thresh: 0.05
+fitting_score_thresh: 0.01
+discretization_step: 0.02

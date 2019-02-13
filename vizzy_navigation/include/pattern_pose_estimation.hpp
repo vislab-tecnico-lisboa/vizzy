@@ -17,6 +17,15 @@
 #include <pcl/features/normal_3d.h>
 #include <pcl/filters/voxel_grid.h>
 #include <pcl/filters/statistical_outlier_removal.h>
+
+#include <boost/thread/thread.hpp>
+#include <pcl/common/common_headers.h>
+#include <pcl/features/normal_3d.h>
+#include <pcl/io/pcd_io.h>
+#include <pcl/visualization/pcl_visualizer.h>
+#include <pcl/console/parse.h>
+
+
 using namespace pcl;
 using namespace std;
 
@@ -29,6 +38,7 @@ class PatternPoseEstimation
 	double cluster_tran_thresh;
 	double cluster_rot_thresh;
 	double fitting_score_thresh;
+	double discretization_step;
 	pcl::PointCloud<pcl::Normal>::Ptr normals_;
 	pcl::PointCloud<pcl::Normal>::Ptr normals;
 	pcl::PointCloud<pcl::PointXYZ>::Ptr point_cloud_;
@@ -44,6 +54,7 @@ class PatternPoseEstimation
 		PatternPoseEstimation(	double rot_thresh_=30.0, 
 								double tran_thresh_=0.05,
 								double fitting_score_thresh_=0.01, 
+								double discretization_step_=0.01,
 								std::string file_="file");
 
 		int train (std::vector<pcl::PointCloud<pcl::PointNormal>::Ptr> cloud_models_with_normals_);
