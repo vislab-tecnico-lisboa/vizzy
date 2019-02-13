@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="model_file" default="$(find vizzy_gazebo)/media/models/docking_pattern/meshes/models/docking_pattern.stl"/>
+  <node name="charging_action_server" pkg="vizzy_navigation" type="charging_action_server" output="screen">
+    <rosparam file="$(find vizzy_navigation)/config/docking_matcher.yaml" command="load" />
+    <rosparam file="$(find vizzy_navigation)/config/docking_action_server/docking_pose.yaml" command="load" />
+    <param name="model_file" type="str" value="$(arg model_file)"/>
+  </node>
+</launch>

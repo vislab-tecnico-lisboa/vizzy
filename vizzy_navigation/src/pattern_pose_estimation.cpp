@@ -1,20 +1,22 @@
 #include <pattern_pose_estimation.hpp>
 #include <random>
 #include <chrono>
+#include <pcl/visualization/pcl_visualizer.h>
 
 using namespace pcl;
 using namespace std;
 
 
-PatternPoseEstimation::PatternPoseEstimation(double rot_thresh_, double tran_thresh_, double fitting_score_thresh_, std::string file_) :
+PatternPoseEstimation::PatternPoseEstimation(double rot_thresh_, double tran_thresh_, double fitting_score_thresh_, double discretization_step_, std::string file_) :
 	rot_thresh( (rot_thresh_ / 180.0) * double (M_PI)),
 	tran_thresh(tran_thresh_),
 	fitting_score_thresh(fitting_score_thresh_),
 	normals (new pcl::PointCloud<pcl::Normal>()),
 	normals_ (new pcl::PointCloud<pcl::Normal>()),
 	point_cloud_ (new pcl::PointCloud<pcl::PointXYZ>()),
-        tree (new pcl::search::KdTree<pcl::PointXYZ> ()),
-	cloud_output_subsampled(new PointCloud<PointNormal>())
+    tree (new pcl::search::KdTree<pcl::PointXYZ> ()),
+	cloud_output_subsampled(new PointCloud<PointNormal>()),
+	discretization_step(discretization_step_)
 {
 	pcl::console::setVerbosityLevel(pcl::console::L_ALWAYS);
 	cluster_tran_thresh=3.0*tran_thresh;
@@ -28,7 +30,7 @@ pcl::PointCloud<PointNormal>::Ptr PatternPoseEstimation::getPointNormal(pcl::Poi
     // Create the filtering object
 	pcl::VoxelGrid<pcl::PointXYZ> sor;
 	sor.setInputCloud (point_cloud);
-	sor.setLeafSize (0.01f, 0.01f, 10000.0f);
+	sor.setLeafSize (discretization_step, discretization_step,1000.0);
 	sor.filter (*point_cloud);
 
     // Define random generator with Gaussian distribution
@@ -39,19 +41,20 @@ pcl::PointCloud<PointNormal>::Ptr PatternPoseEstimation::getPointNormal(pcl::Poi
 
 	for(unsigned int i=0; i<point_cloud->size();++i)
 	{
-		point_cloud->at(i).z= dist(generator);
+		point_cloud->at(i).z=dist(generator);
 	}	
 
     // Create the normal estimation class, and pass the input dataset to it
     pcl::NormalEstimation<pcl::PointXYZ, pcl::Normal> ne;
     ne.setInputCloud (point_cloud);
-
+	ne.setViewPoint (std::numeric_limits<float>::max (), 0.0, 0.0);
     ne.setSearchMethod (tree);
-    ne.setRadiusSearch (0.03);
+    ne.setRadiusSearch (5.0*discretization_step);
     ne.compute (*normals);
 
 	normals_->clear();
 	point_cloud_->clear();
+
 	for(unsigned int i=0; i<normals->size();++i)
 	{
 		double sqrt_=sqrt(normals->at(i).normal_x*normals->at(i).normal_x+normals->at(i).normal_y*normals->at(i).normal_y);
@@ -75,6 +78,7 @@ pcl::PointCloud<PointNormal>::Ptr PatternPoseEstimation::getPointNormal(pcl::Poi
 
     pcl::PointCloud<pcl::PointNormal>::Ptr cloud_normals (new pcl::PointCloud<pcl::PointNormal>);
     pcl::concatenateFields (*point_cloud_, *normals_, *cloud_normals);
+
 	return cloud_normals;
 }
 
@@ -98,6 +102,7 @@ int PatternPoseEstimation::train(std::vector<pcl::PointCloud<pcl::PointNormal>::
 
 		PointCloud<PPFSignature>::Ptr cloud_model_ppf (new PointCloud<PPFSignature> ());
 		PPFEstimation<PointNormal, PointNormal, PPFSignature> ppf_estimator;
+
 		ppf_estimator.setInputCloud (cloud_models_with_normals_[model_i]);
 		ppf_estimator.setInputNormals (cloud_models_with_normals_[model_i]);
 		ppf_estimator.compute (*cloud_model_ppf);
@@ -116,6 +121,7 @@ Eigen::Affine3d PatternPoseEstimation::detect(pcl::PointCloud<pcl::PointNormal>:
 	{
 		throw std::runtime_error("Empty cloud");
 	}
+	
 	std::vector<Eigen::Affine3d> transforms_;
 
 	try
@@ -135,12 +141,10 @@ Eigen::Affine3d PatternPoseEstimation::detect(pcl::PointCloud<pcl::PointNormal>:
 			ppf_registration.align(*cloud_output_subsampled);
 			mat = ppf_registration.getFinalTransformation ();
 			std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
-			std::cout << "REGISTRATION time = " << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() <<std::endl;
 
 			begin = std::chrono::steady_clock::now();
 			Eigen::Matrix4f refined_transform=refine(cloud_output_subsampled,cloud_with_normals);
 			end = std::chrono::steady_clock::now();
-			std::cout << "ICP time = " << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() <<std::endl;
 			mat=refined_transform*mat;
 
 			transforms_.push_back(Eigen::Affine3d (mat.cast<double>()));

@@ -28,9 +28,14 @@ private:
     ros::Time last_update_;
     
 public:
+    double getDistanceError();
+    double getOrientationError();
     void dynamic_rec_callback(vizzy_navigation::DockingConfig &config, uint32_t level);
     void run();
     void goalCallback(const geometry_msgs::PoseStamped::ConstPtr& msg);
+    void disableControl();
+    void enableControl();
+    void updateGoal(geometry_msgs::PoseStamped &goal);
     docking_ctrl::Pose2D makeTransform(geometry_msgs::PoseStamped pose, std::string frame_id, ros::Time fromTime=ros::Time(0));
     DockingControllerROS(ros::NodeHandle nh);
     ~DockingControllerROS();

@@ -57,7 +57,7 @@ ControlSignal DockingController::computeControlSignal()
     float x_rp = cosf(goal_.theta_)*robot_pose_.x_+sinf(goal_.theta_)*robot_pose_.y_-cosf(goal_.theta_)*goal_.x_-sinf(goal_.theta_)*goal_.y_;
     float y_rp = -sinf(goal_.theta_)*robot_pose_.x_+cosf(goal_.theta_)*robot_pose_.y_+sinf(goal_.theta_)*goal_.x_-cosf(goal_.theta_)*goal_.y_;
 
-    float rho = sqrt(x_rp*x_rp+y_rp*y_rp);
+    rho_ = sqrt(x_rp*x_rp+y_rp*y_rp);
     float alpha = -theta+atan2f(-y_rp, -x_rp);
 
     /*Make sure that alpha is between in [-pi, pi]*/
@@ -69,7 +69,7 @@ ControlSignal DockingController::computeControlSignal()
     else if(alpha < -M_PI)
         alpha = alpha+2.0*M_PI;
 
-    float v = k_ro_*rho;
+    float v = k_ro_*rho_;
 
 
     /*Check if alpha belongs to I1 or I2 so that we can choose backward or forward parking*/
@@ -88,18 +88,18 @@ ControlSignal DockingController::computeControlSignal()
         
     }
 
-    float beta = -theta-alpha;
+    beta_ = -theta-alpha;
     /*Make sure that beta is between in [-pi, pi]*/
-    n = (int) beta/(2*M_PI);
+    n = (int) beta_/(2*M_PI);
 
     if(n != 0)
-        beta =  beta-n*2.0*M_PI;
-    if(beta > M_PI)
-        beta = beta-2.0*M_PI;
-    else if(beta < -M_PI)
-        beta = beta+2.0*M_PI;
+        beta_ =  beta_-n*2.0*M_PI;
+    if(beta_ > M_PI)
+        beta_ = beta_-2.0*M_PI;
+    else if(beta_ < -M_PI)
+        beta_ = beta_+2.0*M_PI;
 
-    float w =  k_alpha_*alpha+k_beta_*beta;
+    float w =  k_alpha_*alpha+k_beta_*beta_;
 
     /*Noubakhsh and Siegwart do not consider actuation limits (saturating velocities).
     If one of the desired velocities is higher than what motor could deliver, we need to recompute
