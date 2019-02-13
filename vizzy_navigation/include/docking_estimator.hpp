@@ -29,6 +29,7 @@ class DockingEstimator
 	    ros::Publisher docking_pub_;
 	    ros::Publisher model_pub_;
 		geometry_msgs::PoseStamped onLaser;
+<<<<<<< HEAD
 		std::deque<double> yaw_filter;
 		std::deque<double> x_filter;
 		std::deque<double> y_filter;
@@ -36,6 +37,12 @@ class DockingEstimator
 
 	    std::string _config_file;
 	    bool enabled_ = true;
+=======
+
+	    std::string _config_file;
+	    bool enabled_ = false;
+		bool ready_ = false;
+>>>>>>> 710f1e179debdddcc9d197ac88bbacd2fadc7068
 
 	    std::shared_ptr<PatternPoseEstimation> pattern_pose_estimation;
 
@@ -47,8 +54,13 @@ class DockingEstimator
 	    DockingEstimator(ros::NodeHandle nh);
 	    ~DockingEstimator(){};
 	    void laserCallback(const boost::shared_ptr<const sensor_msgs::LaserScan>& scan);
+		bool isReady(){return ready_;};
 	    void enable(){enabled_ = true; };
+<<<<<<< HEAD
 	    void disable() {enabled_ = false; };
 		double findMedian(std::deque<double> & a);
+=======
+	    void disable() {enabled_ = false; ready_ = false;};
+>>>>>>> 710f1e179debdddcc9d197ac88bbacd2fadc7068
 };
 #endif

@@ -17,6 +17,12 @@ class ChargingActionServer
 private:
     ros::NodeHandle nh_;
     ros::NodeHandle n_priv;
+<<<<<<< HEAD
+=======
+
+    ros::Publisher debug_pub_;
+
+>>>>>>> 710f1e179debdddcc9d197ac88bbacd2fadc7068
     DockingControllerROS controller_;
     DockingEstimator estimator_;
     tf2_ros::Buffer tfBuffer_;
