@@ -47,8 +47,11 @@ DockingEstimator::DockingEstimator(ros::NodeHandle nh) :
 
 void DockingEstimator::laserCallback(const boost::shared_ptr<const sensor_msgs::LaserScan>& scan)
 {
+
     if(!enabled_)
         return;
+    
+    
 
     // Convert to pcl
     laser_geometry::LaserProjection projector_;
@@ -73,42 +76,10 @@ void DockingEstimator::laserCallback(const boost::shared_ptr<const sensor_msgs::
         return;
     }
 
-    Eigen::Matrix3d rotation=transformNN.matrix().block(0,0,3,3);
-    Eigen::Vector3d translation=transformNN.matrix().block(0,3,1,3);
-    Eigen::Vector3d ea = rotation.eulerAngles(2, 1, 0);
-    Eigen::Vector4d pose_(translation[0],translation[1],translation[2],ea[3]);
-    if(yaw_filter.size()<20)
-    {
-        x_filter.push_back(pose_[0]);
-        y_filter.push_back(pose_[1]);
-        z_filter.push_back(pose_[2]);
-        yaw_filter.push_back(pose_[3]);
-    }
-    else
-    {
-        x_filter.push_back(pose_[0]);
-        y_filter.push_back(pose_[1]);
-        z_filter.push_back(pose_[2]);
-        yaw_filter.push_back(pose_[3]);
+    
+    tf::poseEigenToMsg (transformNN, onLaser.pose);
 
-        x_filter.pop_front();
-        y_filter.pop_front();
-        z_filter.pop_front();
-        yaw_filter.pop_front();
-    }
-
-    double x_filter_(findMedian(x_filter));
-    double y_filter_(findMedian(y_filter));
-    double z_filter_(findMedian(z_filter));
-    double yaw_filter_(findMedian(yaw_filter));
-    Eigen::Matrix3d m;
-    m = Eigen::AngleAxisd(yaw_filter_, Eigen::Vector3d::UnitZ());
-
-    Eigen::Matrix4d mat_filtered;
-    mat_filtered.block(0,0,2,2)=m.block(0,0,2,2);
-    mat_filtered(0,3)=x_filter_;
-    mat_filtered(1,3)=y_filter_;
-    mat_filtered(2,3)=z_filter_;
+    onLaser.header = scan->header;
 
     Eigen::Affine3d affine_tf;
     Eigen::Matrix3d Tm;
@@ -120,6 +91,8 @@ void DockingEstimator::laserCallback(const boost::shared_ptr<const sensor_msgs::
     pcl_conversions::toPCL(scan->header, pattern_pose_estimation->cloud_output_subsampled->header);
     model_pub_.publish(pattern_pose_estimation->cloud_output_subsampled);
     docking_pub_.publish(onLaser);
+
+    ready_ = true;
 }
 
 geometry_msgs::PoseStamped DockingEstimator::getPatternPose()
@@ -140,3 +113,4 @@ double DockingEstimator::findMedian(std::deque<double> & a)
 
     return (double) (a.at(floor((a.size()-1)/2.0)) + a.at(floor(a.size()/2.0)))/2.0; 
 } 
+

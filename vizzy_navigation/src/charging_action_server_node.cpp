@@ -10,7 +10,12 @@ int main(int argc, char **argv)
   ros::NodeHandle nh;
   ChargingActionServer actionServer(nh, "charging_action");
 
+<<<<<<< HEAD
   ros::spin();
+=======
+  ros::MultiThreadedSpinner spinner(2);
+  spinner.spin();
+>>>>>>> 710f1e179debdddcc9d197ac88bbacd2fadc7068
 
 
   return 0;
