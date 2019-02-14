@@ -130,7 +130,8 @@ void ChargingActionServer::goalCallback()
       
       sampling_hz.reset();
       
-      pose.pose.position.x = 0.05;
+      //The value of -0.3 is set for the simulation
+      pose.pose.position.x = -0.3;
       
       estimator_.enable();
 
