@@ -60,9 +60,12 @@ void ChargingActionServer::goalCallback()
       pose.pose.orientation.w = 0.0;
       
       bool onInitPoint = false;
+
       
       ros::Rate sampling_hz(10);
       estimator_.enable();
+
+      bool onDeadzone = false;
 
       while(!onInitPoint)
       { 
@@ -94,7 +97,13 @@ void ChargingActionServer::goalCallback()
               goalPose.header = station.header;
 
               //Do a control step
-              controller_.updateGoal(goalPose);
+
+              if(!onDeadzone)
+              {
+                onDeadzone = controller_.getDistanceError() < 0.3;
+                controller_.updateGoal(goalPose);
+              }
+              
               controller_.enableControl();
               controller_.run();
 
@@ -125,6 +134,7 @@ void ChargingActionServer::goalCallback()
       
       estimator_.enable();
 
+      onDeadzone = false;
       while(!docked)
       {
           //Cancel everything. Stop the robot
@@ -153,7 +163,11 @@ void ChargingActionServer::goalCallback()
               goalPose.header = station.header;
 
               //Do a control step
-              controller_.updateGoal(goalPose);
+              if(!onDeadzone)
+              {
+                onDeadzone = controller_.getDistanceError() < 0.3;
+                controller_.updateGoal(goalPose);
+              }
               controller_.enableControl();
               controller_.run();
 
