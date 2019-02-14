@@ -1,5 +1,5 @@
 rot_thresh: 20.0
-tran_thresh: 0.05
+tran_thresh: 0.1
 fitting_score_thresh: 0.01
 discretization_step: 0.02
 filter_buffer_size: 10

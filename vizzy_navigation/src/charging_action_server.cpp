@@ -121,7 +121,7 @@ void ChargingActionServer::goalCallback()
       
       sampling_hz.reset();
       
-      pose.pose.position.x = 0.0;
+      pose.pose.position.x = 0.05;
       
       estimator_.enable();
 
@@ -159,7 +159,8 @@ void ChargingActionServer::goalCallback()
 
               //If we are close enough to the goal, we are done (1cm error and 2.5deg error)
               //WE ALSO NEED TO CHECK IF THE ROBOT IS ACTUALLY CHARGING!
-
+                ROS_INFO("Docking, distance error: (%f), orientation error: (%f)",controller_.getDistanceError(),controller_.getOrientationError());
+                //std::cout << "distance error:" << controller_.getDistanceError() << " orientation error: " << controller_.getOrientationError() << std::endl;
               if(controller_.getDistanceError() < 0.05 && controller_.getOrientationError() < 0.05)
               {
                   ROS_INFO("Robot docked!");
