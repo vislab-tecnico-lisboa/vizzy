@@ -14,7 +14,7 @@
 #include <string>
 #include "JointTrajectory.h"
 #include "Bool.h"
-#include "Int16.h"
+#include "std_msgs_Int16.h"
 #include <math.h>
 using namespace yarp::dev;
 using namespace yarp::os;
@@ -105,7 +105,7 @@ int main(int argc, char *argv[])
     std::map<std::string,int> joint_trajectory_map;
     yarp::os::Subscriber<JointTrajectory> subscriber_trajectory_part;
     yarp::os::Subscriber<Bool> subscriber_stop_part;
-    yarp::os::Publisher<Int16> publisher_result_part;
+    yarp::os::Publisher<std_msgs_Int16> publisher_result_part;
     Property options;
     //options.put("robot", "vizzySim");//Needs to be read from a config file
     options.put("robot", "/" + robot);//Needs to be read from a config file
@@ -216,7 +216,7 @@ int main(int argc, char *argv[])
         return 1;
     }
     JointTrajectory *traj_data;
-    Int16 feedback_msg_to_ros;
+    std_msgs_Int16 feedback_msg_to_ros;
     double trajectory_start;
     double trajectory_elapsed_time;
     double expected_trajectory_time;

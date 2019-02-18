@@ -83,7 +83,7 @@ int main(int argc, char *argv[])
     VectorOf<int> jntArm;
     yarp::os::Subscriber<geometry_msgs_PoseStamped> pose_reading_port;
     StatusThread *pose_status_thread;
-    double home_joint_position[8];
+    double home_joint_position[11];
     double current_encoders[8];
     string robot = rf.find("robot").asString().c_str();
     string part = rf.find("part").asString().c_str();
@@ -91,7 +91,7 @@ int main(int argc, char *argv[])
     string local_port = rf.find("local").asString().c_str();
     double position_error_threshold = rf.find("position_error_threshold").asDouble();
     Bottle &grp1=rf.findGroup("home_joint_position");
-    for (int i=0; i<8; i++){
+    for (int i=0; i<11; i++){
         home_joint_position[i]=grp1.get(1+i).asDouble();
         std::cout << "Home joint position [" << i << "]: " << home_joint_position[i] << std::endl;
     }
@@ -109,7 +109,7 @@ int main(int argc, char *argv[])
     options_torso.put("robot", robot); //Needs to be read from a config file
     options_torso.put("device", "remote_controlboard");
     options_torso.put("remote", "/" + robot + "/" + "torso");
-    options_torso.put("local", "/" + robot + "/" + "torso" + "/_pos_interface");
+    options_torso.put("local", "/" + robot + "/" + "torso" + part +"/_pos_interface");
     options_torso.put("part", "torso");
 
     dd.open(options);
@@ -127,12 +127,12 @@ int main(int argc, char *argv[])
     ok &= dd.view(iMode2);
     ok &= dd_torso.view(ipos_torso);
     ok &= dd_torso.view(iMode2_torso);
-    double part_speeds[8] = {12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 12.0};
+    double part_speeds[11] = {12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 20.0, 20.0, 20.0};
     ipos->setRefSpeeds(part_speeds);
     //cout << "Init four done!!" << endl;
     // open the view
     client.view(arm);
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < 11; i++)
         jntArm.push_back(i);
     Vector dof;
     arm->getDOF(dof);
@@ -310,8 +310,11 @@ int main(int argc, char *argv[])
             //BEGIN Setting the motor control in POSITION mode for each joint
             //--
             VectorOf<int> modes;
-            modes.resize(8, VOCAB_CM_POSITION);
-            iMode2->setControlModes(jntArm.size(), jntArm.getFirst(), modes.getFirst());
+            modes.resize(11, VOCAB_CM_POSITION);
+            //iMode2->setControlModes(jntArm.size(), jntArm.getFirst(), modes.getFirst());
+	    for (size_t n=0;n<11;n++){
+	      iMode2->setControlMode(n,VOCAB_CM_POSITION);
+	    }
             iMode2_torso->setControlMode(0,VOCAB_CM_POSITION);
             //--
             // END Setting the motor control in POSITION mode for each joint
@@ -330,7 +333,7 @@ int main(int argc, char *argv[])
             double current_time;
             yWarning("Before position control timeout");
 	    yarp::math::Quaternion orientation;
-            double my_timeout=4.0;
+            double my_timeout=2.0;
             while (!motionDone_arm && my_timeout>0)
             {
                 //yWarning("Sending the arm to a pose");
@@ -364,7 +367,10 @@ int main(int argc, char *argv[])
             //--
             //VectorOf<int> modes;
             modes.resize(8, VOCAB_CM_POSITION_DIRECT);
-            iMode2->setControlModes(jntArm.size(), jntArm.getFirst(), modes.getFirst());
+            //iMode2->setControlModes(jntArm.size(), jntArm.getFirst(), modes.getFirst());
+	    for (size_t n=0;n<11;n++){
+	      iMode2->setControlMode(n,VOCAB_CM_POSITION);
+	    }
             iMode2_torso->setControlMode(0,VOCAB_CM_POSITION_DIRECT);
             //--
             // END Setting the motor control in POSITION_DIRECT mode for each joint

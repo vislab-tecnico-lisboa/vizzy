@@ -4,11 +4,8 @@ December, 2018
 */
 
 #include <stdio.h>
-#include <QLineEdit>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
-#include <QLabel>
-#include <QPushButton>
 #include <math.h> 
 #include "../include/vizzy_rviz_plugins/grasp_panel.hpp"
 
@@ -54,6 +51,10 @@ GraspPanel::GraspPanel(QWidget *parent)
   input_topic_editor_->setText("/left_hand_goal");
   topic_layout->addWidget(input_topic_editor_ );
 
+  arm_combobox_ = new QComboBox;
+  arm_combobox_->addItem("Left", 0);
+  arm_combobox_->addItem("Right", 1);
+  arm_label_ = new QLabel(tr("Arm: "));
 
   //Initialize goal action to update the goal from other nodes (example: ball tracker)
   goal_sub_ = nh_.subscribe<geometry_msgs::PoseStamped>(input_topic_editor_->text().toStdString(), 1, &GraspPanel::poseCallback, this);
@@ -129,6 +130,9 @@ GraspPanel::GraspPanel(QWidget *parent)
   controls_layout->addWidget(w_angle_label_, 6, 0);
   controls_layout->addWidget(w_angle_spin_, 6, 1);
 
+  controls_layout->addWidget(arm_label_, 7, 0);
+  controls_layout->addWidget(arm_combobox_, 7, 1);
+
 
   controls_out_layout->addLayout(controls_layout);
   controls_out_layout->addWidget(freeze_goal_button_);
@@ -159,8 +163,9 @@ GraspPanel::GraspPanel(QWidget *parent)
   connect( z_spin_, SIGNAL( valueChanged(double) ), this, SLOT( updateGoalZ() ));
 
   connect(freeze_goal_button_, SIGNAL (released()), this, SLOT (freezeUnfreeze()));
+  connect(arm_combobox_, SIGNAL(currentIndexChanged(int)), this, SLOT(updateArm()));
 
-
+  
   updateAction();
   updateTopic();
 
@@ -168,7 +173,7 @@ GraspPanel::GraspPanel(QWidget *parent)
   //Interactive markers
   
   int_marker_.header.frame_id = "base_link";
-  int_marker_.scale = 1;
+  int_marker_.scale = 0.1;
   int_marker_.name = "end_effector_";
   int_marker_.description = "End effector";
 
@@ -216,15 +221,17 @@ GraspPanel::GraspPanel(QWidget *parent)
 
   server_->applyChanges();
 
+  updateArm();
+
 }
 
 void GraspPanel::processFeedback( const visualization_msgs::InteractiveMarkerFeedbackConstPtr &feedback )
 {
 
-  if(!freeze_goal_)
+  /*if(!freeze_goal_)
     return;
   else
-  {
+  {*/
     geometry_msgs::TransformStamped transformStamped;
     geometry_msgs::PoseStamped onMarkerFrame;
     onMarkerFrame.header.frame_id = feedback->header.frame_id;
@@ -244,7 +251,7 @@ void GraspPanel::processFeedback( const visualization_msgs::InteractiveMarkerFee
       return;
     }
 
-    goal_pos_x_ = onBase.pose.position.x;
+    goal_pos_x_ = onBase.pose.position.x; 
     goal_pos_y_ = onBase.pose.position.y;
     goal_pos_z_ = onBase.pose.position.z;
 
@@ -265,7 +272,7 @@ void GraspPanel::processFeedback( const visualization_msgs::InteractiveMarkerFee
     y_angle_spin_->setValue(goal_orient_y_);
     z_angle_spin_->setValue(goal_orient_z_);
     w_angle_spin_->setValue(w);
-  }
+  //}
 
 
   server_->applyChanges();
@@ -305,9 +312,17 @@ void GraspPanel::poseCallback(const geometry_msgs::PoseStamped::ConstPtr& msg)
   goal_pos_y_ = onBase.pose.position.y;
   goal_pos_z_ = onBase.pose.position.z;
 
-  goal_orient_x_ = onBase.pose.orientation.x;
-  goal_orient_y_ = onBase.pose.orientation.y;
-  goal_orient_z_ = onBase.pose.orientation.z;
+  if(selectedArm == 0)
+    {
+      goal_orient_x_ = 0.04;
+      goal_orient_y_ = -0.70;
+      goal_orient_z_ = 0.71;
+    }else{
+      goal_orient_x_ = 0.70;
+      goal_orient_y_ = -0.05;
+      goal_orient_z_ = 0.02;
+    }
+
 
 
   x_spin_->setValue(goal_pos_x_);
@@ -357,6 +372,9 @@ void GraspPanel::gotoGoal()
   goal.end_effector_pose.pose.orientation.z = o_z; 
   goal.end_effector_pose.pose.orientation.w = std::sqrt(1.0-(o_x*o_x+o_y*o_y+o_z*o_z));
 
+
+  goal.end_effector_pose.header.frame_id="base_link";
+
   ac->sendGoal(goal);
 }
 
@@ -383,12 +401,66 @@ void GraspPanel::release()
 
 void GraspPanel::putinbox()
 {
+  vizzy_msgs::CartesianGoal goal;
+  goal.type = goal.CARTESIAN;
+ 
+
+  if(selectedArm == 0)
+  {
+    goal.end_effector_pose.pose.position.x = 0.146679;
+    goal.end_effector_pose.pose.position.y = -0.4964;
+    goal.end_effector_pose.pose.position.z = 0.483098;
+    goal.end_effector_pose.pose.orientation.x = 0.59089;
+    goal.end_effector_pose.pose.orientation.y = 0.5932;
+    goal.end_effector_pose.pose.orientation.z = -0.38840; 
+    goal.end_effector_pose.pose.orientation.w = 0.384688;
+  }else{
+    goal.end_effector_pose.pose.position.x = 0.145579;
+    goal.end_effector_pose.pose.position.y = 0.4964;
+    goal.end_effector_pose.pose.position.z = 0.483098;
+    goal.end_effector_pose.pose.orientation.x = 0.52;
+    goal.end_effector_pose.pose.orientation.y = -0.45;
+    goal.end_effector_pose.pose.orientation.z = 0.48; 
+    goal.end_effector_pose.pose.orientation.w = 0.55;
+  }
+  
+  
+  goal.end_effector_pose.header.frame_id="base_link";
+  ac->sendGoal(goal);
 
 
 }
 
 void GraspPanel::giveaway()
 {
+
+  vizzy_msgs::CartesianGoal goal;
+  goal.type = goal.CARTESIAN;
+  
+  if(selectedArm == 0)
+  {
+    goal.end_effector_pose.pose.position.x = -0.26;
+    goal.end_effector_pose.pose.position.y = -0.23;
+    goal.end_effector_pose.pose.position.z = 0.80;
+    goal.end_effector_pose.pose.orientation.x = 0.70;
+    goal.end_effector_pose.pose.orientation.y = 0.71;
+    goal.end_effector_pose.pose.orientation.z = -0.12; 
+    goal.end_effector_pose.pose.orientation.w = 0.15;
+  }else{
+    goal.end_effector_pose.pose.position.x = -0.21;
+    goal.end_effector_pose.pose.position.y = 0.36;
+    goal.end_effector_pose.pose.position.z = 0.80;
+    goal.end_effector_pose.pose.orientation.x = 0.11;
+    goal.end_effector_pose.pose.orientation.y = 0.08;
+    goal.end_effector_pose.pose.orientation.z = -0.02; 
+    goal.end_effector_pose.pose.orientation.w = 0.99;
+  }
+
+  
+  goal.end_effector_pose.header.frame_id="base_link";
+  ac->sendGoal(goal);
+
+
 }
 
 void GraspPanel::updateAction()
@@ -462,18 +534,108 @@ void GraspPanel::updateGoalX()
 {
   goal_pos_x_ = (double) (x_spin_->value());
 
+  int_marker_.pose.position.x = goal_pos_x_;
+  int_marker_.pose.position.y = goal_pos_y_;
+  int_marker_.pose.position.z = goal_pos_z_;
+
+  /*if(freeze_goal_)
+  {*/
+
+    double o_x = goal_orient_x_+goal_orient_x_offset_;
+    double o_y = goal_orient_y_+goal_orient_y_offset_;
+    double o_z = goal_orient_z_+goal_orient_z_offset_;
+    double w = std::sqrt(1.0-(o_x*o_x+o_y*o_y+o_z*o_z));
+
+  int_marker_.pose.orientation.x = o_x;
+  int_marker_.pose.orientation.y = o_y;
+  int_marker_.pose.orientation.z = o_z;
+  int_marker_.pose.orientation.w = w;
+
+  server_->clear();
+  server_->insert(int_marker_);
+  server_->applyChanges();
+  //}
+
 }
 
 void GraspPanel::updateGoalY()
 {
+  
+  /*if(freeze_goal_)
+  {*/
   goal_pos_y_ = (double) (y_spin_->value());
+  
+  int_marker_.pose.position.x = goal_pos_x_;
+  int_marker_.pose.position.y = goal_pos_y_;
+  int_marker_.pose.position.z = goal_pos_z_;
+
+
+    double o_x = goal_orient_x_+goal_orient_x_offset_;
+    double o_y = goal_orient_y_+goal_orient_y_offset_;
+    double o_z = goal_orient_z_+goal_orient_z_offset_;
+    double w = std::sqrt(1.0-(o_x*o_x+o_y*o_y+o_z*o_z));
+
+  int_marker_.pose.orientation.x = o_x;
+  int_marker_.pose.orientation.y = o_y;
+  int_marker_.pose.orientation.z = o_z;
+  int_marker_.pose.orientation.w = w;
+
+  server_->clear();
+  server_->insert(int_marker_);
+  server_->applyChanges();
+  //}
+
 }
 
 void GraspPanel::updateGoalZ()
 {
 
+  /*if(freeze_goal_)
+  {*/
   goal_pos_z_ = (double) (z_spin_->value());
-  
+
+
+  int_marker_.pose.position.x = goal_pos_x_;
+  int_marker_.pose.position.y = goal_pos_y_;
+  int_marker_.pose.position.z = goal_pos_z_;
+
+
+    double o_x = goal_orient_x_+goal_orient_x_offset_;
+    double o_y = goal_orient_y_+goal_orient_y_offset_;
+    double o_z = goal_orient_z_+goal_orient_z_offset_;
+    double w = std::sqrt(1.0-(o_x*o_x+o_y*o_y+o_z*o_z));
+
+  int_marker_.pose.orientation.x = o_x;
+  int_marker_.pose.orientation.y = o_y;
+  int_marker_.pose.orientation.z = o_z;
+  int_marker_.pose.orientation.w = w;
+
+  server_->clear();
+  server_->insert(int_marker_);
+  server_->applyChanges();
+  //}
+}
+
+void GraspPanel::updateArm()
+{
+  selectedArm = arm_combobox_->currentIndex();
+
+  if(selectedArm == 0)
+  {
+    output_action_editor_->setText("/vizzy/left_arm_cartesian_controller/cartesian_action");
+    updateAction();
+    int_marker_.controls[0].markers[0].mesh_resource = "package://vizzy_rviz_plugins/meshes/vizzy_left_hand.dae";
+  }else
+  {
+    output_action_editor_->setText("/vizzy/right_arm_cartesian_controller/cartesian_action");
+    updateAction();
+    int_marker_.controls[0].markers[0].mesh_resource = "package://vizzy_rviz_plugins/meshes/vizzy_right_hand.dae";
+  }
+
+  server_->clear();
+  server_->insert(int_marker_);
+  server_->applyChanges();
+
 }
 
 
@@ -501,19 +663,23 @@ void GraspPanel::load( const rviz::Config& config )
     input_topic_editor_->setText( topic );
     updateTopic();
   }
+
+  updateArm();
+  
 }
 
 Marker GraspPanel::makeEndEffector( InteractiveMarker &msg )
 {
   Marker marker;
 
-  marker.type = Marker::ARROW;
-  marker.scale.x = msg.scale * 0.45;
-  marker.scale.y = msg.scale * 0.25;
-  marker.scale.z = msg.scale * 0.25;
-  marker.color.r = 0.5;
-  marker.color.g = 0.5;
-  marker.color.b = 0.5;
+  marker.type = visualization_msgs::Marker::MESH_RESOURCE;
+  marker.mesh_resource = "package://vizzy_rviz_plugins/meshes/vizzy_left_hand.dae";
+  marker.scale.x = msg.scale * 5;
+  marker.scale.y = msg.scale * 5;
+  marker.scale.z = msg.scale * 5;
+  marker.color.r = 255.0/255.0;
+  marker.color.g = 223.0/255.0;
+  marker.color.b = 0.0;
   marker.color.a = 1.0;
 
   return marker;
