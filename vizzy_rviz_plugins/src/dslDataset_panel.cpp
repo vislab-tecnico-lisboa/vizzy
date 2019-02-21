@@ -171,16 +171,16 @@ void dslDatasetPanel::initializeParameters()
 
   if(selectedArm == 0) // left
   {
-    goal_pos_x_ = -0.25;
-    goal_pos_y_ = -0.15;
-    goal_pos_z_ = 0.75;
+    goal_pos_x_ = -0.30;
+    goal_pos_y_ = -0.20;
+    goal_pos_z_ = 0.55;
     goal_orient_x_ = 0.04;
     goal_orient_y_ = -0.70;
     goal_orient_z_ = 0.71;
   }else{ // right
-    goal_pos_x_ = -0.25;
-    goal_pos_y_ = 0.15;
-    goal_pos_z_ = 0.75;
+    goal_pos_x_ = -0.30;
+    goal_pos_y_ = 0.20;
+    goal_pos_z_ = 0.55;
     goal_orient_x_ = 0.70;
     goal_orient_y_ = -0.05;
     goal_orient_z_ = 0.02;
@@ -329,7 +329,7 @@ void dslDatasetPanel::recording()
   ROS_WARN_STREAM("System Call to record RosBag");
   std::string command;
   command = "rosbag record -O bags/dsl-dataset-trial_" + std::to_string(trial_);// + " --duration=10 /rosout &";
-  command += " --duration=20 /datasetInfo /vizzy/joint_states /tf /vizzy/l_camera/camera_info /vizzy/l_camera/image_raw/compressed /vizzy/r_camera/image_raw/compressed /camera/asus_camera/depth/image_raw /vizzy/left_arm_cartesian_controll/cartesian_action/feedback &";
+  command += " --duration=20 /datasetInfo /vizzy/joint_states /tf /vizzy/l_camera/camera_info /vizzy/l_camera/image_raw/compressed vizzy/r_camera/camera_info /vizzy/r_camera/image_raw/compressed /realsense/color/image_rect_color/compressed /realsense/depth_registered/points /vizzy/left_arm_cartesian_controll/cartesian_action/feedback &";
 
   vizzy_msgs::DslDataset msg;
   msg.trial_id = trial_;

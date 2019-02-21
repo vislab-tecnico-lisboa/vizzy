@@ -327,7 +327,7 @@ int main(int argc, char *argv[])
             //double joints_arm[8] = {-12, 30, 12, -22, 66, -39, 23, 0.0};
             //ipos->positionMove(joints_arm);
             ipos->positionMove(home_joint_position);
-            ipos_torso->positionMove(0,0);
+            ipos_torso->positionMove(0,15); // 15Deg -> dsl-Dataset. TODO: Use a config file to set the torso joint
             bool motionDone_arm = false;
             double init_time = Time::now();
             double current_time;
