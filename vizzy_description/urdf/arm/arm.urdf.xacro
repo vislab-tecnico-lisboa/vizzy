@@ -365,7 +365,8 @@
           reflect="${reflect}" rpy="${wrist_flection_l_rpy}" prefix="${prefix}"/>
       </link>
 
-      <joint name="${prefix}_wrist_flection_joint"
+	<!-- <joint name="${prefix}_index_flection" Temporary fix for index finger encoder record-->
+       <joint name="${prefix}_wrist_flection_joint" 
         type="revolute">
         <origin
           xyz="0 0 0"
