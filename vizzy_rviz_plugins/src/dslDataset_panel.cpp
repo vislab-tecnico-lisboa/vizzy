@@ -262,7 +262,7 @@ void dslDatasetPanel::gotoGoal()
   ROS_WARN_STREAM(goal.end_effector_pose.pose);
   ac->sendGoal(goal);
 
-  bool finished_before_timeout = ac->waitForResult(ros::Duration(10.0)); // waiting 10s
+  bool finished_before_timeout = ac->waitForResult(ros::Duration(7.0)); // waiting 7s
 
   if (finished_before_timeout)
   {
@@ -279,7 +279,7 @@ void dslDatasetPanel::home()
   vizzy_msgs::CartesianGoal goal;
   goal.type = goal.HOME;
   ac->sendGoal(goal);
-  bool finished_before_timeout = ac->waitForResult(ros::Duration(10.0)); // waiting 10s
+  bool finished_before_timeout = ac->waitForResult(ros::Duration(7.0)); // waiting 7s
 
   if (finished_before_timeout)
   {
@@ -310,7 +310,7 @@ void dslDatasetPanel::action()
   goal.end_effector_pose.header.frame_id = "base_link";//"r_camera_vision_link";  //THIS IS NEEDED?!?
   ac->sendGoal(goal);
 
-  bool finished_before_timeout = ac->waitForResult(ros::Duration(10.0)); // waiting 10s
+  bool finished_before_timeout = ac->waitForResult(ros::Duration(7.0)); // waiting 7s
 
   if (finished_before_timeout)
   {
@@ -329,7 +329,7 @@ void dslDatasetPanel::recording()
   ROS_WARN_STREAM("System Call to record RosBag");
   std::string command;
   command = "rosbag record -O bags/dsl-dataset-trial_" + std::to_string(trial_);// + " --duration=10 /rosout &";
-  command += " --duration=20 /datasetInfo /vizzy/joint_states /tf /tf_static /vizzy/l_camera/camera_info /vizzy/l_camera/image_raw/compressed vizzy/r_camera/camera_info /vizzy/r_camera/image_raw/compressed /realsense/color/image_rect_color/compressed /realsense/depth_registered/points /vizzy/left_arm_cartesian_controll/cartesian_action/feedback &";
+  command += " --duration=25 /datasetInfo /vizzy/joint_states /tf /tf_static /vizzy/l_camera/camera_info /vizzy/l_camera/image_raw/compressed vizzy/r_camera/camera_info /vizzy/r_camera/image_raw/compressed /realsense/color/image_rect_color/compressed /realsense/depth_registered/points /vizzy/left_arm_cartesian_controll/cartesian_action/feedback &";
 
   vizzy_msgs::DslDataset msg;
   msg.trial_id = trial_;
