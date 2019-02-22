@@ -340,7 +340,7 @@ void dslDatasetPanel::recording()
   ROS_WARN_STREAM("System Call to record RosBag");
   std::string command;
   command = "rosbag record -O bags/dsl-dataset-trial_" + std::to_string(trial_);// + " --duration=10 /rosout &";
-  command += " --duration=25 /datasetInfo /datasetStatus /vizzy/joint_states /tf /tf_static /vizzy/l_camera/camera_info /vizzy/l_camera/image_raw/compressed_throttled vizzy/r_camera/camera_info /vizzy/r_camera/image_raw/compressed_throttled /realsense/color/image_rect_color/compressed_throttled /realsense/depth_registered/points_throttled /vizzy/left_arm_cartesian_controll/cartesian_action/feedback &";
+  command += " --duration=25 /datasetInfo /datasetStatus /vizzy/joint_states /tf /tf_static /vizzy/l_camera/camera_info /vizzy/l_camera/image_raw/compressed_throttled vizzy/r_camera/camera_info /vizzy/r_camera/image_raw/compressed_throttled /realsense/color/image_rect_color/compressed_throttled /realsense/depth_registered/points_throttled /vizzy/left_arm_cartesian_controll/cartesian_action/feedback /tactileForceField &";
 
   vizzy_msgs::DslDataset msg;
   msg.trial_id = trial_;
