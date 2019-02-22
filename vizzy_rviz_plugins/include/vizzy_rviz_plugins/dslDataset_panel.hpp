@@ -67,6 +67,7 @@ protected:
 
   // ROS publisher to save dataset information
   ros::Publisher infoPub;
+  ros::Publisher statusPub;
   std::shared_ptr<cartesian_client> ac;
 
   //Combo box to choose left or right arm

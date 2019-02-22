@@ -161,6 +161,7 @@ dslDatasetPanel::dslDatasetPanel(QWidget *parent)
   updateArm();
 
   infoPub = nh_.advertise<vizzy_msgs::DslDataset>("datasetInfo", 100);
+  statusPub = nh_.advertise<std_msgs::String>("datasetStatus", 100);
   csvfile.open("dsl-dataset.csv", std::ios_base::trunc);
   csvfile << "Trial_ID ; Object_ID ; Location_ID ; repetition_Number ; task_vel_y ; movement_duration ; Bag_name" << std::endl;
   csvfile.close();
@@ -243,6 +244,7 @@ void dslDatasetPanel::poseCallback(const geometry_msgs::PoseStamped::ConstPtr& m
 void dslDatasetPanel::gotoGoal()
 {
   ROS_WARN_STREAM("Going to Goal");
+
   vizzy_msgs::CartesianGoal goal;
   goal.type = goal.CARTESIAN;
   goal.end_effector_pose.pose.position.x = goal_pos_x_;
@@ -260,6 +262,9 @@ void dslDatasetPanel::gotoGoal()
 
   goal.end_effector_pose.header.frame_id = "base_link";//"r_camera_vision_link";  //THIS IS NEEDED?!?
   ROS_WARN_STREAM(goal.end_effector_pose.pose);
+  std_msgs::String msg_status;
+  msg_status.data = "Going to goal"
+  statusPub.publish(msg_status)
   ac->sendGoal(goal);
 
   bool finished_before_timeout = ac->waitForResult(ros::Duration(7.0)); // waiting 7s
@@ -278,6 +283,9 @@ void dslDatasetPanel::home()
   ROS_WARN_STREAM("Going Home");
   vizzy_msgs::CartesianGoal goal;
   goal.type = goal.HOME;
+  std_msgs::String msg_status;
+  msg_status.data = "Going to home position"
+  statusPub.publish(msg_status)
   ac->sendGoal(goal);
   bool finished_before_timeout = ac->waitForResult(ros::Duration(7.0)); // waiting 7s
 
@@ -308,6 +316,9 @@ void dslDatasetPanel::action()
   goal.velocity.push_back(aux);
   goal.duration.data = duration_traj_;
   goal.end_effector_pose.header.frame_id = "base_link";//"r_camera_vision_link";  //THIS IS NEEDED?!?
+  std_msgs::String msg_status;
+  msg_status.data = "Performing action"
+  statusPub.publish(msg_status)
   ac->sendGoal(goal);
 
   bool finished_before_timeout = ac->waitForResult(ros::Duration(7.0)); // waiting 7s
@@ -329,7 +340,7 @@ void dslDatasetPanel::recording()
   ROS_WARN_STREAM("System Call to record RosBag");
   std::string command;
   command = "rosbag record -O bags/dsl-dataset-trial_" + std::to_string(trial_);// + " --duration=10 /rosout &";
-  command += " --duration=25 /datasetInfo /vizzy/joint_states /tf /tf_static /vizzy/l_camera/camera_info /vizzy/l_camera/image_raw/compressed vizzy/r_camera/camera_info /vizzy/r_camera/image_raw/compressed /realsense/color/image_rect_color/compressed /realsense/depth_registered/points /vizzy/left_arm_cartesian_controll/cartesian_action/feedback &";
+  command += " --duration=25 /datasetInfo /datasetStatus /vizzy/joint_states /tf /tf_static /vizzy/l_camera/camera_info /vizzy/l_camera/image_raw/compressed vizzy/r_camera/camera_info /vizzy/r_camera/image_raw/compressed /realsense/color/image_rect_color/compressed /realsense/depth_registered/points /vizzy/left_arm_cartesian_controll/cartesian_action/feedback &";
 
   vizzy_msgs::DslDataset msg;
   msg.trial_id = trial_;
@@ -340,8 +351,12 @@ void dslDatasetPanel::recording()
   msg.velocity_y = linearVelocity_y_;
   msg.movement_duration = duration_traj_;
 
+
   int i = system (command.c_str());
   ros::Duration(2.0).sleep();
+  std_msgs::String msg_status;
+  msg_status.data = "Start Recording"
+  statusPub.publish(msg_status)
   infoPub.publish(msg);
   trial_++;
   trial_spin_->setValue(trial_);
