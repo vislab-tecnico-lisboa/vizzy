@@ -263,8 +263,8 @@ void dslDatasetPanel::gotoGoal()
   goal.end_effector_pose.header.frame_id = "base_link";//"r_camera_vision_link";  //THIS IS NEEDED?!?
   ROS_WARN_STREAM(goal.end_effector_pose.pose);
   std_msgs::String msg_status;
-  msg_status.data = "Going to goal"
-  statusPub.publish(msg_status)
+  msg_status.data = "Going to goal";
+  statusPub.publish(msg_status);
   ac->sendGoal(goal);
 
   bool finished_before_timeout = ac->waitForResult(ros::Duration(7.0)); // waiting 7s
@@ -284,8 +284,8 @@ void dslDatasetPanel::home()
   vizzy_msgs::CartesianGoal goal;
   goal.type = goal.HOME;
   std_msgs::String msg_status;
-  msg_status.data = "Going to home position"
-  statusPub.publish(msg_status)
+  msg_status.data = "Going to home position";
+  statusPub.publish(msg_status);
   ac->sendGoal(goal);
   bool finished_before_timeout = ac->waitForResult(ros::Duration(7.0)); // waiting 7s
 
@@ -317,8 +317,8 @@ void dslDatasetPanel::action()
   goal.duration.data = duration_traj_;
   goal.end_effector_pose.header.frame_id = "base_link";//"r_camera_vision_link";  //THIS IS NEEDED?!?
   std_msgs::String msg_status;
-  msg_status.data = "Performing action"
-  statusPub.publish(msg_status)
+  msg_status.data = "Performing action";
+  statusPub.publish(msg_status);
   ac->sendGoal(goal);
 
   bool finished_before_timeout = ac->waitForResult(ros::Duration(7.0)); // waiting 7s
@@ -355,8 +355,8 @@ void dslDatasetPanel::recording()
   int i = system (command.c_str());
   ros::Duration(2.0).sleep();
   std_msgs::String msg_status;
-  msg_status.data = "Start Recording"
-  statusPub.publish(msg_status)
+  msg_status.data = "Start Recording";
+  statusPub.publish(msg_status);
   infoPub.publish(msg);
   trial_++;
   trial_spin_->setValue(trial_);
