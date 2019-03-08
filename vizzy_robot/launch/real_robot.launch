@@ -21,6 +21,9 @@
   <arg name="base_frame_id" default="$(arg tf_prefix)/base_footprint" />
   <arg name="odom_frame_id" default="$(arg tf_prefix)/odom" />
   <arg name="ros_cameras_on" default="true" />
+  <arg name="cameras_auto_gain" default="false" />
+  <arg name="cameras_auto_exposure" default="false" />
+  <arg name="cameras_auto_frame_rate" default="false" />
 
 
   <!-- launch the auxiliary configuration (shared between h/w and simulation) -->
@@ -64,6 +67,9 @@
           <arg name="ns" value="$(arg ns)" />
           <arg name="frame_rate" value="10"/>
           <arg name="camera_intrinsics_file" value="$(find vizzy_robot)/config/left_camera_params.yaml" />
+	  <arg name="auto_gain" value="$(arg cameras_auto_gain)" />
+	  <arg name="auto_exposure" value="$(arg cameras_auto_exposure)" />
+	  <arg name="auto_frame_rate" value="$(arg cameras_auto_frame_rate)" />
        </include>
 
       <!-- Right camera -->
@@ -75,6 +81,10 @@
         <arg name="ns" value="$(arg ns)" />
         <arg name="frame_rate" value="10"/>
         <arg name="camera_intrinsics_file" value="$(find vizzy_robot)/config/right_camera_params.yaml" />
+	  <arg name="auto_gain" value="$(arg cameras_auto_gain)" />
+	  <arg name="auto_exposure" value="$(arg cameras_auto_exposure)" />
+	<arg name="auto_frame_rate" value="$(arg cameras_auto_frame_rate)" />
+
       </include> 
 
       <!-- Realsense -->

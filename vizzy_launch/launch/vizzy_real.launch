@@ -43,6 +43,9 @@
 
   <arg name="reactive_2d_navigation" default="false"/>
   <arg name="teleop" default="true"/>
+  <arg name="cameras_auto_gain" default="false" />
+  <arg name="cameras_auto_exposure" default="false" />
+  <arg name="cameras_auto_frame_rate" default="false" />
 
   <!-- bringup robot -->
   <include file="$(find vizzy_robot)/launch/real_robot.launch">
@@ -51,6 +54,9 @@
     <arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)"/>
     <arg name="ns" value="$(arg ns)" />
     <arg name="ros_cameras_on" value="$(arg ros_cameras_on)" />
+    <arg name="cameras_auto_gain" value="$(arg cameras_auto_gain)" />
+    <arg name="cameras_auto_exposure" value="$(arg cameras_auto_exposure)" />
+    <arg name="cameras_auto_frame_rate" value="$(arg cameras_auto_frame_rate)" />
   </include>
 
   <!-- launch moveit -->
