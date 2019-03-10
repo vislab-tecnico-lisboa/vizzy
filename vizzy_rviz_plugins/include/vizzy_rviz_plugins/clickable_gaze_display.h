@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2012, Willow Garage, Inc.
+ * 2017, Joao Avelino
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -90,6 +91,7 @@ public:
 public Q_SLOTS:
   virtual void updateNormalizeOptions();
   void mouseEventHandler(QMouseEvent *event);
+  void updateOutputTopic();
 
 protected:
   // overrides from Display
@@ -102,7 +104,7 @@ protected:
 private:
   void clear();
   void updateStatus();
-  void updateTopic();
+  
 
   Ogre::SceneManager *img_scene_manager_;
   Ogre::SceneNode *img_scene_node_;
