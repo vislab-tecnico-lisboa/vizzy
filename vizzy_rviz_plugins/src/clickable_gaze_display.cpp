@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2012, Willow Garage, Inc.
+ * 2017, Joao Avelino
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -80,9 +81,9 @@ ClickableGazeDisplay::ClickableGazeDisplay()
 
   topic_property_ = new rviz::StringProperty("Topic", "/image_clicked_point",
                                        "The topic on which to publish points.",
-                                       this, SLOT(updateTopic()));
+                                       this, SLOT(updateOutputTopic()));
 
-  updateTopic();
+  updateOutputTopic();
 
   got_float_image_ = false;
 }
@@ -163,6 +164,8 @@ ClickableGazeDisplay::~ClickableGazeDisplay() {
 }
 
 void ClickableGazeDisplay::onEnable() {
+  ImageDisplayBase::unsubscribe();
+  clear();
   ImageDisplayBase::subscribe();
   render_panel_->getRenderWindow()->setActive(true);
 }
@@ -359,7 +362,8 @@ void ClickableGazeDisplay::mouseEventHandler(QMouseEvent *mevent) {
 
 
 }
-void ClickableGazeDisplay::updateTopic() {
+
+void ClickableGazeDisplay::updateOutputTopic() {
   pub_ = nh_.advertise<geometry_msgs::PointStamped>(
       topic_property_->getStdString(), 1);
 }
