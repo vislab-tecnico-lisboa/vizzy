@@ -5,7 +5,7 @@
 <launch>
 
   <!-- Parameters -->
-
+  <arg name="slam" default="false"/>
   <!-- Robot name -->
   <arg name="robot" default="vizzy"/>
   <!-- Robot namespace -->
@@ -121,6 +121,7 @@
     </node>
 
     <!-- Launch map server with a previously acquired map -->
+    <group unless="$(arg slam)">
     <node name="map_server" pkg="map_server" type="map_server"
       args="$(find vizzy_navigation)/maps/$(arg map_file)"/>
     <!-- Obstacle map -->
@@ -150,7 +151,7 @@
       <!-- Launch Adaptive Monte Carlo Localization (amcl) -->
       <include file="$(find vizzy_navigation)/launch/amcl_simulation.launch"/>
     </group>
-
+   </group>
   </group>
 
   <!-- Launch teleop -->
