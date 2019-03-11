@@ -2,7 +2,7 @@
 
 namespace vizzy_rviz_plugins {
 
-WasdTeleopTool::WasdTeleopTool() : linear_velocity_(0), angular_velocity_(0), output_topic_(""),
+WasdTeleopTool::WasdTeleopTool() : linear_velocity_(0), angular_velocity_(0), vel_output_topic_(""), move_base_cancel_output_topic_(""),
   boosted_ang_(0), boosted_lin_(0)
 {
 
@@ -12,7 +12,41 @@ WasdTeleopTool::WasdTeleopTool() : linear_velocity_(0), angular_velocity_(0), ou
 
 WasdTeleopTool::~WasdTeleopTool()
 {
-  velocity_publisher_.shutdown();
+  
+  linear_velocity_ = 0;
+  angular_velocity_ = 0;
+  
+  if(output_timer != NULL)
+  {
+    output_timer->stop();
+    delete output_timer;
+  }
+    
+  
+  access_all_keys_ = false;
+  qApp->removeEventFilter(this);
+
+  if( ros::ok() && velocity_publisher_)
+  {
+    geometry_msgs::Twist msg;
+
+    if(boosted_lin_)
+      msg.linear.x = linear_velocity_*2;
+    else
+      msg.linear.x = linear_velocity_;
+
+    msg.linear.y = 0;
+    msg.linear.z = 0;
+    msg.angular.x = 0;
+    msg.angular.y = 0;
+    if(boosted_ang_)
+      msg.angular.z = angular_velocity_*2;
+    else
+      msg.angular.z = angular_velocity_;
+
+    velocity_publisher_.publish( msg );
+
+  }
 }
 
 void WasdTeleopTool::onInitialize()
@@ -40,6 +74,9 @@ void WasdTeleopTool::onInitialize()
   boosted_ang_ = 0;
   boosted_lin_ = 0;
 
+  updateTopic();
+  updateActionCancelTopic();
+
 }
 
 
@@ -48,14 +85,14 @@ void WasdTeleopTool::onInitialize()
 void WasdTeleopTool::activate()
 {
 
+  updateTopic();
+  updateActionCancelTopic();
+
   qApp->installEventFilter(this);
 
   output_timer = new QTimer( this );
 
   access_all_keys_ = true;
-
-  updateTopic();
-  updateActionCancelTopic();
 
   connect( output_timer, SIGNAL( timeout() ), this, SLOT( sendVel() ));
 
@@ -63,13 +100,14 @@ void WasdTeleopTool::activate()
   output_timer->start( 100 );
 
   actionlib_msgs::GoalID cancelAllGoals;
-  goal_cancel_publisher_.publish(cancelAllGoals);
 
+  goal_cancel_publisher_.publish(cancelAllGoals);
 
 }
 
 void WasdTeleopTool::deactivate()
 {
+
   linear_velocity_ = 0;
   angular_velocity_ = 0;
   boosted_lin_ = 0;
@@ -77,15 +115,57 @@ void WasdTeleopTool::deactivate()
   output_timer->stop();
   access_all_keys_ = false;
   qApp->removeEventFilter(this);
+
+  if( ros::ok() && velocity_publisher_)
+  {
+    geometry_msgs::Twist msg;
+
+    if(boosted_lin_)
+      msg.linear.x = linear_velocity_*2;
+    else
+      msg.linear.x = linear_velocity_;
+
+    msg.linear.y = 0;
+    msg.linear.z = 0;
+    msg.angular.x = 0;
+    msg.angular.y = 0;
+    if(boosted_ang_)
+      msg.angular.z = angular_velocity_*2;
+    else
+      msg.angular.z = angular_velocity_;
+
+    velocity_publisher_.publish( msg );
+
+  }
+
+  
 }
 
 
 bool WasdTeleopTool::eventFilter(QObject *obj, QEvent *event) //AWESOME!
 {
-  if (event->type() == QEvent::KeyPress)
+
+  /*For security reasons we need to check wheter the window as lost focus. If so, set velocities to 0!*/
+  if(event->type() == QEvent::ActivationChange)
   {
+    linear_velocity_ = 0;
+    angular_velocity_ = 0;
+    return true;
+  } /*Ok, it was a key press*/
+  else if (event->type() == QEvent::KeyPress)
+  {
+   
     QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
-    if(keyEvent->key() == Qt::Key_W && !keyEvent->isAutoRepeat())
+
+    /*For security reasons we should set the velocity to zero if certain keys are pressed*/
+    if((keyEvent->key() == Qt::Key_Tab || keyEvent->key() == Qt::Key_Meta || 
+      keyEvent->key() == Qt::Key_AltGr) && !keyEvent->isAutoRepeat())
+    {
+      linear_velocity_ = 0;
+      angular_velocity_ = 0;
+      return true;
+    }
+    else if(keyEvent->key() == Qt::Key_W && !keyEvent->isAutoRepeat())
     {
       linear_velocity_+=lin_step_;
       return true;
@@ -173,6 +253,7 @@ void WasdTeleopTool::maxAngularVelUpdate()
 
 void WasdTeleopTool::sendVel()
 {
+
   if( ros::ok() && velocity_publisher_ )
   {
     geometry_msgs::Twist msg;
@@ -181,6 +262,7 @@ void WasdTeleopTool::sendVel()
       msg.linear.x = linear_velocity_*2;
     else
       msg.linear.x = linear_velocity_;
+
     msg.linear.y = 0;
     msg.linear.z = 0;
     msg.angular.x = 0;
@@ -189,7 +271,6 @@ void WasdTeleopTool::sendVel()
       msg.angular.z = angular_velocity_*2;
     else
       msg.angular.z = angular_velocity_;
-
     velocity_publisher_.publish( msg );
   }
 
@@ -209,19 +290,20 @@ void WasdTeleopTool::updateActionCancelTopic()
 
 void WasdTeleopTool::setActionCancelTopic(const QString& new_topic)
 {
+
   // Only take action if the name has changed.
-  if( new_topic != output_topic_ )
+  if( new_topic != move_base_cancel_output_topic_ )
   {
-    output_topic_ = new_topic;
+    move_base_cancel_output_topic_ = new_topic;
 
     // If the topic is the empty string, don't publish anything.
-    if( output_topic_.toStdString() == "" )
+    if( move_base_cancel_output_topic_.toStdString() == "" )
     {
       goal_cancel_publisher_.shutdown();
     }
     else
     {
-      goal_cancel_publisher_ = nh_.advertise<actionlib_msgs::GoalID>( output_topic_.toStdString(), 1 );
+      goal_cancel_publisher_ = nh_.advertise<actionlib_msgs::GoalID>( move_base_cancel_output_topic_.toStdString(), 1);
     }
   }
 }
@@ -229,19 +311,20 @@ void WasdTeleopTool::setActionCancelTopic(const QString& new_topic)
 void WasdTeleopTool::setTopic( const QString& new_topic )
 {
 
+
   // Only take action if the name has changed.
-  if( new_topic != output_topic_ )
+  if( new_topic != vel_output_topic_ )
   {
-    output_topic_ = new_topic;
+    vel_output_topic_ = new_topic;
 
     // If the topic is the empty string, don't publish anything.
-    if( output_topic_.toStdString() == "" )
+    if( vel_output_topic_.toStdString() == "" )
     {
       velocity_publisher_.shutdown();
     }
     else
     {
-      velocity_publisher_ = nh_.advertise<geometry_msgs::Twist>( output_topic_.toStdString(), 1 );
+      velocity_publisher_ = nh_.advertise<geometry_msgs::Twist>( vel_output_topic_.toStdString(), 1 );
     }
   }
 }
@@ -253,7 +336,8 @@ void WasdTeleopTool::setTopic( const QString& new_topic )
 void WasdTeleopTool::save( rviz::Config config ) const
 {
   rviz::Tool::save( config );
-  config.mapSetValue( "Topic", output_topic_ );
+  config.mapSetValue( "Velocity Topic", vel_output_topic_ );
+  config.mapSetValue( "Action Topic", move_base_cancel_output_topic_ );
 }
 
 
@@ -262,10 +346,13 @@ void WasdTeleopTool::load( const rviz::Config& config )
 {
   rviz::Tool::load( config );
   QString topic;
-  if( config.mapGetString( "Topic", &topic ))
+  if( config.mapGetString( "Velocity Topic", &vel_output_topic_ ))
   {
-    output_topic_ = topic;
     updateTopic();
+  }
+  if( config.mapGetString( "Action Topic", &move_base_cancel_output_topic_ ))
+  {
+    updateActionCancelTopic();
   }
 }
 

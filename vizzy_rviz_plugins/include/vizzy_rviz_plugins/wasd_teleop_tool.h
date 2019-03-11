@@ -60,16 +60,16 @@ protected:
   float lin_step_ = 0.5;
   float ang_step_ = M_PI/8;
 
-  QString output_topic_;
+  QString vel_output_topic_;
   rviz::RosTopicProperty *topic_property_;
 
   rviz::RosTopicProperty *move_base_cancel_topic_property_;
-
+  QString move_base_cancel_output_topic_;
 
   rviz::FloatProperty *max_lin_property_;
   rviz::FloatProperty *max_ang_property_;
 
-  QTimer* output_timer;
+  QTimer* output_timer = NULL;
 
   bool eventFilter(QObject* obj, QEvent* event);
 
