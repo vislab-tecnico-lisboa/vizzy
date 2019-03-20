@@ -32,7 +32,7 @@ using namespace std;
 class PatternPoseEstimation
 {
 	vector<pcl::PPFHashMapSearch::Ptr> hashmap_search_vector;
-
+	double distance_threshold;
 	double rot_thresh;
 	double tran_thresh;
 	double cluster_tran_thresh;
@@ -42,7 +42,7 @@ class PatternPoseEstimation
 	pcl::PointCloud<pcl::Normal>::Ptr normals_;
 	pcl::PointCloud<pcl::Normal>::Ptr normals;
 	pcl::PointCloud<pcl::PointXYZ>::Ptr point_cloud_;
-    pcl::search::KdTree<pcl::PointXYZ>::Ptr tree;
+        pcl::search::KdTree<pcl::PointXYZ>::Ptr tree;
 	public:
 		PointCloud<PointNormal>::Ptr cloud_output_subsampled;
 
@@ -52,10 +52,11 @@ class PatternPoseEstimation
 		std::vector<pcl::PointCloud<pcl::PointNormal>::Ptr> cloud_models_with_normals;
 
 		PatternPoseEstimation(	double rot_thresh_=30.0, 
-								double tran_thresh_=0.05,
-								double fitting_score_thresh_=0.01, 
-								double discretization_step_=0.01,
-								std::string file_="file");
+					double tran_thresh_=0.05,
+					double fitting_score_thresh_=0.01, 
+					double discretization_step_=0.01,
+					std::string file_="file",
+                                        double distance_threshold_=1.4);
 
 		int train (std::vector<pcl::PointCloud<pcl::PointNormal>::Ptr> cloud_models_with_normals_);
 		Eigen::Affine3d detect(pcl::PointCloud<pcl::PointNormal>::Ptr cloud_with_normals);
