@@ -18,6 +18,7 @@ PatternPoseEstimation::PatternPoseEstimation(double rot_thresh_, double tran_thr
 	discretization_step(discretization_step_),
         distance_threshold(distance_threshold_)
 {
+        std::cout << distance_threshold << std::endl;
 	pcl::console::setVerbosityLevel(pcl::console::L_ALWAYS);
 	cluster_tran_thresh=3.0*tran_thresh;
 	cluster_rot_thresh=3.0*rot_thresh;
@@ -74,7 +75,8 @@ pcl::PointCloud<PointNormal>::Ptr PatternPoseEstimation::getPointNormal(pcl::Poi
 		}
 		// filter also based on distance
 		double distance=sqrt(point_cloud->at(i).x*point_cloud->at(i).x+point_cloud->at(i).y*point_cloud->at(i).y);
-		if(distance>distance_threshold);
+
+                if(distance>distance_threshold)
                    continue;
 		normals_->push_back(normals->at(i));
 		point_cloud_->push_back(point_cloud->at(i));

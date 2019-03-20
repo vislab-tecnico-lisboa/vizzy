@@ -47,6 +47,8 @@ void ChargingActionServer::goalCallback()
       //Go to initial point using controller
       feedback.state = feedback.GOING_TO_INIT_POSE;
       as_.publishFeedback(feedback);
+      
+      ros::Duration(5).sleep();
       ROS_INFO("Aligning robot with docking station");
 
       //We want to align the robot at the point that is 1.0m right in front of the docking station
@@ -102,7 +104,9 @@ void ChargingActionServer::goalCallback()
               {
                 onDeadzone = controller_.getDistanceError() < 0.3;
                 controller_.updateGoal(goalPose);
-              }
+              }else{
+		ROS_INFO("On first deadzone");
+		}
               
               controller_.enableControl();
               controller_.run();
@@ -121,7 +125,7 @@ void ChargingActionServer::goalCallback()
       
       controller_.disableControl();
       estimator_.disable();
-
+      ros::Duration(5).sleep();
       //Docking
       feedback.state = feedback.DOCKING;
       as_.publishFeedback(feedback);

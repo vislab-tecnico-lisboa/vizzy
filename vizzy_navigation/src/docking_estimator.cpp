@@ -50,7 +50,7 @@ DockingEstimator::DockingEstimator(ros::NodeHandle nh) :
     n_priv.param("rot_thresh",rot_thresh,30.0); // in degrees
     n_priv.param("fitting_score_thresh",fitting_score_thresh,0.01); // in degrees
     n_priv.param("discretization_step",discretization_step,0.01); // in degrees
-    n_priv.param("pattern_distance_threshold",pattern_distance_threshold,0.01); // in degrees
+    n_priv.param("pattern_distance_threshold",pattern_distance_threshold,1.5); // in degrees
 
     n_priv.param<std::string>("model_file",model_file,"file"); // in degrees
 
