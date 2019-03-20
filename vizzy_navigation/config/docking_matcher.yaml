@@ -3,3 +3,4 @@ tran_thresh: 0.1
 fitting_score_thresh: 0.01
 discretization_step: 0.02
 filter_buffer_size: 10
+distance_threshold: 0.3

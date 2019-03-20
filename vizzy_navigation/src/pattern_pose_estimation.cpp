@@ -6,17 +6,17 @@
 using namespace pcl;
 using namespace std;
 
-
-PatternPoseEstimation::PatternPoseEstimation(double rot_thresh_, double tran_thresh_, double fitting_score_thresh_, double discretization_step_, std::string file_) :
+PatternPoseEstimation::PatternPoseEstimation(double rot_thresh_, double tran_thresh_, double fitting_score_thresh_, double discretization_step_, std::string file_, double distance_threshold_) :
 	rot_thresh( (rot_thresh_ / 180.0) * double (M_PI)),
 	tran_thresh(tran_thresh_),
 	fitting_score_thresh(fitting_score_thresh_),
 	normals (new pcl::PointCloud<pcl::Normal>()),
 	normals_ (new pcl::PointCloud<pcl::Normal>()),
 	point_cloud_ (new pcl::PointCloud<pcl::PointXYZ>()),
-    tree (new pcl::search::KdTree<pcl::PointXYZ> ()),
+	tree (new pcl::search::KdTree<pcl::PointXYZ> ()),
 	cloud_output_subsampled(new PointCloud<PointNormal>()),
-	discretization_step(discretization_step_)
+	discretization_step(discretization_step_),
+        distance_threshold(distance_threshold_)
 {
 	pcl::console::setVerbosityLevel(pcl::console::L_ALWAYS);
 	cluster_tran_thresh=3.0*tran_thresh;
@@ -27,30 +27,30 @@ PatternPoseEstimation::PatternPoseEstimation(double rot_thresh_, double tran_thr
 
 pcl::PointCloud<PointNormal>::Ptr PatternPoseEstimation::getPointNormal(pcl::PointCloud<pcl::PointXYZ>::Ptr point_cloud)
 {
-    // Create the filtering object
+	// Create the filtering object
 	pcl::VoxelGrid<pcl::PointXYZ> sor;
 	sor.setInputCloud (point_cloud);
 	sor.setLeafSize (discretization_step, discretization_step,1000.0);
 	sor.filter (*point_cloud);
 
-    // Define random generator with Gaussian distribution
-    const double mean = 0.0;
-    const double stddev = 0.001;
-    std::default_random_engine generator;
-    std::normal_distribution<double> dist(mean, stddev);
+	// Define random generator with Gaussian distribution
+	const double mean = 0.0;
+	const double stddev = 0.001;
+	std::default_random_engine generator;
+	std::normal_distribution<double> dist(mean, stddev);
 
 	for(unsigned int i=0; i<point_cloud->size();++i)
 	{
 		point_cloud->at(i).z=dist(generator);
 	}	
 
-    // Create the normal estimation class, and pass the input dataset to it
-    pcl::NormalEstimation<pcl::PointXYZ, pcl::Normal> ne;
-    ne.setInputCloud (point_cloud);
+	// Create the normal estimation class, and pass the input dataset to it
+	pcl::NormalEstimation<pcl::PointXYZ, pcl::Normal> ne;
+	ne.setInputCloud (point_cloud);
 	ne.setViewPoint (std::numeric_limits<float>::max (), 0.0, 0.0);
-    ne.setSearchMethod (tree);
-    ne.setRadiusSearch (5.0*discretization_step);
-    ne.compute (*normals);
+	ne.setSearchMethod (tree);
+	ne.setRadiusSearch (5.0*discretization_step);
+	ne.compute (*normals);
 
 	normals_->clear();
 	point_cloud_->clear();
@@ -63,21 +63,25 @@ pcl::PointCloud<PointNormal>::Ptr PatternPoseEstimation::getPointNormal(pcl::Poi
 		normals->at(i).normal_z=0.0;
 		point_cloud->at(i).z=0.0;
 		if( isnan(normals->at(i).normal_x)||
-			isnan(normals->at(i).normal_y)||
-			isnan(normals->at(i).normal_z)||
-			isnan(point_cloud->at(i).x)||
-			isnan(point_cloud->at(i).y)||
-			isnan(point_cloud->at(i).z)
+		    isnan(normals->at(i).normal_y)||
+		    isnan(normals->at(i).normal_z)||
+		    isnan(point_cloud->at(i).x)||
+		    isnan(point_cloud->at(i).y)||
+		    isnan(point_cloud->at(i).z)
 		  ) 
 		{
 			continue;
 		}
+		// filter also based on distance
+		double distance=sqrt(point_cloud->at(i).x*point_cloud->at(i).x+point_cloud->at(i).y*point_cloud->at(i).y);
+		if(distance>distance_threshold);
+                   continue;
 		normals_->push_back(normals->at(i));
 		point_cloud_->push_back(point_cloud->at(i));
 	}
 
-    pcl::PointCloud<pcl::PointNormal>::Ptr cloud_normals (new pcl::PointCloud<pcl::PointNormal>);
-    pcl::concatenateFields (*point_cloud_, *normals_, *cloud_normals);
+	pcl::PointCloud<pcl::PointNormal>::Ptr cloud_normals (new pcl::PointCloud<pcl::PointNormal>);
+	pcl::concatenateFields (*point_cloud_, *normals_, *cloud_normals);
 
 	return cloud_normals;
 }
@@ -179,3 +183,4 @@ Eigen::Matrix4f PatternPoseEstimation::refine(pcl::PointCloud<pcl::PointNormal>:
 	
 	return icp.getFinalTransformation();
 }
+

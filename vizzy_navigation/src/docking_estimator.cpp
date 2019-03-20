@@ -42,6 +42,7 @@ DockingEstimator::DockingEstimator(ros::NodeHandle nh) :
     double rot_thresh;
     double fitting_score_thresh;
     double discretization_step;
+    double pattern_distance_threshold;
 
     std::string model_file;
 
@@ -49,13 +50,15 @@ DockingEstimator::DockingEstimator(ros::NodeHandle nh) :
     n_priv.param("rot_thresh",rot_thresh,30.0); // in degrees
     n_priv.param("fitting_score_thresh",fitting_score_thresh,0.01); // in degrees
     n_priv.param("discretization_step",discretization_step,0.01); // in degrees
+    n_priv.param("pattern_distance_threshold",pattern_distance_threshold,0.01); // in degrees
 
     n_priv.param<std::string>("model_file",model_file,"file"); // in degrees
 
-    ROS_INFO_STREAM("tran_thres:"<<tran_thresh);
-    ROS_INFO_STREAM("rot_thresh:"<<rot_thresh);
-    ROS_INFO_STREAM("fitting_score_thresh:"<<fitting_score_thresh);
-    ROS_INFO_STREAM("discretization_step:"<<discretization_step);
+    ROS_INFO_STREAM("tran_thres:"                 << tran_thresh);
+    ROS_INFO_STREAM("rot_thresh:"                 << rot_thresh);
+    ROS_INFO_STREAM("fitting_score_thresh:"       << fitting_score_thresh);
+    ROS_INFO_STREAM("discretization_step:"        << discretization_step);
+    ROS_INFO_STREAM("pattern_distance_threshold:" << pattern_distance_threshold);
 
     // Train PPF registration model
     pattern_pose_estimation=std::shared_ptr<PatternPoseEstimation>(new PatternPoseEstimation(
@@ -63,7 +66,8 @@ DockingEstimator::DockingEstimator(ros::NodeHandle nh) :
         tran_thresh,
         fitting_score_thresh,
         discretization_step,
-        model_file));
+        model_file,
+        pattern_distance_threshold));
 
     //Subscribe the laser
     laser_sub_ = nh_.subscribe<sensor_msgs::LaserScan>("/scan_filtered_rear", 1, &DockingEstimator::laserCallback, this);
@@ -91,7 +95,7 @@ void DockingEstimator::laserCallback(const boost::shared_ptr<const sensor_msgs::
 
     pcl::PointCloud<pcl::PointNormal>::Ptr cloud_normals (new pcl::PointCloud<pcl::PointNormal>);
 
-	cloud_normals=pattern_pose_estimation->getPointNormal(cloud_pcl);
+    cloud_normals=pattern_pose_estimation->getPointNormal(cloud_pcl);
 
     //Compute the transform between points
     Eigen::Affine3d transformNN;
