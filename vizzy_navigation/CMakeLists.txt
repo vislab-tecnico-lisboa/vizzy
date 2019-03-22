@@ -15,6 +15,7 @@ find_package(catkin REQUIRED
     interactive_markers
     visualization_msgs
     eigen_conversions
+    rospy
     actionlib_msgs)
 
   #add dynamic reconfigure api
@@ -50,7 +51,7 @@ add_action_files(
 )
 
 generate_messages(
-  DEPENDENCIES actionlib_msgs std_msgs  # Or other packages containing msgs
+  DEPENDENCIES actionlib_msgs std_msgs geometry_msgs  # Or other packages containing msgs
 )
 
 
@@ -63,6 +64,9 @@ catkin_package(
     roscpp
     dynamic_reconfigure
     actionlib_msgs
+    std_msgs
+    geometry_msgs
+    rospy
 )
 
 include_directories(
@@ -94,7 +98,7 @@ target_link_libraries(reroute_twist2nav2d_node
   ${Boost_LIBRARIES}
   ${catkin_LIBRARIES}
 )
-add_dependencies(reroute_twist2nav2d_node nav2d_operator_generate_messages_cpp ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_gencfg)
+add_dependencies(reroute_twist2nav2d_node vizzy_navigation_generate_messages_cpp ${PROJECT_NAME}_gencfg ${vizzy_navigation_EXPORTED_TARGETS})
 
 add_executable(docking_controller src/docking_controller.cpp src/docking_controller_ros.cpp src/docking_controller_node.cpp)
 target_link_libraries(docking_controller
@@ -102,7 +106,7 @@ target_link_libraries(docking_controller
   ${catkin_LIBRARIES}
   falkolib
 )
-add_dependencies(docking_controller ${PROJECT_NAME}_gencfg)
+add_dependencies(docking_controller ${PROJECT_NAME}_gencfg ${vizzy_navigation_EXPORTED_TARGETS})
 
 
 add_executable(docking_learner src/docking_learner.cpp src/docking_learner_node.cpp src/falko_database.cpp)

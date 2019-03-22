@@ -74,7 +74,7 @@ pcl::PointCloud<PointNormal>::Ptr PatternPoseEstimation::getPointNormal(pcl::Poi
 			continue;
 		}
 		// filter also based on distance
-		double distance=sqrt(point_cloud->at(i).x*point_cloud->at(i).x+point_cloud->at(i).y*point_cloud->at(i).y);
+		double distance=sqrt( (point_cloud->at(i).x*point_cloud->at(i).x) + (point_cloud->at(i).y*point_cloud->at(i).y) );
 
                 if(distance>distance_threshold)
                    continue;
@@ -123,10 +123,10 @@ int PatternPoseEstimation::train(std::vector<pcl::PointCloud<pcl::PointNormal>::
 
 Eigen::Affine3d PatternPoseEstimation::detect(pcl::PointCloud<pcl::PointNormal>::Ptr cloud_with_normals)
 {
-	if(cloud_with_normals->points.empty())
+	/*if(cloud_with_normals->points.empty())
 	{
 		throw std::runtime_error("Empty cloud");
-	}
+	}*/
 	
 	std::vector<Eigen::Affine3d> transforms_;
 
@@ -175,7 +175,7 @@ Eigen::Matrix4f PatternPoseEstimation::refine(pcl::PointCloud<pcl::PointNormal>:
 
 	if(icp.getFitnessScore()>fitting_score_thresh)
 	{
-		std::cout << "icp did not converge" << std::endl;
+		//std::cout << "icp did not converge" << std::endl;
 		throw std::runtime_error("icp did not converge");
 	}
 	else
