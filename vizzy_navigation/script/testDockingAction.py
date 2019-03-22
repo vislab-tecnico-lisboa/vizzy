@@ -25,9 +25,6 @@ def main():
 
     client.wait_for_result()
     print client.get_result()
-
-
-
     rospy.spin()	
 
 if __name__ == '__main__':

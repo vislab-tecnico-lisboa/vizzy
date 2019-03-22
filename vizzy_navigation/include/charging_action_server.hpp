@@ -11,7 +11,6 @@
 
 typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
 
-
 class ChargingActionServer
 {
 private:
@@ -30,9 +29,9 @@ private:
 
     //Docking station move base goal
     move_base_msgs::MoveBaseGoal goal_msg;
-    
-public:
 
+public:
+    void controlToGoalPose(geometry_msgs::PoseStamped & pose, ros::Rate & sampling_hz, bool onDeadzone = false);
     void goalCallback();
     void preemptCB();
     void run();
