@@ -58,6 +58,14 @@ ControlSignal DockingController::computeControlSignal()
     float y_rp = -sinf(goal_.theta_)*robot_pose_.x_+cosf(goal_.theta_)*robot_pose_.y_+sinf(goal_.theta_)*goal_.x_-cosf(goal_.theta_)*goal_.y_;
 
     rho_ = sqrt(x_rp*x_rp+y_rp*y_rp);
+
+    /*rho is less than 5 cm*/
+    if(rho_ < 0.05)
+        rho_ = 0.0;
+
+    std::cout << "(x_rp, y_rp): (" << x_rp << "," << y_rp << ")" << std::endl;
+    std::cout << "rho: " << rho_<< std::endl;
+
     float alpha = -theta+atan2f(-y_rp, -x_rp);
 
     /*Make sure that alpha is between in [-pi, pi]*/
@@ -99,7 +107,19 @@ ControlSignal DockingController::computeControlSignal()
     else if(beta_ < -M_PI)
         beta_ = beta_+2.0*M_PI;
 
-    float w =  k_alpha_*alpha+k_beta_*beta_;
+
+    float w;
+
+    if(rho_ == 0)
+    {
+        w = k_alpha_*-theta;
+    }else{
+        w = k_alpha_*alpha+k_beta_*beta_;
+    }
+
+    std::cout << "alpha: " << alpha << std::endl;
+    std::cout << "beta: " << beta_ << std::endl;
+    std::cout << "w: " << w << std::endl;
 
     /*Noubakhsh and Siegwart do not consider actuation limits (saturating velocities).
     If one of the desired velocities is higher than what motor could deliver, we need to recompute
