@@ -62,10 +62,7 @@ ControlSignal DockingController::computeControlSignal()
     /*rho is less than 5 cm*/
     if(rho_ < 0.05)
         rho_ = 0.0;
-
-    std::cout << "(x_rp, y_rp): (" << x_rp << "," << y_rp << ")" << std::endl;
-    std::cout << "rho: " << rho_<< std::endl;
-
+        
     float alpha = -theta+atan2f(-y_rp, -x_rp);
 
     /*Make sure that alpha is between in [-pi, pi]*/
@@ -116,10 +113,6 @@ ControlSignal DockingController::computeControlSignal()
     }else{
         w = k_alpha_*alpha+k_beta_*beta_;
     }
-
-    std::cout << "alpha: " << alpha << std::endl;
-    std::cout << "beta: " << beta_ << std::endl;
-    std::cout << "w: " << w << std::endl;
 
     /*Noubakhsh and Siegwart do not consider actuation limits (saturating velocities).
     If one of the desired velocities is higher than what motor could deliver, we need to recompute
