@@ -47,7 +47,7 @@ void ChargingActionServer::controlToGoalPose(geometry_msgs::PoseStamped & pose, 
 					onDeadzone = true;
 	      }else
 				{
-					ROS_INFO("On deadzone");
+				//	ROS_INFO("On deadzone");
 				}
 				
 	      
@@ -55,7 +55,8 @@ void ChargingActionServer::controlToGoalPose(geometry_msgs::PoseStamped & pose, 
 	      controller_.run();
 
 	      //If we are close enough to the goal, we are done (1cm error and )
-	      if(controller_.getDistanceError() < 0.05 && controller_.getOrientationError() < 0.05)
+	      ROS_ERROR_STREAM("dist error: " << controller_.getDistanceError() << ", ang error: " << controller_.getOrientationError());
+	      if(controller_.getDistanceError() < 0.01 && fabs(controller_.getOrientationError()) < 0.02)
 	      {
 					controller_.disableControl();
 					estimator_.disable();
@@ -103,7 +104,6 @@ void ChargingActionServer::goalCallback()
 		    return;
 		}
 		ROS_INFO("At the docking move_base position");
-		ros::Duration(10).sleep();
 
 		estimator_.useFrontLaser();
 		estimator_.enable();
@@ -111,10 +111,11 @@ void ChargingActionServer::goalCallback()
 		//Search for pattern with front laser
 		feedback.state = feedback.SEARCHING_PATTERN;
 		as_.publishFeedback(feedback);
-		ROS_INFO("Searching for pattern with the fron laser and waiting for the median filter");
-		ros::Duration(5).sleep();
+		ROS_INFO("Searching for pattern with the front laser and waiting for the median filter");
 		ROS_INFO("Pattern possibly found...");
 
+		ros::Duration(10).sleep();
+		estimator_.disable();
 		//Go to initial point using controller
 		feedback.state = feedback.GOING_TO_INIT_POSE;
 		as_.publishFeedback(feedback);
@@ -123,7 +124,7 @@ void ChargingActionServer::goalCallback()
 
 		//We want to align the robot at the point that is 1.0m right in front of the docking station
 		geometry_msgs::PoseStamped pose;
-		pose.pose.position.x = -1.0;
+		pose.pose.position.x = -0.8;
 	        pose.pose.position.y = 0.0;
                 pose.pose.position.z = 0.0;
                 pose.pose.orientation.x = 0.0;
@@ -133,7 +134,6 @@ void ChargingActionServer::goalCallback()
 
 
 		controlToGoalPose(pose, sampling_hz);
-		estimator_.disable();
 		ROS_INFO("Robot aligned");				
 
 		// Start docking procedure
@@ -144,24 +144,43 @@ void ChargingActionServer::goalCallback()
 		feedback.state = feedback.DOCKING;
 		as_.publishFeedback(feedback);
 		estimator_.enable();
-		ros::Duration(5).sleep();
+		ros::Duration(10).sleep();
 		estimator_.disable();
 
-		pose.pose.position.x = -1.3;
+		pose.pose.position.x = -1.1;
 		pose.pose.orientation.z = 1.0; //The goal is rotated by 180deg from what the estimator is giving us
 
-		estimator_.enable();
 		controlToGoalPose(pose, sampling_hz);
-		ros::Duration(5).sleep();
-		estimator_.disable();
 		
 		
-		ROS_INFO("Finishing docking procedure - final point: 0.5m from docking station (going backwards)");
+		ROS_INFO("Finishing docking procedure - final point: 0.3m from docking station (going backwards) to the robot base center");
 
-		pose.pose.position.x = -0.5;
 		estimator_.enable();
-		controlToGoalPose(pose, sampling_hz);
+		ros::Duration(10).sleep();
 		estimator_.disable();
+		pose.pose.position.x = -0.7;
+		
+		controlToGoalPose(pose, sampling_hz);
+
+
+		ROS_INFO("Open loop backward mega speed!");
+		
+
+		ros::Rate hz(0.5);
+		int loops = 0;
+		geometry_msgs::Twist cmd_vel;
+		
+		while(loops < 6)
+		{
+                  cmd_vel.linear.x = -0.3;
+                  cmd_vel.angular.z = 0;
+                  cmd_pub_.publish(cmd_vel);
+		  hz.sleep();
+		  loops++;
+		}
+
+		cmd_vel.linear.x = 0.0;
+		cmd_pub_.publish(cmd_vel);
 
 		//Done - Charging
 		feedback.state = feedback.CHARGING;
@@ -270,6 +289,8 @@ ChargingActionServer::ChargingActionServer(ros::NodeHandle nh, std::string name)
     n_priv.param("docking_orient_y", goal_msg.target_pose.pose.orientation.y, 0.0);
     n_priv.param("docking_orient_z", goal_msg.target_pose.pose.orientation.z, 0.0);
     n_priv.param("docking_orient_w", goal_msg.target_pose.pose.orientation.w, 1.0);
+   
+    cmd_pub_ =  nh_.advertise<geometry_msgs::Twist>("/vizzy/cmd_vel", 1 );    
 
     as_.start();
 }

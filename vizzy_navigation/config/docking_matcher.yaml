@@ -2,5 +2,5 @@ rot_thresh: 20.0
 tran_thresh: 0.1
 fitting_score_thresh: 0.01
 discretization_step: 0.02
-filter_buffer_size: 10
-pattern_distance_threshold: 1.5
+filter_buffer_size: 15
+pattern_distance_threshold: 2.0

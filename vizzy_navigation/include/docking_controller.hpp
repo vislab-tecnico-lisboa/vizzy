@@ -83,7 +83,10 @@ public:
 
     float rho_;
     float beta_;
+    float alpha_;
 
+    float w;
+    bool onDeadzone_;
 };
 
 //END namespace docking_ctrl
