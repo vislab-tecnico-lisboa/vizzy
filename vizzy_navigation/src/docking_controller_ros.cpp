@@ -66,7 +66,7 @@ double DockingControllerROS::getDistanceError()
 
 double DockingControllerROS::getOrientationError()
 {
-	return controller_.beta_;
+	return controller_.w;
 }
 
 

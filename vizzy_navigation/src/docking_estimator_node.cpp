@@ -11,7 +11,7 @@ int main(int argc, char **argv)
 
   ros::NodeHandle nh;
   DockingEstimator dockingLearner(nh);
-
+  dockingLearner.enable();
   ros::Rate sampling_hz(10);
 
   //dockingLearner.enable();

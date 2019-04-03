@@ -180,7 +180,7 @@ Eigen::Matrix4f PatternPoseEstimation::refine(pcl::PointCloud<pcl::PointNormal>:
 	}
 	else
 	{
-		std::cout << "icp converged: "<< icp.getFitnessScore() << std::endl;		
+		//std::cout << "icp converged: "<< icp.getFitnessScore() << std::endl;		
 	}
 	
 	return icp.getFinalTransformation();

@@ -59,41 +59,49 @@ ControlSignal DockingController::computeControlSignal()
 
     rho_ = sqrt(x_rp*x_rp+y_rp*y_rp);
 
-    /*rho is less than 5 cm*/
-    if(rho_ < 0.05)
+    if(rho_ < 0.02)
+        onDeadzone_ = true;
+    else if(rho_ > 0.05)
+	onDeadzone_ = false;
+
+    /*rho is less than 2 cm*/
+    if(onDeadzone_)
+    {
         rho_ = 0.0;
+	onDeadzone_ = true;
+    }
         
-    float alpha = -theta+atan2f(-y_rp, -x_rp);
+    alpha_ = -theta+atan2f(-y_rp, -x_rp);
 
     /*Make sure that alpha is between in [-pi, pi]*/
-    int n = (int) alpha/(2.0*M_PI);
+    int n = (int) alpha_/(2.0*M_PI);
     if(n != 0)
-        alpha = alpha-n*2.0*M_PI;
-    if(alpha > M_PI)
-        alpha = alpha-2.0*M_PI;
-    else if(alpha < -M_PI)
-        alpha = alpha+2.0*M_PI;
+        alpha_ = alpha_-n*2.0*M_PI;
+    if(alpha_ > M_PI)
+        alpha_ = alpha_-2.0*M_PI;
+    else if(alpha_ < -M_PI)
+        alpha_ = alpha_+2.0*M_PI;
 
     float v = k_ro_*rho_;
 
 
     /*Check if alpha belongs to I1 or I2 so that we can choose backward or forward parking*/
-    if(!(alpha <= M_PI_2 && alpha > -M_PI_2))
+    if(!(alpha_ <= M_PI_2 && alpha_ > -M_PI_2))
     {
         /*If the robot is parking backward*/
         v = -v;
        
-        if(alpha > M_PI_2)
+        if(alpha_ > M_PI_2)
         {
-            alpha = alpha -M_PI;
-        }else if(alpha <= -M_PI_2)
+            alpha_ = alpha_ -M_PI;
+        }else if(alpha_ <= -M_PI_2)
         {
-            alpha = alpha + M_PI;
+            alpha_ = alpha_ + M_PI;
         }
         
     }
 
-    beta_ = -theta-alpha;
+    beta_ = -theta-alpha_;
     /*Make sure that beta is between in [-pi, pi]*/
     n = (int) beta_/(2*M_PI);
 
@@ -105,13 +113,11 @@ ControlSignal DockingController::computeControlSignal()
         beta_ = beta_+2.0*M_PI;
 
 
-    float w;
-
     if(rho_ == 0)
     {
         w = k_alpha_*-theta;
     }else{
-        w = k_alpha_*alpha+k_beta_*beta_;
+        w = k_alpha_*alpha_+k_beta_*beta_;
     }
 
     /*Noubakhsh and Siegwart do not consider actuation limits (saturating velocities).
