@@ -18,6 +18,7 @@
 #include <laser_geometry/laser_geometry.h>
 #include <eigen_conversions/eigen_msg.h>
 #include <pcl_conversions/pcl_conversions.h>
+
 class DockingEstimator
 {
 	private:
@@ -50,6 +51,8 @@ class DockingEstimator
 	    bool isReady(){return ready_;};
 	    void enable(){enabled_ = true; };
 	    void disable() {enabled_ = false; };
-            double findMedian(std::deque<double> a);
+		void useFrontLaser();
+		void useBackLaser();
+        double findMedian(std::deque<double> a);
 };
 #endif

@@ -69,8 +69,9 @@ DockingEstimator::DockingEstimator(ros::NodeHandle nh) :
         model_file,
         pattern_distance_threshold));
 
-    //Subscribe the laser
-    laser_sub_ = nh_.subscribe<sensor_msgs::LaserScan>("/scan_filtered_rear", 1, &DockingEstimator::laserCallback, this);
+    //Subscribe to front laser
+    laser_sub_ = nh_.subscribe<sensor_msgs::LaserScan>("/scan_filtered", 1, &DockingEstimator::laserCallback, this);
+
 
     //Publish the position 
     docking_pub_ = nh_.advertise<geometry_msgs::PoseStamped>("/docking_pose", 1);
@@ -79,11 +80,24 @@ DockingEstimator::DockingEstimator(ros::NodeHandle nh) :
     model_pub_ = nh_.advertise<pcl::PointCloud<pcl::PointXYZ> > ("model_point_cloud", 1);
 }
 
+
+void DockingEstimator::useFrontLaser()
+{
+    laser_sub_.shutdown();
+    laser_sub_ = nh_.subscribe<sensor_msgs::LaserScan>("/scan_filtered", 1, &DockingEstimator::laserCallback, this);
+}
+
+void DockingEstimator::useBackLaser()
+{
+    laser_sub_.shutdown();
+    laser_sub_ = nh_.subscribe<sensor_msgs::LaserScan>("/scan_filtered_rear", 1, &DockingEstimator::laserCallback, this);
+}
+
 void DockingEstimator::laserCallback(const boost::shared_ptr<const sensor_msgs::LaserScan>& scan)
 {
     unsigned int buffer_size=4;
-    //if(!enabled_)
-    //    return;
+    if(!enabled_)
+        return;
 
     // Convert to pcl
     laser_geometry::LaserProjection projector_;
