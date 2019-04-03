@@ -41,12 +41,13 @@ void ChargingActionServer::controlToGoalPose(geometry_msgs::PoseStamped & pose, 
 	      //Do a control step
 	      if(!onDeadzone)
 	      {
-					onDeadzone = controller_.getDistanceError() < 0.3;
-					ROS_INFO("On deadzone");
+					//onDeadzone = controller_.getDistanceError() < 0.3;
+					ROS_INFO("Not on deadzone");
 					controller_.updateGoal(goalPose);
+					onDeadzone = true;
 	      }else
 				{
-					ROS_INFO("Not on deadzone");
+					ROS_INFO("On deadzone");
 				}
 				
 	      
@@ -104,6 +105,8 @@ void ChargingActionServer::goalCallback()
 		ROS_INFO("At the docking move_base position");
 		ros::Duration(10).sleep();
 
+		estimator_.useFrontLaser();
+		estimator_.enable();
 
 		//Search for pattern with front laser
 		feedback.state = feedback.SEARCHING_PATTERN;
@@ -121,16 +124,14 @@ void ChargingActionServer::goalCallback()
 		//We want to align the robot at the point that is 1.0m right in front of the docking station
 		geometry_msgs::PoseStamped pose;
 		pose.pose.position.x = -1.0;
-    pose.pose.position.y = 0.0;
-    pose.pose.position.z = 0.0;
-    pose.pose.orientation.x = 0.0;
-    pose.pose.orientation.y = 0.0;
-    pose.pose.orientation.z = 1.0; //The goal is rotated by 180deg from what the estimator is giving us
-    pose.pose.orientation.w = 0.0;
+	        pose.pose.position.y = 0.0;
+                pose.pose.position.z = 0.0;
+                pose.pose.orientation.x = 0.0;
+                pose.pose.orientation.y = 0.0;
+                pose.pose.orientation.z = 1.0; //The goal is rotated by 180deg from what the estimator is giving us
+                pose.pose.orientation.w = 0.0;
 
 
-		estimator_.useFrontLaser();
-		estimator_.enable();
 		controlToGoalPose(pose, sampling_hz);
 		estimator_.disable();
 		ROS_INFO("Robot aligned");				

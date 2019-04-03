@@ -95,10 +95,12 @@ void DockingEstimator::useBackLaser()
 
 void DockingEstimator::laserCallback(const boost::shared_ptr<const sensor_msgs::LaserScan>& scan)
 {
+
+
     unsigned int buffer_size=4;
     if(!enabled_)
         return;
-
+    
     // Convert to pcl
     laser_geometry::LaserProjection projector_;
     sensor_msgs::PointCloud2 cloud_msg;
@@ -119,7 +121,7 @@ void DockingEstimator::laserCallback(const boost::shared_ptr<const sensor_msgs::
     }
     catch(std::exception &e)
     {
-        //std::cout << e.what() << std::endl;
+        std::cout << e.what() << std::endl;
         return;
     }
     Eigen::Matrix3d rotation=transformNN.matrix().block(0,0,3,3);
