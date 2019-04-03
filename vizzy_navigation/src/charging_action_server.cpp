@@ -5,7 +5,6 @@
 void ChargingActionServer::controlToGoalPose(geometry_msgs::PoseStamped & pose, ros::Rate & sampling_hz,  bool onDeadzone)
 {
 	sampling_hz.reset();
-
 	bool onPoint = false;
 	vizzy_navigation::ChargeResult result;
 	// control
@@ -42,13 +41,14 @@ void ChargingActionServer::controlToGoalPose(geometry_msgs::PoseStamped & pose, 
 	      //Do a control step
 	      if(!onDeadzone)
 	      {
-		onDeadzone = controller_.getDistanceError() < 0.3;
-		controller_.updateGoal(goalPose);
-	      }
-              /*else
-              {
-		ROS_INFO("On first deadzone");
-	      }*/
+					onDeadzone = controller_.getDistanceError() < 0.3;
+					ROS_INFO("On deadzone");
+					controller_.updateGoal(goalPose);
+	      }else
+				{
+					ROS_INFO("Not on deadzone");
+				}
+				
 	      
 	      controller_.enableControl();
 	      controller_.run();
@@ -56,9 +56,9 @@ void ChargingActionServer::controlToGoalPose(geometry_msgs::PoseStamped & pose, 
 	      //If we are close enough to the goal, we are done (1cm error and )
 	      if(controller_.getDistanceError() < 0.05 && controller_.getOrientationError() < 0.05)
 	      {
-		  controller_.disableControl();
-		  estimator_.disable();
-		  onPoint = true;
+					controller_.disableControl();
+					estimator_.disable();
+					onPoint = true;
 	      }
 	  }
 	  sampling_hz.sleep();
@@ -101,88 +101,66 @@ void ChargingActionServer::goalCallback()
 		    as_.setAborted(result);
 		    return;
 		}
-		ROS_INFO("At the docking position");
+		ROS_INFO("At the docking move_base position");
 		ros::Duration(10).sleep();
 
 
-		//Search for pattern
+		//Search for pattern with front laser
 		feedback.state = feedback.SEARCHING_PATTERN;
 		as_.publishFeedback(feedback);
-		ROS_INFO("Searching for pattern (not doing anything now)...");
-		ROS_INFO("Pattern found (not really. this is a fake msg for now)...");
+		ROS_INFO("Searching for pattern with the fron laser and waiting for the median filter");
+		ros::Duration(5).sleep();
+		ROS_INFO("Pattern possibly found...");
 
 		//Go to initial point using controller
 		feedback.state = feedback.GOING_TO_INIT_POSE;
 		as_.publishFeedback(feedback);
 
-		ros::Duration(5).sleep();
+		ROS_INFO("Aligning robot with docking station using front laser detection");
 
-		ROS_INFO_STREAM("DUMMY: estimate position of the front laser");
-		estimator_.enable(); // HERE SHOULD estimate the position of the pattern using the front laser
-		estimator_.disable();
-		ROS_INFO_STREAM("DUMMY: done estimation position of the front laser");
-
-		/* start control point routine */
-		ROS_INFO("Rotating...");
 		//We want to align the robot at the point that is 1.0m right in front of the docking station
 		geometry_msgs::PoseStamped pose;
-		pose.header.frame_id="base_footprint";
-		//pose.pose.position = goal_msg.target_pose.pose.position;
-		//Eigen::Affine3d initial_pose;
-		//tf::poseMsgToEigen (goal_msg.target_pose.pose,initial_pose);
+		pose.pose.position.x = -1.0;
+    pose.pose.position.y = 0.0;
+    pose.pose.position.z = 0.0;
+    pose.pose.orientation.x = 0.0;
+    pose.pose.orientation.y = 0.0;
+    pose.pose.orientation.z = 1.0; //The goal is rotated by 180deg from what the estimator is giving us
+    pose.pose.orientation.w = 0.0;
 
-		//The goal is translated and rotated by....
-		pose.pose.orientation.x = 0.0;
-		pose.pose.orientation.y = 0.0;
-		pose.pose.orientation.z = 1.0; 
-		pose.pose.orientation.w = 0.0;
-		/*Eigen::Affine3d rotation_pose;
-		tf::poseMsgToEigen (goal_msg.target_pose.pose,rotation_pose);
-		Eigen::Affine3d final_pose;
-		final_pose=rotation_pose*initial_pose;
-		tf::poseEigenToMsg (final_pose, pose.pose);*/
-		//pose.pose.orientation.x = 0.0;
-		//pose.pose.orientation.y = 0.0;
-		//pose.pose.orientation.z = 0.7071068; //The goal is rotated by 180deg from what the estimator is giving us
-		//pose.pose.orientation.w = 0.7071068;
-		controller_.updateGoal(pose);
 
-		bool onPoint=false;
-		while(!onPoint)
-		{ 
-			controller_.run();
-			controller_.enableControl();
-			if(controller_.getDistanceError() < 0.05 && fabs(controller_.getOrientationError()) < 0.05)
-			{
-				controller_.disableControl();
-				estimator_.disable();
-				onPoint = true;
-				std::cout << "entrei" << std::endl;
-			}
-			std::cout << controller_.getOrientationError() << std::endl;
-		}
-
-		controller_.run();
-		ros::Duration(5).sleep();
-		ROS_INFO("Finished rotating");
-		/* end control point routine */
-
-		// Start docking procedure
-		feedback.state = feedback.DOCKING;
-		as_.publishFeedback(feedback);
-
-		bool docked = false;
-
-		/* start docking routine */
-		ROS_INFO("Started docking routine");
-		pose.pose.position = goal_msg.target_pose.pose.position;
-		pose.pose.position.x = goal_msg.target_pose.pose.position.x-3.0;
+		estimator_.useFrontLaser();
 		estimator_.enable();
 		controlToGoalPose(pose, sampling_hz);
 		estimator_.disable();
+		ROS_INFO("Robot aligned");				
+
+		// Start docking procedure
+
+		estimator_.useBackLaser();
+		
+		ROS_INFO("Starting docking procedure - 1st intermediate point: 1.3m from docking station (should move forward)");
+		feedback.state = feedback.DOCKING;
+		as_.publishFeedback(feedback);
+		estimator_.enable();
 		ros::Duration(5).sleep();
-		ROS_INFO("Finished docking routine");
-		/* end docking routine */
+		estimator_.disable();
+
+		pose.pose.position.x = -1.3;
+		pose.pose.orientation.z = 1.0; //The goal is rotated by 180deg from what the estimator is giving us
+
+		estimator_.enable();
+		controlToGoalPose(pose, sampling_hz);
+		ros::Duration(5).sleep();
+		estimator_.disable();
+		
+		
+		ROS_INFO("Finishing docking procedure - final point: 0.5m from docking station (going backwards)");
+
+		pose.pose.position.x = -0.5;
+		estimator_.enable();
+		controlToGoalPose(pose, sampling_hz);
+		estimator_.disable();
 
 		//Done - Charging
 		feedback.state = feedback.CHARGING;
@@ -197,24 +175,51 @@ void ChargingActionServer::goalCallback()
 	{
 		ROS_INFO("Received new goal: Stop Charge!");
 
-		//For now just go 1m forward... Use move_base because its easy... ISTO NÃO PODE FICAR!
-		//OS RECOVERY BEHAVIORS VAO FAZER COM QUE ELE RODE SOBRE SI PROPRIO DENTRO DA DOCKING STATION!!!
 
-		move_base_msgs::MoveBaseGoal goalOutside;
-		goalOutside.target_pose.header.frame_id = "base_footprint";
-		goalOutside.target_pose.pose.position.x = -1.0;
-		goalOutside.target_pose.pose.position.y = 0.0;
-		goalOutside.target_pose.pose.position.z = 0.0;
+		//Undocking going 1m forward
+		ROS_INFO("Undocking...");
 
-		goalOutside.target_pose.pose.orientation.x = 0.0;
-		goalOutside.target_pose.pose.orientation.y = 0.0;
-		goalOutside.target_pose.pose.orientation.z = 0.0;
-		goalOutside.target_pose.pose.orientation.w = 1.0;
+		geometry_msgs::PoseStamped goalOutside;
+		goalOutside.header.frame_id = "base_footprint";
+		goalOutside.pose.position.x = -1.0;
+		goalOutside.pose.position.y = 0.0;
+		goalOutside.pose.position.z = 0.0;
 
-		move_base_client_.sendGoal(goalOutside);
-		move_base_client_.waitForResult();
+		goalOutside.pose.orientation.x = 0.0;
+		goalOutside.pose.orientation.y = 0.0;
+		goalOutside.pose.orientation.z = 0.0;
+		goalOutside.pose.orientation.w = 1.0;
 
-		if(move_base_client_.getState() == actionlib::SimpleClientGoalState::SUCCEEDED)
+		controller_.updateGoal(goalOutside);
+
+		bool onPoint = false;
+
+		controller_.enableControl();
+		while(!onPoint)
+		{
+			if(as_.isPreemptRequested())
+			{
+				result.result = result.STOPPED_FAILED;
+				as_.setAborted(result);
+				controller_.disableControl();
+				ROS_ERROR("Undocking preempted. Stopping robot!");
+				return;
+			}else
+			{
+				controller_.run();
+
+				if(controller_.getDistanceError() < 0.05 && controller_.getOrientationError() < 0.05)
+				{
+					controller_.disableControl();
+					onPoint = true;
+				}
+			}
+
+			sampling_hz.sleep();
+			
+		}
+
+		if(true)
 		{
 		  ROS_INFO("Undocked successfully!");
 		  result.result = result.STOPPED;
