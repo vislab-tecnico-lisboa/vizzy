@@ -56,7 +56,7 @@ void ChargingActionServer::controlToGoalPose(geometry_msgs::PoseStamped & pose, 
 
 	      //If we are close enough to the goal, we are done (1cm error and )
 	      ROS_ERROR_STREAM("dist error: " << controller_.getDistanceError() << ", ang error: " << controller_.getOrientationError());
-	      if(controller_.getDistanceError() < 0.01 && fabs(controller_.getOrientationError()) < 0.02)
+	      if(controller_.getDistanceError() < 0.04 && fabs(controller_.getOrientationError()) < 0.02)
 	      {
 					controller_.disableControl();
 					estimator_.disable();
@@ -172,7 +172,7 @@ void ChargingActionServer::goalCallback()
 		
 		while(loops < 6)
 		{
-                  cmd_vel.linear.x = -0.3;
+                  cmd_vel.linear.x = -0.355;
                   cmd_vel.angular.z = 0;
                   cmd_pub_.publish(cmd_vel);
 		  hz.sleep();
