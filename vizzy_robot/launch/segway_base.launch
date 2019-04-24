@@ -8,7 +8,7 @@
   <node machine="$(arg vizzy_machine_name)" name="segway_rmp_node" pkg="segway_rmp" type="segway_rmp_node" output="screen" required="true">
 
     <param name="interface_type" type="str" value="serial" />
-    <param name="serial_port" type="str" value="/dev/ttyUSB0" />
+    <param name="serial_port" type="str" value="/dev/segway_rmp50" />
         
     <!-- Commands need to be provided at atleast 1Hz -->
     <param name="motor_timeout" type="double" value="1.0" />
