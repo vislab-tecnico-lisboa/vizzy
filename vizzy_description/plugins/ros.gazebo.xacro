@@ -27,7 +27,7 @@
         <odometryTopic>odom</odometryTopic>
         <odometryFrame>odom</odometryFrame>
         <robotBaseFrame>base_footprint</robotBaseFrame>
-
+        <publishOdomTF>true</publishOdomTF>
         <odometrySource>encoder</odometrySource>
         <wheelTorque>10</wheelTorque>
         <wheelAcceleration>0</wheelAcceleration>
