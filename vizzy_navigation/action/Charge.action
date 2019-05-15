@@ -1,0 +1,28 @@
+#goal definition
+bool goal
+
+bool CHARGE=0
+bool STOP_CHARGE=0
+#geometry_msgs/PoseStamped docking_pose
+
+---
+#result definition
+uint8 result
+
+uint8 CHARGE_SUCCESS = 0 #Docked and fully charged
+uint8 CHARGE_FAILED = 1  #Failed docking or charge
+uint8 STOPPED = 2        #Successfully canceled the charging process (undocked and ready to go)
+uint8 STOPPED_FAILED = 3 #Charge stop failed (failed to stop the charge and undock)
+
+
+---
+#feedback
+uint8 state
+
+uint8 NAVIGATING_TO_STATION = 0 #Navigating to the docking station
+uint8 SEARCHING_PATTERN = 1     #Searching for pattern
+uint8 GOING_TO_INIT_POSE = 2    #Going to initial docking pose
+uint8 DOCKING = 3               #Self explanatory... docking from the initial docking pose
+uint8 CHARGING = 4              #Self explanatory...the robot is docked and charging
+uint8 UNDOCKING = 5             #Getting out of the docking station, back to a navigable point
+uint8 UNDOCKED = 6              #Robot undocked and ready to operate normally
