@@ -180,7 +180,7 @@ For more details see the following reference:
 
 ## Issues
 
-# Compile error:
+### Compile error:
 
     CMakeFiles/charging_action_server.dir/src/charging_action_server_node.cpp.o: In function pcl::PPFHashMapSearch::setInputFeatureCloud(boost::shared_ptr<pcl::PointCloud<pcl::PPFSignature> const>): charging_action_server_node.cpp:(.text+0xd0): multiple definition of pcl::PPFHashMapSearch::setInputFeatureCloud(boost::shared_ptr<pcl::PointCloud<pcl::PPFSignature> const>) CMakeFiles/charging_action_server.dir/src/charging_action_server.cpp.o:charging_action_server.cpp:(.text+0x170): first defined here...
 
