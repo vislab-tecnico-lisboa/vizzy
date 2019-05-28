@@ -1,5 +1,5 @@
 #include "ros/ros.h"
-#include <moveit/move_group_interface/move_group.h>
+#include <moveit/move_group_interface/move_group_interface.h>
 #include <moveit/robot_model_loader/robot_model_loader.h>
 #include <moveit/planning_interface/planning_interface.h>
 #include <moveit/planning_scene/planning_scene.h>
@@ -33,7 +33,7 @@ bool moveArm(){
     // wait for the action server to start
     ac.waitForServer(); //will wait for infinite time
 
-    moveit::planning_interface::MoveGroup group("right_arm");
+    moveit::planning_interface::MoveGroupInterface group("right_arm");
     group.setPlannerId("RRTConnectkConfigDefault");
     group.setPlanningTime(5);
     group.setStartState(*group.getCurrentState());
