@@ -1,0 +1,3 @@
+[submodule "vizzy_navigation/maps/extra_maps"]
+	path = vizzy_navigation/maps/extra_maps
+	url = https://github.com/vislab-tecnico-lisboa/extra_maps.git
