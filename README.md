@@ -134,6 +134,11 @@ Don't forget you'll need to have `yarpserver` running when you have the `use_yar
 
 Feel free to play with the arguments as you want or to change the low-level launchers with more functionality.
 
+## 3D-2D image projection - Using the correct parameters
+When using ROS camera interface, be careful to use the correct matrix for point (back-)projection
+* In case of using ROS topic `.../image_rect_color` the correct projection matrix is P (with zero distorsion parameters)
+* In case of using ROS topic `.../image_raw` the correct projection matrix is K (with distortion parameters)
+
 ## AUDIO (ON REAL VIZZY)
 
 # First time configuration
