@@ -616,7 +616,9 @@ int main(int argc, char *argv[])
                 if (j==1){
                     ipos->positionMove(j+8,0.0);
                 }
-                ipos->positionMove(j+8,closeFingerPos);
+		else{
+		  ipos->positionMove(j+8,closeFingerPos);
+		}
             }
             bool motionDone_hand = false;
             double init_time = Time::now();
