@@ -134,6 +134,11 @@ Don't forget you'll need to have `yarpserver` running when you have the `use_yar
 
 Feel free to play with the arguments as you want or to change the low-level launchers with more functionality.
 
+## 3D-2D image projection - Using the correct parameters
+When using ROS camera interface, be careful to use the correct matrix for point (back-)projection
+* In case of using ROS topic `.../image_rect_color` the correct projection matrix is P (with zero distorsion parameters)
+* In case of using ROS topic `.../image_raw` the correct projection matrix is K (with distortion parameters)
+
 ## AUDIO (ON REAL VIZZY)
 
 # First time configuration
@@ -179,5 +184,26 @@ For more details see the following reference:
      }
 
 ## Issues
+
+### Compile error:
+
+    CMakeFiles/charging_action_server.dir/src/charging_action_server_node.cpp.o: In function pcl::PPFHashMapSearch::setInputFeatureCloud(boost::shared_ptr<pcl::PointCloud<pcl::PPFSignature> const>): charging_action_server_node.cpp:(.text+0xd0): multiple definition of pcl::PPFHashMapSearch::setInputFeatureCloud(boost::shared_ptr<pcl::PointCloud<pcl::PPFSignature> const>) CMakeFiles/charging_action_server.dir/src/charging_action_server.cpp.o:charging_action_server.cpp:(.text+0x170): first defined here...
+
+The solution is to edit your "ppf_registration.hpp" and inline the functions: setInputFeatureCloud and nearestNeighborSearch:
+
+    sudo vim /usr/include/pcl-1.7/pcl/registration/impl/ppf_registration.hpp
+
+```cpp
+inline void
+pcl::PPFHashMapSearch::setInputFeatureCloud (PointCloud<PPFSignature>::ConstPtr feature_cloud)
+{
+```
+
+```cpp
+inline void
+pcl::PPFHashMapSearch::nearestNeighborSearch (float &f1, float &f2, float &f3, float &f4,
+                                              std::vector<std::pair<size_t, size_t> > &indices)
+{
+```
 
 All kind of issues and contributions will be very welcome. Please get in touch on [our issues page](https://github.com/vislab-tecnico-lisboa/vizzy/issues) when help is needed!

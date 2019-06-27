@@ -30,11 +30,11 @@ void ChargingActionServer::controlToGoalPose(geometry_msgs::PoseStamped & pose, 
 
 	      geometry_msgs::TransformStamped dpTFStamped;
 	      dpTFStamped = tf2::toMsg(transf);
-	      
+
 	      geometry_msgs::PoseStamped goalPose;
 	      pose.header = station.header;
 
-	      
+
 	      tf2::doTransform(pose, goalPose, dpTFStamped);
 	      goalPose.header = station.header;
 
@@ -49,8 +49,8 @@ void ChargingActionServer::controlToGoalPose(geometry_msgs::PoseStamped & pose, 
 				{
 				//	ROS_INFO("On deadzone");
 				}
-				
-	      
+
+
 	      controller_.enableControl();
 	      controller_.run();
 
@@ -64,7 +64,7 @@ void ChargingActionServer::controlToGoalPose(geometry_msgs::PoseStamped & pose, 
 	      }
 	  }
 	  sampling_hz.sleep();
-	}	
+	}
 }
 
 void ChargingActionServer::goalCallback()
@@ -100,8 +100,8 @@ void ChargingActionServer::goalCallback()
 
 		//We want to align the robot at the point that is 1.0m right in front of the docking station
 		geometry_msgs::PoseStamped pose;
-		pose.pose.position.x = -0.8;
-		pose.pose.position.y = 0.0;
+		pose.pose.position.x = -1.0;
+	    pose.pose.position.y = -0.04;
 		pose.pose.position.z = 0.0;
 		pose.pose.orientation.x = 0.0;
 		pose.pose.orientation.y = 0.0;
@@ -123,7 +123,8 @@ void ChargingActionServer::goalCallback()
 		ros::Duration(10).sleep();
 		estimator_.disable();
 
-		pose.pose.position.x = -1.1;
+		pose.pose.position.x = -1.3;
+        pose.pose.position.y = -0.04;
 		pose.pose.orientation.z = 1.0; //The goal is rotated by 180deg from what the estimator is giving us
 
 		controlToGoalPose(pose, sampling_hz);
