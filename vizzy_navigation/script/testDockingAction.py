@@ -4,7 +4,7 @@
 import roslib
 import rospy
 import vizzy_msgs.msg
-from vizzy_navigation.msg import ChargeAction, ChargeGoal, ChargeFeedback, ChargeResult
+from vizzy_msgs.msg import ChargeAction, ChargeGoal, ChargeFeedback, ChargeResult
 import actionlib
 from actionlib_msgs.msg import *
 import sys

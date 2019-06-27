@@ -19,6 +19,7 @@ add_action_files(
   DIRECTORY action
   FILES Gaze.action
   Cartesian.action
+  Charge.action
 )
 
 add_message_files(

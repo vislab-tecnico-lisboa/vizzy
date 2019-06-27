@@ -8,6 +8,7 @@ find_package(catkin REQUIRED
   COMPONENTS
     roscpp
     sensor_msgs
+    vizzy_msgs
     geometry_msgs
     nav2d_operator
     dynamic_reconfigure
@@ -45,10 +46,10 @@ else(${EIGEN3_FOUND})
 endif(${EIGEN3_FOUND})
 
 
-add_action_files(
-  DIRECTORY action
-  FILES Charge.action
-)
+#add_action_files(
+#  DIRECTORY action
+#  FILES Charge.action
+#)
 
 generate_messages(
   DEPENDENCIES actionlib_msgs std_msgs geometry_msgs  # Or other packages containing msgs
@@ -98,7 +99,7 @@ target_link_libraries(reroute_twist2nav2d_node
   ${Boost_LIBRARIES}
   ${catkin_LIBRARIES}
 )
-add_dependencies(reroute_twist2nav2d_node vizzy_navigation_generate_messages_cpp ${PROJECT_NAME}_gencfg ${vizzy_navigation_EXPORTED_TARGETS})
+add_dependencies(reroute_twist2nav2d_node vizzy_msgs_generate_messages_cpp vizzy_navigation_generate_messages_cpp ${PROJECT_NAME}_gencfg ${vizzy_navigation_EXPORTED_TARGETS})
 
 add_executable(docking_controller src/docking_controller.cpp src/docking_controller_ros.cpp src/docking_controller_node.cpp)
 target_link_libraries(docking_controller
