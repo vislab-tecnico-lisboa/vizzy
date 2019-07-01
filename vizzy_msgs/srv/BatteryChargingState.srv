@@ -1,0 +1,6 @@
+---
+uint8 NOT_CHARGING=0
+uint8 CHARGING=1
+uint8 UNKNOWN=2
+
+uint8 battery_charging_state
