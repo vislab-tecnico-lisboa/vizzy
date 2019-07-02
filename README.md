@@ -19,7 +19,14 @@ The real robot uses two different middlewares for distinct body parts (YARP for 
 * [vizzy_yarp_icub](vizzy_yarp_icub): YARP based controllers, drivers, libraries and modules. Cartesian controllers, gaze controller, ball tracker grasping demo, yoga demo.
 
 ## External Packages
-* [vizzy_speech](https://github.com/vislab-tecnico-lisboa/vizzy_speech): Cointains the node to made vizzy speak.
+* [vizzy_speech](https://github.com/vislab-tecnico-lisboa/vizzy_speech): Cointains nodes, messages and tools for speech.
+* [vizzy_behavior trees](https://github.com/vislab-tecnico-lisboa/vizzy_behavior_trees): Behavior trees to control Vizzy's actions
+* [extra_maps](https://github.com/vislab-tecnico-lisboa/extra_maps): Extra maps used for demos
+* [vizzy_serial_interfaces](https://github.com/vislab-tecnico-lisboa/vizzy_serial_interfaces): ROS Components that require serial communcation
+* [vizzy_tactile_drivers](https://github.com/vislab-tecnico-lisboa/vizzy_tactile_drivers): ROS drivers (and calibrator) for tactile sensors
+* [vizzy-expression-driver](https://github.com/vislab-tecnico-lisboa/vizzy-expression-driver): Facial expression drivers to be used in the future
+
+
 
 ## Environment
 

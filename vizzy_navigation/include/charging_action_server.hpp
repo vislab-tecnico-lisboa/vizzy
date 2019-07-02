@@ -5,7 +5,7 @@
 #include <docking_controller_ros.hpp>
 #include <docking_estimator.hpp>
 #include <actionlib/server/simple_action_server.h>
-#include <vizzy_navigation/ChargeAction.h>
+#include <vizzy_msgs/ChargeAction.h>
 #include <move_base_msgs/MoveBaseAction.h>
 #include <actionlib/client/simple_action_client.h>
 
@@ -24,11 +24,8 @@ private:
     ros::Subscriber sub_;
     ros::Publisher pub_;
     ros::Time last_update_;
-    actionlib::SimpleActionServer<vizzy_navigation::ChargeAction> as_;
-    MoveBaseClient move_base_client_;
+    actionlib::SimpleActionServer<vizzy_msgs::ChargeAction> as_;
     ros::Publisher cmd_pub_;
-    //Docking station move base goal
-    move_base_msgs::MoveBaseGoal goal_msg;
 
 public:
     void controlToGoalPose(geometry_msgs::PoseStamped & pose, ros::Rate & sampling_hz, bool onDeadzone = false);

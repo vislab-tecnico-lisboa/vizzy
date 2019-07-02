@@ -1,12 +1,12 @@
 #include <charging_action_server.hpp>
-#include <vizzy_navigation/ChargeFeedback.h>
+#include <vizzy_msgs/ChargeFeedback.h>
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
 
 void ChargingActionServer::controlToGoalPose(geometry_msgs::PoseStamped & pose, ros::Rate & sampling_hz,  bool onDeadzone)
 {
 	sampling_hz.reset();
 	bool onPoint = false;
-	vizzy_navigation::ChargeResult result;
+	vizzy_msgs::ChargeResult result;
 	// control
 	while(!onPoint)
 	{ 
@@ -30,11 +30,11 @@ void ChargingActionServer::controlToGoalPose(geometry_msgs::PoseStamped & pose, 
 
 	      geometry_msgs::TransformStamped dpTFStamped;
 	      dpTFStamped = tf2::toMsg(transf);
-	      
+
 	      geometry_msgs::PoseStamped goalPose;
 	      pose.header = station.header;
 
-	      
+
 	      tf2::doTransform(pose, goalPose, dpTFStamped);
 	      goalPose.header = station.header;
 
@@ -49,8 +49,8 @@ void ChargingActionServer::controlToGoalPose(geometry_msgs::PoseStamped & pose, 
 				{
 				//	ROS_INFO("On deadzone");
 				}
-				
-	      
+
+
 	      controller_.enableControl();
 	      controller_.run();
 
@@ -64,7 +64,7 @@ void ChargingActionServer::controlToGoalPose(geometry_msgs::PoseStamped & pose, 
 	      }
 	  }
 	  sampling_hz.sleep();
-	}	
+	}
 }
 
 void ChargingActionServer::goalCallback()
@@ -72,38 +72,14 @@ void ChargingActionServer::goalCallback()
 	ros::Rate sampling_hz(10);
 	//Get the goal
 	auto goal = as_.acceptNewGoal();
-	vizzy_navigation::ChargeFeedback feedback;
-	vizzy_navigation::ChargeResult result;
+	vizzy_msgs::ChargeFeedback feedback;
+	vizzy_msgs::ChargeResult result;
 
-	//Cancel all move base goals. It's time to charge
-	move_base_client_.cancelAllGoals();
   
 	//Charge goal
-	if(goal->goal == vizzy_navigation::ChargeGoal::CHARGE)
+	if(goal->goal == vizzy_msgs::ChargeGoal::CHARGE)
 	{
 		ROS_INFO("Received new goal: Charge!");
-
-		//Navigate to docking station
-		feedback.state = feedback.NAVIGATING_TO_STATION;
-		as_.publishFeedback(feedback);
-
-		ROS_INFO("Navigating to docking position");
-		move_base_client_.sendGoal(goal_msg);
-
-		move_base_client_.waitForResult();
-
-		if(move_base_client_.getState() == actionlib::SimpleClientGoalState::SUCCEEDED)
-		{
-		    ROS_INFO("Successfully navigated to docking station");
-		}
-		else
-		{
-		    ROS_INFO("I can not navigate to the docking station for some reason!");
-		    result.result = result.CHARGE_FAILED;
-		    as_.setAborted(result);
-		    return;
-		}
-		ROS_INFO("At the docking move_base position");
 
 		estimator_.useFrontLaser();
 		estimator_.enable();
@@ -124,13 +100,13 @@ void ChargingActionServer::goalCallback()
 
 		//We want to align the robot at the point that is 1.0m right in front of the docking station
 		geometry_msgs::PoseStamped pose;
-		pose.pose.position.x = -0.8;
-	        pose.pose.position.y = 0.0;
-                pose.pose.position.z = 0.0;
-                pose.pose.orientation.x = 0.0;
-                pose.pose.orientation.y = 0.0;
-                pose.pose.orientation.z = 1.0; //The goal is rotated by 180deg from what the estimator is giving us
-                pose.pose.orientation.w = 0.0;
+		pose.pose.position.x = -1.0;
+	    pose.pose.position.y = -0.04;
+		pose.pose.position.z = 0.0;
+		pose.pose.orientation.x = 0.0;
+		pose.pose.orientation.y = 0.0;
+		pose.pose.orientation.z = 1.0; //The goal is rotated by 180deg from what the estimator is giving us
+		pose.pose.orientation.w = 0.0;
 
 
 		controlToGoalPose(pose, sampling_hz);
@@ -147,7 +123,8 @@ void ChargingActionServer::goalCallback()
 		ros::Duration(10).sleep();
 		estimator_.disable();
 
-		pose.pose.position.x = -1.1;
+		pose.pose.position.x = -1.3;
+        pose.pose.position.y = -0.04;
 		pose.pose.orientation.z = 1.0; //The goal is rotated by 180deg from what the estimator is giving us
 
 		controlToGoalPose(pose, sampling_hz);
@@ -191,7 +168,7 @@ void ChargingActionServer::goalCallback()
 		return;
 
 	} //Undock goal
-	else if(goal->goal == vizzy_navigation::ChargeGoal::STOP_CHARGE)
+	else if(goal->goal == vizzy_msgs::ChargeGoal::STOP_CHARGE)
 	{
 		ROS_INFO("Received new goal: Stop Charge!");
 
@@ -269,26 +246,10 @@ void ChargingActionServer::run()
 
 
 ChargingActionServer::ChargingActionServer(ros::NodeHandle nh, std::string name) : controller_(nh), n_priv("~"),
-    estimator_(nh), tfBuffer_(), tfListener_(tfBuffer_), as_(nh_, name, false), move_base_client_("move_base", true)
+    estimator_(nh), tfBuffer_(), tfListener_(tfBuffer_), as_(nh_, name, false)
 {
     as_.registerGoalCallback(boost::bind(&ChargingActionServer::goalCallback, this));
     as_.registerPreemptCallback(boost::bind(&ChargingActionServer::preemptCB, this));
-
-    ROS_INFO("Waiting for move base action server");
-    move_base_client_.waitForServer();
-    ROS_INFO("Found move_base action server");
-    
-    goal_msg.target_pose.header.stamp = ros::Time::now();
-
-    n_priv.param<std::string>("docking_frame_id", goal_msg.target_pose.header.frame_id, "map");
-    n_priv.param("docking_pos_x", goal_msg.target_pose.pose.position.x, 0.0);
-    n_priv.param("docking_pos_y", goal_msg.target_pose.pose.position.y, 0.0);
-    n_priv.param("docking_pos_z", goal_msg.target_pose.pose.position.z, 0.0);
-
-    n_priv.param("docking_orient_x", goal_msg.target_pose.pose.orientation.x, 0.0);
-    n_priv.param("docking_orient_y", goal_msg.target_pose.pose.orientation.y, 0.0);
-    n_priv.param("docking_orient_z", goal_msg.target_pose.pose.orientation.z, 0.0);
-    n_priv.param("docking_orient_w", goal_msg.target_pose.pose.orientation.w, 1.0);
    
     cmd_pub_ =  nh_.advertise<geometry_msgs::Twist>("/vizzy/cmd_vel", 1 );    
 

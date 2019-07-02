@@ -19,12 +19,20 @@ add_action_files(
   DIRECTORY action
   FILES Gaze.action
   Cartesian.action
+  Charge.action
 )
 
 add_message_files(
   FILES
   Tactile.msg
   TacVector.msg
+)
+
+add_service_files(
+  DIRECTORY srv
+  FILES
+  BatteryState.srv
+  BatteryChargingState.srv
 )
 
 generate_messages(

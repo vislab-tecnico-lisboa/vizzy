@@ -214,7 +214,10 @@ int main(int argc, char *argv[])
                 client_status=5;
             }
             else if (pose_data->type==5){
-                client_status==1;
+                client_status=1;
+            }
+            else if(pose_data->type==6){
+                client_status=6;
             }
             else{
                 client_status=-1;
@@ -548,6 +551,74 @@ int main(int argc, char *argv[])
             for (size_t j=0;j<3;j++){
                 ipos->setRefSpeed(j+8,handVel);
                 ipos->positionMove(j+8,closeFingerPos);
+            }
+            bool motionDone_hand = false;
+            double init_time = Time::now();
+            double current_time;
+            yWarning("Before position control timeout");
+            
+            double my_timeout=1.0;
+            yarp::math::Quaternion orientation;
+            while (!motionDone_hand && my_timeout>0)
+            {
+                //yWarning("Sending the arm to a pose");
+                ipos->checkMotionDone(&motionDone_hand);
+		current_pose.current_e_eff_pose.header.frame_id = "base_link";
+                current_pose.current_e_eff_pose.pose.position.x = current_position[0];
+                current_pose.current_e_eff_pose.pose.position.y = current_position[1];
+                current_pose.current_e_eff_pose.pose.position.z = current_position[2];
+                orientation.fromAxisAngle(current_orientation);
+                current_pose.current_e_eff_pose.pose.orientation.x = orientation.x();
+                current_pose.current_e_eff_pose.pose.orientation.y = orientation.y();
+                current_pose.current_e_eff_pose.pose.orientation.z = orientation.z();
+                current_pose.current_e_eff_pose.pose.orientation.w = orientation.w();
+                publisher_feedback_part.write(current_pose);
+                Time::delay(0.05);
+                my_timeout-=0.05;
+                //done = true;
+            }
+
+            result_msg_to_ros.data = 1;
+            publisher_result_bridge_part.write(result_msg_to_ros);
+            client_status = -1;
+            std::cout << "succesful: " << std::endl;
+        }
+        else if (client_status ==6){
+            double closeFingerPos=120.0;
+            double handVel=50.0;
+            arm->stopControl();
+            //Do position control to home position
+            //--
+            //BEGIN Setting the motor control in POSITION mode for each joint
+            //--
+            VectorOf<int> modes;
+            modes.resize(3, VOCAB_CM_POSITION);
+            VectorOf<int> jntHand;
+            jntHand.push_back(8);
+            jntHand.push_back(9);
+            jntHand.push_back(10);
+            //iMode2->setControlModes(3, jntHand.getFirst(), modes.getFirst());
+	    for (size_t n=0;n<3;n++){
+	      iMode2->setControlMode(n+8,VOCAB_CM_POSITION);
+	    }
+            //--
+            // END Setting the motor control in POSITION mode for each joint
+            //--
+
+            //--
+            //BEGIN Setting the motor angular positions for each joint
+            //--
+            //Initial values left arm joints
+            //double joints_arm[8] = {-12, 30, 12, -22, 66, -39, 23, 0.0};
+            //ipos->positionMove(joints_arm);
+            for (size_t j=0;j<3;j++){
+                ipos->setRefSpeed(j+8,handVel);
+                if (j==1){
+                    ipos->positionMove(j+8,0.0);
+                }
+		else{
+		  ipos->positionMove(j+8,closeFingerPos);
+		}
             }
             bool motionDone_hand = false;
             double init_time = Time::now();
