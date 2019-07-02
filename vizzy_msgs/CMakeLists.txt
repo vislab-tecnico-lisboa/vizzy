@@ -28,6 +28,13 @@ add_message_files(
   TacVector.msg
 )
 
+add_service_files(
+  DIRECTORY srv
+  FILES
+  BatteryState.srv
+  BatteryChargingState.srv
+)
+
 generate_messages(
   DEPENDENCIES
   std_msgs
