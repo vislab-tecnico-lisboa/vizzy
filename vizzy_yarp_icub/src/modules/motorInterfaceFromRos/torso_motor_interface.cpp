@@ -122,7 +122,7 @@ int main(int argc, char *argv[])
         return 1;
     }
     iMode2->setControlMode(0,VOCAB_CM_POSITION);
-    double torso_speed[1] = {30.0};
+    double torso_speed[1] = {10.0};
     ipos->setRefSpeeds(torso_speed);
     /* creates a node called /yarp/listener */
     Node node("/vizzy/torso_motor_interface");

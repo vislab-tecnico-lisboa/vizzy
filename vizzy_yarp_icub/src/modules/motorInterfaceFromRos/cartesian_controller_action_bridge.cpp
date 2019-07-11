@@ -473,6 +473,7 @@ int main(int argc, char *argv[])
             jntHand.push_back(10);
             //iMode2->setControlModes(3, jntHand.getFirst(), modes.getFirst());
 	    for (size_t n=0;n<3;n++){
+              iMode2->setControlMode(n+8,VOCAB_CM_FORCE_IDLE);
 	      iMode2->setControlMode(n+8,VOCAB_CM_POSITION);
 	    }
             //--
@@ -536,6 +537,7 @@ int main(int argc, char *argv[])
             jntHand.push_back(10);
             //iMode2->setControlModes(3, jntHand.getFirst(), modes.getFirst());
 	    for (size_t n=0;n<3;n++){
+              iMode2->setControlMode(n+8,VOCAB_CM_FORCE_IDLE);
 	      iMode2->setControlMode(n+8,VOCAB_CM_POSITION);
 	    }
             //--
@@ -599,6 +601,7 @@ int main(int argc, char *argv[])
             jntHand.push_back(10);
             //iMode2->setControlModes(3, jntHand.getFirst(), modes.getFirst());
 	    for (size_t n=0;n<3;n++){
+              iMode2->setControlMode(n+8,VOCAB_CM_FORCE_IDLE);
 	      iMode2->setControlMode(n+8,VOCAB_CM_POSITION);
 	    }
             //--
