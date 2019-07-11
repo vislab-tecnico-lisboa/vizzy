@@ -18,6 +18,8 @@ execute_process(COMMAND yarpidl_rosmsg motorsArray.msg WORKING_DIRECTORY "${CMAK
 
 include_directories(${PROJECT_BINARY_DIR}/yarpidl_rosmsg_files)
 # set up our program
+add_executable(torsoMotorInterface torso_motor_interface.cpp)
+add_executable(torsoMotorInterfaceSim torso_motor_interface_sim.cpp)
 add_executable(headMotorsInterface head_motors_interface.cpp)
 add_executable(leftArmMotorsInterface left_arm_motors_interface.cpp)
 add_executable(leftArmMotorsInterfaceOneTopic left_arm_motors_interface_one_topic.cpp)
@@ -28,6 +30,8 @@ add_executable(cartesianRosBridge cartesian_controller_action_bridge.cpp)
 
 # link with YARP libraries
 target_link_libraries(headMotorsInterface ${YARP_LIBRARIES})
+target_link_libraries(torsoMotorInterfaceSim ${YARP_LIBRARIES})
+target_link_libraries(torsoMotorInterface ${YARP_LIBRARIES})
 target_link_libraries(leftArmMotorsInterface ${YARP_LIBRARIES})
 target_link_libraries(leftArmMotorsInterfaceOneTopic ${YARP_LIBRARIES})
 target_link_libraries(leftArmFollowTrajBridge ${YARP_LIBRARIES})

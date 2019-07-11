@@ -59,7 +59,7 @@
   <arg name="map_frame" default="map"/>
 
   <!-- Robot capabilities -->
-  <arg name="disable_3d_sensor" default="false"/>
+  <arg name="disable_3d_sensor" default="true"/>
 
   <!-- Gaze action -->
   <arg name="vizzy_control_config_file" default="$(find vizzy_control)/config/frames.yaml"/>
