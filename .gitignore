@@ -2,6 +2,8 @@
 *#
 *.o
 /vizzy_yarp_icub/build*/
+/vizzy_yarp_icub/CMakeFiles*/
+/vizzy_yarp_icub/CMakeCache.txt
 qtcreator-build*
 build*
 CMakeLists.txt.user

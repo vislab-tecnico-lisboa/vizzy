@@ -286,10 +286,10 @@ void ClickableGazeDisplay::mouseEventHandler(QMouseEvent *mevent) {
             ROS_ERROR_STREAM("Failed to get camera parameters!");
             return;
           }else{
-            fx = l_camera_info->K.at(0);
-            fy = l_camera_info->K.at(4);
-            cx = l_camera_info->K.at(2);
-            cy = l_camera_info->K.at(5);
+            fx = l_camera_info->P.at(0);
+            fy = l_camera_info->P.at(5);
+            cx = l_camera_info->P.at(2);
+            cy = l_camera_info->P.at(6);
           }
 
         geometry_msgs::PointStamped ps;
