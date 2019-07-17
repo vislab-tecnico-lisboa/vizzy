@@ -51,7 +51,7 @@ void Gaze::suppresion(const sensor_msgs::Image::ConstPtr & left_image_msg,
     static int count=0;
     if(active)
     {
-        ROS_ERROR("ESTOU A SUPPRIMIR");
+        //ROS_ERROR("ESTOU A SUPPRIMIR");
         //write left image
         //cv::imwrite("/home/vizzy/images_moutinho"+);
         // write right image
