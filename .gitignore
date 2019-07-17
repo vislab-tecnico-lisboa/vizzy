@@ -7,3 +7,4 @@
 qtcreator-build*
 build*
 CMakeLists.txt.user
+vizzy_yarp_icub/src/modules/armGesture/include/*
