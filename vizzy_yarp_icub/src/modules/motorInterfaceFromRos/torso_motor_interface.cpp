@@ -17,6 +17,7 @@ using namespace yarp::os;
 
 int jnts = 0;  // joint number
 IPositionControl *ipos=0;
+IControlMode2 *iMode2=0;
 //Node *node=0;
 yarp::os::Subscriber<Float64> subscriber;
 yarp::os::Subscriber<Float64> subscriber_two;
@@ -49,6 +50,9 @@ public:
 	if (data != NULL){
         //std::cout << "Received:" << data->data << " " << std::endl;
 	controller_mutex.wait();
+        iMode2->setControlMode(0,VOCAB_CM_POSITION);
+        double torso_speed[1] = {10.0};
+        ipos->setRefSpeeds(torso_speed);
 	ipos->positionMove(joint_index, data->data*180.0/3.141592);
 	controller_mutex.post();
 	bool motionDone=false;
@@ -90,7 +94,6 @@ int main(int argc, char *argv[])
     IAmplifierControl *amp=0;
     IControlLimits *lim=0;
     IControlLimits2 *lim2 = 0;
-    IControlMode2 *iMode2=0;
     IMotor *imot=0;
     ITorqueControl *itorque=0;
     //IOpenLoopControl *iopenloop=0;
