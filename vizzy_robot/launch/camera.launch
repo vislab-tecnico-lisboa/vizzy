@@ -2,9 +2,13 @@
 <launch>
   <arg name="vizzy_machine_name" default="vizzy-desktop"/>
   <arg name="vizzy_machine_address" default="10.10.1.80"/>
-<!--  <arg name="vizzy_machine_name" default="$(arg vizzy_machine_name)" /> -->
-  <arg name="env-loader" default="/home/vizzy/catkin_workspace/devel/env.sh"/>
-  <machine name="$(arg vizzy_machine_name)" address="$(arg vizzy_machine_address)" env-loader="$(arg env-loader)" user="vizzy"/>
+  <arg name="env-loader" default="$(find vizzy_launch)/env-hooks/env_loader.sh"/>
+  
+  <machine name="$(arg vizzy_machine_name)" 
+           address="$(arg vizzy_machine_address)" 
+           env-loader="$(arg env-loader)" 
+           user="vizzy"
+  />
 
   <arg name="camera" default="left_camera" />
   <arg name="video_mode" default="640x480_rgb8" />
