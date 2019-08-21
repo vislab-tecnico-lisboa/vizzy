@@ -6,12 +6,12 @@
   <arg name="operator" default="false"/>
   <arg name="env-loader" default="$(find vizzy_launch)/env-hooks/env_loader.sh"/>
   <arg name="define_machine" default="true"/>
-  
-  <machine name="$(arg vizzy_machine_name)" 
-           address="$(arg vizzy_machine_address)" 
-           env-loader="$(arg env-loader)" user="vizzy"
-           if="$(arg define_machine)"
-  />
+
+    <machine name="$(arg vizzy_machine_name)" 
+            address="$(arg vizzy_machine_address)" 
+            env-loader="$(arg env-loader)" user="vizzy"
+            if="$(arg define_machine)"
+    />
 
 
   <!-- robot configuration parameters -->
@@ -60,7 +60,7 @@
     <arg name="cameras_auto_exposure" value="$(arg cameras_auto_exposure)" />
     <arg name="cameras_auto_frame_rate" value="$(arg cameras_auto_frame_rate)" />
     <arg name="define_machine" value="false"/>
-  </include>
+  </include> 
 
   <!-- launch moveit -->
   <group if="$(arg use_moveit)">
