@@ -5,13 +5,11 @@
   <arg name="env-loader" default="$(find vizzy_launch)/env-hooks/env_loader.sh"/>
   <arg name="define_machine" default="true"/>
 
-  <group if="$(arg define_machine)">
-    <machine name="$(arg vizzy_machine_name)" 
-            address="$(arg vizzy_machine_address)" 
-            env-loader="$(arg env-loader)" user="vizzy"
-            if="$(arg define_machine)"
-    />
-  </group>
+  <machine name="$(arg vizzy_machine_name)" 
+        address="$(arg vizzy_machine_address)" 
+        env-loader="$(arg env-loader)" user="vizzy"
+        if="$(arg define_machine)"
+  />
 
   <arg name="ns" default="vizzy" />
   <arg name="camera_name" default="camera" />
