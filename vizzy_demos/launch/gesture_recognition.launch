@@ -8,7 +8,7 @@
   <!-- robot configuration parameters -->
   <arg name="vizzy_machine_name" default="vizzy-desktop"/>
   <arg name="vizzy_machine_address" default="10.10.1.80"/>
-  <arg name="env-loader" default="/home/vizzy/catkin_workspace/devel/env.sh"/>
+  <arg name="env-loader" default="$(find vizzy_launch)/env-hooks/env_loader.sh"/>
   <machine name="$(arg vizzy_machine_name)" address="$(arg vizzy_machine_address)" env-loader="$(arg env-loader)" user="vizzy"/>
 
   <!-- simulation parameters and robot configuration parameters -->
@@ -46,6 +46,7 @@
   	<arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)"/>
   	<arg name="vizzy_machine_address" value="$(arg vizzy_machine_address)"/>
   	<arg name="env-loader" value="$(arg env-loader)"/>
+    <arg name="define_machine" value="false"/>
   	<arg name="ros_cameras_on" value="$(arg ros_cameras_on)"/>
   	<arg name="map_file" value="$(arg map_file)" />
 	<arg name="frame_rate" value="15.0" />

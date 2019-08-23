@@ -2,11 +2,13 @@
 <launch>
   <arg name="vizzy_machine_name" default="vizzy-desktop"/>
   <arg name="vizzy_machine_address" default="10.10.1.80"/>
-  <arg name="env-loader" default="/home/vizzy/catkin_workspace/devel/env.sh"/>
+  <arg name="env-loader" default="$(find vizzy_launch)/env-hooks/env_loader.sh"/>
+  <arg name="define_machine" default="true"/>
+
   <machine name="$(arg vizzy_machine_name)" 
-           address="$(arg vizzy_machine_address)" 
-           env-loader="$(arg env-loader)" 
-           user="vizzy"
+          address="$(arg vizzy_machine_address)" 
+          env-loader="$(arg env-loader)" user="vizzy"
+          if="$(arg define_machine)"
   />
 
   <arg name="map_frame" default="map" />
@@ -64,6 +66,7 @@
           <arg name="camera_id" value="2" />
           <arg name="frame_id" value="l_camera_vision_link" />
           <arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)" />
+          <arg name="define_machine" default="false"/>
           <arg name="ns" value="$(arg ns)" />
           <arg name="frame_rate" value="10"/>
           <arg name="camera_intrinsics_file" value="$(find vizzy_robot)/config/left_camera_params.yaml" />
@@ -78,6 +81,7 @@
         <arg name="camera_id" value="1"/>
         <arg name="frame_id" value="r_camera_vision_link" />
         <arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)" />
+        <arg name="define_machine" default="false"/>
         <arg name="ns" value="$(arg ns)" />
         <arg name="frame_rate" value="10"/>
         <arg name="camera_intrinsics_file" value="$(find vizzy_robot)/config/right_camera_params.yaml" />
