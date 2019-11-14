@@ -1,7 +1,14 @@
 #include "GazeSimulation.h"
 
-GazeSimulation::GazeSimulation(const std::string & name, const ros::NodeHandle & nh) : Gaze(name,nh)
+GazeSimulation::GazeSimulation(const std::string & name, const ros::NodeHandle & nh) : 
+    Gaze(name,nh), 
+    oculocephalic_group(new moveit::planning_interface::MoveGroupInterface("oculocephalic"))
 {
+
+    oculocephalic_joint_names=oculocephalic_group->getActiveJoints();
+    oculocephalic_joint_values.resize(oculocephalic_joint_names.size());
+    std::fill(oculocephalic_joint_values.begin(), oculocephalic_joint_values.end(), 0);
+
     private_node_handle.param<std::string>("left_eye_frame", left_eye_frame, "left_eye_frame");
     private_node_handle.param<std::string>("right_eye_frame", right_eye_frame, "right_eye_frame");
     private_node_handle.param<std::string>("neck_frame", neck_frame, "neck_frame");
