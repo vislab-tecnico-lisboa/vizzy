@@ -3,25 +3,7 @@
 
 #ifndef GAZE_H
 #define GAZE_H
-// MoveIt!
 #include <sensor_msgs/JointState.h>
-#include <moveit_msgs/GetPositionIK.h>
-#include <moveit/robot_model_loader/robot_model_loader.h>
-#include <moveit/robot_state/robot_state.h>
-#include <moveit/robot_model_loader/robot_model_loader.h>
-#include <moveit/planning_interface/planning_interface.h>
-#include <moveit/planning_scene/planning_scene.h>
-#include <moveit/kinematic_constraints/utils.h>
-#include <moveit_msgs/DisplayTrajectory.h>
-#include <moveit_msgs/PlanningScene.h>
-#include <moveit/move_group_interface/move_group_interface.h>
-#include <moveit/planning_scene_interface/planning_scene_interface.h>
-#include <moveit_msgs/DisplayRobotState.h>
-#include <moveit_msgs/DisplayTrajectory.h>
-#include <moveit_msgs/AttachedCollisionObject.h>
-#include <moveit_msgs/CollisionObject.h>
-#include <moveit_msgs/MoveGroupAction.h>
-#include <moveit_msgs/MoveGroupActionFeedback.h>
 #include <message_filters/subscriber.h>
 #include <message_filters/time_synchronizer.h>
 #include <message_filters/sync_policies/approximate_time.h>
@@ -39,7 +21,6 @@
 #include "tf2_ros/transform_listener.h"
 #include "tf2_ros/message_filter.h"
 #include "tf2_geometry_msgs/tf2_geometry_msgs.h"
-#include <moveit/planning_scene_monitor/planning_scene_monitor.h>
 #include "opencv2/core/core.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
 #include <opencv/cv.h>
@@ -89,13 +70,10 @@ protected:
     std::string neck_frame;
     std::string world_frame;
 
-    Eigen::Vector3d last_fixation_point;
-
     vizzy_msgs::GazeGoalConstPtr goal_msg;
     ros::WallTime start_time;
 
 
-    planning_scene_monitor::CurrentStateMonitorPtr state_monitor;
     boost::shared_ptr<tf2_ros::TransformListener> tf_listener;
     tf2_ros::Buffer tfBuffer;
     ros::NodeHandle nh_;
@@ -125,7 +103,6 @@ protected:
 
     std::vector<double> oculocephalic_joint_values;
     std::vector<std::string> oculocephalic_joint_names;
-    moveit::planning_interface::MoveGroupInterface* oculocephalic_group;
 
 public:
     double half_base_line;

@@ -20,6 +20,7 @@
   <arg name="urdf_file" value="vizzy.urdf.xacro"/>
 
   <arg name="simulation" value="true"/>
+  <arg name="launch_gaze" value="true"/>
 
   <!-- Load Yarp plugins for real robot execution -->
   <arg name="use_yarp" default="false"/>
@@ -39,7 +40,7 @@
 
   <!-- MoveIt! planner -->
   <!-- TODO: Fix MoveIt! configs -->
-  <arg name="moveit" default="true"/>
+  <arg name="moveit" default="false"/>
 
   <!-- Teleop -->
   <arg name="teleop" default="false"/>
@@ -77,8 +78,8 @@
   <arg     if="$(arg navigation)" name="rviz_fixed_frame" value="map"/>
   <arg unless="$(arg navigation)" name="rviz_fixed_frame" value="base_footprint"/>
   <!-- Gaze depends on MoveIt! -->
-  <arg     if="$(arg moveit)" name="launch_gaze" value="true"/>
-  <arg unless="$(arg moveit)" name="launch_gaze" value="false"/>
+  <!-- <arg     if="$(arg moveit)" name="launch_gaze" value="true"/>
+  <arg unless="$(arg moveit)" name="launch_gaze" value="false"/> -->
 
   <!-- Gaze in simulation with yarp runs like the real robot! -->
   <arg     if="$(arg use_yarp)" name="launch_gaze_yarp" value="true"/>
@@ -103,7 +104,7 @@
   <!-- Launch rviz -->
   <group if="$(arg rviz)">
     <node name="rviz" pkg="rviz" type="rviz"
-      args="-f $(arg rviz_fixed_frame)">
+      args="-f $(arg rviz_fixed_frame) -d $(find vizzy_demos)/rviz/wizard_of_oz.rviz">
     </node>
   </group>
 
@@ -133,7 +134,7 @@
     </group>
 
     <!-- Launch Timed Elastic Band (teb) local planner -->
-    <include file="$(find vizzy_navigation)/launch/move_base_eband_local.launch">
+    <include file="$(find vizzy_navigation)/launch/navigation_teb_local.launch">
       <arg name="map_topic" value="$(arg map_topic)"/>
     </include>
 
@@ -163,13 +164,12 @@
   </group>
 
 
-  <!-- Launch MoveIt! -->
   <!-- TODO: Update moveit package with new urdf description, preferably including hands -->
   <group if="$(arg moveit)">
     <include file="$(find vizzy_moveit_config)/launch/moveit.launch"/>
   </group>
 
-  <!-- Launch gaze action (needs MoveIt!) -->
+  <!-- Launch gaze action (needs MoveIt! if simulating without YARP) -->
   <group if="$(arg launch_gaze)">
     <group if="$(arg launch_gaze_yarp)">
     <include file="$(find vizzy_control)/launch/gaze.launch">
@@ -180,11 +180,13 @@
     </include>
     </group>
     <group unless="$(arg launch_gaze_yarp)">
-    <include file="$(find vizzy_control)/launch/gaze.launch">
-      <arg name="simulation" value="true"/>
-      <arg name="config_file" value="$(arg vizzy_control_config_file)"/>
-      <arg name="fixation_point_in" value="$(arg fixation_point_in)"/>
-    </include>
+      <group if="$(arg moveit)">
+      <include file="$(find vizzy_control)/launch/gaze.launch">
+        <arg name="simulation" value="true"/>
+        <arg name="config_file" value="$(arg vizzy_control_config_file)"/>
+        <arg name="fixation_point_in" value="$(arg fixation_point_in)"/>
+      </include>
+      </group>
     </group>
   </group>
 
