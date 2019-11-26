@@ -5,8 +5,8 @@ export OPENCV_LIB=$HOME/repositories/opencv/build/lib
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$OPENCV_LIB
 source /opt/ros/kinetic/setup.bash
 source /home/vizzy/catkin_ws/devel/setup.bash
-export ROS_MASTER_URI=http://10.10.1.80:11311
-export ROS_IP=10.10.1.80
+export ROS_MASTER_URI=http://10.1.3.1:11311
+export ROS_IP=10.1.3.1
 export YARP_ROOT=/home/vizzy/yarp_repositories/yarp
 export YARP_DIR=$YARP_ROOT/build
 export YARP_ROBOT_NAME=vizzy
