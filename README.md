@@ -33,9 +33,9 @@ The real robot uses two different middlewares for distinct body parts (YARP for 
 Note that for simulation purposes one can ignore all YARP dependencies as explained on the repository description.
 
 * Operating System
-  * [Ubuntu 16.04](http://releases.ubuntu.com/16.04/) - Currently supported version, Ubuntu 16.04 and ROS Kinetic-Kame
+  * [Ubuntu 18.04](http://releases.ubuntu.com/18.04/) - Currently supported version, Ubuntu 18.04 and ROS Melodic
 * Middleware
-  * [ROS](http://www.ros.org/) - Currently supported version Kinetic for Ubuntu 16.04
+  * [ROS](http://www.ros.org/) - Currently supported version Melodic for Ubuntu 18.04
   * [YARP](http://wiki.icub.org/yarpdoc/) - we try to keep everything working with the most recent version of YARP
 * Other Dependencies
   * [GAZEBO](http://gazebosim.org/) - It needs GAZEBO greather or equal than 5 to run the gazebo-yarp-plugins. Currently tested in Gazebo 7 and 9 as well.
@@ -51,6 +51,8 @@ As soon as you have your catkin_workspace configured you are ready to open a ter
 
     cd /path/to/your/catkin/workspace/src
     git clone https://github.com/vislab-tecnico-lisboa/vizzy
+    cd /path/to/your/catkin/workspace/src/vizzy
+    git checkout melodic-devel
 
 Be sure to add the source folder of your catkin workspace to the `ROS_PACKAGE_PATH` variable (skip this step if you already did it):
 
@@ -78,7 +80,7 @@ Save the file and run:
 
 Install the nav2d package
   
-    version=kinetic &&
+    version=melodic &&
     sudo apt-get install ros-$version-nav2d
 
 If you want to run the follower module, download a changed version of the nav2d and place it in your catkin workspace folder
@@ -89,7 +91,7 @@ We are currently migrating the eband planner to teb planner.
 
 Other dependencies needed (in a convenient one-liner)
     
-    version=kinetic &&
+    version=melodic &&
     sudo apt-get install ros-$version-tf2-geometry-msgs
     sudo apt install ros-$version-gazebo-* &&
     sudo apt install ros-$version-image-proc &&
@@ -105,7 +107,6 @@ Other dependencies needed (in a convenient one-liner)
     sudo apt install ros-$version-velocity-controllers &&
     sudo apt install ros-$version-position-controllers &&
     sudo apt install ros-$version-joint-trajectory-controller &&
-    sudo apt install ros-$version-eband-local-planner &&
     sudo apt install ros-$version-laser-filters &&
     sudo apt install libsuitesparse-dev &&
     sudo apt install ros-$version-fake-localization &&
