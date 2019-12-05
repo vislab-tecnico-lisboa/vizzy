@@ -52,9 +52,9 @@ bool VizzyArmRoutines::configure(yarp::os::ResourceFinder &rf) {
     setName(moduleName.c_str());
 
     /* port names */
-    commandPortName  = "/" + moduleName + "/command";
+    commandPortName  = "/" + moduleName + "/" + armName + "/command";
 
-    rosNode = new Node("/" + moduleName + "/node"); 
+    rosNode = new Node("/" + moduleName + "/" + armName +"/node"); 
     //Open Topic
     command_sub.setReadOnly();
     if (!command_sub.topic(
@@ -100,6 +100,7 @@ bool VizzyArmRoutines::configure(yarp::os::ResourceFinder &rf) {
 	velocities_waving.resize(nj);
     velocities_stretching.resize(nj);
     velocities_handshaking.resize(nj);
+    velocities_happy.resize(nj);
     // Setting Control Mode - Position
     for(int i=0;i< nj;i++)
         ictrl->setControlMode(i,VOCAB_CM_POSITION);
@@ -146,6 +147,7 @@ bool VizzyArmRoutines::configure(yarp::os::ResourceFinder &rf) {
     grabing_hand_pose.resize(nj);
     pid_hand_pose.resize(nj);
     release_hand_pose.resize(nj);
+    happy_pose.resize(nj);
     while(!encs->getEncoders(encoders.data()))
     {
             Time::delay(0.01);
@@ -220,6 +222,20 @@ bool VizzyArmRoutines::configure(yarp::os::ResourceFinder &rf) {
     pid_hand_pose[9] = 45;
     pid_hand_pose[10] = 69.75;
     
+    //Case 6 - Happy pose
+
+    pid_hand_pose[0] = 3.2;
+    pid_hand_pose[1] = 129.4;
+    pid_hand_pose[2] = 0;
+    pid_hand_pose[3] = 1.7;
+    pid_hand_pose[4] = 51.5;
+    pid_hand_pose[5] = 73.1;
+    pid_hand_pose[6] = 0;
+    pid_hand_pose[7] = 0;
+    pid_hand_pose[8] = 0;
+    pid_hand_pose[9] = 0;
+    pid_hand_pose[10] = 0;
+
     int numTries = 0;
     //hand_force_control=false;
     if (hand_force_control){

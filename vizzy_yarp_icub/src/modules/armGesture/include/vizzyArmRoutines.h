@@ -70,8 +70,8 @@ class VizzyArmRoutines: public RFModule, public VIZZYARMROUTINES_IDL {
     IEncoders *encs;
     IControlMode2 *ictrl;
     ControlThread *fingerLimbControl;
-    yarp::sig::Vector command, encoders, home_pose, wave_home_pose, grabing_hand_pose, arm_forward_pose, handshaking_pose, release_hand_pose, pid_hand_pose;
-    yarp::sig::Vector velocities_waving, velocities_stretching, velocities_handshaking;
+    yarp::sig::Vector command, encoders, home_pose, wave_home_pose, grabing_hand_pose, arm_forward_pose, handshaking_pose, release_hand_pose, pid_hand_pose, happy_pose;
+    yarp::sig::Vector velocities_waving, velocities_stretching, velocities_handshaking, velocities_happy;
     
 private:
     bool _closing;
