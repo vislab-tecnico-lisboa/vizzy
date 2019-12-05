@@ -52,9 +52,9 @@ bool VizzyArmRoutines::configure(yarp::os::ResourceFinder &rf) {
     setName(moduleName.c_str());
 
     /* port names */
-    commandPortName  = "/" + moduleName + "/command";
+    commandPortName  = "/" + moduleName + "/" + armName + "/command";
 
-    rosNode = new Node("/" + moduleName + "/node"); 
+    rosNode = new Node("/" + moduleName + "/" + armName + "/node"); 
     //Open Topic
     command_sub.setReadOnly();
     if (!command_sub.topic(
