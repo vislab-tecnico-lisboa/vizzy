@@ -101,6 +101,8 @@ bool VizzyArmRoutines::configure(yarp::os::ResourceFinder &rf) {
     velocities_stretching.resize(nj);
     velocities_handshaking.resize(nj);
     velocities_happy.resize(nj);
+    velocities_sad.resize(nj);
+    velocities_angry.resize(nj);
     // Setting Control Mode - Position
     for(int i=0;i< nj;i++)
         ictrl->setControlMode(i,VOCAB_CM_POSITION);
@@ -134,7 +136,49 @@ bool VizzyArmRoutines::configure(yarp::os::ResourceFinder &rf) {
     velocities_handshaking[8] = 40;
     velocities_handshaking[9] = 40;
     velocities_handshaking[10] = 40;
+    
+    // Setting Motor velocities for happy pose  
 
+    velocities_happy[0] = 5;
+    velocities_happy[1] = 5;
+    velocities_happy[2] = 5;
+    velocities_happy[3] = 5;
+    velocities_happy[4] = 5;
+    velocities_happy[5] = 5;
+    velocities_happy[6] = 5;
+    velocities_happy[7] = 5;
+    velocities_happy[8] = 5;
+    velocities_happy[9] = 5;
+    velocities_happy[10] = 5;
+
+    // Setting Motor velocities for sad pose
+    
+    velocities_sad[0] = 5;
+    velocities_sad[1] = 5;
+    velocities_sad[2] = 5;
+    velocities_sad[3] = 5;
+    velocities_sad[4] = 5;
+    velocities_sad[5] = 5;
+    velocities_sad[6] = 5;
+    velocities_sad[7] = 5;
+    velocities_sad[8] = 5;
+    velocities_sad[9] = 5;
+    velocities_sad[10] = 5;
+    
+    // Setting Motor velocities for angry pose
+    
+    velocities_angry[0] = 5;
+    velocities_angry[1] = 5;
+    velocities_angry[2] = 5;
+    velocities_angry[3] = 5;
+    velocities_angry[4] = 5;
+    velocities_angry[5] = 5;
+    velocities_angry[6] = 5;
+    velocities_angry[7] = 5;
+    velocities_angry[8] = 5;
+    velocities_angry[9] = 5;
+    velocities_angry[10] = 5;
+    
 
 
     cout << "Module Started! YEEE" << endl;
@@ -148,6 +192,8 @@ bool VizzyArmRoutines::configure(yarp::os::ResourceFinder &rf) {
     pid_hand_pose.resize(nj);
     release_hand_pose.resize(nj);
     happy_pose.resize(nj);
+    sad_pose.resize(nj);
+    angry_pose.resize(nj);
     while(!encs->getEncoders(encoders.data()))
     {
             Time::delay(0.01);
@@ -224,17 +270,46 @@ bool VizzyArmRoutines::configure(yarp::os::ResourceFinder &rf) {
     
     //Case 6 - Happy pose
 
-    pid_hand_pose[0] = 3.2;
-    pid_hand_pose[1] = 129.4;
-    pid_hand_pose[2] = 0;
-    pid_hand_pose[3] = 1.7;
-    pid_hand_pose[4] = 51.5;
-    pid_hand_pose[5] = 73.1;
-    pid_hand_pose[6] = 0;
-    pid_hand_pose[7] = 0;
-    pid_hand_pose[8] = 0;
-    pid_hand_pose[9] = 0;
-    pid_hand_pose[10] = 0;
+    happy_pose[0] = 3.2;
+    happy_pose[1] = 129.4;
+    happy_pose[2] = 0;
+    happy_pose[3] = 1.7;
+    happy_pose[4] = 51.5;
+    happy_pose[5] = 73.1;
+    happy_pose[6] = 0;
+    happy_pose[7] = 0;
+    happy_pose[8] = 0;
+    happy_pose[9] = 0;
+    happy_pose[10] = 0;
+
+    //Case 7 - Sad pose
+    
+    sad_pose[0] = -7.4;
+    sad_pose[1] = -73;
+    sad_pose[2] = 59;
+    sad_pose[3] = 14;
+    sad_pose[4] = 105;
+    sad_pose[5] = 0;
+    sad_pose[6] = 0;
+    sad_pose[7] = 13.3;
+    sad_pose[8] = 0;
+    sad_pose[9] = 0;
+    sad_pose[10] = 0;
+    
+    //Case 8 - Angry pose
+    
+    angry_pose[0] = -7.4;
+    angry_pose[1] = -73;
+    angry_pose[2] = 59;
+    angry_pose[3] = 14;
+    angry_pose[4] = 105;
+    angry_pose[5] = 0;
+    angry_pose[6] = 0;
+    angry_pose[7] = 0;
+    angry_pose[8] = 0;
+    angry_pose[9] = 0;
+    angry_pose[10] = 0;
+
 
     int numTries = 0;
     //hand_force_control=false;
@@ -459,6 +534,48 @@ bool VizzyArmRoutines::updateModule() {
                     }
                     cout << "Handshake performed" << endl;
                 }
+                break;
+            case 6:
+                //Happy pose
+                cout << "Getting happy" << endl;
+                
+                pos->setRefSpeeds(velocities_happy.data());
+                command = happy_pose;
+                pos->positionMove(command.data());
+                while(!done) {
+                    pos->checkMotionDone(&done);
+                    Time::delay(0.00001);   // Alterado
+                }
+                done = false;
+                cout << "Happy pose" << endl;
+                break;
+            case 7:
+                //Sad pose
+                cout << "Getting sad" << endl;
+                
+                pos->setRefSpeeds(velocities_sad.data());
+                command = sad_pose;
+                pos->positionMove(command.data());
+                while(!done) {
+                    pos->checkMotionDone(&done);
+                    Time::delay(0.00001);   // Alterado
+                }
+                done = false;
+                cout << "Sad pose" << endl;
+                break;
+            case 8:
+                //Angry pose
+                cout << "Getting angry" << endl;
+                
+                pos->setRefSpeeds(velocities_angry.data());
+                command = angry_pose;
+                pos->positionMove(command.data());
+                while(!done) {
+                    pos->checkMotionDone(&done);
+                    Time::delay(0.00001);   // Alterado
+                }
+                done = false;
+                cout << "Angry pose" << endl;
                 break;
 
             default:
