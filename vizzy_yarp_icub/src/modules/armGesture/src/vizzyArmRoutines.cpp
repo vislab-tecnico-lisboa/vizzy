@@ -103,6 +103,8 @@ bool VizzyArmRoutines::configure(yarp::os::ResourceFinder &rf) {
     velocities_happy.resize(nj);
     velocities_sad.resize(nj);
     velocities_angry.resize(nj);
+    velocities_fear.resize(nj);
+    velocities_surprise.resize(nj);
     // Setting Control Mode - Position
     for(int i=0;i< nj;i++)
         ictrl->setControlMode(i,VOCAB_CM_POSITION);
@@ -139,11 +141,11 @@ bool VizzyArmRoutines::configure(yarp::os::ResourceFinder &rf) {
     
     // Setting Motor velocities for happy pose  
 
-    velocities_happy[0] = 20;
-    velocities_happy[1] = 20;
+    velocities_happy[0] = 6;
+    velocities_happy[1] = 30;
     velocities_happy[2] = 20;
     velocities_happy[3] = 20;
-    velocities_happy[4] = 20;
+    velocities_happy[4] = 25;
     velocities_happy[5] = 20;
     velocities_happy[6] = 20;
     velocities_happy[7] = 20;
@@ -153,22 +155,22 @@ bool VizzyArmRoutines::configure(yarp::os::ResourceFinder &rf) {
 
     // Setting Motor velocities for sad pose
     
-    velocities_sad[0] = 20;
-    velocities_sad[1] = 20;
-    velocities_sad[2] = 20;
-    velocities_sad[3] = 20;
-    velocities_sad[4] = 20;
-    velocities_sad[5] = 20;
-    velocities_sad[6] = 20;
-    velocities_sad[7] = 20;
-    velocities_sad[8] = 20;
-    velocities_sad[9] = 20;
-    velocities_sad[10] = 20;
+    velocities_sad[0] = 15;
+    velocities_sad[1] = 15;
+    velocities_sad[2] = 15;
+    velocities_sad[3] = 15;
+    velocities_sad[4] = 15;
+    velocities_sad[5] = 15;
+    velocities_sad[6] = 15;
+    velocities_sad[7] = 15;
+    velocities_sad[8] = 15;
+    velocities_sad[9] = 15;
+    velocities_sad[10] = 15;
     
     // Setting Motor velocities for angry pose
     
     velocities_angry[0] = 20;
-    velocities_angry[1] = 20;
+    velocities_angry[1] = 10;
     velocities_angry[2] = 20;
     velocities_angry[3] = 20;
     velocities_angry[4] = 20;
@@ -178,6 +180,34 @@ bool VizzyArmRoutines::configure(yarp::os::ResourceFinder &rf) {
     velocities_angry[8] = 20;
     velocities_angry[9] = 20;
     velocities_angry[10] = 20;
+    
+    // Setting Motor velocities for angry pose
+    
+    velocities_fear[0] = 20;
+    velocities_fear[1] = 20;
+    velocities_fear[2] = 20;
+    velocities_fear[3] = 20;
+    velocities_fear[4] = 20;
+    velocities_fear[5] = 20;
+    velocities_fear[6] = 20;
+    velocities_fear[7] = 20;
+    velocities_fear[8] = 20;
+    velocities_fear[9] = 20;
+    velocities_fear[10] = 20;
+    
+    // Setting Motor velocities for angry pose
+    
+    velocities_surprise[0] = 20;
+    velocities_surprise[1] = 20;
+    velocities_surprise[2] = 20;
+    velocities_surprise[3] = 20;
+    velocities_surprise[4] = 20;
+    velocities_surprise[5] = 20;
+    velocities_surprise[6] = 20;
+    velocities_surprise[7] = 20;
+    velocities_surprise[8] = 20;
+    velocities_surprise[9] = 20;
+    velocities_surprise[10] = 20;
     
 
 
@@ -612,7 +642,7 @@ bool VizzyArmRoutines::updateModule() {
                 break;
 
             case 7:
-                //Happy pose
+                //Happy pose - less motion
                 cout << "Getting happy" << endl;
                 
                 pos->setRefSpeeds(velocities_happy.data());
@@ -623,10 +653,41 @@ bool VizzyArmRoutines::updateModule() {
                     Time::delay(0.00001);   // Alterado
                 }
                 done = false;
+
                 cout << "Happy pose" << endl;
                 break;
 
             case 8:
+                //Happy pose - more motion
+                cout << "Getting happy" << endl;
+                
+                pos->setRefSpeeds(velocities_happy.data());
+                command = happy_pose;
+                pos->positionMove(command.data());
+                while(!done) {
+                    pos->checkMotionDone(&done);
+                    Time::delay(0.00001);   // Alterado
+                }
+                done = false;
+
+                for(int i=0;i<6; i++) {
+                    if(i%2==0) {
+                        command[1]=happy_pose[1]-15;
+                        command[4]=happy_pose[4]+10;
+                        pos->positionMove(command.data());
+                    }
+                    else {
+                        command[1]=happy_pose[1]+15;
+                        command[4]=happy_pose[4]-10;
+                        pos->positionMove(command.data());
+                    }
+                    Time::delay(0.7);
+                }
+
+                cout << "Happy pose" << endl;
+                break;
+
+            case 9:
                 //Sad pose
                 cout << "Getting sad" << endl;
                 
@@ -641,7 +702,7 @@ bool VizzyArmRoutines::updateModule() {
                 cout << "Sad pose" << endl;
                 break;
 
-            case 9:
+            case 10:
                 //Angry pose
                 cout << "Getting angry" << endl;
                 
@@ -656,11 +717,11 @@ bool VizzyArmRoutines::updateModule() {
                 cout << "Angry pose" << endl;
                 break;
 
-            case 10:
+            case 11:
                 //Fear pose (right arm)
                 cout << "Getting fear (right arm)" << endl;
                 
-                pos->setRefSpeeds(velocities_angry.data());
+                pos->setRefSpeeds(velocities_fear.data());
                 command = fear_pose_right;
                 pos->positionMove(command.data());
                 while(!done) {
@@ -671,11 +732,11 @@ bool VizzyArmRoutines::updateModule() {
                 cout << "Fear pose (right arm)" << endl;
                 break;
 
-            case 11:
+            case 12:
                 //Fear pose (left arm)
                 cout << "Getting fear (left arm)" << endl;
                 
-                pos->setRefSpeeds(velocities_angry.data());
+                pos->setRefSpeeds(velocities_fear.data());
                 command = fear_pose_left;
                 pos->positionMove(command.data());
                 while(!done) {
@@ -686,11 +747,11 @@ bool VizzyArmRoutines::updateModule() {
                 cout << "Fear pose (left arm)" << endl;
                 break;
 
-            case 12:
+            case 13:
                 //Surprise pose
                 cout << "Getting surprised" << endl;
                 
-                pos->setRefSpeeds(velocities_angry.data());
+                pos->setRefSpeeds(velocities_surprise.data());
                 command = surprise_pose;
                 pos->positionMove(command.data());
                 while(!done) {

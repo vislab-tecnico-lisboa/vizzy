@@ -9,11 +9,12 @@ from std_msgs.msg import Int16, Float64
 from time import sleep
 
 class Emotions:
-    def __init__(self):
-	leftArmPub = rospy.Publisher('/vizzyArmRoutines/left/command', Int16, queue_size=10)
-	rightArmPub = rospy.Publisher('/vizzyArmRoutines/right/command', Int16, queue_size=10)
-	torsoPub = rospy.Publisher('/vizzy/torso_joint/cmd', Float64, queue_size=10)
+    leftArmPub = rospy.Publisher('/vizzyArmRoutines/left/command', Int16, queue_size=1)
+    rightArmPub = rospy.Publisher('/vizzyArmRoutines/right/command', Int16, queue_size=1)
+    torsoPub = rospy.Publisher('/vizzy/torso_joint/cmd', Float64, queue_size=1)
 
+    def __init__(self):
+	
         rospy.init_node('emotions', anonymous=False)
         rospy.on_shutdown(self.shutdown)
 
@@ -24,26 +25,22 @@ class Emotions:
         rospy.loginfo("Connected to gaze server")
 
         while not rospy.is_shutdown():
-	    # reset position
-            self.sendGazeHome()
-	    armL = 6
-	    armR = 6
-	    torsoRad = 0.0
-	    leftArmPub.publish(armL)
-	    rightArmPub.publish(armR)
-	    torsoPub.publish(torsoRad)
-	    sleep(5)
-
-	    armL = 7
-	    armR = 7
-	    torsoRad = 0.0
-	    leftArmPub.publish(armL)
-	    rightArmPub.publish(armR)
-	    torsoPub.publish(torsoRad)
-	    self.sendGazeGoal(0.0, 0.0, 0.5) 
-	    sleep(10)
+	    self.home_pose()
+	    self.sad_emotion_more_move()
 	
-	    rate.sleep()
+	    self.home_pose()
+	    self.happy_emotion_more_move()
+
+	    self.home_pose()
+            self.angry_emotion()
+
+	    self.home_pose()
+            self.fear_emotion()
+
+	    self.home_pose()
+	    self.surprise_emotion()
+
+	    sleep(10)
             
     
     def sendGazeGoal(self, x, y, z):
@@ -73,6 +70,97 @@ class Emotions:
         home_goal.type = vizzy_msgs.msg.GazeGoal.HOME
         self.gaze_client.send_goal(home_goal)
 
+    def home_pose(self):
+	armL = 6
+	armR = 6
+	torsoRad = 0.0
+	self.leftArmPub.publish(armL)
+	self.rightArmPub.publish(armR)
+	self.torsoPub.publish(torsoRad)
+	self.sendGazeHome() 
+	sleep(4)
+
+
+    def sad_emotion_more_move(self):
+	armL = 9
+	armR = 9
+	torsoRad = 0.3
+	self.leftArmPub.publish(armL)
+	self.rightArmPub.publish(armR)
+	self.torsoPub.publish(torsoRad)
+	self.sendGazeGoal(0.5, 0.0, 0.0)
+	sleep(0.8)
+	for i in range(5):
+	    self.sendGazeGoal(0.5, 0.05, 0.0)
+	    sleep(0.8)
+	    self.sendGazeGoal(0.5, -0.05, 0.0)
+	    sleep(0.8)
+	self.sendGazeGoal(0.5, 0.0, 0.0)
+	sleep(4)
+
+
+    def sad_emotion_less_move(self):
+	armL = 9
+	armR = 9
+	torsoRad = 0.3
+	self.leftArmPub.publish(armL)
+	self.rightArmPub.publish(armR)
+	self.torsoPub.publish(torsoRad)
+	self.sendGazeGoal(0.5, 0.0, 0.0)
+	sleep(4)
+
+
+    def happy_emotion_more_move(self):
+	armL = 8
+	armR = 8
+	torsoRad = 0.0
+	self.leftArmPub.publish(armL)
+	self.rightArmPub.publish(armR)
+	self.torsoPub.publish(torsoRad)
+	self.sendGazeHome()  
+	sleep(10) # time to finish pose
+
+
+    def happy_emotion_less_move(self):
+	armL = 7
+	armR = 7
+	torsoRad = 0.0
+	self.leftArmPub.publish(armL)
+	self.rightArmPub.publish(armR)
+	self.torsoPub.publish(torsoRad)
+	self.sendGazeHome()  
+	sleep(5)
+	
+    def angry_emotion(self):
+	armL = 10
+	armR = 10
+	torsoRad = 0.0
+	self.leftArmPub.publish(armL)
+	self.rightArmPub.publish(armR)
+	self.torsoPub.publish(torsoRad)
+	self.sendGazeHome()  
+	sleep(5)
+
+    def fear_emotion(self):
+	armL = 12
+	armR = 11
+	torsoRad = -0.1
+	self.leftArmPub.publish(armL)
+	self.rightArmPub.publish(armR)
+	self.torsoPub.publish(torsoRad)
+	self.sendGazeHome()  
+	sleep(5)
+
+    def surprise_emotion(self):
+	armL = 13
+	armR = 13
+	torsoRad = 0.0
+	self.leftArmPub.publish(armL)
+	self.rightArmPub.publish(armR)
+	self.torsoPub.publish(torsoRad)
+	self.sendGazeHome()  
+	sleep(5)
+						
     
     def shutdown(self):
         rospy.loginfo("Shutting emotions script")
