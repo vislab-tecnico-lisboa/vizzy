@@ -5,6 +5,7 @@ import rospy
 import actionlib
 from actionlib_msgs.msg import *
 import vizzy_msgs.msg
+import woz_dialog_msgs.msg
 from std_msgs.msg import Int16, Float64
 from time import sleep
 
@@ -24,24 +25,60 @@ class Emotions:
         self.gaze_client.wait_for_server()
         rospy.loginfo("Connected to gaze server")
 
+	client = actionlib.SimpleActionClient('gcloud_tts', woz_dialog_msgs.msg.SpeechAction)
+        client.wait_for_server()
+
         while not rospy.is_shutdown():
-	    self.home_pose()
-	    self.sad_emotion_more_move()
+	    self.speakCommand(client, 22)
+	    #self.home_pose()
+	    #self.sad_emotion_more_move()
 	
-	    self.home_pose()
-	    self.happy_emotion_more_move()
+	    #self.home_pose()
+	    #self.happy_emotion_more_move()
 
-	    self.home_pose()
-            self.angry_emotion()
+	    #self.home_pose()
+            #self.angry_emotion()
 
-	    self.home_pose()
-            self.fear_emotion()
+	    #self.home_pose()
+            #self.fear_emotion()
 
-	    self.home_pose()
-	    self.surprise_emotion()
+	    #self.home_pose()
+	    #self.surprise_emotion()
 
 	    sleep(10)
-            
+	
+    def speak(self, client, message, speed):
+	goal = woz_dialog_msgs.msg.SpeechGoal(language="pt_PT", voice="pt-PT-Wavenet-D", message=message, speed=speed)
+	client.send_goal(goal)
+	client.wait_for_result()    
+    
+    def speakCommand(self, client, command):
+	phrases = {
+	    1: ("<emphasis level='strong'>Porque se está ela a deitar?</emphasis>", 2.5),
+	    2: ("Tem algodão na mão?", 2),
+	    3: ("<emphasis level='strong'>Não consigo ver!</emphasis>", 2),
+	    4: ("<emphasis level='strong'>Ai, oh meu deus!</emphasis>", 4),
+	    5: ("<emphasis level='strong'><break time='1s'/>Olha. é o Simba!</emphasis>", 3),
+	    6: ("<emphasis level='strong'><prosody rate='medium' pitch='-1st'>É o pai dele</prosody>,<break time='700ms'/>está deitado...</emphasis>", 2),
+	    7: ("<prosody rate='slow' pitch='-1st'>Está morto...</prosody>", 2),
+	    8: ("<emphasis level='strong'><prosody rate='slow' pitch='-1st'>Oh</prosody><break time='300ms'/><prosody pitch='-1st'>está a chorar...</prosody></emphasis>", 1),
+	    9: ("<prosody rate='slow' pitch='-1st'>Coitadinhu...</prosody>", 1.7),
+	    10: ("<emphasis level='strong'><prosody pitch='1st'>É um robô como eu!</prosody></emphasis>", 2),
+	    11: ("<emphasis level='strong'>Porque é que lhe estão a fazer isto</emphasis>", 3),
+	    12: ("<emphasis level='strong'><prosody pitch='1st'> Oh <break time='300ms'/> então! </prosody><break time='500ms'/> Párem! </emphasis>", 2),                                  
+	    13: ("<emphasis level='moderate'>Deixem-no em paz</emphasis>", 3),
+	    14: ("<emphasis level='strong'><prosody rate='x-high' pitch='1st'>Consegue dar cambalhotas</prosody></emphasis>", 2),
+	    15: ("<emphasis level='strong'><prosody pitch='+2st'>Que giiro!</prosody></emphasis>", 1.5),
+	    16: ("<emphasis level='strong'><prosody pitch='+1st'>E não cai!</prosody></emphasis>", 3),
+	    17: ("<emphasis level='strong'>Quem me dera conseguir fazer o mesmo!</emphasis>", 2),
+	    18: ("<emphasis level='strong'><prosody pitch='1st'>Olha</prosody>, é Portugal a jogar!</emphasis>", 3),
+	    19: ("<emphasis level='strong'>Que grande golo!</emphasis>", 2),
+	    20: ("<emphasis level='strong'>E foi o Éder que marcou!</emphasis>", 3),
+	    21: ("<emphasis level='strong'><prosody rate='slow' pitch='2st'>Boa</prosody>, marcámos!</emphasis>", 2),
+	    22: ("<emphasis level='strong'><prosody pitch='1st'>Portugal é o melhóóóór!</prosody></emphasis>", 3)
+	}
+	self.speak(client, phrases[command][0], phrases[command][1])
+ 
     
     def sendGazeGoal(self, x, y, z):
 	#Look at a predefined 3d point in space
