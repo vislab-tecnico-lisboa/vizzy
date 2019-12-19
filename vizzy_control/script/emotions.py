@@ -21,14 +21,62 @@ class Emotions:
 
 	rate = rospy.Rate(5) # 5hz
 
-        self.gaze_client = actionlib.SimpleActionClient('gaze', vizzy_msgs.msg.GazeAction)
-        self.gaze_client.wait_for_server()
+        #self.gaze_client = actionlib.SimpleActionClient('gaze', vizzy_msgs.msg.GazeAction)
+        #self.gaze_client.wait_for_server()
         rospy.loginfo("Connected to gaze server")
 
 	client = actionlib.SimpleActionClient('gcloud_tts', woz_dialog_msgs.msg.SpeechAction)
         client.wait_for_server()
+	rospy.loginfo("Connected to GCloud TTS server")
 
         while not rospy.is_shutdown():
+	    sleep(2)
+	    self.speakCommand(client, 1)
+	    sleep(11)
+	    self.speakCommand(client, 2)
+	    sleep(11)
+	    self.speakCommand(client, 3)
+	    self.fear_emotion()
+	    sleep(4)
+	    self.speakCommand(client, 4)
+	    sleep(7)
+	    self.home_pose()
+	    self.speakCommand(client, 5)
+	    sleep(9)
+	    self.speakCommand(client, 6)
+	    sleep(21)
+	    self.speakCommand(client, 7)
+	    self.sad_emotion_less_move()
+	    sleep(13)
+	    self.home_pose()
+	    self.speakCommand(client, 8)
+	    sleep(15)
+	    self.speakCommand(client, 9)
+	    sleep(8)
+	    self.speakCommand(client, 10)
+	    sleep(4)
+	    self.speakCommand(client, 11)
+	    sleep(12)
+	    self.speakCommand(client, 12)
+	    sleep(7)
+	    self.speakCommand(client, 13)
+	    sleep(19)
+	    self.speakCommand(client, 14)
+	    sleep(4)
+	    self.speakCommand(client, 15)
+	    sleep(7)
+	    self.speakCommand(client, 16)
+	    sleep(11)
+	    self.speakCommand(client, 17)
+	    sleep(6)
+	    self.speakCommand(client, 18)
+	    sleep(4)
+	    self.speakCommand(client, 19)
+	    sleep(4)
+	    self.speakCommand(client, 20)
+	    sleep(5)
+	    self.speakCommand(client, 21)
+	    sleep(6)
 	    self.speakCommand(client, 22)
 	    #self.home_pose()
 	    #self.sad_emotion_more_move()
@@ -50,7 +98,7 @@ class Emotions:
     def speak(self, client, message, speed):
 	goal = woz_dialog_msgs.msg.SpeechGoal(language="pt_PT", voice="pt-PT-Wavenet-D", message=message, speed=speed)
 	client.send_goal(goal)
-	client.wait_for_result()    
+	# client.wait_for_result()    
     
     def speakCommand(self, client, command):
 	phrases = {
@@ -155,7 +203,7 @@ class Emotions:
 	self.rightArmPub.publish(armR)
 	self.torsoPub.publish(torsoRad)
 	self.sendGazeHome()  
-	sleep(10) # time to finish pose
+	sleep(10) # time needed to finish pose
 
 
     def happy_emotion_less_move(self):
