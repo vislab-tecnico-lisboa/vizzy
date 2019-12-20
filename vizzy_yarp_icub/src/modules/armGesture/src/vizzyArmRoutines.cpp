@@ -184,10 +184,10 @@ bool VizzyArmRoutines::configure(yarp::os::ResourceFinder &rf) {
     // Setting Motor velocities for angry pose
     
     velocities_fear[0] = 20;
-    velocities_fear[1] = 20;
+    velocities_fear[1] = 30;
     velocities_fear[2] = 20;
     velocities_fear[3] = 20;
-    velocities_fear[4] = 20;
+    velocities_fear[4] = 30;
     velocities_fear[5] = 20;
     velocities_fear[6] = 20;
     velocities_fear[7] = 20;
@@ -761,6 +761,25 @@ bool VizzyArmRoutines::updateModule() {
                 done = false;
                 cout << "Surprise pose" << endl;
                 break;
+            case 14:
+                //Stretch arm forward with hand open
+                cout << "Stretching arm forward" << endl;
+                
+                pos->setRefSpeeds(velocities_stretching.data());
+                command = arm_forward_pose;
+                command[5] = -40;
+                command[8] = 0;
+                command[9] = 0;
+                command[10] = 0;
+                pos->positionMove(command.data());
+                while(!done) {
+                    pos->checkMotionDone(&done);
+                    Time::delay(0.00001);   // Alterado
+                }
+                done = false;
+                cout << "Arm stretched forward with hand open" << endl;
+                break;
+            
 
             default:
                 cout << "unknown command" << endl;

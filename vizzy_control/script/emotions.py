@@ -21,86 +21,107 @@ class Emotions:
 
 	rate = rospy.Rate(5) # 5hz
 
-        #self.gaze_client = actionlib.SimpleActionClient('gaze', vizzy_msgs.msg.GazeAction)
-        #self.gaze_client.wait_for_server()
+        self.gaze_client = actionlib.SimpleActionClient('gaze', vizzy_msgs.msg.GazeAction)
+        self.gaze_client.wait_for_server()
         rospy.loginfo("Connected to gaze server")
 
-	client = actionlib.SimpleActionClient('gcloud_tts', woz_dialog_msgs.msg.SpeechAction)
-        client.wait_for_server()
+	self.tts_client = actionlib.SimpleActionClient('gcloud_tts', woz_dialog_msgs.msg.SpeechAction)
+        self.tts_client.wait_for_server()
 	rospy.loginfo("Connected to GCloud TTS server")
 
         while not rospy.is_shutdown():
-	    sleep(2)
-	    self.speakCommand(client, 1)
-	    sleep(11)
-	    self.speakCommand(client, 2)
-	    sleep(11)
-	    self.speakCommand(client, 3)
-	    self.fear_emotion()
-	    sleep(4)
-	    self.speakCommand(client, 4)
-	    sleep(7)
-	    self.home_pose()
-	    self.speakCommand(client, 5)
-	    sleep(9)
-	    self.speakCommand(client, 6)
-	    sleep(21)
-	    self.speakCommand(client, 7)
-	    self.sad_emotion_less_move()
-	    sleep(13)
-	    self.home_pose()
-	    self.speakCommand(client, 8)
-	    sleep(15)
-	    self.speakCommand(client, 9)
-	    sleep(8)
-	    self.speakCommand(client, 10)
-	    sleep(4)
-	    self.speakCommand(client, 11)
-	    sleep(12)
-	    self.speakCommand(client, 12)
-	    sleep(7)
-	    self.speakCommand(client, 13)
-	    sleep(19)
-	    self.speakCommand(client, 14)
-	    sleep(4)
-	    self.speakCommand(client, 15)
-	    sleep(7)
-	    self.speakCommand(client, 16)
-	    sleep(11)
-	    self.speakCommand(client, 17)
-	    sleep(6)
-	    self.speakCommand(client, 18)
-	    sleep(4)
-	    self.speakCommand(client, 19)
-	    sleep(4)
-	    self.speakCommand(client, 20)
-	    sleep(5)
-	    self.speakCommand(client, 21)
-	    sleep(6)
-	    self.speakCommand(client, 22)
-	    #self.home_pose()
-	    #self.sad_emotion_more_move()
-	
-	    #self.home_pose()
-	    #self.happy_emotion_more_move()
-
-	    #self.home_pose()
-            #self.angry_emotion()
-
-	    #self.home_pose()
-            #self.fear_emotion()
-
-	    #self.home_pose()
-	    #self.surprise_emotion()
-
+	    self.sequence_more_move()
+	    
 	    sleep(10)
+
+
+    def sequence_more_move(self):
+	rospy.loginfo("Started sequence with more movement!")
+	sleep(1)
+	self.speakCommand(1)
+	self.home_pose()
+	sleep(12)
+	self.speakCommand(2)
+	self.get_closer()
+	sleep(5)
+	self.home_pose()
+	sleep(5)
+	self.fear_emotion()
+	self.speakCommand(3)
+	sleep(4)
+	self.torso_back()
+	self.speakCommand(4)
+	sleep(4)
+	self.home_pose()
+	sleep(2)
+	self.arm_forward()
+	sleep(1)
+	self.speakCommand(5)
+	sleep(2)
+	self.home_pose()
+	sleep(7)
+	self.speakCommand(6)
+	sleep(22)
+	self.speakCommand(7)
+	self.sad_emotion_more_move()
+	sleep(7) # sad emotion with more movement
+	# sleep(11) # sad emotion with more movement
+	self.home_pose()
+	self.speakCommand(8)
+	sleep(14)
+	self.sad_emotion_less_move()
+	sleep(1)
+	self.speakCommand(9)
+	sleep(5)
+	self.home_pose()
+	sleep(5)
+	self.speakCommand(10)
+	sleep(2)
+	self.arm_forward()
+	sleep(1)
+	self.speakCommand(11)
+	sleep(2)
+	self.home_pose()
+	sleep(9)
+	self.angry_emotion()
+	self.speakCommand(12)
+	sleep(7)
+	self.speakCommand(13)
+	sleep(3)	
+	self.home_pose()
+	sleep(16)
+	self.surprise_emotion()
+	self.speakCommand(14)
+	sleep(4)
+	self.speakCommand(15)
+	sleep(7)
+	self.speakCommand(16)
+	sleep(4)
+	self.home_pose()
+	sleep(7)
+	self.speakCommand(17)
+	sleep(6)
+	self.speakCommand(18)
+	sleep(4)
+	self.speakCommand(19)
+	self.happy_emotion_more_move()
+	sleep(4)
+	self.speakCommand(20)
+	sleep(5)
+	self.speakCommand(21)
+	self.happy_emotion_more_move()
+	sleep(6)
+	self.speakCommand(22)
+	sleep(3)
+	self.home_pose()
 	
-    def speak(self, client, message, speed):
+
+    def speak(self, message, speed):
 	goal = woz_dialog_msgs.msg.SpeechGoal(language="pt_PT", voice="pt-PT-Wavenet-D", message=message, speed=speed)
-	client.send_goal(goal)
+	self.tts_client.send_goal(goal)
 	# client.wait_for_result()    
     
-    def speakCommand(self, client, command):
+    def speakCommand(self, command):
 	phrases = {
 	    1: ("<emphasis level='strong'>Porque se está ela a deitar?</emphasis>", 2.5),
 	    2: ("Tem algodão na mão?", 2),
@@ -125,7 +146,7 @@ class Emotions:
 	    21: ("<emphasis level='strong'><prosody rate='slow' pitch='2st'>Boa</prosody>, marcámos!</emphasis>", 2),
 	    22: ("<emphasis level='strong'><prosody pitch='1st'>Portugal é o melhóóóór!</prosody></emphasis>", 3)
 	}
-	self.speak(client, phrases[command][0], phrases[command][1])
+	self.speak(phrases[command][0], phrases[command][1])
  
     
     def sendGazeGoal(self, x, y, z):
@@ -162,8 +183,7 @@ class Emotions:
 	self.leftArmPub.publish(armL)
 	self.rightArmPub.publish(armR)
 	self.torsoPub.publish(torsoRad)
-	self.sendGazeHome() 
-	sleep(4)
+	self.sendGazeHome()
 
 
     def sad_emotion_more_move(self):
@@ -175,13 +195,12 @@ class Emotions:
 	self.torsoPub.publish(torsoRad)
 	self.sendGazeGoal(0.5, 0.0, 0.0)
 	sleep(0.8)
-	for i in range(5):
+	for i in range(3):
 	    self.sendGazeGoal(0.5, 0.05, 0.0)
 	    sleep(0.8)
 	    self.sendGazeGoal(0.5, -0.05, 0.0)
 	    sleep(0.8)
 	self.sendGazeGoal(0.5, 0.0, 0.0)
-	sleep(4)
 
 
     def sad_emotion_less_move(self):
@@ -192,7 +211,6 @@ class Emotions:
 	self.rightArmPub.publish(armR)
 	self.torsoPub.publish(torsoRad)
 	self.sendGazeGoal(0.5, 0.0, 0.0)
-	sleep(4)
 
 
     def happy_emotion_more_move(self):
@@ -214,7 +232,6 @@ class Emotions:
 	self.rightArmPub.publish(armR)
 	self.torsoPub.publish(torsoRad)
 	self.sendGazeHome()  
-	sleep(5)
 	
     def angry_emotion(self):
 	armL = 10
@@ -224,7 +241,6 @@ class Emotions:
 	self.rightArmPub.publish(armR)
 	self.torsoPub.publish(torsoRad)
 	self.sendGazeHome()  
-	sleep(5)
 
     def fear_emotion(self):
 	armL = 12
@@ -233,8 +249,7 @@ class Emotions:
 	self.leftArmPub.publish(armL)
 	self.rightArmPub.publish(armR)
 	self.torsoPub.publish(torsoRad)
-	self.sendGazeHome()  
-	sleep(5)
+	self.sendGazeHome()
 
     def surprise_emotion(self):
 	armL = 13
@@ -244,8 +259,31 @@ class Emotions:
 	self.rightArmPub.publish(armR)
 	self.torsoPub.publish(torsoRad)
 	self.sendGazeHome()  
-	sleep(5)
-						
+
+    def arm_forward(self):
+	armL = 14
+	armR = 6
+	torsoRad = 0.0
+	self.leftArmPub.publish(armL)
+	self.rightArmPub.publish(armR)
+	self.torsoPub.publish(torsoRad)
+	self.sendGazeHome()
+				  
+
+    def get_closer(self):
+	armL = 6
+	armR = 6
+	torsoRad = 0.3
+	self.leftArmPub.publish(armL)
+	self.rightArmPub.publish(armR)
+	self.torsoPub.publish(torsoRad)
+	self.sendGazeHome()	
+				  
+
+    def torso_back(self):
+	torsoRad = -0.2
+	self.torsoPub.publish(torsoRad)
+	self.sendGazeHome()	
     
     def shutdown(self):
         rospy.loginfo("Shutting emotions script")
