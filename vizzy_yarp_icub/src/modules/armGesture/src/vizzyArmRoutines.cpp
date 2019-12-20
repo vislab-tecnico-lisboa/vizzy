@@ -170,10 +170,10 @@ bool VizzyArmRoutines::configure(yarp::os::ResourceFinder &rf) {
     // Setting Motor velocities for angry pose
     
     velocities_angry[0] = 20;
-    velocities_angry[1] = 10;
+    velocities_angry[1] = 30;
     velocities_angry[2] = 20;
     velocities_angry[3] = 20;
-    velocities_angry[4] = 20;
+    velocities_angry[4] = 30;
     velocities_angry[5] = 20;
     velocities_angry[6] = 20;
     velocities_angry[7] = 20;
@@ -198,10 +198,10 @@ bool VizzyArmRoutines::configure(yarp::os::ResourceFinder &rf) {
     // Setting Motor velocities for angry pose
     
     velocities_surprise[0] = 20;
-    velocities_surprise[1] = 20;
+    velocities_surprise[1] = 30;
     velocities_surprise[2] = 20;
     velocities_surprise[3] = 20;
-    velocities_surprise[4] = 20;
+    velocities_surprise[4] = 30;
     velocities_surprise[5] = 20;
     velocities_surprise[6] = 20;
     velocities_surprise[7] = 20;
@@ -228,6 +228,7 @@ bool VizzyArmRoutines::configure(yarp::os::ResourceFinder &rf) {
     fear_pose_left.resize(nj);
     fear_pose_right.resize(nj);
     surprise_pose.resize(nj);
+    surprise_open_pose.resize(nj);
     while(!encs->getEncoders(encoders.data()))
     {
             Time::delay(0.01);
@@ -347,13 +348,13 @@ bool VizzyArmRoutines::configure(yarp::os::ResourceFinder &rf) {
     //Case 9 - Angry pose
     
     angry_pose[0] = -7.4;
-    angry_pose[1] = -73;
-    angry_pose[2] = 59;
-    angry_pose[3] = 14;
-    angry_pose[4] = 105;
+    angry_pose[1] = -72.8;
+    angry_pose[2] = 39.2;
+    angry_pose[3] = -6.8;
+    angry_pose[4] = 94.5;
     angry_pose[5] = 0;
     angry_pose[6] = 0;
-    angry_pose[7] = 0;
+    angry_pose[7] = -27.3;
     angry_pose[8] = 0;
     angry_pose[9] = 0;
     angry_pose[10] = 0;
@@ -399,6 +400,20 @@ bool VizzyArmRoutines::configure(yarp::os::ResourceFinder &rf) {
     surprise_pose[8] = 0;
     surprise_pose[9] = 0;
     surprise_pose[10] = 0;
+    
+    //Case 12 - Surprise pose - open
+    
+    surprise_open_pose[0] = 17.9;
+    surprise_open_pose[1] = 133.5;
+    surprise_open_pose[2] = 42;
+    surprise_open_pose[3] = -44.2;
+    surprise_open_pose[4] = 59.8;
+    surprise_open_pose[5] = -79.9;
+    surprise_open_pose[6] = -3.5;
+    surprise_open_pose[7] = 16.1;
+    surprise_open_pose[8] = 0;
+    surprise_open_pose[9] = 0;
+    surprise_open_pose[10] = 0;
 
 
     int numTries = 0;
@@ -630,7 +645,9 @@ bool VizzyArmRoutines::updateModule() {
                 //Arm down pose
                 cout << "Getting arm down" << endl;
                 
-                pos->setRefSpeeds(velocities_happy.data());
+                command = velocities_happy;
+                command[1] = 20;
+                pos->setRefSpeeds(command.data());
                 command = arm_down_pose;
                 pos->positionMove(command.data());
                 while(!done) {
@@ -761,6 +778,7 @@ bool VizzyArmRoutines::updateModule() {
                 done = false;
                 cout << "Surprise pose" << endl;
                 break;
+
             case 14:
                 //Stretch arm forward with hand open
                 cout << "Stretching arm forward" << endl;
@@ -778,6 +796,21 @@ bool VizzyArmRoutines::updateModule() {
                 }
                 done = false;
                 cout << "Arm stretched forward with hand open" << endl;
+                break;
+
+            case 15:
+                //Surprise pose - open
+                cout << "Getting surprised - open pose" << endl;
+                
+                pos->setRefSpeeds(velocities_surprise.data());
+                command = surprise_open_pose;
+                pos->positionMove(command.data());
+                while(!done) {
+                    pos->checkMotionDone(&done);
+                    Time::delay(0.00001);   // Alterado
+                }
+                done = false;
+                cout << "Surprise open pose" << endl;
                 break;
             
 
