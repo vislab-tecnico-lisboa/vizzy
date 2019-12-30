@@ -30,10 +30,8 @@ class Emotions:
 	rospy.loginfo("Connected to GCloud TTS server")
 
         while not rospy.is_shutdown():
-	    
 	    self.sequence_less_move()
-	    
-	    sleep(10)
+	    break
 
 
     def sequence_more_move(self):

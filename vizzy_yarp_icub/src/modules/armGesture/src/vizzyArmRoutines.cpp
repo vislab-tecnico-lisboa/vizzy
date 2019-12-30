@@ -250,7 +250,7 @@ bool VizzyArmRoutines::configure(yarp::os::ResourceFinder &rf) {
     // Case 2 - Arm stretched
     arm_forward_pose[0] =-3.6;
     arm_forward_pose[1] = 73.5;
-    arm_forward_pose[2] = 0;
+    arm_forward_pose[2] = 5;
     arm_forward_pose[3] = -8.5;
     arm_forward_pose[4] = 47.25-5.0;
     arm_forward_pose[5] = -10.2;
@@ -307,7 +307,7 @@ bool VizzyArmRoutines::configure(yarp::os::ResourceFinder &rf) {
 
     arm_down_pose[0] = 0;
     arm_down_pose[1] = 0;
-    arm_down_pose[2] = 0;
+    arm_down_pose[2] = 5;
     arm_down_pose[3] = 0;
     arm_down_pose[4] = 0;
     arm_down_pose[5] = 0;
@@ -321,7 +321,7 @@ bool VizzyArmRoutines::configure(yarp::os::ResourceFinder &rf) {
 
     happy_pose[0] = 3.2;
     happy_pose[1] = 129.4;
-    happy_pose[2] = 0;
+    happy_pose[2] = 5;
     happy_pose[3] = 1.7;
     happy_pose[4] = 51.5;
     happy_pose[5] = 73.1;
@@ -335,7 +335,7 @@ bool VizzyArmRoutines::configure(yarp::os::ResourceFinder &rf) {
 
     sad_pose[0] = 7.7;
     sad_pose[1] = 21.7;
-    sad_pose[2] = 3.5;
+    sad_pose[2] = 5;
     sad_pose[3] = 0;
     sad_pose[4] = 0;
     sad_pose[5] = 0;
