@@ -40,6 +40,20 @@
       <arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)" />
   </include>
 
+  <!-- launch the segway battery state -->
+  <include file="$(find vizzy_serial_interfaces)/launch/segway_battery_state.launch">
+      <arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)" />
+  </include>
+
+  <!-- launch the kokam battery state -->
+  <include file="$(find vizzy_serial_interfaces)/launch/battery_state.launch">
+      <arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)" />
+  </include>
+
+  <!-- Launch the web server -->
+  <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch">
+  </include>
+
   	<!-- launch the hokuyo sensor -->
 	<include file="$(find vizzy_robot)/launch/hokuyo.launch">
 	    <arg name="name" value="nav_hokuyo" />
