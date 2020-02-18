@@ -148,4 +148,12 @@
     <remap from="cmd_vel" to = "$(arg ns)/cmd_vel"/>
   </node>
  </group>
+ <!-- Launch the web server -->
+ <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch">
+ </include>
+
+ <!-- Launch the gcloud tts speech action client-->
+ <node pkg="vizzy_speech_servers" type="gcloud_tts_action_server.py"
+	    name="gcloud_tts" output="screen">
+ </node>
 </launch>

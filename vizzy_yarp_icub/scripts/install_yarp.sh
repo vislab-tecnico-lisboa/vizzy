@@ -335,7 +335,7 @@ printf "\n\n[Vizzy]: Installing and compiling robots-configuration...\n\n"
 cd $YARP_REPOSITORIES
 git clone https://github.com/robotology/robots-configuration.git
 cd robots-configuration
-git checkout 404230b69663aadf4be7c526b0f93324826ba729
+git checkout e2e9807f1438ed8090f96b0d29e1eb6a6f3b9dec
 mkdir build && cd build
 cmake ../
 make install

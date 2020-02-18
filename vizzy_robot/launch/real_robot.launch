@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <launch>
   <arg name="vizzy_machine_name" default="vizzy-desktop"/>
-  <arg name="vizzy_machine_address" default="10.10.1.80"/>
+  <arg name="vizzy_machine_address" default="10.1.3.1"/>
   <arg name="env-loader" default="$(find vizzy_launch)/env-hooks/env_loader.sh"/>
   <arg name="define_machine" default="true"/>
 
@@ -38,6 +38,20 @@
   <!-- launch the segway base -->
   <include file="$(find vizzy_robot)/launch/segway_base.launch">
       <arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)" />
+  </include>
+
+  <!-- launch the segway battery state -->
+  <include file="$(find vizzy_serial_interfaces)/launch/segway_battery_state.launch">
+      <arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)" />
+  </include>
+
+  <!-- launch the kokam battery state -->
+  <include file="$(find vizzy_serial_interfaces)/launch/battery_state.launch">
+      <arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)" />
+  </include>
+
+  <!-- Launch the web server -->
+  <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch">
   </include>
 
   	<!-- launch the hokuyo sensor -->
