@@ -36,7 +36,7 @@ Panels:
     Topic: /left_hand_goal
   - Class: vizzy_rviz_plugins/GesturesPanel
     Name: GesturesPanel
-    Topic: /vizzyArmRoutines/command
+    Topic: /vizzyArmRoutines/right/command
 Preferences:
   PromptSaveOnExit: true
 Toolbars:
@@ -280,47 +280,6 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        realsense_bottom_screw_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        realsense_color_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        realsense_color_optical_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        realsense_depth_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        realsense_depth_optical_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        realsense_left_ir_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        realsense_left_ir_optical_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        realsense_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        realsense_right_ir_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        realsense_right_ir_optical_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
         waist_fixed_virtual_link:
           Alpha: 1
           Show Axes: false
@@ -502,25 +461,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 8.53492546081543
+      Distance: 4.41530704498291
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.4582339823246002
-        Y: 6.653390407562256
-        Z: 2.7286853790283203
+        X: -0.5300047397613525
+        Y: 0.4208861291408539
+        Z: 1.0202336311340332
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.659797191619873
+      Pitch: 0.28479743003845215
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 5.823601722717285
+      Yaw: 5.813613414764404
     Saved: ~
 Window Geometry:
   ClickableGazeDisplay:
@@ -544,5 +503,5 @@ Window Geometry:
   Views:
     collapsed: true
   Width: 957
-  X: 2880
+  X: 960
   Y: 51
