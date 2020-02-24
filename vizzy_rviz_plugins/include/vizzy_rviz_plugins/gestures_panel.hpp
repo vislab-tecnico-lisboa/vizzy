@@ -37,10 +37,13 @@ protected:
    //Push buttons for gestures
 
    // The ROS publisher for the gesture
-   ros::Publisher vizzy_arm_publisher;
+   ros::Publisher vizzy_arm_publisher1;
+   ros::Publisher vizzy_arm_publisher2;
    ros::NodeHandle nh_;
+   bool bothArmsFound = false;
 
    void sendCommand(int command);
+   void sendBothArms(int cmd_right, int cmd_left);
 
 private:
    QPushButton *home_button;
@@ -49,6 +52,15 @@ private:
    QPushButton *askshake_button;
    QPushButton *handshake_button;
    QPushButton *handshake_pid_button;
+   QPushButton *arm_down_button;
+   QPushButton *happy_emotionless_button;
+   QPushButton *happy_emotive_button;
+   QPushButton *sad_button;
+   QPushButton *angry_button;
+   QPushButton *fear_button;
+   QPushButton *surprise_button;
+   QPushButton *stretch_open_button;
+   QPushButton *surprise_open_button;
 
 public Q_SLOTS:
 
@@ -59,6 +71,18 @@ public Q_SLOTS:
   void handshake();
   void askshake();
   void handshake_pid();
+
+
+  //New expressive gestures from Joaquim Rocha, Joao Saramago, and Rodrigo Santos
+  void arm_down();
+  void happy_emotionless();
+  void happy_emotive();
+  void sad();
+  void angry();
+  void fear();
+  void surprise();
+  void stretch_open();
+  void surprise_open();
 
 
 protected Q_SLOTS:
