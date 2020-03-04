@@ -1,0 +1,155 @@
+<?xml version="1.0"?>
+<!--
+  Launcher for vizzy simulation
+-->
+<launch>
+
+  <!-- Parameters -->
+  <arg name="slam" default="false"/>
+  <!-- Robot name -->
+  <arg name="robot" default="vizzy"/>
+  <!-- Robot namespace -->
+  <arg name="ns" default="vizzy"/>
+  <!-- Robot base frame id -->
+  <arg name="base_frame_id" default="base_footprint"/>
+  <!-- Robot odometry frame id -->
+  <arg name="odom_frame_id" default="odom"/>
+  <!-- Robot pose relative to the map -->
+  <arg name="pose" default="-x 0.0 -y 0.0 -z 0.0 -R 0.0 -P 0.0 -Y 3.1415"/>
+  <!-- Robot semantic description file -->
+  <arg name="urdf_file" value="vizzy_base_only.urdf.xacro"/>
+
+  <arg name="simulation" value="true"/>
+  <arg name="launch_gaze" value="false"/>
+
+  <!-- Load Yarp plugins for real robot execution -->
+  <arg name="use_yarp" default="false"/>
+
+  <!-- Gazebo parameters -->
+  <arg name="gui" default="true"/>
+  <arg name="paused" default="false"/>
+  <!-- Synchronize ROS and simulation time -->
+  <arg name="use_sim_time" default="true"/>
+  <!-- Load full inertial and collision model or a simplified model -->
+  <arg name="use_full_gazebo_model" default="false"/>
+  <!-- Load a fully detailed hand model with properly modeled links and joints -->
+  <arg name="use_full_hand_model" default="false"/>
+
+  <!-- rviz -->
+  <arg name="rviz" default="true"/>
+
+  <!-- MoveIt! planner -->
+  <!-- TODO: Fix MoveIt! configs -->
+  <arg name="moveit" default="false"/>
+
+  <!-- Teleop -->
+  <arg name="teleop" default="false"/>
+
+  <!-- Navigation -->
+  <arg name="navigation" default="true"/>
+  <arg name="map_topic" default="/map"/>
+  <arg name="map_file" default="isr_7th_floor_simulation.yaml"/>
+  <!-- Provide a map with previously acquired obstacles -->
+  <arg name="custom_obstacles" default="true"/>
+  <arg name="obstacles_map_file" default="isr_7th_floor_simulation.yaml"/>
+  <!-- Use lighter fake localization for simulation -->
+  <arg name="fake_localization" default="true"/>
+
+  <!-- Map -->
+  <arg name="world" default="isr_7th_floor.world"/>
+  <arg name="map_frame" default="map"/>
+
+  <!-- Robot capabilities -->
+  <arg name="disable_3d_sensor" default="true"/>
+
+  <!-- TODO: Explain twist2nav2d -->
+  <arg name="twist2nav2d" default="false"/>
+
+  <!-- Derived parameters -->
+
+  <!-- Disable laser sensors -->
+  <arg     if="$(arg navigation)" name="disable_laser" default="false"/>
+  <arg unless="$(arg navigation)" name="disable_laser" default="true"/>
+  <!-- Change default fixed frame for rviz -->
+  <arg     if="$(arg navigation)" name="rviz_fixed_frame" value="map"/>
+  <arg unless="$(arg navigation)" name="rviz_fixed_frame" value="base_footprint"/>
+  <!-- Gaze depends on MoveIt! -->
+  <!-- <arg     if="$(arg moveit)" name="launch_gaze" value="true"/>
+  <arg unless="$(arg moveit)" name="launch_gaze" value="false"/> -->
+
+  <!-- Gaze in simulation with yarp runs like the real robot! -->
+  <arg     if="$(arg use_yarp)" name="launch_gaze_yarp" value="true"/>
+  <arg unless="$(arg use_yarp)" name="launch_gaze_yarp" value="false"/>
+
+  <!-- Launch gazebo -->
+  <include file="$(find vizzy_gazebo)/launch/gazebo.launch">
+    <arg name="robot" value="$(arg robot)"/>
+    <arg name="pose" value="$(arg pose)"/>
+    <arg name="urdf_file" value="$(arg urdf_file)"/>
+    <arg name="use_yarp" value="$(arg use_yarp)"/>
+    <arg name="gui" value="$(arg gui)"/>
+    <arg name="paused" value="$(arg paused)"/>
+    <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+    <arg name="world" value="$(arg world)"/>
+    <arg name="use_full_gazebo_model" value="$(arg use_full_gazebo_model)"/>
+    <arg name="use_full_hand_model" value="$(arg use_full_hand_model)"/>
+    <arg name="disable_laser" value="$(arg disable_laser)"/>
+    <arg name="disable_3d_sensor" value="$(arg disable_3d_sensor)"/>
+  </include>
+
+  <!-- Launch rviz -->
+  <group if="$(arg rviz)">
+    <node name="rviz" pkg="rviz" type="rviz"
+      args="-f $(arg rviz_fixed_frame) -d $(find vizzy_demos)/rviz/wizard_of_oz.rviz">
+    </node>
+  </group>
+
+  <!-- Launch navigation -->
+  <group if="$(arg navigation)">
+
+    <!-- Launch laser filters -->
+    <node name="hokuyo_laser_filters" pkg="laser_filters" type="scan_to_scan_filter_chain">
+      <rosparam command="load" file="$(find vizzy_sensors)/config/hokuyo_filters.yaml"/>
+    </node>
+    <node name="hokuyo_laser_filters_rear" pkg="laser_filters" type="scan_to_scan_filter_chain">
+      <rosparam command="load" file="$(find vizzy_sensors)/config/hokuyo_filters.yaml"/>
+      <remap from="scan" to="scan_rear"/>
+      <remap from="scan_filtered" to="scan_filtered_rear"/>
+    </node>
+
+    <!-- Launch map server with a previously acquired map -->
+    <group unless="$(arg slam)">
+    <node name="map_server" pkg="map_server" type="map_server"
+      args="$(find vizzy_navigation)/maps/$(arg map_file)"/>
+    <!-- Obstacle map -->
+    <group if="$(arg custom_obstacles)" ns="obst">
+      <node name="obstacle_map_server" pkg="map_server" type="map_server"
+        args="$(find vizzy_navigation)/maps/$(arg obstacles_map_file)" >
+        <remap from="map" to="map_obstacles"/>
+      </node>
+    </group>
+
+    <!-- Launch Timed Elastic Band (teb) local planner -->
+    <include file="$(find vizzy_navigation)/launch/navigation_teb_local.launch">
+      <arg name="map_topic" value="$(arg map_topic)"/>
+    </include>
+
+    <!-- Localization determines TF between base_footprint and map -->
+    <group if="$(arg fake_localization)">
+      <!-- Lighter localization package for simulation -->
+      <node name="fake_localization" pkg="fake_localization" type="fake_localization">
+        <remap from="base_pose_ground_truth" to="odom"/>
+        <param name="global_frame_id" value="$(arg map_frame)"/>
+        <param name="base_frame_id" value="$(arg base_frame_id)"/>
+        <param name="odom_frame_id" value="$(arg odom_frame_id)"/>
+      </node>
+    </group>
+    <group unless="$(arg fake_localization)">
+      <!-- Launch Adaptive Monte Carlo Localization (amcl) -->
+      <include file="$(find vizzy_navigation)/launch/amcl_simulation.launch"/>
+    </group>
+   </group>
+  </group>
+
+
+</launch>

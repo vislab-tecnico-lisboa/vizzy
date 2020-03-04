@@ -1,6 +1,16 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
+  <!-- Properties -->
+  <xacro:property name="caster_ball_radius" value="0.05" />
+  <xacro:property name="caster_ball_mass" value="0.870"/>
+
+
+  <!-- Materials -->
+  <material name="white">
+    <color rgba="1 1 1 1"/>
+  </material>
+
   <!-- Load full inertial and collision model or a simplified model -->
   <xacro:arg name="use_full_gazebo_model" default="false"/>
 
@@ -64,64 +74,49 @@
 
   <!-- Caster wheels -->
 
-  <xacro:macro name="vizzy_caster_wheel_base_link_inertial">
-    <inertial>
-      <origin
-        xyz="-0.0118 0.0084 0.083"
-        rpy="0 0 0" />
-      <mass
-        value="0.4" />
-      <inertia
-        ixx="0.00375" ixy="0.0" ixz="0.0"
-        iyy="0.00375" iyz="0.0"
-        izz="0.00375" />
-    </inertial>
-  </xacro:macro>
+  <xacro:macro name="gazebo_vizzy_caster_wheel_link" params="name">
+    <link name="${name}_caster_wheel_link">
+      <visual>
+        <geometry>
+          <sphere radius="${caster_ball_radius}"/>
+        </geometry>
+        <material name="light_gray_3"/>
+      </visual>
+      <collision>
+        <geometry>
+          <sphere radius="${caster_ball_radius}"/>
+        </geometry>
+      </collision>
+      <xacro:sphere_inertia m="${caster_ball_mass}" r="${caster_ball_radius}"/>
+    </link>
 
-  <xacro:macro name="vizzy_caster_wheel_base_link_collision">
-    <collision>
-      <origin
-        xyz="0 0 0.05"
-        rpy="0 0 0" />
-      <geometry>
-         <cylinder length="0.02" radius="0.01"/>
-      </geometry>
-    </collision>
-  </xacro:macro>
-
-  <xacro:macro name="vizzy_caster_wheel_link_inertial">
-    <inertial>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <mass
-        value="0.5" />
-      <xacro:cylinder_inertia
-        m="0.5"
-        r="0.0491365"
-        h="0.02"/>
-    </inertial>
-  </xacro:macro>
-
-  <xacro:macro name="vizzy_caster_wheel_link_collision">
-    <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0"/>
-      <geometry>
-        <cylinder length="0.02" radius="0.0491365"/>
-      </geometry>
-    </collision>
-  </xacro:macro>
-
-  <xacro:macro name="gazebo_vizzy_caster_wheel_link_surface"
-    params="prefix">
-    <gazebo reference="${prefix}_wheel_link">
-      <mu1 value="1.0" />
-      <mu2 value="1.0" />
-      <kp  value="1000000.0" />
-      <kd  value="1.0" />
+    <gazebo reference="${name}_caster_wheel_link">
+      <material>Gazebo/Grey</material>
+      <mu1 value="0.0"/>
+      <mu2 value="0.0"/>
+      <kp  value="10000000.0" />
+      <kd  value="100000.0" />
     </gazebo>
+
+  </xacro:macro>
+
+  <xacro:macro name="gazebo_vizzy_caster_wheel_joint" params="name parent child origin">
+    <joint name="${name}_caster_wheel_link" type="fixed">
+      <parent link="${parent}"/>
+      <child link="${child}"/>
+      <origin xyz="${origin}"/>
+    </joint>
+  </xacro:macro>
+
+  <xacro:macro name="gazebo_vizzy_caster_wheel" params="name parent origin">
+
+    <xacro:gazebo_vizzy_caster_wheel_link name="${name}"/>
+
+    <xacro:gazebo_vizzy_caster_wheel_joint name="${name}" 
+      parent="${parent}" 
+      child="${name}_caster_wheel_link"
+      origin="${origin}"/>
+
   </xacro:macro>
 
   <!-- Active wheels -->
@@ -148,7 +143,7 @@
         xyz="0 0 0"
         rpy="${rpy}" />
       <geometry>
-        <cylinder length="0.06" radius="0.19814"/>
+        <cylinder length="0.001" radius="0.19814"/>
       </geometry>
    </collision>
   </xacro:macro>
@@ -156,10 +151,11 @@
   <xacro:macro name="gazebo_vizzy_wheel_link_surface"
     params="prefix">
     <gazebo reference="${prefix}_wheel_link" >
-      <mu1 value="1.0" />
-      <mu2 value="1.0" />
-      <kp  value="1000000.0" />
-      <kd  value="1.0" />
+      <mu1 value="100000.0" />
+      <mu2 value="100000.0" />
+      <maxContacts value="1" />
+      <kp  value="10000000.0" />
+      <kd  value="100000.0" /> 
     </gazebo>
   </xacro:macro>
 
