@@ -36,5 +36,5 @@ move_slow_and_clear:
     limited_trans_speed: 0.25
     limited_rot_speed: 0.45
     limited_distance: 0.3
-    planner_namespace: "EBandPlannerROS"
+    planner_namespace: "TebLocalPlannerROS"
     layer_names: ["laserobstacles"]

@@ -3,20 +3,11 @@ robot_base_frame: base_footprint
 update_frequency: 1.0
 publish_frequency: 1.0
 
-# publish_voxel_map: true
-# 
-# map_type: voxel
-# origin_z: 0.0
-# z_resolution: 0.2
-# z_voxels: 10
-# unknown_threshold: 10
-# mark_threshold: 0
-# 
 obstacle_range: 4.5
 raytrace_range: 4.0
 
-footprint: [[0.4,0.4],[0.4,-0.4],[-0.3,-0.4],[-0.3,0.4]]
-footprint_padding: 0.05
+footprint: [ [0.4,0.5], [0.4,-0.5], [-0.35,-0.5], [-0.35,0.5]]
+footprint_padding: 0.00
 
 #footprint: [0.4,0.5,0.4,-0.5,-0.3,-0.5,-0.3,0.5]
 
