@@ -46,127 +46,21 @@
 
     <xacro:gazebo_vizzy_base_link_surface/>
 
+
+
     <!-- Back (rear) caster wheel -->
 
-    <link name="b_wheel_base_link">
-      <xacro:vizzy_caster_wheel_base_link_inertial/>
-      <visual>
-        <origin
-          xyz="-0.0118 0.0084 0.083"
-          rpy="0 0 0"/>
-        <geometry>
-          <mesh
-            filename="package://vizzy_description/meshes/base/b_wheel_base.dae"/>
-        </geometry>
-        <material name="light_gray_3"/>
-      </visual>
-      <xacro:vizzy_caster_wheel_base_link_collision/>
-    </link>
+    <xacro:gazebo_vizzy_caster_wheel name="b" 
+      parent="base_link" 
+      origin="0.43986 0 0.010" />
 
-    <joint name="b_wheel_base_joint"
-      type="continuous">
-      <origin
-        xyz="0.43986 0.001 0.1483"
-        rpy="${M_PI} 0 0"/>
-      <parent
-        link="base_link"/>
-      <child
-        link="b_wheel_base_link"/>
-      <axis
-        xyz="0 0 1"/>
-    </joint>
-
-    <link name="b_wheel_link">
-      <xacro:vizzy_caster_wheel_link_inertial/>
-      <visual>
-        <origin
-          xyz="0 0 0"
-          rpy="0 0 0"/>
-        <geometry>
-          <mesh
-            filename="package://vizzy_description/meshes/base/caster_wheel.dae"/>
-        </geometry>
-        <material name="light_gray_3"/>
-      </visual>
-      <xacro:vizzy_caster_wheel_link_collision/>
-    </link>
-
-    <joint name="b_wheel_joint"
-      type="continuous">
-      <origin
-        xyz="-0.030027 0.020142 0.138923486"
-        rpy="-1.5708 0.83904 2.5507"/>
-      <parent
-        link="b_wheel_base_link"/>
-      <child
-        link="b_wheel_link"/>
-      <axis
-        xyz="0 0 1"/>
-    </joint>
-
-    <xacro:gazebo_vizzy_caster_wheel_link_surface
-      prefix="b"/>
 
     <!-- Front caster wheel -->
 
-    <link name="f_wheel_base_link">
-      <xacro:vizzy_caster_wheel_base_link_inertial/>
-      <visual>
-        <origin
-          xyz="-0.0118 0.0084 0.083"
-          rpy="0 0 0"/>
-        <geometry>
-          <mesh
-            filename="package://vizzy_description/meshes/base/f_wheel_base.dae"/>
-        </geometry>
-        <material name="light_gray_3"/>
-      </visual>
-      <xacro:vizzy_caster_wheel_base_link_collision/>
-    </link>
+    <xacro:gazebo_vizzy_caster_wheel name="f" 
+      parent="base_link" 
+      origin="-0.060139 0 0.010" />
 
-    <joint name="f_wheel_base_joint"
-      type="continuous">
-      <origin
-        xyz="-0.060139 0.001 0.1483"
-        rpy="${M_PI} 0 0"/>
-      <parent
-        link="base_link"/>
-      <child
-        link="f_wheel_base_link"/>
-      <axis
-        xyz="0 0 1"/>
-    </joint>
-
-    <link name="f_wheel_link">
-      <xacro:vizzy_caster_wheel_link_inertial/>
-      <visual>
-        <origin
-          xyz="0 0 0"
-          rpy="0 0 0"/>
-        <geometry>
-          <mesh
-            filename="package://vizzy_description/meshes/base/caster_wheel.dae"/>
-        </geometry>
-        <material name="light_gray_3"/>
-      </visual>
-      <xacro:vizzy_caster_wheel_link_collision/>
-    </link>
-
-    <joint name="f_wheel_joint"
-      type="continuous">
-      <origin
-        xyz="-0.0300271872634975 0.0201420335543447 0.138923486"
-        rpy="-1.5707963267949 0.83904346430428 2.5507386456365"/>
-      <parent
-        link="f_wheel_base_link"/>
-      <child
-        link="f_wheel_link"/>
-      <axis
-        xyz="0 0 1"/>
-    </joint>
-
-    <xacro:gazebo_vizzy_caster_wheel_link_surface
-      prefix="f"/>
 
     <!-- Right wheel -->
     <link name="r_wheel_link">
