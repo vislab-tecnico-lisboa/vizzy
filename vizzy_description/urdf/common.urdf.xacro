@@ -42,6 +42,15 @@
       izz="${m*r*r/2}"/> 
   </xacro:macro>
 
+  <xacro:macro name="sphere_inertia" params="m r">
+    <inertial>
+      <mass value="${m}" />
+      <inertia ixx="${2.0 / 5.0 * m * r * r}" ixy="0.0" ixz="0.0"
+               iyy="${2.0 / 5.0 * m * r * r}" iyz="0.0"
+               izz="${2.0 / 5.0 * m * r * r}" />
+    </inertial>
+  </xacro:macro>
+
   <!-- Colors -->
   <material name="light_grey">
     <color rgba="0.7 0.7 0.7 1" />

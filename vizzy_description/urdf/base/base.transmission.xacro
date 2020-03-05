@@ -5,45 +5,6 @@
        xmlns:xacro="http://ros.org/wiki/xacro">
 
   <xacro:macro name="base_transmissions">
-    <transmission name="f_wheel_transmission">
-      <type>transmission_interface/SimpleTransmission</type>
-      <joint name="f_wheel_joint">
-        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-      </joint>
-      <actuator name="f_wheel_motor">
-        <mechanicalReduction>1</mechanicalReduction>
-      </actuator>
-    </transmission>
-
-    <transmission name="f_wheel_base_transmission">
-      <type>transmission_interface/SimpleTransmission</type>
-      <joint name="f_wheel_base_joint">
-        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-      </joint>
-      <actuator name="f_wheel_base_motor">
-        <mechanicalReduction>1</mechanicalReduction>
-      </actuator>
-    </transmission>
-
-    <transmission name="b_wheel_transmission">
-      <type>transmission_interface/SimpleTransmission</type>
-      <joint name="b_wheel_joint">
-        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-      </joint>
-      <actuator name="b_wheel_motor">
-        <mechanicalReduction>1</mechanicalReduction>
-      </actuator>
-    </transmission>
-
-    <transmission name="b_wheel_base_transmission">
-      <type>transmission_interface/SimpleTransmission</type>
-      <joint name="b_wheel_base_joint">
-        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-      </joint>
-      <actuator name="b_wheel_base_motor">
-        <mechanicalReduction>1</mechanicalReduction>
-      </actuator>
-    </transmission>
 
     <transmission name="r_wheel_transmission">
       <type>transmission_interface/SimpleTransmission</type>
