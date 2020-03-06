@@ -43,7 +43,6 @@
   <arg name="fixation_point_in" default="fixation_point" /> 
   <arg name="fixation_point_out" default="fixation_point_goal_ros"/>
 
-  <arg name="reactive_2d_navigation" default="false"/>
   <arg name="teleop" default="true"/>
   <arg name="cameras_auto_gain" default="false" />
   <arg name="cameras_auto_exposure" default="false" />
@@ -102,14 +101,11 @@
         </node>
       </group>
 
-      <!-- move_base using local eband planner -->
-      <group unless="$(arg reactive_2d_navigation)">
-        <!-- move_base using local eband planner -->
-        <include file="$(find vizzy_navigation)/launch/move_base_eband_remote.launch">
-      <arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)"/>
-          <arg name="map_topic" value="$(arg map_topic)" />
-        </include>
-      </group>
+      <!-- Launch move_base_flex with global_planner and teb local planner -->
+      <include file="$(find vizzy_navigation)/launch/mbf_navigation_local.launch">
+        <arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)"/>
+        <arg name="map_topic" value="$(arg map_topic)" />
+      </include>
 
 
       <!-- localization package -->
