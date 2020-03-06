@@ -1,3 +1,4 @@
+<!-- What is this? Maybe we should delete it!-->
 <?xml version="1.0"?>
 <launch>
   <arg name="map_topic" default="/map" />
