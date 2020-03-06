@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="vizzy_machine_name" default="localhost"/>
+  <arg name="map_topic" default="/map" />
+  <arg name="debug" default="false" />
+  <arg if="$(arg debug)" name="prefix" value="gdb -ex run --args" />
+  <arg unless="$(arg debug)" name="prefix" value="" />
+  <arg name="use_movebase_realy" value="true" />
+
+  <node  pkg="mbf_costmap_nav" type="mbf_costmap_nav" respawn="false" name="move_base_flex" output="screen" launch-prefix="$(arg prefix)">
+    <param name="tf_timeout" value="1.5"/>
+    <param name="planner_max_retries" value="3"/>
+    
+    <!-- Global planners. We only use ros global_planner -->
+    <rosparam file="$(find vizzy_navigation)/config/move_base_flex/planners.yaml" command="load" />
+
+    <!-- Controllers aka local planners. We only use teb -->
+    <rosparam file="$(find vizzy_navigation)/config/move_base_flex/controllers.yaml" command="load" />
+
+    <!-- Recovery behaviors -->
+    <rosparam file="$(find vizzy_navigation)/config/move_base_flex/recovery_behaviors.yaml" command="load" />
+
+    <!-- Costmap parameters -->
+    <rosparam file="$(find vizzy_navigation)/config/move_base_flex/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find vizzy_navigation)/config/move_base_flex/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find vizzy_navigation)/config/move_base_flex/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find vizzy_navigation)/config/move_base_flex/global_costmap_params.yaml" command="load" />
+    <param name="global_costmap/map_topic" value="$(arg map_topic)"/>
+
+    <remap from="/cmd_vel" to="/vizzy/cmd_vel" />
+  </node>
+
+  <!-- The move_base_flex node gives us an interface to control planning, recovery behaviors, etc...
+       So we need a control mechanism (like a state machine or behavior tree) on top of it.
+       We are going to use a python program provided in the mbf package that mimics the old 
+       move_base behaviors. Later we can make a new one where Vizzy ask for help when it get stuck :) -->
+    
+    <node pkg="mbf_costmap_nav" type="move_base_legacy_relay.py" name="move_base_legacy_relay" output="screen">
+		<param name="base_global_planner" value="global_planner/GlobalPlanner" />
+        <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
+        <param name="recovery_behavior_enabled" value="true"/>
+    </node>
+    
+</launch>
