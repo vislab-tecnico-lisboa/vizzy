@@ -15,13 +15,19 @@
     <rosparam file="$(find vizzy_navigation)/config/teb/global_costmap_params.yaml" command="load" />
     <rosparam file="$(find vizzy_navigation)/config/teb/base_local_planner_params.yaml" command="load" />
 
+    <!-- Use ROS GlobalPlanner instead of old Navfn-->
+		<param name="base_global_planner" value="global_planner/GlobalPlanner" />
+		<param name="planner_frequency" value="1.0" />
+		<param name="planner_patience" value="5.0" />
+
+    <!-- Use Teb Local planner  -->
     <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
-    <param name="controller_frequency" value="10.0" />
+    <param name="controller_frequency" value="10.0" />    
 
 
     <param name="global_costmap/map_topic" value="$(arg map_topic)"/>
-    <param name="recovery_behavior_enabled" value="false"/>
-    <param name="clearing_rotation_allowed" value="false"/>
+    <param name="recovery_behavior_enabled" value="true"/>
+    <param name="clearing_rotation_allowed" value="true"/>
     <remap from="/cmd_vel" to="/vizzy/cmd_vel" />
   </node>
 </launch>
