@@ -87,7 +87,6 @@ If you want to run the follower module, download a changed version of the nav2d 
 
     git clone https://github.com/joao-avelino/navigation_2d.git
 
-We are currently migrating the eband planner to teb planner.
 
 Other dependencies needed (in a convenient one-liner)
     
@@ -107,10 +106,13 @@ Other dependencies needed (in a convenient one-liner)
     sudo apt install ros-$version-velocity-controllers &&
     sudo apt install ros-$version-position-controllers &&
     sudo apt install ros-$version-joint-trajectory-controller &&
+    sudo apt install ros-$version-teb-local-planner &&
     sudo apt install ros-$version-laser-filters &&
     sudo apt install libsuitesparse-dev &&
     sudo apt install ros-$version-fake-localization &&
-    sudo apt install ros-$version-move-slow-and-clear
+    sudo apt install ros-$version-move-slow-and-clear &&
+    sudo apt install ros-$version-move-base-flex &&
+    sudo apt-get install ros-$version-global-planner
 
 You are now ready to compile the code!
 

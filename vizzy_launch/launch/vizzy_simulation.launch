@@ -133,9 +133,9 @@
       </node>
     </group>
 
-    <!-- Launch Timed Elastic Band (teb) local planner -->
-    <include file="$(find vizzy_navigation)/launch/navigation_teb_local.launch">
-      <arg name="map_topic" value="$(arg map_topic)"/>
+    <!-- Launch move_base_flex with global_planner and teb local planner -->
+    <include file="$(find vizzy_navigation)/launch/mbf_navigation_local.launch">
+      <arg name="map_topic" default="$(arg map_topic)"/>
     </include>
 
     <!-- Localization determines TF between base_footprint and map -->
