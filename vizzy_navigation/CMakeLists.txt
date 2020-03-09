@@ -144,10 +144,10 @@ endforeach()
 if (CATKIN_ENABLE_TESTING)
   find_package(roslaunch REQUIRED)
   roslaunch_add_file_check(launch/amcl.launch)
+  roslaunch_add_file_check(launch/amcl_simulation.launch)
   roslaunch_add_file_check(launch/gmapping.launch)
-  roslaunch_add_file_check(launch/move_base_eband_local.launch)
-  roslaunch_add_file_check(launch/move_base_eband_remote.launch)
-  roslaunch_add_file_check(launch/rviz.launch)
+  roslaunch_add_file_check(launch/mbf_navigation_local.launch)
+  roslaunch_add_file_check(launch/docking_action_server.launch)
   ## launch/navigation.launch not tested until
   ## ros-drivers/openni_launch#10 is fixed.
 endif ()
