@@ -12,6 +12,8 @@
   <arg name="world" default="empty.world"/>
   <arg name="extra_gazebo_args" default=""/>
 
+  <arg name="world_pkg" default="$(find vizzy_gazebo)"/>
+
   <!-- set command arguments -->
   <arg unless="$(arg paused)" name="command_arg1" value=""/>
   <arg     if="$(arg paused)" name="command_arg1" value="-u"/>
@@ -28,7 +30,7 @@
   <!-- start gazebo server-->
   <node name="gazebo" pkg="gazebo_ros" type="$(arg script_type)"
     respawn="false" output="screen"
-    args="$(arg command_arg1) $(arg command_arg2) $(find vizzy_gazebo)/worlds/$(arg world) $(arg extra_gazebo_args)"
+    args="$(arg command_arg1) $(arg command_arg2) $(arg world_pkg)/worlds/$(arg world) $(arg extra_gazebo_args)"
     launch-prefix="$(optenv OPTIRUN_LAUNCH_PREFIX)"/>
   
   <!-- start gui -->

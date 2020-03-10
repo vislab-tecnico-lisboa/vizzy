@@ -24,6 +24,7 @@
 
   <!-- Map -->
   <arg name="world" default="empty.world"/>
+  <arg name="world_pkg" default="$(find vizzy_gazebo)"/>
   <arg name="map_frame" default="map"/>
 
   <!-- Disable robot parts -->
@@ -39,6 +40,7 @@
     <arg name="gui" value="$(arg gui)"/>
     <arg name="use_sim_time" value="$(arg use_sim_time)"/>
     <arg name="world" value="$(arg world)"/>
+    <arg name="world_pkg" value="$(arg world_pkg)"/>
   </include>
 
   <!-- Spawn the robot in simulation -->
