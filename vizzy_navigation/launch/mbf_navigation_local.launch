@@ -35,7 +35,7 @@
        We are going to use a python program provided in the mbf package that mimics the old 
        move_base behaviors. Later we can make a new one where Vizzy ask for help when it get stuck :) -->
     
-    <node pkg="mbf_costmap_nav" type="move_base_legacy_relay.py" name="move_base_legacy_relay" output="screen">
+    <node pkg="vizzy_navigation" type="move_base_legacy_relay.py" name="move_base_legacy_relay" output="screen">
 		<param name="base_global_planner" value="global_planner/GlobalPlanner" />
         <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
         <param name="recovery_behavior_enabled" value="true"/>
