@@ -1,4 +1,4 @@
-image: /home/avelino/catkin_ws/src/vizzy/vizzy_navigation/maps/isr_7th_floor_simulation.pgm
+image: isr_7th_floor_simulation.pgm
 resolution: 0.050000
 origin: [-100.000000, -100.000000, 0.000000]
 negate: 0
