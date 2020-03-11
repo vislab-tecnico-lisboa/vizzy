@@ -14,8 +14,37 @@ import move_base_msgs.msg as mb_msgs
 from actionlib_msgs.msg import GoalID
 from dynamic_reconfigure.client import Client
 from dynamic_reconfigure.server import Server
-from geometry_msgs.msg import PoseStamped
+from geometry_msgs.msg import PoseStamped, Twist
+from nav_msgs.msg import Odometry
 from move_base.cfg import MoveBaseConfig
+import time as t
+
+def safety_stop():
+    print("Stopping robot")
+
+    stopped = False
+
+    tries = 0
+    while not stopped:
+
+        try:
+            current_odom = rospy.wait_for_message("/odom", Odometry, timeout=0.2)
+
+            current_vel = current_odom.twist.twist
+
+            print("Print sending 0 to the wheels!")
+            velocity_publisher.publish(vel_msg)
+            t.sleep(0.1) 
+
+            if (current_vel.angular.x < 0.001) and (current_vel.angular.y < 0.001) and (current_vel.angular.z < 0.001)\
+            and (current_vel.linear.x < 0.001) and (current_vel.linear.y < 0.001) and (current_vel.linear.z < 0.001):
+                stopped = True
+        except:
+            print("HARD STOP")
+            velocity_publisher.publish(vel_msg)
+            tries += 1
+            if tries == 20:
+                break
 
 
 """
@@ -27,7 +56,11 @@ calls (note that some parameters have changed names; see http://wiki.ros.org/mov
 
 def cancel_goal_cb(msg):
     rospy.loginfo('Hard preempt of move_base_flex')
+    mbf_gp_ac.cancel_all_goals()
     mbf_mb_ac.cancel_all_goals()
+    #This solves a bug from move_base_flex...
+    safety_stop()
+
     return
 
 
@@ -48,6 +81,7 @@ def mb_execute_cb(msg):
         rospy.loginfo('Preempted move_base_flex')
         mbf_mb_ac.cancel_all_goals()
         mb_as.set_preempted()
+        safety_stop()
         return
 
     rospy.logdebug("MBF execution completed with result [%d]: %s", result.outcome, result.message)
@@ -117,6 +151,17 @@ def mb_reconf_cb(config, level):
 
 if __name__ == '__main__':
     rospy.init_node("move_base")
+
+    velocity_publisher = rospy.Publisher('/vizzy/cmd_vel', Twist, queue_size=10)
+
+    vel_msg = Twist()
+
+    vel_msg.linear.x = 0
+    vel_msg.linear.y = 0
+    vel_msg.linear.z = 0
+    vel_msg.angular.x = 0
+    vel_msg.angular.y = 0
+    vel_msg.angular.z = 0
 
     # TODO what happens with malformed target goal???  FAILURE  or INVALID_POSE
     # txt must be:  "Aborting on goal because it was sent with an invalid quaternion"   
