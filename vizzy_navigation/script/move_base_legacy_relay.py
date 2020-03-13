@@ -1,8 +1,8 @@
 #!/usr/bin/env python
-#
-# @author Jorge Santos
+# Original version of Jorge Santos
 # License: 3-Clause BSD
-# Modified by Joao Avelino @ ISR/IST - Vislab
+#
+# Adapted by Joao Avelino @ ISR/IST - Vislab
 
 import actionlib
 import copy
@@ -19,12 +19,13 @@ from nav_msgs.msg import Odometry
 from move_base.cfg import MoveBaseConfig
 import time as t
 
+
 def safety_stop():
-    print("Stopping robot")
+    rospy.loginfo("Stopping robot")
 
     stopped = False
 
-    tries = 0
+    trials = 0
     while not stopped:
 
         try:
@@ -32,7 +33,7 @@ def safety_stop():
 
             current_vel = current_odom.twist.twist
 
-            print("Print sending 0 to the wheels!")
+            rospy.logdebug("Sending 0 to the wheels!")
             velocity_publisher.publish(vel_msg)
             t.sleep(0.1) 
 
@@ -40,10 +41,9 @@ def safety_stop():
             and (current_vel.linear.x < 0.001) and (current_vel.linear.y < 0.001) and (current_vel.linear.z < 0.001):
                 stopped = True
         except:
-            print("HARD STOP")
             velocity_publisher.publish(vel_msg)
-            tries += 1
-            if tries == 20:
+            trials += 1
+            if trials == 20:
                 break
 
 
@@ -55,63 +55,82 @@ calls (note that some parameters have changed names; see http://wiki.ros.org/mov
 """
 
 def cancel_goal_cb(msg):
-    rospy.loginfo('Hard preempt of move_base_flex')
-    mbf_gp_ac.cancel_all_goals()
-    mbf_mb_ac.cancel_all_goals()
-    #This solves a bug from move_base_flex...
-    safety_stop()
+    if not mb_as.is_active():
+        rospy.logdebug('Hard preempt of move_base_flex')
+        mbf_gp_ac.cancel_all_goals()
+        mbf_mb_ac.cancel_all_goals()
+
+        #This solves a bug from move_base_flex...
+        safety_stop()
 
     return
+
+def mbf_feedback_cb(feedback):
+    mb_as.publish_feedback(mb_msgs.MoveBaseFeedback(base_position=feedback.current_pose))
 
 
 def simple_goal_cb(msg):
     mbf_mb_ac.send_goal(mbf_msgs.MoveBaseGoal(target_pose=msg))
-    rospy.logdebug("Relaying move_base_simple/goal pose to mbf")
+    rospy.loginfo("Relaying move_base_simple/goal pose to mbf")
 
 
 def mb_execute_cb(msg):
+    rospy.loginfo("Relaying legacy move_base goal to mbf")
+
     mbf_mb_ac.send_goal(mbf_msgs.MoveBaseGoal(target_pose=msg.target_pose), feedback_cb=mbf_feedback_cb)
-    rospy.logdebug("Relaying legacy move_base goal to mbf")
-    mbf_mb_ac.wait_for_result()
 
-    status = mbf_mb_ac.get_state()
-    result = mbf_mb_ac.get_result()
+    rate = rospy.Rate(5)
 
-    if mb_as.is_preempt_requested():
-        rospy.loginfo('Preempted move_base_flex')
-        mbf_mb_ac.cancel_all_goals()
-        mb_as.set_preempted()
-        safety_stop()
-        return
+    while not rospy.is_shutdown():
+        state = mbf_mb_ac.simple_state
+        status = mbf_mb_ac.get_state()
 
-    rospy.logdebug("MBF execution completed with result [%d]: %s", result.outcome, result.message)
-    if result.outcome == mbf_msgs.MoveBaseResult.SUCCESS:
-        mb_as.set_succeeded(mb_msgs.MoveBaseResult(), "Goal reached.")
-    else:
-        mb_as.set_aborted(mb_msgs.MoveBaseResult(), result.message)
+        if mb_as.is_new_goal_available():
+            rospy.loginfo('New goal available. Preempting old goal...')
+            mbf_mb_ac.cancel_all_goals()
+            mb_as.set_preempted()
+            safety_stop()
+            return
+
+        if mb_as.is_preempt_requested():
+            rospy.loginfo('Preempted move_base_flex')
+            mbf_mb_ac.cancel_all_goals()
+            mb_as.set_preempted()
+            safety_stop()
+            return
+
+        if mbf_mb_ac.simple_state == 2:
+            result = mbf_mb_ac.get_result()
+            rospy.loginfo("MBF execution completed with result [%d]: %s", result.outcome, result.message)
+            if result.outcome == mbf_msgs.MoveBaseResult.SUCCESS:
+                mb_as.set_succeeded(mb_msgs.MoveBaseResult(), "Goal reached.")
+            else:
+                mb_as.set_aborted(mb_msgs.MoveBaseResult(), result.message)
+            
+            return
+
+        rate.sleep()
 
 
 def make_plan_cb(request):
     mbf_gp_ac.send_goal(mbf_msgs.GetPathGoal(start_pose=request.start, target_pose=request.goal,
                                              use_start_pose = bool(request.start.header.frame_id),
                                              tolerance=request.tolerance))
-    rospy.logdebug("Relaying legacy make_plan service to mbf get_path action server")
+    rospy.loginfo("Relaying legacy make_plan service to mbf get_path action server")
     mbf_gp_ac.wait_for_result()
 
     status = mbf_gp_ac.get_state()
     result = mbf_gp_ac.get_result()
 
-    rospy.logdebug("MBF get_path execution completed with result [%d]: %s", result.outcome, result.message)
+    rospy.loginfo("MBF get_path execution completed with result [%d]: %s", result.outcome, result.message)
     if result.outcome == mbf_msgs.GetPathResult.SUCCESS:
         return nav_srvs.GetPlanResponse(plan=result.path)
 
 
-def mbf_feedback_cb(feedback):
-    mb_as.publish_feedback(mb_msgs.MoveBaseFeedback(base_position=feedback.current_pose))
 
 
 def mb_reconf_cb(config, level):
-    rospy.logdebug("Relaying legacy move_base reconfigure request to mbf")
+    rospy.loginfo("Relaying legacy move_base reconfigure request to mbf")
 
     if not hasattr(mb_reconf_cb, "default_config"):
         mb_reconf_cb.default_config = copy.deepcopy(config)
