@@ -57,6 +57,7 @@
 
   <!-- Map -->
   <arg name="world" default="isr_7th_floor.world"/>
+  <arg name="world_pkg" default="$(find vizzy_gazebo)"/>
   <arg name="map_frame" default="map"/>
 
   <!-- Robot capabilities -->
@@ -95,6 +96,7 @@
     <arg name="paused" value="$(arg paused)"/>
     <arg name="use_sim_time" value="$(arg use_sim_time)"/>
     <arg name="world" value="$(arg world)"/>
+    <arg name="world_pkg" value="$(arg world_pkg)"/>
     <arg name="use_full_gazebo_model" value="$(arg use_full_gazebo_model)"/>
     <arg name="use_full_hand_model" value="$(arg use_full_hand_model)"/>
     <arg name="disable_laser" value="$(arg disable_laser)"/>
