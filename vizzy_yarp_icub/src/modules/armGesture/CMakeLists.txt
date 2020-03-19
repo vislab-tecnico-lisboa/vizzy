@@ -14,8 +14,8 @@ FIND_PACKAGE(ICUB)
 
 list(APPEND CMAKE_MODULE_PATH ${YARP_MODULE_PATH})
 
-execute_process(COMMAND yarpidl_rosmsg TactSensorArray WORKING_DIRECTORY "${PROJECT_BINARY_DIR}/yarpidl_rosmsg_files" OUTPUT_QUIET)
-execute_process(COMMAND yarpidl_rosmsg Int16 WORKING_DIRECTORY "${PROJECT_BINARY_DIR}/yarpidl_rosmsg_files" OUTPUT_QUIET)
+#execute_process(COMMAND yarpidl_rosmsg TactSensorArray WORKING_DIRECTORY "${PROJECT_BINARY_DIR}/yarpidl_rosmsg_files" OUTPUT_QUIET)
+#execute_process(COMMAND yarpidl_rosmsg Int16 WORKING_DIRECTORY "${PROJECT_BINARY_DIR}/yarpidl_rosmsg_files" OUTPUT_QUIET)
 include_directories(${PROJECT_BINARY_DIR}/yarpidl_rosmsg_files)
 
 include(YarpIDL)
