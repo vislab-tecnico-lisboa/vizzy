@@ -398,9 +398,9 @@ printf "\n [Vizzy]: I'm now going to generate the necessary YARP messages\n"
 
 source $CATKIN_WS/devel/setup.bash
 
-cd $CATKIN_WS/src/vizzy/vizzy_yarp_icub/src/modules/armGesture/include
-yarpidl_rosmsg --out . Int16
-yarpidl_rosmsg --out . TactSensorArray 
+#cd $CATKIN_WS/src/vizzy/vizzy_yarp_icub/src/modules/armGesture/include
+#yarpidl_rosmsg --out . Int16
+#yarpidl_rosmsg --out . TactSensorArray 
 
 cd $CATKIN_WS/src/vizzy/vizzy_yarp_icub/
 mkdir -p build && rm -rf build/* && cd build
