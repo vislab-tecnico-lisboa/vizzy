@@ -9,7 +9,7 @@ project(vizzyYarpIcub)
 find_package(YARP REQUIRED)
 find_package(ICUB REQUIRED)
 
-message("#debug ${PROJECT_BINARY_DIR}")
+#message("#debug ${PROJECT_BINARY_DIR}")
 
 include_directories(${PROJECT_BINARY_DIR}/yarpidl_rosmsg_files)
 
@@ -27,8 +27,8 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g")
 set(YARP_ROS_IDL_MSG_DIR ${PROJECT_BINARY_DIR}/yarpidl_rosmsg_files)
 file(MAKE_DIRECTORY ${YARP_ROS_IDL_MSG_DIR})
 
-execute_process(COMMAND yarpidl_rosmsg TactSensorArray WORKING_DIRECTORY "${PROJECT_BINARY_DIR}/yarpidl_rosmsg_files" OUTPUT_FILE /home/vizzy/tmp)
-execute_process(COMMAND yarpidl_rosmsg Int16 WORKING_DIRECTORY "${PROJECT_BINARY_DIR}/yarpidl_rosmsg_files" OUTPUT_FILE /home/vizzy/tmp2)
+execute_process(COMMAND yarpidl_rosmsg TactSensorArray WORKING_DIRECTORY "${PROJECT_BINARY_DIR}/yarpidl_rosmsg_files")
+execute_process(COMMAND yarpidl_rosmsg Int16 WORKING_DIRECTORY "${PROJECT_BINARY_DIR}/yarpidl_rosmsg_files")
 
 add_subdirectory(app)
 add_subdirectory(src)
