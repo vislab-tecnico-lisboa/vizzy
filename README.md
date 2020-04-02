@@ -33,12 +33,13 @@ The real robot uses two different middlewares for distinct body parts (YARP for 
 Note that for simulation purposes one can ignore all YARP dependencies as explained on the repository description.
 
 * Operating System
-  * [Ubuntu 16.04](http://releases.ubuntu.com/16.04/) - Currently supported version, Ubuntu 16.04 and ROS Kinetic-Kame
+  * [Ubuntu 16.04](http://releases.ubuntu.com/16.04/) - Currently supported version for both the real robot and the simulation, Ubuntu 16.04 and ROS Kinetic-Kame.
+  * [Ubuntu 18.04](http://releases.ubuntu.com/18.04/) - Supported only for simulation, Ubuntu 18.04 and ROS Melodic-Morenia.
 * Middleware
   * [ROS](http://www.ros.org/) - Currently supported version Kinetic for Ubuntu 16.04
   * [YARP](http://wiki.icub.org/yarpdoc/) - we try to keep everything working with the most recent version of YARP
 * Other Dependencies
-  * [GAZEBO](http://gazebosim.org/) - It needs GAZEBO greather or equal than 5 to run the gazebo-yarp-plugins. Currently tested in Gazebo 7 and 9 as well.
+  * [GAZEBO](http://gazebosim.org/) - It needs GAZEBO greather or equal than 9 to run all the simulation plugins and packages.
   * [gazebo-yarp-plugins](https://github.com/robotology/gazebo-yarp-plugins) - we try to keep everything working with the most recent version of gazebo-yarp-plugins
 
 At any time you might need to install some more specific dependencies (like some missing ROS packages). Please open an issue in case you can't solve these or other dependencies.
@@ -49,81 +50,33 @@ You should have a catkin workspace on your file system to be able to compile the
 
 As soon as you have your catkin_workspace configured you are ready to open a terminal and run the following instructions:
 
-    cd /path/to/your/catkin/workspace/src
-    git clone https://github.com/vislab-tecnico-lisboa/vizzy
+    cd </path/to/your/catkin/workspace/src>
+    git clone https://github.com/vislab-tecnico-lisboa/vizzy-install
 
-Be sure to add the source folder of your catkin workspace to the `ROS_PACKAGE_PATH` variable (skip this step if you already did it):
+### Ubuntu 16.04
 
-    gedit ~/.bashrc
+Run the scripts in the vizzy-install repostory in the following order. You will be asked about the ROS version, which in this case is `kinetic`, and the location of your catkin workspace (e.g. `/home/user/my_catkin_ws`)
 
-Add the following line to the end of the file:
-
-    export ROS_PACKAGE_PATH=/path/to/your/catkin/workspace/src:$ROS_PACKAGE_PATH
-
-Save the file and run:
-
+    cd  vizzy_install
+    ./ros_install.sh
+    source ~/.bashrc
+    ./ros_packages_install.sh
+    source ~/.bashrc
+    ./install_yarp.sh
     source ~/.bashrc
 
-You still need to add something to the `GAZEBO_MODEL_PATH`:
+### Ubuntu 18.04
 
-    gedit ~/.bashrc
+Run the scripts in the vizzy-install repostory in the following order. You will be asked about the ROS version, which in this case is `melodic`, and the location of your catkin workspace (e.g. `/home/user/my_catkin_ws`)
 
-(Yeah I know we could have done this on the previous step but I was afraid people would skip the last step without noticing this `export`...sorry)
-
-    export GAZEBO_MODEL_PATH=/path/to/your/catkin/workspace/src/vizzy/vizzy_gazebo:$GAZEBO_MODEL_PATH
-
-Save the file and run:
-
+    cd  vizzy_install
+    ./ros_install.sh
+    source ~/.bashrc
+    ./ros_packages_install.sh
+    source ~/.bashrc
+    ./install_yarp_1804.sh
     source ~/.bashrc
 
-Install the nav2d package
-  
-    version=kinetic &&
-    sudo apt-get install ros-$version-nav2d
-
-If you want to run the follower module, download a changed version of the nav2d and place it in your catkin workspace folder
-
-    git clone https://github.com/joao-avelino/navigation_2d.git
-
-
-Other dependencies needed (in a convenient one-liner)
-    
-    version=kinetic &&
-    sudo apt-get install ros-$version-tf2-geometry-msgs
-    sudo apt install ros-$version-gazebo-* &&
-    sudo apt install ros-$version-image-proc &&
-    sudo apt install ros-$version-moveit-* &&
-    sudo apt install ros-$version-opencv* &&
-    sudo apt install ros-$version-image-proc && 
-    sudo apt install ros-$version-gazebo-ros-control &&
-    sudo apt install ros-$version-move-base &&
-    sudo apt install ros-$version-amcl &&
-    sudo apt install ros-$version-joy &&
-    sudo apt install ros-$version-map-server &&
-    sudo apt install ros-$version-joint-state-controller &&
-    sudo apt install ros-$version-velocity-controllers &&
-    sudo apt install ros-$version-position-controllers &&
-    sudo apt install ros-$version-joint-trajectory-controller &&
-    sudo apt install ros-$version-teb-local-planner &&
-    sudo apt install ros-$version-laser-filters &&
-    sudo apt install libsuitesparse-dev &&
-    sudo apt install ros-$version-fake-localization &&
-    sudo apt install ros-$version-move-slow-and-clear &&
-    sudo apt install ros-$version-move-base-flex &&
-    sudo apt-get install ros-$version-global-planner
-
-You are now ready to compile the code!
-
-## Compile
-
-The compilation is quite straightforward. Just open a terminal:
-
-    cd /path/to/your/catkin/workspace
-    catkin_make --pkg vizzy_msgs
-    catkin_make --pkg id_selector
-    catkin_make
-
-Hmm... does this seems to easy? I hope it does because you should now be ready to interact with Vizzy!
 
 ## Run
 
