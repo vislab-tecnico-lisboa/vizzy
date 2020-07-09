@@ -3,4 +3,4 @@ planners:
     type: 'global_planner/GlobalPlanner'
 
 planner_patience: 5.0
-planner_frequency: 1.0
+planner_frequency: 0.5

@@ -102,8 +102,8 @@
       </group>
 
       <!-- Launch move_base_flex with global_planner and teb local planner -->
-      <include file="$(find vizzy_navigation)/launch/mbf_navigation_local.launch">
-        <arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)"/>
+      <include file="$(find vizzy_navigation)/launch/LEGACY_LAUNCHERS/move_base_eband_local.launch">
+          <!--<arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)"/>-->
         <arg name="map_topic" value="$(arg map_topic)" />
       </include>
 

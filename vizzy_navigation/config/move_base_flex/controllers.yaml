@@ -2,12 +2,12 @@ controllers:
    - name: 'TebLocalPlannerROS'
      type: 'teb_local_planner/TebLocalPlannerROS'
 
-controller_frequency: 10.0
+controller_frequency: 5
 
 TebLocalPlannerROS:
 
  odom_topic: odom
- map_frame: /odom
+ map_frame: /map
     
  # Trajectory
   
@@ -26,12 +26,12 @@ TebLocalPlannerROS:
     
  # Robot
          
- max_vel_x: 0.4
- max_vel_x_backwards: 0.2
+ max_vel_x: 1.0
+ max_vel_x_backwards: 0.5
  max_vel_y: 0.0
- max_vel_theta: 0.3
- acc_lim_x: 0.5
- acc_lim_theta: 0.5
+ max_vel_theta: 1.0
+ acc_lim_x: 1.0
+ acc_lim_theta: 1.0
  min_turning_radius: 0.0 # diff-drive robot (can turn on place!)
 
  footprint_model: # types: "point", "circular", "two_circles", "line", "polygon"

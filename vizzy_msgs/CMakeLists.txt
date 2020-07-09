@@ -26,6 +26,7 @@ add_message_files(
   FILES
   Tactile.msg
   TacVector.msg
+  KokamBatteryPower.msg
 )
 
 add_service_files(
