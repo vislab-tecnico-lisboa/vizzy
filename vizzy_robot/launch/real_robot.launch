@@ -50,6 +50,11 @@
       <arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)" />
   </include>
 
+  <!-- launch the charging state service -->
+  <include file="$(find vizzy_serial_interfaces)/launch/battery_charging_state.launch">
+      <arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)" />
+  </include>
+
   <!-- Launch the web server -->
   <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch">
   </include>

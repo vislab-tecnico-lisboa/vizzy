@@ -26,6 +26,7 @@ private:
     ros::Time last_update_;
     actionlib::SimpleActionServer<vizzy_msgs::ChargeAction> as_;
     ros::Publisher cmd_pub_;
+    ros::ServiceClient charging_state_client_;
 
 public:
     void controlToGoalPose(geometry_msgs::PoseStamped & pose, ros::Rate & sampling_hz, bool onDeadzone = false);

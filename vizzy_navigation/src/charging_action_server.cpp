@@ -1,5 +1,6 @@
 #include <charging_action_server.hpp>
 #include <vizzy_msgs/ChargeFeedback.h>
+#include <vizzy_msgs/BatteryChargingState.h>
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
 
 void ChargingActionServer::controlToGoalPose(geometry_msgs::PoseStamped & pose, ros::Rate & sampling_hz,  bool onDeadzone)
@@ -162,9 +163,22 @@ void ChargingActionServer::goalCallback()
 		//Done - Charging
 		feedback.state = feedback.CHARGING;
 		as_.publishFeedback(feedback);
-		result.result = result.CHARGE_SUCCESS;
+		vizzy_msgs::BatteryChargingState my_msg;
+		if (charging_state_client_.call(my_msg)){
+			if (my_msg.response.battery_charging_state){
+				result.result = result.CHARGE_SUCCESS;
+				ROS_INFO("Done - charging");
+			}
+			else{
+				result.result = result.CHARGE_FAILED;
+				ROS_ERROR("Failed to check the charging state. Unknown charging state!");
+			}
+		}
+		else{
+			ROS_ERROR("Failed to check the charging state. Stopping robot!");
+			result.result = result.CHARGE_FAILED;
+		}
 		as_.setSucceeded(result);
-		ROS_INFO("Done - charging");
 		return;
 
 	} //Undock goal
@@ -215,11 +229,29 @@ void ChargingActionServer::goalCallback()
 			sampling_hz.sleep();
 			
 		}
-
-		if(true)
+		vizzy_msgs::BatteryChargingState my_msg;
+		if (onPoint){
+			if (charging_state_client_.call(my_msg)){
+				if (!my_msg.response.battery_charging_state){
+					result.result = result.STOPPED;
+					ROS_INFO("Done - Undocked sucessfully");
+				}
+				else{
+					result.result = result.STOPPED_FAILED;
+					ROS_ERROR("Failed to check the charging state. Unknown charging state!");
+				}
+			}
+			else{
+				ROS_ERROR("Failed to check the charging state. Unknown charging state!");
+				result.result = result.STOPPED_FAILED;
+			}
+			as_.setSucceeded(result);
+			return;
+		/*if(true)
 		{
 		  ROS_INFO("Undocked successfully!");
 		  result.result = result.STOPPED;
+		}*/
 		}
 		else
 		{
@@ -251,7 +283,8 @@ ChargingActionServer::ChargingActionServer(ros::NodeHandle nh, std::string name)
     as_.registerGoalCallback(boost::bind(&ChargingActionServer::goalCallback, this));
     as_.registerPreemptCallback(boost::bind(&ChargingActionServer::preemptCB, this));
    
-    cmd_pub_ =  nh_.advertise<geometry_msgs::Twist>("/vizzy/cmd_vel", 1 );    
+    cmd_pub_ =  nh_.advertise<geometry_msgs::Twist>("/vizzy/cmd_vel", 1 );
+    charging_state_client_ = nh_.serviceClient<vizzy_msgs::BatteryChargingState>("battery_charging_state");
 
     as_.start();
 }
