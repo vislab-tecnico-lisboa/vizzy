@@ -29,6 +29,9 @@
   <build_depend>sensor_msgs</build_depend>
   <build_depend>tf</build_depend>
   <build_depend>roslaunch</build_depend>
+  <build_depend>gazebo_ros</build_depend>
+  <build_depend>image_transport</build_depend>
+  <build_depend>camera_info_manager</build_depend>
 
   <run_depend>camera1394</run_depend>
   <run_depend>depthimage_to_laserscan</run_depend>
@@ -48,8 +51,16 @@
   <run_depend>sensor_msgs</run_depend>
   <run_depend>tf</run_depend>
   <run_depend>tf2_ros</run_depend>
+  <run_depend>gazebo_ros</run_depend>
+  <run_depend>image_transport</run_depend>
+  <run_depend>camera_info_manager</run_depend>
 
   <export>
     <filters plugin="${prefix}/vizzy_sensors_plugins.xml"/>
+      <gazebo_ros
+        plugin_path="${prefix}/lib"
+        gazebo_media_path="${prefix}"
+        gazebo_model_path="${prefix}/models"
+      />
   </export>
 </package>

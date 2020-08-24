@@ -12,7 +12,14 @@ find_package(catkin REQUIRED
     roscpp
     roslint
     sensor_msgs
-    tf)
+    gazebo_ros
+    gazebo_msgs
+    image_transport
+    camera_info_manager
+    )
+
+
+find_package(gazebo REQUIRED)
 
 catkin_package(
   CATKIN_DEPENDS
@@ -23,13 +30,32 @@ catkin_package(
     pcl_ros
     sensor_msgs
     tf
+    gazebo_ros
+    image_transport
+    camera_info_manager
   INCLUDE_DIRS
     include
   LIBRARIES
     vizzy_sensors_filters
 )
 
-include_directories(include ${catkin_INCLUDE_DIRS})
+include_directories(include 
+                    ${catkin_INCLUDE_DIRS}
+                    SYSTEM
+                    ${GAZEBO_INCLUDE_DIRS})
+
+link_directories(${GAZEBO_LIBRARY_DIRS})
+
+
+## Declare a library
+add_library(
+    realsense_gazebo_plugin
+    src/RealSensePlugin.cpp
+    src/gazebo_ros_realsense.cpp
+    )
+
+target_link_libraries(realsense_gazebo_plugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
+add_dependencies(realsense_gazebo_plugin ${catkin_EXPORTED_TARGETS})
 
 
 ## Declare a cpp executable
