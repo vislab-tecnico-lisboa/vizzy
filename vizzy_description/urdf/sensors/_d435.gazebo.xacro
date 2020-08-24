@@ -117,7 +117,7 @@ This is the Gazebo URDF model for the Intel RealSense D435 camera
     </gazebo>
 
     <gazebo>
-      <plugin name="${topics_ns}" filename="librealsense_gazebo_plugin.so">
+      <plugin name="${topics_ns}" filename="libvizzyrealsense_gazebo_plugin.so">
         <prefix>${camera_name}</prefix>
       	<depthUpdateRate>60.0</depthUpdateRate>
       	<colorUpdateRate>60.0</colorUpdateRate>

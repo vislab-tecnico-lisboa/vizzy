@@ -49,13 +49,13 @@ link_directories(${GAZEBO_LIBRARY_DIRS})
 
 ## Declare a library
 add_library(
-    realsense_gazebo_plugin
+    vizzyrealsense_gazebo_plugin
     src/RealSensePlugin.cpp
     src/gazebo_ros_realsense.cpp
     )
 
-target_link_libraries(realsense_gazebo_plugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
-add_dependencies(realsense_gazebo_plugin ${catkin_EXPORTED_TARGETS})
+target_link_libraries(vizzyrealsense_gazebo_plugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
+add_dependencies(vizzyrealsense_gazebo_plugin ${catkin_EXPORTED_TARGETS})
 
 
 ## Declare a cpp executable
