@@ -1,0 +1,5 @@
+This package contains code to make Vizzy's sensors work.
+
+The Gazebo plugin that simulates the Realsense depth camera was previously published on: https://github.com/pal-robotics/realsense_gazebo_plugin and from https://github.com/pal-robotics-forks/realsense/tree/upstream/realsense2_description/urdf.
+We added their code to this package to avoid additional dependencies.
+
