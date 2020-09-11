@@ -2,7 +2,7 @@
 bool goal
 
 bool CHARGE=0
-bool STOP_CHARGE=0
+bool STOP_CHARGE=1
 #geometry_msgs/PoseStamped docking_pose
 
 ---

@@ -10,7 +10,7 @@ void ChargingActionServer::controlToGoalPose(geometry_msgs::PoseStamped & pose, 
 	vizzy_msgs::ChargeResult result;
 	// control
 	while(!onPoint)
-	{ 
+	{
 	  //Cancel everything. Stop the robot
 	  if(as_.isPreemptRequested())
 	  {
@@ -188,11 +188,25 @@ void ChargingActionServer::goalCallback()
 
 
 		//Undocking going 1m forward
-		ROS_INFO("Undocking...");
+		ROS_INFO("Going a bit forward in open loop...");
 
+		ros::Rate hz(0.5);
+		int loops = 0;
+		geometry_msgs::Twist cmd_vel;
+
+		while(loops < 2)
+		{
+                  cmd_vel.linear.x = 0.355;
+                  cmd_vel.angular.z = 0;
+                  cmd_pub_.publish(cmd_vel);
+		  hz.sleep();
+		  loops++;
+		}
+
+		ROS_INFO("Navigating 0.5m forward with planner...");
 		geometry_msgs::PoseStamped goalOutside;
 		goalOutside.header.frame_id = "base_footprint";
-		goalOutside.pose.position.x = -1.0;
+		goalOutside.pose.position.x = 0.3;
 		goalOutside.pose.position.y = 0.0;
 		goalOutside.pose.position.z = 0.0;
 
