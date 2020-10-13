@@ -1,7 +1,8 @@
 ---
 uint8 CHARGED=0
 uint8 GOOD=1
-uint8 LOW_BATTERY=2
+uint8 MEDIUM=2
+uint8 LOW_BATTERY=3
 uint8 UNKNOWN=4
 
 uint8 battery_state
