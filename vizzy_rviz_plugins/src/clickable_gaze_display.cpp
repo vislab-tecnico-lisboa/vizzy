@@ -271,9 +271,47 @@ void ClickableGazeDisplay::mouseEventHandler(QMouseEvent *mevent) {
     return;
   else{
 
-        std::string delimiter = "/image";
-        std::string topic_prefix = sub_->getTopic().substr(0, sub_->getTopic().find(delimiter));
-        camera_info_topic = topic_prefix + "/camera_info";
+        /*Check if a sub camera_info topic exists (useful when using image_proc)*/
+        bool sub_camera_info = false;
+
+        ros::master::V_TopicInfo master_topics;
+        ros::master::getTopics(master_topics);
+
+        std::string topic = sub_->getTopic();
+
+        if(topic.find("/compressed") != std::string::npos)
+        {
+          topic = topic.substr(0, topic.find("/compressed"));
+        }else if (topic.find("/compressedDepth") != std::string::npos)
+        {
+          topic = topic.substr(0, topic.find("compressedDepth"));
+        }else if (topic.find("/theora") != std::string::npos)
+        {
+          topic = topic.substr(0, topic.find("/theora"));
+        }
+        
+
+        for(auto info : master_topics)
+        {
+          if(info.name == topic+"/camera_info")
+          {
+            camera_info_topic = topic + "/camera_info";
+            sub_camera_info = true;
+            ROS_INFO_STREAM("Clickable gaze display using sub camera_info topic: " << camera_info_topic);
+            break;
+          }
+        }
+
+
+        /*If it does not exist, use the general camera_info for this camera*/
+        if(!sub_camera_info)
+        {
+          std::string delimiter = "/image";
+          std::string topic_prefix = sub_->getTopic().substr(0, sub_->getTopic().find(delimiter));
+          camera_info_topic = topic_prefix + "/camera_info";
+          ROS_INFO_STREAM("Clickable gaze display using general camera_info topic: " << camera_info_topic);
+        }
+
         sensor_msgs::CameraInfoConstPtr l_camera_info = ros::topic::waitForMessage<sensor_msgs::CameraInfo>(camera_info_topic, ros::Duration(30));
 
         double fx = 1;

@@ -93,5 +93,20 @@
         <remap from="image_rect" to="$(arg camera_name)/image_rect_color" />
   </node>
 
+  <!-- image resize -->
+  <node machine="$(arg vizzy_machine_name)" ns="$(arg ns)" pkg="nodelet" type="nodelet" name="$(arg camera_name)_image_proc_resize" args="load image_proc/resize $(arg camera_name)_nodelet_manager">
+      <!-- remap input topics -->
+      <remap from="image" to="$(arg camera_name)/image_rect_color/" />
+      <remap from="camera_info" to="$(arg camera_name)/camera_info"/>
+      <!-- remap output topics -->
+      <remap from="$(arg camera_name)_image_proc_resize/image" to="$(arg camera_name)/image_rect_color_sd/"/>
+      <remap from="$(arg camera_name)_image_proc_resize/camera_info" to="$(arg camera_name)/image_rect_color_sd/camera_info"/>
+      <param name="width" type="int" value="640" />
+      <param name="height" type="int" value="480"/>
+      <param name="use_scale" value="false"/>
+  </node>
+
 
 </launch>
+
+

@@ -12,7 +12,7 @@
            if="$(arg define_machine)"
   />
 
-  <arg name="camera" default="left_camera" />
+  <arg name="camera" default="l_camera" />
   <arg name="video_mode" default="640x480_rgb8" />
   <arg name="frame_rate" default="15" />
   <arg name="frame_id" default="camera" />
@@ -74,6 +74,18 @@
   <node machine="$(arg vizzy_machine_name)" ns="$(arg ns)" pkg="nodelet" type="nodelet" name="$(arg camera)_image_proc_rect_color" args="load image_proc/rectify $(arg camera)_camera_nodelet_manager">
     <remap from="image_mono" to="$(arg camera)/image_color" />
     <remap from="image_rect" to="$(arg camera)/image_rect_color" />
+  </node>
+
+  <!-- image resize -->
+  <node machine="$(arg vizzy_machine_name)" ns="$(arg ns)" pkg="nodelet" type="nodelet" name="$(arg camera)_image_proc_resize" args="load image_proc/resize $(arg camera)_nodelet_manager">
+      <!-- remap input topics -->
+      <remap from="image" to="$(arg camera)/image_rect_color/" />
+      <remap from="camera_info" to="$(arg camera)/camera_info"/>
+      <!-- remap output topics -->
+      <remap from="$(arg camera)_image_proc_resize/image" to="$(arg camera)/image_rect_color_sd/"/>
+      <remap from="$(arg camera)_image_proc_resize/camera_info" to="$(arg camera)/image_rect_color_sd/camera_info"/>
+      <param name="width" type="int" value="640" />
+      <param name="height" type="int" value="480"/>
   </node>
 
   <!--<node name="$(arg camera)_throttle_node" pkg="topic_tools" type="throttle" args="messages $(arg camera)/image_raw $(arg throttle_rate) $(arg camera)/image_throttled" />-->
