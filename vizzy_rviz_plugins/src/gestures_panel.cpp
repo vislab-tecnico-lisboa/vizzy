@@ -37,15 +37,22 @@ GesturesPanel::GesturesPanel(QWidget *parent)
   surprise_button = new QPushButton("Surprise", this);
   stretch_open_button = new QPushButton("Stretch (Open)", this);
   surprise_open_button = new QPushButton("Surprise (Open)", this);
+  head_dip_button = new QPushButton("Head dip", this);
+
+
 
 
   // Next we lay out the "output topic" text entry field using a
   // QLabel and a QLineEdit in a QHBoxLayout.
   QHBoxLayout* topic_layout = new QHBoxLayout();
-  topic_layout->addWidget( new QLabel( "Output Topic:" ));
+  topic_layout->addWidget( new QLabel( "Output Topics (Arms/Head):" ));
   output_topic_editor_ = new QLineEdit;
   output_topic_editor_->setText("/vizzyArmRoutines/right/command");
   topic_layout->addWidget(output_topic_editor_ );
+  output_head_topic_editor_ = new QLineEdit;
+  output_head_topic_editor_->setText("/head_topic");
+  topic_layout->addWidget(output_head_topic_editor_ );
+
 
 
   QWidget *central = new QWidget();
@@ -57,6 +64,7 @@ GesturesPanel::GesturesPanel(QWidget *parent)
   scrollArea->setWidgetResizable(true);
 
   gestures_layout->addWidget(home_button);
+  gestures_layout->addWidget(head_dip_button);
   gestures_layout->addWidget(wave_button);
   gestures_layout->addWidget(stretch_button);
   gestures_layout->addWidget(handshake_button);
@@ -82,11 +90,13 @@ GesturesPanel::GesturesPanel(QWidget *parent)
 
   //Connect objects with signals
   connect(home_button, SIGNAL (released()), this, SLOT(home()));
+  connect(head_dip_button, SIGNAL (released()), this, SLOT(head_dip()));
   connect(wave_button, SIGNAL (released()), this, SLOT (wave()));
   connect(stretch_button, SIGNAL (released()), this, SLOT (stretch()));
   connect(handshake_button, SIGNAL (released()), this, SLOT (handshake()));
   connect(handshake_pid_button, SIGNAL (released()), this, SLOT (handshake_pid()));
   connect(output_topic_editor_, SIGNAL( editingFinished() ), this, SLOT( updateTopic() ));
+  connect(output_head_topic_editor_, SIGNAL( editingFinished() ), this, SLOT( updateHeadTopic() ));
 
   connect(arm_down_button, SIGNAL (released()), this, SLOT(arm_down()));
   connect(happy_emotionless_button, SIGNAL (released()), this, SLOT(happy_emotionless()));
@@ -99,6 +109,7 @@ GesturesPanel::GesturesPanel(QWidget *parent)
   connect(surprise_open_button, SIGNAL (released()), this, SLOT(surprise_open()));
 
   updateTopic();
+  updateHeadTopic();
 }
 
 
@@ -275,11 +286,42 @@ void GesturesPanel::surprise_open()
 
 }
 
+void GesturesPanel::head_dip()
+{
+  
+  std_msgs::Int16 command;
+  command.data=16;
+  vizzy_head_publisher.publish(command);
+}
+
 
 
 void GesturesPanel::updateTopic()
 {
   setTopic( output_topic_editor_->text() );
+}
+
+
+void GesturesPanel::updateHeadTopic()
+{
+  setHeadTopic( output_head_topic_editor_->text() );
+}
+
+void GesturesPanel::setHeadTopic(const QString &new_topic)
+{
+  if (new_topic != output_head_topic_)
+  {
+    output_head_topic_ = new_topic;
+    if(output_head_topic_ == "")
+    {
+      vizzy_head_publisher.shutdown();      
+    }else{
+      std::string head_topic = output_head_topic_.toStdString();
+      vizzy_head_publisher = nh_.advertise<std_msgs::Int16>(head_topic, 1 );
+    }
+    
+    Q_EMIT configChanged();
+  }
 }
 
 void GesturesPanel::setTopic(const QString &new_topic)
@@ -330,6 +372,7 @@ void GesturesPanel::save( rviz::Config config ) const
 {
   rviz::Panel::save( config );
   config.mapSetValue( "Topic", output_topic_ );
+  config.mapSetValue( "TopicHead", output_head_topic_ );
 }
 
 // Load all configuration data for this panel from the given Config object.
@@ -337,10 +380,16 @@ void GesturesPanel::load( const rviz::Config& config )
 {
   rviz::Panel::load( config );
   QString topic;
+  QString topichead;
   if( config.mapGetString( "Topic", &topic ))
   {
     output_topic_editor_->setText( topic );
     updateTopic();
+  }
+  if( config.mapGetString( "TopicHead", &topichead ))
+  {
+    output_head_topic_editor_->setText( topichead );
+    updateHeadTopic();
   }
 }
 

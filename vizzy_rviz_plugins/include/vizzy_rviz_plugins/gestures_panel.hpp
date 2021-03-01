@@ -32,13 +32,16 @@ protected:
 
   // One-line text editor for entering the outgoing ROS topic name.
   QLineEdit* output_topic_editor_;
+  QLineEdit* output_head_topic_editor_;
    // The current name of the output topic.
    QString output_topic_;
+   QString output_head_topic_;
    //Push buttons for gestures
 
    // The ROS publisher for the gesture
    ros::Publisher vizzy_arm_publisher1;
    ros::Publisher vizzy_arm_publisher2;
+   ros::Publisher vizzy_head_publisher;
    ros::NodeHandle nh_;
    bool bothArmsFound = false;
 
@@ -61,16 +64,19 @@ private:
    QPushButton *surprise_button;
    QPushButton *stretch_open_button;
    QPushButton *surprise_open_button;
+   QPushButton *head_dip_button;
 
 public Q_SLOTS:
 
   void setTopic( const QString& topic );
+  void setHeadTopic( const QString& topic );
   void home();
   void wave();
   void stretch();
   void handshake();
   void askshake();
   void handshake_pid();
+  void head_dip();
 
 
   //New expressive gestures from Joaquim Rocha, Joao Saramago, and Rodrigo Santos
@@ -88,6 +94,7 @@ public Q_SLOTS:
 protected Q_SLOTS:
 
   void updateTopic();
+  void updateHeadTopic();
 
 
 };
