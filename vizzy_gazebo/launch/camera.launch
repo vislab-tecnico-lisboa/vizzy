@@ -21,4 +21,18 @@
     <remap from="image_mono" to="$(arg camera)/image_color" />
     <remap from="image_rect" to="$(arg camera)/image_rect_color" />
   </node>
+
+  <!-- image resize -->
+  <node pkg="nodelet" type="nodelet" name="$(arg camera)_image_proc_resize" args="load image_proc/resize $(arg manager)">
+    <!-- remap input topics -->
+      <remap from="image" to="$(arg camera)/image_rect_color/" />
+      <remap from="camera_info" to="$(arg camera)/camera_info"/>
+      <!-- remap output topics -->
+      <remap from="$(arg camera)_image_proc_resize/image" to="$(arg camera)/image_rect_color_sd/"/>
+      <remap from="$(arg camera)_image_proc_resize/camera_info" to="$(arg camera)/image_rect_color_sd/camera_info"/>
+      <param name="use_scale" value="false"/>
+      <param name="width" type="int" value="640" />
+      <param name="height" type="int" value="480"/>
+  </node>
+
 </launch>
