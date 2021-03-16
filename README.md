@@ -50,7 +50,7 @@ You should have a catkin workspace on your file system to be able to compile the
 
 As soon as you have your catkin_workspace configured you are ready to open a terminal and run the following instructions:
 
-    git clone https://github.com/vislab-tecnico-lisboa/vizzy-install
+    git clone https://github.com/vislab-tecnico-lisboa/vizzy_install
 
 ### Ubuntu 16.04
 
