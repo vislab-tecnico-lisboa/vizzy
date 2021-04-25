@@ -136,6 +136,9 @@ target_link_libraries(charging_action_server
   yaml-cpp
 )
 
+add_executable(mapless_nav_node src/mapless_nav_node.cpp src/mapless_navigator.cpp src/controller.cpp)
+target_link_libraries(mapless_nav_node ${catkin_LIBRARIES})
+
 foreach(dir config launch rviz)
   install(DIRECTORY ${dir}/ 
     DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/${dir})
