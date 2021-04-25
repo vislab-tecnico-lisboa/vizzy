@@ -34,6 +34,7 @@ add_service_files(
   FILES
   BatteryState.srv
   BatteryChargingState.srv
+  AddTwoInts.srv
 )
 
 generate_messages(

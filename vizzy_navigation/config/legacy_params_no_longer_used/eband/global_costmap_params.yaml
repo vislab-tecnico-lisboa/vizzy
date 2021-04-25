@@ -9,4 +9,6 @@ global_costmap:
      - {name: obstacle_static_map, type: "costmap_2d::StaticLayer"}
      - {name: laserobstacles, type: "costmap_2d::VoxelLayer"}
      - {name: kinectobstacles, type: "costmap_2d::VoxelLayer"}
+#     - {name: cleaner, type: "adaptive_social_layers::CleanPeopleLayer"}
      - {name: inflater, type: "costmap_2d::InflationLayer"}
+#     - {name: social, type: "adaptive_social_layers::AdaptiveLayer"}
