@@ -1,3 +1,5 @@
+/*Copyright 2021, Joao Avelino, All rights reserved.*/
+
 #ifndef MAPLESS_NAVIGATOR_HPP_
 #define MAPLESS_NAVIGATOR_HPP_
 
@@ -17,38 +19,51 @@
 #include <message_filters/subscriber.h>
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
 
+#include <mapless_nav/controller.hpp>
+#include <mapless_nav/obstacle_avoidance.hpp>
 
-#endif
+#include <vizzy_navigation/MaplessConfig.h>
+#include <dynamic_reconfigure/server.h>
+
+
 
 
 class MaplessNavigator
 {
 private:
     
-    enum State
-    {
-        STOPPED,
-        LOCALCONTROLLER
-    };
-
-    State state_;
-
+    ros::NodeHandle nh_;
+    ros::NodeHandle nPriv_;
     ros::Publisher cmdPub_;
     std::string target_frame_;
     tf2_ros::Buffer tfBuffer_;
     tf2_ros::TransformListener tfListener_;
-    ros::NodeHandle nh_;
     message_filters::Subscriber<geometry_msgs::PoseStamped> poseSub_;
     tf2_ros::MessageFilter<geometry_msgs::PoseStamped> tf2Filter_;
 
+    dynamic_reconfigure::Server<vizzy_navigation::MaplessConfig> server_;
+    dynamic_reconfigure::Server<vizzy_navigation::MaplessConfig>::CallbackType f_;
+
+    std::string common_frame_;
     geometry_msgs::PoseStamped robot_pose_;
-
-    //Current goal in the robot's frame
     geometry_msgs::PoseStamped current_goal_;
-    double dist_tolerance_ = 0.1;
-    double orient_tolerance_ = 0.1;
+    ros::Time last_update_;
 
-    void callback(const geometry_msgs::PoseStamped::ConstPtr& msg);
+    double linvel_min_ = 0.1;
+    double angvel_min_ = 0.1;
+
+    //Controller
+    mapless_controller::SegwayController controller_;
+    RobotOperator obs_avoider_;
+
+    void dynamic_rec_callback(vizzy_navigation::MaplessConfig &config, uint32_t level);
+
+    double getDistanceError();
+    double getOrientationError();
+
+    void goalCallback(const geometry_msgs::PoseStamped::ConstPtr& msg);
+    void updateGoal(geometry_msgs::PoseStamped &goal);
+    mapless_controller::Pose2D makeTransform(geometry_msgs::PoseStamped pose, std::string frame_id, ros::Time fromTime=ros::Time(0));
 
 
 public:
@@ -56,6 +71,11 @@ public:
 
     void doControlBase();
 
+    void disableControl();
+    void enableControl();
+
     ~MaplessNavigator();
 
 };
+
+#endif

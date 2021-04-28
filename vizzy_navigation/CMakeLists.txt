@@ -10,18 +10,24 @@ find_package(catkin REQUIRED
     sensor_msgs
     vizzy_msgs
     geometry_msgs
-    nav2d_operator
     dynamic_reconfigure
+    tf
     tf2
+    tf2_ros
+    tf2_msgs
+    tf2_sensor_msgs
     interactive_markers
     visualization_msgs
     eigen_conversions
     rospy
-    actionlib_msgs)
+    actionlib_msgs
+    costmap_2d)
 
   #add dynamic reconfigure api
  generate_dynamic_reconfigure_options(
   cfg/Docking.cfg
+  cfg/Mapless.cfg
+  cfg/Avoidance.cfg
  )
 
 find_package(yaml-cpp)
@@ -68,6 +74,7 @@ catkin_package(
     std_msgs
     geometry_msgs
     rospy
+    costmap_2d
 )
 
 include_directories(
@@ -94,12 +101,12 @@ target_link_libraries(teleop_joy_node
   ${catkin_LIBRARIES}
 )
 
-add_executable(reroute_twist2nav2d_node src/twist2nav2d.cpp)
-target_link_libraries(reroute_twist2nav2d_node
-  ${Boost_LIBRARIES}
-  ${catkin_LIBRARIES}
-)
-add_dependencies(reroute_twist2nav2d_node vizzy_msgs_generate_messages_cpp vizzy_navigation_generate_messages_cpp ${PROJECT_NAME}_gencfg ${vizzy_navigation_EXPORTED_TARGETS})
+#add_executable(reroute_twist2nav2d_node src/twist2nav2d.cpp)
+#target_link_libraries(reroute_twist2nav2d_node
+#  ${Boost_LIBRARIES}
+#  ${catkin_LIBRARIES}
+#)
+#add_dependencies(reroute_twist2nav2d_node vizzy_msgs_generate_messages_cpp vizzy_navigation_generate_messages_cpp ${PROJECT_NAME}_gencfg ${vizzy_navigation_EXPORTED_TARGETS})
 
 add_executable(docking_controller src/docking_controller.cpp src/docking_controller_ros.cpp src/docking_controller_node.cpp)
 target_link_libraries(docking_controller
@@ -136,7 +143,12 @@ target_link_libraries(charging_action_server
   yaml-cpp
 )
 
-add_executable(mapless_nav_node src/mapless_nav_node.cpp src/mapless_navigator.cpp src/controller.cpp)
+add_executable(mapless_nav_node 
+                src/mapless_nav_node.cpp 
+                src/mapless_navigator.cpp 
+                src/controller.cpp
+                src/obstacle_avoidance.cpp)
+
 target_link_libraries(mapless_nav_node ${catkin_LIBRARIES})
 
 foreach(dir config launch rviz)

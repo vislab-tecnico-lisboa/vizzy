@@ -1,5 +1,10 @@
+/*Copyright 2021, Joao Avelino, All rights reserved.*/
+
 #ifndef MAPLESS_NAVIGATOR_CONTROLLER_HPP_
 #define MAPLESS_NAVIGATOR_CONTROLLER_HPP_
+
+#include <exception>
+#include <string>
 
 /*Pose controller described in Introduction of Autonomous Mobile Robots by Illah Reza
 Noubakhsh and Roland Siegwart.*/
@@ -73,7 +78,7 @@ public:
     Pose2D getCurrentPose();
     Pose2D getCurrentGoal();
 
-    
+
     void updateRobotPose(float x, float y, float theta, std::string frame_id);
     void updateRobotPose(Pose2D newPose);
     void updateGoal(float x, float y, float theta, std::string frame_id);

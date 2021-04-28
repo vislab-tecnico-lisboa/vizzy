@@ -9,7 +9,6 @@ int main(int argc, char **argv)
 
     MaplessNavigator mapless_navigator(nh);
 
-
     ros::Rate rate(50);
 
     while (ros::ok())
