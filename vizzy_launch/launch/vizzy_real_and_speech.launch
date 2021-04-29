@@ -131,7 +131,7 @@
     </include>
   </group>
 
-  <group if="$(arg mapless_active">
+  <group if="$(arg mapless_active)">
     <rosparam file="$(find vizzy_navigation)/param/general.yaml"/>
     <node name="MaplessNavigator" pkg="vizzy_navigation" type="mapless_nav_node">
       <rosparam file="$(find vizzy_navigation)/param/operator.yaml"/>
