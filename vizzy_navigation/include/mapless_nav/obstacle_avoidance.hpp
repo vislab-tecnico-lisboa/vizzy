@@ -109,8 +109,8 @@ private:
 	ros::Publisher mCostPublisher;
 
 	tf::TransformListener mTfListener;
-	tf2_ros::TransformListener mTf2Listener;
 	tf2_ros::Buffer mTf2Buffer;
+	tf2_ros::TransformListener mTf2Listener;
 	
 	double mDesiredVelocity;
 	double mDesiredDirection;

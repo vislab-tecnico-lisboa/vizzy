@@ -54,8 +54,6 @@ void MaplessNavigator::goalCallback(const geometry_msgs::PoseStamped::ConstPtr& 
     try 
     {
       tfBuffer_.transform(*msg, current_goal_, common_frame_);
-      
-      ROS_ERROR_STREAM("Current goal:" << current_goal_);
     }
     catch (tf2::TransformException &ex) 
     {
@@ -150,7 +148,7 @@ mapless_controller::Pose2D MaplessNavigator::makeTransform(geometry_msgs::PoseSt
     tf2::doTransform(pose, onCommon, transformStamped);
     }
     catch (tf2::TransformException &ex) {
-      ROS_WARN("%s",ex.what());
+      ROS_WARN("Make transform: %s",ex.what());
       ros::Duration(1.0).sleep();
       return mapless_controller::Pose2D();
     }

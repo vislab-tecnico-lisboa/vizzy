@@ -35,10 +35,23 @@ SegwayController::~SegwayController(){}
 
 
 void SegwayController::updateGains(float k_ro, float k_alpha, float k_beta)
-{
+{   
+    //Ensure strong stability condition
+
+    bool c1 = k_ro > 0;
+    bool c2 = k_beta < 0;
+    bool c3 = k_alpha + (5.0/3.0)*k_beta-(2.0/3.1415)*k_ro > 0;
+
     k_ro_ = k_ro;
     k_beta_ = k_beta;    
     k_alpha_ = k_alpha;
+
+    if(c1 && c2 && c3)
+    {
+        std::cout << "Strong stability condition achieved." << std::endl;
+    }else{
+        std::cout << "Gains do not guarantee the strong stability condition!" << std::endl;
+    }
 }
 
 
