@@ -24,8 +24,6 @@ with minor adaptations to this use case.*/
 #include <tf/transform_listener.h>
 #include <tf2_ros/transform_listener.h>
 
-#include <vizzy_navigation/AvoidanceConfig.h>
-
 class RobotOperator
 {
 public:
@@ -46,6 +44,19 @@ public:
 	 * This is the Operator's core function and should be called periodically
 	 */
 	geometry_msgs::Twist computeVelocity();
+
+	double mMaxVelocity;
+	
+	bool mPublishRoute;
+	double mMaxFreeSpace;
+	double mSafetyDecay;
+	int mSafetyWeight;
+	int mConformanceWeight;
+	int mContinueWeight;
+	int mEscapeWeight;
+	int mDriveMode;
+
+	bool rStuck = false;
 
 private:
 	// Internal Methods
@@ -91,11 +102,6 @@ private:
 	 */
 	inline sensor_msgs::PointCloud* getPointCloud(double direction, double velocity);
 
-	void dynamic_rec_callback(vizzy_navigation::AvoidanceConfig &config, uint32_t level);
-
-    dynamic_reconfigure::Server<vizzy_navigation::AvoidanceConfig> server_;
-    dynamic_reconfigure::Server<vizzy_navigation::AvoidanceConfig>::CallbackType f_;
-
 	ros::NodeHandle nh;
 	ros::NodeHandle nPriv;
 
@@ -116,19 +122,9 @@ private:
 	double mDesiredDirection;
 	double mCurrentVelocity;
 	double mCurrentDirection;
-	int mDriveMode;
 	
 	sensor_msgs::PointCloud* mTrajTable[(LUT_RESOLUTION * 4) + 2];
 	
-	double mMaxVelocity;
-	
-	bool mPublishRoute;
-	double mMaxFreeSpace;
-	double mSafetyDecay;
-	int mSafetyWeight;
-	int mConformanceWeight;
-	int mContinueWeight;
-	int mEscapeWeight;
 
 	std::string mOdometryFrame;
 	std::string mRobotFrame;

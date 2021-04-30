@@ -19,9 +19,6 @@ RobotOperator::RobotOperator(ros::NodeHandle &nh, ros::NodeHandle &nPriv) : nh(n
 		mPlanPublisher = nPriv.advertise<nav_msgs::GridCells>(PLAN_TOPIC, 1);
 	}
 
-	f_ = boost::bind(&RobotOperator::dynamic_rec_callback, this, _1, _2);
-	server_.setCallback(f_);
-
 
 	// Initialize the lookup table for the driving directions
 	ROS_INFO("Initializing LUT...");
@@ -43,25 +40,6 @@ RobotOperator::~RobotOperator()
 	{
 		delete mTrajTable[i];
 	}
-}
-
-void RobotOperator::dynamic_rec_callback(vizzy_navigation::AvoidanceConfig &config, uint32_t level)
-{
-
-	ROS_INFO("Reconfigure Request: max_free_space: %f,  safety_decay: %f, safety_weight: %d, \
-		conformance_weight: %d, continue_weight: %d, escape_weight: %d, max_velocity: %f (m/s)",
-	    config.max_free_space, config.safety_decay, config.safety_weight, config.conformance_weight,
-		config.continue_weight, config.escape_weight, config.max_velocity);
-
-	mMaxFreeSpace = config.max_free_space;
-	mSafetyDecay = config.safety_decay;
-	mSafetyWeight = config.safety_weight;
-	mConformanceWeight = config.conformance_weight;
-	mContinueWeight = config.continue_weight;
-	mEscapeWeight = config.escape_weight;
-	mMaxVelocity = config.max_velocity;
-	mDriveMode = config.mode;
-
 }
 
 void RobotOperator::initTrajTable()
@@ -280,6 +258,8 @@ geometry_msgs::Twist RobotOperator::computeVelocity()
 		{
 			mCurrentVelocity = 0;
 			ROS_WARN_THROTTLE(1, "Robot cannot move further in this direction!");
+			ROS_WARN_THROTTLE(1, "STOPING ROBOT!");
+			rStuck = true;
 		}
 	}
 

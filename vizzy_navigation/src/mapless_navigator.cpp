@@ -26,6 +26,11 @@ void MaplessNavigator::dynamic_rec_callback(vizzy_navigation::MaplessConfig &con
 	    config.k_ro, config.k_alpha, config.k_beta, config.common_frame.c_str(), config.lin_vel_sat, config.ang_vel_sat,
 		config.linvel_min, config.angvel_min);
 
+	ROS_INFO("Reconfigure Request: max_free_space: %f,  safety_decay: %f, safety_weight: %d, \
+		conformance_weight: %d, continue_weight: %d, escape_weight: %d, max_velocity: %f (m/s)",
+	    config.max_free_space, config.safety_decay, config.safety_weight, config.conformance_weight,
+		config.continue_weight, config.escape_weight, config.max_velocity);
+
 	common_frame_ = config.common_frame;
 	controller_.updateGains(config.k_ro, config.k_alpha, config.k_beta);
 	controller_.updateSaturations(config.lin_vel_sat, config.ang_vel_sat);
@@ -33,6 +38,15 @@ void MaplessNavigator::dynamic_rec_callback(vizzy_navigation::MaplessConfig &con
 	angvel_min_ = config.angvel_min;
 
 	tf2Filter_.setTargetFrame(common_frame_);
+
+	obs_avoider_.mMaxFreeSpace = config.max_free_space;
+	obs_avoider_.mSafetyDecay = config.safety_decay;
+	obs_avoider_.mSafetyWeight = config.safety_weight;
+	obs_avoider_.mConformanceWeight = config.conformance_weight;
+	obs_avoider_.mContinueWeight = config.continue_weight;
+	obs_avoider_.mEscapeWeight = config.escape_weight;
+	obs_avoider_.mMaxVelocity = config.max_velocity;
+	obs_avoider_.mDriveMode = config.mode;
 
 }
 
@@ -126,6 +140,14 @@ void MaplessNavigator::doControlBase()
 		return;
 	}
 
+	//If the obstacle avoidance module signals that the robot is stuck, stop control.
+
+	if(obs_avoider_.rStuck)
+	{
+		disableControl();
+		return;
+	}
+
 	geometry_msgs::Twist cmd_vel;
 	cmd_vel.linear.x = cont_signal.linear_vel_;
 	cmd_vel.angular.z = cont_signal.angular_vel_;
@@ -176,6 +198,7 @@ void MaplessNavigator::disableControl()
 void MaplessNavigator::enableControl()
 {
 	controller_.running_ = true;
+	obs_avoider_.rStuck = false;
 }
 
 void MaplessNavigator::updateGoal(geometry_msgs::PoseStamped& goal)

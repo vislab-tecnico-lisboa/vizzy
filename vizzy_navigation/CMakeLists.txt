@@ -27,7 +27,6 @@ find_package(catkin REQUIRED
  generate_dynamic_reconfigure_options(
   cfg/Docking.cfg
   cfg/Mapless.cfg
-  cfg/Avoidance.cfg
  )
 
 find_package(yaml-cpp)
@@ -142,6 +141,7 @@ target_link_libraries(charging_action_server
   falkolib
   yaml-cpp
 )
+add_dependencies(charging_action_server vizzy_msgs_generate_messages_cpp)
 
 add_executable(mapless_nav_node 
                 src/mapless_nav_node.cpp 
