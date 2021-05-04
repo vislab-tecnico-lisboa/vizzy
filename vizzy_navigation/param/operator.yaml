@@ -2,7 +2,7 @@
 max_velocity: 1.0
 
 # If set to true, the selected best direction is published as a GridCells-Message
-publish_route: false
+publish_route: true
 
 # The way is assumed to be free when there is no obstacle within this range (in meter)
 max_free_space: 1.0

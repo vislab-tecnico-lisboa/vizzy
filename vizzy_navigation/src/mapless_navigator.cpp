@@ -27,9 +27,9 @@ void MaplessNavigator::dynamic_rec_callback(vizzy_navigation::MaplessConfig &con
 		config.linvel_min, config.angvel_min);
 
 	ROS_INFO("Reconfigure Request: max_free_space: %f,  safety_decay: %f, safety_weight: %d, \
-		conformance_weight: %d, continue_weight: %d, escape_weight: %d, max_velocity: %f (m/s)",
+		conformance_weight: %d, continue_weight: %d, escape_weight: %d",
 	    config.max_free_space, config.safety_decay, config.safety_weight, config.conformance_weight,
-		config.continue_weight, config.escape_weight, config.max_velocity);
+		config.continue_weight, config.escape_weight);
 
 	common_frame_ = config.common_frame;
 	controller_.updateGains(config.k_ro, config.k_alpha, config.k_beta);
@@ -45,8 +45,10 @@ void MaplessNavigator::dynamic_rec_callback(vizzy_navigation::MaplessConfig &con
 	obs_avoider_.mConformanceWeight = config.conformance_weight;
 	obs_avoider_.mContinueWeight = config.continue_weight;
 	obs_avoider_.mEscapeWeight = config.escape_weight;
-	obs_avoider_.mMaxVelocity = config.max_velocity;
+	obs_avoider_.mMaxVelocity = config.lin_vel_sat;
 	obs_avoider_.mDriveMode = config.mode;
+	obs_avoider_.mMaxLinearVelocity = config.lin_vel_sat;
+	obs_avoider_.mMaxAngularVelocity = config.ang_vel_sat;
 
 }
 

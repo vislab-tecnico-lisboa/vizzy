@@ -1,9 +1,11 @@
 #include <mapless_nav/obstacle_avoidance.hpp>
+#include <math.h>
+
 
 RobotOperator::RobotOperator(ros::NodeHandle &nh, ros::NodeHandle &nPriv) : nh(nh), nPriv(nPriv), mTf2Listener(mTf2Buffer)
 {
 	// Create the local costmap
-	mLocalMap = new costmap_2d::Costmap2DROS("local_map", mTf2Buffer);
+	mLocalMap = new costmap_2d::Costmap2DROS("local_map", mTfListener);
 	mRasterSize = mLocalMap->getCostmap()->getResolution();
 	
 	// Publish / subscribe to ROS topics
@@ -161,8 +163,15 @@ void RobotOperator::initTrajTable()
 
 void RobotOperator::receiveCommand(geometry_msgs::Twist &msg)
 {
-	double Turn = -msg.angular.z;
-	double Velocity = msg.linear.x;
+
+	/*Convert from nav2d operator message with Velocity and Turn to Twist*/
+	double r = -msg.linear.x/msg.angular.z;
+	double abs_r = (r > 0) ? r : -r;
+
+	double aux = 1.0+(1.0/abs_r);
+	double Velocity = msg.linear.x*aux;
+
+	double Turn = atan2(-msg.linear.x, msg.angular.z)/M_PI;
 
 	
 	if(Turn < -1 || Turn > 1)
@@ -174,6 +183,13 @@ void RobotOperator::receiveCommand(geometry_msgs::Twist &msg)
 		mCurrentDirection = 0;
 		mCurrentVelocity = 0;
 		ROS_ERROR("Invalid turn direction!");
+        ROS_ERROR_STREAM("Received velocity: " << Velocity);
+        ROS_ERROR_STREAM("Received turn: " << Turn);
+
+		ROS_ERROR_STREAM("max_ang_vel: " << mMaxAngularVelocity);
+		ROS_ERROR_STREAM("max_lin_vel: " << mMaxLinearVelocity);
+
+		ROS_ERROR_STREAM(msg);
 		return;
 	}
 	mDesiredDirection = Turn;

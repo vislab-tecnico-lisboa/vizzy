@@ -56,6 +56,9 @@ public:
 	int mEscapeWeight;
 	int mDriveMode;
 
+	double mMaxLinearVelocity;
+	double mMaxAngularVelocity;
+
 	bool rStuck = false;
 
 private:
@@ -122,6 +125,7 @@ private:
 	double mDesiredDirection;
 	double mCurrentVelocity;
 	double mCurrentDirection;
+
 	
 	sensor_msgs::PointCloud* mTrajTable[(LUT_RESOLUTION * 4) + 2];
 	
