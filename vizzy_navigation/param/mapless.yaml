@@ -1,6 +1,6 @@
 k_ro: 0.5
-k_alpha: 2.7
-k_beta: -1.2
+k_alpha: 2.5
+k_beta: -1.3
 lin_vel_sat: 1.0
 ang_vel_sat: 1.0
 common_frame: "odom"

@@ -134,6 +134,7 @@ private:
 	std::string mRobotFrame;
 	
 	unsigned int mRecoverySteps;
+	bool mode_switched = false; //Not in use right now...
 
 };
 

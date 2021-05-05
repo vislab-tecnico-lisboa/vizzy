@@ -39,10 +39,10 @@ laserobstacles:
   
 laserobstaclesrear:
   observation_sources: scan_rear
-  scan_rear: {data_type: LaserScan, topic: scan_filtered_rear, marking: false, clearing: true}
+  scan_rear: {data_type: LaserScan, topic: scan_filtered_rear, marking: true, clearing: true}
   obstacle_range: 3.5
   raytrace_range: 4.0
-  marking: false 
+  marking: true 
   clearing: true
 
 
@@ -91,7 +91,8 @@ kinectobstacles:
 
 plugins:
  - {name: laserobstacles, type: "costmap_2d::VoxelLayer"}
- - {name: kinectobstacles, type: "costmap_2d::VoxelLayer"}
+ - {name: laserobstaclesrear, type: "costmap_2d::VoxelLayer"}
+# - {name: kinectobstacles, type: "costmap_2d::VoxelLayer"}
 # - {name: kinectobstacles_clear, type: "costmap_2d::VoxelLayer"}
  - {name: inflater, type: "costmap_2d::InflationLayer"}
 

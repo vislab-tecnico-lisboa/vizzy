@@ -1,11 +1,18 @@
 #include <mapless_nav/obstacle_avoidance.hpp>
 #include <math.h>
 
+template <typename T> int sgn(T val) {
+    return (T(0) < val) - (val < T(0));
+}
 
 RobotOperator::RobotOperator(ros::NodeHandle &nh, ros::NodeHandle &nPriv) : nh(nh), nPriv(nPriv), mTf2Listener(mTf2Buffer)
 {
 	// Create the local costmap
-	mLocalMap = new costmap_2d::Costmap2DROS("local_map", mTfListener);
+	#if ROS_VERSION_MINIMUM(1, 14, 5) // If melodic or newer, use costmap2d with TF2
+		mLocalMap = new costmap_2d::Costmap2DROS("local_map", mTf2Buffer);
+	#else //Otherwise use costmap2d with TF
+		mLocalMap = new costmap_2d::Costmap2DROS("local_map", mTfListener);
+	#endif
 	mRasterSize = mLocalMap->getCostmap()->getResolution();
 	
 	// Publish / subscribe to ROS topics
@@ -165,16 +172,44 @@ void RobotOperator::receiveCommand(geometry_msgs::Twist &msg)
 {
 
 	/*Convert from nav2d operator message with Velocity and Turn to Twist*/
-	double r = -msg.linear.x/msg.angular.z;
-	double abs_r = (r > 0) ? r : -r;
+	double& ang_in = msg.angular.z;
+	double& lin_in = msg.linear.x;
 
-	double aux = 1.0+(1.0/abs_r);
-	double Velocity = msg.linear.x*aux;
+	double velocity;
+	double turn;
 
-	double Turn = atan2(-msg.linear.x, msg.angular.z)/M_PI;
+    if(ang_in == 0.0)
+	{
+        velocity = lin_in;
+        turn = ang_in;
+	}
+    else if(lin_in == 0.0 && ang_in != 0.0)
+	{
+        turn = -1.0*sgn(ang_in);
+        velocity = ang_in/(-1.0*turn);
+	}
+    else
+	{
+        double r = -lin_in/ang_in;
+        double abs_r = fabs(r);
+        double aux = 1.0+(1.0/abs_r);
+        velocity = lin_in*aux;
+
+		double arc = 2*atan2(-ang_in, lin_in);
+		if(arc > M_PI)
+		{
+			int n = floor(arc/M_PI);
+			arc -= (n+1)*M_PI;
+		}else if(arc < -M_PI)
+		{
+			int n = floor(-arc/M_PI);
+			arc += (n+1)*M_PI;
+		}
+        turn = arc/M_PI;
+	}
 
 	
-	if(Turn < -1 || Turn > 1)
+	if(turn < -1 || turn > 1)
 	{
 		// The given direction is invalid.
 		// Something is going wrong, so better stop the robot:
@@ -182,18 +217,19 @@ void RobotOperator::receiveCommand(geometry_msgs::Twist &msg)
 		mDesiredVelocity = 0;
 		mCurrentDirection = 0;
 		mCurrentVelocity = 0;
-		ROS_ERROR("Invalid turn direction!");
-        ROS_ERROR_STREAM("Received velocity: " << Velocity);
-        ROS_ERROR_STREAM("Received turn: " << Turn);
+		ROS_ERROR_THROTTLE(5, "Invalid turn direction!");
+        ROS_ERROR_STREAM_THROTTLE(5, "Received velocity: " << velocity);
+        ROS_ERROR_STREAM_THROTTLE(5, "Received turn: " << turn);
 
-		ROS_ERROR_STREAM("max_ang_vel: " << mMaxAngularVelocity);
-		ROS_ERROR_STREAM("max_lin_vel: " << mMaxLinearVelocity);
-
-		ROS_ERROR_STREAM(msg);
+		ROS_ERROR_STREAM_THROTTLE(5, msg);
 		return;
 	}
-	mDesiredDirection = Turn;
-	mDesiredVelocity = Velocity * mMaxVelocity;
+
+	mDesiredDirection = turn;
+	mDesiredVelocity = velocity;
+
+	return;
+
 }
 
 geometry_msgs::Twist RobotOperator::computeVelocity()
@@ -204,9 +240,16 @@ geometry_msgs::Twist RobotOperator::computeVelocity()
 	mCostmap = mLocalMap->getCostmap();
 	boost::unique_lock<costmap_2d::Costmap2D::mutex_t> lock(*(mCostmap->getMutex()));
 	double bestDirection, d;
+
+	int localDriveMode;
+
+	if(mode_switched)
+		localDriveMode = 1-mDriveMode;
+	else
+		localDriveMode = mDriveMode;
 	
 	// 2. Set velocity and direction depending on drive mode
-	switch(mDriveMode)
+	switch(localDriveMode)
 	{
 	case 0:
 		bestDirection = findBestDirection();
@@ -264,9 +307,13 @@ geometry_msgs::Twist RobotOperator::computeVelocity()
 
 	// Check whether the robot is stuck
 	if(mRecoverySteps > 0) mRecoverySteps--;
+
+	//Switch mode if recovering
+	
+
 	if(safeVelocity < 0.1)
 	{
-		if(mDriveMode == 0)
+		if(localDriveMode == 0)
 		{
 			mRecoverySteps = 30; // Recover for 3 seconds
 			ROS_WARN_THROTTLE(1, "Robot is stuck! Trying to recover...");
@@ -276,6 +323,8 @@ geometry_msgs::Twist RobotOperator::computeVelocity()
 			ROS_WARN_THROTTLE(1, "Robot cannot move further in this direction!");
 			ROS_WARN_THROTTLE(1, "STOPING ROBOT!");
 			rStuck = true;
+			if(mode_switched)
+				mode_switched = !mode_switched;
 		}
 	}
 
@@ -477,6 +526,9 @@ double RobotOperator::evaluateAction(double direction, double velocity, bool deb
 		action_value += valueConformance * mConformanceWeight;
 		action_value += valueContinue * mContinueWeight;
 		normFactor += mConformanceWeight + mContinueWeight;
+
+		if(mode_switched)
+			mode_switched = false;
 	}
 	
 	action_value /= normFactor;
