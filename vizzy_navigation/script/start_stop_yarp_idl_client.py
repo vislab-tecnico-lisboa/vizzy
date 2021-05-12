@@ -1,12 +1,14 @@
+#!/usr/bin/env python
+
 import roslib
 import rospy
 import sys
 from vizzy_msgs.srv import ShutdownStartYarpRunProcess,ShutdownStartYarpRunProcessRequest,ShutdownStartYarpRunProcessResponse
 
 def shutdown_start_client(my_request):
-    rospy.wait_for_service('start_shutdown_server')
+    rospy.wait_for_service('shutdownStartProcess')
     try:
-        service_object = rospy.ServiceProxy('start_shutdown_server',ShutdownStartYarpRunProcess)
+        service_object = rospy.ServiceProxy('shutdownStartProcess',ShutdownStartYarpRunProcess)
         my_response = service_object(my_request)
         if (my_response.shutdown_reply==1):
             print('Success stopping process')
