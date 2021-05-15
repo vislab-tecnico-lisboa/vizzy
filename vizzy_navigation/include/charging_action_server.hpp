@@ -28,6 +28,7 @@ private:
     ros::Publisher cmd_pub_;
     ros::ServiceClient charging_state_client_;
     ros::ServiceClient arms_idle_client;
+    ros::ServiceClient arms_home_client;
 
 public:
     void controlToGoalPose(geometry_msgs::PoseStamped & pose, ros::Rate & sampling_hz, bool onDeadzone = false);

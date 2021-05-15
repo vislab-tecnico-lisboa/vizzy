@@ -2,6 +2,7 @@
 #include <vizzy_msgs/ChargeFeedback.h>
 #include <vizzy_msgs/BatteryChargingState.h>
 #include <vizzy_msgs/MotorsShutdown.h>
+#include <vizzy_msgs/ArmDown.h>
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
 
 void ChargingActionServer::controlToGoalPose(geometry_msgs::PoseStamped & pose, ros::Rate & sampling_hz,  bool onDeadzone)
@@ -266,6 +267,26 @@ void ChargingActionServer::goalCallback()
 					arms_idle_msg.request.shutdown_request = arms_idle_msg.request.TURNON;
 					if (arms_idle_client.call(arms_idle_msg)){
 						if (arms_idle_msg.response.shutdown_reply == arms_idle_msg.response.SUCCESS){
+							vizzy_msgs::ArmDown arm_down_msg;
+							arm_down_msg.request.robot_type=arm_down_msg.request.REAL;
+							arm_down_msg.request.arm_down_request=arm_down_msg.request.LEFT;
+							if (arms_home_client.call(arm_down_msg)){
+								if (arm_down_msg.response.arm_down_reply==arm_down_msg.response.SUCCESS){
+									ROS_INFO("Left arm home position done");		
+								}
+								else{
+									ROS_ERROR("Not able to reach left arm home position");
+								}
+							}
+							arm_down_msg.request.arm_down_request=arm_down_msg.request.RIGHT;
+							if (arms_home_client.call(arm_down_msg)){
+								if (arm_down_msg.response.arm_down_reply==arm_down_msg.response.SUCCESS){
+									ROS_INFO("Right arm home position done");		
+								}
+								else{
+									ROS_ERROR("Not able to reach right arm home position");
+								}
+							}
 							ROS_INFO("Done - undocked successfully and arm motors are on");
 						}
 						else{
@@ -326,6 +347,7 @@ ChargingActionServer::ChargingActionServer(ros::NodeHandle nh, std::string name)
     cmd_pub_ =  nh_.advertise<geometry_msgs::Twist>("/vizzy/cmd_vel", 1 );
     charging_state_client_ = nh_.serviceClient<vizzy_msgs::BatteryChargingState>("battery_charging_state");
 	arms_idle_client = nh_.serviceClient<vizzy_msgs::MotorsShutdown>("armMotorsIdle");
+	arms_home_client = nh_.serviceClient<vizzy_msgs::ArmDown>("armDown");
 
     as_.start();
 }
