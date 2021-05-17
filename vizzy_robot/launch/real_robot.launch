@@ -43,11 +43,15 @@
   <!-- launch the segway battery state -->
   <include file="$(find vizzy_serial_interfaces)/launch/segway_battery_state.launch">
       <arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)" />
+      <!-- Override default value to charge up until 76% -->
+      <arg name="cha_thr" value="67.75" />
   </include>
 
   <!-- launch the kokam battery state -->
   <include file="$(find vizzy_serial_interfaces)/launch/battery_state.launch">
       <arg name="vizzy_machine_name" value="$(arg vizzy_machine_name)" />
+      <!-- Override default value to charge up until 71% -->
+      <arg name="cha_thr" value="27.25" />
   </include>
 
   <!-- launch the charging state service -->

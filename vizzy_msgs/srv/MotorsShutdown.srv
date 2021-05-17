@@ -1,0 +1,9 @@
+uint8 SHUTDOWN=0
+uint8 TURNON=1
+
+uint8 shutdown_request
+---
+uint8 FAILURE=0
+uint8 SUCCESS=1
+
+uint8 shutdown_reply
