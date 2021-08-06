@@ -1,0 +1,12 @@
+uint8 SHUTDOWN=0
+uint8 TURNON=1
+
+uint8 shutdown_request
+string server_port
+string command_str
+string tag_str
+---
+uint8 FAILURE=0
+uint8 SUCCESS=1
+
+uint8 shutdown_reply

@@ -10,3 +10,7 @@ global_costmap:
      - {name: laserobstacles, type: "costmap_2d::VoxelLayer"}
      - {name: kinectobstacles, type: "costmap_2d::VoxelLayer"}
      - {name: inflater, type: "costmap_2d::InflationLayer"}
+# For the social layer to work, the layers have to be in the following order
+#     - {name: cleaner, type: "adaptive_social_layers::CleanPeopleLayer"}
+#     - {name: inflater, type: "costmap_2d::InflationLayer"}
+#     - {name: social, type: "adaptive_social_layers::AdaptiveLayer"}

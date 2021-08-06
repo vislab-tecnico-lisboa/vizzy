@@ -1,0 +1,14 @@
+uint8 LEFT=0
+uint8 RIGHT=1
+
+uint8 arm_down_request
+
+uint8 REAL=0
+uint8 SIM=1
+
+uint8 robot_type
+---
+uint8 FAILURE=0
+uint8 SUCCESS=1
+
+uint8 arm_down_reply
