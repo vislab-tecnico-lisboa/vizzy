@@ -22,6 +22,8 @@
   <arg name="simulation" value="true"/>
   <arg name="launch_gaze" value="false"/>
 
+  <arg name="mapless_active" default="true"/>
+
   <!-- Load Yarp plugins for real robot execution -->
   <arg name="use_yarp" default="false"/>
 
@@ -103,6 +105,16 @@
       args="-f $(arg rviz_fixed_frame) -d $(find vizzy_demos)/rviz/wizard_of_oz.rviz">
     </node>
   </group>
+
+  <group if="$(arg mapless_active)">
+    <rosparam file="$(find vizzy_navigation)/param/general.yaml"/>
+    <node name="MaplessNavigator" pkg="vizzy_navigation" type="mapless_nav_node" output="screen">
+      <rosparam file="$(find vizzy_navigation)/param/operator.yaml"/>
+      <rosparam file="$(find vizzy_navigation)/param/mapless.yaml"/>
+      <rosparam file="$(find vizzy_navigation)/param/costmap.yaml" ns="local_map" />
+      <remap from="cmd_vel" to = "$(arg ns)/cmd_vel"/>
+    </node>
+ </group>
 
   <!-- Launch navigation -->
   <group if="$(arg navigation)">

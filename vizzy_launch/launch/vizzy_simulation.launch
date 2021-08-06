@@ -66,8 +66,7 @@
   <arg name="vizzy_control_config_file" default="$(find vizzy_control)/config/frames.yaml"/>
   <arg name="fixation_point_in" default="fixation_point"/>
 
-  <!-- TODO: Explain twist2nav2d -->
-  <arg name="twist2nav2d" default="false"/>
+  <arg name="mapless_active" default="true"/>
 
   <!-- Derived parameters -->
 
@@ -157,12 +156,12 @@
   </group>
 
   <!-- Launch teleop -->
-  <group if="$(arg teleop)">
+  <!-- <group if="$(arg teleop)">
     <include file="$(find vizzy_navigation)/launch/teleop_joy_simulation.launch">
       <arg name="cmd_out_topic" value="twist2nav2d"/>
       <arg name="ns" value="$(arg ns)"/>
     </include>
-  </group>
+  </group> -->
 
 
   <!-- Launch MoveIt! -->
@@ -190,19 +189,14 @@
     </group>
   </group>
 
-  <!-- TODO: Why is this necessary? -->
-  <group if="$(arg twist2nav2d)">
-    <node name="twist2nav2d" pkg="vizzy_navigation" type="reroute_twist2nav2d_node">
-      <remap from="twist_topic" to="$(arg ns)/twist2nav2d"/>
-      <remap from="nav2d_topic" to="cmd"/>
-      <remap from="cmd_topic" to="$(arg ns)/cmd_vel" />
-    </node>
+  <group if="$(arg mapless_active)">
     <rosparam file="$(find vizzy_navigation)/param/general.yaml"/>
-    <node name="Operator" pkg="nav2d_operator" type="operator">
+    <node name="MaplessNavigator" pkg="vizzy_navigation" type="mapless_nav_node" output="screen">
       <rosparam file="$(find vizzy_navigation)/param/operator.yaml"/>
+      <rosparam file="$(find vizzy_navigation)/param/mapless.yaml"/>
       <rosparam file="$(find vizzy_navigation)/param/costmap.yaml" ns="local_map" />
       <remap from="cmd_vel" to = "$(arg ns)/cmd_vel"/>
     </node>
-  </group>
+ </group>
 
 </launch>
