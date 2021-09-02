@@ -139,6 +139,17 @@ ControlSignal SegwayController::computeControlSignal()
         w = k_alpha_*alpha_+k_beta_*beta_;
     }
 
+    if(fabs(alpha_) > M_PI)
+    {
+        std::cout << "Warning: alpha is not in ]-pi, pi]" << std::endl;
+    }
+
+    if(fabs(alpha_) > M_PI)
+    {
+        std::cout << "Warning: beta is not in ]-pi, pi]" << std::endl;
+    }
+    
+
     /*Noubakhsh and Siegwart do not consider actuation limits (saturating velocities).
     If one of the desired velocities is higher than what motor could deliver, we need to recompute
     the gains to ensure the strong stability condition (and get a predictable behavior)*/

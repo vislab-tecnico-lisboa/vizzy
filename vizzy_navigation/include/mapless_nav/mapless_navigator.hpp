@@ -25,6 +25,8 @@
 #include <vizzy_navigation/MaplessConfig.h>
 #include <dynamic_reconfigure/server.h>
 
+#include <actionlib/server/simple_action_server.h>
+#include <move_base_msgs/MoveBaseAction.h>
 
 
 
@@ -52,6 +54,11 @@ private:
     double linvel_min_ = 0.1;
     double angvel_min_ = 0.1;
 
+    //Actionlib
+    bool action_requested_ = false;
+    actionlib::SimpleActionServer<move_base_msgs::MoveBaseAction> as_;
+    move_base_msgs::MoveBaseFeedback feedback_;
+
     //Controller
     mapless_controller::SegwayController controller_;
     RobotOperator obs_avoider_;
@@ -64,6 +71,8 @@ private:
     void goalCallback(const geometry_msgs::PoseStamped::ConstPtr& msg);
     void updateGoal(geometry_msgs::PoseStamped &goal);
     mapless_controller::Pose2D makeTransform(geometry_msgs::PoseStamped pose, std::string frame_id, ros::Time fromTime=ros::Time(0));
+
+    void executeCB(const move_base_msgs::MoveBaseGoalConstPtr &goal);
 
 
 public:
