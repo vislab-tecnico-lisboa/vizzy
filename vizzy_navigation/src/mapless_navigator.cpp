@@ -6,7 +6,9 @@ using namespace std;
 
 
 MaplessNavigator::MaplessNavigator(ros::NodeHandle &nh) : nh_(nh), nPriv_("~"), tfListener_(tfBuffer_),
-                    tf2Filter_(poseSub_, tfBuffer_, "/base_footprint", 10, 0), controller_(0.5, 1.333, -0.25),
+                    tf2Filter_(poseSub_, tfBuffer_, "/base_footprint", 10, 0), 
+					as_(nh_, "mapless_nav", boost::bind(&MaplessNavigator::executeCB, this, _1), false),
+					controller_(0.5, 1.333, -0.25),
 					obs_avoider_(nh, nPriv_){
 
   poseSub_.subscribe(nh_, "/mapless_goal", 1);
@@ -91,6 +93,14 @@ void MaplessNavigator::doControlBase()
 	if(!controller_.running_)
 		return;
 
+	if(as_.isPreemptRequested() || !ros::ok())
+	{
+		ROS_INFO("Preempted mapless_navigation");
+		as_.setPreempted();
+		disableControl();
+		return;
+	}
+
 	/*Update current robot pose on common frame*/
 	geometry_msgs::PoseStamped robotPose;
 	robotPose.header.frame_id = "base_footprint";
@@ -139,14 +149,20 @@ void MaplessNavigator::doControlBase()
 	if(fabs(cont_signal.linear_vel_) < linvel_min_ && fabs(cont_signal.angular_vel_) < angvel_min_)
 	{
 		disableControl();
+		
+		if(action_requested_)
+			as_.setSucceeded();
 		return;
 	}
 
 	//If the obstacle avoidance module signals that the robot is stuck, stop control.
+	//and say it failed
 
 	if(obs_avoider_.rStuck)
 	{
 		disableControl();
+		if(action_requested_)
+			as_.setAborted();
 		return;
 	}
 
@@ -158,6 +174,12 @@ void MaplessNavigator::doControlBase()
 	cmd_vel = obs_avoider_.computeVelocity();
 
 	cmdPub_.publish(cmd_vel);
+
+	if(action_requested_)
+	{
+		feedback_.base_position = robot_pose_;
+		as_.publishFeedback(feedback_);
+	}
 
 }
 
@@ -220,4 +242,26 @@ double MaplessNavigator::getDistanceError()
 double MaplessNavigator::getOrientationError()
 {
 	return controller_.w;
+}
+
+void MaplessNavigator::executeCB(const move_base_msgs::MoveBaseGoalConstPtr &goal)
+{
+	action_requested_ = true;
+
+    try 
+    {
+      tfBuffer_.transform(goal->target_pose, current_goal_, common_frame_);
+    }
+    catch (tf2::TransformException &ex) 
+    {
+      ROS_WARN("Failure %s\n", ex.what()); //Print exception which was caught
+	  action_requested_ = false;
+    }
+    
+    mapless_controller::Pose2D goalPose = makeTransform(goal->target_pose, common_frame_);
+    controller_.updateGoal(goalPose);
+    last_update_ = goal->target_pose.header.stamp;
+
+	enableControl();
+
 }
