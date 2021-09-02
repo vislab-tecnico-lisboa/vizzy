@@ -7,7 +7,7 @@ using namespace std;
 
 MaplessNavigator::MaplessNavigator(ros::NodeHandle &nh) : nh_(nh), nPriv_("~"), tfListener_(tfBuffer_),
                     tf2Filter_(poseSub_, tfBuffer_, "/base_footprint", 10, 0), 
-					as_(nh_, "mapless_nav", boost::bind(&MaplessNavigator::executeCB, this, _1), false),
+					as_(nh_, "mapless_action", boost::bind(&MaplessNavigator::executeCB, this, _1), false),
 					controller_(0.5, 1.333, -0.25),
 					obs_avoider_(nh, nPriv_){
 
