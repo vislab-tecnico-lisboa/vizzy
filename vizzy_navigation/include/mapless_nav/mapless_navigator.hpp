@@ -37,6 +37,7 @@ private:
     ros::NodeHandle nh_;
     ros::NodeHandle nPriv_;
     ros::Publisher cmdPub_;
+    ros::Publisher action_goal_pub_;
     std::string target_frame_;
     tf2_ros::Buffer tfBuffer_;
     tf2_ros::TransformListener tfListener_;
@@ -55,7 +56,6 @@ private:
     double angvel_min_ = 0.1;
 
     //Actionlib
-    bool action_requested_ = false;
     actionlib::SimpleActionServer<move_base_msgs::MoveBaseAction> as_;
     move_base_msgs::MoveBaseFeedback feedback_;
 
@@ -72,7 +72,8 @@ private:
     void updateGoal(geometry_msgs::PoseStamped &goal);
     mapless_controller::Pose2D makeTransform(geometry_msgs::PoseStamped pose, std::string frame_id, ros::Time fromTime=ros::Time(0));
 
-    void executeCB(const move_base_msgs::MoveBaseGoalConstPtr &goal);
+    void actionGoalCB();
+    void actionPreemptCB();
 
 
 public:

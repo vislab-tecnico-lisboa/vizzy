@@ -7,16 +7,23 @@ using namespace std;
 
 MaplessNavigator::MaplessNavigator(ros::NodeHandle &nh) : nh_(nh), nPriv_("~"), tfListener_(tfBuffer_),
                     tf2Filter_(poseSub_, tfBuffer_, "/base_footprint", 10, 0), 
-					as_(nh_, "mapless_action", boost::bind(&MaplessNavigator::executeCB, this, _1), false),
+					as_(nh_, "mapless_action", false),
 					controller_(0.5, 1.333, -0.25),
 					obs_avoider_(nh, nPriv_){
 
-  poseSub_.subscribe(nh_, "/mapless_goal", 1);
-  tf2Filter_.registerCallback( boost::bind(&MaplessNavigator::goalCallback, this, _1) );
-  cmdPub_ = nh_.advertise<geometry_msgs::Twist>("/cmd_vel", 1); 
+	poseSub_.subscribe(nh_, "/mapless_goal", 1);
+	tf2Filter_.registerCallback( boost::bind(&MaplessNavigator::goalCallback, this, _1) );
+	cmdPub_ = nh_.advertise<geometry_msgs::Twist>("/cmd_vel", 1); 
+
+	action_goal_pub_ = nh_.advertise<move_base_msgs::MoveBaseActionGoal>("/mapless_action/goal", 1);
 
 	f_ = boost::bind(&MaplessNavigator::dynamic_rec_callback, this, _1, _2);
 	server_.setCallback(f_);
+
+	as_.registerGoalCallback(boost::bind(&MaplessNavigator::actionGoalCB, this));
+	as_.registerPreemptCallback(boost::bind(&MaplessNavigator::actionPreemptCB, this));
+
+	as_.start();
 
 }
 
@@ -69,20 +76,11 @@ MaplessNavigator::~MaplessNavigator(){
 void MaplessNavigator::goalCallback(const geometry_msgs::PoseStamped::ConstPtr& msg)
 {
 
-    try 
-    {
-      tfBuffer_.transform(*msg, current_goal_, common_frame_);
-    }
-    catch (tf2::TransformException &ex) 
-    {
-      ROS_WARN("Failure %s\n", ex.what()); //Print exception which was caught
-    }
-    
-    mapless_controller::Pose2D goalPose = makeTransform(*msg, common_frame_);
-    controller_.updateGoal(goalPose);
-    last_update_ = msg->header.stamp;
+    move_base_msgs::MoveBaseActionGoal action_goal;
+    action_goal.header.stamp = ros::Time::now();
+    action_goal.goal.target_pose = *msg;
 
-	enableControl();
+    action_goal_pub_.publish(action_goal);
 
 }
 
@@ -93,9 +91,9 @@ void MaplessNavigator::doControlBase()
 	if(!controller_.running_)
 		return;
 
-	if(as_.isPreemptRequested() || !ros::ok())
+	if(!ros::ok())
 	{
-		ROS_INFO("Preempted mapless_navigation");
+		ROS_INFO("Preempting mapless navigation for shutdown!");
 		as_.setPreempted();
 		disableControl();
 		return;
@@ -150,7 +148,7 @@ void MaplessNavigator::doControlBase()
 	{
 		disableControl();
 		
-		if(action_requested_)
+		if(as_.isActive())
 			as_.setSucceeded();
 		return;
 	}
@@ -161,7 +159,7 @@ void MaplessNavigator::doControlBase()
 	if(obs_avoider_.rStuck)
 	{
 		disableControl();
-		if(action_requested_)
+		if(as_.isActive())
 			as_.setAborted();
 		return;
 	}
@@ -175,7 +173,7 @@ void MaplessNavigator::doControlBase()
 
 	cmdPub_.publish(cmd_vel);
 
-	if(action_requested_)
+	if(as_.isActive())
 	{
 		feedback_.base_position = robot_pose_;
 		as_.publishFeedback(feedback_);
@@ -244,9 +242,10 @@ double MaplessNavigator::getOrientationError()
 	return controller_.w;
 }
 
-void MaplessNavigator::executeCB(const move_base_msgs::MoveBaseGoalConstPtr &goal)
+void MaplessNavigator::actionGoalCB()
 {
-	action_requested_ = true;
+
+	auto goal = as_.acceptNewGoal();
 
     try 
     {
@@ -255,7 +254,7 @@ void MaplessNavigator::executeCB(const move_base_msgs::MoveBaseGoalConstPtr &goa
     catch (tf2::TransformException &ex) 
     {
       ROS_WARN("Failure %s\n", ex.what()); //Print exception which was caught
-	  action_requested_ = false;
+	  as_.setAborted();
     }
     
     mapless_controller::Pose2D goalPose = makeTransform(goal->target_pose, common_frame_);
@@ -263,5 +262,16 @@ void MaplessNavigator::executeCB(const move_base_msgs::MoveBaseGoalConstPtr &goa
     last_update_ = goal->target_pose.header.stamp;
 
 	enableControl();
+
+}
+
+void MaplessNavigator::actionPreemptCB()
+{
+	ROS_INFO("Preempted mapless_navigation");
+	if(as_.isActive())
+		as_.setPreempted();
+
+	disableControl();
+	return;
 
 }
