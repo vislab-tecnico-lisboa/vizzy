@@ -252,12 +252,17 @@ geometry_msgs::Twist RobotOperator::computeVelocity()
 	switch(localDriveMode)
 	{
 	case 0:
-		bestDirection = findBestDirection();
-		d = bestDirection - mCurrentDirection;
-		if(d < -0.2) d = -0.2;
-		if(d > 0.2) d = 0.2;
-		mCurrentDirection += d;
-		mCurrentVelocity = mDesiredVelocity;
+		if(mDesiredDirection != 1 && mDesiredDirection != -1)
+		{
+			bestDirection = findBestDirection();
+			d = bestDirection - mCurrentDirection;
+			if(d < -0.2) d = -0.2;
+			if(d > 0.2) d = 0.2;
+			mCurrentDirection += d;
+		}else{
+			mCurrentDirection = mDesiredDirection;
+		}
+			mCurrentVelocity = mDesiredVelocity;
 		break;
 	case 1:
 		mCurrentDirection = mDesiredDirection;
@@ -519,7 +524,7 @@ double RobotOperator::evaluateAction(double direction, double velocity, bool deb
 		valueContinue = 1.0 - (valueContinue * valueContinue);
 		
 		// Calculate conformance value
-		double corr = (mDesiredDirection - direction) * PI;
+		double corr = (mDesiredDirection - direction) * PI/2.0;
 		valueConformance = 0.5 * cos(corr) + 0.5;
 		
 		// Add both to action value
