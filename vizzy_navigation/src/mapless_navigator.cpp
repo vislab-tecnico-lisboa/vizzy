@@ -267,7 +267,6 @@ void MaplessNavigator::actionGoalCB()
 
 void MaplessNavigator::actionPreemptCB()
 {
-	ROS_INFO("Preempted mapless_navigation");
 	if(as_.isActive())
 		as_.setPreempted();
 

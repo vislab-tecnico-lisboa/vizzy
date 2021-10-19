@@ -8,7 +8,7 @@ template <typename T> int sgn(T val) {
 RobotOperator::RobotOperator(ros::NodeHandle &nh, ros::NodeHandle &nPriv) : nh(nh), nPriv(nPriv), mTf2Listener(mTf2Buffer)
 {
 	// Create the local costmap
-	#if ROS_VERSION_MINIMUM(1, 14, 5) // If melodic or newer, use costmap2d with TF2
+	#if ROS_VERSION_MINIMUM(1, 14, 3) // If melodic or newer, use costmap2d with TF2
 		mLocalMap = new costmap_2d::Costmap2DROS("local_map", mTf2Buffer);
 	#else //Otherwise use costmap2d with TF
 		mLocalMap = new costmap_2d::Costmap2DROS("local_map", mTfListener);
