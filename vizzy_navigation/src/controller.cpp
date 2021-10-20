@@ -90,7 +90,11 @@ ControlSignal SegwayController::computeControlSignal()
 	onDeadzone_ = true;
     }
         
-    alpha_ = -theta+atan2f(-y_rp, -x_rp);
+    if(x_rp < 0.001 && x_rp > - 0.001)
+        alpha_ = -theta;
+
+    else
+        alpha_ = -theta+atan2f(-y_rp, -x_rp);
 
     /*Make sure that alpha is between in [-pi, pi]*/
     int n = (int) alpha_/(2.0*M_PI);

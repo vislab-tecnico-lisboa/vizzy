@@ -8,7 +8,7 @@ template <typename T> int sgn(T val) {
 RobotOperator::RobotOperator(ros::NodeHandle &nh, ros::NodeHandle &nPriv) : nh(nh), nPriv(nPriv), mTf2Listener(mTf2Buffer)
 {
 	// Create the local costmap
-	#if ROS_VERSION_MINIMUM(1, 14, 5) // If melodic or newer, use costmap2d with TF2
+	#if ROS_VERSION_MINIMUM(1, 14, 3) // If melodic or newer, use costmap2d with TF2
 		mLocalMap = new costmap_2d::Costmap2DROS("local_map", mTf2Buffer);
 	#else //Otherwise use costmap2d with TF
 		mLocalMap = new costmap_2d::Costmap2DROS("local_map", mTfListener);
@@ -252,12 +252,17 @@ geometry_msgs::Twist RobotOperator::computeVelocity()
 	switch(localDriveMode)
 	{
 	case 0:
-		bestDirection = findBestDirection();
-		d = bestDirection - mCurrentDirection;
-		if(d < -0.2) d = -0.2;
-		if(d > 0.2) d = 0.2;
-		mCurrentDirection += d;
-		mCurrentVelocity = mDesiredVelocity;
+		if(mDesiredDirection != 1 && mDesiredDirection != -1)
+		{
+			bestDirection = findBestDirection();
+			d = bestDirection - mCurrentDirection;
+			if(d < -0.2) d = -0.2;
+			if(d > 0.2) d = 0.2;
+			mCurrentDirection += d;
+		}else{
+			mCurrentDirection = mDesiredDirection;
+		}
+			mCurrentVelocity = mDesiredVelocity;
 		break;
 	case 1:
 		mCurrentDirection = mDesiredDirection;
@@ -519,7 +524,7 @@ double RobotOperator::evaluateAction(double direction, double velocity, bool deb
 		valueContinue = 1.0 - (valueContinue * valueContinue);
 		
 		// Calculate conformance value
-		double corr = (mDesiredDirection - direction) * PI;
+		double corr = (mDesiredDirection - direction) * PI/2.0;
 		valueConformance = 0.5 * cos(corr) + 0.5;
 		
 		// Add both to action value
