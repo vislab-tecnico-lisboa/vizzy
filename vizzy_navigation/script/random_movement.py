@@ -1,9 +1,7 @@
 #!/usr/bin/env python 
 
-#Joao Avelino, 2020.
+#Joao Avelino, Alexandra Goncalves 2020.
 #ISR-Lisboa / IST
-
-#A template of a GeneralActionlib actionserver for you to use
 
 import random
 import ast
@@ -27,6 +25,8 @@ from nav_msgs.msg import Odometry
 
 from locale import atof
 
+import rospkg
+
 
 class RandomMovementServer(object):
     # create messages that are used to publish feedback/result
@@ -34,15 +34,24 @@ class RandomMovementServer(object):
     _result = GeneralResult()
 
     def __init__(self, name):
+
+        #Choosing the desired coordinates
+
+        pkg_path = rospkg.RosPack().get_path('vizzy_navigation') 
+
+        coords_file = rospy.get_param("coords_file", "coords-7th-floor-ISR.txt")
+
+        self.txt=open(pkg_path+"/coords/"+coords_file,"r")
+        self.limits=ast.literal_eval(self.txt.read())
+        self.visited = '0'
+
         self._action_name = name
         self._as = actionlib.SimpleActionServer(self._action_name, GeneralAction, execute_cb=self.execute_cb, auto_start = False)
         self._as.start()
 
-        #Choosing the desired coordinates
-        self.txt=open("/home/vizzy/catkin_ws/src/vizzy/vizzy_navigation/script/coords-7th-floor-ISR.txt","r")
-        self.limits=ast.literal_eval(self.txt.read())
-        self.visited = '0'
+        rospy.spin()
       
+
     def execute_cb(self, goal):
 
         success=True
@@ -99,5 +108,9 @@ class RandomMovementServer(object):
         
 if __name__ == '__main__':
     rospy.init_node('random_movement')
-    server = RandomMovementServer(rospy.get_name())
-    rospy.spin()
+
+    try:
+        server = RandomMovementServer(rospy.get_name())
+    except Exception as e:
+        print("Shutting down random movement node: " + str(e))
+
