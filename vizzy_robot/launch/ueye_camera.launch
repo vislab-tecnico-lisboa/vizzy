@@ -106,6 +106,16 @@
       <param name="use_scale" value="false"/>
   </node>
 
+  <!-- Saccadic supression -->
+  <node machine="$(arg vizzy_machine_name)" ns="$(arg ns)" pkg="vizzy_sensors" type="saccadic_suppressor.py" name="$(arg camera_name)_suppressed">
+      <!-- remap input topics -->
+      <remap from="/image_in/compressed" to="$(arg camera_name)/image_rect_color_sd/compressed" />
+      <!-- remap output topics -->
+      <remap from="/supressed/compressed" to="$(arg camera_name)/suppr_image_rect_color_sd/compressed"/>
+  </node>
+
+
+
 
 </launch>
 
