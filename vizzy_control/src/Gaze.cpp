@@ -8,13 +8,9 @@ Gaze::Gaze(const std::string & name, const ros::NodeHandle & nh) :
     private_node_handle("~"),
     action_name_(name),
     tfBuffer(ros::Duration(3.0)),
-    last_fixation_point(Eigen::Vector3d::Constant(std::numeric_limits<double>::max())),
-    oculocephalic_group(new moveit::planning_interface::MoveGroupInterface("oculocephalic"))
+    last_fixation_point(Eigen::Vector3d::Constant(std::numeric_limits<double>::max()))
 {
     tf_listener=boost::shared_ptr<tf2_ros::TransformListener> (new tf2_ros::TransformListener(tfBuffer));
-    oculocephalic_joint_names=oculocephalic_group->getActiveJoints();
-    oculocephalic_joint_values.resize(oculocephalic_joint_names.size());
-    std::fill(oculocephalic_joint_values.begin(), oculocephalic_joint_values.end(), 0);
 
     private_node_handle.param<std::string>("base_frame", base_frame_id, "base_frame");
 

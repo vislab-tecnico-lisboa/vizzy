@@ -97,9 +97,6 @@ protected:
     virtual bool moveHome() = 0;
     virtual bool moveCartesian() = 0;
 
-    std::vector<double> oculocephalic_joint_values;
-    std::vector<std::string> oculocephalic_joint_names;
-    moveit::planning_interface::MoveGroupInterface* oculocephalic_group;
 
 public:
     double half_base_line;

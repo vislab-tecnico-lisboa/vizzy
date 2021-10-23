@@ -1,6 +1,7 @@
 #include "GazeSimulation.h"
 
-GazeSimulation::GazeSimulation(const std::string & name, const ros::NodeHandle & nh) : Gaze(name,nh)
+GazeSimulation::GazeSimulation(const std::string & name, const ros::NodeHandle & nh) : Gaze(name,nh),
+    oculocephalic_group(new moveit::planning_interface::MoveGroupInterface("oculocephalic"))
 {
     private_node_handle.param<std::string>("left_eye_frame", left_eye_frame, "left_eye_frame");
     private_node_handle.param<std::string>("right_eye_frame", right_eye_frame, "right_eye_frame");
@@ -8,6 +9,11 @@ GazeSimulation::GazeSimulation(const std::string & name, const ros::NodeHandle &
     private_node_handle.param<std::string>("head_origin_frame", head_origin_frame, "head_origin_frame");
     private_node_handle.param<std::string>("eyes_center_frame", eyes_center_frame, "eyes_center_frame");
     private_node_handle.param<std::string>("world_frame", world_frame, "world_frame");
+
+
+    oculocephalic_joint_names=oculocephalic_group->getActiveJoints();
+    oculocephalic_joint_values.resize(oculocephalic_joint_names.size());
+    std::fill(oculocephalic_joint_values.begin(), oculocephalic_joint_values.end(), 0);
 
     // Publishers
     neck_pan_pub= nh_.advertise<std_msgs::Float64>("/vizzy/neck_pan_position_controller/command", 1);
@@ -190,6 +196,9 @@ void GazeSimulation::analysisCB(const control_msgs::JointControllerState::ConstP
                                 const control_msgs::JointControllerState::ConstPtr & eyes_tilt_msg,
                                 const geometry_msgs::PointStamped::ConstPtr& fixation_point_msg)
 {
+
+    if(!as_.isActive())
+    {return;}
 
     // Move home check joint state
     if(goal_msg->type==vizzy_msgs::GazeGoal::HOME)
