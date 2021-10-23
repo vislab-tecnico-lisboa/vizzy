@@ -84,14 +84,14 @@ bool GazeReal::moveCartesian()
 
 void GazeReal::analysisCB(const geometry_msgs::PointStamped::ConstPtr& fixation_point_msg)
 {
-    if(!active)
-        return;
 
     //I need to know how the real robot gives us feedback regarding the current fixation point
 
     // Convert points to world frame
     geometry_msgs::PointStamped fixation_point_;
     geometry_msgs::PointStamped goal_point_;
+
+    start_time = ros::WallTime::now();
 
     // Move home check joint state
     if(goal_msg->type==vizzy_msgs::GazeGoal::HOME)
@@ -127,7 +127,6 @@ void GazeReal::analysisCB(const geometry_msgs::PointStamped::ConstPtr& fixation_
 
             ros::WallTime total_time = ros::WallTime::now();
             //ROS_INFO_STREAM(action_name_.c_str()<<": Succeeded. Total time: " <<  (total_time - start_time).toSec());
-            active=false;
         }
     }
     else
@@ -164,7 +163,6 @@ void GazeReal::analysisCB(const geometry_msgs::PointStamped::ConstPtr& fixation_
 
             ros::WallTime total_time = ros::WallTime::now();
             //ROS_INFO_STREAM(action_name_.c_str()<<": Succeeded. Total time: " <<  (total_time - start_time).toSec());
-            active=false;
         }
     }
 

@@ -190,10 +190,6 @@ void GazeSimulation::analysisCB(const control_msgs::JointControllerState::ConstP
                                 const control_msgs::JointControllerState::ConstPtr & eyes_tilt_msg,
                                 const geometry_msgs::PointStamped::ConstPtr& fixation_point_msg)
 {
-    if(!active)
-        return;
-
-
 
     // Move home check joint state
     if(goal_msg->type==vizzy_msgs::GazeGoal::HOME)
@@ -208,7 +204,6 @@ void GazeSimulation::analysisCB(const control_msgs::JointControllerState::ConstP
 
             ros::WallTime total_time = ros::WallTime::now();
             ROS_INFO_STREAM(action_name_.c_str()<<": Total time: " <<  (total_time - start_time).toSec());
-            active=false;
         }
     }
     else
@@ -249,7 +244,6 @@ void GazeSimulation::analysisCB(const control_msgs::JointControllerState::ConstP
 
             ros::WallTime total_time = ros::WallTime::now();
             ROS_INFO_STREAM(action_name_.c_str()<<": Total time: " <<  (total_time - start_time).toSec());
-            active=false;
         }
     }
 

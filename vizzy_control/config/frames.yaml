@@ -9,7 +9,3 @@ left_eye_frame: l_eye_link
 right_eye_frame: r_eye_link
 eyes_center_frame: eyes_center_vision_link
 head_origin_frame: head_origin_frame
-
-#other
-vel_threshold: 0.1
-

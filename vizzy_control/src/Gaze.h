@@ -28,8 +28,6 @@
 
 #include <std_msgs/Float64.h>
 #include <geometry_msgs/PointStamped.h>
-#include <sensor_msgs/Image.h>
-#include <image_transport/image_transport.h>
 
 
 #include <ros/ros.h>
@@ -49,35 +47,11 @@
 class Gaze
 {
 
-    // Saccadic stuff
-    //Sync
-    image_transport::ImageTransport it;
-    typedef message_filters::sync_policies::ApproximateTime<sensor_msgs::Image, sensor_msgs::Image> MySuppressionSyncPolicy;
-
-    boost::shared_ptr<message_filters::Subscriber<sensor_msgs::Image> > left_image_sub;
-    boost::shared_ptr<message_filters::Subscriber<sensor_msgs::Image> > right_image_sub;
-
-    boost::shared_ptr<message_filters::Synchronizer<MySuppressionSyncPolicy> > gaze_sync;
-
-    //Message filter to sync tfs with image
-    boost::shared_ptr<tf2_ros::MessageFilter<sensor_msgs::Image> > left_image_filter;
-    boost::shared_ptr<tf2_ros::MessageFilter<sensor_msgs::Image> > right_image_filter;
-
-    void suppresion(const sensor_msgs::Image::ConstPtr & left_image_msg,
-                    const sensor_msgs::Image::ConstPtr & right_image_msg);
-
-    bool first_suppresion;
-    ros::Publisher left_image_suppression_pub;
-    ros::Publisher right_image_suppression_pub;
-
     std::string base_frame_id;
-    double vel_threshold;
-
     std::map<std::string, int> joints_to_indices;
 
 protected:
 
-    bool active;
     double y_offset;
     double z_offset;
     double distance_ego_eyes;
