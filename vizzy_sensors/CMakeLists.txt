@@ -58,6 +58,16 @@ target_link_libraries(vizzyrealsense_gazebo_plugin ${catkin_LIBRARIES} ${GAZEBO_
 add_dependencies(vizzyrealsense_gazebo_plugin ${catkin_EXPORTED_TARGETS})
 
 
+add_library(
+    suppression
+    src/nodelets/saccadic_suppression_nodelet.cpp
+    )
+  
+#add_dependencies(suppression ${PROJECT_NAME}_gencfg)
+add_dependencies(suppression ${catkin_EXPORTED_TARGETS})
+target_link_libraries(suppression ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${OpenCV_LIBRARIES})
+
+
 ## Declare a cpp executable
 
 

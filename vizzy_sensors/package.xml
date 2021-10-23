@@ -5,13 +5,14 @@
 
     Contain the launch files for the hokuyo sensor
     and also the filters applied on the data before
-    Vizzy using it.
+    Vizzy using it. Also contains the saccadic suppresion mechanism.
 
   </description>
   
   <maintainer email="miguelaragao91@gmail.com">Miguel Aragão</maintainer>
   <author>Miguel Aragão</author>
   <author>Piyush Khandelwal</author>
+  <author>João Avelino</author>
 
   <license>BSD</license>
 
@@ -62,5 +63,6 @@
         gazebo_media_path="${prefix}"
         gazebo_model_path="${prefix}/models"
       />
+    <nodelet plugin="${prefix}/nodelet_plugins.xml"/>
   </export>
 </package>
