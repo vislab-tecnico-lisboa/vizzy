@@ -111,6 +111,7 @@
       <!-- remap input topics -->
       <remap from="image" to="$(arg camera)/image_rect_color_sd/" />
       <remap from="camera_info" to="$(arg camera)/image_rect_color_sd/camera_info"/>
+      <remap from="cmd_vel" to="/vizzy/cmd_vel"/>
       <!-- remap output topics -->
       <remap from="$(arg camera)_saccadic_suppression/image" to="$(arg camera)/suppressed_image_rect_color_sd/"/>
       <remap from="$(arg camera)_saccadic_suppression/camera_info" to="$(arg camera)/suppressed_image_rect_color_sd/camera_info"/>

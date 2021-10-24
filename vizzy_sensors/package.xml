@@ -33,6 +33,7 @@
   <build_depend>gazebo_ros</build_depend>
   <build_depend>image_transport</build_depend>
   <build_depend>camera_info_manager</build_depend>
+  <build_depend>dynamic_reconfigure</build_depend>
 
   <run_depend>camera1394</run_depend>
   <run_depend>depthimage_to_laserscan</run_depend>
@@ -55,6 +56,7 @@
   <run_depend>gazebo_ros</run_depend>
   <run_depend>image_transport</run_depend>
   <run_depend>camera_info_manager</run_depend>
+  <run_depend>dynamic_reconfigure</run_depend>
 
   <export>
     <filters plugin="${prefix}/vizzy_sensors_plugins.xml"/>

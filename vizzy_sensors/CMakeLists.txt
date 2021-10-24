@@ -16,10 +16,15 @@ find_package(catkin REQUIRED
     gazebo_msgs
     image_transport
     camera_info_manager
+    dynamic_reconfigure
+    geometry_msgs
     )
 
 
 find_package(gazebo REQUIRED)
+
+# Dynamic reconfigure support
+generate_dynamic_reconfigure_options(cfg/Suppression.cfg)
 
 catkin_package(
   CATKIN_DEPENDS
