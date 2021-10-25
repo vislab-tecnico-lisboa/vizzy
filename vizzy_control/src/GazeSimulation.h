@@ -5,6 +5,12 @@
 
 class GazeSimulation : public Gaze
 {
+
+protected:
+    std::vector<double> oculocephalic_joint_values;
+    std::vector<std::string> oculocephalic_joint_names;
+    moveit::planning_interface::MoveGroupInterface* oculocephalic_group;
+
 public:
     typedef message_filters::sync_policies::ApproximateTime<control_msgs::JointControllerState, control_msgs::JointControllerState,control_msgs::JointControllerState, geometry_msgs::PointStamped> MySyncPolicy;
     boost::shared_ptr<message_filters::Subscriber<control_msgs::JointControllerState> > neck_pan_sub;

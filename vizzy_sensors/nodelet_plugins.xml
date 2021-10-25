@@ -1,0 +1,9 @@
+<library path="lib/libsuppression">
+  <class name="vizzy_sensors/saccadic_suppression"
+         type="vizzy_sensors::SaccadicSuppression"
+         base_class_type="nodelet::Nodelet">
+    <description>
+      Nodelet to implement the saccadic suppression mechanism based on image analysis and joint readings.
+    </description>
+  </class>
+</library>
