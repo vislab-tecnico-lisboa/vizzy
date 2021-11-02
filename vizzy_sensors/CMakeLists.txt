@@ -16,10 +16,15 @@ find_package(catkin REQUIRED
     gazebo_msgs
     image_transport
     camera_info_manager
+    dynamic_reconfigure
+    geometry_msgs
     )
 
 
 find_package(gazebo REQUIRED)
+
+# Dynamic reconfigure support
+generate_dynamic_reconfigure_options(cfg/Suppression.cfg)
 
 catkin_package(
   CATKIN_DEPENDS
@@ -56,6 +61,16 @@ add_library(
 
 target_link_libraries(vizzyrealsense_gazebo_plugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
 add_dependencies(vizzyrealsense_gazebo_plugin ${catkin_EXPORTED_TARGETS})
+
+
+add_library(
+    suppression
+    src/nodelets/saccadic_suppression_nodelet.cpp
+    )
+  
+#add_dependencies(suppression ${PROJECT_NAME}_gencfg)
+add_dependencies(suppression ${catkin_EXPORTED_TARGETS})
+target_link_libraries(suppression ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${OpenCV_LIBRARIES})
 
 
 ## Declare a cpp executable

@@ -12,12 +12,13 @@ GazeReal::GazeReal(const std::string & name, const ros::NodeHandle & nh) : Gaze(
 
     //Publishers
     gazePublisher = nh_.advertise<geometry_msgs::Point>("fixation_point_out", 50);
-    fix_point_sub = nh_.subscribe("fixation_point_in", 50, &GazeReal::analysisCB, this);
 
     as_.registerGoalCallback(boost::bind(&Gaze::goalCB, this));
     as_.registerPreemptCallback(boost::bind(&Gaze::preemptCB, this));
+    fix_point_sub = nh_.subscribe("fixation_point_in", 50, &GazeReal::analysisCB, this);
 
     as_.start();
+
 
     //ROS_INFO("Going to move head and eyes to home position.");
     moveHome();
@@ -84,14 +85,17 @@ bool GazeReal::moveCartesian()
 
 void GazeReal::analysisCB(const geometry_msgs::PointStamped::ConstPtr& fixation_point_msg)
 {
-    if(!active)
-        return;
 
-    //I need to know how the real robot gives us feedback regarding the current fixation point
+    if(!as_.isActive())
+    {
+        return;
+    }
 
     // Convert points to world frame
     geometry_msgs::PointStamped fixation_point_;
     geometry_msgs::PointStamped goal_point_;
+
+    start_time = ros::WallTime::now();
 
     // Move home check joint state
     if(goal_msg->type==vizzy_msgs::GazeGoal::HOME)
@@ -127,7 +131,6 @@ void GazeReal::analysisCB(const geometry_msgs::PointStamped::ConstPtr& fixation_
 
             ros::WallTime total_time = ros::WallTime::now();
             //ROS_INFO_STREAM(action_name_.c_str()<<": Succeeded. Total time: " <<  (total_time - start_time).toSec());
-            active=false;
         }
     }
     else
@@ -164,7 +167,6 @@ void GazeReal::analysisCB(const geometry_msgs::PointStamped::ConstPtr& fixation_
 
             ros::WallTime total_time = ros::WallTime::now();
             //ROS_INFO_STREAM(action_name_.c_str()<<": Succeeded. Total time: " <<  (total_time - start_time).toSec());
-            active=false;
         }
     }
 
@@ -176,11 +178,8 @@ int main(int argc, char **argv)
 {
     ros::init(argc, argv, "gaze");
     ros::NodeHandle nh_;
-    ros::AsyncSpinner spinner(4);
-    spinner.start();
     GazeReal gaze(ros::this_node::getName(),nh_);
-    ros::waitForShutdown();
-    spinner.stop();
+    ros::spin();
     return 0;
 }
 
