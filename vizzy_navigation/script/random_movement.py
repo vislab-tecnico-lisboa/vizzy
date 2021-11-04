@@ -1,6 +1,6 @@
 #!/usr/bin/env python 
 
-#Joao Avelino, Alexandra Goncalves 2020.
+#Joao Avelino, Alexandra Goncalves 2020/2021
 #ISR-Lisboa / IST
 
 import random
@@ -39,7 +39,9 @@ class RandomMovementServer(object):
 
         pkg_path = rospkg.RosPack().get_path('vizzy_navigation') 
 
-        coords_file = rospy.get_param("coords_file", "coords-7th-floor-ISR.txt")
+        coords_file = rospy.get_param("~coords_file", "coords-7th-floor-ISR.txt")
+
+        self.frame_id = rospy.get_param("~frame_id", "map")
 
         self.txt=open(pkg_path+"/coords/"+coords_file,"r")
         self.limits=ast.literal_eval(self.txt.read())
@@ -96,6 +98,8 @@ class RandomMovementServer(object):
                   
         if success:
             self._result.result = result
+            self._result.header.stamp = rospy.get_rostime()
+            self._result.header.frame_id = self.frame_id
             rospy.loginfo('%s: Succeeded' % self._action_name)
             self._as.set_succeeded(self._result)
             

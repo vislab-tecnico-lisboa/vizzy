@@ -44,6 +44,7 @@ include_directories(
   #${CUDA_INCLUDE_DIRS}
 )
 
+set(CMAKE_BUILD_TYPE RELEASE)
 add_definitions(-std=c++11)
 
 add_executable(gaze_sim src/Gaze.cpp src/GazeSimulation.cpp)
