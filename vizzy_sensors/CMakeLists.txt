@@ -2,6 +2,9 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(vizzy_sensors)
 
+set(CMAKE_BUILD_TYPE RELEASE)
+add_compile_options(-std=c++11)
+
 find_package(catkin REQUIRED
   COMPONENTS
     laser_filters
@@ -22,6 +25,7 @@ find_package(catkin REQUIRED
 
 
 find_package(gazebo REQUIRED)
+find_package(OpenCV REQUIRED)
 
 # Dynamic reconfigure support
 generate_dynamic_reconfigure_options(cfg/Suppression.cfg)

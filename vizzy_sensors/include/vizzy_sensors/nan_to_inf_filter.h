@@ -26,7 +26,7 @@ namespace vizzy_sensors
 
         for(unsigned int count = 0; count < input_scan.ranges.size(); ++count){
           filtered_scan.ranges[count] = 
-              (isnan(input_scan.ranges[count]) || 
+              (std::isnan(input_scan.ranges[count]) || 
                 input_scan.ranges[count] < input_scan.range_min) ?
               std::numeric_limits<float>::infinity() : input_scan.ranges[count];
 
