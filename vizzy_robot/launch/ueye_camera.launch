@@ -107,14 +107,15 @@
   </node>
 
   <!-- saccadic suppression -->
-  <node machine="$(arg vizzy_machine_name)" ns="$(arg ns)" pkg="nodelet" type="nodelet" name="$(arg camera)_saccadic_suppression" args="load vizzy_sensors/saccadic_suppression $(arg camera)_nodelet_manager">
+  <node machine="$(arg vizzy_machine_name)" ns="$(arg ns)" pkg="nodelet" type="nodelet" name="$(arg camera_name)_saccadic_suppression" args="load vizzy_sensors/saccadic_suppression $(arg camera_name)_nodelet_manager">
       <!-- remap input topics -->
-      <remap from="image" to="$(arg camera)/image_rect_color_sd/" />
-      <remap from="camera_info" to="$(arg camera)/image_rect_color_sd/camera_info"/>
+      <remap from="image" to="$(arg camera_name)/image_rect_color_sd/" />
+      <remap from="camera_info" to="$(arg camera_name)/image_rect_color_sd/camera_info"/>
       <remap from="cmd_vel" to="/vizzy/cmd_vel"/>
       <!-- remap output topics -->
-      <remap from="$(arg camera)_saccadic_suppression/image" to="$(arg camera)/suppressed_image_rect_color_sd/"/>
-      <remap from="$(arg camera)_saccadic_suppression/camera_info" to="$(arg camera)/suppressed_image_rect_color_sd/camera_info"/>
+      <remap from="$(arg camera_name)_saccadic_suppression/image" to="$(arg camera_name)/suppressed_image_rect_color_sd/"/>
+
+      <remap from="$(arg camera_name)_saccadic_suppression/camera_info" to="$(arg camera_name)/suppressed_image_rect_color_sd/camera_info"/>
   </node>
 
 </launch>
