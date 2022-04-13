@@ -47,6 +47,12 @@ protected:
     std::shared_ptr<ReconfigureServer> reconfigure_server_;
     Config config_;
 
+    ros::Time time_stopsup_lap_;
+    ros::Time time_stopsup_omega_;
+
+    bool last_sup_lap_ = false;
+    bool last_sup_omega_ = false;
+
 
 public:
     SaccadicSuppression(){}
