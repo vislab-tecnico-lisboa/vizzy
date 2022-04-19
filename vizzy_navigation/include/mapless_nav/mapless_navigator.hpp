@@ -28,6 +28,7 @@
 #include <actionlib/server/simple_action_server.h>
 #include <move_base_msgs/MoveBaseAction.h>
 
+#include <std_srvs/Empty.h>
 
 
 class MaplessNavigator
@@ -46,6 +47,8 @@ private:
 
     dynamic_reconfigure::Server<vizzy_navigation::MaplessConfig> server_;
     dynamic_reconfigure::Server<vizzy_navigation::MaplessConfig>::CallbackType f_;
+
+    ros::ServiceServer clear_costmaps_srv_;
 
     std::string common_frame_;
     geometry_msgs::PoseStamped robot_pose_;
@@ -80,7 +83,7 @@ public:
     MaplessNavigator(ros::NodeHandle &nh);
 
     void doControlBase();
-
+    bool clearCostmapsService(std_srvs::Empty::Request &req, std_srvs::Empty::Response &resp);
     void disableControl();
     void enableControl();
 
