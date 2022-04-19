@@ -46,7 +46,6 @@ laserobstaclesrear:
   clearing: true
 
 
-
 kinectobstacles:
   observation_sources: pointcloud_sensor_in pointcloud_sensor_clear
   pointcloud_sensor_in:
@@ -74,6 +73,12 @@ kinectobstacles:
     obstacle_range: 2.5
     raytrace_range: 4.0
 
+obstacle_static_map:
+  unknown_cost_value: -1
+  lethal_cost_threshold: 100
+  map_topic: /obst/map_obstacles
+
+
 #kinectobstacles_clear:
 #  observation_sources: pointcloud_sensor_clear
 #  pointcloud_sensor_clear:
@@ -90,6 +95,8 @@ kinectobstacles:
 #    raytrace_range: 2.5
 
 plugins:
+## Comment the next line when not using an obstacle static map
+ - {name: obstacle_static_map, type: "costmap_2d::StaticLayer"}
  - {name: laserobstacles, type: "costmap_2d::VoxelLayer"}
  - {name: laserobstaclesrear, type: "costmap_2d::VoxelLayer"}
 # - {name: kinectobstacles, type: "costmap_2d::VoxelLayer"}
