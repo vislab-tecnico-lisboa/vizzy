@@ -24,7 +24,20 @@ MaplessNavigator::MaplessNavigator(ros::NodeHandle &nh) : nh_(nh), nPriv_("~"), 
 	as_.registerPreemptCallback(boost::bind(&MaplessNavigator::actionPreemptCB, this));
 
 	as_.start();
+	
+	//advertise a service for clearing the costmaps (as in the move_base package)
+	clear_costmaps_srv_ = nPriv_.advertiseService("clear_costmaps", &MaplessNavigator::clearCostmapsService, this);
 
+
+}
+
+bool MaplessNavigator::clearCostmapsService(std_srvs::Empty::Request &req, std_srvs::Empty::Response &resp)
+{
+    //clear the costmaps
+    boost::unique_lock<costmap_2d::Costmap2D::mutex_t> lock_controller(*(obs_avoider_.mLocalMap->getCostmap()->getMutex()));
+    obs_avoider_.mLocalMap->resetLayers();
+
+    return true;
 }
 
 void MaplessNavigator::dynamic_rec_callback(vizzy_navigation::MaplessConfig &config, uint32_t level)
