@@ -30,6 +30,9 @@ namespace vizzy_sensors
         pub_info_ = nPriv_->advertise<sensor_msgs::CameraInfo>("camera_info", 1, connect_cb, connect_cb);
         pub_status_ = nPriv_->advertise<std_msgs::Bool>("suppressing", 1);
 
+        time_stopsup_omega_ = ros::Time::now();
+        time_stopsup_lap_ = ros::Time::now();
+
     }
 
     void SaccadicSuppression::configCb(Config& config, uint32_t level)
@@ -67,7 +70,12 @@ namespace vizzy_sensors
     }
 
     void SaccadicSuppression::imageCb(const sensor_msgs::ImageConstPtr& image_msg)
-    {
+    {   
+
+        //Return if image is older than 0.5ms
+        if((ros::Time::now() - image_msg->header.stamp) > ros::Duration(0.5))
+            return;
+
         Config config;
         {
             std::lock_guard<std::mutex> lock(config_mutex_);
@@ -76,7 +84,10 @@ namespace vizzy_sensors
 
         cv_bridge::CvImageConstPtr cv_ptr;
 
-        bool suppress = false; 
+        bool sup_lap = false; 
+        bool sup_omega = false;
+        bool sup_extra_lap = false; 
+        bool sup_extra_omega = false;
 
         try{
             cv_ptr = cv_bridge::toCvCopy(image_msg, sensor_msgs::image_encodings::BGR8);
@@ -100,20 +111,37 @@ namespace vizzy_sensors
 
         if(variance < config.lap_var_thr)
         {
-            suppress = true;
+            sup_lap = true;
         }
 
         auto angvel = getAngvel();
 
         if(fabs(angvel) > config.base_omega_thr)
         {
-            suppress = true;
+            sup_omega = true;
         }
 
+        
+        //Activate extra suppression wait and return. We should probably check the headers
+        //but with a queue size of 1 it should be enough
+        if(last_sup_lap_ && !sup_lap)
+        {
+            sup_extra_lap = true;
+            ros::Duration(config.extra_tlap/1000.0).sleep();
+        }
+
+        if(last_sup_omega_ && !sup_omega)
+        {
+            sup_extra_omega = true;
+            ros::Duration(config.extra_tomega/1000.0).sleep();
+        }
+
+        last_sup_lap_ = sup_lap;
+        last_sup_omega_ = sup_omega;
 
         std_msgs::Bool suppressing;
 
-        if(!suppress)
+        if(!(sup_omega || sup_lap || sup_extra_lap || sup_extra_omega))
         {
             pub_image_.publish(image_msg);
             suppressing.data = false;

@@ -61,6 +61,11 @@ public:
 
 	bool rStuck = false;
 
+	// Internal Storage
+	costmap_2d::Costmap2DROS* mLocalMap;
+	costmap_2d::Costmap2D* mCostmap;
+	double mRasterSize;
+
 private:
 	// Internal Methods
 	/**
@@ -108,10 +113,6 @@ private:
 	ros::NodeHandle nh;
 	ros::NodeHandle nPriv;
 
-	// Internal Storage
-	costmap_2d::Costmap2DROS* mLocalMap;
-	costmap_2d::Costmap2D* mCostmap;
-	double mRasterSize;
 	
 	ros::Publisher mTrajectoryPublisher;
 	ros::Publisher mPlanPublisher;
