@@ -21,6 +21,7 @@ using namespace yarp::os;
 using namespace std;
 using namespace yarp::math;
 using namespace yarp::sig;
+
 // VizzyArmRoutines Module
 double VizzyArmRoutines::getPeriod() {
     return 0.0;
@@ -68,7 +69,7 @@ bool VizzyArmRoutines::configure(yarp::os::ResourceFinder &rf) {
     handlerPortName = "/" + moduleName + "/rpc:i";
     handlerPort.open(handlerPortName.c_str());
     attach(handlerPort);
-
+    
     // Motor Stuff - Right Arm
     options.put("robot",robotName.c_str());
     std::string remotePorts="/";
@@ -88,16 +89,52 @@ bool VizzyArmRoutines::configure(yarp::os::ResourceFinder &rf) {
         printf("%s", Drivers::factory().toString().c_str());
         return 0;
     }
+
+    // Gaze stuff
+    bool outputOk_3 = xd_outputPort.topic("/gaze/goal");
+    xd_outputPort.setWriteOnly();
+
+     if(!outputOk_3){
+        printf("outputOk_3 failed to open\n");
+        return -1;
+    }
+   
+
+    gaze_point_home.goal.fixation_point_error_tolerance = 0.01;
+
+    /*--------------------------------------------------------- 
+        Define the points reference frame.
+        base_footprint is approximately centered below the front laser,
+        in the floor. You can check the frames in Rviz.
+                x axis - forward
+                y axis - left
+                z axis - up  
+    -----------------------------------------------------------*/
+    gaze_point_home.goal.fixation_point.header.frame_id="base_footprint";
+
+    gaze_point_home.goal.fixation_point.point.x = 1.0;
+    gaze_point_home.goal.fixation_point.point.y = 0.0;
+    gaze_point_home.goal.fixation_point.point.z = 0.0;
+
+    gaze_point = gaze_point_home;
+
+
     bool ok;
+
     ok = robotDevice.view(pos);
     ok = ok && robotDevice.view(encs);
     ok = ok && robotDevice.view(ictrl);
+
+
     if (!ok) {
         printf("Problems acquiring interfaces\n");
         return 0;
     }
     int nj=0;
     pos->getAxes(&nj);
+
+    cout << "The number of axes" << nj << &nj << endl;
+
 	velocities_waving.resize(nj);
     velocities_stretching.resize(nj);
     velocities_handshaking.resize(nj);
@@ -106,9 +143,11 @@ bool VizzyArmRoutines::configure(yarp::os::ResourceFinder &rf) {
     velocities_angry.resize(nj);
     velocities_fear.resize(nj);
     velocities_surprise.resize(nj);
+    
     // Setting Control Mode - Position
     for(int i=0;i< nj;i++)
         ictrl->setControlMode(i,VOCAB_CM_POSITION);
+
 	// Setting Motor Velocities for waving motion
 	for (int i=0;i< nj;i++)
 	    velocities_waving[i] = 21.0;
@@ -198,7 +237,7 @@ bool VizzyArmRoutines::configure(yarp::os::ResourceFinder &rf) {
     
     // Setting Motor velocities for angry pose
     
-    velocities_surprise[0] = 20;
+    velocities_surprise[0] = 20; 
     velocities_surprise[1] = 30;
     velocities_surprise[2] = 20;
     velocities_surprise[3] = 20;
@@ -209,7 +248,6 @@ bool VizzyArmRoutines::configure(yarp::os::ResourceFinder &rf) {
     velocities_surprise[8] = 20;
     velocities_surprise[9] = 20;
     velocities_surprise[10] = 20;
-    
 
 
     cout << "Module Started! YEEE" << endl;
@@ -230,23 +268,39 @@ bool VizzyArmRoutines::configure(yarp::os::ResourceFinder &rf) {
     fear_pose_right.resize(nj);
     surprise_pose.resize(nj);
     surprise_open_pose.resize(nj);
+    singing_pose_right.resize(nj);
+    singing_pose_left.resize(nj);
+    brushing_pose.resize(nj);
+    rock_paper_pose.resize(nj);
+
     while(!encs->getEncoders(encoders.data()))
     {
             Time::delay(0.01);
             cout << "." << endl;
     }
+    
     home_pose = encoders;
-
     // Case 1
     wave_home_pose = home_pose; // To be sure the fingers don't change
-    wave_home_pose[0] =-0.0460945*CTRL_RAD2DEG;
-    wave_home_pose[1] = 1.38844*CTRL_RAD2DEG;
-    wave_home_pose[2] = 1.14261*CTRL_RAD2DEG;
-    wave_home_pose[3] = 0.0*CTRL_RAD2DEG;
-    wave_home_pose[4] = 0.87361*CTRL_RAD2DEG; // wave
-    wave_home_pose[5] = 0.033366*CTRL_RAD2DEG;
-    wave_home_pose[6] = -0.542265*CTRL_RAD2DEG;
-    wave_home_pose[7] = -0.260872*CTRL_RAD2DEG;
+    // wave_home_pose[0] =-0.0460945*CTRL_RAD2DEG;
+    // wave_home_pose[1] = 1.38844*CTRL_RAD2DEG;
+    // wave_home_pose[2] = 1.14261*CTRL_RAD2DEG;
+    // wave_home_pose[3] = 0.0*CTRL_RAD2DEG;
+    // wave_home_pose[4] = 0.87361*CTRL_RAD2DEG; // wave
+    // wave_home_pose[5] = 0.033366*CTRL_RAD2DEG;
+    // wave_home_pose[6] = -0.542265*CTRL_RAD2DEG;
+    // wave_home_pose[7] = -0.260872*CTRL_RAD2DEG;
+    //changed by Ricardo
+    wave_home_pose[0] =10;
+    wave_home_pose[1] = 0;
+    wave_home_pose[2] = 35;
+    wave_home_pose[3] = 84.4;
+    wave_home_pose[4] = 94.2; // wave
+    wave_home_pose[5] = 0;
+    wave_home_pose[6] = 0;
+    wave_home_pose[7] = 0;
+    wave_home_pose[8] = 0;
+    wave_home_pose[9] = 0; // wave
 
     // Case 2 - Arm stretched
     arm_forward_pose[0] =-3.6;
@@ -416,6 +470,47 @@ bool VizzyArmRoutines::configure(yarp::os::ResourceFinder &rf) {
     surprise_open_pose[9] = 0;
     surprise_open_pose[10] = 0;
 
+    //Case 13 - Arm Movement singing (right)
+
+    singing_pose_right= arm_down_pose;
+    singing_pose_right[0] = 8.9;
+    singing_pose_right[1] = 10.4; //shoulder flexion
+    singing_pose_right[2] = 41.2; //shoulder abduction
+    singing_pose_right[3] = 20.7 ; //shoulder rotation
+    singing_pose_right[4] = 109.1;  //elbow flexion
+    singing_pose_right[5] = -80.3;  //forearm pronation
+
+
+    //Case 14 - Arm Movement singing (left)
+    singing_pose_left= arm_down_pose;
+    singing_pose_left[0] = 0; //shoulder scapula
+    singing_pose_left[1] = 30; //shoulder flexion
+    singing_pose_left[2] = 0; //shoulder abduction
+    singing_pose_left[3] = -40 ; //shoulder rotation
+    singing_pose_left[4] = 80;  //elbow flexion
+
+     //Case 15 - Arm Movement brushing (right)
+    brushing_pose = arm_down_pose; //arm_down_pose only sets the shoulder abduction 5 degrees
+    brushing_pose[0] = 10; //shoulder scapula
+    brushing_pose[1] = 30; //shoulder flexion
+    brushing_pose[2] = 45.3; //shoulder abduction
+    brushing_pose[3] = 20.3; //shoulder rotation
+    brushing_pose[4] = 100; //elbow flexion
+    brushing_pose[5] = -80.3;  //forearm pronation
+    brushing_pose[8] = 4;  //thumb finger
+    brushing_pose[9] = 4;  //index finger
+    brushing_pose[10] = 4;  //other two fingers
+
+    //Case 17 - Arm Movement brushing (right)
+    dancing_pose = arm_down_pose; //arm_down_pose only sets the shoulder abduction 5 degrees
+    dancing_pose[0] = 0; //shoulder scapula
+    dancing_pose[1] = 0; //shoulder flexion
+    dancing_pose[2] = 74.3; //shoulder abduction
+    dancing_pose[3] = -84.3; //shoulder rotation
+    dancing_pose[4] = 75.4; //elbow flexion
+    dancing_pose[5] = 80;  //forearm pronation
+
+    rock_paper_pose = arm_down_pose;
 
     int numTries = 0;
     //hand_force_control=false;
@@ -434,11 +529,9 @@ bool VizzyArmRoutines::configure(yarp::os::ResourceFinder &rf) {
 
 /**Update**/
 bool VizzyArmRoutines::updateModule() {
-
     Int16 *commandreceived;
 //    if(commandPort.getInputCount()<=0)
 //        return true;
-
 
     commandreceived = command_sub.read(false);
     bool done = false;
@@ -449,9 +542,10 @@ bool VizzyArmRoutines::updateModule() {
             case 0:
                 //Home position
                 cout << "Going to home position" << endl;
+                xd_outputPort.write(gaze_point_home); //Gaze to 10 0 0
+                Time::delay(2);
                 pos->setRefSpeeds(velocities_stretching.data());
-                command = home_pose;
-
+                command = home_pose;            
                 pos->positionMove(command.data());
                 while(!done) {
                     pos->checkMotionDone(&done);
@@ -462,10 +556,10 @@ bool VizzyArmRoutines::updateModule() {
                 break;
 
             case 1: 
-                cout << "Waving motion" << endl;
-
+                cout << "Waving motion" << endl;                
                 pos->setRefSpeeds(velocities_waving.data());
-
+                xd_outputPort.write(gaze_point_home); //Gaze to 10 0 0
+                Time::delay(1);
                 command = wave_home_pose;
                 pos->positionMove(command.data());
                 while(!done) {
@@ -473,35 +567,37 @@ bool VizzyArmRoutines::updateModule() {
                     Time::delay(0.00001);   // Alterado
                 }
                 done = false;
-                Time::delay(0.5);
-                for(int i=0;i< 5; i++) {
+                Time::delay(2);
+                for(int i=0;i< 9; i++) {
                     if(i%2==0) {
                         command[4]=wave_home_pose[4]+10;
                         pos->positionMove(command.data());
-                        cout << "left" << endl;
+                        cout << "left" << command[4] << endl;
                     }
                     else {
-                        command[4]=wave_home_pose[4]-10;
+                        command[4]= wave_home_pose[4]-10;
                         pos->positionMove(command.data());
-                        cout << "right" << endl;
+                        cout << "right" << command[4] << endl;
                     }
-                    Time::delay(0.6);
+                    cout << "value:" << command[4] << endl;
+                    Time::delay(1); // Alterado
                 }
-                command=home_pose;
-                pos->positionMove(command.data());
-                while(!done) {
-                    pos->checkMotionDone(&done);
-                    Time::delay(0.00001);   // Alterado
-                }
+                // Time::delay(10); // Alterado
+                // command=home_pose;
+                // pos->positionMove(command.data());
+                // while(!done) {
+                //     pos->checkMotionDone(&done);
+                //     Time::delay(0.00001);   // Alterado
+                // }
                 cout << "Waving motion DONE" << endl;
                 break;
             case 2:
                 //Stretch arm forward
                 cout << "Stretching arm forward" << endl;
-                
                 pos->setRefSpeeds(velocities_stretching.data());
                 command = arm_forward_pose;
                 pos->positionMove(command.data());
+                xd_outputPort.write(gaze_point_home); //Gaze to 10 0 0
                 while(!done) {
                     pos->checkMotionDone(&done);
                     Time::delay(0.00001);   // Alterado
@@ -517,6 +613,7 @@ bool VizzyArmRoutines::updateModule() {
                 pos->setRefSpeeds(velocities_handshaking.data());
                 command = grabing_hand_pose;
                 pos->positionMove(command.data());
+                xd_outputPort.write(gaze_point_home); //Gaze to 10 0 0
                 while(!done) { 
                     pos->checkMotionDone(&done);
                     Time::delay(0.00001);   // Alterado
@@ -564,6 +661,7 @@ bool VizzyArmRoutines::updateModule() {
                 //Just to be sure that it's on the right position...
                 command = arm_forward_pose;
                 pos->positionMove(command.data());
+                xd_outputPort.write(gaze_point_home); //Gaze to 10 0 0
                 while(!done) {
                     pos->checkMotionDone(&done);
                     Time::delay(0.00001);   // Alterado
@@ -591,6 +689,8 @@ bool VizzyArmRoutines::updateModule() {
                 if (hand_force_control)
                 {
                     cout << "Handshaking with PID and shaking hand" << endl;
+                    xd_outputPort.write(gaze_point_home); //Gaze to 10 0 0
+                    Time::delay(1);
                       //Perform handshake
                     pos->setRefSpeeds(velocities_handshaking.data());
                     command = grabing_hand_pose;
@@ -632,7 +732,7 @@ bool VizzyArmRoutines::updateModule() {
                     done = false;                
                     cout << "Returning to home position" << endl;
                     pos->setRefSpeeds(velocities_stretching.data());
-                    command=home_pose;
+                    command=arm_down_pose; //changed from home_pose to arm_down_pose
                     pos->positionMove(command.data());
                     while(!done) {
                         pos->checkMotionDone(&done);
@@ -645,7 +745,8 @@ bool VizzyArmRoutines::updateModule() {
             case 6:
                 //Arm down pose
                 cout << "Getting arm down" << endl;
-                
+                xd_outputPort.write(gaze_point_home); //Gaze to 10 0 0
+                Time::delay(1);
                 command = velocities_happy;
                 command[1] = 20;
                 pos->setRefSpeeds(command.data());
@@ -666,6 +767,7 @@ bool VizzyArmRoutines::updateModule() {
                 pos->setRefSpeeds(velocities_happy.data());
                 command = happy_pose;
                 pos->positionMove(command.data());
+                xd_outputPort.write(gaze_point_home); //Gaze to 10 0 0
                 while(!done) {
                     pos->checkMotionDone(&done);
                     Time::delay(0.00001);   // Alterado
@@ -682,6 +784,7 @@ bool VizzyArmRoutines::updateModule() {
                 pos->setRefSpeeds(velocities_happy.data());
                 command = happy_pose;
                 pos->positionMove(command.data());
+                xd_outputPort.write(gaze_point_home); //Gaze to 10 0 0
                 while(!done) {
                     pos->checkMotionDone(&done);
                     Time::delay(0.00001);   // Alterado
@@ -708,7 +811,8 @@ bool VizzyArmRoutines::updateModule() {
             case 9:
                 //Sad pose
                 cout << "Getting sad" << endl;
-                
+                gaze_point.goal.fixation_point.point.y = -1.0; //left
+                gaze_point.goal.fixation_point.point.z = 0.0; //up
                 pos->setRefSpeeds(velocities_sad.data());
                 command = sad_pose;
                 pos->positionMove(command.data());
@@ -717,6 +821,17 @@ bool VizzyArmRoutines::updateModule() {
                     Time::delay(0.00001);   // Alterado
                 }
                 done = false;
+
+                //Gaze controller
+                xd_outputPort.write(gaze_point);
+                
+                gaze_point.goal.fixation_point.point.y = 1.0; //left
+                Time::delay(2);                    
+                xd_outputPort.write(gaze_point);               
+
+
+                Time::delay(2);
+                xd_outputPort.write(gaze_point_home); //Gaze to 10 0 0
                 cout << "Sad pose" << endl;
                 break;
 
@@ -726,6 +841,7 @@ bool VizzyArmRoutines::updateModule() {
                 
                 pos->setRefSpeeds(velocities_angry.data());
                 command = angry_pose;
+                xd_outputPort.write(gaze_point_home);
                 pos->positionMove(command.data());
                 while(!done) {
                     pos->checkMotionDone(&done);
@@ -742,6 +858,7 @@ bool VizzyArmRoutines::updateModule() {
                 pos->setRefSpeeds(velocities_fear.data());
                 command = fear_pose_right;
                 pos->positionMove(command.data());
+                xd_outputPort.write(gaze_point_home); //Gaze to 10 0 0
                 while(!done) {
                     pos->checkMotionDone(&done);
                     Time::delay(0.00001);   // Alterado
@@ -757,6 +874,7 @@ bool VizzyArmRoutines::updateModule() {
                 pos->setRefSpeeds(velocities_fear.data());
                 command = fear_pose_left;
                 pos->positionMove(command.data());
+                xd_outputPort.write(gaze_point_home); //Gaze to 10 0 0
                 while(!done) {
                     pos->checkMotionDone(&done);
                     Time::delay(0.00001);   // Alterado
@@ -791,6 +909,7 @@ bool VizzyArmRoutines::updateModule() {
                 command[9] = 0;
                 command[10] = 0;
                 pos->positionMove(command.data());
+                xd_outputPort.write(gaze_point_home); //Gaze to 10 0 0
                 while(!done) {
                     pos->checkMotionDone(&done);
                     Time::delay(0.00001);   // Alterado
@@ -806,6 +925,7 @@ bool VizzyArmRoutines::updateModule() {
                 pos->setRefSpeeds(velocities_surprise.data());
                 command = surprise_open_pose;
                 pos->positionMove(command.data());
+                xd_outputPort.write(gaze_point_home); //Gaze to 10 0 0
                 while(!done) {
                     pos->checkMotionDone(&done);
                     Time::delay(0.00001);   // Alterado
@@ -813,7 +933,209 @@ bool VizzyArmRoutines::updateModule() {
                 done = false;
                 cout << "Surprise open pose" << endl;
                 break;
-            
+
+            case 16:
+                cout << "Starting to sing right" << endl;
+                pos->setRefSpeeds(velocities_surprise.data());
+                command = singing_pose_right;
+                pos->positionMove(command.data());
+                xd_outputPort.write(gaze_point_home); //Gaze to 10 0 0    
+                while(!done) {
+                    pos->checkMotionDone(&done);
+                    
+                    Time::delay(0.00001);   // Alterado
+                }
+                done = false;
+
+                cout << "Singing pose" << endl;
+                break;
+                
+            case 17:
+                cout << "Starting to sing left" << endl;
+                pos->setRefSpeeds((velocities_surprise.data()));
+                command = singing_pose_left;
+                pos->positionMove(command.data());
+                // To move the head
+
+                gaze_point.goal.fixation_point.point.x = 0.0; //forward
+                gaze_point.goal.fixation_point.point.y = 0.0; //left
+                gaze_point.goal.fixation_point.point.z = 0.7; //up
+                
+                Time::delay(2);
+                while(!done) {
+                    pos->checkMotionDone(&done);
+                    
+                    Time::delay(0.00001);   // Alterado
+                }
+                done = false;
+                xd_outputPort.write(gaze_point);
+
+                gaze_point.goal.fixation_point.point.x = 0.0; //forward
+                gaze_point.goal.fixation_point.point.y = -0.08; //left look to the right
+                gaze_point.goal.fixation_point.point.z = 0.0; //up
+                Time::delay(1);
+
+                xd_outputPort.write(gaze_point); //
+                cout << "Singing pose" << endl;
+                break;
+
+            case 18:
+                // Brushing teeth (right arm)
+                cout << "Starting to brush teeth right" << endl;
+
+                pos->setRefSpeeds(velocities_surprise.data());
+                command = brushing_pose;
+                pos->positionMove(command.data());
+                xd_outputPort.write(gaze_point_home); //Gaze to 10 0 0
+
+                Time::delay(2);
+                while(!done) {
+                    pos->checkMotionDone(&done);
+                    
+                    Time::delay(0.00001);   // Alterado
+                }
+                done = false;
+                for(int i=0;i< 9; i++) {
+                    if(i%2==0) {
+                        //command[4]=arm_forward_pose[4]+30*min_coeffs[i/2];
+                        command[3]= brushing_pose[3] + 8; //34-28
+                        pos->positionMove(command.data());
+                        Time::delay(0.5);
+                        while(!done) {
+                            pos->checkMotionDone(&done);
+                            
+                            Time::delay(0.0001);   // Alterado
+                        }
+                        done = false;
+                    }
+                    else {
+                        //command[4]=arm_forward_pose[4]+30*max_coeffs[i/2];
+                        command[3]= brushing_pose[3] - 8; //34-28
+                        pos->positionMove(command.data());
+                        Time::delay(0.5);
+                        while(!done) {
+                            pos->checkMotionDone(&done);
+                            
+                            Time::delay(0.0001);   // Alterado
+                        }
+                        done = false;
+                    }
+                }
+
+
+                cout << "Brushing pose" << endl;
+                break;
+
+
+            case 19:
+                // Dancing right
+                cout << "Starting to dance" << endl;
+                pos->setRefSpeeds(velocities_surprise.data());
+                command = dancing_pose;
+                pos->positionMove(command.data());
+                Time::delay(2);
+                while(!done) {
+                    pos->checkMotionDone(&done);
+                    
+                    Time::delay(0.00001);   // Alterado
+                }
+                                
+                gaze_point.goal.fixation_point.point.z = -0.05; //up
+                xd_outputPort.write(gaze_point); //Gaze movement
+
+                Time::delay(1);
+                done = false;
+
+                for(int i=0;i < 4; i++) {
+                    
+                    command[3] += 30; //34-28
+                    cout << "Shoulder rotation " << command[3] << endl;
+                    pos->positionMove(command.data());
+                    gaze_point.goal.fixation_point.point.z += 0.4; //up
+                    cout << "Gaze tilt" << gaze_point.goal.fixation_point.point.z  << endl;
+                    Time::delay(2);
+                    xd_outputPort.write(gaze_point); //Gaze movement
+                    
+                    while(!done) {
+                        pos->checkMotionDone(&done);
+                        
+                        Time::delay(0.0001);   // Alterado
+                    }
+                    Time::delay(1);
+                    done = false;
+                    
+                }
+
+                cout << "Dancing pose" << endl;
+                break;
+
+            case 20:
+                // Dancing left
+                cout << "Starting to dance" << endl;
+                pos->setRefSpeeds(velocities_surprise.data());
+                command = dancing_pose;
+                pos->positionMove(command.data());
+                Time::delay(2);
+                while(!done) {
+                    pos->checkMotionDone(&done);
+                    
+                    Time::delay(0.00001);   // Alterado
+                }
+                done = false;
+                Time::delay(10);
+                for(int i=0;i < 4; i++) {
+                    command[3] += 30; //34-28
+                    cout << "Shoulder rotation " << command[3] << endl;
+                    pos->positionMove(command.data());
+                    Time::delay(2);
+                    while(!done) {
+                        pos->checkMotionDone(&done);
+                        
+                        Time::delay(0.0001);   // Alterado
+                    }
+                   
+                    Time::delay(1);
+                    done = false;      
+                }
+                cout << "Dancing pose" << endl;
+                break;
+                
+            case 21: //Rock paper scissors pose
+                    //To implement
+                cout << "Starting game" << endl;
+                int random_num;
+
+                pos->setRefSpeeds(velocities_surprise.data());
+                command = rock_paper_pose;
+                
+
+                random_num = std::rand() % 3;
+                if (random_num == 0){
+                    cout << "Paper" << endl;
+                }
+                if (random_num == 1){
+                    command[8] = 125;
+                    command[9] = 125;
+                    command[10] = 125; 
+                    cout << "Rock" << endl;
+                }
+                if (random_num == 2){
+                    command[8] = 125;
+                    command[9] = 125;                    
+                    cout << "Scissors" << endl;
+                } 
+
+                pos->positionMove(command.data());
+                Time::delay(2);
+                while(!done) {
+                    pos->checkMotionDone(&done);
+                    
+                    Time::delay(0.00001);   // Alterado
+                }
+                done = false;            
+
+                cout << "Game pose" << endl;
+                break;
 
             default:
                 cout << "unknown command" << endl;

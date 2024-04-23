@@ -6,5 +6,10 @@ killall cartesianControllerServer
 killall cartesianSolver
 killall vizzy_iKinGazeCtrl
 killall gazeSimulationBridge
+killall VizzyArmRoutines
+killall VizzyArmRoutines
+killall VizzyArmRoutines
+killall VizzyArmRoutines
+killall VizzyTorso
 killall fixationPointStatusBridge
 killall fixationPointActionBridge

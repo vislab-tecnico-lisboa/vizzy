@@ -8,7 +8,8 @@ cartesianRosBridge --from --context vizzyMotorRosInterface --from right_arm_cart
 vizzy_iKinGazeCtrl --from config_640x480_Sim.ini &
 VizzyArmRoutines --robot vizzySim --arm right &
 VizzyArmRoutines --robot vizzySim --arm left &
-torsoMotorInterfaceSim &
+VizzyTorso --robot vizzySim
+# torsoMotorInterfaceSim &
 fixationPointStatusBridge &
 sleep 1
 fixationPointActionBridge &

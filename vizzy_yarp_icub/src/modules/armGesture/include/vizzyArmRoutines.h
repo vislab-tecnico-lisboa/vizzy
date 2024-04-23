@@ -21,6 +21,12 @@
 #include <yarp/os/Vocab.h>
 #include <yarp/os/Node.h>
 #include <yarp/os/Subscriber.h>
+#include <yarp/os/Publisher.h>
+#include <yarp/os/Contactable.h>
+
+#include "vizzy_msgs_GazeActionGoal.h"
+
+
 #include <fstream>
 #include <string>
 #include <yarp/dev/ControlBoardInterfaces.h>
@@ -31,14 +37,13 @@
 #include "VIZZYARMROUTINES_IDL.h"
 
 #include "Int16.h"
-
+#include "Float64.h"
 #include <iostream>
 #include <iomanip>
 #include <string>
 #include "ControlThread.h"
 #include <TactSensor.h>
 #include <TactSensorArray.h>
-#include <yarp/os/Subscriber.h>
 
 #include "pid.h"
 #include <cmath> 
@@ -54,6 +59,7 @@ class VizzyArmRoutines: public RFModule, public VIZZYARMROUTINES_IDL {
     string moduleName;
     string robotName;
     string armName;
+
     /*Name of ports to be open*/
     string commandPortName, handlerPortName;
     // RPC server
@@ -63,14 +69,19 @@ class VizzyArmRoutines: public RFModule, public VIZZYARMROUTINES_IDL {
     // Subscriber
     Subscriber<Int16> command_sub;
     yarp::os::Subscriber<TactSensorArray> force_sensor_port;
-    // Stuff to Arm Controller
+    // Stuff to Gaze Controller
+    vizzy_msgs_GazeActionGoal gaze_point_home, gaze_point;
+    yarp::os::Publisher<vizzy_msgs_GazeActionGoal> xd_outputPort;
+    // Stuff to Arm and Torso Controller
     Property options;
     PolyDriver robotDevice;
     IPositionControl *pos;
+    
     IEncoders *encs;
     IControlMode2 *ictrl;
+
     ControlThread *fingerLimbControl;
-    yarp::sig::Vector command, encoders, home_pose, wave_home_pose, grabing_hand_pose, arm_forward_pose, handshaking_pose, release_hand_pose, pid_hand_pose, arm_down_pose, happy_pose, sad_pose, angry_pose, fear_pose_left, fear_pose_right, surprise_pose, surprise_open_pose;
+    yarp::sig::Vector command, encoders, home_pose, wave_home_pose, grabing_hand_pose, arm_forward_pose, handshaking_pose, release_hand_pose, pid_hand_pose, arm_down_pose, happy_pose, sad_pose, angry_pose, fear_pose_left, fear_pose_right, surprise_pose, surprise_open_pose, singing_pose_right,singing_pose_left, brushing_pose, dancing_pose, rock_paper_pose;
     yarp::sig::Vector velocities_waving, velocities_stretching, velocities_handshaking, velocities_happy, velocities_sad, velocities_angry, velocities_fear, velocities_surprise;
     
 private:
