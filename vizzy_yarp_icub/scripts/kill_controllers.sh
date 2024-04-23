@@ -10,5 +10,6 @@ killall VizzyArmRoutines
 killall VizzyArmRoutines
 killall VizzyArmRoutines
 killall VizzyArmRoutines
+killall VizzyTorso
 killall fixationPointStatusBridge
 killall fixationPointActionBridge

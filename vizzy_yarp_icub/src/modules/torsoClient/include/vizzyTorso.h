@@ -10,8 +10,8 @@
  *
  */
 
-#ifndef VIZZYARMROUTINES_H
-#define VIZZYARMROUTINES_H
+#ifndef VIZZYTORSO_H
+#define VIZZYTORSO_H
 
 #include <yarp/os/Bottle.h>
 #include <yarp/os/BufferedPort.h>
@@ -21,10 +21,6 @@
 #include <yarp/os/Vocab.h>
 #include <yarp/os/Node.h>
 #include <yarp/os/Subscriber.h>
-#include <yarp/os/Publisher.h>
-#include <yarp/os/Contactable.h>
-
-#include "vizzy_msgs_GazeActionGoal.h"
 
 
 #include <fstream>
@@ -34,59 +30,47 @@
 #include <yarp/sig/Vector.h>
 
 #include <yarp/math/Math.h>
-#include "VIZZYARMROUTINES_IDL.h"
-
+#include "VIZZYTORSO_IDL.h"
 #include "Int16.h"
 #include "Float64.h"
 #include <iostream>
 #include <iomanip>
 #include <string>
-#include "ControlThread.h"
-#include <TactSensor.h>
-#include <TactSensorArray.h>
 
-#include "pid.h"
 #include <cmath> 
 
-#define CTRL_RAD2DEG 180.0/M_PI;
 
 using namespace yarp::os;
 using namespace std;
 using namespace yarp::dev;
 
-class VizzyArmRoutines: public RFModule, public VIZZYARMROUTINES_IDL {
+class VizzyTorso: public RFModule, public VIZZYTORSO_IDL {
        
     string moduleName;
     string robotName;
     string armName;
-
     /*Name of ports to be open*/
     string commandPortName, handlerPortName;
     // RPC server
     RpcServer handlerPort;
     // Node
-    Node *rosNode;
+    Node *rosNode_torso;
     // Subscriber
-    Subscriber<Int16> command_sub;
-    yarp::os::Subscriber<TactSensorArray> force_sensor_port;
-    // Stuff to Gaze Controller
-    vizzy_msgs_GazeActionGoal gaze_point_home, gaze_point;
-    yarp::os::Publisher<vizzy_msgs_GazeActionGoal> xd_outputPort;
-    // Stuff to Arm and Torso Controller
-    Property options;
-    PolyDriver robotDevice;
-    IPositionControl *pos;
+    Subscriber<Int16> command_sub_torso;
+    // Stuff to Torso Controller
+    Property options_torso;
+    PolyDriver robotDevice_torso;
+    IPositionControl *pos_torso=0;
     
-    IEncoders *encs;
-    IControlMode2 *ictrl;
+    IEncoders *encs_torso;
+    IControlMode2 *ictrl_torso;
 
-    ControlThread *fingerLimbControl;
-    yarp::sig::Vector command, encoders, home_pose, wave_home_pose, grabing_hand_pose, arm_forward_pose, handshaking_pose, release_hand_pose, pid_hand_pose, arm_down_pose, happy_pose, sad_pose, angry_pose, fear_pose_left, fear_pose_right, surprise_pose, surprise_open_pose, singing_pose_right,singing_pose_left, brushing_pose, dancing_pose, rock_paper_pose;
-    yarp::sig::Vector velocities_waving, velocities_stretching, velocities_handshaking, velocities_happy, velocities_sad, velocities_angry, velocities_fear, velocities_surprise;
+    yarp::sig::Vector command, encoders_torso, torso_pose;
+    yarp::sig::Vector velocities_torso;
     
 private:
     bool _closing;
-    bool hand_force_control;
+    bool performMotion(yarp::sig::Vector pos);
 public:
     
     double getPeriod();

@@ -15,7 +15,10 @@ November, 2017
 #include "../include/vizzy_rviz_plugins/gestures_panel.hpp"
 
 
+
 namespace vizzy_rviz_plugins {
+
+
 
 GesturesPanel::GesturesPanel(QWidget *parent)
   : rviz::Panel(parent)
@@ -37,6 +40,10 @@ GesturesPanel::GesturesPanel(QWidget *parent)
   surprise_button = new QPushButton("Surprise", this);
   stretch_open_button = new QPushButton("Stretch (Open)", this);
   surprise_open_button = new QPushButton("Surprise (Open)", this);
+  singing_button = new QPushButton("Singing", this);
+  brushing_button = new QPushButton("Brushing", this);
+  dancing_button = new QPushButton("Dancing", this);
+  rock_paper_button = new QPushButton("Rock Paper Scissors", this);
 
 
   // Next we lay out the "output topic" text entry field using a
@@ -46,6 +53,7 @@ GesturesPanel::GesturesPanel(QWidget *parent)
   output_topic_editor_ = new QLineEdit;
   output_topic_editor_->setText("/vizzyArmRoutines/right/command");
   topic_layout->addWidget(output_topic_editor_ );
+  output_topic_torso_ = "/vizzyTorso/command";
 
 
   QWidget *central = new QWidget();
@@ -74,6 +82,12 @@ GesturesPanel::GesturesPanel(QWidget *parent)
   gestures_layout->addWidget(stretch_open_button);
   gestures_layout->addWidget(surprise_open_button);
 
+  //New expressive gestures from Ricardo Rodrigues
+  gestures_layout->addWidget(singing_button);
+  gestures_layout->addWidget(brushing_button);
+  gestures_layout->addWidget(dancing_button);
+  gestures_layout->addWidget(rock_paper_button);
+
   QVBoxLayout* panel_layout = new QVBoxLayout();
   panel_layout->addLayout(topic_layout);
   panel_layout->addWidget(scrollArea);
@@ -98,15 +112,47 @@ GesturesPanel::GesturesPanel(QWidget *parent)
   connect(stretch_open_button, SIGNAL (released()), this, SLOT(stretch_open()));
   connect(surprise_open_button, SIGNAL (released()), this, SLOT(surprise_open()));
 
+  //New object by Ricardo Rodrigues
+  connect(singing_button, SIGNAL (released()), this, SLOT(singing()));
+  connect(brushing_button, SIGNAL (released()), this, SLOT(brushing()));
+  connect(dancing_button, SIGNAL (released()), this, SLOT(dancing()));
+  connect(rock_paper_button, SIGNAL (released()), this, SLOT(rock_paper()));
+
+
+
   updateTopic();
 }
 
+void GesturesPanel::different_arms_movement(std_msgs::Int16  right_cmd, std_msgs::Int16 left_cmd) 
+  {
+    size_t index;
+    std::string main_arm_topic = vizzy_arm_publisher1.getTopic();
+
+    index = main_arm_topic.find("right", 0);
+    if(index == std::string::npos)
+    {
+      index = main_arm_topic.find("left", 0);
+      if(index == std::string::npos)
+      {
+        ROS_INFO("Warning 228: Check out Vizzy Arm Gestures topic. I could not find the keyword left or right... So I don't know which arm you are using!");
+        return;
+      }else{
+        vizzy_arm_publisher1.publish(left_cmd);
+        vizzy_arm_publisher2.publish(right_cmd);
+      }
+    }else{
+      vizzy_arm_publisher1.publish(right_cmd);
+      vizzy_arm_publisher2.publish(left_cmd);
+    }
+    return;
+}
 
 void GesturesPanel::home()
 {
   std_msgs::Int16 command;
   command.data=0;
   vizzy_arm_publisher1.publish(command);
+  vizzy_torso_publisher.publish(command);
   return;
 }
 
@@ -115,6 +161,8 @@ void GesturesPanel::wave()
   std_msgs::Int16 command;
   command.data=1;
   vizzy_arm_publisher1.publish(command);
+  command.data=0; //set torso to home position 
+  vizzy_torso_publisher.publish(command);
   return;
 }
 
@@ -123,6 +171,9 @@ void GesturesPanel::stretch()
   std_msgs::Int16 command;
   command.data=2;
   vizzy_arm_publisher1.publish(command);
+  command.data=0; //set torso to home position
+  vizzy_torso_publisher.publish(command);
+  return;
 }
 
 void GesturesPanel::handshake()
@@ -130,13 +181,19 @@ void GesturesPanel::handshake()
   std_msgs::Int16 command;
   command.data=3;
   vizzy_arm_publisher1.publish(command);
+  command.data=0; //set torso to home position
+  vizzy_torso_publisher.publish(command);
+  return;
 }
 
 void GesturesPanel::askshake()
 {
   std_msgs::Int16 command;
   command.data=4;
-  vizzy_arm_publisher1.publish(command);  
+  vizzy_arm_publisher1.publish(command);
+  command.data=0; //set torso to home position
+  vizzy_torso_publisher.publish(command);
+  return;  
 }
 
 void GesturesPanel::handshake_pid()
@@ -144,6 +201,9 @@ void GesturesPanel::handshake_pid()
   std_msgs::Int16 command;
   command.data=5;
   vizzy_arm_publisher1.publish(command);
+  command.data=0; //set torso to home position
+  vizzy_torso_publisher.publish(command);
+  return;
 }
 
 void GesturesPanel::arm_down()
@@ -155,7 +215,9 @@ void GesturesPanel::arm_down()
 
   if(bothArmsFound)
     vizzy_arm_publisher2.publish(command);
-
+  command.data=0; //set torso to home position
+  vizzy_torso_publisher.publish(command);
+  return;
 }
 
 void GesturesPanel::happy_emotionless()
@@ -167,7 +229,9 @@ void GesturesPanel::happy_emotionless()
 
   if(bothArmsFound)
     vizzy_arm_publisher2.publish(command);
-
+  command.data=0; //set torso to home position
+  vizzy_torso_publisher.publish(command);
+  
 }
 
 void GesturesPanel::happy_emotive()
@@ -178,7 +242,8 @@ void GesturesPanel::happy_emotive()
   vizzy_arm_publisher1.publish(command);
   if(bothArmsFound)
     vizzy_arm_publisher2.publish(command);
-
+  command.data=0; //set torso to home position
+  vizzy_torso_publisher.publish(command);
 }
 
 void GesturesPanel::sad()
@@ -190,6 +255,8 @@ void GesturesPanel::sad()
   if(bothArmsFound)
     vizzy_arm_publisher2.publish(command);
 
+  command.data=0; //set torso to home position
+  vizzy_torso_publisher.publish(command);
 }
 
 void GesturesPanel::angry()
@@ -201,6 +268,8 @@ void GesturesPanel::angry()
   if(bothArmsFound)
     vizzy_arm_publisher2.publish(command);
   
+  command.data=0; //set torso to home position
+  vizzy_torso_publisher.publish(command);
 }
 
 void GesturesPanel::fear()
@@ -218,28 +287,10 @@ void GesturesPanel::fear()
   right_cmd.data = 11;
   left_cmd.data = 12;
 
-  size_t index;
-
-  std::string main_arm_topic = vizzy_arm_publisher1.getTopic();
-
-  index = main_arm_topic.find("right", 0);
-  if(index == std::string::npos)
-  {
-    index = main_arm_topic.find("left", 0);
-    if(index == std::string::npos)
-    {
-      ROS_INFO("Warning 228: Check out Vizzy Arm Gestures topic. I could not find the keyword left or right... So I don't know which arm you are using!");
-      return;
-    }else{
-      vizzy_arm_publisher1.publish(left_cmd);
-      vizzy_arm_publisher2.publish(right_cmd);
-    }
-  }else{
-    vizzy_arm_publisher1.publish(right_cmd);
-    vizzy_arm_publisher2.publish(left_cmd);
-  }
-
-  return;
+  different_arms_movement(right_cmd, left_cmd);
+  
+  right_cmd.data=0; //set torso to home position
+  vizzy_torso_publisher.publish(right_cmd);
   
 }
 
@@ -251,6 +302,9 @@ void GesturesPanel::surprise()
   vizzy_arm_publisher1.publish(command);
   if(bothArmsFound)
     vizzy_arm_publisher2.publish(command);
+
+  command.data=0; //set torso to home position
+  vizzy_torso_publisher.publish(command);
   
 }
 
@@ -262,6 +316,9 @@ void GesturesPanel::stretch_open()
   vizzy_arm_publisher1.publish(command);
   if(bothArmsFound)
     vizzy_arm_publisher2.publish(command);
+
+  command.data=0; //set torso to home position
+  vizzy_torso_publisher.publish(command);
 }
 
 void GesturesPanel::surprise_open()
@@ -273,9 +330,86 @@ void GesturesPanel::surprise_open()
   if(bothArmsFound)
     vizzy_arm_publisher2.publish(command);
 
+  command.data=0; //set torso to home position
+  vizzy_torso_publisher.publish(command);
+
 }
 
+void GesturesPanel::singing()
+{
+  if(!bothArmsFound)
+  {
+    ROS_INFO("Warning 208: Check out Vizzy Arm Gestures topic. I could not find the keyword left or right... So I don't know which arm you are using!");
+    return;
+  }
 
+  std_msgs::Int16 right_cmd;
+  std_msgs::Int16 left_cmd;
+
+  right_cmd.data = 16;
+  left_cmd.data = 17;
+
+  different_arms_movement(right_cmd, left_cmd);
+
+  vizzy_torso_publisher.publish(right_cmd); //Torso client
+}
+
+void GesturesPanel::brushing()
+{
+  if(!bothArmsFound)
+  {
+    ROS_INFO("Warning 208: Check out Vizzy Arm Gestures topic. I could not find the keyword left or right... So I don't know which arm you are using!");
+    return;
+  }
+
+  std_msgs::Int16 right_cmd;
+  std_msgs::Int16 left_cmd;
+  
+  right_cmd.data = 18;
+  left_cmd.data = 6; //put arm down
+
+  different_arms_movement(right_cmd, left_cmd);
+
+  vizzy_torso_publisher.publish(right_cmd); //Torso client
+
+}
+
+void GesturesPanel::dancing()
+{
+  if(!bothArmsFound)
+  {
+    ROS_INFO("Warning 208: Check out Vizzy Arm Gestures topic. I could not find the keyword left or right... So I don't know which arm you are using!");
+    return;
+  }
+
+  std_msgs::Int16 right_cmd;
+  std_msgs::Int16 left_cmd;
+  
+  right_cmd.data = 19;
+  left_cmd.data = 20;
+  //ros::Duration(5.0).sleep();
+  different_arms_movement(right_cmd, left_cmd);
+  
+  vizzy_torso_publisher.publish(right_cmd); //Torso client
+}
+
+void GesturesPanel::rock_paper()
+{
+  if(!bothArmsFound)
+  {
+    ROS_INFO("Warning 208: Check out Vizzy Arm Gestures topic. I could not find the keyword left or right... So I don't know which arm you are using!");
+    return;
+  }
+
+  std_msgs::Int16 right_cmd;
+  std_msgs::Int16 left_cmd;
+  
+  right_cmd.data = 21;
+  left_cmd.data = 6; //Set left arm down
+  
+  different_arms_movement(right_cmd, left_cmd);
+  
+}
 
 void GesturesPanel::updateTopic()
 {
@@ -286,6 +420,7 @@ void GesturesPanel::setTopic(const QString &new_topic)
 {
   bothArmsFound = true;
   // Only take action if the name has changed.
+  
   if( new_topic != output_topic_ )
   {
     output_topic_ = new_topic;
@@ -294,6 +429,7 @@ void GesturesPanel::setTopic(const QString &new_topic)
     {
       vizzy_arm_publisher1.shutdown();
       vizzy_arm_publisher2.shutdown();
+      vizzy_torso_publisher.shutdown();
     }
     else
     {
@@ -316,10 +452,11 @@ void GesturesPanel::setTopic(const QString &new_topic)
         arm2_topic.replace(index, 5, "left");
       }
       
-      vizzy_arm_publisher1 = nh_.advertise<std_msgs::Int16>(arm1_topic, 1 );
+      vizzy_arm_publisher1 = nh_.advertise<std_msgs::Int16>(arm1_topic, 1 );    
 
       if(bothArmsFound)
         vizzy_arm_publisher2 = nh_.advertise<std_msgs::Int16>(arm2_topic, 1 );
+        
     }
 
     Q_EMIT configChanged();
@@ -337,9 +474,12 @@ void GesturesPanel::load( const rviz::Config& config )
 {
   rviz::Panel::load( config );
   QString topic;
+
   if( config.mapGetString( "Topic", &topic ))
   {
     output_topic_editor_->setText( topic );
+    std::string torso_topic = output_topic_torso_.toStdString();
+    vizzy_torso_publisher = nh_.advertise<std_msgs::Int16>(torso_topic, 1 );
     updateTopic();
   }
 }

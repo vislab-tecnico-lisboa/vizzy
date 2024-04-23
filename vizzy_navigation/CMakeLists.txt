@@ -127,14 +127,15 @@ target_link_libraries(docking_estimator
   yaml-cpp
 )
 
-add_executable(charging_action_server src/charging_action_server.cpp src/charging_action_server_node.cpp src/docking_estimator.cpp src/falko_database.cpp src/pattern_pose_estimation.cpp src/docking_controller.cpp src/docking_controller_ros.cpp)
-target_link_libraries(charging_action_server
-  ${Boost_LIBRARIES}
-  ${catkin_LIBRARIES}
-  ${PCL_LIBRARIES}
-  falkolib
-  yaml-cpp
-)
+#Comment if in simulation
+#add_executable(charging_action_server src/charging_action_server.cpp src/charging_action_server_node.cpp src/docking_estimator.cpp src/falko_database.cpp src/pattern_pose_estimation.cpp src/docking_controller.cpp src/docking_controller_ros.cpp)
+#target_link_libraries(charging_action_server
+  #${Boost_LIBRARIES}
+  #${catkin_LIBRARIES}
+  #${PCL_LIBRARIES}
+  #falkolib
+  #yaml-cpp
+#)
 
 foreach(dir config launch rviz)
   install(DIRECTORY ${dir}/ 

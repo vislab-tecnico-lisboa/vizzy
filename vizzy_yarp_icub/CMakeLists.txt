@@ -30,6 +30,8 @@ file(MAKE_DIRECTORY ${YARP_ROS_IDL_MSG_DIR})
 
 execute_process(COMMAND yarpidl_rosmsg TactSensorArray WORKING_DIRECTORY "${PROJECT_BINARY_DIR}/yarpidl_rosmsg_files")
 execute_process(COMMAND yarpidl_rosmsg Int16 WORKING_DIRECTORY "${PROJECT_BINARY_DIR}/yarpidl_rosmsg_files")
+execute_process(COMMAND yarpidl_rosmsg vizzy_msgs/GazeActionGoal WORKING_DIRECTORY "${PROJECT_BINARY_DIR}/yarpidl_rosmsg_files")
+
 
 add_subdirectory(app)
 add_subdirectory(src)
